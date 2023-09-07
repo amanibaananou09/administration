@@ -1,219 +1,183 @@
-import React from "react";
 // Chakra imports
 import {
   Box,
-  Flex,
   Button,
+  Flex,
   FormControl,
   FormLabel,
-  HStack,
   Input,
-  Icon,
-  Link,
-  Switch,
   Text,
   useColorModeValue,
+  Alert, 
+  AlertIcon, 
+  AlertDescription, 
 } from "@chakra-ui/react";
 // Assets
-import signInImage from "assets/img/signInImage.png";
-import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
+import BgSignUp from "assets/img/BgSignUp.png";
+import React, { useState } from "react";
+import { login } from "common/api.js";
+import jwt_decode from "jwt-decode";
+import Dashboard from "views/Dashboard/Dashboard.js";
+import { useHistory } from 'react-router-dom';
 
-function SignIn() {
-  // Chakra color mode
-  const textColor = useColorModeValue("gray.700", "white");
+function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
-  const titleColor = useColorModeValue("gray.700", "blue.500");
-  const colorIcons = useColorModeValue("gray.700", "white");
-  const bgIcons = useColorModeValue("trasnparent", "navy.700");
-  const bgIconsHover = useColorModeValue("gray.50", "whiteAlpha.100");
+  const textColor = useColorModeValue("gray.700", "white");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const history = useHistory();
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!username || !password) {
+      setErrorMessage("Please fill in both username and password fields.");
+      return;
+    }
+    try {
+      const { access_token } = await login(username, password);
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("userName", username);
+      localStorage.setItem("password", password);
+      setIsAuthenticated(true);
+      const token = localStorage.getItem("token");
+      const decodeToken = jwt_decode(token);
+      const UserRole = decodeToken.realm_access.roles[0];
+      localStorage.setItem("role", UserRole);
+      setIsAuthenticated(true);
+      if (UserRole === "SUPERADMIN") {
+        history.push('/admin/tables');
+      }else if (UserRole === "admin" || UserRole === "user") {
+        history.push('/admin/dashboard');}
+    } catch (error) {
+      console.log("error dans :", error);
+      setErrorMessage("Invalid username or password.");
+    }
+  };
   return (
-    <Flex position='relative' mb='40px'>
+    <Flex
+      direction='column'
+      alignSelf='center'
+      justifySelf='center'
+      overflow='hidden'
+    >
+      <Box
+        position='absolute'
+        minH={{ base: "70vh", md: "50vh" }}
+        maxH={{ base: "70vh", md: "50vh" }}
+        w={{ md: "calc(100vw - 50px)" }}
+        maxW={{ md: "calc(100vw - 50px)" }}
+        left='0'
+        right='0'
+        bgRepeat='no-repeat'
+        overflow='hidden'
+        zIndex='-1'
+        top='0'
+        bgImage={BgSignUp}
+        bgSize='cover'
+        mx={{ md: "auto" }}
+        mt={{ md: "14px" }}
+        borderRadius={{ base: "0px", md: "20px" }}
+      >
+        <Box w='100vw' h='100vh' bg='blue.500' opacity='0.8'></Box>
+      </Box>
       <Flex
-        minH={{ md: "1000px" }}
-        h={{ sm: "initial", md: "75vh", lg: "85vh" }}
-        w='100%'
-        maxW='1044px'
-        mx='auto'
-        justifyContent='space-between'
+        direction='column'
+        textAlign='center'
+        justifyContent='center'
+        align='center'
+        mt='125px'
         mb='30px'
-        pt={{ md: "0px" }}>
+      >
+        <Text fontSize='4xl' color='white' fontWeight='bold'>
+          Welcome!
+        </Text>
+        <Text
+          fontSize='md'
+          color='white'
+          fontWeight='normal'
+          mt='10px'
+          mb='26px'
+          w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
+        >
+          Use these awesome forms to login.
+        </Text>
+      </Flex>
+      <Flex alignItems='center' justifyContent='center' mb='60px' mt='20px'>
         <Flex
-          w='100%'
-          h='100%'
-          alignItems='center'
-          justifyContent='center'
-          mb='60px'
-          mt={{ base: "50px", md: "20px" }}>
-          <Flex
-            zIndex='2'
-            direction='column'
-            w='445px'
-            background='transparent'
-            borderRadius='15px'
-            p='40px'
-            mx={{ base: "100px" }}
-            m={{ base: "20px", md: "auto" }}
-            bg={bgForm}
-            boxShadow={useColorModeValue(
-              "0px 5px 14px rgba(0, 0, 0, 0.05)",
-              "unset"
-            )}>
-            <Text
-              fontSize='xl'
-              color={textColor}
+          direction='column'
+          w='445px'
+          background='transparent'
+          borderRadius='15px'
+          p='40px'
+          mx={{ base: "100px" }}
+          bg={bgForm}
+          boxShadow={useColorModeValue(
+            "0px 5px 14px rgba(0, 0, 0, 0.05)",
+            "unset"
+          )}
+        >
+          <Text
+            fontSize='xl'
+            color={textColor}
+            fontWeight='bold'
+            textAlign='center'
+            mb='22px'
+          >
+            Login
+          </Text>
+          <FormControl>
+            <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
+              UserName
+            </FormLabel>
+            <Input
+              variant='auth'
+              fontSize='sm'
+              ms='4px'
+              type='text'
+              placeholder='Your full username'
+              mb='24px'
+              size='lg'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
+              Password
+            </FormLabel>
+            <Input
+              variant='auth'
+              fontSize='sm'
+              ms='4px'
+              type='password'
+              placeholder='Your password'
+              mb='24px'
+              size='lg'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              fontSize='10px'
+              variant='dark'
               fontWeight='bold'
-              textAlign='center'
-              mb='22px'>
-              Register With
-            </Text>
-            <HStack spacing='15px' justify='center' mb='22px'>
-              <Flex
-                justify='center'
-                align='center'
-                w='75px'
-                h='75px'
-                borderRadius='8px'
-                border={useColorModeValue("1px solid", "0px")}
-                borderColor='gray.200'
-                cursor='pointer'
-                transition='all .25s ease'
-                bg={bgIcons}
-                _hover={{ bg: bgIconsHover }}>
-                <Link href='#'>
-                  <Icon as={FaFacebook} color={colorIcons} w='30px' h='30px' />
-                </Link>
-              </Flex>
-              <Flex
-                justify='center'
-                align='center'
-                w='75px'
-                h='75px'
-                borderRadius='8px'
-                border={useColorModeValue("1px solid", "0px")}
-                borderColor='gray.200'
-                cursor='pointer'
-                transition='all .25s ease'
-                bg={bgIcons}
-                _hover={{ bg: bgIconsHover }}>
-                <Link href='#'>
-                  <Icon
-                    as={FaApple}
-                    color={colorIcons}
-                    w='30px'
-                    h='30px'
-                    _hover={{ filter: "brightness(120%)" }}
-                  />
-                </Link>
-              </Flex>
-              <Flex
-                justify='center'
-                align='center'
-                w='75px'
-                h='75px'
-                borderRadius='8px'
-                border={useColorModeValue("1px solid", "0px")}
-                borderColor='gray.200'
-                cursor='pointer'
-                transition='all .25s ease'
-                bg={bgIcons}
-                _hover={{ bg: bgIconsHover }}>
-                <Link href='#'>
-                  <Icon
-                    as={FaGoogle}
-                    color={colorIcons}
-                    w='30px'
-                    h='30px'
-                    _hover={{ filter: "brightness(120%)" }}
-                  />
-                </Link>
-              </Flex>
-            </HStack>
-            <Text
-              fontSize='lg'
-              color='gray.400'
-              fontWeight='bold'
-              textAlign='center'
-              mb='22px'>
-              or
-            </Text>
-            <FormControl>
-              <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
-                Name
-              </FormLabel>
-              <Input
-                variant='auth'
-                fontSize='sm'
-                ms='4px'
-                type='text'
-                placeholder='Your full name'
-                mb='24px'
-                size='lg'
-              />
-              <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
-                Password
-              </FormLabel>
-              <Input
-                variant='auth'
-                fontSize='sm'
-                ms='4px'
-                type='password'
-                placeholder='Your password'
-                mb='24px'
-                size='lg'
-              />
-              <FormControl display='flex' alignItems='center' mb='24px'>
-                <Switch id='remember-login' colorScheme='blue' me='10px' />
-                <FormLabel htmlFor='remember-login' mb='0' fontWeight='normal'>
-                  Remember me
-                </FormLabel>
-              </FormControl>
-              <Button
-                fontSize='10px'
-                variant='dark'
-                fontWeight='bold'
-                w='100%'
-                h='45'
-                mb='24px'>
-                SIGN UP
-              </Button>
-            </FormControl>
-            <Flex
-              flexDirection='column'
-              justifyContent='center'
-              alignItems='center'
-              maxW='100%'
-              mt='0px'>
-              <Text color={textColor} fontWeight='medium'>
-                Already have an account?
-                <Link
-                  color={titleColor}
-                  as='span'
-                  ms='5px'
-                  href='#'
-                  fontWeight='bold'>
-                  Sign In
-                </Link>
-              </Text>
-            </Flex>
-          </Flex>
+              w='100%'
+              h='45'
+              mb='24px'
+              onClick={handleSubmit}
+            >
+              SIGN UP
+            </Button>
+            {errorMessage && (
+          <Alert status="error" mb={4}>
+            <AlertIcon />
+            <AlertDescription>{errorMessage}</AlertDescription>
+          </Alert>
+        )}
+          </FormControl>
         </Flex>
-        <Box
-          overflowX='hidden'
-          h='100%'
-          w='100%'
-          left='0px'
-          position='absolute'
-          bgImage={signInImage}>
-          <Box
-            w='100%'
-            h='100%'
-            bgSize='cover'
-            bg='blue.500'
-            opacity='0.8'></Box>
-        </Box>
       </Flex>
     </Flex>
   );
 }
 
-export default SignIn;
+export default SignUp;

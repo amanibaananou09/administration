@@ -1,7 +1,7 @@
 export const barChartData = [
   {
     name: "Gasoil",
-    data: [15,22],
+    data: [15, 22],
   },
   {
     name: "Gasoil sans soufre",
@@ -104,7 +104,7 @@ export const lineChartOptions = {
       "Dec",
     ],
     axisTicks: {
-      show: false
+      show: false,
     },
     axisBorder: {
       show: false,
@@ -150,34 +150,50 @@ export const dashedlineOption = {
   chart: {
     height: 350,
     zoom: {
-      enabled: false
+      enabled: false,
     },
     toolbar: {
       show: false,
     },
   },
   dataLabels: {
-    enabled: false
+    enabled: false,
   },
   stroke: {
     width: [5, 7, 5],
-    curve: 'straight',
-    dashArray: [0, 8, 5]
+    curve: "straight",
+    dashArray: [0, 8, 5],
   },
   legend: {
-    tooltipHoverFormatter: function(val, opts) {
-      return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
-    }
+    tooltipHoverFormatter: function (val, opts) {
+      return (
+        val +
+        " - " +
+        opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+        ""
+      );
+    },
   },
   markers: {
     size: 0,
     hover: {
-      sizeOffset: 6
-    }
+      sizeOffset: 6,
+    },
   },
   xaxis: {
-    categories: ['01 Jan', '02 Jan', '03 Jan', '04 Jan', '05 Jan', '06 Jan', '07 Jan', '08 Jan', '09 Jan',
-      '10 Jan', '11 Jan', '12 Jan'
+    categories: [
+      "01 Jan",
+      "02 Jan",
+      "03 Jan",
+      "04 Jan",
+      "05 Jan",
+      "06 Jan",
+      "07 Jan",
+      "08 Jan",
+      "09 Jan",
+      "10 Jan",
+      "11 Jan",
+      "12 Jan",
     ],
   },
   tooltip: {
@@ -185,31 +201,31 @@ export const dashedlineOption = {
       {
         title: {
           formatter: function (val) {
-            return val + " (mins)"
-          }
-        }
+            return val + " (mins)";
+          },
+        },
       },
       {
         title: {
           formatter: function (val) {
-            return val + " per session"
-          }
-        }
+            return val + " per session";
+          },
+        },
       },
       {
         title: {
           formatter: function (val) {
             return val;
-          }
-        }
-      }
-    ]
+          },
+        },
+      },
+    ],
   },
   grid: {
-    borderColor: '#f1f1f1',
-  }
+    borderColor: "#f1f1f1",
+  },
 };
-export const dashedlineData =[
+export const dashedlineData = [
   {
     name: "Session Duration",
     data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10],
@@ -219,10 +235,10 @@ export const dashedlineData =[
     data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35],
   },
   {
-    name: 'Total Visits',
+    name: "Total Visits",
     data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47],
-  }
-]
+  },
+];
 
 export const columnChartOption = {
   chart: {
@@ -233,7 +249,7 @@ export const columnChartOption = {
   },
   plotOptions: {
     bar: {
-      columnWidth: '80%',
+      columnWidth: "80%",
     },
   },
   dataLabels: {
@@ -247,38 +263,102 @@ export const columnChartOption = {
     },
   },
   xaxis: {
-    type: 'datetime',
+    type: "datetime",
     categories: [
-      '2011-01-01', '2011-02-01', '2011-04-01', '2011-05-01', '2011-06-01',
-      '2011-07-01', '2011-08-01', '2011-10-01', '2011-11-01', '2011-12-01',
-      '2012-01-01', '2012-02-01', '2012-04-01', '2012-05-01', '2012-06-01',
-      '2012-07-01', '2012-08-01', '2012-10-01', '2012-11-01', '2012-12-01',
-      '2013-01-01', '2013-02-01', '2013-04-01', '2013-05-01', '2013-06-01',
-      '2013-07-01', '2013-08-01',
+      "2011-01-01",
+      "2011-02-01",
+      "2011-04-01",
+      "2011-05-01",
+      "2011-06-01",
+      "2011-07-01",
+      "2011-08-01",
+      "2011-10-01",
+      "2011-11-01",
+      "2011-12-01",
+      "2012-01-01",
+      "2012-02-01",
+      "2012-04-01",
+      "2012-05-01",
+      "2012-06-01",
+      "2012-07-01",
+      "2012-08-01",
+      "2012-10-01",
+      "2012-11-01",
+      "2012-12-01",
+      "2013-01-01",
+      "2013-02-01",
+      "2013-04-01",
+      "2013-05-01",
+      "2013-06-01",
+      "2013-07-01",
+      "2013-08-01",
     ],
     labels: {
       rotate: -90,
     },
   },
-  colors: ['#F15B46', '#FEB019', '#38B2AC'],
+  colors: ["#F15B46", "#FEB019", "#38B2AC"],
   stroke: {
     show: true,
-    width: 2, 
-    colors: ['transparent'], 
+    width: 2,
+    colors: ["transparent"],
   },
 };
 
 export const columnChartData = [
   {
-    name: 'Sales Volume',
-    data: [-18.2, -14.16, -11.1, -6.09, 0.34, 3.88, 13.07, -27.03, -54.4, -47.2, -43.3, -18.6, -41.1, -39.6, -37.6, -29.4, -21.4, -2.4],
+    name: "Sales Volume",
+    data: [
+      -18.2,
+      -14.16,
+      -11.1,
+      -6.09,
+      0.34,
+      3.88,
+      13.07,
+      -27.03,
+      -54.4,
+      -47.2,
+      -43.3,
+      -18.6,
+      -41.1,
+      -39.6,
+      -37.6,
+      -29.4,
+      -21.4,
+      -2.4,
+    ],
   },
   {
-    name: 'Change Volume',
+    name: "Change Volume",
     data: [1.45, 5.42, 5.9, -0.42, -12.6, -18.1, -18.2, -14.16, -11.1, -6.09],
   },
   {
-    name: 'Leak',
-    data: [0.34, 3.88, 13.07, 5.8, 2, 7.37, 8.1, 13.57, 15.75, 17.1, 19.8, -27.03, -54.4, -47.2, -43.3, -18.6, -48.6, -41.1, -39.6, -37.6, -29.4, -21.4, -2.4],
+    name: "Leak",
+    data: [
+      0.34,
+      3.88,
+      13.07,
+      5.8,
+      2,
+      7.37,
+      8.1,
+      13.57,
+      15.75,
+      17.1,
+      19.8,
+      -27.03,
+      -54.4,
+      -47.2,
+      -43.3,
+      -18.6,
+      -48.6,
+      -41.1,
+      -39.6,
+      -37.6,
+      -29.4,
+      -21.4,
+      -2.4,
+    ],
   },
 ];

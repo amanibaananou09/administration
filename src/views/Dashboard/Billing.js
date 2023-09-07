@@ -57,7 +57,8 @@ function Billing() {
               xl: "1fr 1fr 1fr 1fr",
             }}
             templateRows={{ sm: "auto auto auto", md: "1fr auto", xl: "1fr" }}
-            gap='26px'>
+            gap='26px'
+          >
             <Card
               backgroundImage={
                 colorMode === "dark"
@@ -69,14 +70,16 @@ function Billing() {
               bgPosition='10%'
               p='16px'
               h={{ sm: "220px", xl: "100%" }}
-              gridArea={{ md: "1 / 1 / 2 / 3", xl: "1 / 1 / 2 / 3" }}>
+              gridArea={{ md: "1 / 1 / 2 / 3", xl: "1 / 1 / 2 / 3" }}
+            >
               <CardBody h='100%' w='100%'>
                 <Flex
                   direction='column'
                   color='white'
                   h='100%'
                   p='0px 10px 20px 10px'
-                  w='100%'>
+                  w='100%'
+                >
                   <Flex justify='space-between' align='center'>
                     <Text fontSize='md' fontWeight='bold'>
                       Argon x Chakra
@@ -94,7 +97,8 @@ function Billing() {
                       <Text
                         fontSize='2xl'
                         letterSpacing='2px'
-                        fontWeight='bold'>
+                        fontWeight='bold'
+                      >
                         7812 2139 0823 XXXX
                       </Text>
                     </Box>
@@ -128,7 +132,8 @@ function Billing() {
                     justify='center'
                     textAlign='center'
                     align='center'
-                    w='100%'>
+                    w='100%'
+                  >
                     <Text fontSize='md' color={textColor} fontWeight='bold'>
                       Salary
                     </Text>
@@ -136,7 +141,8 @@ function Billing() {
                       mb='24px'
                       fontSize='xs'
                       color='gray.400'
-                      fontWeight='semibold'>
+                      fontWeight='semibold'
+                    >
                       Belong Interactive
                     </Text>
                     <HSeparator />
@@ -154,7 +160,8 @@ function Billing() {
                   align='center'
                   justify='center'
                   w='100%'
-                  py='14px'>
+                  py='14px'
+                >
                   <IconBox as='box' h={"60px"} w={"60px"} bg={iconBlue}>
                     <Icon h={"24px"} w={"24px"} color='white' as={FaPaypal} />
                   </IconBox>
@@ -164,7 +171,8 @@ function Billing() {
                     justify='center'
                     textAlign='center'
                     align='center'
-                    w='100%'>
+                    w='100%'
+                  >
                     <Text fontSize='md' color={textColor} fontWeight='bold'>
                       Paypal
                     </Text>
@@ -172,7 +180,8 @@ function Billing() {
                       mb='24px'
                       fontSize='xs'
                       color='gray.400'
-                      fontWeight='semibold'>
+                      fontWeight='semibold'
+                    >
                       Freelance Payment
                     </Text>
                     <HSeparator />
@@ -190,7 +199,8 @@ function Billing() {
                 justify='space-between'
                 align='center'
                 minHeight='60px'
-                w='100%'>
+                w='100%'
+              >
                 <Text fontSize='lg' color={textColor} fontWeight='bold'>
                   Payment Method
                 </Text>
@@ -205,7 +215,8 @@ function Billing() {
                 align='center'
                 w='100%'
                 justify='center'
-                py='1rem'>
+                py='1rem'
+              >
                 <Flex
                   p='1rem'
                   bg={colorMode === "dark" ? "navy.900" : "transparent"}
@@ -215,7 +226,8 @@ function Billing() {
                   borderColor={borderColor}
                   align='center'
                   mb={{ sm: "24px", md: "0px" }}
-                  me={{ sm: "0px", md: "24px" }}>
+                  me={{ sm: "0px", md: "24px" }}
+                >
                   <IconBox me='10px' w='25px' h='22px'>
                     <MastercardIcon w='100%' h='100%' />
                   </IconBox>
@@ -237,7 +249,8 @@ function Billing() {
                   width='100%'
                   border='1px solid'
                   borderColor={borderColor}
-                  align='center'>
+                  align='center'
+                >
                   <IconBox me='10px' w='25px' h='25px'>
                     <VisaIcon w='100%' h='100%' />
                   </IconBox>
@@ -250,7 +263,8 @@ function Billing() {
                     bg='transparent'
                     w='16px'
                     h='16px'
-                    variant='no-effects'>
+                    variant='no-effects'
+                  >
                     <Icon
                       as={FaPencilAlt}
                       color={colorMode === "dark" && "white"}
@@ -264,7 +278,8 @@ function Billing() {
         <Card
           p='22px'
           my={{ sm: "24px", lg: "0px" }}
-          ms={{ sm: "0px", lg: "24px" }}>
+          ms={{ sm: "0px", lg: "24px" }}
+        >
           <CardHeader>
             <Flex justify='space-between' align='center' mb='1rem' w='100%'>
               <Text fontSize='lg' color={textColor} fontWeight='bold'>
@@ -276,7 +291,8 @@ function Billing() {
                 borderColor={colorMode === "dark" && "white"}
                 _hover={colorMode === "dark" && "none"}
                 minW='110px'
-                maxH='35px'>
+                maxH='35px'
+              >
                 VIEW ALL
               </Button>
             </Flex>
@@ -332,11 +348,13 @@ function Billing() {
                 justify={{ sm: "center", lg: "space-between" }}
                 align={{ sm: "center" }}
                 w='100%'
-                my={{ md: "12px" }}>
+                my={{ md: "12px" }}
+              >
                 <Text
                   color={textColor}
                   fontSize={{ sm: "lg", md: "xl", lg: "lg" }}
-                  fontWeight='bold'>
+                  fontWeight='bold'
+                >
                   Your Transactions
                 </Text>
                 <Flex align='center'>
@@ -344,7 +362,8 @@ function Billing() {
                     as={FaRegCalendarAlt}
                     color='gray.400'
                     fontSize='md'
-                    me='6px'></Icon>
+                    me='6px'
+                  ></Icon>
                   <Text color='gray.400' fontSize='sm' fontWeight='semibold'>
                     23 - 30 March 2022
                   </Text>
@@ -358,7 +377,8 @@ function Billing() {
                 color='gray.400'
                 fontSize={{ sm: "sm", md: "md" }}
                 fontWeight='semibold'
-                my='12px'>
+                my='12px'
+              >
                 NEWEST
               </Text>
               {newestTransactions.map((row, idx) => {
@@ -376,7 +396,8 @@ function Billing() {
                 color='gray.400'
                 fontSize={{ sm: "sm", md: "md" }}
                 fontWeight='semibold'
-                my='12px'>
+                my='12px'
+              >
                 OLDER
               </Text>
               {olderTransactions.map((row, idx) => {

@@ -62,13 +62,15 @@ function Profile() {
         borderColor={borderProfileColor}
         bg={bgProfile}
         p='24px'
-        borderRadius='20px'>
+        borderRadius='20px'
+      >
         <Flex
           align='center'
           mb={{ sm: "10px", md: "0px" }}
           direction={{ sm: "column", md: "row" }}
           w={{ sm: "100%" }}
-          textAlign={{ sm: "center", md: "start" }}>
+          textAlign={{ sm: "center", md: "start" }}
+        >
           <Avatar
             me={{ md: "22px" }}
             src={avatar5}
@@ -81,20 +83,23 @@ function Profile() {
               fontSize={{ sm: "lg", lg: "xl" }}
               color={textColor}
               fontWeight='bold'
-              ms={{ sm: "8px", md: "0px" }}>
+              ms={{ sm: "8px", md: "0px" }}
+            >
               Alec Thompson
             </Text>
             <Text
               fontSize={{ sm: "sm", md: "md" }}
               color={emailColor}
-              fontWeight='semibold'>
+              fontWeight='semibold'
+            >
               alec@simmmple.com
             </Text>
           </Flex>
         </Flex>
         <Flex
           direction={{ sm: "column", lg: "row" }}
-          w={{ sm: "100%", md: "50%", lg: "auto" }}>
+          w={{ sm: "100%", md: "50%", lg: "auto" }}
+        >
           <Button p='0px' bg='transparent' variant='no-effects'>
             <Flex
               align='center'
@@ -104,7 +109,8 @@ function Profile() {
               justifyContent='center'
               py='10px'
               boxShadow='0px 2px 5.5px rgba(0, 0, 0, 0.06)'
-              cursor='pointer'>
+              cursor='pointer'
+            >
               <Icon color={textColor} as={FaCube} me='6px' />
               <Text fontSize='xs' color={textColor} fontWeight='bold'>
                 OVERVIEW
@@ -119,7 +125,8 @@ function Profile() {
               justifyContent='center'
               py='10px'
               mx={{ lg: "1rem" }}
-              cursor='pointer'>
+              cursor='pointer'
+            >
               <Icon color={textColor} as={IoDocumentsSharp} me='6px' />
               <Text fontSize='xs' color={textColor} fontWeight='bold'>
                 TEAMS
@@ -133,7 +140,8 @@ function Profile() {
               borderRadius='15px'
               justifyContent='center'
               py='10px'
-              cursor='pointer'>
+              cursor='pointer'
+            >
               <Icon color={textColor} as={FaPenFancy} me='6px' />
               <Text fontSize='xs' color={textColor} fontWeight='bold'>
                 PROJECTS
@@ -161,7 +169,8 @@ function Profile() {
                   noOfLines={1}
                   fontSize='md'
                   color='gray.400'
-                  fontWeight='400'>
+                  fontWeight='400'
+                >
                   Email me when someone follows me
                 </Text>
               </Flex>
@@ -171,7 +180,8 @@ function Profile() {
                   noOfLines={1}
                   fontSize='md'
                   color='gray.400'
-                  fontWeight='400'>
+                  fontWeight='400'
+                >
                   Email me when someone answers on my post
                 </Text>
               </Flex>
@@ -181,7 +191,8 @@ function Profile() {
                   noOfLines={1}
                   fontSize='md'
                   color='gray.400'
-                  fontWeight='400'>
+                  fontWeight='400'
+                >
                   Email me when someone mentions me
                 </Text>
               </Flex>
@@ -189,7 +200,8 @@ function Profile() {
                 fontSize='sm'
                 color='gray.400'
                 fontWeight='600'
-                m='6px 0px 20px 0px'>
+                m='6px 0px 20px 0px'
+              >
                 APPLICATION
               </Text>
               <Flex align='center' mb='20px'>
@@ -198,7 +210,8 @@ function Profile() {
                   noOfLines={1}
                   fontSize='md'
                   color='gray.400'
-                  fontWeight='400'>
+                  fontWeight='400'
+                >
                   New launches and projects
                 </Text>
               </Flex>
@@ -208,7 +221,8 @@ function Profile() {
                   noOfLines={1}
                   fontSize='md'
                   color='gray.400'
-                  fontWeight='400'>
+                  fontWeight='400'
+                >
                   Monthly product changes
                 </Text>
               </Flex>
@@ -218,7 +232,8 @@ function Profile() {
                   noOfLines={1}
                   fontSize='md'
                   color='gray.400'
-                  fontWeight='400'>
+                  fontWeight='400'
+                >
                   Subscribe to newsletter
                 </Text>
               </Flex>
@@ -244,7 +259,8 @@ function Profile() {
                   fontSize='md'
                   color={textColor}
                   fontWeight='bold'
-                  me='10px'>
+                  me='10px'
+                >
                   Full Name:{" "}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
@@ -256,7 +272,8 @@ function Profile() {
                   fontSize='md'
                   color={textColor}
                   fontWeight='bold'
-                  me='10px'>
+                  me='10px'
+                >
                   Mobile:{" "}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
@@ -268,7 +285,8 @@ function Profile() {
                   fontSize='md'
                   color={textColor}
                   fontWeight='bold'
-                  me='10px'>
+                  me='10px'
+                >
                   Email:{" "}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
@@ -280,7 +298,8 @@ function Profile() {
                   fontSize='md'
                   color={textColor}
                   fontWeight='bold'
-                  me='10px'>
+                  me='10px'
+                >
                   Location:{" "}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
@@ -292,7 +311,8 @@ function Profile() {
                   fontSize='md'
                   color={textColor}
                   fontWeight='bold'
-                  me='10px'>
+                  me='10px'
+                >
                   Social Media:{" "}
                 </Text>
                 <Flex>
@@ -301,7 +321,8 @@ function Profile() {
                     color={iconColor}
                     fontSize='lg'
                     me='10px'
-                    _hover={{ color: "blue.500" }}>
+                    _hover={{ color: "blue.500" }}
+                  >
                     <Icon as={FaFacebook} />
                   </Link>
                   <Link
@@ -309,7 +330,8 @@ function Profile() {
                     color={iconColor}
                     fontSize='lg'
                     me='10px'
-                    _hover={{ color: "blue.500" }}>
+                    _hover={{ color: "blue.500" }}
+                  >
                     <Icon as={FaInstagram} />
                   </Link>
                   <Link
@@ -317,7 +339,8 @@ function Profile() {
                     color={iconColor}
                     fontSize='lg'
                     me='10px'
-                    _hover={{ color: "blue.500" }}>
+                    _hover={{ color: "blue.500" }}
+                  >
                     <Icon as={FaTwitter} />
                   </Link>
                 </Flex>
@@ -356,7 +379,8 @@ function Profile() {
                     fontSize='10px'
                     fontWeight='700'
                     color={iconColor}
-                    alignSelf='center'>
+                    alignSelf='center'
+                  >
                     REPLY
                   </Text>
                 </Button>
@@ -384,7 +408,8 @@ function Profile() {
                     fontSize='10px'
                     fontWeight='700'
                     color={iconColor}
-                    alignSelf='center'>
+                    alignSelf='center'
+                  >
                     REPLY
                   </Text>
                 </Button>
@@ -412,7 +437,8 @@ function Profile() {
                     fontSize='10px'
                     fontWeight='700'
                     color={iconColor}
-                    alignSelf='center'>
+                    alignSelf='center'
+                  >
                     REPLY
                   </Text>
                 </Button>
@@ -440,7 +466,8 @@ function Profile() {
                     fontSize='10px'
                     fontWeight='700'
                     color={iconColor}
-                    alignSelf='center'>
+                    alignSelf='center'
+                  >
                     REPLY
                   </Text>
                 </Button>
@@ -468,7 +495,8 @@ function Profile() {
                     fontSize='10px'
                     fontWeight='700'
                     color={iconColor}
-                    alignSelf='center'>
+                    alignSelf='center'
+                  >
                     REPLY
                   </Text>
                 </Button>
@@ -492,7 +520,8 @@ function Profile() {
           <Grid
             templateColumns={{ sm: "1fr", md: "1fr 1fr", xl: "repeat(4, 1fr)" }}
             templateRows={{ sm: "1fr 1fr 1fr auto", md: "1fr 1fr", xl: "1fr" }}
-            gap='24px'>
+            gap='24px'
+          >
             <Flex direction='column'>
               <Box mb='20px' position='relative' borderRadius='15px'>
                 <Image src={ImageArchitect1} borderRadius='15px' />
@@ -502,7 +531,8 @@ function Profile() {
                   position='absolute'
                   top='0'
                   borderRadius='15px'
-                  bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'></Box>
+                  bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'
+                ></Box>
               </Box>
               <Flex direction='column'>
                 <Text fontSize='md' color='gray.400' fontWeight='600' mb='10px'>
@@ -512,7 +542,8 @@ function Profile() {
                   fontSize='xl'
                   color={textColor}
                   fontWeight='bold'
-                  mb='10px'>
+                  mb='10px'
+                >
                   Modern
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400' mb='20px'>
@@ -541,7 +572,8 @@ function Profile() {
                   position='absolute'
                   top='0'
                   borderRadius='15px'
-                  bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'></Box>
+                  bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'
+                ></Box>
               </Box>
               <Flex direction='column'>
                 <Text fontSize='md' color='gray.400' fontWeight='600' mb='10px'>
@@ -551,7 +583,8 @@ function Profile() {
                   fontSize='xl'
                   color={textColor}
                   fontWeight='bold'
-                  mb='10px'>
+                  mb='10px'
+                >
                   Scandinavian
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400' mb='20px'>
@@ -580,7 +613,8 @@ function Profile() {
                   position='absolute'
                   top='0'
                   borderRadius='15px'
-                  bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'></Box>
+                  bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'
+                ></Box>
               </Box>
               <Flex direction='column'>
                 <Text fontSize='md' color='gray.400' fontWeight='600' mb='10px'>
@@ -590,7 +624,8 @@ function Profile() {
                   fontSize='xl'
                   color={textColor}
                   fontWeight='bold'
-                  mb='10px'>
+                  mb='10px'
+                >
                   Minimalist
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400' mb='20px'>
@@ -615,7 +650,8 @@ function Profile() {
               bg='transparent'
               border='1px solid lightgray'
               borderRadius='15px'
-              minHeight={{ sm: "200px", md: "100%" }}>
+              minHeight={{ sm: "200px", md: "100%" }}
+            >
               <Flex direction='column' justifyContent='center' align='center'>
                 <Icon as={FaPlus} color={textColor} fontSize='lg' mb='12px' />
                 <Text fontSize='lg' color={textColor} fontWeight='bold'>

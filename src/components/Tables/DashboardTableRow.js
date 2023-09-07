@@ -16,14 +16,14 @@ function DashboardTableRow(props) {
   const textColor = useColorModeValue("gray.700", "white");
   return (
     <Tr>
-      <Td minWidth={{ sm: "250px" }} pl="0px">
-        <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-          <Icon as={logo} h={"24px"} w={"24px"} pe="5px" />
+      <Td minWidth={{ sm: "250px" }} pl='0px'>
+        <Flex align='center' py='.8rem' minWidth='100%' flexWrap='nowrap'>
+          <Icon as={logo} h={"24px"} w={"24px"} pe='5px' />
           <Text
-            fontSize="md"
+            fontSize='md'
             color={textColor}
-            fontWeight="bold"
-            minWidth="100%"
+            fontWeight='bold'
+            minWidth='100%'
           >
             {name}
           </Text>
@@ -31,11 +31,11 @@ function DashboardTableRow(props) {
       </Td>
 
       <Td>
-        <AvatarGroup size="sm">
+        <AvatarGroup size='sm'>
           {members.map((member, idx) => {
             return (
               <Avatar
-                name="Ryan Florence"
+                name='Ryan Florence'
                 src={member}
                 key={idx}
                 _hover={{ zIndex: "3", cursor: "pointer" }}
@@ -45,23 +45,23 @@ function DashboardTableRow(props) {
         </AvatarGroup>
       </Td>
       <Td>
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+        <Text fontSize='md' color={textColor} fontWeight='bold' pb='.5rem'>
           {budget}
         </Text>
       </Td>
       <Td>
-        <Flex direction="column">
+        <Flex direction='column'>
           <Text
-            fontSize="md"
-            color="teal.300"
-            fontWeight="bold"
-            pb=".2rem"
+            fontSize='md'
+            color='teal.300'
+            fontWeight='bold'
+            pb='.2rem'
           >{`${progression}%`}</Text>
           <Progress
             colorScheme={progression === 100 ? "teal" : "cyan"}
-            size="xs"
+            size='xs'
             value={progression}
-            borderRadius="15px"
+            borderRadius='15px'
           />
         </Flex>
       </Td>

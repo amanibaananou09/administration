@@ -14,7 +14,7 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import IconBox from "components/Icons/IconBox";
 import {
@@ -23,15 +23,13 @@ import {
   renderTrack,
   renderTrackRTL,
   renderView,
-  renderViewRTL
+  renderViewRTL,
 } from "components/Scrollbar/Scrollbar";
 import { HSeparator } from "components/Separator/Separator";
 import { SidebarHelp } from "components/Sidebar/SidebarHelp";
 import React from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
-
-
 
 // FUNCTIONS
 
@@ -67,16 +65,16 @@ function Sidebar(props) {
           <>
             <Text
               color={activeColor}
-              fontWeight="bold"
+              fontWeight='bold'
               mb={{
                 xl: "6px",
               }}
-              mx="auto"
+              mx='auto'
               ps={{
                 sm: "10px",
                 xl: "16px",
               }}
-              py="12px"
+              py='12px'
             >
               {document.documentElement.dir === "rtl"
                 ? prop.rtlName
@@ -90,9 +88,9 @@ function Sidebar(props) {
         <NavLink to={prop.layout + prop.path} key={key}>
           {activeRoute(prop.layout + prop.path) === "active" ? (
             <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
+              boxSize='initial'
+              justifyContent='flex-start'
+              alignItems='center'
               boxShadow={sidebarActiveShadow}
               bg={activeBg}
               transition={variantChange}
@@ -106,10 +104,10 @@ function Sidebar(props) {
                 sm: "10px",
                 xl: "16px",
               }}
-              py="12px"
-              borderRadius="15px"
-              _hover="none"
-              w="100%"
+              py='12px'
+              borderRadius='15px'
+              _hover='none'
+              w='100%'
               _active={{
                 bg: "inherit",
                 transform: "none",
@@ -124,17 +122,17 @@ function Sidebar(props) {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg="blue.500"
-                    color="white"
-                    h="30px"
-                    w="30px"
-                    me="12px"
+                    bg='blue.500'
+                    color='white'
+                    h='30px'
+                    w='30px'
+                    me='12px'
                     transition={variantChange}
                   >
                     {prop.icon}
                   </IconBox>
                 )}
-                <Text color={activeColor} my="auto" fontSize="sm">
+                <Text color={activeColor} my='auto' fontSize='sm'>
                   {document.documentElement.dir === "rtl"
                     ? prop.rtlName
                     : prop.name}
@@ -143,24 +141,24 @@ function Sidebar(props) {
             </Button>
           ) : (
             <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
-              bg="transparent"
+              boxSize='initial'
+              justifyContent='flex-start'
+              alignItems='center'
+              bg='transparent'
               mb={{
                 xl: "6px",
               }}
               mx={{
                 xl: "auto",
               }}
-              py="12px"
+              py='12px'
               ps={{
                 sm: "10px",
                 xl: "16px",
               }}
-              borderRadius="15px"
-              _hover="none"
-              w="100%"
+              borderRadius='15px'
+              _hover='none'
+              w='100%'
               _active={{
                 bg: "inherit",
                 transform: "none",
@@ -176,16 +174,16 @@ function Sidebar(props) {
                 ) : (
                   <IconBox
                     bg={inactiveBg}
-                    color="blue.500"
-                    h="30px"
-                    w="30px"
-                    me="12px"
+                    color='blue.500'
+                    h='30px'
+                    w='30px'
+                    me='12px'
                     transition={variantChange}
                   >
                     {prop.icon}
                   </IconBox>
                 )}
-                <Text color={inactiveColor} my="auto" fontSize="sm">
+                <Text color={inactiveColor} my='auto' fontSize='sm'>
                   {document.documentElement.dir === "rtl"
                     ? prop.rtlName
                     : prop.name}
@@ -206,32 +204,32 @@ function Sidebar(props) {
   let sidebarRadius = "20px";
   let sidebarMargins = "0px";
   var brand = (
-    <Box pt={"25px"} mb="12px">
+    <Box pt={"25px"} mb='12px'>
       {logo}
-      <HSeparator my="26px" />
+      <HSeparator my='26px' />
     </Box>
   );
 
   // SIDEBAR
   return (
     <Box ref={mainPanel}>
-      <Box display={{ sm: "none", xl: "block" }} position="fixed">
+      <Box display={{ sm: "none", xl: "block" }} position='fixed'>
         <Box
           bg={sidebarBg}
           transition={variantChange}
-          w="260px"
-          maxW="260px"
+          w='260px'
+          maxW='260px'
           ms={{
             sm: "16px",
           }}
           my={{
             sm: "16px",
           }}
-          h="calc(100vh - 32px)"
-          ps="20px"
-          pe="20px"
+          h='calc(100vh - 32px)'
+          ps='20px'
+          pe='20px'
           m={sidebarMargins}
-          filter="drop-shadow(0px 5px 14px rgba(0, 0, 0, 0.05))"
+          filter='drop-shadow(0px 5px 14px rgba(0, 0, 0, 0.05))'
           borderRadius={sidebarRadius}
         >
           <Scrollbars
@@ -252,7 +250,7 @@ function Sidebar(props) {
             }
           >
             <Box>{brand}</Box>
-            <Stack direction="column" mb="40px">
+            <Stack direction='column' mb='40px'>
               <Box>{links}</Box>
             </Stack>
             <SidebarHelp sidebarVariant={sidebarVariant} />
@@ -301,16 +299,16 @@ export function SidebarResponsive(props) {
           <>
             <Text
               color={activeColor}
-              fontWeight="bold"
+              fontWeight='bold'
               mb={{
                 xl: "6px",
               }}
-              mx="auto"
+              mx='auto'
               ps={{
                 sm: "10px",
                 xl: "16px",
               }}
-              py="12px"
+              py='12px'
             >
               {document.documentElement.dir === "rtl"
                 ? prop.rtlName
@@ -324,9 +322,9 @@ export function SidebarResponsive(props) {
         <NavLink to={prop.layout + prop.path} key={key}>
           {activeRoute(prop.layout + prop.path) === "active" ? (
             <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
+              boxSize='initial'
+              justifyContent='flex-start'
+              alignItems='center'
               bg={activeBg}
               boxShadow={sidebarActiveShadow}
               mb={{
@@ -339,10 +337,10 @@ export function SidebarResponsive(props) {
                 sm: "10px",
                 xl: "16px",
               }}
-              py="12px"
-              borderRadius="15px"
-              _hover="none"
-              w="100%"
+              py='12px'
+              borderRadius='15px'
+              _hover='none'
+              w='100%'
               _active={{
                 bg: "inherit",
                 transform: "none",
@@ -357,16 +355,16 @@ export function SidebarResponsive(props) {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg="blue.500"
-                    color="white"
-                    h="30px"
-                    w="30px"
-                    me="12px"
+                    bg='blue.500'
+                    color='white'
+                    h='30px'
+                    w='30px'
+                    me='12px'
                   >
                     {prop.icon}
                   </IconBox>
                 )}
-                <Text color={activeColor} my="auto" fontSize="sm">
+                <Text color={activeColor} my='auto' fontSize='sm'>
                   {document.documentElement.dir === "rtl"
                     ? prop.rtlName
                     : prop.name}
@@ -375,24 +373,24 @@ export function SidebarResponsive(props) {
             </Button>
           ) : (
             <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
-              bg="transparent"
+              boxSize='initial'
+              justifyContent='flex-start'
+              alignItems='center'
+              bg='transparent'
               mb={{
                 xl: "6px",
               }}
               mx={{
                 xl: "auto",
               }}
-              py="12px"
+              py='12px'
               ps={{
                 sm: "10px",
                 xl: "16px",
               }}
-              borderRadius="15px"
-              _hover="none"
-              w="100%"
+              borderRadius='15px'
+              _hover='none'
+              w='100%'
               _active={{
                 bg: "inherit",
                 transform: "none",
@@ -408,15 +406,15 @@ export function SidebarResponsive(props) {
                 ) : (
                   <IconBox
                     bg={inactiveBg}
-                    color="blue.500"
-                    h="30px"
-                    w="30px"
-                    me="12px"
+                    color='blue.500'
+                    h='30px'
+                    w='30px'
+                    me='12px'
                   >
                     {prop.icon}
                   </IconBox>
                 )}
-                <Text color={inactiveColor} my="auto" fontSize="sm">
+                <Text color={inactiveColor} my='auto' fontSize='sm'>
                   {document.documentElement.dir === "rtl"
                     ? prop.rtlName
                     : prop.name}
@@ -434,9 +432,9 @@ export function SidebarResponsive(props) {
   //  BRAND
 
   var brand = (
-    <Box pt={"35px"} mb="8px">
+    <Box pt={"35px"} mb='8px'>
       {logo}
-      <HSeparator my="26px" />
+      <HSeparator my='26px' />
     </Box>
   );
 
@@ -448,12 +446,12 @@ export function SidebarResponsive(props) {
     <Flex
       display={{ sm: "flex", xl: "none" }}
       ref={mainPanel}
-      alignItems="center"
+      alignItems='center'
     >
       <HamburgerIcon
         color={hamburgerColor}
-        w="18px"
-        h="18px"
+        w='18px'
+        h='18px'
         ref={btnRef}
         onClick={onOpen}
       />
@@ -465,25 +463,25 @@ export function SidebarResponsive(props) {
       >
         <DrawerOverlay />
         <DrawerContent
-          w="250px"
-          maxW="250px"
+          w='250px'
+          maxW='250px'
           ms={{
             sm: "16px",
           }}
           my={{
             sm: "16px",
           }}
-          borderRadius="16px"
+          borderRadius='16px'
           bg={sidebarBackgroundColor}
         >
           <DrawerCloseButton
             _focus={{ boxShadow: "none" }}
             _hover={{ boxShadow: "none" }}
           />
-          <DrawerBody maxW="250px" px="1rem">
-            <Box maxW="100%" h="100vh">
+          <DrawerBody maxW='250px' px='1rem'>
+            <Box maxW='100%' h='100vh'>
               <Box>{brand}</Box>
-              <Stack direction="column" mb="40px">
+              <Stack direction='column' mb='40px'>
                 <Box>{links}</Box>
               </Stack>
               <SidebarHelp />

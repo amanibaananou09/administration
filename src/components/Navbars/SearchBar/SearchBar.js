@@ -29,9 +29,8 @@ export function SearchBar(props) {
             _focus={{
               boxShadow: "none",
             }}
-            icon={
-              <SearchIcon color={searchIconColor} w='15px' h='15px' />
-            }></IconButton>
+            icon={<SearchIcon color={searchIconColor} w='15px' h='15px' />}
+          ></IconButton>
         }
       />
       <Input

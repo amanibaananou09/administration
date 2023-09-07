@@ -6,7 +6,7 @@ import {
   Td,
   Text,
   Tr,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -21,22 +21,22 @@ function TablesTableRow(props) {
     <Tr>
       <Td
         minWidth={{ sm: "250px" }}
-        pl="0px"
+        pl='0px'
         borderColor={borderColor}
         borderBottom={isLast ? "none" : null}
       >
-        <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-          <Avatar src={logo} w="50px" borderRadius="12px" me="18px" />
-          <Flex direction="column">
+        <Flex align='center' py='.8rem' minWidth='100%' flexWrap='nowrap'>
+          <Avatar src={logo} w='50px' borderRadius='12px' me='18px' />
+          <Flex direction='column'>
             <Text
-              fontSize="md"
+              fontSize='md'
               color={titleColor}
-              fontWeight="bold"
-              minWidth="100%"
+              fontWeight='bold'
+              minWidth='100%'
             >
               {name}
             </Text>
-            <Text fontSize="sm" color="gray.400" fontWeight="normal">
+            <Text fontSize='sm' color='gray.400' fontWeight='normal'>
               {email}
             </Text>
           </Flex>
@@ -44,11 +44,11 @@ function TablesTableRow(props) {
       </Td>
 
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
-        <Flex direction="column">
-          <Text fontSize="md" color={textColor} fontWeight="bold">
+        <Flex direction='column'>
+          <Text fontSize='md' color={textColor} fontWeight='bold'>
             {domain}
           </Text>
-          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+          <Text fontSize='sm' color='gray.400' fontWeight='normal'>
             {subdomain}
           </Text>
         </Flex>
@@ -57,25 +57,25 @@ function TablesTableRow(props) {
         <Badge
           bg={status === "Online" ? "green.400" : bgStatus}
           color={status === "Online" ? "white" : "white"}
-          fontSize="16px"
-          p="3px 10px"
-          borderRadius="8px"
+          fontSize='16px'
+          p='3px 10px'
+          borderRadius='8px'
         >
           {status}
         </Badge>
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+        <Text fontSize='md' color={textColor} fontWeight='bold' pb='.5rem'>
           {date}
         </Text>
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
-        <Button p="0px" bg="transparent" variant="no-effects">
+        <Button p='0px' bg='transparent' variant='no-effects'>
           <Text
-            fontSize="md"
-            color="gray.400"
-            fontWeight="bold"
-            cursor="pointer"
+            fontSize='md'
+            color='gray.400'
+            fontWeight='bold'
+            cursor='pointer'
           >
             Edit
           </Text>

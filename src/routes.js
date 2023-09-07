@@ -6,8 +6,7 @@ import Billing from "views/Dashboard/Billing.js";
 import RTLPage from "views/RTL/RTLPage.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
-import SignUp from "views/Pages/SignUp.js";
-
+import Station from "views/Stationpage/Station.js"
 import {
   HomeIcon,
   StatsIcon,
@@ -74,15 +73,13 @@ var dashRoutes = [
         component: SignIn,
         layout: "/auth",
       },
-      {
-        path: "/signup",
-        name: "Sign Up",
-        rtlName: "لوحة القيادة",
-        icon: <RocketIcon color='inherit' />,
-        component: SignUp,
-        layout: "/auth",
-      },
     ],
+  },
+  {
+    path: "/station", 
+    name: "Station", 
+    component: Station, 
+    layout: "/auth", 
   },
 ];
 export default dashRoutes;

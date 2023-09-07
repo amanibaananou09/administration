@@ -62,13 +62,15 @@ export default function Dashboard() {
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              mb='25px'
+            >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
                   color='gray.400'
                   fontWeight='bold'
-                  textTransform='uppercase'>
+                  textTransform='uppercase'
+                >
                   Today's Money
                 </StatLabel>
                 <Flex>
@@ -82,7 +84,8 @@ export default function Dashboard() {
                 as='box'
                 h={"45px"}
                 w={"45px"}
-                bg={iconBlue}>
+                bg={iconBlue}
+              >
                 <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
@@ -101,13 +104,15 @@ export default function Dashboard() {
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              mb='25px'
+            >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
                   color='gray.400'
                   fontWeight='bold'
-                  textTransform='uppercase'>
+                  textTransform='uppercase'
+                >
                   Today's Users
                 </StatLabel>
                 <Flex>
@@ -121,7 +126,8 @@ export default function Dashboard() {
                 as='box'
                 h={"45px"}
                 w={"45px"}
-                bg={iconBlue}>
+                bg={iconBlue}
+              >
                 <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
@@ -140,13 +146,15 @@ export default function Dashboard() {
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              mb='25px'
+            >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
                   color='gray.400'
                   fontWeight='bold'
-                  textTransform='uppercase'>
+                  textTransform='uppercase'
+                >
                   New Clients
                 </StatLabel>
                 <Flex>
@@ -160,7 +168,8 @@ export default function Dashboard() {
                 as='box'
                 h={"45px"}
                 w={"45px"}
-                bg={iconBlue}>
+                bg={iconBlue}
+              >
                 <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
@@ -179,13 +188,15 @@ export default function Dashboard() {
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              mb='25px'
+            >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
                   color='gray.400'
                   fontWeight='bold'
-                  textTransform='uppercase'>
+                  textTransform='uppercase'
+                >
                   Total Sales
                 </StatLabel>
                 <Flex>
@@ -199,7 +210,8 @@ export default function Dashboard() {
                 as='box'
                 h={"45px"}
                 w={"45px"}
-                bg={iconBlue}>
+                bg={iconBlue}
+              >
                 <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
@@ -215,7 +227,8 @@ export default function Dashboard() {
       <Grid
         templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
-        gap='20px'>
+        gap='20px'
+      >
         <Card
           bg={
             colorMode === "dark"
@@ -223,7 +236,8 @@ export default function Dashboard() {
               : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
           }
           p='0px'
-          maxW={{ sm: "320px", md: "100%" }}>
+          maxW={{ sm: "320px", md: "100%" }}
+        >
           <Flex direction='column' mb='40px' p='28px 22px 0px 0px'>
             <Text color='#fff' fontSize='lg' fontWeight='bold' mb='6px'>
               Sales Overview
@@ -292,28 +306,32 @@ export default function Dashboard() {
                           fontSize='sm'
                           fontWeight='bold'
                           borderColor={borderColor}
-                          border={index === arr.length - 1 ? "none" : null}>
+                          border={index === arr.length - 1 ? "none" : null}
+                        >
                           {el.pageName}
                         </Td>
                         <Td
                           color={textTableColor}
                           fontSize='sm'
                           border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
+                          borderColor={borderColor}
+                        >
                           {el.visitors}
                         </Td>
                         <Td
                           color={textTableColor}
                           fontSize='sm'
                           border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
+                          borderColor={borderColor}
+                        >
                           {el.uniqueUsers}
                         </Td>
                         <Td
                           color={textTableColor}
                           fontSize='sm'
                           border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
+                          borderColor={borderColor}
+                        >
                           {el.bounceRate}
                         </Td>
                       </Tr>
@@ -357,27 +375,31 @@ export default function Dashboard() {
                         fontSize='sm'
                         fontWeight='bold'
                         borderColor={borderColor}
-                        border={index === arr.length - 1 ? "none" : null}>
+                        border={index === arr.length - 1 ? "none" : null}
+                      >
                         {el.referral}
                       </Td>
                       <Td
                         color={textTableColor}
                         fontSize='sm'
                         borderColor={borderColor}
-                        border={index === arr.length - 1 ? "none" : null}>
+                        border={index === arr.length - 1 ? "none" : null}
+                      >
                         {el.visitors}
                       </Td>
                       <Td
                         color={textTableColor}
                         fontSize='sm'
                         borderColor={borderColor}
-                        border={index === arr.length - 1 ? "none" : null}>
+                        border={index === arr.length - 1 ? "none" : null}
+                      >
                         <Flex align='center'>
                           <Text
                             color={textTableColor}
                             fontWeight='bold'
                             fontSize='sm'
-                            me='12px'>{`${el.percentage}%`}</Text>
+                            me='12px'
+                          >{`${el.percentage}%`}</Text>
                           <Progress
                             size='xs'
                             colorScheme={el.color}

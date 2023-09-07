@@ -4,16 +4,22 @@ import {
   Button,
   Flex,
   HStack,
-  Link, Stack, Text, useColorMode, useColorModeValue
+  Link,
+  Stack,
+  Text,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   ArgonLogoDark,
   ArgonLogoLight,
-  ChakraLogoBlue, ChakraLogoDark,
-  ChakraLogoLight, DocumentIcon,
+  ChakraLogoBlue,
+  ChakraLogoDark,
+  ChakraLogoLight,
+  DocumentIcon,
   HomeIcon,
   PersonIcon,
-  RocketIcon
+  RocketIcon,
 } from "components/Icons/Icons";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
@@ -40,45 +46,45 @@ export default function AuthNavbar(props) {
   let brand = (
     <Link
       href={`${process.env.PUBLIC_URL}/#/`}
-      target="_blank"
-      display="flex"
-      lineHeight="100%"
-      fontWeight="bold"
-      justifyContent="center"
-      alignItems="center"
+      target='_blank'
+      display='flex'
+      lineHeight='100%'
+      fontWeight='bold'
+      justifyContent='center'
+      alignItems='center'
       color={mainText}
     >
-      <Stack direction="row" spacing="12px" align="center" justify="center">
-        <ArgonLogoLight w="74px" h="27px" />
+      <Stack direction='row' spacing='12px' align='center' justify='center'>
+        <ArgonLogoLight w='74px' h='27px' />
       </Stack>
-      <Text fontsize="sm" mt="3px">
+      <Text fontSize='sm' mt='3px'>
         {logoText}
       </Text>
     </Link>
   );
-  hamburgerColor = { base: "white" }
+  hamburgerColor = { base: "white" };
 
   return (
     <Flex
       position={navbarPosition}
-      top="16px"
-      left="50%"
-      transform="translate(-50%, 0px)"
+      top='16px'
+      left='50%'
+      transform='translate(-50%, 0px)'
       background={navbarBg}
       border={navbarBorder}
       boxShadow={navbarShadow}
       filter={navbarFilter}
       backdropFilter={navbarBackdrop}
-      borderRadius="15px"
-      px="16px"
-      py="22px"
-      mx="auto"
-      width="1044px"
-      maxW="90%"
-      alignItems="center"
-      zIndex="3"
+      borderRadius='15px'
+      px='16px'
+      py='22px'
+      mx='auto'
+      width='1044px'
+      maxW='90%'
+      alignItems='center'
+      zIndex='3'
     >
-      <Flex w="100%" justifyContent={{ sm: "start", lg: "space-between" }}>
+      <Flex w='100%' justifyContent={{ sm: "start", lg: "space-between" }}>
         {brand}
         <Box
           ms={{ base: "auto", lg: "0px" }}
@@ -91,25 +97,25 @@ export default function AuthNavbar(props) {
             routes={routes}
             logo={
               <Stack
-                direction="row"
-                spacing="12px"
-                align="center"
-                justify="center"
+                direction='row'
+                spacing='12px'
+                align='center'
+                justify='center'
               >
                 {colorMode === "dark" ? (
-                  <ArgonLogoLight w="74px" h="27px" />
+                  <ArgonLogoLight w='74px' h='27px' />
                 ) : (
-                  <ArgonLogoDark w="74px" h="27px" />
+                  <ArgonLogoDark w='74px' h='27px' />
                 )}
                 <Box
-                  w="1px"
-                  h="20px"
+                  w='1px'
+                  h='20px'
                   bg={colorMode === "dark" ? "white" : "gray.700"}
                 />
                 {colorMode === "dark" ? (
-                  <ChakraLogoLight w="82px" h="21px" />
+                  <ChakraLogoLight w='82px' h='21px' />
                 ) : (
-                  <ChakraLogoDark w="82px" h="21px" />
+                  <ChakraLogoDark w='82px' h='21px' />
                 )}
               </Stack>
             }
