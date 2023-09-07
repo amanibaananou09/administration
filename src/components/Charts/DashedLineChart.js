@@ -20,13 +20,13 @@ class DashedLineChart extends Component {
 
   render() {
     return (
-        <ReactApexChart
-          options={this.state.chartOptions}
-          series={this.state.chartData}
-          type="line"
-          width="100%"
-          height="100%"
-        />
+      <ReactApexChart
+        options={this.state.chartOptions}
+        series={this.state.chartData}
+        type="line"
+        width="100%"
+        height="100%"
+      />
     );
   }
 }

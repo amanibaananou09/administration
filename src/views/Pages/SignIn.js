@@ -8,9 +8,9 @@ import {
   Input,
   Text,
   useColorModeValue,
-  Alert, 
-  AlertIcon, 
-  AlertDescription, 
+  Alert,
+  AlertIcon,
+  AlertDescription,
 } from "@chakra-ui/react";
 // Assets
 import BgSignUp from "assets/img/BgSignUp.png";
@@ -18,7 +18,7 @@ import React, { useState } from "react";
 import { login } from "common/api.js";
 import jwt_decode from "jwt-decode";
 import Dashboard from "views/Dashboard/Dashboard.js";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
@@ -28,7 +28,7 @@ function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const history = useHistory();
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!username || !password) {
@@ -47,9 +47,10 @@ function SignUp() {
       localStorage.setItem("role", UserRole);
       setIsAuthenticated(true);
       if (UserRole === "SUPERADMIN") {
-        history.push('/admin/tables');
-      }else if (UserRole === "admin" || UserRole === "user") {
-        history.push('/admin/dashboard');}
+        history.push("/admin/tables");
+      } else if (UserRole === "admin" || UserRole === "user") {
+        history.push("/admin/dashboard");
+      }
     } catch (error) {
       console.log("error dans :", error);
       setErrorMessage("Invalid username or password.");
@@ -57,122 +58,122 @@ function SignUp() {
   };
   return (
     <Flex
-      direction='column'
-      alignSelf='center'
-      justifySelf='center'
-      overflow='hidden'
+      direction="column"
+      alignSelf="center"
+      justifySelf="center"
+      overflow="hidden"
     >
       <Box
-        position='absolute'
+        position="absolute"
         minH={{ base: "70vh", md: "50vh" }}
         maxH={{ base: "70vh", md: "50vh" }}
         w={{ md: "calc(100vw - 50px)" }}
         maxW={{ md: "calc(100vw - 50px)" }}
-        left='0'
-        right='0'
-        bgRepeat='no-repeat'
-        overflow='hidden'
-        zIndex='-1'
-        top='0'
+        left="0"
+        right="0"
+        bgRepeat="no-repeat"
+        overflow="hidden"
+        zIndex="-1"
+        top="0"
         bgImage={BgSignUp}
-        bgSize='cover'
+        bgSize="cover"
         mx={{ md: "auto" }}
         mt={{ md: "14px" }}
         borderRadius={{ base: "0px", md: "20px" }}
       >
-        <Box w='100vw' h='100vh' bg='blue.500' opacity='0.8'></Box>
+        <Box w="100vw" h="100vh" bg="blue.500" opacity="0.8"></Box>
       </Box>
       <Flex
-        direction='column'
-        textAlign='center'
-        justifyContent='center'
-        align='center'
-        mt='125px'
-        mb='30px'
+        direction="column"
+        textAlign="center"
+        justifyContent="center"
+        align="center"
+        mt="125px"
+        mb="30px"
       >
-        <Text fontSize='4xl' color='white' fontWeight='bold'>
+        <Text fontSize="4xl" color="white" fontWeight="bold">
           Welcome!
         </Text>
         <Text
-          fontSize='md'
-          color='white'
-          fontWeight='normal'
-          mt='10px'
-          mb='26px'
+          fontSize="md"
+          color="white"
+          fontWeight="normal"
+          mt="10px"
+          mb="26px"
           w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
         >
           Use these awesome forms to login.
         </Text>
       </Flex>
-      <Flex alignItems='center' justifyContent='center' mb='60px' mt='20px'>
+      <Flex alignItems="center" justifyContent="center" mb="60px" mt="20px">
         <Flex
-          direction='column'
-          w='445px'
-          background='transparent'
-          borderRadius='15px'
-          p='40px'
+          direction="column"
+          w="445px"
+          background="transparent"
+          borderRadius="15px"
+          p="40px"
           mx={{ base: "100px" }}
           bg={bgForm}
           boxShadow={useColorModeValue(
             "0px 5px 14px rgba(0, 0, 0, 0.05)",
-            "unset"
+            "unset",
           )}
         >
           <Text
-            fontSize='xl'
+            fontSize="xl"
             color={textColor}
-            fontWeight='bold'
-            textAlign='center'
-            mb='22px'
+            fontWeight="bold"
+            textAlign="center"
+            mb="22px"
           >
             Login
           </Text>
           <FormControl>
-            <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
               UserName
             </FormLabel>
             <Input
-              variant='auth'
-              fontSize='sm'
-              ms='4px'
-              type='text'
-              placeholder='Your full username'
-              mb='24px'
-              size='lg'
+              variant="auth"
+              fontSize="sm"
+              ms="4px"
+              type="text"
+              placeholder="Your full username"
+              mb="24px"
+              size="lg"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
               Password
             </FormLabel>
             <Input
-              variant='auth'
-              fontSize='sm'
-              ms='4px'
-              type='password'
-              placeholder='Your password'
-              mb='24px'
-              size='lg'
+              variant="auth"
+              fontSize="sm"
+              ms="4px"
+              type="password"
+              placeholder="Your password"
+              mb="24px"
+              size="lg"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <Button
-              fontSize='10px'
-              variant='dark'
-              fontWeight='bold'
-              w='100%'
-              h='45'
-              mb='24px'
+              fontSize="10px"
+              variant="dark"
+              fontWeight="bold"
+              w="100%"
+              h="45"
+              mb="24px"
               onClick={handleSubmit}
             >
               SIGN UP
             </Button>
             {errorMessage && (
-          <Alert status="error" mb={4}>
-            <AlertIcon />
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        )}
+              <Alert status="error" mb={4}>
+                <AlertIcon />
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
           </FormControl>
         </Flex>
       </Flex>

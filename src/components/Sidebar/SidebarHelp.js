@@ -18,14 +18,15 @@ export function SidebarHelp(props) {
   const { colorMode } = useColorMode();
   return (
     <Stack
-      justify='center'
-      direction='column'
-      align='center'
-      spacing='20px'
+      justify="center"
+      direction="column"
+      align="center"
+      spacing="20px"
       mb="22px"
       mt="auto"
-      mx='20px'>
-      <Image src={SidebarHelpImage} w='110px' h="auto" />
+      mx="20px"
+    >
+      <Image src={SidebarHelpImage} w="110px" h="auto" />
     </Stack>
   );
 }

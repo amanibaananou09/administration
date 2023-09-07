@@ -109,46 +109,47 @@ export default function Dashboard(props) {
   return (
     <RtlProvider>
       <Box
-        minH='40vh'
-        w='100%'
-        position='absolute'
+        minH="40vh"
+        w="100%"
+        position="absolute"
         bgImage={colorMode === "light" ? bgAdmin : "none"}
         bg={colorMode === "light" ? bgAdmin : "navy.900"}
-        bgSize='cover'
-        top='0'
+        bgSize="cover"
+        top="0"
       />
       <Sidebar
         routes={routes}
         logo={
-          <Stack direction='row' spacing='12px' align='center' justify='center'>
+          <Stack direction="row" spacing="12px" align="center" justify="center">
             {colorMode === "dark" ? (
-              <ArgonLogoLight w='74px' h='27px' />
+              <ArgonLogoLight w="74px" h="27px" />
             ) : (
-              <ArgonLogoDark w='74px' h='27px' />
+              <ArgonLogoDark w="74px" h="27px" />
             )}
             <Box
-              w='1px'
-              h='20px'
+              w="1px"
+              h="20px"
               bg={colorMode === "dark" ? "white" : "gray.700"}
             />
             {colorMode === "dark" ? (
-              <ChakraLogoLight w='82px' h='21px' />
+              <ChakraLogoLight w="82px" h="21px" />
             ) : (
-              <ChakraLogoDark w='82px' h='21px' />
+              <ChakraLogoDark w="82px" h="21px" />
             )}
           </Stack>
         }
-        display='none'
+        display="none"
         sidebarVariant={sidebarVariant}
         {...rest}
       />
       <MainPanel
-        variant='rtl'
+        variant="rtl"
         ref={mainPanel}
         w={{
           base: "100%",
           xl: "calc(100% - 275px)",
-        }}>
+        }}
+      >
         <Portal>
           <AdminNavbar
             onOpen={onOpen}
@@ -164,7 +165,7 @@ export default function Dashboard(props) {
             <PanelContainer>
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from='/rtl' to='/rtl/rtl-support-page' />
+                <Redirect from="/rtl" to="/rtl/rtl-support-page" />
               </Switch>
             </PanelContainer>
           </PanelContent>
