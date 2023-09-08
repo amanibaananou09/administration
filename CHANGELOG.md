@@ -1,4 +1,5 @@
 # Change Log
+
 ## [1.0.3] 2022-12-07
 
 ### Update v1.0.3
@@ -10,6 +11,7 @@
 ```
 sass                      ^1.56.1
 ```
+
 ### Removed dependencies
 
 ```

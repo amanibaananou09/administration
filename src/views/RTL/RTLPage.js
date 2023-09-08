@@ -53,35 +53,35 @@ export default function Dashboard() {
   const { colorMode } = useColorMode();
 
   return (
-    <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px' mb='20px'>
-        <Card minH='125px'>
-          <Flex direction='column'>
+    <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
+      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
+        <Card minH="125px">
+          <Flex direction="column">
             <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'
+              flexDirection="row"
+              align="center"
+              justify="center"
+              w="100%"
+              mb="25px"
             >
-              <Stat me='auto'>
+              <Stat me="auto">
                 <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'
+                  fontSize="xs"
+                  color="gray.400"
+                  fontWeight="bold"
+                  textTransform="uppercase"
                 >
                   Today's Money
                 </StatLabel>
                 <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
                     $53,897
                   </StatNumber>
                 </Flex>
               </Stat>
               <IconBox
-                borderRadius='50%'
-                as='box'
+                borderRadius="50%"
+                as="box"
                 h={"45px"}
                 w={"45px"}
                 bg={iconBlue}
@@ -89,41 +89,41 @@ export default function Dashboard() {
                 <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='green.400' fontWeight='bold'>
+            <Text color="gray.400" fontSize="sm">
+              <Text as="span" color="green.400" fontWeight="bold">
                 +3.48%{" "}
               </Text>
               Since last month
             </Text>
           </Flex>
         </Card>
-        <Card minH='125px'>
-          <Flex direction='column'>
+        <Card minH="125px">
+          <Flex direction="column">
             <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'
+              flexDirection="row"
+              align="center"
+              justify="center"
+              w="100%"
+              mb="25px"
             >
-              <Stat me='auto'>
+              <Stat me="auto">
                 <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'
+                  fontSize="xs"
+                  color="gray.400"
+                  fontWeight="bold"
+                  textTransform="uppercase"
                 >
                   Today's Users
                 </StatLabel>
                 <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
                     $3,200
                   </StatNumber>
                 </Flex>
               </Stat>
               <IconBox
-                borderRadius='50%'
-                as='box'
+                borderRadius="50%"
+                as="box"
                 h={"45px"}
                 w={"45px"}
                 bg={iconBlue}
@@ -131,41 +131,41 @@ export default function Dashboard() {
                 <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='green.400' fontWeight='bold'>
+            <Text color="gray.400" fontSize="sm">
+              <Text as="span" color="green.400" fontWeight="bold">
                 +5.2%{" "}
               </Text>
               Since last month
             </Text>
           </Flex>
         </Card>
-        <Card minH='125px'>
-          <Flex direction='column'>
+        <Card minH="125px">
+          <Flex direction="column">
             <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'
+              flexDirection="row"
+              align="center"
+              justify="center"
+              w="100%"
+              mb="25px"
             >
-              <Stat me='auto'>
+              <Stat me="auto">
                 <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'
+                  fontSize="xs"
+                  color="gray.400"
+                  fontWeight="bold"
+                  textTransform="uppercase"
                 >
                   New Clients
                 </StatLabel>
                 <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
                     +2,503
                   </StatNumber>
                 </Flex>
               </Stat>
               <IconBox
-                borderRadius='50%'
-                as='box'
+                borderRadius="50%"
+                as="box"
                 h={"45px"}
                 w={"45px"}
                 bg={iconBlue}
@@ -173,41 +173,41 @@ export default function Dashboard() {
                 <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='red.500' fontWeight='bold'>
+            <Text color="gray.400" fontSize="sm">
+              <Text as="span" color="red.500" fontWeight="bold">
                 -2.82%{" "}
               </Text>
               Since last month
             </Text>
           </Flex>
         </Card>
-        <Card minH='125px'>
-          <Flex direction='column'>
+        <Card minH="125px">
+          <Flex direction="column">
             <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'
+              flexDirection="row"
+              align="center"
+              justify="center"
+              w="100%"
+              mb="25px"
             >
-              <Stat me='auto'>
+              <Stat me="auto">
                 <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'
+                  fontSize="xs"
+                  color="gray.400"
+                  fontWeight="bold"
+                  textTransform="uppercase"
                 >
                   Total Sales
                 </StatLabel>
                 <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
                     $173,000
                   </StatNumber>
                 </Flex>
               </Stat>
               <IconBox
-                borderRadius='50%'
-                as='box'
+                borderRadius="50%"
+                as="box"
                 h={"45px"}
                 w={"45px"}
                 bg={iconBlue}
@@ -215,8 +215,8 @@ export default function Dashboard() {
                 <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='green.400' fontWeight='bold'>
+            <Text color="gray.400" fontSize="sm">
+              <Text as="span" color="green.400" fontWeight="bold">
                 +8.12%{" "}
               </Text>
               Since last month
@@ -227,7 +227,7 @@ export default function Dashboard() {
       <Grid
         templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
-        gap='20px'
+        gap="20px"
       >
         <Card
           bg={
@@ -235,47 +235,47 @@ export default function Dashboard() {
               ? "navy.800"
               : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
           }
-          p='0px'
+          p="0px"
           maxW={{ sm: "320px", md: "100%" }}
         >
-          <Flex direction='column' mb='40px' p='28px 22px 0px 0px'>
-            <Text color='#fff' fontSize='lg' fontWeight='bold' mb='6px'>
+          <Flex direction="column" mb="40px" p="28px 22px 0px 0px">
+            <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
               Sales Overview
             </Text>
-            <Text color='#fff' fontSize='sm'>
-              <Text as='span' color='green.400' fontWeight='bold'>
+            <Text color="#fff" fontSize="sm">
+              <Text as="span" color="green.400" fontWeight="bold">
                 (+5) more{" "}
               </Text>
               in 2022
             </Text>
           </Flex>
-          <Box minH='300px'>
+          <Box minH="300px">
             <LineChart
               chartData={lineChartData}
               chartOptions={lineChartOptions}
             />
           </Box>
         </Card>
-        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column' mb='40px' p='28px 22px 0px 0px'>
-            <Text color='gray.400' fontSize='sm' fontWeight='bold' mb='6px'>
+        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
+          <Flex direction="column" mb="40px" p="28px 22px 0px 0px">
+            <Text color="gray.400" fontSize="sm" fontWeight="bold" mb="6px">
               PERFORMANCE
             </Text>
-            <Text color={textColor} fontSize='lg' fontWeight='bold'>
+            <Text color={textColor} fontSize="lg" fontWeight="bold">
               Total orders
             </Text>
           </Flex>
-          <Box minH='300px'>
+          <Box minH="300px">
             <BarChart chartData={barChartData} chartOptions={barChartOptions} />
           </Box>
         </Card>
-        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column'>
-            <Flex align='center' justify='space-between' p='22px'>
-              <Text fontSize='lg' color={textColor} fontWeight='bold'>
+        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
+          <Flex direction="column">
+            <Flex align="center" justify="space-between" p="22px">
+              <Text fontSize="lg" color={textColor} fontWeight="bold">
                 Page visits
               </Text>
-              <Button variant='primary' maxH='30px'>
+              <Button variant="primary" maxH="30px">
                 SEE ALL
               </Button>
             </Flex>
@@ -283,16 +283,16 @@ export default function Dashboard() {
               <Table>
                 <Thead>
                   <Tr bg={tableRowColor}>
-                    <Th color='gray.400' borderColor={borderColor}>
+                    <Th color="gray.400" borderColor={borderColor}>
                       Page name
                     </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
+                    <Th color="gray.400" borderColor={borderColor}>
                       Visitors
                     </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
+                    <Th color="gray.400" borderColor={borderColor}>
                       Unique users
                     </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
+                    <Th color="gray.400" borderColor={borderColor}>
                       Bounce rate
                     </Th>
                   </Tr>
@@ -303,8 +303,8 @@ export default function Dashboard() {
                       <Tr key={index}>
                         <Td
                           color={textTableColor}
-                          fontSize='sm'
-                          fontWeight='bold'
+                          fontSize="sm"
+                          fontWeight="bold"
                           borderColor={borderColor}
                           border={index === arr.length - 1 ? "none" : null}
                         >
@@ -312,7 +312,7 @@ export default function Dashboard() {
                         </Td>
                         <Td
                           color={textTableColor}
-                          fontSize='sm'
+                          fontSize="sm"
                           border={index === arr.length - 1 ? "none" : null}
                           borderColor={borderColor}
                         >
@@ -320,7 +320,7 @@ export default function Dashboard() {
                         </Td>
                         <Td
                           color={textTableColor}
-                          fontSize='sm'
+                          fontSize="sm"
                           border={index === arr.length - 1 ? "none" : null}
                           borderColor={borderColor}
                         >
@@ -328,7 +328,7 @@ export default function Dashboard() {
                         </Td>
                         <Td
                           color={textTableColor}
-                          fontSize='sm'
+                          fontSize="sm"
                           border={index === arr.length - 1 ? "none" : null}
                           borderColor={borderColor}
                         >
@@ -342,13 +342,13 @@ export default function Dashboard() {
             </Box>
           </Flex>
         </Card>
-        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column'>
-            <Flex align='center' justify='space-between' p='22px'>
-              <Text fontSize='lg' color={textColor} fontWeight='bold'>
+        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
+          <Flex direction="column">
+            <Flex align="center" justify="space-between" p="22px">
+              <Text fontSize="lg" color={textColor} fontWeight="bold">
                 Social traffic
               </Text>
-              <Button variant='primary' maxH='30px'>
+              <Button variant="primary" maxH="30px">
                 SEE ALL
               </Button>
             </Flex>
@@ -357,13 +357,13 @@ export default function Dashboard() {
             <Table>
               <Thead>
                 <Tr bg={tableRowColor}>
-                  <Th color='gray.400' borderColor={borderColor}>
+                  <Th color="gray.400" borderColor={borderColor}>
                     Referral
                   </Th>
-                  <Th color='gray.400' borderColor={borderColor}>
+                  <Th color="gray.400" borderColor={borderColor}>
                     Visitors
                   </Th>
-                  <Th color='gray.400' borderColor={borderColor}></Th>
+                  <Th color="gray.400" borderColor={borderColor}></Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -372,8 +372,8 @@ export default function Dashboard() {
                     <Tr key={index}>
                       <Td
                         color={textTableColor}
-                        fontSize='sm'
-                        fontWeight='bold'
+                        fontSize="sm"
+                        fontWeight="bold"
                         borderColor={borderColor}
                         border={index === arr.length - 1 ? "none" : null}
                       >
@@ -381,7 +381,7 @@ export default function Dashboard() {
                       </Td>
                       <Td
                         color={textTableColor}
-                        fontSize='sm'
+                        fontSize="sm"
                         borderColor={borderColor}
                         border={index === arr.length - 1 ? "none" : null}
                       >
@@ -389,22 +389,22 @@ export default function Dashboard() {
                       </Td>
                       <Td
                         color={textTableColor}
-                        fontSize='sm'
+                        fontSize="sm"
                         borderColor={borderColor}
                         border={index === arr.length - 1 ? "none" : null}
                       >
-                        <Flex align='center'>
+                        <Flex align="center">
                           <Text
                             color={textTableColor}
-                            fontWeight='bold'
-                            fontSize='sm'
-                            me='12px'
+                            fontWeight="bold"
+                            fontSize="sm"
+                            me="12px"
                           >{`${el.percentage}%`}</Text>
                           <Progress
-                            size='xs'
+                            size="xs"
                             colorScheme={el.color}
                             value={el.percentage}
-                            minW='120px'
+                            minW="120px"
                           />
                         </Flex>
                       </Td>

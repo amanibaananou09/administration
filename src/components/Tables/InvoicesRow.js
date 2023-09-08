@@ -14,25 +14,25 @@ function InvoicesRow(props) {
   const { date, code, price, format, logo } = props;
 
   return (
-    <Flex my={{ sm: "1rem", xl: "10px" }} alignItems='center'>
-      <Flex direction='column'>
-        <Text fontSize='md' color={textColor} fontWeight='bold'>
+    <Flex my={{ sm: "1rem", xl: "10px" }} alignItems="center">
+      <Flex direction="column">
+        <Text fontSize="md" color={textColor} fontWeight="bold">
           {date}
         </Text>
-        <Text fontSize='sm' color='gray.400' fontWeight='semibold' me='16px'>
+        <Text fontSize="sm" color="gray.400" fontWeight="semibold" me="16px">
           {code}
         </Text>
       </Flex>
       <Spacer />
-      <Box me='12px'>
-        <Text fontSize='md' color='gray.400' fontWeight='semibold'>
+      <Box me="12px">
+        <Text fontSize="md" color="gray.400" fontWeight="semibold">
           {price}
         </Text>
       </Box>
-      <Button p='0px' bg='transparent' variant='no-effects'>
-        <Flex alignItems='center' p='12px'>
-          <Icon as={logo} w='20px' h='auto' me='5px' color={textColor} />
-          <Text fontSize='md' color={textColor} fontWeight='bold'>
+      <Button p="0px" bg="transparent" variant="no-effects">
+        <Flex alignItems="center" p="12px">
+          <Icon as={logo} w="20px" h="auto" me="5px" color={textColor} />
+          <Text fontSize="md" color={textColor} fontWeight="bold">
             {format}
           </Text>
         </Flex>

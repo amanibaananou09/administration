@@ -35,7 +35,7 @@ export default function Configurator(props) {
 
   let bgButton = useColorModeValue(
     "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)",
-    "white"
+    "white",
   );
   let colorButton = useColorModeValue("white", "gray.700");
   const secondaryButtonBg = useColorModeValue("white", "transparent");
@@ -53,24 +53,24 @@ export default function Configurator(props) {
         blockScrollOnMount={false}
       >
         <DrawerContent bg={bgDrawer}>
-          <DrawerHeader pt='24px' px='24px'>
+          <DrawerHeader pt="24px" px="24px">
             <DrawerCloseButton />
-            <Text fontSize='xl' fontWeight='bold' mt='16px'>
+            <Text fontSize="xl" fontWeight="bold" mt="16px">
               Configurator
             </Text>
-            <Text fontSize='md' mb='16px'>
+            <Text fontSize="md" mb="16px">
               See your dashboard options.
             </Text>
             <HSeparator />
           </DrawerHeader>
-          <DrawerBody w='340px' ps='24px' pe='40px'>
-            <Flex flexDirection='column'>
-              <Flex justifyContent='space-between ' mb='16px'>
-                <Text fontSize='md' fontWeight='600' mb='4px'>
+          <DrawerBody w="340px" ps="24px" pe="40px">
+            <Flex flexDirection="column">
+              <Flex justifyContent="space-between " mb="16px">
+                <Text fontSize="md" fontWeight="600" mb="4px">
                   Navbar Fixed
                 </Text>
                 <Switch
-                  colorScheme='blue'
+                  colorScheme="blue"
                   isChecked={switched}
                   onChange={() => {
                     if (switched === true) {
@@ -84,11 +84,11 @@ export default function Configurator(props) {
                 />
               </Flex>
               <Flex
-                justifyContent='space-between'
-                alignItems='center'
-                mb='24px'
+                justifyContent="space-between"
+                alignItems="center"
+                mb="24px"
               >
-                <Text fontSize='md' fontWeight='600' mb='4px'>
+                <Text fontSize="md" fontWeight="600" mb="4px">
                   Dark/Light
                 </Text>
                 <Button
