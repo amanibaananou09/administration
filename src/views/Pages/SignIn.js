@@ -47,10 +47,9 @@ function SignUp() {
       localStorage.setItem("role", UserRole);
       setIsAuthenticated(true);
       if (UserRole === "SUPERADMIN") {
-        history.push("/admin/tables");
-      } else if (UserRole === "admin" || UserRole === "user") {
-        history.push("/admin/dashboard");
-      }
+        history.push('/admin/tables');
+      }else if (UserRole === "admin" || UserRole === "user") {
+        history.push('/station');}
     } catch (error) {
       console.log("error dans :", error);
       setErrorMessage("Invalid username or password.");

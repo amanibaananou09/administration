@@ -6,7 +6,7 @@ import Billing from "views/Dashboard/Billing.js";
 import RTLPage from "views/RTL/RTLPage.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
-import Station from "views/Stationpage/Station.js";
+
 import {
   HomeIcon,
   StatsIcon,
@@ -19,7 +19,7 @@ import {
 
 var dashRoutes = [
   {
-    path: "/dashboard",
+    path: "/dashboard/:id",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
@@ -75,11 +75,10 @@ var dashRoutes = [
       },
     ],
   },
-  {
-    path: "/station",
-    name: "Station",
-    component: Station,
-    layout: "/auth",
-  },
+ 
+ 
+ 
+ 
+ 
 ];
 export default dashRoutes;
