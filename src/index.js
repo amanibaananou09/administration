@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-import Controller from "views/Controllerpage/Controller.js";
-import Station from "views/Stationpage/Station.js";
+import Controller from "views/Pages/Controller.js";
+import Station from "views/Pages/Station.js";
 import Dashboard from "views/Dashboard/Dashboard.js";
 
 import AuthLayout from "layouts/Auth.js";
@@ -20,7 +20,7 @@ ReactDOM.render(
         <Route path={`/admin`} component={AdminLayout} />
         <Route path={`/rtl`} component={RTLLayout} />
         <Route path="/station" component={Station} />
-        <Route path="/controller" component={Controller} />
+        <Route path="/controller/:stationName" component={Controller} />
         <Route path="/dashboard/:id" component={Dashboard} />
 
         <Redirect from={`/`} to="/auth/signin" />
