@@ -11,21 +11,24 @@ import RTLLayout from "layouts/RTL.js"; // Chakra imports
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
 import theme from "theme/theme.js";
+import { AuthContextProvider } from "store/AuthContext";
 
 ReactDOM.render(
-  <ChakraProvider theme={theme} resetCss={false} position="relative">
-    <HashRouter>
-      <Switch>
-        <Route path={`/auth`} component={AuthLayout} />
-        <Route path={`/admin`} component={AdminLayout} />
-        <Route path={`/rtl`} component={RTLLayout} />
-        <Route path="/station" component={Station} />
-        <Route path="/controller/:stationName" component={Controller} />
-        <Route path="/dashboard/:id" component={Dashboard} />
+  <AuthContextProvider>
+    <ChakraProvider theme={theme} resetCss={false} position="relative">
+      <HashRouter>
+        <Switch>
+          <Route path={`/auth`} component={AuthLayout} />
+          <Route path={`/admin`} component={AdminLayout} />
+          <Route path={`/rtl`} component={RTLLayout} />
+          <Route path="/station" component={Station} />
+          <Route path="/controller/:stationName" component={Controller} />
+          <Route path="/dashboard/:id" component={Dashboard} />
 
-        <Redirect from={`/`} to="/auth/signin" />
-      </Switch>
-    </HashRouter>
-  </ChakraProvider>,
+          <Redirect from={`/`} to="/auth/signin" />
+        </Switch>
+      </HashRouter>
+    </ChakraProvider>
+  </AuthContextProvider>,
   document.getElementById("root"),
 );
