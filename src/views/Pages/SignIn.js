@@ -25,8 +25,6 @@ function SignUp() {
 
   const { signIn, user } = useAuth();
 
-  debugger;
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");

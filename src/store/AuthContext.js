@@ -19,15 +19,20 @@ export const AuthContextProvider = ({ children }) => {
   const isSignedIn = !!user;
 
   const signInHandler = useCallback((token) => {
-    const { sid, name, family_name, email, realm_access, exp } = jwt_decode(
-      token,
-    );
+    const {
+      sid,
+      name,
+      preferred_username,
+      email,
+      realm_access,
+      exp,
+    } = jwt_decode(token);
 
     //const expireTime = new Date().getTime() + +newUser.expiresIn * 1000;
     setUser({
       id: sid,
-      name: name,
-      fullName: `${name} ${family_name}`,
+      fullName: name,
+      username: preferred_username,
       role: realm_access.roles[0],
       token,
       email,

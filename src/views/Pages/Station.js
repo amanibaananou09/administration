@@ -52,10 +52,6 @@ function Station() {
     history.push(`/controller/${stationName}`);
   };
 
-  if (!token) {
-    history.push("/");
-    return null;
-  }
   return (
     <Flex direction="column" pt={{ base: "120px", md: "175px", lg: "150px" }}>
       <Box
