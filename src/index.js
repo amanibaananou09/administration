@@ -10,20 +10,23 @@ import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js"; // Chakra imports
 import MainRoute from "router/Route/MainRoute";
+import { ESSContextProvider } from "store/ESSContext";
 
 ReactDOM.render(
   <AuthContextProvider>
-    <ChakraProvider theme={theme} resetCss={false} position="relative">
-      <HashRouter>
-        <Switch>
-          <Route path={`/auth`} component={AuthLayout} />
-          <Route path={`/admin`} component={AdminLayout} />
-          <Route path={`/rtl`} component={RTLLayout} />
+    <ESSContextProvider>
+      <ChakraProvider theme={theme} resetCss={false} position="relative">
+        <HashRouter>
+          <Switch>
+            <Route path={`/auth`} component={AuthLayout} />
+            <Route path={`/admin`} component={AdminLayout} />
+            <Route path={`/rtl`} component={RTLLayout} />
 
-          <MainRoute />
-        </Switch>
-      </HashRouter>
-    </ChakraProvider>
+            <MainRoute />
+          </Switch>
+        </HashRouter>
+      </ChakraProvider>
+    </ESSContextProvider>
   </AuthContextProvider>,
   document.getElementById("root"),
 );

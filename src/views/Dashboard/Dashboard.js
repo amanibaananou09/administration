@@ -77,13 +77,7 @@ export default function Dashboard() {
                   </StatNumber>
                 </Flex>
               </Stat>
-              <IconBox
-                borderRadius="50%"
-                as="box"
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}
-              >
+              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
                 <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
@@ -119,13 +113,7 @@ export default function Dashboard() {
                   </StatNumber>
                 </Flex>
               </Stat>
-              <IconBox
-                borderRadius="50%"
-                as="box"
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}
-              >
+              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
                 <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
@@ -161,13 +149,7 @@ export default function Dashboard() {
                   </StatNumber>
                 </Flex>
               </Stat>
-              <IconBox
-                borderRadius="50%"
-                as="box"
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}
-              >
+              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
                 <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
@@ -203,13 +185,7 @@ export default function Dashboard() {
                   </StatNumber>
                 </Flex>
               </Stat>
-              <IconBox
-                borderRadius="50%"
-                as="box"
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}
-              >
+              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
                 <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>

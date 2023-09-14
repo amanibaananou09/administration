@@ -1,3 +1,5 @@
+import React, { Fragment } from "react";
+
 /*eslint-disable*/
 import { HamburgerIcon } from "@chakra-ui/icons";
 // chakra imports
@@ -27,7 +29,6 @@ import {
 } from "components/Scrollbar/Scrollbar";
 import { HSeparator } from "components/Separator/Separator";
 import { SidebarHelp } from "components/Sidebar/SidebarHelp";
-import React from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
@@ -72,7 +73,7 @@ function Sidebar(props) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
         return (
-          <>
+          <Fragment key={key}>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -91,7 +92,7 @@ function Sidebar(props) {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
-          </>
+          </Fragment>
         );
       }
       return (
@@ -306,7 +307,7 @@ export function SidebarResponsive(props) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
         return (
-          <>
+          <Fragment key={key}>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -325,7 +326,7 @@ export function SidebarResponsive(props) {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
-          </>
+          </Fragment>
         );
       }
       return (

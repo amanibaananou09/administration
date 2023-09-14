@@ -78,12 +78,12 @@ export const fetchUrl = async (config) => {
     body: config.body ? JSON.stringify(config.body) : null,
   });
 
-  const data = await response.json();
-
   if (!response.ok) {
-    let errorMessage = data && data.message;
+    let errorMessage = `${response.status} ${response.statusText}`;
     throw new Error(errorMessage);
   }
+
+  const data = await response.json();
 
   return data;
 };

@@ -16,19 +16,17 @@ import {
 import BgSignUp from "assets/img/BgSignUp.png";
 import React, { useState } from "react";
 import { login } from "common/api.js";
-import { useHistory } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
 
 function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("gray.700", "white");
 
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const history = useHistory();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -121,6 +119,7 @@ function SignUp() {
               UserName
             </FormLabel>
             <Input
+              id="username"
               variant="auth"
               fontSize="sm"
               ms="4px"
@@ -135,6 +134,7 @@ function SignUp() {
               Password
             </FormLabel>
             <Input
+              id="password"
               variant="auth"
               fontSize="sm"
               ms="4px"

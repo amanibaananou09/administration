@@ -1,6 +1,5 @@
 // Chakra Imports
 import {
-  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -8,7 +7,6 @@ import {
   DrawerContent,
   DrawerHeader,
   Flex,
-  Link,
   Switch,
   Text,
   useColorMode,
@@ -16,8 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { HSeparator } from "components/Separator/Separator";
 import React, { useState } from "react";
-import GitHubButton from "react-github-btn";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
+import { useEss } from "store/ESSContext";
 
 export default function Configurator(props) {
   const {
@@ -27,21 +24,24 @@ export default function Configurator(props) {
     isOpen,
     onClose,
     fixed,
-    ...rest
   } = props;
   const [switched, setSwitched] = useState(props.isChecked);
 
+  const { station } = useEss();
+
   const { colorMode, toggleColorMode } = useColorMode();
+  const bgDrawer = useColorModeValue("white", "navy.800");
 
   let bgButton = useColorModeValue(
     "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)",
     "white",
   );
   let colorButton = useColorModeValue("white", "gray.700");
+
   const secondaryButtonBg = useColorModeValue("white", "transparent");
   const secondaryButtonBorder = useColorModeValue("gray.700", "white");
   const secondaryButtonColor = useColorModeValue("gray.700", "white");
-  const bgDrawer = useColorModeValue("white", "navy.800");
+
   const settingsRef = React.useRef();
   return (
     <>
@@ -100,6 +100,35 @@ export default function Configurator(props) {
               </Flex>
 
               <HSeparator />
+
+              <Text fontSize="md" fontWeight="bold" my="16px">
+                Select A Sation:
+              </Text>
+              <Button
+                w="100%"
+                mb="16px"
+                bg={bgButton}
+                color={colorButton}
+                fontSize="xs"
+                variant="no-effects"
+                px="30px"
+              >
+                {station && station.stationName}
+              </Button>
+
+              <Button
+                w="100%"
+                bg={secondaryButtonBg}
+                border="1px solid"
+                borderColor={secondaryButtonBorder}
+                color={secondaryButtonColor}
+                fontSize="xs"
+                variant="no-effects"
+                px="20px"
+                mb="16px"
+              >
+                <Text textDecorationColor="none">Station 2</Text>
+              </Button>
             </Flex>
           </DrawerBody>
         </DrawerContent>
