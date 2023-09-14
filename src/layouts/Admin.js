@@ -19,7 +19,7 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import routes from "routes.js";
+import routes from "router/routes.js";
 // Custom Chakra theme
 import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
 // Custom components
@@ -27,8 +27,12 @@ import MainPanel from "../components/Layout/MainPanel";
 import PanelContainer from "../components/Layout/PanelContainer";
 import PanelContent from "../components/Layout/PanelContent";
 import bgAdmin from "assets/img/admin-background.png";
+import PrivateRoute from "router/Route/PrivateRoute";
+import { useAuth } from "store/AuthContext";
+import MainRoute from "router/Route/MainRoute";
 
 export default function Dashboard(props) {
+  const { isSignedIn } = useAuth();
   const { ...rest } = props;
   // states and functions
   const [fixed, setFixed] = useState(false);
@@ -89,6 +93,21 @@ export default function Dashboard(props) {
       if (prop.category === "account") {
         return getRoutes(prop.views);
       }
+
+      if (isSignedIn && prop.onlyPublicRoute) {
+        return null;
+      }
+
+      if (prop.privateRoute) {
+        return (
+          <PrivateRoute
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
+      }
+
       if (prop.layout === "/admin") {
         return (
           <Route
@@ -160,7 +179,7 @@ export default function Dashboard(props) {
             <PanelContainer>
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from='/admin' to='/admin/dashboard/:id' />
+                <MainRoute />
               </Switch>
             </PanelContainer>
           </PanelContent>

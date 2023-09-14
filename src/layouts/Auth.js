@@ -3,11 +3,15 @@ import { Box, ChakraProvider, Portal } from "@chakra-ui/react";
 import Footer from "components/Footer/Footer.js";
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
+import MainRoute from "router/Route/MainRoute";
+import PrivateRoute from "router/Route/PrivateRoute";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import routes from "routes.js";
+import routes from "router/routes.js";
+import { useAuth } from "store/AuthContext";
 
 export default function Pages(props) {
+  const { isSignedIn } = useAuth();
   const { ...rest } = props;
   // ref for the wrapper div
   const wrapper = React.createRef();
@@ -67,6 +71,21 @@ export default function Pages(props) {
       if (prop.category === "account") {
         return getRoutes(prop.views);
       }
+
+      if (isSignedIn && prop.onlyPublicRoute) {
+        return null;
+      }
+
+      if (prop.privateRoute) {
+        return (
+          <PrivateRoute
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
+      }
+
       if (prop.layout === "/auth") {
         return (
           <Route
@@ -91,7 +110,7 @@ export default function Pages(props) {
         <Box ref={wrapper} w="100%">
           <Switch>
             {getRoutes(routes)}
-            <Redirect from="/auth" to="/auth/login-page" />
+            <MainRoute />
           </Switch>
         </Box>
       </Box>

@@ -18,6 +18,7 @@ import CustomCard from "components/Card/CustomCard";
 
 //Assets
 import stationImg from "assets/img/total.png";
+import { useAuth } from "store/AuthContext";
 
 function Station() {
   const { colorMode } = useColorMode();
@@ -27,18 +28,19 @@ function Station() {
 
   const [stations, setStations] = useState([""]);
   const history = useHistory();
-  const token = localStorage.getItem("token");
-  const userLogin = localStorage.getItem("userName");
-  const UserRole = localStorage.getItem("role");
+
+  const {
+    user: { username, role, token },
+  } = useAuth();
 
   useEffect(() => {
     const fetchStations = async () => {
       try {
-        if (UserRole === "SUPERADMIN") {
+        if (role === "SUPERADMIN") {
           const data = await getAllStations(token);
           setStations(data);
         } else {
-          const data = await getStationByUser(userLogin, token);
+          const data = await getStationByUser(username, token);
           setStations(data);
         }
       } catch (error) {
@@ -46,16 +48,8 @@ function Station() {
       }
     };
     fetchStations();
-  }, [UserRole, token, userLogin]);
+  }, [username, role, token]);
 
-  const handleStationClick = async (stationName) => {
-    history.push(`/controller/${stationName}`);
-  };
-
-  if (!token) {
-    history.push("/");
-    return null;
-  }
   return (
     <Flex direction="column" pt={{ base: "120px", md: "175px", lg: "150px" }}>
       <Box
@@ -68,7 +62,7 @@ function Station() {
         top="0"
         left="0"
       />
-      {UserRole === "user" && stations.length === 0 ? (
+      {role === "user" && stations.length === 0 ? (
         <Flex direction="column" align="center" mt="120px">
           <Text
             fontSize="lg"
@@ -89,7 +83,7 @@ function Station() {
             key={station}
             title={station.name}
             avatar={stationImg}
-            onClick={handleStationClick}
+            onClick={() => history.push(`/controller/${station.name}`)}
           />
         ))
       )}

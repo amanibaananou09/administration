@@ -16,17 +16,18 @@ import {
 import BgSignUp from "assets/img/BgSignUp.png";
 import React, { useState } from "react";
 import { login } from "common/api.js";
-import jwt_decode from "jwt-decode";
-import Dashboard from "views/Dashboard/Dashboard.js";
 import { useHistory } from "react-router-dom";
+import { useAuth } from "store/AuthContext";
 
 function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("gray.700", "white");
+
+  const { signIn, user } = useAuth();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const history = useHistory();
 
   const handleSubmit = async (event) => {
@@ -37,19 +38,7 @@ function SignUp() {
     }
     try {
       const { access_token } = await login(username, password);
-      localStorage.setItem("token", access_token);
-      localStorage.setItem("userName", username);
-      localStorage.setItem("password", password);
-      setIsAuthenticated(true);
-      const token = localStorage.getItem("token");
-      const decodeToken = jwt_decode(token);
-      const UserRole = decodeToken.realm_access.roles[0];
-      localStorage.setItem("role", UserRole);
-      setIsAuthenticated(true);
-      if (UserRole === "SUPERADMIN") {
-        history.push('/admin/tables');
-      }else if (UserRole === "admin" || UserRole === "user") {
-        history.push('/station');}
+      signIn(access_token);
     } catch (error) {
       console.log("error dans :", error);
       setErrorMessage("Invalid username or password.");

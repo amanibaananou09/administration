@@ -17,9 +17,9 @@ import { useHistory, Link, useParams } from "react-router-dom";
 import { getControllerVersion } from "common/api.js";
 import { findControllerByStation } from "common/api";
 import CustomCard from "components/Card/CustomCard";
+import { useAuth } from "store/AuthContext";
 function Controller() {
   const { colorMode } = useColorMode();
-
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
 
@@ -27,8 +27,9 @@ function Controller() {
   const { stationName } = useParams("stationName");
   const history = useHistory();
 
-  const UserRole = localStorage.getItem("role");
-  const token = localStorage.getItem("token");
+  const {
+    user: { token, role },
+  } = useAuth();
 
   useEffect(() => {
     const fetchControllers = async () => {
@@ -89,7 +90,7 @@ function Controller() {
         top="0"
         left="0"
       />
-      {UserRole === "user" && stations.length === 0 ? (
+      {role === "user" && stations.length === 0 ? (
         <Flex>
           <Text
             fontSize="lg"
@@ -119,8 +120,7 @@ function Controller() {
                   : "Firmware version not supported Please contact the administrator."
               }
               onClick={() => {
-                localStorage.setItem("PtsId", controller.ptsId);
-                history.push("admin/dashboard/" + controller.id);
+                history.push("/admin/dashboard/" + controller.id);
               }}
             />
           </div>
