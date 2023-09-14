@@ -1,7 +1,7 @@
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
 
-const PrivateRoute = ({ props }) => {
+const PrivateRoute = ({ ...props }) => {
   const { isSignedIn } = useAuth();
 
   if (!isSignedIn) {

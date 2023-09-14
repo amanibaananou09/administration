@@ -28,7 +28,6 @@ export const AuthContextProvider = ({ children }) => {
       exp,
     } = jwt_decode(token);
 
-    //const expireTime = new Date().getTime() + +newUser.expiresIn * 1000;
     setUser({
       id: sid,
       fullName: name,
@@ -36,7 +35,7 @@ export const AuthContextProvider = ({ children }) => {
       role: realm_access.roles[0],
       token,
       email,
-      expireTime: exp,
+      expireTime: exp * 1000,
     });
   }, []);
 
@@ -48,7 +47,7 @@ export const AuthContextProvider = ({ children }) => {
     let signOutTimer;
 
     if (user) {
-      /*const remainingTime = new Date(
+      const remainingTime = new Date(
         +user.expireTime - new Date().getTime(),
       ).getTime();
       if (remainingTime <= 0) {
@@ -56,7 +55,7 @@ export const AuthContextProvider = ({ children }) => {
       }
       signOutTimer = setTimeout(() => {
         signOutHandler();
-      }, remainingTime);*/
+      }, remainingTime);
     }
 
     if (firstLoad) {
@@ -70,9 +69,9 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.removeItem("auth");
     }
 
-    /*return () => {
+    return () => {
       signOutTimer && clearTimeout(signOutTimer);
-    };*/
+    };
   }, [user, signOutHandler]);
 
   const contextValue = {

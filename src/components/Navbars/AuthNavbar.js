@@ -24,7 +24,7 @@ import {
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import routes from "routes.js";
+import routes from "router/routes.js";
 export default function AuthNavbar(props) {
   const { logo, logoText, secondary, ...rest } = props;
   const { colorMode } = useColorMode();
@@ -83,7 +83,6 @@ export default function AuthNavbar(props) {
       maxW="90%"
       alignItems="center"
       zIndex="3"
-    >
-    </Flex>
+    ></Flex>
   );
 }

@@ -1,11 +1,11 @@
 // import
-import React, { Component } from "react";
+import React from "react";
 import Dashboard from "views/Dashboard/Dashboard.js";
 import Tables from "views/Dashboard/Tables.js";
 import Billing from "views/Dashboard/Billing.js";
-import RTLPage from "views/RTL/RTLPage.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
+import Station from "views/Pages/Station";
 
 import {
   HomeIcon,
@@ -13,18 +13,17 @@ import {
   CreditIcon,
   PersonIcon,
   DocumentIcon,
-  RocketIcon,
-  SupportIcon,
 } from "components/Icons/Icons";
 
 var dashRoutes = [
   {
-    path: "/dashboard/:id",
+    path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
     layout: "/admin",
+    privateRoute: true,
   },
   {
     path: "/tables",
@@ -33,6 +32,7 @@ var dashRoutes = [
     icon: <StatsIcon color="inherit" />,
     component: Tables,
     layout: "/admin",
+    privateRoute: true,
   },
   {
     path: "/billing",
@@ -41,14 +41,16 @@ var dashRoutes = [
     icon: <CreditIcon color="inherit" />,
     component: Billing,
     layout: "/admin",
+    privateRoute: true,
   },
   {
-    path: "/rtl-support-page",
-    name: "RTL",
-    rtlName: "آرتيإل",
-    icon: <SupportIcon color="inherit" />,
-    component: RTLPage,
-    layout: "/rtl",
+    path: "/station",
+    name: "Stations",
+    rtlName: "لوحة القيادة",
+    icon: <CreditIcon color="inherit" />,
+    component: Station,
+    layout: "/admin",
+    privateRoute: true,
   },
   {
     name: "ACCOUNT PAGES",
@@ -64,6 +66,7 @@ var dashRoutes = [
         secondaryNavbar: true,
         component: Profile,
         layout: "/admin",
+        privateRoute: true,
       },
       {
         path: "/signin",
@@ -72,13 +75,9 @@ var dashRoutes = [
         icon: <DocumentIcon color="inherit" />,
         component: SignIn,
         layout: "/auth",
+        onlyPublicRoute: true,
       },
     ],
   },
- 
- 
- 
- 
- 
 ];
 export default dashRoutes;

@@ -39,12 +39,6 @@ function SignUp() {
     try {
       const { access_token } = await login(username, password);
       signIn(access_token);
-
-      if (user.role === "SUPERADMIN") {
-        history.push("/admin/tables");
-      } else if (user.role === "admin" || user.role === "user") {
-        history.push("/station");
-      }
     } catch (error) {
       console.log("error dans :", error);
       setErrorMessage("Invalid username or password.");
