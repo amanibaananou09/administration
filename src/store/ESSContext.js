@@ -3,7 +3,7 @@ import { useAuth } from "./AuthContext";
 import { getStationByUser } from "common/api";
 
 export const ESSContext = React.createContext({
-  station: {
+  selectedStation: {
     stationId: null,
     stationName: null,
     stationAdress: null,
@@ -15,15 +15,15 @@ export const ESSContext = React.createContext({
 
 export const ESSContextProvider = ({ children }) => {
   const { isSignedIn, user } = useAuth();
-  const [station, setStation] = useState(null);
+  const [selectedStation, setSelectedStation] = useState(null);
 
   const setESSContextHandler = useCallback((selectedStation) => {
-    setStation(selectedStation);
+    setSelectedStation(selectedStation);
   }, []);
 
   useEffect(() => {
     const setDefaultStation = async () => {
-      if (isSignedIn && !station) {
+      if (isSignedIn && !selectedStation) {
         const stations = await getStationByUser(user.username, user.token);
         if (stations.length > 0) {
           const defaultStation = stations[0];
@@ -45,7 +45,7 @@ export const ESSContextProvider = ({ children }) => {
   }, [isSignedIn]);
 
   const contextValue = {
-    station,
+    selectedStation,
     selectStation: setESSContextHandler,
   };
 

@@ -44,15 +44,6 @@ var dashRoutes = [
     privateRoute: true,
   },
   {
-    path: "/station",
-    name: "Stations",
-    rtlName: "لوحة القيادة",
-    icon: <CreditIcon color="inherit" />,
-    component: Station,
-    layout: "/admin",
-    privateRoute: true,
-  },
-  {
     name: "ACCOUNT PAGES",
     category: "account",
     rtlName: "صفحات",
