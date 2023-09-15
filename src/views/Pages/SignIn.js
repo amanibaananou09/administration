@@ -44,6 +44,8 @@ function SignUp() {
         controllerPtsId: controller.ptsId,
       };
     }
+
+    return null;
   };
 
   const handleSubmit = async (event) => {
@@ -57,7 +59,10 @@ function SignUp() {
 
       const defaultStation = await getDefaultStation(username, access_token);
 
-      selectStation(defaultStation);
+      if (defaultStation) {
+        selectStation(defaultStation);
+      }
+
       signIn(access_token);
     } catch (error) {
       console.log("error dans :", error);

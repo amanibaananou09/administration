@@ -44,6 +44,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const signOutHandler = useCallback(() => {
     setUser(null);
+    clearContext();
   }, []);
 
   useEffect(() => {
@@ -58,7 +59,6 @@ export const AuthContextProvider = ({ children }) => {
       }
       signOutTimer = setTimeout(() => {
         signOutHandler();
-        clearContext();
       }, remainingTime);
     }
 

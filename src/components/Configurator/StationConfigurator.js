@@ -47,7 +47,7 @@ const StationConfigurator = () => {
     getAllStations();
   }, []);
 
-  return (
+  return stations.length > 0 ? (
     <>
       <Text fontSize="md" fontWeight="bold" my="16px">
         Select A Station:
@@ -91,6 +91,10 @@ const StationConfigurator = () => {
           }
         })}
     </>
+  ) : (
+    <Text fontSize="md" fontWeight="bold" my="16px">
+      No Station Affected, please contact the administrator
+    </Text>
   );
 };
 
