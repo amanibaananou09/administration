@@ -5,11 +5,11 @@ import { useState } from "react";
 
 const { useEffect } = require("react");
 const { useAuth } = require("store/AuthContext");
-const { useEss } = require("store/ESSContext");
+const { useESSContext } = require("store/ESSContext");
 
 const StationConfigurator = () => {
   const { user } = useAuth();
-  const { selectedStation, selectStation } = useEss();
+  const { selectedStation, selectStation } = useESSContext();
 
   const [stations, setStations] = useState([]);
 

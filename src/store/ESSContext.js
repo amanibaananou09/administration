@@ -54,6 +54,6 @@ export const ESSContextProvider = ({ children }) => {
   );
 };
 
-export const useEss = () => {
+export const useESSContext = () => {
   return useContext(ESSContext);
 };
