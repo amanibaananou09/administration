@@ -17,16 +17,34 @@ import BgSignUp from "assets/img/BgSignUp.png";
 import React, { useState } from "react";
 import { login } from "common/api.js";
 import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { getStationByUser } from "common/api";
 
 function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("gray.700", "white");
 
+  const { selectStation } = useESSContext();
   const { signIn } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const getDefaultStation = async (username, token) => {
+    const stations = await getStationByUser(username, token);
+    if (stations.length > 0) {
+      const defaultStation = stations[0];
+      const controller = defaultStation.controllerPts[0];
+      return {
+        stationId: defaultStation.id,
+        stationName: defaultStation.name,
+        stationAdress: defaultStation.address,
+        controllerId: controller.id,
+        controllerPtsId: controller.ptsId,
+      };
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,12 +54,17 @@ function SignUp() {
     }
     try {
       const { access_token } = await login(username, password);
+
+      const defaultStation = await getDefaultStation(username, access_token);
+
+      selectStation(defaultStation);
       signIn(access_token);
     } catch (error) {
       console.log("error dans :", error);
       setErrorMessage("Invalid username or password.");
     }
   };
+
   return (
     <Flex
       direction="column"

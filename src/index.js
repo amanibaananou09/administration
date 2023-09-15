@@ -13,8 +13,8 @@ import MainRoute from "router/Route/MainRoute";
 import { ESSContextProvider } from "store/ESSContext";
 
 ReactDOM.render(
-  <AuthContextProvider>
-    <ESSContextProvider>
+  <ESSContextProvider>
+    <AuthContextProvider>
       <ChakraProvider theme={theme} resetCss={false} position="relative">
         <HashRouter>
           <Switch>
@@ -26,7 +26,7 @@ ReactDOM.render(
           </Switch>
         </HashRouter>
       </ChakraProvider>
-    </ESSContextProvider>
-  </AuthContextProvider>,
+    </AuthContextProvider>
+  </ESSContextProvider>,
   document.getElementById("root"),
 );

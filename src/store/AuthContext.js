@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useCallback } from "react";
 
 import jwt_decode from "jwt-decode";
+import { useESSContext } from "./ESSContext";
 
 export const AuthContext = React.createContext({
   token: null,
@@ -17,6 +18,8 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("auth")) || null,
   );
   const isSignedIn = !!user;
+
+  const { clearContext } = useESSContext();
 
   const signInHandler = useCallback((token) => {
     const {
@@ -55,6 +58,7 @@ export const AuthContextProvider = ({ children }) => {
       }
       signOutTimer = setTimeout(() => {
         signOutHandler();
+        clearContext();
       }, remainingTime);
     }
 
