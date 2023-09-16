@@ -4,6 +4,31 @@ import { useCallback } from "react";
 import jwt_decode from "jwt-decode";
 import { useESSContext } from "./ESSContext";
 
+const decodeToken = (token) => {
+  if (!token) {
+    return null;
+  }
+
+  const {
+    sid,
+    name,
+    preferred_username,
+    realm_access,
+    email,
+    exp,
+  } = jwt_decode(token);
+
+  return {
+    id: sid,
+    fullName: name,
+    username: preferred_username,
+    role: realm_access.roles[0],
+    token,
+    email,
+    expireTime: exp * 1000,
+  };
+};
+
 export const AuthContext = React.createContext({
   token: null,
   isSignedIn: false,
@@ -15,31 +40,15 @@ let firstLoad = true;
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("auth")) || null,
+    decodeToken(localStorage.getItem("auth")) || null,
   );
   const isSignedIn = !!user;
 
   const { clearContext } = useESSContext();
 
   const signInHandler = useCallback((token) => {
-    const {
-      sid,
-      name,
-      preferred_username,
-      email,
-      realm_access,
-      exp,
-    } = jwt_decode(token);
-
-    setUser({
-      id: sid,
-      fullName: name,
-      username: preferred_username,
-      role: realm_access.roles[0],
-      token,
-      email,
-      expireTime: exp * 1000,
-    });
+    const decodedToken = decodeToken(token);
+    setUser(decodedToken);
   }, []);
 
   const signOutHandler = useCallback(() => {
@@ -68,7 +77,7 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     if (user) {
-      localStorage.setItem("auth", JSON.stringify(user));
+      localStorage.setItem("auth", user.token);
     } else {
       localStorage.removeItem("auth");
     }

@@ -5,7 +5,6 @@ import Tables from "views/Dashboard/Tables.js";
 import Billing from "views/Dashboard/Billing.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
-import Station from "views/Pages/Station";
 
 import {
   HomeIcon,
@@ -13,7 +12,9 @@ import {
   CreditIcon,
   PersonIcon,
   DocumentIcon,
+  SupportIcon,
 } from "components/Icons/Icons";
+import ManageStation from "views/Dashboard/ManageStation";
 
 var dashRoutes = [
   {
@@ -22,6 +23,14 @@ var dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
+    layout: "/admin",
+    privateRoute: true,
+  },
+  {
+    path: "/manage-station",
+    name: "Manage Stations",
+    icon: <SupportIcon color="inherit" />,
+    component: ManageStation,
     layout: "/admin",
     privateRoute: true,
   },
