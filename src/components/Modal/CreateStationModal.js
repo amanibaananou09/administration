@@ -13,11 +13,12 @@ import {
   Input,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
-
 import { forwardRef, useImperativeHandle } from "react";
 
-const EditStationModal = forwardRef(({ station }, ref) => {
+import { Formik, Form, Field } from "formik";
+import { createStation } from "common/api";
+
+const CreateStationModal = forwardRef((props, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useImperativeHandle(ref, () => ({
@@ -25,10 +26,6 @@ const EditStationModal = forwardRef(({ station }, ref) => {
       onOpen();
     },
   }));
-
-  if (!station) {
-    return null;
-  }
 
   const isNotNull = (value) => {
     let error;
@@ -40,7 +37,7 @@ const EditStationModal = forwardRef(({ station }, ref) => {
 
   const submitHandler = (values, actions) => {
     const { name, address, controllerPtsId } = values;
-    //updateStation(name, address, controllerPtsId);
+    //createStation(name, address, controllerPtsId);
     onClose();
   };
 
@@ -53,10 +50,13 @@ const EditStationModal = forwardRef(({ station }, ref) => {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Edit Station</ModalHeader>
+        <ModalHeader>Create New Station</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
-          <Formik initialValues={station} onSubmit={submitHandler}>
+          <Formik
+            initialValues={{ name: "", address: "", controllerPtsId: "" }}
+            onSubmit={submitHandler}
+          >
             {(props) => (
               <Form>
                 <Field name="name" validate={isNotNull}>
@@ -129,4 +129,4 @@ const EditStationModal = forwardRef(({ station }, ref) => {
   );
 });
 
-export default EditStationModal;
+export default CreateStationModal;

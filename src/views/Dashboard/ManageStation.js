@@ -1,10 +1,11 @@
 // Chakra imports
-import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import { getStationByUser } from "common/api";
 // Custom components
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
+import CreateStationModal from "components/Modal/CreateStationModal";
 import EditStationModal from "components/Modal/EditStationModal";
 import StationRow from "components/Tables/StationRow";
 import React, { useEffect, useRef, useState } from "react";
@@ -16,14 +17,15 @@ const ManageStation = () => {
   } = useAuth();
   const [stations, setStations] = useState([]);
   const [stationToEdit, setStationToEdit] = useState(null);
-  const modalRef = useRef();
+  const editStationModalRef = useRef();
+  const createStationModalRef = useRef();
 
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
 
   const editStation = (station) => {
     setStationToEdit(station);
-    modalRef.current.openModal();
+    editStationModalRef.current.openModal();
   };
 
   useEffect(() => {
@@ -53,9 +55,18 @@ const ManageStation = () => {
         <Card my={{ lg: "24px" }} me={{ lg: "24px" }}>
           <Flex direction="column">
             <CardHeader py="12px">
-              <Text color={textColor} fontSize="lg" fontWeight="bold">
-                Manage Stations
-              </Text>
+              <Flex align="center" justify="space-between" p="22px">
+                <Text fontSize="lg" color={textColor} fontWeight="bold">
+                  Manage Stations
+                </Text>
+                <Button
+                  variant="primary"
+                  maxH="30px"
+                  onClick={() => createStationModalRef.current.openModal()}
+                >
+                  CREATE STATION
+                </Button>
+              </Flex>
             </CardHeader>
             <CardBody>
               <Flex direction="column" w="100%">
@@ -77,7 +88,8 @@ const ManageStation = () => {
           </Flex>
         </Card>
       </Flex>
-      <EditStationModal station={stationToEdit} ref={modalRef} />
+      <EditStationModal station={stationToEdit} ref={editStationModalRef} />
+      <CreateStationModal ref={createStationModalRef} />
     </>
   );
 };

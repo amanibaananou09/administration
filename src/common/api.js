@@ -562,7 +562,7 @@ export const getUploadTransactionPump = async (token) => {
 
   return data;
 };
-export const addStation = async (name, address, userLogin, token) => {
+export const createStation = async (name, address, userLogin, token) => {
   const data = await fetchUrl({
     url: STATION_ADD_ENDPOINT,
     method: "POST",

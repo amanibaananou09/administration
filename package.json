@@ -16,6 +16,7 @@
     "@fontsource/roboto": "^4.5.0",
     "apexcharts": "^3.27.3",
     "classnames": "2.3.1",
+    "formik": "^2.4.4",
     "framer-motion": "4.1.17",
     "jwt-decode": "^3.1.2",
     "match-sorter": "6.3.0",
