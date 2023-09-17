@@ -5,8 +5,7 @@ import { getStationByUser } from "common/api";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CreateStationModal from "components/Modal/CreateStationModal";
-import EditStationModal from "components/Modal/EditStationModal";
+import StationModal from "components/Modal/StationModal";
 import StationRow from "components/Tables/StationRow";
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "store/AuthContext";
@@ -17,15 +16,25 @@ const ManageStation = () => {
   } = useAuth();
   const [stations, setStations] = useState([]);
   const [stationToEdit, setStationToEdit] = useState(null);
-  const editStationModalRef = useRef();
-  const createStationModalRef = useRef();
+  const stationModalRef = useRef();
 
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
 
-  const editStation = (station) => {
+  const openStationModal = (station) => {
     setStationToEdit(station);
-    editStationModalRef.current.openModal();
+    stationModalRef.current.openModal();
+  };
+
+  const submitModalHandler = (station) => {
+    console.log(station);
+    if (station.id) {
+      // async call to update existing station
+    } else {
+      // async call to create new station
+    }
+
+    setStations((prev) => [station, ...stations]);
   };
 
   useEffect(() => {
@@ -43,7 +52,7 @@ const ManageStation = () => {
         };
       });
 
-      setStations([...formattedStations, ...formattedStations]);
+      setStations([...formattedStations]);
     };
 
     getAllStations();
@@ -62,7 +71,7 @@ const ManageStation = () => {
                 <Button
                   variant="primary"
                   maxH="30px"
-                  onClick={() => createStationModalRef.current.openModal()}
+                  onClick={() => openStationModal()}
                 >
                   CREATE STATION
                 </Button>
@@ -78,7 +87,7 @@ const ManageStation = () => {
                       address={row.address}
                       controllerId={row.controllerId}
                       controllerPtsId={row.controllerPtsId}
-                      onEdit={() => editStation(row)}
+                      onEdit={() => openStationModal(row)}
                       key={key}
                     />
                   );
@@ -88,8 +97,11 @@ const ManageStation = () => {
           </Flex>
         </Card>
       </Flex>
-      <EditStationModal station={stationToEdit} ref={editStationModalRef} />
-      <CreateStationModal ref={createStationModalRef} />
+      <StationModal
+        station={stationToEdit}
+        onSubmit={submitModalHandler}
+        ref={stationModalRef}
+      />
     </>
   );
 };

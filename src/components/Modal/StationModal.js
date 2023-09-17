@@ -4,7 +4,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   useDisclosure,
@@ -13,12 +12,11 @@ import {
   Input,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { forwardRef, useImperativeHandle } from "react";
-
 import { Formik, Form, Field } from "formik";
-import { createStation } from "common/api";
 
-const CreateStationModal = forwardRef((props, ref) => {
+const { forwardRef, useImperativeHandle } = require("react");
+
+const StationModal = forwardRef(({ station, onSubmit }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useImperativeHandle(ref, () => ({
@@ -26,6 +24,10 @@ const CreateStationModal = forwardRef((props, ref) => {
       onOpen();
     },
   }));
+
+  if (!station) {
+    station = { name: "", address: "", controllerPtsId: "" };
+  }
 
   const isNotNull = (value) => {
     let error;
@@ -36,8 +38,7 @@ const CreateStationModal = forwardRef((props, ref) => {
   };
 
   const submitHandler = (values, actions) => {
-    const { name, address, controllerPtsId } = values;
-    //createStation(name, address, controllerPtsId);
+    onSubmit(values);
     onClose();
   };
 
@@ -53,10 +54,7 @@ const CreateStationModal = forwardRef((props, ref) => {
         <ModalHeader>Create New Station</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
-          <Formik
-            initialValues={{ name: "", address: "", controllerPtsId: "" }}
-            onSubmit={submitHandler}
-          >
+          <Formik initialValues={station} onSubmit={submitHandler}>
             {(props) => (
               <Form>
                 <Field name="name" validate={isNotNull}>
@@ -129,4 +127,4 @@ const CreateStationModal = forwardRef((props, ref) => {
   );
 });
 
-export default CreateStationModal;
+export default StationModal;
