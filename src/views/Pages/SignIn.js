@@ -65,7 +65,6 @@ function SignUp() {
 
       signIn(access_token);
     } catch (error) {
-      console.log("error dans :", error);
       setErrorMessage("Invalid username or password.");
     }
   };

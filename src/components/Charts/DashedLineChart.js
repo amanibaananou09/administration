@@ -7,6 +7,7 @@ import {
   getChartTankLevel,
   getTankLevelSelected,
 } from "common/api.js";
+import { useESSContext } from "store/ESSContext";
 
 const DashedLineChart = () => {
   const [selectedTank, setSelectedTank] = useState("all");
@@ -62,13 +63,17 @@ const DashedLineChart = () => {
     user: { token },
   } = useAuth();
 
+  const {
+    selectedStation: { controllerId },
+  } = useESSContext();
+
   useEffect(() => {
     tankFetchData();
   }, [selectedTank, token]);
 
   const tankFetchData = async () => {
     try {
-      const tankData = await getAllTankByIdc(token);
+      const tankData = await getAllTankByIdc(controllerId, token);
       setTankData(tankData);
       updateChartData(token, tankData);
     } catch (error) {

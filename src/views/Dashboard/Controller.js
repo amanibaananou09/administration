@@ -29,14 +29,11 @@ function Controller() {
   const history = useHistory();
   const UserRole = localStorage.getItem("role");
   const token = localStorage.getItem("token");
-  console.log("la data de contrellor", data);
-  console.log("stationName", stationName);
 
   useEffect(() => {
     const fetchVersion = async () => {
       try {
         const resultVersion = await getControllerVersion(token);
-        console.log("la version est :", resultVersion);
         setVersion(resultVersion);
       } catch (error) {
         console.error("error dans :", error);

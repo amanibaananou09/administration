@@ -9,8 +9,13 @@ import {
   getChartByFuelTankPeriod,
   getAllFuelGrades,
 } from "common/api.js";
+import { useESSContext } from "store/ESSContext";
 
 const LineChart = () => {
+  const {
+    selectedStation: { controllerId },
+  } = useESSContext();
+
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -33,15 +38,15 @@ const LineChart = () => {
   } = useAuth();
   useEffect(() => {
     fetchData();
-  }, [fuelGrade, pump, tank, period,type]);
+  }, [fuelGrade, pump, tank, period, type]);
 
   const fetchData = async () => {
     try {
-      const pumpData = await getAllPump(token);
+      const pumpData = await getAllPump(controllerId, token);
 
-      const fuelGradesData = await getAllFuelGrades(token);
+      const fuelGradesData = await getAllFuelGrades(controllerId, token);
 
-      const tankData = await getAllTank(token);
+      const tankData = await getAllTank(controllerId, token);
 
       setPumpData(pumpData);
       setFuelGradesData(fuelGradesData);
@@ -55,12 +60,11 @@ const LineChart = () => {
   const updateChartData = async () => {
     try {
       let data;
-        if (type === "sale") {
-          data = await getChartByFuelPumpPeriod(fuelGrade, pump, period, token);
-        } else if (type === "purchase") {
-          data = await getChartByFuelTankPeriod(fuelGrade, tank, period, token);
-        }
-      
+      if (type === "sale") {
+        data = await getChartByFuelPumpPeriod(fuelGrade, pump, period, token);
+      } else if (type === "purchase") {
+        data = await getChartByFuelTankPeriod(fuelGrade, tank, period, token);
+      }
 
       const filteredData = {
         labels: [],
@@ -182,12 +186,16 @@ const LineChart = () => {
       <Flex flexDirection="row" spacing="24px" mb="20px">
         <Flex p="0px" align="center" justify="center" w="30%" mb="25px">
           <Select
-          color="white"
+            color="white"
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="sale" style={{ color: "black" }}>Sale</option>
-            <option value="purchase" style={{ color: "black" }}>Purchase</option>
+            <option value="sale" style={{ color: "black" }}>
+              Sale
+            </option>
+            <option value="purchase" style={{ color: "black" }}>
+              Purchase
+            </option>
           </Select>
         </Flex>
         <Flex
@@ -199,12 +207,16 @@ const LineChart = () => {
           w="30%"
           mb="25px"
         >
-          <Select color="white" >
+          <Select color="white">
             <option value="all" style={{ color: "black" }}>
               All Fuel Grades
             </option>
             {fuelGradesData.map((fuel) => (
-              <option style={{ color: "black" }} key={fuel.name} value={fuel.name}>
+              <option
+                style={{ color: "black" }}
+                key={fuel.name}
+                value={fuel.name}
+              >
                 {fuel.name}
               </option>
             ))}
@@ -213,13 +225,19 @@ const LineChart = () => {
         {type === "sale" ? (
           <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
             <Select
-             color="white"
+              color="white"
               value={pump}
               onChange={(e) => setPump(e.target.value)}
             >
-              <option value="all" style={{ color: "black" }}>All Pump</option>
+              <option value="all" style={{ color: "black" }}>
+                All Pump
+              </option>
               {pumpData.map((pump) => (
-                <option key={pump.id} value={pump.id} style={{ color: "black" }}>
+                <option
+                  key={pump.id}
+                  value={pump.id}
+                  style={{ color: "black" }}
+                >
                   Pump {pump.id}
                 </option>
               ))}
@@ -232,9 +250,15 @@ const LineChart = () => {
               value={tank}
               onChange={(e) => setTank(e.target.value)}
             >
-              <option value="all" style={{ color: "black" }}>All Tank</option>
+              <option value="all" style={{ color: "black" }}>
+                All Tank
+              </option>
               {tankData.map((tank) => (
-                <option key={tank.idConf} value={tank.idConf} style={{ color: "black" }}>
+                <option
+                  key={tank.idConf}
+                  value={tank.idConf}
+                  style={{ color: "black" }}
+                >
                   Tank {tank.idConf}
                 </option>
               ))}
@@ -247,9 +271,15 @@ const LineChart = () => {
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
           >
-            <option value="weekly" style={{ color: "black" }}>Weekly</option>
-            <option value="monthly" style={{ color: "black" }}>Monthly</option>
-            <option value="yearly" style={{ color: "black" }}>Yearly</option>
+            <option value="weekly" style={{ color: "black" }}>
+              Weekly
+            </option>
+            <option value="monthly" style={{ color: "black" }}>
+              Monthly
+            </option>
+            <option value="yearly" style={{ color: "black" }}>
+              Yearly
+            </option>
           </Select>
         </Flex>
       </Flex>

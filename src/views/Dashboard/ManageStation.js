@@ -34,7 +34,7 @@ const ManageStation = () => {
       // async call to create new station
     }
 
-    setStations((prev) => [station, ...stations]);
+    setStations((prev) => [station, ...prev]);
   };
 
   useEffect(() => {

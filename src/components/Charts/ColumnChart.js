@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { getAllTankByIdc, getTankLevelSelected } from "common/api.js";
 import { useAuth } from "store/AuthContext";
-import { Flex, Select} from "@chakra-ui/react";
+import { Flex, Select } from "@chakra-ui/react";
+import { useESSContext } from "store/ESSContext";
 
 const ColumnChart = () => {
   const [selectedTankColumn, setSelectedTankColumn] = useState("all");
   const [tankDataFuite, setTankDataFuite] = useState([]);
-  const [columnChartOptions,setColumnChartOptions] = useState({
+  const [columnChartOptions, setColumnChartOptions] = useState({
     chart: {
       height: 350,
       toolbar: {
@@ -59,13 +60,16 @@ const ColumnChart = () => {
     user: { token },
   } = useAuth();
 
+  const {
+    selectedStation: { controllerId },
+  } = useESSContext();
+
   useEffect(() => {
     const tankFuiteFetchData = async () => {
       try {
-        const tankData = await getAllTankByIdc(token);
+        const tankData = await getAllTankByIdc(controllerId, token);
         setTankDataFuite(tankData);
         updateChart(tankData);
-        console.log("La chart de fuite est", tankData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -73,8 +77,7 @@ const ColumnChart = () => {
 
     const updateChart = async () => {
       try {
-        const chartData = await getTankLevelSelected(selectedTankColumn,token);
-        console.log("La valeur de tank", chartData);
+        const chartData = await getTankLevelSelected(selectedTankColumn, token);
 
         const filteredData = {
           categories: chartData.map((item) => {
@@ -98,7 +101,7 @@ const ColumnChart = () => {
             {
               name: "Leak",
               data: chartData.map(
-                (item) => item.salesVolume - item.changedVolume
+                (item) => item.salesVolume - item.changedVolume,
               ),
             },
           ],
@@ -122,7 +125,6 @@ const ColumnChart = () => {
     setSelectedTankColumn(e.target.value);
   };
 
-
   return (
     <>
       <Flex flexDirection="row" spacing="24px">
@@ -134,10 +136,7 @@ const ColumnChart = () => {
           w="40%"
           mb="25px"
         >
-          <Select
-            value={selectedTankColumn}
-            onChange={handleTankColumnChange}
-          >
+          <Select value={selectedTankColumn} onChange={handleTankColumnChange}>
             <option value="all">All Tank</option>
             {tankDataFuite.map((tank) => (
               <option key={tank.idConf} value={tank.idConf}>

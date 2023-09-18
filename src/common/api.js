@@ -10,19 +10,15 @@ export const ALL_CONTROLLERS_ENDPOINT = `${localhostURL}/station/AllContoller`;
 export const ADD_CONTROLLERS_ENDPOINT = `${localhostURL}/station/addController`;
 
 //Grades
-export const FUELGRADES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/fuelGrade/${idCtr}`;
+export const FUELGRADES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/fuelGrade`;
 
 //Web_socket
 export const CONFIG_WEBSOCKET_ENDPOINT = `${localhostURL}/configuration/ws/${PtsId}`;
 
-//HistoryEdit
-export const HISTORY_USER_ACTION_ENDPOINT = `${localhostURL}/user/UserHistory/${idCtr}/Action`;
-
-//HistoryConsult
-export const HISTORY_USER_CONSULT_ENDPOINT = `${localhostURL}/user/UserHistory/${idCtr}/Consult`;
+//History Endpoint
+export const HISTORY_USER_ENDPOINT = `${localhostURL}/user/UserHistory`;
 
 //UserHistory
-export const HISTORY_USER_PUMPAUTHORIZE_ENDPOINT = `${localhostURL}/user/UserHistory/${idCtr}/PumpAuthorize`;
 export const HISTORY_USER_GETID = `${localhostURL}/user/getTranById`;
 
 //login
@@ -32,24 +28,24 @@ export const LOGIN_ENDPOINT = `${localhostURL}/login`;
 export const VERSION_CONFIG_ENDPOINT = `${localhostURL}/configuration/version`;
 
 //Nozzles
-export const NOZZLES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/nozzle/${idCtr}`;
-export const NOZZEL_BY_PUMP_READ_ENDPOINT = `${localhostURL}/configuration/read/nozzleByPump/${idCtr}`;
+export const NOZZLES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/nozzle`;
+export const NOZZEL_BY_PUMP_READ_ENDPOINT = `${localhostURL}/configuration/read/nozzleByPump`;
 
 //Pump
-export const PUMP_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/pump/${idCtr}`;
+export const PUMP_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/pump`;
 export const PUMP_TANSACTION_START_END = `${localhostURL}/essstatus/uploadPumpTansaction`;
-export const PUMP_ALL_TRANSACTION_READ_CONFIG = `${localhostURL}/configuration/read/transaction/${idCtr}`;
+export const PUMP_ALL_TRANSACTION_READ_CONFIG = `${localhostURL}/configuration/read/transaction`;
 export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/UploadPumpTransaction`;
 
 //Tank
-export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/tank/${idCtr}`;
-export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/essTransaction/TankMeasurements/${idCtr}`;
+export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/tank`;
+export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/essTransaction/TankMeasurements`;
 
 //Probe
-export const PROBE_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/probe/${idCtr}`;
+export const PROBE_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/probe`;
 
 //Reader
-export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/reader/${idCtr}`;
+export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/reader`;
 
 //Station
 export const STATION_ADD_ENDPOINT = `${localhostURL}/station/addStation`;
@@ -65,8 +61,8 @@ export const REGISTER_USER_ENDPOINT = `${localhostURL}/api/v1/auth/register`;
 //chart
 export const CHART_ENDPOINT = `${localhostURL}/stat/Chart`;
 export const CHART_TANK_ENDPOINT = `${localhostURL}/stat/ChartGradeTank`;
-export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/stat/vent/${idCtr}`;
-export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/stat/AllTankByIdC/${idCtr}`;
+export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/stat/vent`;
+export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/stat/AllTankByIdC`;
 export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/stat/ChartTankLevel`;
 export const CHART_TANK_LEVEL_ALL = `${localhostURL}/stat/ChartTankLevel/all`;
 
@@ -114,9 +110,9 @@ export const setFuelGradesConfiguration = async (fuelGrades, token) => {
   return data;
 };
 
-export const getAllFuelGrades = async (token) => {
+export const getAllFuelGrades = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: FUELGRADES_CONFIG_READ_ALL_ENDPOINT,
+    url: `${FUELGRADES_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -128,9 +124,9 @@ export const getAllFuelGrades = async (token) => {
 
   return data;
 };
-export const getAllReader = async (token) => {
+export const getAllReader = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: READER_CONFIG_READ_ALL_ENDPOINT,
+    url: `${READER_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -142,9 +138,9 @@ export const getAllReader = async (token) => {
 
   return data;
 };
-export const getAllNozzle = async (token) => {
+export const getAllNozzle = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: NOZZLES_CONFIG_READ_ALL_ENDPOINT,
+    url: `${NOZZLES_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -156,9 +152,9 @@ export const getAllNozzle = async (token) => {
 
   return data;
 };
-export const getAllPump = async (token) => {
+export const getAllPump = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: PUMP_CONFIG_READ_ALL_ENDPOINT,
+    url: `${PUMP_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -170,9 +166,9 @@ export const getAllPump = async (token) => {
 
   return data;
 };
-export const getAllTank = async (token) => {
+export const getAllTank = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: TANK_CONFIG_READ_ALL_ENDPOINT,
+    url: `${TANK_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -200,9 +196,9 @@ export const getListUser = async (token) => {
   return data;
 };
 
-export const getAllProb = async (token) => {
+export const getAllProb = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: PROBE_CONFIG_READ_ALL_ENDPOINT,
+    url: `${PROBE_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -443,9 +439,9 @@ export const getControllerVersion = async (token) => {
   return data;
 };
 
-export const getUserHistory = async (token) => {
+export const getUserHistory = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: HISTORY_USER_ACTION_ENDPOINT,
+    url: `${HISTORY_USER_ENDPOINT}/${controllerId}/Action`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -456,9 +452,9 @@ export const getUserHistory = async (token) => {
   return data;
 };
 
-export const consultUserHistory = async (token) => {
+export const consultUserHistory = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: HISTORY_USER_CONSULT_ENDPOINT,
+    url: `${HISTORY_USER_ENDPOINT}/${controllerId}/Consult`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -468,9 +464,9 @@ export const consultUserHistory = async (token) => {
 
   return data;
 };
-export const getTankMeasurements = async (token) => {
+export const getTankMeasurements = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: TANK_MEASURMENTS_ENDPOINT,
+    url: `${TANK_MEASURMENTS_ENDPOINT}/${controllerId}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -480,9 +476,9 @@ export const getTankMeasurements = async (token) => {
 
   return data;
 };
-export const getPumpAuthorizeforhistoryUser = async (token) => {
+export const getPumpAuthorizeforhistoryUser = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: HISTORY_USER_PUMPAUTHORIZE_ENDPOINT,
+    url: `${HISTORY_USER_ENDPOINT}/${controllerId}/PumpAuthorize`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -525,9 +521,9 @@ export const getPumpTransactionwithEndStart = async (
 
   return data;
 };
-export const getAllPumpByNozzel = async (selectedPump, token) => {
+export const getAllPumpByNozzel = async (controllerId, selectedPump, token) => {
   const data = await fetchUrl({
-    url: `${NOZZEL_BY_PUMP_READ_ENDPOINT}/${selectedPump}`,
+    url: `${NOZZEL_BY_PUMP_READ_ENDPOINT}/${controllerId}/${selectedPump}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -538,9 +534,9 @@ export const getAllPumpByNozzel = async (selectedPump, token) => {
   return data;
 };
 
-export const getallTransactionPump = async (token) => {
+export const getallTransactionPump = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: PUMP_ALL_TRANSACTION_READ_CONFIG,
+    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -665,9 +661,9 @@ export const addUser = async (firstname, lastname, email, password, token) => {
   return data;
 };
 
-export const getAllStatVent = async (token) => {
+export const getAllStatVent = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: CHART_STAT_VENT_ENDPOINT,
+    url: `${CHART_STAT_VENT_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -680,9 +676,9 @@ export const getAllStatVent = async (token) => {
   return data;
 };
 
-export const getAllTankByIdc = async (token) => {
+export const getAllTankByIdc = async (controllerId, token) => {
   const data = await fetchUrl({
-    url: CHART_TANK_ALL_BY_IDC,
+    url: `${CHART_TANK_ALL_BY_IDC}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -695,7 +691,7 @@ export const getAllTankByIdc = async (token) => {
   return data;
 };
 
-export const getTankLevelSelected = async (selectedTank,token) => {
+export const getTankLevelSelected = async (selectedTank, token) => {
   const data = await fetchUrl({
     url: `${CHART_TANK_LEVEL_ENDPOINT}/${selectedTank}`,
     withCredentials: true,
@@ -710,7 +706,12 @@ export const getTankLevelSelected = async (selectedTank,token) => {
   return data;
 };
 
-export const getChartByFuelPumpPeriod = async (fuelGrade,pump,period,token) => {
+export const getChartByFuelPumpPeriod = async (
+  fuelGrade,
+  pump,
+  period,
+  token,
+) => {
   const data = await fetchUrl({
     url: `${CHART_ENDPOINT}/${fuelGrade}/${pump}/${period}/${idCtr}`,
     withCredentials: true,
@@ -725,7 +726,12 @@ export const getChartByFuelPumpPeriod = async (fuelGrade,pump,period,token) => {
   return data;
 };
 
-export const getChartByFuelTankPeriod = async (fuelGrade,tank,period,token) => {
+export const getChartByFuelTankPeriod = async (
+  fuelGrade,
+  tank,
+  period,
+  token,
+) => {
   const data = await fetchUrl({
     url: `${CHART_TANK_ENDPOINT}/${fuelGrade}/${tank}/${period}/${idCtr}`,
     withCredentials: true,

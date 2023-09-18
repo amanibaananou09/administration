@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { getAllStatVent } from "common/api.js";
 import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 
 const BarChart = () => {
+  const {
+    selectedStation: { controllerId },
+  } = useESSContext();
+
   const {
     user: { token },
   } = useAuth();
@@ -31,7 +36,7 @@ const BarChart = () => {
       const dataSet2 = [];
       const dataSet3 = [];
       const uniqueUserIds = new Set();
-      const res = await getAllStatVent(token);
+      const res = await getAllStatVent(controllerId, token);
 
       try {
         if (Array.isArray(res)) {
@@ -82,7 +87,7 @@ const BarChart = () => {
 
     fetchData();
   }, []);
-  console.log("la date de user", data);
+
   const barChartOptions = {
     chart: {
       stacked: true,
