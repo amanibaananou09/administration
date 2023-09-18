@@ -28,8 +28,6 @@ import {
 import React from "react";
 // Variables
 import {
-  barChartData,
-  barChartOptions,
   lineChartData,
   lineChartOptions,
   dashedlineData,
@@ -218,20 +216,20 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <LineChart
-              chartData={lineChartData}
-              chartOptions={lineChartOptions}
-            />
+            <LineChart />
           </Box>
         </Card>
-        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
+        <Card
+          p="0px"
+          maxW={{ sm: "320px", md: "100%" }}
+        >
           <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
             <Text color={textColor} fontSize="lg" fontWeight="bold">
               Users Sales
             </Text>
           </Flex>
           <Box minH="300px">
-            <BarChart chartData={barChartData} chartOptions={barChartOptions} />
+            <BarChart />
           </Box>
         </Card>
       </Grid>
@@ -247,10 +245,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <DashedLineChart
-              chartData={dashedlineData}
-              chartOptions={dashedlineOption}
-            />
+            <DashedLineChart />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
@@ -260,10 +255,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <ColumnChart
-              chartData={columnChartData}
-              chartOptions={columnChartOption}
-            />
+            <ColumnChart />
           </Box>
         </Card>
       </Grid>

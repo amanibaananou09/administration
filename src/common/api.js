@@ -2,7 +2,6 @@ export const localhostURL = "http://localhost:8083";
 export const webSocketURL = "ws://localhost:8083";
 //get idctr
 const idCtr = localStorage.getItem("idCtr");
-
 //get ptsId
 const PtsId = localStorage.getItem("PtsId");
 
@@ -67,7 +66,7 @@ export const REGISTER_USER_ENDPOINT = `${localhostURL}/api/v1/auth/register`;
 export const CHART_ENDPOINT = `${localhostURL}/stat/Chart`;
 export const CHART_TANK_ENDPOINT = `${localhostURL}/stat/ChartGradeTank`;
 export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/stat/vent/${idCtr}`;
-export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/Tank/AllTankByIdC/${idCtr}`;
+export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/stat/AllTankByIdC/${idCtr}`;
 export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/stat/ChartTankLevel`;
 export const CHART_TANK_LEVEL_ALL = `${localhostURL}/stat/ChartTankLevel/all`;
 
@@ -529,9 +528,10 @@ export const getPumpTransactionwithEndStart = async (
 export const getAllPumpByNozzel = async (selectedPump, token) => {
   const data = await fetchUrl({
     url: `${NOZZEL_BY_PUMP_READ_ENDPOINT}/${selectedPump}`,
-    method: "POST",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
     },
   });
 
