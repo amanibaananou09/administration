@@ -709,3 +709,33 @@ export const getTankLevelSelected = async (selectedTank,token) => {
 
   return data;
 };
+
+export const getChartByFuelPumpPeriod = async (fuelGrade,pump,period,token) => {
+  const data = await fetchUrl({
+    url: `${CHART_ENDPOINT}/${fuelGrade}/${pump}/${period}/${idCtr}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
+
+export const getChartByFuelTankPeriod = async (fuelGrade,tank,period,token) => {
+  const data = await fetchUrl({
+    url: `${CHART_TANK_ENDPOINT}/${fuelGrade}/${tank}/${period}/${idCtr}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};

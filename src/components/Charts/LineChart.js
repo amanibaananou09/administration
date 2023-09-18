@@ -1,104 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { Flex, Select, Button } from "@chakra-ui/react";
+import { useAuth } from "store/AuthContext";
 import {
-  PUMP_CONFIG_READ_ALL_ENDPOINT,
-  TANK_CONFIG_READ_ALL_ENDPOINT,
-  CHART_ENDPOINT,
-  CHART_TANK_ENDPOINT,
+  getAllPump,
+  getAllTank,
+  getChartByFuelPumpPeriod,
+  getChartByFuelTankPeriod,
   getAllFuelGrades,
 } from "common/api.js";
 
-class LineChart extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      chartData: {
-        labels: [],
-        datasets: [
-          {
-            name: "",
-            data: [],
-          },
-        ],
+const LineChart = () => {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        name: "",
+        data: [],
       },
-      type: "sale",
-      fuelGrade: "all",
-      pump: "all",
-      tank: "all",
-      period: "weekly",
-      pumpData: [],
-      fuelGradesData: [],
-      tankData: [],
-    };
-  }
+    ],
+  });
+  const [type, setType] = useState("sale");
+  const [fuelGrade, setFuelGrade] = useState("all");
+  const [pump, setPump] = useState("all");
+  const [tank, setTank] = useState("all");
+  const [period, setPeriod] = useState("weekly");
+  const [pumpData, setPumpData] = useState([]);
+  const [fuelGradesData, setFuelGradesData] = useState([]);
+  const [tankData, setTankData] = useState([]);
+  const {
+    user: { token },
+  } = useAuth();
+  useEffect(() => {
+    fetchData();
+  }, [fuelGrade, pump, tank, period,type]);
 
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  async fetchData() {
+  const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const { type, fuelGrade, pump, tank, period } = this.state;
+      const pumpData = await getAllPump(token);
 
-      // Fetch pumpData
-      const responsePump = await fetch(PUMP_CONFIG_READ_ALL_ENDPOINT, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      const pumpData = await responsePump.json();
-
-      // Fetch fuelGradeData
       const fuelGradesData = await getAllFuelGrades(token);
 
-      // Fetch tankData (conditionally based on type)
-      let tankData = [];
-      if (type === "purchase") {
-        const responseTank = await fetch(TANK_CONFIG_READ_ALL_ENDPOINT, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        });
-        tankData = await responseTank.json();
-      }
+      const tankData = await getAllTank(token);
 
-      this.setState({ pumpData, fuelGradesData, tankData });
+      setPumpData(pumpData);
+      setFuelGradesData(fuelGradesData);
+      setTankData(tankData);
+      updateChartData();
     } catch (error) {
       console.error("Error fetching data fuelgrades:", error);
     }
-  }
+  };
 
-  updateChartData = async () => {
+  const updateChartData = async () => {
     try {
-      const { type, fuelGrade, pump, tank, period } = this.state;
-      const token = localStorage.getItem("token");
-      const idCtr = localStorage.getItem("idCtr");
+      let data;
+        if (type === "sale") {
+          data = await getChartByFuelPumpPeriod(fuelGrade, pump, period, token);
+        } else if (type === "purchase") {
+          data = await getChartByFuelTankPeriod(fuelGrade, tank, period, token);
+        }
+      
 
-      let endpoint = ``;
-      if (type === "sale") {
-        endpoint = `${CHART_ENDPOINT}/${fuelGrade}/${pump}/${period}/${idCtr}`;
-      } else if (type === "purchase") {
-        endpoint = `${CHART_TANK_ENDPOINT}/${fuelGrade}/${tank}/${period}/${idCtr}`;
-      }
-
-      // Fetch data from the API based on selected options
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      const data = await response.json();
-      console.log("data fin gread:", data);
-      // Process data and update the state
       const filteredData = {
         labels: [],
         datasets: [
@@ -123,191 +86,182 @@ class LineChart extends React.Component {
           },
         ],
       };
-      switch (period) {
-        case "weekly":
-        case "monthly":
-        case "yearly":
-          filteredData.labels = data.map(
-            (item) => `${item.dateF} ${item.nameF}`,
-          );
-          break;
-        default:
-          filteredData.labels = ["Apy", "May", "Jun", "Jul", "Aug"];
-          break;
+      if (data) {
+        switch (period) {
+          case "weekly":
+            filteredData.labels = data.map(
+              (item) => `${item.dateF} ${item.nameF}`,
+            );
+            break;
+          case "monthly":
+            filteredData.labels = data.map(
+              (item) => `${item.dateF} ${item.nameF}`,
+            );
+            break;
+          case "yearly":
+            filteredData.labels = data.map(
+              (item) => `${item.dateF} ${item.nameF}`,
+            );
+            break;
+          default:
+            filteredData.labels = ["Apy", "May", "Jun", "Jul", "Aug"];
+            break;
+        }
       }
-      this.setState({ chartData: filteredData });
+      setChartData(filteredData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  render() {
-    const {
-      chartData,
-      type,
-      fuelGrade,
-      pump,
-      tank,
-      period,
-      pumpData,
-      fuelGradesData,
-      tankData,
-    } = this.state;
-
-    const lineChartOptions = {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      tooltip: {
-        theme: "dark",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-      },
-      xaxis: {
-        categories: chartData.labels,
-        labels: {
-          style: {
-            colors: "#fff",
-            fontSize: "12px",
-          },
-        },
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#fff",
-            fontSize: "12px",
-          },
-        },
-        responsive: true,
-        maxTicksLimit: 5,
-        beginAtZero: true,
-      },
-      legend: {
+  const lineChartOptions = {
+    chart: {
+      toolbar: {
         show: false,
-        position: "bottom",
       },
-      grid: {
-        strokeDashArray: 5,
-      },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shade: "light",
-          type: "vertical",
-          shadeIntensity: 0.5,
-          inverseColors: true,
-          opacityFrom: 0.8,
-          opacityTo: 0,
-          stops: [],
+    },
+    tooltip: {
+      theme: "dark",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    xaxis: {
+      categories: chartData.labels,
+      labels: {
+        style: {
+          colors: "#fff",
+          fontSize: "12px",
         },
-        colors: ["#fff", "#3182CE"],
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#fff",
+          fontSize: "12px",
+        },
+      },
+      responsive: true,
+      maxTicksLimit: 5,
+      beginAtZero: true,
+    },
+    legend: {
+      show: false,
+      position: "bottom",
+    },
+    grid: {
+      strokeDashArray: 5,
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shade: "light",
+        type: "vertical",
+        shadeIntensity: 0.5,
+        inverseColors: true,
+        opacityFrom: 0.8,
+        opacityTo: 0,
+        stops: [],
       },
       colors: ["#fff", "#3182CE"],
-      plugins: {
-        grouped: {
-          groupBy: "nameF",
-        },
+    },
+    colors: ["#fff", "#3182CE"],
+    plugins: {
+      grouped: {
+        groupBy: "nameF",
       },
-    };
+    },
+  };
 
-    return (
-      <>
-        <Flex flexDirection="row" spacing="24px" mb="20px">
-          <Flex p="0px" align="center" justify="center" w="30%" mb="25px">
-            <Select
-              color="black"
-              value={type}
-              onChange={(e) => this.setState({ type: e.target.value })}
-            >
-              <option value="sale">Sale</option>
-              <option value="purchase">Purchase</option>
-            </Select>
-          </Flex>
-          <Flex
-            value={fuelGrade}
-            onChange={(e) =>
-              this.setState({ fuelGrade: e.target.value }, this.fetchData)
-            }
-            align="center"
-            p="5px"
-            justify="center"
-            w="30%"
-            mb="25px"
+  return (
+    <>
+      <Flex flexDirection="row" spacing="24px" mb="20px">
+        <Flex p="0px" align="center" justify="center" w="30%" mb="25px">
+          <Select
+          color="white"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
           >
-            <Select color="black">
-              <option value="all">All Fuel Grades</option>
-              {fuelGradesData.map((fuel) => (
-                <option key={fuel.name} value={fuel.name}>
-                  {fuel.name}
+            <option value="sale" style={{ color: "black" }}>Sale</option>
+            <option value="purchase" style={{ color: "black" }}>Purchase</option>
+          </Select>
+        </Flex>
+        <Flex
+          value={fuelGrade}
+          onChange={(e) => setFuelGrade(e.target.value)}
+          align="center"
+          p="5px"
+          justify="center"
+          w="30%"
+          mb="25px"
+        >
+          <Select color="white" >
+            <option value="all" style={{ color: "black" }}>
+              All Fuel Grades
+            </option>
+            {fuelGradesData.map((fuel) => (
+              <option style={{ color: "black" }} key={fuel.name} value={fuel.name}>
+                {fuel.name}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        {type === "sale" ? (
+          <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
+            <Select
+             color="white"
+              value={pump}
+              onChange={(e) => setPump(e.target.value)}
+            >
+              <option value="all" style={{ color: "black" }}>All Pump</option>
+              {pumpData.map((pump) => (
+                <option key={pump.id} value={pump.id} style={{ color: "black" }}>
+                  Pump {pump.id}
                 </option>
               ))}
             </Select>
           </Flex>
-          {type === "sale" ? (
-            <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
-              <Select
-                color="black"
-                value={pump}
-                onChange={(e) => this.setState({ pump: e.target.value })}
-              >
-                <option value="all">All Pump</option>
-                {pumpData.map((pump) => (
-                  <option key={pump.id} value={pump.id}>
-                    Pump {pump.id}
-                  </option>
-                ))}
-              </Select>
-            </Flex>
-          ) : (
-            <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
-              <Select
-                color="black"
-                value={tank}
-                onChange={(e) => this.setState({ tank: e.target.value })}
-              >
-                <option value="all">All Tank</option>
-                {tankData.map((tank) => (
-                  <option key={tank.id} value={tank.id}>
-                    Tank {tank.id}
-                  </option>
-                ))}
-              </Select>
-            </Flex>
-          )}
+        ) : (
           <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
             <Select
-              color="black"
-              value={period}
-              onChange={(e) => this.setState({ period: e.target.value })}
+              color="white"
+              value={tank}
+              onChange={(e) => setTank(e.target.value)}
             >
-              <option value="option1">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
+              <option value="all" style={{ color: "black" }}>All Tank</option>
+              {tankData.map((tank) => (
+                <option key={tank.idConf} value={tank.idConf} style={{ color: "black" }}>
+                  Tank {tank.idConf}
+                </option>
+              ))}
             </Select>
           </Flex>
+        )}
+        <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
+          <Select
+            color="white"
+            value={period}
+            onChange={(e) => setPeriod(e.target.value)}
+          >
+            <option value="weekly" style={{ color: "black" }}>Weekly</option>
+            <option value="monthly" style={{ color: "black" }}>Monthly</option>
+            <option value="yearly" style={{ color: "black" }}>Yearly</option>
+          </Select>
         </Flex>
-        <Flex justify="center">
-          <Button variant="primary" onClick={this.updateChartData}>
-            SEE ALL
-          </Button>
-        </Flex>
-        <ReactApexChart
-          options={lineChartOptions}
-          series={chartData.datasets}
-          type="area"
-          width="100%"
-          height="100%"
-        />
-      </>
-    );
-  }
-}
+      </Flex>
+      <ReactApexChart
+        options={lineChartOptions}
+        series={chartData.datasets}
+        type="area"
+        width="100%"
+        height="90%"
+      />
+    </>
+  );
+};
 
 export default LineChart;

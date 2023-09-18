@@ -122,9 +122,6 @@ const ColumnChart = () => {
     setSelectedTankColumn(e.target.value);
   };
 
-  const handleUpdateChart = () => {
-    updateChart();
-  };
 
   return (
     <>
