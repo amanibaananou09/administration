@@ -43,6 +43,7 @@ const ManageStation = () => {
 
       const formattedStations = retrievedStations.map((station) => {
         const controller = station.controllerPts[0];
+        localStorage.setItem("idCtr",controller.id)
         return {
           id: station.id,
           name: station.name,

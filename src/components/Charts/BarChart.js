@@ -1,79 +1,58 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-import { CHART_STAT_VENT_ENDPOINT } from "common/api.js";
+import { getAllStatVent } from "common/api.js";
+import { useAuth } from "store/AuthContext";
 
-class BarChart extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: {
-        labels: [],
-        datasets: [
-          {
-            name: "Gasoil",
-            data: [],
-          },
-          {
-            name: "Super Sans Plomb",
-            data: [],
-          },
-          {
-            name: "Gasoil Sans Soufre",
-            data: [],
-          },
-        ],
+const BarChart = () => {
+  const {
+    user: { token },
+  } = useAuth();
+  const [data, setData] = useState({
+    labels: [],
+    datasets: [
+      {
+        name: "Gasoil",
+        data: [],
       },
-    };
-  }
+      {
+        name: "Super Sans Plomb",
+        data: [],
+      },
+      {
+        name: "Gasoil Sans Soufre",
+        data: [],
+      },
+    ],
+  });
 
-  componentDidMount() {
-    this.fetchData();
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataSet1 = [];
+      const dataSet2 = [];
+      const dataSet3 = [];
+      const uniqueUserIds = new Set();
+      const res = await getAllStatVent(token);
 
-  async fetchData() {
-    const token = localStorage.getItem("token");
-    const url = `${CHART_STAT_VENT_ENDPOINT}`;
-    const dataSet1 = [];
-    const dataSet2 = [];
-    const dataSet3 = [];
-    const uniqueUserIds = new Set();
-
-    try {
-      const response = await fetch(url, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const res = await response.json();
-
-      if (Array.isArray(res)) {
-        for (const val of res) {
-          if (val.fuelGradeName === "Gasoil") {
-            dataSet1.push(val.sumVolume);
-          } else if (val.fuelGradeName === "Super Sans Plomb") {
-            dataSet2.push(val.sumVolume);
-          } else if (val.fuelGradeName === "Gasoil Sans Soufre") {
-            dataSet3.push(val.sumVolume);
+      try {
+        if (Array.isArray(res)) {
+          for (const val of res) {
+            if (val.fuelGradeName === "Gasoil") {
+              dataSet1.push(val.sumVolume);
+            } else if (val.fuelGradeName === "Super Sans Plomb") {
+              dataSet2.push(val.sumVolume);
+            } else if (val.fuelGradeName === "Gasoil Sans Soufre") {
+              dataSet3.push(val.sumVolume);
+            }
+            if (val.userId) {
+              uniqueUserIds.add(val.userId);
+            }
           }
-          if (val.userId) {
-            uniqueUserIds.add(val.userId);
-          }
+        } else {
+          console.error("res is not an array:", res);
         }
-      } else {
-        console.error("res is not an array:", res);
-      }
 
-      const labelSet = [...uniqueUserIds].map((userId) => `user ${userId}`);
-
-      this.setState({
-        data: {
+        const labelSet = [...uniqueUserIds].map((userId) => `user ${userId}`);
+        setData({
           labels: labelSet,
           datasets: [
             {
@@ -95,63 +74,61 @@ class BarChart extends React.Component {
               backgroundColor: "rgba(255, 99, 132, 0.5)",
             },
           ],
-        },
-      });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  render() {
-    const { data } = this.state;
-
-    const barChartOptions = {
-      chart: {
-        stacked: true,
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: data.labels,
-        labels: {
-          style: {
-            colors: "#A0AEC0",
-            fontSize: "12px",
-          },
-        },
-        axisBorder: {
-          show: false,
-        },
-      },
-      yaxis: {
-        show: true,
-        color: "#A0AEC0",
-        labels: {
-          show: true,
-          style: {
-            colors: "#A0AEC0",
-            fontSize: "14px",
-          },
-        },
-      },
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    return (
-      <Chart
-        options={barChartOptions}
-        series={data.datasets}
-        type="bar"
-        width="100%"
-        height="150%"
-      />
-    );
-  }
-}
+    fetchData();
+  }, []);
+  console.log("la date de user", data);
+  const barChartOptions = {
+    chart: {
+      stacked: true,
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+      },
+    },
+    xaxis: {
+      categories: data.labels,
+      labels: {
+        style: {
+          colors: "#A0AEC0",
+          fontSize: "12px",
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+    },
+    yaxis: {
+      show: true,
+      color: "#A0AEC0",
+      labels: {
+        show: true,
+        style: {
+          colors: "#A0AEC0",
+          fontSize: "14px",
+        },
+      },
+    },
+  };
+
+  return (
+    <Chart
+      options={barChartOptions}
+      series={data.datasets}
+      type="bar"
+      width="100%"
+      height="150%"
+    />
+  );
+};
 
 export default BarChart;

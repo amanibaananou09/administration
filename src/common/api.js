@@ -664,3 +664,18 @@ export const addUser = async (firstname, lastname, email, password, token) => {
 
   return data;
 };
+
+export const getAllStatVent = async (token) => {
+  const data = await fetchUrl({
+    url: CHART_STAT_VENT_ENDPOINT,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
