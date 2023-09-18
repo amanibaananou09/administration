@@ -679,3 +679,18 @@ export const getAllStatVent = async (token) => {
 
   return data;
 };
+
+export const getAllTankByIdc = async (token) => {
+  const data = await fetchUrl({
+    url: CHART_TANK_ALL_BY_IDC,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};

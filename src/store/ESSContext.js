@@ -19,6 +19,7 @@ export const ESSContextProvider = ({ children }) => {
 
   const setESSContextHandler = useCallback((selectedStation) => {
     localStorage.setItem("ess", JSON.stringify(selectedStation));
+    localStorage.setItem("idCtr",selectedStation.controllerId);
     setSelectedStation(selectedStation);
   }, []);
 
