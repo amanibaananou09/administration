@@ -694,3 +694,18 @@ export const getAllTankByIdc = async (token) => {
 
   return data;
 };
+
+export const getTankLevelSelected = async (selectedTank,token) => {
+  const data = await fetchUrl({
+    url: `${CHART_TANK_LEVEL_ENDPOINT}/${selectedTank}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};

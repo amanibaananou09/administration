@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { getAllTankByIdc, CHART_TANK_LEVEL_ENDPOINT } from "common/api.js";
+import { getAllTankByIdc, getTankLevelSelected } from "common/api.js";
 import { useAuth } from "store/AuthContext";
 import { Flex, Select, Button } from "@chakra-ui/react";
 
 const ColumnChart = () => {
   const [selectedTankColumn, setSelectedTankColumn] = useState("all");
   const [tankDataFuite, setTankDataFuite] = useState([]);
-  const [columnChartOptions, setColumnChartOptions] = useState({
+  const [columnChartOptions,setColumnChartOptions] = useState({
     chart: {
       height: 350,
       toolbar: {
@@ -18,6 +18,9 @@ const ColumnChart = () => {
       bar: {
         columnWidth: "80%",
       },
+    },
+    dataLabels: {
+      enabled: false,
     },
     xaxis: {
       categories: [],
@@ -32,12 +35,11 @@ const ColumnChart = () => {
       },
     ],
     colors: ["#F15B46", "#FEB019", "#38B2AC"],
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ["transparent"],
-        },
-      
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ["transparent"],
+    },
   });
   const [columnChartData, setColumnChartData] = useState([
     {
@@ -58,64 +60,64 @@ const ColumnChart = () => {
   } = useAuth();
 
   useEffect(() => {
-  const tankFuiteFetchData = async (token) => {
-    try {
-      const tankData = await getAllTankByIdc(token);
-      setTankDataFuite(tankData);
-      updateChart(tankData);
-      console.log("La chart de fuite est", tankData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  const updateChart = async (data) => {
-    try {
-      const endpoint = `${CHART_TANK_LEVEL_ENDPOINT}/${selectedTankColumn}`;
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      const chartData = await response.json();
-      console.log("La valeur de tank", chartData);
+    const tankFuiteFetchData = async () => {
+      try {
+        const tankData = await getAllTankByIdc(token);
+        setTankDataFuite(tankData);
+        updateChart(tankData);
+        console.log("La chart de fuite est", tankData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      const filteredData = {
-        categories: chartData.map((item) => {
-          const date1 = new Date(item.dateTime);
-          return date1.toLocaleString("en-US", {
-            weekday: "short",
-            month: "short",
-            day: "numeric",
-            hour: "numeric",
-          });
-        }),
-        series: [
-          {
-            name: "Sales Volume",
-            data: chartData.map((item) => item.salesVolume),
-          },
-          {
-            name: "Change Volume",
-            data: chartData.map((item) => -item.changedVolume),
-          },
-          {
-            name: "Leak",
-            data: chartData.map(
-              (item) => item.salesVolume - item.changedVolume,
-            ),
-          },
-        ],
-      };
+    const updateChart = async () => {
+      try {
+        const chartData = await getTankLevelSelected(selectedTankColumn,token);
+        console.log("La valeur de tank", chartData);
 
-      setColumnChartData(filteredData.series);
-    } catch (error) {
-      console.error("Error fetching data de fuite:", error);
-    }
-  };
-  tankFuiteFetchData();
-}, []);
+        const filteredData = {
+          categories: chartData.map((item) => {
+            const date1 = new Date(item.dateTime);
+            return date1.toLocaleString("en-US", {
+              weekday: "short",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+            });
+          }),
+          series: [
+            {
+              name: "Sales Volume",
+              data: chartData.map((item) => item.salesVolume),
+            },
+            {
+              name: "Change Volume",
+              data: chartData.map((item) => -item.changedVolume),
+            },
+            {
+              name: "Leak",
+              data: chartData.map(
+                (item) => item.salesVolume - item.changedVolume
+              ),
+            },
+          ],
+        };
+        setColumnChartOptions({
+          ...columnChartOptions,
+          xaxis: {
+            categories: filteredData.categories,
+          },
+        });
+        setColumnChartData(filteredData.series);
+      } catch (error) {
+        console.error("Error fetching data de fuite:", error);
+      }
+    };
+
+    tankFuiteFetchData();
+  }, [selectedTankColumn, token]);
+
   const handleTankColumnChange = (e) => {
     setSelectedTankColumn(e.target.value);
   };
@@ -141,16 +143,11 @@ const ColumnChart = () => {
           >
             <option value="all">All Tank</option>
             {tankDataFuite.map((tank) => (
-              <option key={tank.id} value={tank.id}>
-                Tank {tank.id}
+              <option key={tank.idConf} value={tank.idConf}>
+                Tank {tank.idConf}
               </option>
             ))}
           </Select>
-        </Flex>
-        <Flex p="5px">
-          <Button variant="primary" onClick={handleUpdateChart}>
-            SEE ALL
-          </Button>
         </Flex>
       </Flex>
       <ReactApexChart
