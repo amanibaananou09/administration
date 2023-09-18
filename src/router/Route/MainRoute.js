@@ -5,7 +5,7 @@ const MainRoute = () => {
   const { isSignedIn } = useAuth();
 
   if (isSignedIn) {
-    return <Redirect to="/admin/dashboard/" />;
+    return <Redirect to="/admin/dashboard" />;
   } else {
     return <Redirect to="/auth/signin" />;
   }
