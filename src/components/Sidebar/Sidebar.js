@@ -1,3 +1,5 @@
+import React, { Fragment } from "react";
+
 /*eslint-disable*/
 import { HamburgerIcon } from "@chakra-ui/icons";
 // chakra imports
@@ -27,13 +29,14 @@ import {
 } from "components/Scrollbar/Scrollbar";
 import { HSeparator } from "components/Separator/Separator";
 import { SidebarHelp } from "components/Sidebar/SidebarHelp";
-import React from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "store/AuthContext";
 
 // FUNCTIONS
 
 function Sidebar(props) {
+  const { isSignedIn } = useAuth();
   // to check for active links and opened collapses
   let location = useLocation();
   // this is for the rest of the collapses
@@ -55,6 +58,14 @@ function Sidebar(props) {
     let inactiveColor = useColorModeValue("gray.400", "gray.400");
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
     return routes.map((prop, key) => {
+      if (isSignedIn && prop.onlyPublicRoute) {
+        return null;
+      }
+
+      if (!isSignedIn && prop.privateRoute) {
+        return null;
+      }
+
       if (prop.redirect) {
         return null;
       }
@@ -62,7 +73,7 @@ function Sidebar(props) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
         return (
-          <>
+          <Fragment key={key}>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -81,7 +92,7 @@ function Sidebar(props) {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
-          </>
+          </Fragment>
         );
       }
       return (
@@ -296,7 +307,7 @@ export function SidebarResponsive(props) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
         return (
-          <>
+          <Fragment key={key}>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -315,7 +326,7 @@ export function SidebarResponsive(props) {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
-          </>
+          </Fragment>
         );
       }
       return (

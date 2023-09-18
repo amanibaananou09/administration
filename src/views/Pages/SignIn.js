@@ -16,18 +16,37 @@ import {
 import BgSignUp from "assets/img/BgSignUp.png";
 import React, { useState } from "react";
 import { login } from "common/api.js";
-import jwt_decode from "jwt-decode";
-import Dashboard from "views/Dashboard/Dashboard.js";
-import { useHistory } from "react-router-dom";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { getStationByUser } from "common/api";
 
 function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("gray.700", "white");
+
+  const { selectStation } = useESSContext();
+  const { signIn } = useAuth();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const history = useHistory();
+
+  const getDefaultStation = async (username, token) => {
+    const stations = await getStationByUser(username, token);
+    if (stations.length > 0) {
+      const defaultStation = stations[0];
+      const controller = defaultStation.controllerPts[0];
+      return {
+        stationId: defaultStation.id,
+        stationName: defaultStation.name,
+        stationAdress: defaultStation.address,
+        controllerId: controller.id,
+        controllerPtsId: controller.ptsId,
+      };
+    }
+
+    return null;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,25 +56,20 @@ function SignUp() {
     }
     try {
       const { access_token } = await login(username, password);
-      localStorage.setItem("token", access_token);
-      localStorage.setItem("userName", username);
-      localStorage.setItem("password", password);
-      setIsAuthenticated(true);
-      const token = localStorage.getItem("token");
-      const decodeToken = jwt_decode(token);
-      const UserRole = decodeToken.realm_access.roles[0];
-      localStorage.setItem("role", UserRole);
-      setIsAuthenticated(true);
-      if (UserRole === "SUPERADMIN") {
-        history.push("/admin/tables");
-      } else if (UserRole === "admin" || UserRole === "user") {
-        history.push("/admin/dashboard");
+
+      const defaultStation = await getDefaultStation(username, access_token);
+
+      if (defaultStation) {
+        selectStation(defaultStation);
       }
+
+      signIn(access_token);
     } catch (error) {
       console.log("error dans :", error);
       setErrorMessage("Invalid username or password.");
     }
   };
+
   return (
     <Flex
       direction="column"
@@ -133,6 +147,7 @@ function SignUp() {
               UserName
             </FormLabel>
             <Input
+              id="username"
               variant="auth"
               fontSize="sm"
               ms="4px"
@@ -147,6 +162,7 @@ function SignUp() {
               Password
             </FormLabel>
             <Input
+              id="password"
               variant="auth"
               fontSize="sm"
               ms="4px"

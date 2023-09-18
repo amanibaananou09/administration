@@ -44,8 +44,6 @@ function Billing() {
   const borderColor = useColorModeValue("#dee2e6", "transparent");
   const { colorMode } = useColorMode();
 
-  console.log(colorMode);
-
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Grid templateColumns={{ sm: "1fr", lg: "2fr 1.2fr" }} templateRows="1fr">
@@ -123,7 +121,7 @@ function Billing() {
             <Card p="16px" display="flex" align="center" justify="center">
               <CardBody>
                 <Flex direction="column" align="center" w="100%" py="14px">
-                  <IconBox as="box" h={"60px"} w={"60px"} bg={iconBlue}>
+                  <IconBox as="Box" h={"60px"} w={"60px"} bg={iconBlue}>
                     <Icon h={"24px"} w={"24px"} color="white" as={FaWallet} />
                   </IconBox>
                   <Flex
@@ -162,7 +160,7 @@ function Billing() {
                   w="100%"
                   py="14px"
                 >
-                  <IconBox as="box" h={"60px"} w={"60px"} bg={iconBlue}>
+                  <IconBox as="Box" h={"60px"} w={"60px"} bg={iconBlue}>
                     <Icon h={"24px"} w={"24px"} color="white" as={FaPaypal} />
                   </IconBox>
                   <Flex

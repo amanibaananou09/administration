@@ -1,6 +1,5 @@
 // Chakra Imports
 import {
-  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -8,7 +7,6 @@ import {
   DrawerContent,
   DrawerHeader,
   Flex,
-  Link,
   Switch,
   Text,
   useColorMode,
@@ -16,8 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { HSeparator } from "components/Separator/Separator";
 import React, { useState } from "react";
-import GitHubButton from "react-github-btn";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
+import StationConfigurator from "./StationConfigurator";
 
 export default function Configurator(props) {
   const {
@@ -27,21 +24,12 @@ export default function Configurator(props) {
     isOpen,
     onClose,
     fixed,
-    ...rest
   } = props;
   const [switched, setSwitched] = useState(props.isChecked);
 
   const { colorMode, toggleColorMode } = useColorMode();
-
-  let bgButton = useColorModeValue(
-    "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)",
-    "white",
-  );
-  let colorButton = useColorModeValue("white", "gray.700");
-  const secondaryButtonBg = useColorModeValue("white", "transparent");
-  const secondaryButtonBorder = useColorModeValue("gray.700", "white");
-  const secondaryButtonColor = useColorModeValue("gray.700", "white");
   const bgDrawer = useColorModeValue("white", "navy.800");
+
   const settingsRef = React.useRef();
   return (
     <>
@@ -100,6 +88,8 @@ export default function Configurator(props) {
               </Flex>
 
               <HSeparator />
+
+              <StationConfigurator />
             </Flex>
           </DrawerBody>
         </DrawerContent>

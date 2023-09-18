@@ -24,7 +24,7 @@ import {
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import routes from "routes.js";
+import routes from "router/routes.js";
 export default function AuthNavbar(props) {
   const { logo, logoText, secondary, ...rest } = props;
   const { colorMode } = useColorMode();
@@ -83,46 +83,6 @@ export default function AuthNavbar(props) {
       maxW="90%"
       alignItems="center"
       zIndex="3"
-    >
-      <Flex w="100%" justifyContent={{ sm: "start", lg: "space-between" }}>
-        {brand}
-        <Box
-          ms={{ base: "auto", lg: "0px" }}
-          display={{ base: "flex", lg: "none" }}
-        >
-          <SidebarResponsive
-            hamburgerColor={hamburgerColor}
-            logoText={props.logoText}
-            secondary={props.secondary}
-            routes={routes}
-            logo={
-              <Stack
-                direction="row"
-                spacing="12px"
-                align="center"
-                justify="center"
-              >
-                {colorMode === "dark" ? (
-                  <ArgonLogoLight w="74px" h="27px" />
-                ) : (
-                  <ArgonLogoDark w="74px" h="27px" />
-                )}
-                <Box
-                  w="1px"
-                  h="20px"
-                  bg={colorMode === "dark" ? "white" : "gray.700"}
-                />
-                {colorMode === "dark" ? (
-                  <ChakraLogoLight w="82px" h="21px" />
-                ) : (
-                  <ChakraLogoDark w="82px" h="21px" />
-                )}
-              </Stack>
-            }
-            {...rest}
-          />
-        </Box>
-      </Flex>
-    </Flex>
+    ></Flex>
   );
 }

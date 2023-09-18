@@ -32,8 +32,8 @@ import { ItemContent } from "components/Menu/ItemContent";
 import { SearchBar } from "components/Navbars/SearchBar/SearchBar";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
-import { NavLink } from "react-router-dom";
-import routes from "routes.js";
+import routes from "router/routes.js";
+import { useAuth } from "store/AuthContext";
 
 export default function HeaderLinks(props) {
   const {
@@ -45,6 +45,8 @@ export default function HeaderLinks(props) {
     onOpen,
     ...rest
   } = props;
+
+  const { signOut } = useAuth();
 
   const { colorMode } = useColorMode();
 
@@ -65,31 +67,32 @@ export default function HeaderLinks(props) {
       flexDirection="row"
     >
       <SearchBar me="18px" />
-      <NavLink to="/auth/signin">
-        <Button
-          ms="0px"
-          px="0px"
-          me={{ sm: "2px", md: "16px" }}
-          color={navbarIcon}
-          variant="no-effects"
-          rightIcon={
-            document.documentElement.dir ? (
-              ""
-            ) : (
-              <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
-            )
-          }
-          leftIcon={
-            document.documentElement.dir ? (
-              <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
-            ) : (
-              ""
-            )
-          }
-        >
-          <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
-        </Button>
-      </NavLink>
+
+      <Button
+        ms="0px"
+        px="0px"
+        me={{ sm: "2px", md: "16px" }}
+        color={navbarIcon}
+        variant="no-effects"
+        onClick={() => signOut()}
+        rightIcon={
+          document.documentElement.dir ? (
+            ""
+          ) : (
+            <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
+          )
+        }
+        leftIcon={
+          document.documentElement.dir ? (
+            <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
+          ) : (
+            ""
+          )
+        }
+      >
+        <Text display={{ sm: "none", md: "flex" }}>Sign Out</Text>
+      </Button>
+
       <SidebarResponsive
         hamburgerColor={"white"}
         logo={
