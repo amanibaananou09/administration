@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { getAllTankByIdc, getTankLevelSelected } from "common/api.js";
 import { useAuth } from "store/AuthContext";
-import { Flex, Select, Button } from "@chakra-ui/react";
+import { Flex, Select} from "@chakra-ui/react";
 
 const ColumnChart = () => {
   const [selectedTankColumn, setSelectedTankColumn] = useState("all");

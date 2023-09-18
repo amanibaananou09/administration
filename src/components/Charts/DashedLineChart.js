@@ -1,195 +1,161 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { Flex, Select, Button } from "@chakra-ui/react";
-
+import { Flex, Select } from "@chakra-ui/react";
+import { useAuth } from "store/AuthContext";
 import {
-  CHART_TANK_ALL_BY_IDC,
-  CHART_TANK_LEVEL_ALL,
-  CHART_TANK_LEVEL_ENDPOINT,
+  getAllTankByIdc,
+  getChartTankLevel,
+  getTankLevelSelected,
 } from "common/api.js";
 
-class DashedLineChart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedTank: "all",
-      tankData: [],
-      chartOptions: {
-        chart: {
-          id: "dashed-line",
-        },
-        xaxis: {
-          categories: [],
-          style: {
-            fontSize: "10px",
-          },
-        },
-        yaxis: {
-          beginAtZero: true,
-          min: 0,
-          max: 200,
-          tickAmount: 12,
-          labels: {
-            formatter: function (value) {
-              return value.toFixed(2);
-            },
-          },
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            min: 0,
-            max: 200,
-            ticks: {
-              stepSize: 10,
-            },
-          },
+const DashedLineChart = () => {
+  const [selectedTank, setSelectedTank] = useState("all");
+  const [tankData, setTankData] = useState([]);
+  const [chartOptions, setChartOptions] = useState({
+    chart: {
+      id: "dashed-line",
+    },
+    xaxis: {
+      categories: [],
+      style: {
+        fontSize: "10px",
+      },
+    },
+    yaxis: {
+      beginAtZero: true,
+      min: 0,
+      max: 300,
+      tickAmount: 12,
+      labels: {
+        formatter: function (value) {
+          return value.toFixed(2);
         },
       },
-      chartData: [
-        {
-          name: "Gasoil",
-          data: [],
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        min: 0,
+        max: 300,
+        ticks: {
+          stepSize: 100,
         },
-        {
-          name: "Super Sans Plomb",
-          data: [],
-        },
-        {
-          name: "Gasoil Sans Soufre",
-          data: [],
-        },
-      ],
-    };
-  }
+      },
+    },
+  });
+  const [chartData, setChartData] = useState([
+    {
+      name: "Gasoil",
+      data: [],
+    },
+    {
+      name: "Super Sans Plomb",
+      data: [],
+    },
+    {
+      name: "Gasoil Sans Soufre",
+      data: [],
+    },
+  ]);
 
-  componentDidMount() {
-    this.tankFetchData();
-  }
+  const {
+    user: { token },
+  } = useAuth();
 
-  async tankFetchData() {
-    const { selectedTank } = this.state;
-    console.log("select", selectedTank);
+  useEffect(() => {
+    tankFetchData();
+  }, [selectedTank, token]);
 
+  const tankFetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
-
-      const response = await fetch(`${CHART_TANK_ALL_BY_IDC}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      const tankData = await response.json();
-      this.setState({ tankData });
-      this.updateChartData(tankData);
+      const tankData = await getAllTankByIdc(token);
+      setTankData(tankData);
+      updateChartData(token, tankData);
     } catch (error) {
       console.error("Error fetching data tank:", error);
     }
-  }
+  };
 
-  async updateChartData(data) {
-    const { selectedTank, tankData } = this.state;
+  const updateChartData = async (token, data) => {
     try {
-      let endpoint = CHART_TANK_LEVEL_ALL;
+      let fetchedData;
       if (selectedTank === "all") {
-        endpoint = CHART_TANK_LEVEL_ALL;
+        fetchedData = await getChartTankLevel(token);
       } else {
-        endpoint = `${CHART_TANK_LEVEL_ENDPOINT}/${selectedTank}`;
+        fetchedData = await getTankLevelSelected(selectedTank, token);
       }
 
-      const token = localStorage.getItem("token");
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      const data = await response.json();
-
       const filteredData = {
-        categories: data.map((item) => {
+        categories: fetchedData.map((item) => {
           const date1 = new Date(item.dateTime);
           return date1.toLocaleString("en-US", {
             weekday: "short",
             month: "short",
             day: "numeric",
             hour: "numeric",
-          }) ;
+          });
         }),
         series: [
           {
             name: "Tank Level",
-            data: data.map((item) => item.tankVolumeChanges),
+            data: fetchedData.map((item) => item.tankVolumeChanges),
           },
           {
             name: "Minimum",
-            data: data.map(() => 100),
+            data: fetchedData.map(() => 100),
           },
           {
             name: "Maximum",
-            data: data.map(() => 5000),
+            data: fetchedData.map(() => 300),
           },
         ],
       };
 
-      this.setState({
-        chartOptions: {
-          ...this.state.chartOptions,
-          xaxis: {
-            categories: filteredData.categories,
-          },
+      setChartOptions({
+        ...chartOptions,
+        xaxis: {
+          categories: filteredData.categories,
         },
-        chartData: filteredData.series,
       });
+      setChartData(filteredData.series);
     } catch (error) {
       console.error("Error fetching data :", error);
     }
-  }
+  };
 
-  render() {
-    const { selectedTank, tankData } = this.state;
-    return (
-      <>
-        <Flex flexDirection="row" spacing="24px">
-          <Flex
-            align="center"
-            mx={{ md: "39" }}
-            p="5px"
-            justify="center"
-            w="40%"
-            mb="25px"
+  return (
+    <>
+      <Flex flexDirection="row" spacing="24px">
+        <Flex
+          align="center"
+          mx={{ md: "39" }}
+          p="5px"
+          justify="center"
+          w="40%"
+          mb="25px"
+        >
+          <Select
+            value={selectedTank}
+            onChange={(e) => setSelectedTank(e.target.value)}
           >
-            <Select
-              value={selectedTank}
-              onChange={(e) => this.setState({ selectedTank: e.target.value })}
-            >
-              <option value="all">All Tank</option>
-              {tankData.map((tank) => (
-                <option key={tank.id} value={tank.id}>
-                  Tank {tank.id}
-                </option>
-              ))}
-            </Select>
-          </Flex>
-          <Flex p="5px">
-            <Button variant="primary" onClick={() => this.updateChartData()}>
-              SEE ALL
-            </Button>
-          </Flex>
+            <option value="all">All Tank</option>
+            {tankData.map((tank) => (
+              <option key={tank.idConf} value={tank.idConf}>
+                Tank {tank.idConf}
+              </option>
+            ))}
+          </Select>
         </Flex>
-        <ReactApexChart
-          options={this.state.chartOptions}
-          series={this.state.chartData}
-          type="line"
-          width="100%"
-          height="400px"
-        />
-      </>
-    );
-  }
-}
+      </Flex>
+      <ReactApexChart
+        options={chartOptions}
+        series={chartData}
+        type="line"
+        width="100%"
+        height="400px"
+      />
+    </>
+  );
+};
 
 export default DashedLineChart;

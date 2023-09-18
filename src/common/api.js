@@ -739,3 +739,18 @@ export const getChartByFuelTankPeriod = async (fuelGrade,tank,period,token) => {
 
   return data;
 };
+
+export const getChartTankLevel = async (token) => {
+  const data = await fetchUrl({
+    url: CHART_TANK_LEVEL_ALL,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
