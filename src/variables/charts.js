@@ -61,7 +61,7 @@ export const barChartOptions = {
     strokeDashArray: 5,
   },
 };
-export const lineChartData = [
+export const LineChartData = [
   {
     name: "Mobile apps",
     data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
@@ -72,7 +72,7 @@ export const lineChartData = [
   },
 ];
 
-export const lineChartOptions = {
+export const LineChartOptions = {
   chart: {
     toolbar: {
       show: false,

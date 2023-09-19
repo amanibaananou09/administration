@@ -21,8 +21,8 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
-import BarChart from "components/Charts/BarChart";
-import LineChart from "components/Charts/LineChart";
+import UserSalesBarChart from "components/Charts/UserSalesBarChart";
+import ReportSalesBarChart from "components/Charts/ReportSalesBarChart";
 import IconBox from "components/Icons/IconBox";
 // Custom icons
 import {
@@ -34,10 +34,10 @@ import {
 import React from "react";
 // Variables
 import {
-  barChartData,
-  barChartOptions,
-  lineChartData,
-  lineChartOptions,
+  UserSalesBarChartData,
+  UserSalesBarChartOptions,
+  ReportSalesBarChartData,
+  ReportSalesBarChartOptions,
 } from "variables/charts";
 import { pageVisits, socialTraffic } from "variables/general";
 
@@ -250,9 +250,9 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <LineChart
-              chartData={lineChartData}
-              chartOptions={lineChartOptions}
+            <ReportSalesBarChart
+              chartData={ReportSalesBarChartData}
+              chartOptions={ReportSalesBarChartOptions}
             />
           </Box>
         </Card>
@@ -266,7 +266,10 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <BarChart chartData={barChartData} chartOptions={barChartOptions} />
+            <UserSalesBarChart
+              chartData={UserSalesBarChartData}
+              chartOptions={UserSalesBarChartOptions}
+            />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
