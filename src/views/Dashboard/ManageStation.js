@@ -1,6 +1,6 @@
 // Chakra imports
 import { Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
-import { getStationByUser } from "common/api";
+import { getStations } from "common/api";
 // Custom components
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
@@ -11,9 +11,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "store/AuthContext";
 
 const ManageStation = () => {
-  const {
-    user: { username, token },
-  } = useAuth();
+  const { user } = useAuth();
   const [stations, setStations] = useState([]);
   const [stationToEdit, setStationToEdit] = useState(null);
   const stationModalRef = useRef();
@@ -39,7 +37,7 @@ const ManageStation = () => {
 
   useEffect(() => {
     const getAllStations = async () => {
-      const retrievedStations = await getStationByUser(username, token);
+      const retrievedStations = await getStations(user);
 
       setStations([...retrievedStations]);
     };

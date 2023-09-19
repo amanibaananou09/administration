@@ -1,33 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useCallback } from "react";
 
-import jwt_decode from "jwt-decode";
 import { useESSContext } from "./ESSContext";
-
-const decodeToken = (token) => {
-  if (!token) {
-    return null;
-  }
-
-  const {
-    sid,
-    name,
-    preferred_username,
-    realm_access,
-    email,
-    exp,
-  } = jwt_decode(token);
-
-  return {
-    id: sid,
-    fullName: name,
-    username: preferred_username,
-    role: realm_access.roles[0],
-    token,
-    email,
-    expireTime: exp * 1000,
-  };
-};
+import { decodeToken } from "utils/utils";
 
 export const AuthContext = React.createContext({
   token: null,
@@ -46,9 +21,8 @@ export const AuthContextProvider = ({ children }) => {
 
   const { clearContext } = useESSContext();
 
-  const signInHandler = useCallback((token) => {
-    const decodedToken = decodeToken(token);
-    setUser(decodedToken);
+  const signInHandler = useCallback((user) => {
+    setUser(user);
   }, []);
 
   const signOutHandler = useCallback(() => {

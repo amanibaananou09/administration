@@ -26,27 +26,21 @@ import {
   WalletIcon,
 } from "components/Icons/Icons.js";
 import React from "react";
-// Variables
-import {
-  lineChartData,
-  lineChartOptions,
-  dashedlineData,
-  dashedlineOption,
-  columnChartData,
-  columnChartOption,
-} from "variables/charts";
-import { pageVisits, socialTraffic } from "variables/general";
+
+import { useESSContext } from "store/ESSContext";
 
 export default function Dashboard() {
+  const context = useESSContext();
+
   // Chakra Color Mode
   const iconBlue = useColorModeValue("blue.500", "blue.500");
   const iconBoxInside = useColorModeValue("white", "white");
   const textColor = useColorModeValue("gray.700", "white");
-  const tableRowColor = useColorModeValue("#F7FAFC", "navy.900");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-  const textTableColor = useColorModeValue("gray.500", "white");
-
   const { colorMode } = useColorMode();
+
+  if (!context.selectedStation) {
+    return <div>No Station</div>;
+  }
 
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
@@ -219,10 +213,7 @@ export default function Dashboard() {
             <LineChart />
           </Box>
         </Card>
-        <Card
-          p="0px"
-          maxW={{ sm: "320px", md: "100%" }}
-        >
+        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
             <Text color={textColor} fontSize="lg" fontWeight="bold">
               Users Sales

@@ -462,6 +462,7 @@ export const consultUserHistory = async (controllerId, token) => {
 
   return data;
 };
+
 export const getTankMeasurements = async (controllerId, token) => {
   const data = await fetchUrl({
     url: `${TANK_MEASURMENTS_ENDPOINT}/${controllerId}`,
@@ -474,6 +475,7 @@ export const getTankMeasurements = async (controllerId, token) => {
 
   return data;
 };
+
 export const getPumpAuthorizeforhistoryUser = async (controllerId, token) => {
   const data = await fetchUrl({
     url: `${HISTORY_USER_ENDPOINT}/${controllerId}/PumpAuthorize`,
@@ -499,6 +501,7 @@ export const getIdUserHistory = async (idAction, token) => {
 
   return data;
 };
+
 export const getPumpTransactionwithEndStart = async (
   start,
   end,
@@ -519,6 +522,7 @@ export const getPumpTransactionwithEndStart = async (
 
   return data;
 };
+
 export const getAllPumpByNozzel = async (controllerId, selectedPump, token) => {
   const data = await fetchUrl({
     url: `${NOZZEL_BY_PUMP_READ_ENDPOINT}/${controllerId}/${selectedPump}`,
@@ -544,6 +548,7 @@ export const getallTransactionPump = async (controllerId, token) => {
 
   return data;
 };
+
 export const getUploadTransactionPump = async (token) => {
   const data = await fetchUrl({
     url: PUMP_UPLOAD_TRANSACTION,
@@ -556,6 +561,7 @@ export const getUploadTransactionPump = async (token) => {
 
   return data;
 };
+
 export const createStation = async (name, address, userLogin, token) => {
   const data = await fetchUrl({
     url: STATION_ADD_ENDPOINT,
@@ -573,6 +579,7 @@ export const createStation = async (name, address, userLogin, token) => {
 
   return data;
 };
+
 export const getAllStations = async (token) => {
   const data = await fetchUrl({
     url: STATION_LIST_ENDPOINT,
@@ -586,9 +593,10 @@ export const getAllStations = async (token) => {
 
   return data;
 };
-export const findControllerByStation = async (stationName, token) => {
+
+export const getStationForUser = async (username, token) => {
   const data = await fetchUrl({
-    url: `${FIND_CONTROLLER_BY_STATION_ENDPOINT}/${stationName}`,
+    url: `${STATION_ALL_ENDPOINT}/${username}`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -599,9 +607,17 @@ export const findControllerByStation = async (stationName, token) => {
   return data;
 };
 
-export const getStationByUser = async (username, token) => {
+export const getStations = async (user) => {
+  if (user.role === "SUPERADMIN") {
+    return await getAllStations(user.token);
+  } else {
+    return await getStationForUser(user.username, user.token);
+  }
+};
+
+export const findControllerByStation = async (stationName, token) => {
   const data = await fetchUrl({
-    url: `${STATION_ALL_ENDPOINT}/${username}`,
+    url: `${FIND_CONTROLLER_BY_STATION_ENDPOINT}/${stationName}`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",

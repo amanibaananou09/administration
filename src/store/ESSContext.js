@@ -1,14 +1,7 @@
 import React, { useCallback, useContext, useState } from "react";
 
 export const ESSContext = React.createContext({
-  selectedStation: {
-    id: null,
-    name: null,
-    address: null,
-    controllerId: null,
-    controllerPtsId: null,
-    version: null,
-  },
+  selectedStation: null,
   selectStation: () => {},
   clearContext: () => {},
 });

@@ -1,6 +1,6 @@
 import { Button, Text } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/system";
-import { getStationByUser } from "common/api";
+import { getStations } from "common/api";
 import { useState } from "react";
 
 const { useEffect } = require("react");
@@ -25,10 +25,7 @@ const StationConfigurator = () => {
 
   useEffect(() => {
     const getAllStations = async () => {
-      const retrievedStations = await getStationByUser(
-        user.username,
-        user.token,
-      );
+      const retrievedStations = await getStations(user);
 
       setStations(retrievedStations);
     };
@@ -82,7 +79,7 @@ const StationConfigurator = () => {
     </>
   ) : (
     <Text fontSize="md" fontWeight="bold" my="16px">
-      No Station Affected, please contact the administrator
+      No station affected, please contact the administrator
     </Text>
   );
 };

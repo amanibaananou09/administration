@@ -18,7 +18,8 @@ import React, { useState } from "react";
 import { login } from "common/api.js";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { getStationByUser } from "common/api";
+import { getStations } from "common/api";
+import { decodeToken } from "utils/utils";
 
 function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
@@ -31,8 +32,8 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const getDefaultStation = async (username, token) => {
-    const stations = await getStationByUser(username, token);
+  const getDefaultStation = async (user) => {
+    const stations = await getStations(user);
     if (stations.length > 0) {
       return stations[0];
     }
@@ -49,13 +50,15 @@ function SignUp() {
     try {
       const { access_token } = await login(username, password);
 
-      const defaultStation = await getDefaultStation(username, access_token);
+      const user = decodeToken(access_token);
+
+      const defaultStation = await getDefaultStation(user);
 
       if (defaultStation) {
         selectStation(defaultStation);
       }
 
-      signIn(access_token);
+      signIn(user);
     } catch (error) {
       console.error(error);
       setErrorMessage("Invalid username or password.");
@@ -174,7 +177,7 @@ function SignUp() {
               mb="24px"
               onClick={handleSubmit}
             >
-              SIGN UP
+              SIGN IN
             </Button>
             {errorMessage && (
               <Alert status="error" mb={4}>
