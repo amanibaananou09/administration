@@ -41,18 +41,7 @@ const ManageStation = () => {
     const getAllStations = async () => {
       const retrievedStations = await getStationByUser(username, token);
 
-      const formattedStations = retrievedStations.map((station) => {
-        const controller = station.controllerPts[0];
-        return {
-          id: station.id,
-          name: station.name,
-          address: station.address,
-          controllerId: controller.id,
-          controllerPtsId: controller.ptsId,
-        };
-      });
-
-      setStations([...formattedStations]);
+      setStations([...retrievedStations]);
     };
 
     getAllStations();
@@ -87,6 +76,7 @@ const ManageStation = () => {
                       address={row.address}
                       controllerId={row.controllerId}
                       controllerPtsId={row.controllerPtsId}
+                      firmwareVersion={row.version}
                       onEdit={() => openStationModal(row)}
                       key={key}
                     />

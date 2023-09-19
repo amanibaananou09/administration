@@ -15,6 +15,7 @@ const StationRow = ({
   address,
   controllerId,
   controllerPtsId,
+  firmwareVersion,
   onEdit,
 }) => {
   const textColor = useColorModeValue("gray.700", "white");
@@ -43,7 +44,7 @@ const StationRow = ({
           <Text color="gray.400" fontSize="sm" fontWeight="semibold">
             Firmware version:{" "}
             <Text as="span" color={nameColor}>
-              {controllerPtsId}
+              {firmwareVersion}
             </Text>
           </Text>
         </Flex>

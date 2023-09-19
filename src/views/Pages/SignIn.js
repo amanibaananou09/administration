@@ -34,15 +34,7 @@ function SignUp() {
   const getDefaultStation = async (username, token) => {
     const stations = await getStationByUser(username, token);
     if (stations.length > 0) {
-      const defaultStation = stations[0];
-      const controller = defaultStation.controllerPts[0];
-      return {
-        stationId: defaultStation.id,
-        stationName: defaultStation.name,
-        stationAdress: defaultStation.address,
-        controllerId: controller.id,
-        controllerPtsId: controller.ptsId,
-      };
+      return stations[0];
     }
 
     return null;
@@ -65,6 +57,7 @@ function SignUp() {
 
       signIn(access_token);
     } catch (error) {
+      console.error(error);
       setErrorMessage("Invalid username or password.");
     }
   };

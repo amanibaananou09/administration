@@ -30,18 +30,7 @@ const StationConfigurator = () => {
         user.token,
       );
 
-      const formattedStations = retrievedStations.map((station) => {
-        const controller = station.controllerPts[0];
-        return {
-          stationId: station.id,
-          stationName: station.name,
-          stationAdress: station.address,
-          controllerId: controller.id,
-          controllerPtsId: controller.ptsId,
-        };
-      });
-
-      setStations(formattedStations);
+      setStations(retrievedStations);
     };
 
     getAllStations();
@@ -54,7 +43,7 @@ const StationConfigurator = () => {
       </Text>
       {selectedStation &&
         stations.map((station, key) => {
-          if (station.stationId === selectedStation.stationId) {
+          if (station.id === selectedStation.id) {
             return (
               <Button
                 key={key}
@@ -67,7 +56,7 @@ const StationConfigurator = () => {
                 px="30px"
                 cursor="default"
               >
-                {station.stationName}
+                {station.name}
               </Button>
             );
           } else {
@@ -85,7 +74,7 @@ const StationConfigurator = () => {
                 mb="16px"
                 onClick={() => selectStation(station)}
               >
-                <Text textDecorationColor="none">{station.stationName}</Text>
+                <Text textDecorationColor="none">{station.name}</Text>
               </Button>
             );
           }
