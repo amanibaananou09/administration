@@ -9,7 +9,7 @@ import {
 } from "common/api.js";
 import { useESSContext } from "store/ESSContext";
 
-const DashedLineChart = () => {
+const TankLevelLineChat = () => {
   const [selectedTank, setSelectedTank] = useState("all");
   const [tankData, setTankData] = useState([]);
   const [chartOptions, setChartOptions] = useState({
@@ -163,4 +163,4 @@ const DashedLineChart = () => {
   );
 };
 
-export default DashedLineChart;
+export default TankLevelLineChat;

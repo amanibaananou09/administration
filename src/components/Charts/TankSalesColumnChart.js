@@ -5,10 +5,13 @@ import { useAuth } from "store/AuthContext";
 import { Flex, Select } from "@chakra-ui/react";
 import { useESSContext } from "store/ESSContext";
 
-const ColumnChart = () => {
+const TankSalesColumnChart = () => {
   const [selectedTankColumn, setSelectedTankColumn] = useState("all");
   const [tankDataFuite, setTankDataFuite] = useState([]);
-  const [columnChartOptions, setColumnChartOptions] = useState({
+  const [
+    TankSalesColumnChartOptions,
+    setTankSalesColumnChartOptions,
+  ] = useState({
     chart: {
       height: 350,
       toolbar: {
@@ -42,7 +45,7 @@ const ColumnChart = () => {
       colors: ["transparent"],
     },
   });
-  const [columnChartData, setColumnChartData] = useState([
+  const [TankSalesColumnChartData, setTankSalesColumnChartData] = useState([
     {
       name: "Sales Volume",
       data: [],
@@ -106,13 +109,13 @@ const ColumnChart = () => {
             },
           ],
         };
-        setColumnChartOptions({
-          ...columnChartOptions,
+        setTankSalesColumnChartOptions({
+          ...TankSalesColumnChartOptions,
           xaxis: {
             categories: filteredData.categories,
           },
         });
-        setColumnChartData(filteredData.series);
+        setTankSalesColumnChartData(filteredData.series);
       } catch (error) {
         console.error("Error fetching data de fuite:", error);
       }
@@ -147,8 +150,8 @@ const ColumnChart = () => {
         </Flex>
       </Flex>
       <ReactApexChart
-        options={columnChartOptions}
-        series={columnChartData}
+        options={TankSalesColumnChartOptions}
+        series={TankSalesColumnChartData}
         type="bar"
         width="100%"
         height="490px"
@@ -157,4 +160,4 @@ const ColumnChart = () => {
   );
 };
 
-export default ColumnChart;
+export default TankSalesColumnChart;

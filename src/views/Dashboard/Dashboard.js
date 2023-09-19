@@ -13,10 +13,10 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
-import BarChart from "components/Charts/BarChart";
-import LineChart from "components/Charts/LineChart";
-import DashedLineChart from "components/Charts/DashedLineChart";
-import ColumnChart from "components/Charts/ColumnChart";
+import UserSalesBarChart from "components/Charts/UserSalesBarChart";
+import ReportSalesBarChart from "components/Charts/ReportSalesBarChart";
+import TankLevelLineChat from "components/Charts/TankLevelLineChat";
+import TankSalesColumnChart from "components/Charts/TankSalesColumnChart";
 import IconBox from "components/Icons/IconBox";
 // Custom icons
 import {
@@ -210,7 +210,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <LineChart />
+            <ReportSalesBarChart />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
@@ -220,7 +220,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <BarChart />
+            <UserSalesBarChart />
           </Box>
         </Card>
       </Grid>
@@ -236,7 +236,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <DashedLineChart />
+            <TankLevelLineChat />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
@@ -246,7 +246,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <ColumnChart />
+            <TankSalesColumnChart />
           </Box>
         </Card>
       </Grid>

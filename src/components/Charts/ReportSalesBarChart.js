@@ -11,7 +11,7 @@ import {
 } from "common/api.js";
 import { useESSContext } from "store/ESSContext";
 
-const LineChart = () => {
+const ReportSalesBarChart = () => {
   const {
     selectedStation: { controllerId },
   } = useESSContext();
@@ -130,7 +130,7 @@ const LineChart = () => {
     }
   };
 
-  const lineChartOptions = {
+  const ReportSalesBarChartOptions = {
     chart: {
       toolbar: {
         show: false,
@@ -183,9 +183,9 @@ const LineChart = () => {
         opacityTo: 0,
         stops: [],
       },
-    //colors: ["#fff", "#3182CE"],
+      //colors: ["#fff", "#3182CE"],
     },
-   // colors: ["#fff", "#3182CE"],
+    // colors: ["#fff", "#3182CE"],
     plugins: {
       grouped: {
         groupBy: "nameF",
@@ -195,11 +195,10 @@ const LineChart = () => {
       bar: {
         borderRadius: 10,
         dataLabels: {
-          position: 'top', 
+          position: "top",
         },
-        
-      }
-    }
+      },
+    },
   };
 
   return (
@@ -305,7 +304,7 @@ const LineChart = () => {
         </Flex>
       </Flex>
       <ReactApexChart
-        options={lineChartOptions}
+        options={ReportSalesBarChartOptions}
         series={chartData.datasets}
         type="bar"
         width="100%"
@@ -315,4 +314,4 @@ const LineChart = () => {
   );
 };
 
-export default LineChart;
+export default ReportSalesBarChart;

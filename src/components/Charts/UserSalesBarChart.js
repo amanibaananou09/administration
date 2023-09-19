@@ -4,7 +4,7 @@ import { getAllStatVent } from "common/api.js";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
-const BarChart = () => {
+const UserSalesBarChart = () => {
   const {
     selectedStation: { controllerId },
   } = useESSContext();
@@ -88,7 +88,7 @@ const BarChart = () => {
     fetchData();
   }, []);
 
-  const barChartOptions = {
+  const UserSalesBarChartOptions = {
     chart: {
       stacked: true,
       toolbar: {
@@ -127,7 +127,7 @@ const BarChart = () => {
 
   return (
     <Chart
-      options={barChartOptions}
+      options={UserSalesBarChartOptions}
       series={data.datasets}
       type="bar"
       width="100%"
@@ -136,4 +136,4 @@ const BarChart = () => {
   );
 };
 
-export default BarChart;
+export default UserSalesBarChart;
