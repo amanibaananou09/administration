@@ -54,12 +54,6 @@ export default function AuthNavbar(props) {
       alignItems="center"
       color={mainText}
     >
-      <Stack direction="row" spacing="12px" align="center" justify="center">
-        <ArgonLogoLight w="74px" h="27px" />
-      </Stack>
-      <Text fontSize="sm" mt="3px">
-        {logoText}
-      </Text>
     </Link>
   );
   hamburgerColor = { base: "white" };

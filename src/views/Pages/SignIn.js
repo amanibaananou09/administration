@@ -111,7 +111,7 @@ function SignUp() {
           mb="26px"
           w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
         >
-          Use these awesome forms to login.
+          {/*  Use these awesome forms to login.*/}
         </Text>
       </Flex>
       <Flex alignItems="center" justifyContent="center" mb="60px" mt="20px">
@@ -177,7 +177,7 @@ function SignUp() {
               mb="24px"
               onClick={handleSubmit}
             >
-              SIGN IN
+              LOGIN
             </Button>
             {errorMessage && (
               <Alert status="error" mb={4}>

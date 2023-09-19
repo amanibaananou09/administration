@@ -89,11 +89,11 @@ const LineChart = () => {
                 : data.map((item) => item.totalVolume),
             backgroundColor: data.map((item) => {
               if (item.nameF === "Gasoil Sans Soufre") {
-                return "rgba(255, 99, 132, 0.5)";
+                return "rgba(0, 255, 0, 0.5)";
               } else if (item.nameF === "Super Sans Plomb") {
-                return "rgba(53, 162, 235, 0.5)";
+                return "rgba(255, 0, 0, 0.5)";
               } else if (item.nameF === "Gasoil") {
-                return "rgba(32, 178, 170, 0.6)";
+                return "rgba(0, 0, 255, 0.5)";
               } else {
                 return "rgba(75, 192, 192, 0.6)";
               }
@@ -106,17 +106,17 @@ const LineChart = () => {
         switch (period) {
           case "weekly":
             filteredData.labels = data.map(
-              (item) => `${item.dateF} ${item.nameF}`,
+              (item) => `${item.dateF}\n${item.nameF}`,
             );
             break;
           case "monthly":
             filteredData.labels = data.map(
-              (item) => `${item.dateF} ${item.nameF}`,
+              (item) => `${item.dateF}\n${item.nameF}`,
             );
             break;
           case "yearly":
             filteredData.labels = data.map(
-              (item) => `${item.dateF} ${item.nameF}`,
+              (item) => `${item.dateF}\n${item.nameF}`,
             );
             break;
           default:
@@ -140,7 +140,7 @@ const LineChart = () => {
       theme: "dark",
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     stroke: {
       curve: "smooth",
@@ -166,7 +166,7 @@ const LineChart = () => {
       beginAtZero: true,
     },
     legend: {
-      show: false,
+      show: true,
       position: "bottom",
     },
     grid: {
@@ -183,14 +183,23 @@ const LineChart = () => {
         opacityTo: 0,
         stops: [],
       },
-      colors: ["#fff", "#3182CE"],
+    //colors: ["#fff", "#3182CE"],
     },
-    colors: ["#fff", "#3182CE"],
+   // colors: ["#fff", "#3182CE"],
     plugins: {
       grouped: {
         groupBy: "nameF",
       },
     },
+    plotOptions: {
+      bar: {
+        borderRadius: 10,
+        dataLabels: {
+          position: 'top', 
+        },
+        
+      }
+    }
   };
 
   return (
@@ -298,7 +307,7 @@ const LineChart = () => {
       <ReactApexChart
         options={lineChartOptions}
         series={chartData.datasets}
-        type="area"
+        type="bar"
         width="100%"
         height="90%"
       />

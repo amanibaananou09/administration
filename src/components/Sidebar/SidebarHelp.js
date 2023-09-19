@@ -26,7 +26,6 @@ export function SidebarHelp(props) {
       mt="auto"
       mx="20px"
     >
-      <Image src={SidebarHelpImage} w="110px" h="auto" />
     </Stack>
   );
 }

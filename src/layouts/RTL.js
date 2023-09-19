@@ -121,7 +121,7 @@ export default function Dashboard(props) {
         routes={routes}
         logo={
           <Stack direction="row" spacing="12px" align="center" justify="center">
-            {colorMode === "dark" ? (
+         {/*   {colorMode === "dark" ? (
               <ArgonLogoLight w="74px" h="27px" />
             ) : (
               <ArgonLogoDark w="74px" h="27px" />
@@ -135,7 +135,7 @@ export default function Dashboard(props) {
               <ChakraLogoLight w="82px" h="21px" />
             ) : (
               <ChakraLogoDark w="82px" h="21px" />
-            )}
+            )}*/}
           </Stack>
         }
         display="none"
