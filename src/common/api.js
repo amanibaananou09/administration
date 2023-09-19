@@ -1,7 +1,5 @@
 export const localhostURL = "http://localhost:8083";
 export const webSocketURL = "ws://localhost:8083";
-//get idctr
-const idCtr = localStorage.getItem("idCtr");
 //get ptsId
 const PtsId = localStorage.getItem("PtsId");
 
@@ -504,11 +502,11 @@ export const getIdUserHistory = async (idAction, token) => {
 export const getPumpTransactionwithEndStart = async (
   start,
   end,
-  idCtr,
+  controllerId,
   token,
 ) => {
   const data = await fetchUrl({
-    url: `${PUMP_TANSACTION_START_END}/${start}/${end}/${idCtr}`,
+    url: `${PUMP_TANSACTION_START_END}/${start}/${end}/${controllerId}`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -707,13 +705,14 @@ export const getTankLevelSelected = async (selectedTank, token) => {
 };
 
 export const getChartByFuelPumpPeriod = async (
+  controllerId,
   fuelGrade,
   pump,
   period,
   token,
 ) => {
   const data = await fetchUrl({
-    url: `${CHART_ENDPOINT}/${fuelGrade}/${pump}/${period}/${idCtr}`,
+    url: `${CHART_ENDPOINT}/${fuelGrade}/${pump}/${period}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -727,13 +726,14 @@ export const getChartByFuelPumpPeriod = async (
 };
 
 export const getChartByFuelTankPeriod = async (
+  controllerId,
   fuelGrade,
   tank,
   period,
   token,
 ) => {
   const data = await fetchUrl({
-    url: `${CHART_TANK_ENDPOINT}/${fuelGrade}/${tank}/${period}/${idCtr}`,
+    url: `${CHART_TANK_ENDPOINT}/${fuelGrade}/${tank}/${period}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

@@ -61,9 +61,21 @@ const LineChart = () => {
     try {
       let data;
       if (type === "sale") {
-        data = await getChartByFuelPumpPeriod(fuelGrade, pump, period, token);
+        data = await getChartByFuelPumpPeriod(
+          controllerId,
+          fuelGrade,
+          pump,
+          period,
+          token,
+        );
       } else if (type === "purchase") {
-        data = await getChartByFuelTankPeriod(fuelGrade, tank, period, token);
+        data = await getChartByFuelTankPeriod(
+          controllerId,
+          fuelGrade,
+          tank,
+          period,
+          token,
+        );
       }
 
       const filteredData = {

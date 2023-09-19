@@ -50,7 +50,7 @@ const StationConfigurator = () => {
   return stations.length > 0 ? (
     <>
       <Text fontSize="md" fontWeight="bold" my="16px">
-        Select A Station:
+        Select Station:
       </Text>
       {selectedStation &&
         stations.map((station, key) => {
