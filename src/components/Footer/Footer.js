@@ -25,10 +25,6 @@ export default function Footer(props) {
         }}
         mb={{ base: "20px", xl: "0px" }}
       >
-        &copy; {1900 + new Date().getYear()},{" "}
-        {document.documentElement.dir === "rtl"
-          ? "للحصول على ويب أفضل"
-          : " for a better web"}
       </Text>
     </Flex>
   );

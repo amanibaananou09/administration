@@ -27,15 +27,6 @@ import {
 } from "components/Icons/Icons.js";
 import React from "react";
 // Variables
-import {
-  lineChartData,
-  lineChartOptions,
-  dashedlineData,
-  dashedlineOption,
-  columnChartData,
-  columnChartOption,
-} from "variables/charts";
-import { pageVisits, socialTraffic } from "variables/general";
 
 export default function Dashboard() {
   // Chakra Color Mode
