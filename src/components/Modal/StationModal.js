@@ -14,20 +14,27 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 
-const { forwardRef, useImperativeHandle } = require("react");
+const { forwardRef, useImperativeHandle, useState } = require("react");
 
-const StationModal = forwardRef(({ station, onSubmit }, ref) => {
+const StationModal = forwardRef(({ onSubmit }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [station, setStation] = useState({
+    name: "",
+    address: "",
+    controllerPtsId: "",
+  });
 
   useImperativeHandle(ref, () => ({
-    openModal() {
+    open(station) {
+      if (station) {
+        setStation(station);
+      }
       onOpen();
     },
+    close() {
+      onClose();
+    },
   }));
-
-  if (!station) {
-    station = { name: "", address: "", controllerPtsId: "" };
-  }
 
   const isNotNull = (value) => {
     let error;
@@ -39,7 +46,6 @@ const StationModal = forwardRef(({ station, onSubmit }, ref) => {
 
   const submitHandler = (values, actions) => {
     onSubmit(values);
-    onClose();
   };
 
   return (

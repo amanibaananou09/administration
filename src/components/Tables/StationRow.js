@@ -17,6 +17,7 @@ const StationRow = ({
   controllerPtsId,
   firmwareVersion,
   onEdit,
+  onDelete,
 }) => {
   const textColor = useColorModeValue("gray.700", "white");
   const bgColor = useColorModeValue("#F8F9FA", "navy.900");
@@ -59,6 +60,7 @@ const StationRow = ({
             variant="no-effects"
             mb={{ sm: "10px", md: "0px" }}
             me={{ md: "12px" }}
+            onClick={() => onDelete()}
           >
             <Flex color="red.500" cursor="pointer" align="center" p="12px">
               <Icon as={FaTrashAlt} me="4px" />

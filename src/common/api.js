@@ -47,6 +47,8 @@ export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/re
 
 //Station
 export const STATION_ADD_ENDPOINT = `${localhostURL}/station/addStation`;
+export const STATION_UPDATE_ENDPOINT = `${localhostURL}/station/updateStation`;
+export const STATION_DELETE_ENDPOINT = `${localhostURL}/station/deleteStation`;
 export const STATION_LIST_ENDPOINT = `${localhostURL}/station/ListStations`;
 export const STATION_ALL_ENDPOINT = `${localhostURL}/station/AllStation`;
 export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/station/findController`;
@@ -76,7 +78,13 @@ export const fetchUrl = async (config) => {
     throw new Error(errorMessage);
   }
 
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch (error) {
+    console.error("body is not a json format");
+    data = null;
+  }
 
   return data;
 };
@@ -562,18 +570,55 @@ export const getUploadTransactionPump = async (token) => {
   return data;
 };
 
-export const createStation = async (name, address, userLogin, token) => {
+export const createStation = async (station, user) => {
+  const { name, address, controllerPtsId } = station;
+
   const data = await fetchUrl({
     url: STATION_ADD_ENDPOINT,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
     body: {
       name,
       address,
-      userLogin,
+      controllerPtsId,
+      userLogin: user.username,
+    },
+  });
+
+  return data;
+};
+
+export const updateStation = async (station, user) => {
+  const { name, address, controllerPtsId } = station;
+
+  const data = await fetchUrl({
+    url: `${STATION_UPDATE_ENDPOINT}/${station.id}`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + user.token,
+    },
+    body: {
+      name,
+      address,
+      controllerPtsId,
+      userLogin: user.username,
+    },
+  });
+
+  return data;
+};
+
+export const deleteStation = async (id, user) => {
+  const data = await fetchUrl({
+    url: `${STATION_DELETE_ENDPOINT}/${id}`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + user.token,
     },
   });
 
