@@ -26,9 +26,7 @@ const StationModal = forwardRef(({ onSubmit }, ref) => {
 
   useImperativeHandle(ref, () => ({
     open(station) {
-      if (station) {
-        setStation(station);
-      }
+      setStation(station);
       onOpen();
     },
     close() {

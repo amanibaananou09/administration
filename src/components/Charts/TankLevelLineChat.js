@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { Flex, Select } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useAuth } from "store/AuthContext";
 import {
   getAllTankByIdc,
@@ -8,7 +8,7 @@ import {
   getTankLevelSelected,
 } from "common/api.js";
 import { useESSContext } from "store/ESSContext";
-import SidebarMenuTank from "components/Sidebar/SidebarMenuTank";
+import TankChartMenu from "components/ChartMenu/TankChartMenu";
 
 const TankLevelLineChat = () => {
   const [selectedTank, setSelectedTank] = useState("all");
@@ -135,34 +135,12 @@ const TankLevelLineChat = () => {
   return (
     <>
       <Flex marginLeft="3%">
-        <SidebarMenuTank
+        <TankChartMenu
           tank={selectedTank}
           setTank={setSelectedTank}
           tankData={tankData}
         />
       </Flex>
-    {/*  <Flex flexDirection="row" spacing="24px" marginLeft="20%">
-        <Flex
-          align="center"
-          mx={{ md: "39" }}
-          p="5px"
-          justify="center"
-          w="40%"
-          mb="25px"
-        >
-          <Select
-            value={selectedTank}
-            onChange={(e) => setSelectedTank(e.target.value)}
-          >
-            <option value="all">All Tank</option>
-            {tankData.map((tank) => (
-              <option key={tank.idConf} value={tank.idConf}>
-                Tank {tank.idConf}
-              </option>
-            ))}
-          </Select>
-        </Flex>
-            </Flex>*/}
       <ReactApexChart
         options={chartOptions}
         series={chartData}

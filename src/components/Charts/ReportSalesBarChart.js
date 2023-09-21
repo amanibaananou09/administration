@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ReactApexChart from "react-apexcharts";
-import SidebarMenu from "components/Sidebar/SidebarMenu";
-import {
-  Flex
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useAuth } from "store/AuthContext";
 import {
-  getAllPump,
-  getAllTank,
   getChartByFuelPumpPeriod,
   getChartByFuelTankPeriod,
-  getAllFuelGrades,
 } from "common/api.js";
 import { useESSContext } from "store/ESSContext";
+import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 
 const ReportSalesBarChart = () => {
   const {
     selectedStation: { controllerId },
   } = useESSContext();
+
+  const { user } = useAuth();
 
   const [chartData, setChartData] = useState({
     labels: [],
@@ -29,39 +26,36 @@ const ReportSalesBarChart = () => {
       },
     ],
   });
-  const [type, setType] = useState("sale");
-  const [fuelGrade, setFuelGrade] = useState("all");
-  const [pump, setPump] = useState("all");
-  const [tank, setTank] = useState("all");
-  const [period, setPeriod] = useState("weekly");
-  const [pumpData, setPumpData] = useState([]);
-  const [fuelGradesData, setFuelGradesData] = useState([]);
-  const [tankData, setTankData] = useState([]);
-  const {
-    user: { token },
-  } = useAuth();
-  useEffect(() => {
-    fetchData();
-  }, [fuelGrade, pump, tank, period, type, controllerId]);
 
-  const fetchData = async () => {
-    try {
-      const pumpData = await getAllPump(controllerId, token);
+  const [filter, setFilter] = useState({
+    type: "sale",
+    fuelGrade: "all",
+    pump: "all",
+    tank: "all",
+    period: "weekly",
+  });
 
-      const fuelGradesData = await getAllFuelGrades(controllerId, token);
-
-      const tankData = await getAllTank(controllerId, token);
-
-      setPumpData(pumpData);
-      setFuelGradesData(fuelGradesData);
-      setTankData(tankData);
-      updateChartData();
-    } catch (error) {
-      console.error("Error fetching data fuelgrades:", error);
-    }
+  const handleMenuChange = (newFilter) => {
+    setFilter({ ...newFilter });
   };
 
-  const updateChartData = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        updateChartData();
+      } catch (error) {
+        console.error("Error fetching data fuelgrades:", error);
+      }
+    };
+
+    fetchData();
+  }, [filter, controllerId]);
+
+  const updateChartData = useCallback(async () => {
+    const { token } = user;
+
+    const { type, fuelGrade, pump, tank, period } = filter;
+
     try {
       let data;
       if (type === "sale") {
@@ -132,7 +126,7 @@ const ReportSalesBarChart = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [filter, controllerId]);
 
   const ReportSalesBarChartOptions = {
     chart: {
@@ -207,123 +201,9 @@ const ReportSalesBarChart = () => {
 
   return (
     <>
-      <Flex marginLeft="3%" >
-          <SidebarMenu
-            type={type}
-            setType={setType}
-            fuelGrade={fuelGrade}
-            setFuelGrade={setFuelGrade}
-            fuelGradesData={fuelGradesData}
-            pump={pump}
-            setPump={setPump}
-            pumpData={pumpData}
-            tank={tank}
-            setTank={setTank}
-            tankData={tankData}
-            period={period}
-            setPeriod={setPeriod}
-          />
+      <Flex marginLeft="3%">
+        <ReportSalesChartMenu filter={filter} onChange={handleMenuChange} />
       </Flex>
-      {/* <Flex flexDirection="row" spacing="24px" mb="20px">
-        <Flex p="0px" align="center" justify="center" w="30%" mb="25px">
-          <Select
-            color="white"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value="sale" style={{ color: "black" }}>
-              Sale
-            </option>
-            <option value="purchase" style={{ color: "black" }}>
-              Purchase
-            </option>
-          </Select>
-        </Flex>
-        <Flex
-          value={fuelGrade}
-          onChange={(e) => setFuelGrade(e.target.value)}
-          align="center"
-          p="5px"
-          justify="center"
-          w="30%"
-          mb="25px"
-        >
-          <Select color="white">
-            <option value="all" style={{ color: "black" }}>
-              All Fuel Grades
-            </option>
-            {fuelGradesData.map((fuel) => (
-              <option
-                style={{ color: "black" }}
-                key={fuel.name}
-                value={fuel.name}
-              >
-                {fuel.name}
-              </option>
-            ))}
-          </Select>
-        </Flex>
-        {type === "sale" ? (
-          <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
-            <Select
-              color="white"
-              value={pump}
-              onChange={(e) => setPump(e.target.value)}
-            >
-              <option value="all" style={{ color: "black" }}>
-                All Pump
-              </option>
-              {pumpData.map((pump) => (
-                <option
-                  key={pump.id}
-                  value={pump.id}
-                  style={{ color: "black" }}
-                >
-                  Pump {pump.id}
-                </option>
-              ))}
-            </Select>
-          </Flex>
-        ) : (
-          <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
-            <Select
-              color="white"
-              value={tank}
-              onChange={(e) => setTank(e.target.value)}
-            >
-              <option value="all" style={{ color: "black" }}>
-                All Tank
-              </option>
-              {tankData.map((tank) => (
-                <option
-                  key={tank.idConf}
-                  value={tank.idConf}
-                  style={{ color: "black" }}
-                >
-                  Tank {tank.idConf}
-                </option>
-              ))}
-            </Select>
-          </Flex>
-        )}
-        <Flex align="center" p="5px" justify="center" w="30%" mb="25px">
-          <Select
-            color="white"
-            value={period}
-            onChange={(e) => setPeriod(e.target.value)}
-          >
-            <option value="weekly" style={{ color: "black" }}>
-              Weekly
-            </option>
-            <option value="monthly" style={{ color: "black" }}>
-              Monthly
-            </option>
-            <option value="yearly" style={{ color: "black" }}>
-              Yearly
-            </option>
-          </Select>
-        </Flex>
-              </Flex>*/}
       <ReactApexChart
         options={ReportSalesBarChartOptions}
         series={chartData.datasets}
