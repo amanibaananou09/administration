@@ -4,6 +4,7 @@ import { getAllTankByIdc, getTankLevelSelected } from "common/api.js";
 import { useAuth } from "store/AuthContext";
 import { Flex, Select } from "@chakra-ui/react";
 import { useESSContext } from "store/ESSContext";
+import SidebarMenuTank from "components/Sidebar/SidebarMenuTank";
 
 const TankSalesColumnChart = () => {
   const [selectedTankColumn, setSelectedTankColumn] = useState("all");
@@ -130,7 +131,14 @@ const TankSalesColumnChart = () => {
 
   return (
     <>
-      <Flex flexDirection="row" spacing="24px"  marginLeft="30%">
+      <Flex marginLeft="3%">
+        <SidebarMenuTank
+          tank={selectedTankColumn}
+          setTank={setSelectedTankColumn}
+          tankData={tankDataFuite}
+        />
+      </Flex>
+      {/*    <Flex flexDirection="row" spacing="24px"  marginLeft="30%">
         <Flex
           align="center"
           mx={{ md: "39" }}
@@ -148,7 +156,7 @@ const TankSalesColumnChart = () => {
             ))}
           </Select>
         </Flex>
-      </Flex>
+            </Flex>*/}
       <ReactApexChart
         options={TankSalesColumnChartOptions}
         series={TankSalesColumnChartData}

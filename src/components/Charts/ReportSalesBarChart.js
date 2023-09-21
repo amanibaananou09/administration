@@ -2,18 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import SidebarMenu from "components/Sidebar/SidebarMenu";
 import {
-  Flex,
-  Box,
-  Select,
-  Menu,
-  MenuButton,
-  IconButton,
-  MenuList,
-  MenuOptionGroup,
-  MenuItemOption,
-  MenuDivider,
+  Flex
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "store/AuthContext";
 import {
   getAllPump,

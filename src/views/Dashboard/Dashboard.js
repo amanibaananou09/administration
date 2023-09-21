@@ -230,8 +230,8 @@ export default function Dashboard() {
         gap="20px"
       >
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column"  mb="-30px" p="28px 0px 0px 22px">
-            <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px">
+          <Flex direction="column"  mb="-33px" p="28px 0px 0px 22px">
+            <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px" marginLeft="10%">
               Tank Level
             </Text>
           </Flex>
@@ -240,8 +240,8 @@ export default function Dashboard() {
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column"  mb="-30px" p="28px 0px 0px 22px">
-            <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px">
+          <Flex direction="column"  mb="-33px" p="28px 0px 0px 22px">
+            <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px" marginLeft="10%">
               Sales
             </Text>
           </Flex>

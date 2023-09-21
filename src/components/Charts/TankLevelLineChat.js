@@ -8,6 +8,7 @@ import {
   getTankLevelSelected,
 } from "common/api.js";
 import { useESSContext } from "store/ESSContext";
+import SidebarMenuTank from "components/Sidebar/SidebarMenuTank";
 
 const TankLevelLineChat = () => {
   const [selectedTank, setSelectedTank] = useState("all");
@@ -15,6 +16,9 @@ const TankLevelLineChat = () => {
   const [chartOptions, setChartOptions] = useState({
     chart: {
       id: "dashed-line",
+      toolbar: {
+        show: false,
+      },
     },
     xaxis: {
       categories: [],
@@ -130,7 +134,14 @@ const TankLevelLineChat = () => {
 
   return (
     <>
-      <Flex flexDirection="row" spacing="24px" marginLeft="20%">
+      <Flex marginLeft="3%">
+        <SidebarMenuTank
+          tank={selectedTank}
+          setTank={setSelectedTank}
+          tankData={tankData}
+        />
+      </Flex>
+    {/*  <Flex flexDirection="row" spacing="24px" marginLeft="20%">
         <Flex
           align="center"
           mx={{ md: "39" }}
@@ -151,13 +162,13 @@ const TankLevelLineChat = () => {
             ))}
           </Select>
         </Flex>
-      </Flex>
+            </Flex>*/}
       <ReactApexChart
         options={chartOptions}
         series={chartData}
         type="line"
         width="100%"
-        height="400px"
+        height="500px"
       />
     </>
   );
