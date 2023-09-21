@@ -130,7 +130,7 @@ const TankLevelLineChat = () => {
 
   return (
     <>
-      <Flex flexDirection="row" spacing="24px">
+      <Flex flexDirection="row" spacing="24px" marginLeft="20%">
         <Flex
           align="center"
           mx={{ md: "39" }}

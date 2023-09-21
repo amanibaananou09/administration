@@ -130,7 +130,7 @@ const TankSalesColumnChart = () => {
 
   return (
     <>
-      <Flex flexDirection="row" spacing="24px">
+      <Flex flexDirection="row" spacing="24px"  marginLeft="30%">
         <Flex
           align="center"
           mx={{ md: "39" }}

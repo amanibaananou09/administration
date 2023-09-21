@@ -204,7 +204,7 @@ export default function Dashboard() {
           p="0px"
           maxW={{ sm: "320px", md: "100%" }}
         >
-          <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
+          <Flex direction="column" mb="-10px" p="28px 0px 0px 22px">
             <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
               Month Wise Sales Report
             </Text>
@@ -214,7 +214,7 @@ export default function Dashboard() {
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
+          <Flex direction="column" mb="-10px" p="28px 0px 0px 22px">
             <Text color={textColor} fontSize="lg" fontWeight="bold">
               Users Sales
             </Text>
@@ -230,7 +230,7 @@ export default function Dashboard() {
         gap="20px"
       >
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
+          <Flex direction="column"  mb="-10px" p="28px 0px 0px 22px">
             <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px">
               Tank Level
             </Text>
@@ -240,7 +240,7 @@ export default function Dashboard() {
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
+          <Flex direction="column"  mb="-10px" p="28px 0px 0px 22px">
             <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px">
               Sales
             </Text>

@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { Flex, Select, Button } from "@chakra-ui/react";
+import SidebarMenu from "components/Sidebar/SidebarMenu";
+import {
+  Flex,
+  Box,
+  Select,
+  Menu,
+  MenuButton,
+  IconButton,
+  MenuList,
+  MenuOptionGroup,
+  MenuItemOption,
+  MenuDivider,
+} from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "store/AuthContext";
 import {
   getAllPump,
@@ -22,6 +35,7 @@ const ReportSalesBarChart = () => {
       {
         name: "",
         data: [],
+        backgroundColor: "",
       },
     ],
   });
@@ -203,7 +217,24 @@ const ReportSalesBarChart = () => {
 
   return (
     <>
-      <Flex flexDirection="row" spacing="24px" mb="20px">
+      <Flex marginLeft="35%" >
+          <SidebarMenu
+            type={type}
+            setType={setType}
+            fuelGrade={fuelGrade}
+            setFuelGrade={setFuelGrade}
+            fuelGradesData={fuelGradesData}
+            pump={pump}
+            setPump={setPump}
+            pumpData={pumpData}
+            tank={tank}
+            setTank={setTank}
+            tankData={tankData}
+            period={period}
+            setPeriod={setPeriod}
+          />
+      </Flex>
+      {/* <Flex flexDirection="row" spacing="24px" mb="20px">
         <Flex p="0px" align="center" justify="center" w="30%" mb="25px">
           <Select
             color="white"
@@ -302,13 +333,13 @@ const ReportSalesBarChart = () => {
             </option>
           </Select>
         </Flex>
-      </Flex>
+              </Flex>*/}
       <ReactApexChart
         options={ReportSalesBarChartOptions}
         series={chartData.datasets}
         type="bar"
         width="100%"
-        height="90%"
+        height="150%"
       />
     </>
   );
