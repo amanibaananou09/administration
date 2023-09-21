@@ -61,19 +61,19 @@ const UserSalesBarChart = () => {
           labels: labelSet,
           datasets: [
             {
-              label: "Gasoil",
+              name: "Gasoil",
               data: dataSet1,
               backgroundColor: "rgba(32,178,170,0.6)",
               borderWidth: 1,
             },
             {
-              label: "Super Sans Plomb",
+              name: "Super Sans Plomb",
               data: dataSet2,
               borderWidth: 1,
               backgroundColor: "rgba(53, 162, 235, 0.5)",
             },
             {
-              label: "Gasoil Sans Soufre",
+              name: "Gasoil Sans Soufre",
               data: dataSet3,
               borderWidth: 1,
               backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -87,7 +87,7 @@ const UserSalesBarChart = () => {
 
     fetchData();
   }, [controllerId]);
-
+  console.log("user:", data);
   const UserSalesBarChartOptions = {
     chart: {
       stacked: true,

@@ -217,7 +217,7 @@ const ReportSalesBarChart = () => {
 
   return (
     <>
-      <Flex marginLeft="35%" >
+      <Flex marginLeft="3%" >
           <SidebarMenu
             type={type}
             setType={setType}
