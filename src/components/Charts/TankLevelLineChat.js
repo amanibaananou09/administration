@@ -69,7 +69,7 @@ const TankLevelLineChat = () => {
 
   useEffect(() => {
     tankFetchData();
-  }, [selectedTank, token]);
+  }, [selectedTank, token, controllerId]);
 
   const tankFetchData = async () => {
     try {

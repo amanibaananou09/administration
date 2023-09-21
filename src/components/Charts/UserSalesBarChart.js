@@ -86,7 +86,7 @@ const UserSalesBarChart = () => {
     };
 
     fetchData();
-  }, []);
+  }, [controllerId]);
 
   const UserSalesBarChartOptions = {
     chart: {

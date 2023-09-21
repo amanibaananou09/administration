@@ -38,7 +38,7 @@ const ReportSalesBarChart = () => {
   } = useAuth();
   useEffect(() => {
     fetchData();
-  }, [fuelGrade, pump, tank, period, type]);
+  }, [fuelGrade, pump, tank, period, type, controllerId]);
 
   const fetchData = async () => {
     try {

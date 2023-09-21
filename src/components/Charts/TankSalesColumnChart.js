@@ -122,7 +122,7 @@ const TankSalesColumnChart = () => {
     };
 
     tankFuiteFetchData();
-  }, [selectedTankColumn, token]);
+  }, [selectedTankColumn, token, controllerId]);
 
   const handleTankColumnChange = (e) => {
     setSelectedTankColumn(e.target.value);

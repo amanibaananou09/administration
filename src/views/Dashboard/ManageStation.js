@@ -41,9 +41,7 @@ const ManageStation = () => {
 
       // set an other station in context if chosen one is deleted
       if (stations.length > 0 && selectedStation.id === station.id) {
-        selectStation(stations[0]);
-      } else {
-        clearContext();
+        selectStation(stations.find((st) => st.id !== station.id));
       }
 
       confirmationModalRef.current.close();
@@ -55,7 +53,7 @@ const ManageStation = () => {
   const submitModalHandler = async (station) => {
     try {
       if (station.id) {
-        // async call to update existing station
+        // async call to update an existing station
 
         await updateStation(station, user);
 
@@ -69,6 +67,11 @@ const ManageStation = () => {
         });
 
         setStations(newStations);
+
+        // sync station in context if chosen one is updated
+        if (selectedStation.id === station.id) {
+          selectStation(station);
+        }
       } else {
         // async call to create new station
         const newStation = await createStation(station, user);
