@@ -9,7 +9,7 @@ import {
 import { useESSContext } from "store/ESSContext";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 
-const ReportSalesBarChart = () => {
+const ReportSalesChart = () => {
   const {
     selectedStation: { controllerId },
   } = useESSContext();
@@ -128,7 +128,7 @@ const ReportSalesBarChart = () => {
     }
   }, [filter, controllerId]);
 
-  const ReportSalesBarChartOptions = {
+  const reportSalesBarChartOptions = {
     chart: {
       toolbar: {
         show: false,
@@ -205,7 +205,7 @@ const ReportSalesBarChart = () => {
         <ReportSalesChartMenu filter={filter} onChange={handleMenuChange} />
       </Flex>
       <ReactApexChart
-        options={ReportSalesBarChartOptions}
+        options={reportSalesBarChartOptions}
         series={chartData.datasets}
         type="bar"
         width="100%"
@@ -215,4 +215,4 @@ const ReportSalesBarChart = () => {
   );
 };
 
-export default ReportSalesBarChart;
+export default ReportSalesChart;

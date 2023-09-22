@@ -10,7 +10,7 @@ import {
 import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 
-const TankLevelLineChat = () => {
+const TankLevelChat = () => {
   const [selectedTank, setSelectedTank] = useState("all");
   const [tankData, setTankData] = useState([]);
   const [chartOptions, setChartOptions] = useState({
@@ -152,4 +152,4 @@ const TankLevelLineChat = () => {
   );
 };
 
-export default TankLevelLineChat;
+export default TankLevelChat;

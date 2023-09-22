@@ -13,10 +13,10 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
-import UserSalesBarChart from "components/Charts/UserSalesBarChart";
-import ReportSalesBarChart from "components/Charts/ReportSalesBarChart";
-import TankLevelLineChat from "components/Charts/TankLevelLineChat";
-import TankSalesColumnChart from "components/Charts/TankSalesColumnChart";
+import ReportSalesChart from "components/Charts/ReportSalesChart";
+import TankLevelChat from "components/Charts/TankLevelChat";
+import TankSalesChart from "components/Charts/TankSalesChart";
+import UserSalesChart from "components/Charts/UserSalesChart";
 import IconBox from "components/Icons/IconBox";
 // Custom icons
 import {
@@ -204,13 +204,18 @@ export default function Dashboard() {
           p="0px"
           maxW={{ sm: "320px", md: "100%" }}
         >
-          <Flex direction="column" mb="-32px" p="28px 0px 0px 22px" marginLeft="30%">
+          <Flex
+            direction="column"
+            mb="-32px"
+            p="28px 0px 0px 22px"
+            marginLeft="30%"
+          >
             <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
               Month Wise Sales Report
             </Text>
           </Flex>
           <Box minH="300px">
-            <ReportSalesBarChart />
+            <ReportSalesChart />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
@@ -220,7 +225,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <UserSalesBarChart />
+            <UserSalesChart />
           </Box>
         </Card>
       </Grid>
@@ -230,23 +235,35 @@ export default function Dashboard() {
         gap="20px"
       >
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column"  mb="-33px" p="28px 0px 0px 22px">
-            <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px" marginLeft="10%">
+          <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
+            <Text
+              color={textColor}
+              fontSize="lg"
+              fontWeight="bold"
+              mb="6px"
+              marginLeft="10%"
+            >
               Tank Level
             </Text>
           </Flex>
           <Box minH="300px">
-            <TankLevelLineChat />
+            <TankLevelChat />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column"  mb="-33px" p="28px 0px 0px 22px">
-            <Text color={textColor} fontSize="lg" fontWeight="bold" mb="6px" marginLeft="10%">
+          <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
+            <Text
+              color={textColor}
+              fontSize="lg"
+              fontWeight="bold"
+              mb="6px"
+              marginLeft="10%"
+            >
               Sales
             </Text>
           </Flex>
           <Box minH="300px">
-            <TankSalesColumnChart />
+            <TankSalesChart />
           </Box>
         </Card>
       </Grid>

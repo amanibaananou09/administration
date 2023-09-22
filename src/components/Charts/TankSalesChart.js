@@ -6,7 +6,7 @@ import { Flex } from "@chakra-ui/react";
 import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 
-const TankSalesColumnChart = () => {
+const TankSalesChart = () => {
   const [selectedTankColumn, setSelectedTankColumn] = useState("all");
   const [tankDataFuite, setTankDataFuite] = useState([]);
   const [
@@ -149,4 +149,4 @@ const TankSalesColumnChart = () => {
   );
 };
 
-export default TankSalesColumnChart;
+export default TankSalesChart;

@@ -4,7 +4,7 @@ import { getAllStatVent } from "common/api.js";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
-const UserSalesBarChart = () => {
+const UserSalesChart = () => {
   const {
     selectedStation: { controllerId },
   } = useESSContext();
@@ -87,7 +87,7 @@ const UserSalesBarChart = () => {
 
     fetchData();
   }, [controllerId]);
-  console.log("user:", data);
+
   const UserSalesBarChartOptions = {
     chart: {
       stacked: true,
@@ -136,4 +136,4 @@ const UserSalesBarChart = () => {
   );
 };
 
-export default UserSalesBarChart;
+export default UserSalesChart;
