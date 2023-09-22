@@ -8,6 +8,7 @@ import {
 } from "common/api.js";
 import { useESSContext } from "store/ESSContext";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
+import { createReportSalesChartOptions } from "common/chartOptions";
 
 const ReportSalesChart = () => {
   const {
@@ -128,84 +129,13 @@ const ReportSalesChart = () => {
     }
   }, [filter, controllerId]);
 
-  const reportSalesBarChartOptions = {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    tooltip: {
-      theme: "dark",
-    },
-    dataLabels: {
-      enabled: true,
-    },
-    stroke: {
-      curve: "smooth",
-    },
-    xaxis: {
-      categories: chartData.labels,
-      labels: {
-        style: {
-          colors: "#fff",
-          fontSize: "12px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#fff",
-          fontSize: "12px",
-        },
-      },
-      responsive: true,
-      maxTicksLimit: 5,
-      beginAtZero: true,
-    },
-    legend: {
-      show: true,
-      position: "bottom",
-    },
-    grid: {
-      strokeDashArray: 5,
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shade: "light",
-        type: "vertical",
-        shadeIntensity: 0.5,
-        inverseColors: true,
-        opacityFrom: 0.8,
-        opacityTo: 0,
-        stops: [],
-      },
-      //colors: ["#fff", "#3182CE"],
-    },
-    // colors: ["#fff", "#3182CE"],
-    plugins: {
-      grouped: {
-        groupBy: "nameF",
-      },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 10,
-        dataLabels: {
-          position: "top",
-        },
-      },
-    },
-  };
-
   return (
     <>
       <Flex marginLeft="3%">
         <ReportSalesChartMenu filter={filter} onChange={handleMenuChange} />
       </Flex>
       <ReactApexChart
-        options={reportSalesBarChartOptions}
+        options={createReportSalesChartOptions(chartData.labels)}
         series={chartData.datasets}
         type="bar"
         width="100%"
