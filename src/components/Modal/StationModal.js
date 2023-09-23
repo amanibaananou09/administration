@@ -16,17 +16,23 @@ import { Formik, Form, Field } from "formik";
 
 const { forwardRef, useImperativeHandle, useState } = require("react");
 
+const initStation = {
+  name: "",
+  address: "",
+  controllerPtsId: "",
+};
+
 const StationModal = forwardRef(({ onSubmit }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [station, setStation] = useState({
-    name: "",
-    address: "",
-    controllerPtsId: "",
-  });
+  const [station, setStation] = useState(initStation);
 
   useImperativeHandle(ref, () => ({
     open(station) {
-      setStation(station);
+      if (station) {
+        setStation(station);
+      } else {
+        setStation(initStation);
+      }
       onOpen();
     },
     close() {

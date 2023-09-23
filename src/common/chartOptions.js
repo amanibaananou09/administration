@@ -1,6 +1,4 @@
-import { useCallback } from "react";
-
-export const createReportSalesChartOptions = useCallback((labels) => {
+export const createReportSalesChartOptions = (labels) => {
   return {
     chart: {
       toolbar: {
@@ -71,4 +69,4 @@ export const createReportSalesChartOptions = useCallback((labels) => {
       },
     },
   };
-}, []);
+};
