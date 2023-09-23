@@ -13,8 +13,10 @@ import {
   PersonIcon,
   DocumentIcon,
   SupportIcon,
+  WalletIcon,
 } from "components/Icons/Icons";
 import ManageStation from "views/Dashboard/ManageStation";
+import Transaction from "views/Dashboard/Transaction";
 
 var dashRoutes = [
   {
@@ -31,6 +33,14 @@ var dashRoutes = [
     name: "Manage Stations",
     icon: <SupportIcon color="inherit" />,
     component: ManageStation,
+    layout: "/admin",
+    privateRoute: true,
+  },
+  {
+    path: "/transaction",
+    name: "Transaction",
+    icon: <WalletIcon color="inherit" />,
+    component: Transaction,
     layout: "/admin",
     privateRoute: true,
   },
