@@ -13,14 +13,38 @@ import {
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import TablesTableRow from "components/Tables/TablesTableRow";
-import React from "react";
-import {  tablesTableData } from "variables/general";
+import TransactionTableRow from "components/Tables/TransactionTableRow";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { getallTransactionPump } from "common/api.js";
 
-function Tables() {
+function Transaction() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [Transaction, setTransaction] = useState([]);
+  const { user } = useAuth();
+  const {
+    selectedStation: { controllerId },
+  } = useESSContext();
+  useEffect(() => {
+    const { token } = user;
+    const getAllTransaction = async () => {
+      try {
+        const result = await getallTransactionPump(controllerId, token);
+        const tranpumpWithId = result.map((item, index) => {
+          return { ...item, id: index + 1 };
+        });
+        setTransaction(tranpumpWithId);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getAllTransaction();
+  }, [controllerId, user]);
+  console.log("transaction sont", Transaction);
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
@@ -30,10 +54,10 @@ function Tables() {
           </Text>
         </CardHeader>
         <CardBody>
-          <Table variant="simple" color={textColor}>
+          <Table variant="simple" color={textColor} size="sm">
             <Thead>
-              <Tr my=".8rem" pl="0px" color="gray.400">
-                <Th pl="0px" borderColor={borderColor} color="gray.400">
+              <Tr  color="gray.400" align="center">
+                <Th borderColor={borderColor} color="gray.400">
                   ID
                 </Th>
                 <Th borderColor={borderColor} color="gray.400">
@@ -66,30 +90,29 @@ function Tables() {
                 <Th borderColor={borderColor} color="gray.400">
                   Date time
                 </Th>
-                <Th borderColor={borderColor} color="gray.400">
+                <Th borderColor={borderColor} color="gray.400" align="center">
                   State
                 </Th>
                 <Th borderColor={borderColor}></Th>
               </Tr>
             </Thead>
             <Tbody>
-              {tablesTableData.map((row, index, arr) => {
+              {Transaction.map((row, key) => {
                 return (
-                  <TablesTableRow
+                  <TransactionTableRow
                     id={row.id}
                     pump={row.pump}
                     nozzle={row.nozzle}
-                    fuelGrade={row.fuelGrade}
+                    fuelGrade={row.fuelName}
                     volume={row.volume}
                     price={row.price}
                     amount={row.amount}
                     totalVolume={row.totalVolume}
                     totalAmount={row.totalAmount}
-                    DateTimeStart={row.DateTimeStart}
-                    DateTime={row.DateTime}
+                    DateTimeStart={row.dateTimeStart}
+                    DateTime={row.dateTime}
                     state={row.state}
-                    //isLast={index === arr.length - 1 ? true : false}
-                    key={index}
+                    key={key}
                   />
                 );
               })}
@@ -101,4 +124,4 @@ function Tables() {
   );
 }
 
-export default Tables;
+export default Transaction;

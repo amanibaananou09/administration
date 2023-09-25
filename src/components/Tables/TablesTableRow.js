@@ -6,25 +6,12 @@ import {
   Td,
   Text,
   Tr,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import React from "react";
 
 function TablesTableRow(props) {
-  const {
-    totalAmount,
-    id,
-    totalVolume,
-    pump,
-    nozzle,
-    fuelGrade,
-    state,
-    volume,
-    price,
-    amount,
-    DateTimeStart,
-    DateTime,
-  } = props;
+  const { logo, name, email, subdomain, domain, status, date, isLast } = props;
   const textColor = useColorModeValue("gray.500", "white");
   const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
@@ -33,12 +20,13 @@ function TablesTableRow(props) {
   return (
     <Tr>
       <Td
-        minWidth={{ sm: "50px" }}
+        minWidth={{ sm: "250px" }}
         pl="0px"
         borderColor={borderColor}
-        //borderBottom={isLast ? "none" : null}
+        borderBottom={isLast ? "none" : null}
       >
         <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
+          <Avatar src={logo} w="50px" borderRadius="12px" me="18px" />
           <Flex direction="column">
             <Text
               fontSize="md"
@@ -46,76 +34,52 @@ function TablesTableRow(props) {
               fontWeight="bold"
               minWidth="100%"
             >
-              {id}
+              {name}
+            </Text>
+            <Text fontSize="sm" color="gray.400" fontWeight="normal">
+              {email}
             </Text>
           </Flex>
         </Flex>
       </Td>
 
-      <Td borderColor={borderColor} >
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {pump}
+            {domain}
+          </Text>
+          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+            {subdomain}
           </Text>
         </Flex>
       </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {nozzle}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Button p="0px" bg="transparent" variant="no-effects">
-          <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-            {fuelGrade}
-          </Text>
-        </Button>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {volume}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {price}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {amount}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {totalVolume}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {totalAmount}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {DateTimeStart}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {DateTime}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor} >
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
         <Badge
-          bg={state === "Online" ? "green.400" : bgStatus}
-          color={state === "Online" ? "white" : "white"}
+          bg={status === "Online" ? "green.400" : bgStatus}
+          color={status === "Online" ? "white" : "white"}
           fontSize="16px"
           p="3px 10px"
           borderRadius="8px"
         >
-          {state}
+          {status}
         </Badge>
+      </Td>
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+          {date}
+        </Text>
+      </Td>
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+        <Button p="0px" bg="transparent" variant="no-effects">
+          <Text
+            fontSize="md"
+            color="gray.400"
+            fontWeight="bold"
+            cursor="pointer"
+          >
+            Edit
+          </Text>
+        </Button>
       </Td>
     </Tr>
   );
