@@ -17,14 +17,6 @@ import React, { useState } from "react";
 import StationConfigurator from "./StationConfigurator";
 
 export default function Configurator(props) {
-  const {
-    sidebarVariant,
-    setSidebarVariant,
-    secondary,
-    isOpen,
-    onClose,
-    fixed,
-  } = props;
   const [switched, setSwitched] = useState(props.isChecked);
 
   const { colorMode, toggleColorMode } = useColorMode();
@@ -36,7 +28,7 @@ export default function Configurator(props) {
       <Drawer
         isOpen={props.isOpen}
         onClose={props.onClose}
-        placement={document.documentElement.dir === "rtl" ? "left" : "right"}
+        placement={"right"}
         finalFocusRef={settingsRef}
         blockScrollOnMount={false}
       >

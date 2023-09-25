@@ -125,10 +125,6 @@ const TankSalesChart = () => {
     tankFuiteFetchData();
   }, [selectedTankColumn, token, controllerId]);
 
-  const handleTankColumnChange = (e) => {
-    setSelectedTankColumn(e.target.value);
-  };
-
   return (
     <>
       <Flex marginLeft="3%">

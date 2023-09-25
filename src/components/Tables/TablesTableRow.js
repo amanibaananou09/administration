@@ -17,7 +17,6 @@ function TablesTableRow(props) {
     totalVolume,
     pump,
     nozzle,
-    status,
     fuelGrade,
     state,
     volume,

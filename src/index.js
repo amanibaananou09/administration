@@ -8,7 +8,6 @@ import theme from "theme/theme.js";
 import { AuthContextProvider } from "store/AuthContext";
 import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
-import RTLLayout from "layouts/RTL.js"; // Chakra imports
 import MainRoute from "router/Route/MainRoute";
 import { ESSContextProvider } from "store/ESSContext";
 
@@ -20,8 +19,6 @@ ReactDOM.render(
           <Switch>
             <Route path={`/auth`} component={AuthLayout} />
             <Route path={`/admin`} component={AdminLayout} />
-            <Route path={`/rtl`} component={RTLLayout} />
-
             <MainRoute />
           </Switch>
         </HashRouter>

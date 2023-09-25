@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import { getAllStatVent } from "common/api.js";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-
+import { useColorModeValue } from "@chakra-ui/react";
 const UserSalesChart = () => {
   const {
     selectedStation: { controllerId },
@@ -29,6 +29,7 @@ const UserSalesChart = () => {
       },
     ],
   });
+  const textColor = useColorModeValue("gray.700", "white");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,6 +96,10 @@ const UserSalesChart = () => {
         show: false,
       },
     },
+    stroke: {
+      width: 1,
+      colors: textColor
+    },
     plotOptions: {
       bar: {
         horizontal: true,
@@ -104,7 +109,7 @@ const UserSalesChart = () => {
       categories: data.labels,
       labels: {
         style: {
-          colors: "#A0AEC0",
+          colors: textColor,
           fontSize: "12px",
         },
       },
@@ -114,11 +119,11 @@ const UserSalesChart = () => {
     },
     yaxis: {
       show: true,
-      color: "#A0AEC0",
+      color: textColor,
       labels: {
         show: true,
         style: {
-          colors: "#A0AEC0",
+          colors: textColor,
           fontSize: "14px",
         },
       },
