@@ -56,15 +56,12 @@ function Transaction() {
         <CardBody>
           <Table variant="simple" color={textColor} size="sm">
             <Thead>
-              <Tr  color="gray.400" align="center">
+              <Tr color="gray.400" align="center">
                 <Th borderColor={borderColor} color="gray.400">
                   ID
                 </Th>
                 <Th borderColor={borderColor} color="gray.400">
                   Pump
-                </Th>
-                <Th borderColor={borderColor} color="gray.400">
-                  Nozzle
                 </Th>
                 <Th borderColor={borderColor} color="gray.400">
                   Fuel Grade
@@ -102,7 +99,6 @@ function Transaction() {
                   <TransactionTableRow
                     id={row.id}
                     pump={row.pump}
-                    nozzle={row.nozzle}
                     fuelGrade={row.fuelName}
                     volume={row.volume}
                     price={row.price}
