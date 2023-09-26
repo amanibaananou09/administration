@@ -28,8 +28,6 @@ const TankLevelChat = () => {
     },
     yaxis: {
       beginAtZero: true,
-      min: 0,
-      max: 300,
       tickAmount: 12,
       labels: {
         formatter: function (value) {
@@ -40,8 +38,6 @@ const TankLevelChat = () => {
     scales: {
       y: {
         beginAtZero: true,
-        min: 0,
-        max: 300,
         ticks: {
           stepSize: 100,
         },
@@ -108,14 +104,6 @@ const TankLevelChat = () => {
           {
             name: "Tank Level",
             data: fetchedData.map((item) => item.tankVolumeChanges),
-          },
-          {
-            name: "Minimum",
-            data: fetchedData.map(() => 0),
-          },
-          {
-            name: "Maximum",
-            data: fetchedData.map(() => 300),
           },
         ],
       };
