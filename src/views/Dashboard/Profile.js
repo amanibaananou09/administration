@@ -117,37 +117,6 @@ function Profile() {
               </Text>
             </Flex>
           </Button>
-          <Button p="0px" bg="transparent" variant="no-effects">
-            <Flex
-              align="center"
-              w={{ lg: "135px" }}
-              borderRadius="15px"
-              justifyContent="center"
-              py="10px"
-              mx={{ lg: "1rem" }}
-              cursor="pointer"
-            >
-              <Icon color={textColor} as={IoDocumentsSharp} me="6px" />
-              <Text fontSize="xs" color={textColor} fontWeight="bold">
-                TEAMS
-              </Text>
-            </Flex>
-          </Button>
-          <Button p="0px" bg="transparent" variant="no-effects">
-            <Flex
-              align="center"
-              w={{ lg: "135px" }}
-              borderRadius="15px"
-              justifyContent="center"
-              py="10px"
-              cursor="pointer"
-            >
-              <Icon color={textColor} as={FaPenFancy} me="6px" />
-              <Text fontSize="xs" color={textColor} fontWeight="bold">
-                PROJECTS
-              </Text>
-            </Flex>
-          </Button>
         </Flex>
       </Flex>
 

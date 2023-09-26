@@ -111,7 +111,7 @@ const TankLevelChat = () => {
           },
           {
             name: "Minimum",
-            data: fetchedData.map(() => 100),
+            data: fetchedData.map(() => 0),
           },
           {
             name: "Maximum",
