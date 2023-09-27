@@ -66,8 +66,6 @@ export default function HeaderLinks(props) {
       alignItems="center"
       flexDirection="row"
     >
-      <SearchBar me="18px" />
-
       <Button
         ms="0px"
         px="0px"

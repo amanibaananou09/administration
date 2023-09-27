@@ -101,7 +101,7 @@ function SignUp() {
         mb="30px"
       >
         <Text fontSize="4xl" color="white" fontWeight="bold">
-          Welcome!
+          Fuel Stations Management
         </Text>
         <Text
           fontSize="md"
@@ -135,11 +135,11 @@ function SignUp() {
             textAlign="center"
             mb="22px"
           >
-            Login
+            Please login to connect
           </Text>
           <FormControl>
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              UserName
+              Username
             </FormLabel>
             <Input
               id="username"
@@ -147,7 +147,7 @@ function SignUp() {
               fontSize="sm"
               ms="4px"
               type="text"
-              placeholder="Your full username"
+              placeholder="Type your username"
               mb="24px"
               size="lg"
               value={username}
@@ -162,7 +162,7 @@ function SignUp() {
               fontSize="sm"
               ms="4px"
               type="password"
-              placeholder="Your password"
+              placeholder="Type your password"
               mb="24px"
               size="lg"
               value={password}

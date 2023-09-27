@@ -5,6 +5,7 @@ import {
   Stack,
   Box,
   useColorMode,
+  Text,
 } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer.js";
@@ -14,6 +15,8 @@ import {
   ChakraLogoDark,
   ChakraLogoLight,
 } from "components/Icons/Icons";
+
+import { ReactComponent as Logo } from "assets/svg/fuel-station-logo.svg";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
@@ -30,9 +33,13 @@ import bgAdmin from "assets/img/admin-background.png";
 import PrivateRoute from "router/Route/PrivateRoute";
 import { useAuth } from "store/AuthContext";
 import MainRoute from "router/Route/MainRoute";
+import { useESSContext } from "store/ESSContext";
 
 export default function Dashboard(props) {
   const { isSignedIn } = useAuth();
+
+  const { selectedStation } = useESSContext();
+
   const { ...rest } = props;
   // states and functions
   const [fixed, setFixed] = useState(false);
@@ -138,8 +145,22 @@ export default function Dashboard(props) {
       <Sidebar
         routes={routes}
         logo={
-          <Stack direction="row" spacing="12px" align="center" justify="center">
-            
+          <Stack
+            direction="column"
+            spacing="12px"
+            align="center"
+            justify="center"
+          >
+            <Logo style={{ height: "100px" }} />
+            {selectedStation && (
+              <Text
+                fontSize={{ sm: "lg", lg: "xl" }}
+                fontWeight="bold"
+                ms={{ sm: "8px", md: "0px" }}
+              >
+                {selectedStation.name}
+              </Text>
+            )}
           </Stack>
         }
         display="none"
