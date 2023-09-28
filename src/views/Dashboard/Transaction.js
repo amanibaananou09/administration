@@ -24,8 +24,6 @@ import { getallTransactionPump } from "common/api.js";
 function Transaction() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
   const [transactions, setTransactions] = useState([]);
   const { user } = useAuth();
   const {
@@ -52,13 +50,13 @@ function Transaction() {
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
         <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Transaction Table
+            Transactions
           </Text>
         </CardHeader>
         <CardBody>
-          <Table variant="simple" color={textColor} size="sm">
+          <Table variant="simple" color={textColor} size="sm" textAlign="center">
             <Thead>
-              <Tr color="gray.400" align="center">
+              <Tr color="gray.400" >
                 <Th borderColor={borderColor} color="gray.400">
                   ID
                 </Th>
@@ -78,18 +76,12 @@ function Transaction() {
                   Amount
                 </Th>
                 <Th borderColor={borderColor} color="gray.400">
-                  Total Volume
-                </Th>
-                <Th borderColor={borderColor} color="gray.400">
-                  Total amount
-                </Th>
-                <Th borderColor={borderColor} color="gray.400">
                   Date time start
                 </Th>
                 <Th borderColor={borderColor} color="gray.400">
                   Date time
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" align="center">
+                <Th borderColor={borderColor} color="gray.400" >
                   State
                 </Th>
                 <Th borderColor={borderColor}></Th>

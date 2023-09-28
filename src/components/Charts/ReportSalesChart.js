@@ -104,22 +104,24 @@ const ReportSalesChart = () => {
       if (data) {
         switch (period) {
           case "weekly":
-            filteredData.labels = data.map(
-              (item) => `${item.dateF}\n${item.nameF}`,
-            );
+            filteredData.labels = data.map((item) => {
+              const weekAbbreviation = item.dateF.substring(0, 4);
+              return `${weekAbbreviation}\n${item.nameF}\n(pump${item.pump})`;
+            });
             break;
           case "monthly":
             filteredData.labels = data.map(
-              (item) => `${item.dateF}\n${item.nameF}`,
+              (item) => `${item.dateF}\n${item.nameF}\n(pump${item.pump})`,
             );
             break;
           case "yearly":
-            filteredData.labels = data.map(
-              (item) => `${item.dateF}\n${item.nameF}`,
-            );
+            filteredData.labels = data.map((item) => {
+              const yearAbbreviation = item.dateF.substring(0, 3);
+              return `${yearAbbreviation}\n${item.nameF}\n(pump${item.pump})`;
+            });
             break;
           default:
-            filteredData.labels = ["Apy", "May", "Jun", "Jul", "Aug"];
+            filteredData.labels = [];
             break;
         }
       }
@@ -128,7 +130,7 @@ const ReportSalesChart = () => {
       console.error("Error fetching data:", error);
     }
   }, [filter, controllerId]);
-
+  console.log("data fule g ", chartData);
   return (
     <>
       <Flex marginLeft="3%">

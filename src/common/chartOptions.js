@@ -4,6 +4,9 @@ export const createReportSalesChartOptions = (labels) => {
       toolbar: {
         show: false,
       },
+      legend: {
+        show: true,  
+      },
     },
     tooltip: {
       theme: "dark",

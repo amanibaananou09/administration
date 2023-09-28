@@ -156,21 +156,21 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
           onClick={() => handleChange("period", "weekly")}
           checked={filter.period === "weekly"}
         >
-          Weekly
+          current week
         </MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("period", "monthly")}
           checked={filter.period === "monthly"}
         >
-          Monthly
+          current Month
         </MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("period", "yearly")}
           checked={filter.period === "yearly"}
         >
-          Yearly
+          current Year
         </MenuItem>
       </SubMenu>
     </Menu>

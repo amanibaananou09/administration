@@ -8,12 +8,20 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+function formatDate(dateTime) {
+  return new Date(dateTime).toLocaleString("fr-FR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
 
 function TablesTableRow(props) {
   const {
-    totalAmount,
     id,
-    totalVolume,
     pump,
     fuelGrade,
     state,
@@ -27,10 +35,11 @@ function TablesTableRow(props) {
   const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-
+  const formattedDateTime = formatDate(DateTime);
+  const formattedDateTimeStart = formatDate(DateTimeStart);
   return (
     <Tr>
-      <Td minWidth={{ sm: "50px" }} pl="0px" borderColor={borderColor}>
+      <Td minWidth={{ sm: "50px" }} pl="15px" borderColor={borderColor}>
         <Flex py=".8rem" minWidth="100%" flexWrap="nowrap">
           <Flex direction="column">
             <Text
@@ -108,22 +117,11 @@ function TablesTableRow(props) {
         <Text
           fontSize="sm"
           align="center"
-          color={textColor}
+          color={titleColor}
           fontWeight="bold"
           pb=".5rem"
         >
-          {totalVolume}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor}>
-        <Text
-          fontSize="sm"
-          align="center"
-          color={textColor}
-          fontWeight="bold"
-          pb=".5rem"
-        >
-          {totalAmount}
+          {formattedDateTimeStart}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
@@ -134,18 +132,7 @@ function TablesTableRow(props) {
           fontWeight="bold"
           pb=".5rem"
         >
-          {DateTimeStart}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor}>
-        <Text
-          fontSize="sm"
-          align="center"
-          color={titleColor}
-          fontWeight="bold"
-          pb=".5rem"
-        >
-          {DateTime}
+          {formattedDateTime}
         </Text>
       </Td>
       <Td borderColor={borderColor}>

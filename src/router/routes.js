@@ -37,7 +37,7 @@ var dashRoutes = [
   },
   {
     path: "/transaction",
-    name: "Transaction",
+    name: "Transactions",
     icon: <WalletIcon color="inherit" />,
     component: Transaction,
     layout: "/admin",
