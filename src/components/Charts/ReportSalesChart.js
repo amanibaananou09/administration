@@ -105,7 +105,7 @@ const ReportSalesChart = () => {
         switch (period) {
           case "weekly":
             filteredData.labels = data.map((item) => {
-              const weekAbbreviation = item.dateF.substring(0, 4);
+              const weekAbbreviation = item.dateF.substring(0, 3);
               return `${weekAbbreviation}\n${item.nameF}\n(pump${item.pump})`;
             });
             break;
