@@ -76,10 +76,10 @@ const TankLevelChart = () => {
       const tankData = await getAllTankByIdc(controllerId, token);
       setTankData(tankData);
 
-      // select default Tank
+     {/* // select default Tank
       if (tankData.length > 0) {
         setSelectedTank(tankData[0].idConf);
-      }
+      }*/}
 
       updateChartData(token, tankData);
     } catch (error) {

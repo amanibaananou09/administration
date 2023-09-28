@@ -74,10 +74,10 @@ const TankSalesChart = () => {
         const tankData = await getAllTankByIdc(controllerId, token);
         setTankDataFuite(tankData);
 
-        // select default Tank
+       {/* // select default Tank
         if (tankData.length > 0) {
           setSelectedTankColumn(tankData[0].idConf);
-        }
+        }*/}
 
         updateChart(tankData);
       } catch (error) {
