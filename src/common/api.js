@@ -49,7 +49,6 @@ export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/re
 export const STATION_ADD_ENDPOINT = `${localhostURL}/station/addStation`;
 export const STATION_UPDATE_ENDPOINT = `${localhostURL}/station/updateStation`;
 export const STATION_DELETE_ENDPOINT = `${localhostURL}/station/deleteStation`;
-export const STATION_LIST_ENDPOINT = `${localhostURL}/station/ListStations`;
 export const STATION_ALL_ENDPOINT = `${localhostURL}/station/AllStation`;
 export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/station/findController`;
 
@@ -653,11 +652,7 @@ export const getStationForUser = async (username, token) => {
 };
 
 export const getStations = async (user) => {
-  if (user.role === "SUPERADMIN") {
-    return await getAllStations(user.token);
-  } else {
     return await getStationForUser(user.username, user.token);
-  }
 };
 
 export const findControllerByStation = async (stationName, token) => {
