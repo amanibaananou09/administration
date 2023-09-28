@@ -5,61 +5,9 @@ import { useAuth } from "store/AuthContext";
 import { Flex } from "@chakra-ui/react";
 import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
+import { tankSalesChartConfig } from "common/chartOptions";
 
 const TankSalesChart = () => {
-  const [selectedTankColumn, setSelectedTankColumn] = useState(null);
-  const [tankDataFuite, setTankDataFuite] = useState([]);
-  const [
-    TankSalesColumnChartOptions,
-    setTankSalesColumnChartOptions,
-  ] = useState({
-    chart: {
-      height: 350,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: "80%",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    xaxis: {
-      categories: [],
-    },
-    yaxis: [
-      {
-        labels: {
-          formatter: function (value) {
-            return value.toFixed(2);
-          },
-        },
-      },
-    ],
-    colors: ["#F15B46", "#FEB019", "#38B2AC"],
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-  });
-  const [TankSalesColumnChartData, setTankSalesColumnChartData] = useState([
-    {
-      name: "Sales Volume",
-      data: [],
-    },
-    {
-      name: "Change Volume",
-      data: [],
-    },
-    {
-      name: "Leak",
-      data: [],
-    },
-  ]);
   const {
     user: { token },
   } = useAuth();
@@ -68,28 +16,36 @@ const TankSalesChart = () => {
     selectedStation: { controllerId },
   } = useESSContext();
 
+  const [selectedTank, setSelectedTank] = useState(null);
+  const [tanks, setTanks] = useState([]);
+  const [chartOptions, setChartOptions] = useState(
+    tankSalesChartConfig.options,
+  );
+  const [chartSeries, setChartSeries] = useState(tankSalesChartConfig.series);
+
   useEffect(() => {
-    const tankFuiteFetchData = async () => {
+    const fetchTanks = async () => {
       try {
-        const tankData = await getAllTankByIdc(controllerId, token);
-        setTankDataFuite(tankData);
+        const tankList = await getAllTankByIdc(controllerId, token);
+
+        setTanks(tankList);
 
         // select default Tank
-        if (!selectedTankColumn && tankData.length > 0) {
-          setSelectedTankColumn(tankData[0].idConf);
-        }
-
-        if (selectedTankColumn) {
-          updateChart(tankData);
+        if (tankList.length > 0) {
+          setSelectedTank(tankList[0].idConf);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data tank:", error);
       }
     };
 
+    fetchTanks();
+  }, [token, controllerId]);
+
+  useEffect(() => {
     const updateChart = async () => {
       try {
-        const chartData = await getTankLevelSelected(selectedTankColumn, token);
+        const chartData = await getTankLevelSelected(selectedTank, token);
 
         const filteredData = {
           categories: chartData.map((item) => {
@@ -118,33 +74,35 @@ const TankSalesChart = () => {
             },
           ],
         };
-        setTankSalesColumnChartOptions({
-          ...TankSalesColumnChartOptions,
+        setChartOptions({
+          ...chartOptions,
           xaxis: {
             categories: filteredData.categories,
           },
         });
-        setTankSalesColumnChartData(filteredData.series);
+        setChartSeries(filteredData.series);
       } catch (error) {
         console.error("Error fetching data de fuite:", error);
       }
     };
 
-    tankFuiteFetchData();
-  }, [selectedTankColumn, token, controllerId]);
+    if (selectedTank) {
+      updateChart(token, tanks);
+    }
+  }, [selectedTank]);
 
   return (
     <>
       <Flex marginLeft="3%">
         <TankChartMenu
-          tank={selectedTankColumn}
-          setTank={setSelectedTankColumn}
-          tankData={tankDataFuite}
+          tanks={tanks}
+          selectedTank={selectedTank}
+          onChange={(tank) => setSelectedTank(tank)}
         />
       </Flex>
       <ReactApexChart
-        options={TankSalesColumnChartOptions}
-        series={TankSalesColumnChartData}
+        options={chartOptions}
+        series={chartSeries}
         type="bar"
         width="100%"
         height="490px"

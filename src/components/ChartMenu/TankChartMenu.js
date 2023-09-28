@@ -3,11 +3,7 @@ import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
-const TankChartMenu = ({ tank, setTank, tankData }) => {
-  const handleTankChange = (value) => {
-    setTank(value);
-  };
-
+const TankChartMenu = ({ tanks, selectedTank, onChange }) => {
   return (
     <Menu
       menuButton={
@@ -16,13 +12,13 @@ const TankChartMenu = ({ tank, setTank, tankData }) => {
         </MenuButton>
       }
     >
-      {tankData.map((tankElement) => (
+      {tanks.map((tankElement) => (
         <MenuItem
           type="checkbox"
           key={tankElement.idConf}
           value={tankElement.idConf}
-          onClick={() => handleTankChange(tankElement.idConf)}
-          checked={tank === tankElement.idConf}
+          onClick={() => onChange(tankElement.idConf)}
+          checked={selectedTank === tankElement.idConf}
         >
           Tank {tankElement.idConf}
         </MenuItem>
