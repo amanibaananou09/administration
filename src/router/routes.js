@@ -57,14 +57,6 @@ var dashRoutes = [
         layout: "/admin",
         privateRoute: true,
       },
-      {
-        path: "/signin",
-        name: "Sign In",
-        icon: <DocumentIcon color="inherit" />,
-        component: SignIn,
-        layout: "/auth",
-        onlyPublicRoute: true,
-      },
     ],
   },
 ];
