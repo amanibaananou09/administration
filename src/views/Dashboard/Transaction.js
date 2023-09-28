@@ -1,6 +1,8 @@
 // Chakra imports
 import {
   Flex,
+  Skeleton,
+  Stack,
   Table,
   Tbody,
   Text,
@@ -24,7 +26,7 @@ function Transaction() {
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [Transaction, setTransaction] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const { user } = useAuth();
   const {
     selectedStation: { controllerId },
@@ -37,14 +39,14 @@ function Transaction() {
         const tranpumpWithId = result.map((item, index) => {
           return { ...item, id: index + 1 };
         });
-        setTransaction(tranpumpWithId);
+        setTransactions(tranpumpWithId);
       } catch (error) {
         console.error(error);
       }
     };
     getAllTransaction();
   }, [controllerId, user]);
-  console.log("transaction sont", Transaction);
+
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
@@ -94,7 +96,7 @@ function Transaction() {
               </Tr>
             </Thead>
             <Tbody>
-              {Transaction.map((row, key) => {
+              {transactions.map((row, key) => {
                 return (
                   <TransactionTableRow
                     id={row.id}
@@ -114,6 +116,15 @@ function Transaction() {
               })}
             </Tbody>
           </Table>
+          {transactions.length === 0 && (
+            <Stack width="100%" margin="20px 0px">
+              <Skeleton height="50px" borderRadius="10px" />
+              <Skeleton height="50px" borderRadius="10px" />
+              <Skeleton height="50px" borderRadius="10px" />
+              <Skeleton height="50px" borderRadius="10px" />
+              <Skeleton height="50px" borderRadius="10px" />
+            </Stack>
+          )}
         </CardBody>
       </Card>
     </Flex>
