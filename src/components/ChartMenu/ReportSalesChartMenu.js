@@ -68,14 +68,14 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("type", "sale")}
-          checked={filter["type"] === "sale"}
+          checked={filter.type === "sale"}
         >
           Sale
         </MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("type", "purchase")}
-          checked={filter["type"] === "purchase"}
+          checked={filter.type === "purchase"}
         >
           Purchase
         </MenuItem>
@@ -86,7 +86,7 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
           type="checkbox"
           value="all"
           onClick={() => handleChange("fuelGrade", "all")}
-          checked={filter["fuelGrade"] === "all"}
+          checked={filter.fuelGrade === "all"}
         >
           All Fuel Grades
         </MenuItem>
@@ -96,7 +96,7 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
             key={fuel.name}
             value={fuel.name}
             onClick={() => handleChange("fuelGrade", fuel.name)}
-            checked={filter["fuelGrade"] === fuel.name}
+            checked={filter.fuelGrade === fuel.name}
           >
             {fuel.name}
           </MenuItem>
@@ -110,7 +110,7 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
             type="checkbox"
             value="all"
             onClick={() => handleChange("pump", "all")}
-            checked={filter["pump"] === "all"}
+            checked={filter.pump === "all"}
           >
             All Pumps
           </MenuItem>
@@ -120,7 +120,7 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
               key={pump.id}
               value={pump.id}
               onClick={() => handleChange("pump", pump.id)}
-              checked={filter["pump"] === pump.id}
+              checked={filter.pump === pump.id}
             >
               Pump {pump.id}
             </MenuItem>
@@ -132,7 +132,7 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
             type="checkbox"
             value="all"
             onClick={() => handleChange("tank", "all")}
-            checked={filter["tank"] === "all"}
+            checked={filter.tank === "all"}
           >
             All Tank
           </MenuItem>
@@ -142,7 +142,7 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
               key={tank.idConf}
               value={tank.idConf}
               onClick={() => handleChange("tank", tank.idConf)}
-              checked={filter["tank"] === tank.idConf}
+              checked={filter.tank === tank.idConf}
             >
               Tank {tank.idConf}
             </MenuItem>
@@ -154,21 +154,21 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("period", "weekly")}
-          checked={filter["period"] === "weekly"}
+          checked={filter.period === "weekly"}
         >
           Weekly
         </MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("period", "monthly")}
-          checked={filter["period"] === "monthly"}
+          checked={filter.period === "monthly"}
         >
           Monthly
         </MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("period", "yearly")}
-          checked={filter["period"] === "yearly"}
+          checked={filter.period === "yearly"}
         >
           Yearly
         </MenuItem>
