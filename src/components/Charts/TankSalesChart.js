@@ -7,7 +7,7 @@ import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 
 const TankSalesChart = () => {
-  const [selectedTankColumn, setSelectedTankColumn] = useState("all");
+  const [selectedTankColumn, setSelectedTankColumn] = useState(1);
   const [tankDataFuite, setTankDataFuite] = useState([]);
   const [
     TankSalesColumnChartOptions,
@@ -74,10 +74,6 @@ const TankSalesChart = () => {
         const tankData = await getAllTankByIdc(controllerId, token);
         setTankDataFuite(tankData);
 
-       {/* // select default Tank
-        if (tankData.length > 0) {
-          setSelectedTankColumn(tankData[0].idConf);
-        }*/}
 
         updateChart(tankData);
       } catch (error) {

@@ -11,7 +11,7 @@ import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 
 const TankLevelChart = () => {
-  const [selectedTank, setSelectedTank] = useState("all");
+  const [selectedTank, setSelectedTank] = useState(1);
   const [tankData, setTankData] = useState([]);
   const [chartOptions, setChartOptions] = useState({
     chart: {
