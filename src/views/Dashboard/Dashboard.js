@@ -14,7 +14,7 @@ import {
 // Custom components
 import Card from "components/Card/Card.js";
 import ReportSalesChart from "components/Charts/ReportSalesChart";
-import TankLevelChat from "components/Charts/TankLevelChat";
+import TankLevelChart from "components/Charts/TankLevelChart";
 import TankSalesChart from "components/Charts/TankSalesChart";
 import UserSalesChart from "components/Charts/UserSalesChart";
 import IconBox from "components/Icons/IconBox";
@@ -247,7 +247,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <TankLevelChat />
+            <TankLevelChart />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>

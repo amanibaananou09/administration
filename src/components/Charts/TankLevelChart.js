@@ -10,7 +10,7 @@ import {
 import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 
-const TankLevelChat = () => {
+const TankLevelChart = () => {
   const [selectedTank, setSelectedTank] = useState("all");
   const [tankData, setTankData] = useState([]);
   const [chartOptions, setChartOptions] = useState({
@@ -75,6 +75,12 @@ const TankLevelChat = () => {
     try {
       const tankData = await getAllTankByIdc(controllerId, token);
       setTankData(tankData);
+
+      // select default Tank
+      if (tankData.length > 0) {
+        setSelectedTank(tankData[0].idConf);
+      }
+
       updateChartData(token, tankData);
     } catch (error) {
       console.error("Error fetching data tank:", error);
@@ -140,4 +146,4 @@ const TankLevelChat = () => {
   );
 };
 
-export default TankLevelChat;
+export default TankLevelChart;
