@@ -118,15 +118,13 @@ const UserSalesChart = () => {
       },
     },
     yaxis: {
-      show: true,
-      color: textColor,
-      labels: {
-        show: true,
-        style: {
-          colors: textColor,
-          fontSize: "14px",
-        },
-      },
+      show: false,
+    },
+    dataLabels: {
+      enabled: true,
+    },
+    grid: {
+      show: false,
     },
   };
 
