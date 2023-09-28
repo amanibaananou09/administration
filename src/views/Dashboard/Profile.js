@@ -20,7 +20,7 @@ import React from "react";
 
 function Profile() {
   const {
-    selectedStation: { userLogin, address },
+    selectedStation: { userLogin, address, },
   } = useESSContext();
 
   // Chakra color mode
@@ -73,7 +73,7 @@ function Profile() {
               color={emailColor}
               fontWeight="semibold"
             >
-              alec@simmmple.com
+             {}
             </Text>
           </Flex>
         </Flex>
