@@ -79,7 +79,9 @@ const TankSalesChart = () => {
           setSelectedTankColumn(tankData[0].idConf);
         }
 
-        updateChart(tankData);
+        if (selectedTankColumn) {
+          updateChart(tankData);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }

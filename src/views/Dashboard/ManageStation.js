@@ -1,5 +1,12 @@
 // Chakra imports
-import { Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Skeleton,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { updateStation } from "common/api";
 import { deleteStation } from "common/api";
 import { createStation } from "common/api";
@@ -17,7 +24,7 @@ import { useESSContext } from "store/ESSContext";
 
 const ManageStation = () => {
   const { user } = useAuth();
-  const { selectStation, clearContext, selectedStation } = useESSContext();
+  const { selectStation, selectedStation } = useESSContext();
   const [stations, setStations] = useState([]);
   const stationModalRef = useRef();
   const confirmationModalRef = useRef();
@@ -130,6 +137,12 @@ const ManageStation = () => {
                     />
                   );
                 })}
+                {stations.length == 0 && (
+                  <Stack width="100%" margin="20px 0px">
+                    <Skeleton height="200px" borderRadius="10px" />
+                    <Skeleton height="200px" borderRadius="10px" />
+                  </Stack>
+                )}
               </Flex>
             </CardBody>
           </Flex>

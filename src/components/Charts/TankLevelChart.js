@@ -81,7 +81,9 @@ const TankLevelChart = () => {
         setSelectedTank(tankData[0].idConf);
       }
 
-      updateChartData(token, tankData);
+      if (selectedTank) {
+        updateChartData(token, tankData);
+      }
     } catch (error) {
       console.error("Error fetching data tank:", error);
     }
