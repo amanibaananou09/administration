@@ -18,10 +18,10 @@ import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import React from "react";
 
-function Profile() {
-  const {
-    selectedStation: { userLogin, address, },
-  } = useESSContext();
+  function Profile() {
+    const { selectedStation } = useESSContext();
+    const lastName = selectedStation.user.lastName;
+    console.log("selectedStation:", selectedStation);
 
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
@@ -66,14 +66,14 @@ function Profile() {
               fontWeight="bold"
               ms={{ sm: "8px", md: "0px" }}
             >
-              {userLogin}
+              {selectedStation.userLogin}
             </Text>
             <Text
               fontSize={{ sm: "sm", md: "md" }}
               color={emailColor}
               fontWeight="semibold"
             >
-             {}
+              {selectedStation.user.email}
             </Text>
           </Flex>
         </Flex>
@@ -108,7 +108,7 @@ function Profile() {
                   first Name:{" "}
                 </Text>
                 <Text fontSize="md" color="gray.400" fontWeight="400">
-                  Esthera Jackson
+                  {selectedStation.user.firstName}
                 </Text>
               </Flex>
               <Flex align="center" mb="18px">
@@ -121,7 +121,7 @@ function Profile() {
                   last Name:{" "}
                 </Text>
                 <Text fontSize="md" color="gray.400" fontWeight="400">
-                  Esthera Jackson
+                  {selectedStation.user.lastName}
                 </Text>
               </Flex>
               <Flex align="center" mb="18px">
@@ -134,7 +134,7 @@ function Profile() {
                   Email:{" "}
                 </Text>
                 <Text fontSize="md" color="gray.400" fontWeight="400">
-                  esthera@simmmple.com
+                  {selectedStation.user.email}
                 </Text>
               </Flex>
               <Flex align="center" mb="18px">
@@ -147,7 +147,7 @@ function Profile() {
                   Location:{" "}
                 </Text>
                 <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {address}
+                  {selectedStation.address}
                 </Text>
               </Flex>
             </Flex>
