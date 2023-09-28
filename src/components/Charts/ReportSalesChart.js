@@ -130,7 +130,6 @@ const ReportSalesChart = () => {
       console.error("Error fetching data:", error);
     }
   }, [filter, controllerId]);
-  console.log("data fule g ", chartData);
   return (
     <>
       <Flex marginLeft="3%">
