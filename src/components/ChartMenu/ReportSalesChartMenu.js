@@ -170,7 +170,7 @@ const ReportSalesChartMenu = ({ filter, onChange }) => {
           onClick={() => handleChange("period", "yearly")}
           checked={filter.period === "yearly"}
         >
-          current Year
+          current Yearly
         </MenuItem>
       </SubMenu>
     </Menu>

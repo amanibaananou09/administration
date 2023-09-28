@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ReactApexChart from "react-apexcharts";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { useAuth } from "store/AuthContext";
 import {
   getChartByFuelPumpPeriod,
@@ -117,9 +117,11 @@ const ReportSalesChart = () => {
           case "yearly":
             filteredData.labels = data.map((item) => {
               const yearAbbreviation = item.dateF.substring(0, 3);
-              return `${yearAbbreviation}\n${item.nameF}\n(pump${item.pump})`;
+              const typeLabel = filter.type === "sale" ? "pump" : "tank";
+              return `${yearAbbreviation}\n${item.nameF}\n(${typeLabel}${item[typeLabel]})`;
             });
             break;
+
           default:
             filteredData.labels = [];
             break;
@@ -142,6 +144,16 @@ const ReportSalesChart = () => {
         width="100%"
         height="150%"
       />
+      <Flex justifyContent="center" color="white" flexDirection="row">
+        <Text marginRight="10px">Type: {filter.type}</Text>
+        <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
+        {filter.type === "sale" ? (
+          <Text marginRight="10px">Pump: {filter.pump}</Text>
+        ) : (
+          <Text marginRight="10px">Tank: {filter.tank}</Text>
+        )}
+        <Text marginRight="10px">Period: {filter.period}</Text>
+      </Flex>
     </>
   );
 };
