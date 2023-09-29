@@ -15,16 +15,16 @@ import {
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import TransactionTableRow from "components/Tables/TransactionTableRow";
+import TankDeliveryRow from "components/Tables/TankDeliveryRow";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { getallTransactionPump } from "common/api.js";
+import { getAllTankDelivery } from "common/api.js";
 
 function Transaction() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const [transactions, setTransactions] = useState([]);
+  const [tankdelivery, setTankDeliv] = useState([]);
   const { user } = useAuth();
   const {
     selectedStation: { controllerId },
@@ -33,11 +33,8 @@ function Transaction() {
     const { token } = user;
     const getAllTransaction = async () => {
       try {
-        const result = await getallTransactionPump(controllerId, token);
-        const tranpumpWithId = result.map((item, index) => {
-          return { ...item, id: index + 1 };
-        });
-        setTransactions(tranpumpWithId);
+        const result = await getAllTankDelivery(token);
+        setTankDeliv(result);
       } catch (error) {
         console.error(error);
       }
@@ -50,7 +47,7 @@ function Transaction() {
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
         <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Transactions
+            Tank Delivery
           </Text>
         </CardHeader>
         <CardBody>
@@ -58,94 +55,71 @@ function Transaction() {
             variant="simple"
             color={textColor}
             size="sm"
+            textAlign="center"
           >
             <Thead>
               <Tr color="gray.400">
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
+                  textAlign="center"
                 >
-                  ID
+                  tank
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Pump
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                >
-                  Fuel Grade
+                  product Height
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Volume
+                  fuel Grade
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Price
+                  water Height
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Amount
+                  temperature
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Date time start
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  Date time
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  State
+                  product Volume
                 </Th>
               </Tr>
             </Thead>
             <Tbody>
-              {transactions.map((row, key) => {
+              {tankdelivery.map((row, key) => {
                 return (
-                  <TransactionTableRow
-                    id={row.id}
-                    pump={row.pump}
-                    fuelGrade={row.fuelName}
-                    volume={row.volume}
-                    price={row.price}
-                    amount={row.amount}
-                    totalVolume={row.totalVolume}
-                    totalAmount={row.totalAmount}
-                    DateTimeStart={row.dateTimeStart}
-                    DateTime={row.dateTime}
-                    state={row.state}
+                  <TankDeliveryRow
+                    tank={row.tank}
+                    fuelGradeName={row.fuelGradeName}
+                    productHeight={row.productHeight}
+                    waterHeight={row.waterHeight}
+                    temperature={row.temperature}
+                    productVolume={row.productVolume}
                     key={key}
                   />
                 );
               })}
             </Tbody>
           </Table>
-          {transactions.length === 0 && (
+          {tankdelivery.length === 0 && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />
               <Skeleton height="50px" borderRadius="10px" />

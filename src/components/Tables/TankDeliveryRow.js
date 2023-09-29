@@ -8,38 +8,23 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
-function formatDate(dateTime) {
-  return new Date(dateTime).toLocaleString("fr-FR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-}
 
-function TablesTableRow(props) {
+function TankDeliveryRow(props) {
   const {
-    id,
-    pump,
-    fuelGrade,
-    state,
-    volume,
-    price,
-    amount,
-    DateTimeStart,
-    DateTime,
+    tank,
+    fuelGradeName,
+    productHeight,
+    waterHeight,
+    temperature,
+    productVolume,
   } = props;
   const textColor = useColorModeValue("gray.500", "white");
   const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const formattedDateTime = formatDate(DateTime);
-  const formattedDateTimeStart = formatDate(DateTimeStart);
   return (
     <Tr>
-      <Td minWidth={{ sm: "50px" }} pl="15px" borderColor={borderColor}>
+      <Td minWidth={{ sm: "50px" }} pl="45px" borderColor={borderColor}>
         <Flex py=".8rem" minWidth="100%" flexWrap="nowrap">
           <Flex direction="column">
             <Text
@@ -49,12 +34,11 @@ function TablesTableRow(props) {
               minWidth="100%"
               align="center"
             >
-              {id}
+              {tank}
             </Text>
           </Flex>
         </Flex>
       </Td>
-
       <Td borderColor={borderColor}>
         <Flex direction="column">
           <Text
@@ -63,21 +47,21 @@ function TablesTableRow(props) {
             color={textColor}
             fontWeight="bold"
           >
-            {pump}
+            {productHeight}
           </Text>
         </Flex>
       </Td>
       <Td borderColor={borderColor}>
-        <Button p="0px" bg="transparent" variant="no-effects">
+        <Flex direction="column">
           <Text
             fontSize="sm"
             align="center"
             color={textColor}
             fontWeight="bold"
           >
-            {fuelGrade}
+            {fuelGradeName}
           </Text>
-        </Button>
+        </Flex>
       </Td>
       <Td borderColor={borderColor}>
         <Text
@@ -87,18 +71,7 @@ function TablesTableRow(props) {
           fontWeight="bold"
           pb=".5rem"
         >
-          {volume}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor}>
-        <Text
-          fontSize="sm"
-          align="center"
-          color={textColor}
-          fontWeight="bold"
-          pb=".5rem"
-        >
-          {price}
+          {waterHeight}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
@@ -109,44 +82,22 @@ function TablesTableRow(props) {
           fontWeight="bold"
           pb=".5rem"
         >
-          {amount}
+          {temperature}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
         <Text
           fontSize="sm"
           align="center"
-          color={titleColor}
+          color={textColor}
           fontWeight="bold"
           pb=".5rem"
         >
-          {formattedDateTimeStart}
+          {productVolume}
         </Text>
-      </Td>
-      <Td borderColor={borderColor}>
-        <Text
-          fontSize="sm"
-          align="center"
-          color={titleColor}
-          fontWeight="bold"
-          pb=".5rem"
-        >
-          {formattedDateTime}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor}>
-        <Badge
-          bg={state === "Online" ? "green.400" : bgStatus}
-          color={state === "Online" ? "white" : "white"}
-          fontSize="16px"
-          p="3px 10px"
-          borderRadius="8px"
-        >
-          {state}
-        </Badge>
       </Td>
     </Tr>
   );
 }
 
-export default TablesTableRow;
+export default TankDeliveryRow;

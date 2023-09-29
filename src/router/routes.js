@@ -17,6 +17,7 @@ import {
 } from "components/Icons/Icons";
 import ManageStation from "views/Dashboard/ManageStation";
 import Transaction from "views/Dashboard/Transaction";
+import TankDelivery from "views/Dashboard/TankDelivery";
 
 var dashRoutes = [
   {
@@ -40,6 +41,14 @@ var dashRoutes = [
     name: "Transactions",
     icon: <WalletIcon color="inherit" />,
     component: Transaction,
+    layout: "/admin",
+    privateRoute: true,
+  },
+  {
+    path: "/tank-delivery",
+    name: "Tank Delivery",
+    icon: <WalletIcon color="inherit" />,
+    component: TankDelivery,
     layout: "/admin",
     privateRoute: true,
   },

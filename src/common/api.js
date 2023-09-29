@@ -37,6 +37,7 @@ export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/UploadPumpTransaction`;
 
 //Tank
 export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/tank`;
+export const TANK_CONFIG_READ_DELIVERY_ENDPOINT =`${localhostURL}/configuration/read/delivery`;
 export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/essTransaction/TankMeasurements`;
 
 //Probe
@@ -805,6 +806,21 @@ export const getChartByFuelTankPeriod = async (
 export const getChartTankLevel = async (token) => {
   const data = await fetchUrl({
     url: CHART_TANK_LEVEL_ALL,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
+
+export const getAllTankDelivery = async (token) => {
+  const data = await fetchUrl({
+    url: TANK_CONFIG_READ_DELIVERY_ENDPOINT,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
