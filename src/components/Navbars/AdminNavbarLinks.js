@@ -1,5 +1,5 @@
 // Chakra Icons
-import { BellIcon } from "@chakra-ui/icons";
+import { BellIcon, TriangleDownIcon } from "@chakra-ui/icons";
 // Chakra Imports
 import {
   Box,
@@ -9,7 +9,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Stack,
   Text,
   useColorMode,
   useColorModeValue,
@@ -19,21 +18,15 @@ import avatar1 from "assets/img/avatars/avatar1.png";
 import avatar2 from "assets/img/avatars/avatar2.png";
 import avatar3 from "assets/img/avatars/avatar3.png";
 // Custom Icons
-import {
-  ArgonLogoDark,
-  ArgonLogoLight,
-  ChakraLogoDark,
-  ChakraLogoLight,
-  ProfileIcon,
-  SettingsIcon,
-} from "components/Icons/Icons";
+import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
 // Custom Components
 import { ItemContent } from "components/Menu/ItemContent";
-import { SearchBar } from "components/Navbars/SearchBar/SearchBar";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
 import routes from "router/routes.js";
 import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { useHistory } from 'react-router-dom';
 
 export default function HeaderLinks(props) {
   const {
@@ -47,8 +40,9 @@ export default function HeaderLinks(props) {
   } = props;
 
   const { signOut } = useAuth();
-
+  const { selectedStation, clearContext } = useESSContext();
   const { colorMode } = useColorMode();
+  const history = useHistory();
 
   // Chakra Color Mode
   let navbarIcon =
@@ -66,31 +60,83 @@ export default function HeaderLinks(props) {
       alignItems="center"
       flexDirection="row"
     >
-      <Button
-        ms="0px"
-        px="0px"
-        me={{ sm: "2px", md: "16px" }}
-        color={navbarIcon}
-        variant="no-effects"
-        onClick={() => signOut()}
-        rightIcon={
-          document.documentElement.dir ? (
-            ""
-          ) : (
-            <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
-          )
-        }
-        leftIcon={
-          document.documentElement.dir ? (
-            <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
-          ) : (
-            ""
-          )
-        }
-      >
-        <Text display={{ sm: "none", md: "flex" }}>Sign Out</Text>
-      </Button>
-
+      <Menu>
+        <MenuButton>
+          <Flex alignItems="center" me="16px">
+            <Box>
+              <Text
+                fontSize="md"
+                fontWeight="bold"
+                color={navbarIcon}
+                me="16px"
+              >
+                {selectedStation && selectedStation.user
+                  ? `${selectedStation.user.firstName} ${selectedStation.user.lastName}`
+                  : "Unknown User"}
+              </Text>
+            </Box>
+            <Box>
+              <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
+            </Box>
+          </Flex>
+        </MenuButton>
+        <MenuList
+          p="16px 8px"
+          bg={menuBg}
+          border="1px solid"
+          borderColor={useColorModeValue("gray.200", "gray.700")}
+          borderRadius="8px"
+          minWidth="200px"
+        >
+          <MenuItem borderRadius="8px">
+            <Flex alignItems="center">
+              <Box mr="12px">
+                <img
+                  src={avatar1}
+                  alt="Avatar"
+                  style={{ borderRadius: "50%", width: "32px", height: "32px" }}
+                />
+              </Box>
+              <Box>
+                <Text color="gray.400" fontSize="md" mr="12px">
+                  <Text
+                    as="span"
+                    fontSize="md"
+                    color="black"
+                    fontWeight="bold"
+                    mr="12px"
+                  >
+                    User Login:
+                  </Text>
+                  {selectedStation && selectedStation.userLogin ? selectedStation.userLogin : "Unknown User Login"}
+                </Text>
+                <Text fontSize="sm" color="gray.500">
+                {selectedStation && selectedStation.user ? selectedStation.user.email : "Unknown Email"}
+                </Text>
+              </Box>
+            </Flex>
+          </MenuItem>
+          <MenuItem
+            borderRadius="8px"
+            _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
+            onClick={() => {
+              history.push('/admin/profile'); 
+            }}
+          >
+            My Profile
+          </MenuItem>
+          <MenuItem
+            borderRadius="8px"
+            onClick={() => {
+              clearContext();
+              signOut();
+            }}
+            _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
+          >
+            Sign Out
+          </MenuItem>
+        </MenuList>
+      </Menu>
       <SidebarResponsive
         hamburgerColor={"white"}
         colorMode={colorMode}

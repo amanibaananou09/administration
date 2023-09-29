@@ -20,8 +20,6 @@ import React from "react";
 
   function Profile() {
     const { selectedStation } = useESSContext();
-    const lastName = selectedStation.user.lastName;
-    console.log("selectedStation:", selectedStation);
 
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
@@ -84,11 +82,10 @@ import React from "react";
       </Flex>
 
       <Grid
-        templateColumns={{ sm: "1fr", xl: "repeat(3, 1fr)" }}
+        pt={{ base: "10px", md: "75px", lg: "30px" }}
         gap="22px"
         justifyContent="center"
         alignItems="center"
-        marginLeft="35%"
       >
         <Card p="16px" my={{ sm: "24px", xl: "0px" }}>
           <CardHeader p="12px 5px" mb="12px">
