@@ -10,6 +10,8 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  ButtonGroup,
+   Button ,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
@@ -25,6 +27,8 @@ function Transaction() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [transactions, setTransactions] = useState([]);
+   const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
   const { user } = useAuth();
   const {
     selectedStation: { controllerId },
@@ -33,18 +37,21 @@ function Transaction() {
     const { token } = user;
     const getAllTransaction = async () => {
       try {
-        const result = await getallTransactionPump(controllerId, token);
+        const result = await getallTransactionPump(currentPage,controllerId, token);
         const tranpumpWithId = result.map((item, index) => {
           return { ...item, id: index + 1 };
         });
         setTransactions(tranpumpWithId);
+        setTotalPages(tranpumpWithId.length);
       } catch (error) {
         console.error(error);
       }
     };
     getAllTransaction();
-  }, [controllerId, user]);
-
+  }, [currentPage,controllerId, user]);
+const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
@@ -156,6 +163,21 @@ function Transaction() {
           )}
         </CardBody>
       </Card>
+       <ButtonGroup mt={4} spacing={4} >
+                              <Button
+                                isDisabled={currentPage === 0}
+                                onClick={() => handlePageChange(currentPage - 1)}
+                              >
+                                Previous
+                              </Button>
+                              <Button>{currentPage +1}</Button>
+                              <Button
+                                isDisabled={currentPage === totalPages -1}
+                                onClick={() => handlePageChange(currentPage + 1)}
+                              >
+                                Next
+                              </Button>
+                            </ButtonGroup>
     </Flex>
   );
 }

@@ -544,9 +544,9 @@ export const getAllPumpByNozzel = async (controllerId, selectedPump, token) => {
   return data;
 };
 
-export const getallTransactionPump = async (controllerId, token) => {
+export const getallTransactionPump = async (currentPage,controllerId, token) => {
   const data = await fetchUrl({
-    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}`,
+    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?page=${currentPage}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -818,9 +818,9 @@ export const getChartTankLevel = async (token) => {
   return data;
 };
 
-export const getAllTankDelivery = async (controllerId,token) => {
+export const getAllTankDelivery = async (currentPage,controllerId,token) => {
   const data = await fetchUrl({
-    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${controllerId}`,
+    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${controllerId}?page=${currentPage}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

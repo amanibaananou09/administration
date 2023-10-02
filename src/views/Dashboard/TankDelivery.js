@@ -10,6 +10,8 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  ButtonGroup,
+  Button ,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
@@ -20,26 +22,37 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "store/AuthContext";
 import { getAllTankDelivery } from "common/api.js";
 import { useESSContext} from "store/ESSContext";
-function Transaction() {
+function TankDelivery() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [tankdelivery, setTankDelivery] = useState([]);
   const { user } = useAuth();
+  const [tankDeliveryList, setTankDeliveryList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
    const {
       selectedStation: { controllerId },
     } = useESSContext();
   useEffect(() => {
     const { token } = user;
-    const allTankDelivery = async () => {
+    const allTankDelivery = async (page) => {
       try {
-        const result = await getAllTankDelivery(controllerId,token);
+        const result = await getAllTankDelivery(currentPage,controllerId,token);
         setTankDelivery(result);
+
+        setTotalPages(result.length);
       } catch (error) {
         console.error(error);
       }
     };
     allTankDelivery();
-  }, [controllerId,user]);
+  }, [currentPage,controllerId,user]);
+  console.log("current",currentPage)
+  console.log("total",totalPages)
+ const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -118,6 +131,7 @@ function Transaction() {
               })}
             </Tbody>
           </Table>
+
           {tankdelivery.length === 0 && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />
@@ -129,8 +143,23 @@ function Transaction() {
           )}
         </CardBody>
       </Card>
+        <ButtonGroup mt={4} spacing={4} >
+                        <Button
+                          isDisabled={currentPage === 0}
+                          onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                          Previous
+                        </Button>
+                        <Button>{currentPage +1}</Button>
+                        <Button
+                          isDisabled={currentPage === totalPages -1}
+                          onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                          Next
+                        </Button>
+                      </ButtonGroup>
     </Flex>
   );
 }
 
-export default Transaction;
+export default TankDelivery;
