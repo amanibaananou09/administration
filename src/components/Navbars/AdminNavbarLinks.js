@@ -1,9 +1,8 @@
 // Chakra Icons
-import { BellIcon, TriangleDownIcon } from "@chakra-ui/icons";
+import { BellIcon } from "@chakra-ui/icons";
 // Chakra Imports
 import {
   Box,
-  Button,
   Flex,
   Menu,
   MenuButton,
@@ -25,8 +24,7 @@ import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
 import routes from "router/routes.js";
 import { useAuth } from "store/AuthContext";
-import { useESSContext } from "store/ESSContext";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 export default function HeaderLinks(props) {
   const {
@@ -39,11 +37,10 @@ export default function HeaderLinks(props) {
     ...rest
   } = props;
 
-  const { signOut } = useAuth();
-  const { selectedStation, clearContext } = useESSContext();
+  const { signOut, user } = useAuth();
   const { colorMode } = useColorMode();
   const history = useHistory();
-
+  console.log("user:", user);
   // Chakra Color Mode
   let navbarIcon =
     fixed && scrolled
@@ -70,9 +67,7 @@ export default function HeaderLinks(props) {
                 color={navbarIcon}
                 me="16px"
               >
-                {selectedStation && selectedStation.user
-                  ? `${selectedStation.user.firstName} ${selectedStation.user.lastName}`
-                  : "Unknown User"}
+                {user && user.fullName ? user.fullName : "Unknown Name"}
               </Text>
             </Box>
             <Box>
@@ -108,10 +103,10 @@ export default function HeaderLinks(props) {
                   >
                     User Login:
                   </Text>
-                  {selectedStation && selectedStation.userLogin ? selectedStation.userLogin : "Unknown User Login"}
+                  {user && user.username ? user.username : "Unknown User Name"}
                 </Text>
                 <Text fontSize="sm" color="gray.500">
-                {selectedStation && selectedStation.user ? selectedStation.user.email : "Unknown Email"}
+                  {user && user.email ? user.email : "Unknown Email"}
                 </Text>
               </Box>
             </Flex>
@@ -120,7 +115,7 @@ export default function HeaderLinks(props) {
             borderRadius="8px"
             _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
             onClick={() => {
-              history.push('/admin/profile'); 
+              history.push("/admin/profile");
             }}
           >
             My Profile
@@ -128,7 +123,6 @@ export default function HeaderLinks(props) {
           <MenuItem
             borderRadius="8px"
             onClick={() => {
-              clearContext();
               signOut();
             }}
             _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}

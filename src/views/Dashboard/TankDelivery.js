@@ -18,29 +18,25 @@ import CardHeader from "components/Card/CardHeader.js";
 import TankDeliveryRow from "components/Tables/TankDeliveryRow";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "store/AuthContext";
-import { useESSContext } from "store/ESSContext";
 import { getAllTankDelivery } from "common/api.js";
 
 function Transaction() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const [tankdelivery, setTankDeliv] = useState([]);
+  const [tankdelivery, setTankDelivery] = useState([]);
   const { user } = useAuth();
-  const {
-    selectedStation: { controllerId },
-  } = useESSContext();
   useEffect(() => {
     const { token } = user;
-    const getAllTransaction = async () => {
+    const allTankDelivery = async () => {
       try {
         const result = await getAllTankDelivery(token);
-        setTankDeliv(result);
+        setTankDelivery(result);
       } catch (error) {
         console.error(error);
       }
     };
-    getAllTransaction();
-  }, [controllerId, user]);
+    allTankDelivery();
+  }, [user]);
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
