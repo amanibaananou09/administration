@@ -4,67 +4,65 @@ export const webSocketURL = "ws://localhost:8083";
 const PtsId = localStorage.getItem("PtsId");
 
 //controller
-export const ALL_CONTROLLERS_ENDPOINT = `${localhostURL}/station/AllContoller`;
-export const ADD_CONTROLLERS_ENDPOINT = `${localhostURL}/station/addController`;
+export const ALL_CONTROLLERS_ENDPOINT = `${localhostURL}/api/station/allContoller`;
+export const ADD_CONTROLLERS_ENDPOINT = `${localhostURL}/api/station/addController`;
 
 //Grades
-export const FUELGRADES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/fuelGrade`;
+export const FUELGRADES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/fuelGrade`;
 
 //Web_socket
-export const CONFIG_WEBSOCKET_ENDPOINT = `${localhostURL}/configuration/ws/${PtsId}`;
+export const CONFIG_WEBSOCKET_ENDPOINT = `${localhostURL}/api/configuration/ws/${PtsId}`;
 
 //History Endpoint
-export const HISTORY_USER_ENDPOINT = `${localhostURL}/user/UserHistory`;
+export const HISTORY_USER_ENDPOINT = `${localhostURL}/api/user/userHistory`;
 
 //UserHistory
-export const HISTORY_USER_GETID = `${localhostURL}/user/getTranById`;
+export const HISTORY_USER_GETID = `${localhostURL}/api/user/getTranById`;
 
 //login
-export const LOGIN_ENDPOINT = `${localhostURL}/login`;
+export const LOGIN_ENDPOINT = `${localhostURL}/api/login`;
 
 //version
-export const VERSION_CONFIG_ENDPOINT = `${localhostURL}/configuration/version`;
+export const VERSION_CONFIG_ENDPOINT = `${localhostURL}/api/configuration/version`;
 
 //Nozzles
-export const NOZZLES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/nozzle`;
-export const NOZZEL_BY_PUMP_READ_ENDPOINT = `${localhostURL}/configuration/read/nozzleByPump`;
+export const NOZZLES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/nozzle`;
+export const NOZZEL_BY_PUMP_READ_ENDPOINT = `${localhostURL}/api/configuration/nozzleByPump`;
 
 //Pump
-export const PUMP_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/pump`;
-export const PUMP_TANSACTION_START_END = `${localhostURL}/essstatus/uploadPumpTansaction`;
-export const PUMP_ALL_TRANSACTION_READ_CONFIG = `${localhostURL}/configuration/read/transaction`;
+export const PUMP_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/pump`;
+export const PUMP_ALL_TRANSACTION_READ_CONFIG = `${localhostURL}/api/configuration/transaction`;
 export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/UploadPumpTransaction`;
 
 //Tank
-export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/tank`;
-export const TANK_CONFIG_READ_DELIVERY_ENDPOINT =`${localhostURL}/configuration/read/delivery`;
-export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/essTransaction/TankMeasurements`;
+export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/tank`;
+export const TANK_CONFIG_READ_DELIVERY_ENDPOINT =`${localhostURL}/api/configuration/delivery`;
+export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/api/essTransaction/TankMeasurements`;
 
 //Probe
-export const PROBE_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/probe`;
+export const PROBE_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/probe`;
 
 //Reader
-export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/reader`;
+export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/reader`;
 
 //Station
-export const STATION_ADD_ENDPOINT = `${localhostURL}/station/addStation`;
-export const STATION_UPDATE_ENDPOINT = `${localhostURL}/station/updateStation`;
-export const STATION_DELETE_ENDPOINT = `${localhostURL}/station/deleteStation`;
-export const STATION_ALL_ENDPOINT = `${localhostURL}/station/AllStation`;
-export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/station/findController`;
+export const STATION_ADD_ENDPOINT = `${localhostURL}/api/station/addStation`;
+export const STATION_UPDATE_ENDPOINT = `${localhostURL}/api/station/updateStation`;
+export const STATION_DELETE_ENDPOINT = `${localhostURL}/api/station/deleteStation`;
+export const STATION_ALL_ENDPOINT = `${localhostURL}/api/station/allStation`;
+export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/api/station/findController`;
 
 //User
-export const CREATE_USER_ENDPOINT = `${localhostURL}/createUser`;
-export const LIST_USERS_ENDPOINT = `${localhostURL}/listUsers`;
-export const REGISTER_USER_ENDPOINT = `${localhostURL}/api/v1/auth/register`;
+export const CREATE_USER_ENDPOINT = `${localhostURL}/api/createUser`;
+export const LIST_USERS_ENDPOINT = `${localhostURL}/api/listUsers`;
 
 //chart
-export const CHART_ENDPOINT = `${localhostURL}/stat/Chart`;
-export const CHART_TANK_ENDPOINT = `${localhostURL}/stat/ChartGradeTank`;
-export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/stat/vent`;
-export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/stat/AllTankByIdC`;
-export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/stat/ChartTankLevel`;
-export const CHART_TANK_LEVEL_ALL = `${localhostURL}/stat/ChartTankLevel/all`;
+export const CHART_ENDPOINT = `${localhostURL}/api/chart/chartGradePump`;
+export const CHART_TANK_ENDPOINT = `${localhostURL}/api/chart/chartGradeTank`;
+export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/api/chart/vent`;
+export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/api/chart/allTankByIdC`;
+export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/api/chart/chartTankLevel`;
+export const CHART_TANK_LEVEL_ALL = `${localhostURL}/api/chart/chartTankLevel/all`;
 
 export const fetchUrl = async (config) => {
   const response = await fetch(config.url, {
@@ -596,7 +594,7 @@ export const updateStation = async (station, user) => {
 
   const data = await fetchUrl({
     url: `${STATION_UPDATE_ENDPOINT}/${station.id}`,
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + user.token,
@@ -615,7 +613,7 @@ export const updateStation = async (station, user) => {
 export const deleteStation = async (id, user) => {
   const data = await fetchUrl({
     url: `${STATION_DELETE_ENDPOINT}/${id}`,
-    method: "POST",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + user.token,
@@ -642,7 +640,6 @@ export const getAllStations = async (token) => {
 export const getStationForUser = async (username, token) => {
   const data = await fetchUrl({
     url: `${STATION_ALL_ENDPOINT}/${username}`,
-    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
