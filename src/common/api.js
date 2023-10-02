@@ -818,9 +818,9 @@ export const getChartTankLevel = async (token) => {
   return data;
 };
 
-export const getAllTankDelivery = async (token) => {
+export const getAllTankDelivery = async (controllerId,token) => {
   const data = await fetchUrl({
-    url: TANK_CONFIG_READ_DELIVERY_ENDPOINT,
+    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

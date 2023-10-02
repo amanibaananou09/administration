@@ -19,24 +19,27 @@ import TankDeliveryRow from "components/Tables/TankDeliveryRow";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "store/AuthContext";
 import { getAllTankDelivery } from "common/api.js";
-
+import { useESSContext} from "store/ESSContext";
 function Transaction() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [tankdelivery, setTankDelivery] = useState([]);
   const { user } = useAuth();
+   const {
+      selectedStation: { controllerId },
+    } = useESSContext();
   useEffect(() => {
     const { token } = user;
     const allTankDelivery = async () => {
       try {
-        const result = await getAllTankDelivery(token);
+        const result = await getAllTankDelivery(controllerId,token);
         setTankDelivery(result);
       } catch (error) {
         console.error(error);
       }
     };
     allTankDelivery();
-  }, [user]);
+  }, [controllerId,user]);
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
