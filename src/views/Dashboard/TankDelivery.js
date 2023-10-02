@@ -79,11 +79,11 @@ function TankDelivery() {
                   tank
                 </Th>
                 <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
                 >
-                  product Height
+                  product Volume
                 </Th>
                 <Th
                   borderColor={borderColor}
@@ -91,6 +91,13 @@ function TankDelivery() {
                   textAlign="center"
                 >
                   fuel Grade
+                </Th>
+                <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                >
+                  product Height
                 </Th>
                 <Th
                   borderColor={borderColor}
@@ -105,13 +112,6 @@ function TankDelivery() {
                   textAlign="center"
                 >
                   temperature
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  product Volume
                 </Th>
               </Tr>
             </Thead>
