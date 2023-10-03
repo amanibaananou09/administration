@@ -38,17 +38,18 @@ function Transaction() {
     const getAllTransaction = async () => {
       try {
         const result = await getallTransactionPump(currentPage,controllerId, token);
-        const tranpumpWithId = result.map((item, index) => {
-          return { ...item, id: index + 1 };
-        });
-        setTransactions(tranpumpWithId);
-        setTotalPages(tranpumpWithId.length);
+                const { content, totalPages,totalElements } = result; // Assuming the API response structure
+
+        setTransactions(content);
+        setTotalPages(totalPages);
       } catch (error) {
         console.error(error);
       }
     };
     getAllTransaction();
   }, [currentPage,controllerId, user]);
+  console.log("transaction",transactions)
+    console.log("total",totalPages)
 const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -172,7 +173,7 @@ const handlePageChange = (newPage) => {
                               </Button>
                               <Button>{currentPage +1}</Button>
                               <Button
-                                isDisabled={currentPage === totalPages -1}
+                                isDisabled={ currentPage === totalPages -1}
                                 onClick={() => handlePageChange(currentPage + 1)}
                               >
                                 Next

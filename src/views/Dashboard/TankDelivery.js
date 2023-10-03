@@ -30,7 +30,7 @@ function TankDelivery() {
   const [tankDeliveryList, setTankDeliveryList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-
+const [totalElements,setTotalElements] = useState(0);
    const {
       selectedStation: { controllerId },
     } = useESSContext();
@@ -39,9 +39,10 @@ function TankDelivery() {
     const allTankDelivery = async (page) => {
       try {
         const result = await getAllTankDelivery(currentPage,controllerId,token);
-        setTankDelivery(result);
-
-        setTotalPages(result.length);
+              const { content, totalPages,totalElements } = result; // Assuming the API response structure
+       setTotalElements(totalElements);
+        setTankDelivery(content);
+        setTotalPages(totalPages);
       } catch (error) {
         console.error(error);
       }
@@ -53,7 +54,7 @@ function TankDelivery() {
  const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
+console.log("total element ",totalElements)
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
