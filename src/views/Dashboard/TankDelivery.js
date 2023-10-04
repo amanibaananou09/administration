@@ -10,6 +10,8 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  ButtonGroup,
+  Button ,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
@@ -19,25 +21,40 @@ import TankDeliveryRow from "components/Tables/TankDeliveryRow";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "store/AuthContext";
 import { getAllTankDelivery } from "common/api.js";
-
-function Transaction() {
+import { useESSContext} from "store/ESSContext";
+function TankDelivery() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [tankdelivery, setTankDelivery] = useState([]);
   const { user } = useAuth();
+  const [tankDeliveryList, setTankDeliveryList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+const [totalElements,setTotalElements] = useState(0);
+   const {
+      selectedStation: { controllerId },
+    } = useESSContext();
   useEffect(() => {
     const { token } = user;
-    const allTankDelivery = async () => {
+    const allTankDelivery = async (page) => {
       try {
-        const result = await getAllTankDelivery(token);
-        setTankDelivery(result);
+        const result = await getAllTankDelivery(currentPage,controllerId,token);
+              const { content, totalPages,totalElements } = result; // Assuming the API response structure
+       setTotalElements(totalElements);
+        setTankDelivery(content);
+        setTotalPages(totalPages);
       } catch (error) {
         console.error(error);
       }
     };
     allTankDelivery();
-  }, [user]);
-
+  }, [currentPage,controllerId,user]);
+  console.log("current",currentPage)
+  console.log("total",totalPages)
+ const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+console.log("total element ",totalElements)
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
@@ -115,6 +132,7 @@ function Transaction() {
               })}
             </Tbody>
           </Table>
+
           {tankdelivery.length === 0 && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />
@@ -126,8 +144,23 @@ function Transaction() {
           )}
         </CardBody>
       </Card>
+        <ButtonGroup mt={4} spacing={4} >
+                        <Button
+                          isDisabled={currentPage === 0}
+                          onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                          Previous
+                        </Button>
+                        <Button>{currentPage +1}</Button>
+                        <Button
+                          isDisabled={currentPage === totalPages -1}
+                          onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                          Next
+                        </Button>
+                      </ButtonGroup>
     </Flex>
   );
 }
 
-export default Transaction;
+export default TankDelivery;

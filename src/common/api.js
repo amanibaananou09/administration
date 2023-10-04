@@ -50,8 +50,8 @@ export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuratio
 
 //Station
 export const STATION_ADD_ENDPOINT = `${localhostURL}/api/station/add`;
-export const STATION_UPDATE_ENDPOINT = `${localhostURL}/api/station`;
-export const STATION_DELETE_ENDPOINT = `${localhostURL}/api/station`;
+export const STATION_UPDATE_ENDPOINT = `${localhostURL}/api/station/update`;
+export const STATION_DELETE_ENDPOINT = `${localhostURL}/api/station/delete`;
 export const STATION_ALL_ENDPOINT = `${localhostURL}/api/station`;
 export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/api/station/findController`;
 
@@ -541,9 +541,9 @@ export const getAllPumpByNozzel = async (controllerId, selectedPump, token) => {
   return data;
 };
 
-export const getallTransactionPump = async (controllerId, token) => {
+export const getallTransactionPump = async (currentPage,controllerId, token) => {
   const data = await fetchUrl({
-    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}`,
+    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?page=${currentPage}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -814,9 +814,9 @@ export const getChartTankLevel = async (token) => {
   return data;
 };
 
-export const getAllTankDelivery = async (token) => {
+export const getAllTankDelivery = async (currentPage,controllerId,token) => {
   const data = await fetchUrl({
-    url: TANK_CONFIG_READ_DELIVERY_ENDPOINT,
+    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${controllerId}?page=${currentPage}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
