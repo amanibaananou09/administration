@@ -1,0 +1,65 @@
+// Chakra imports
+import { Box, Button, Flex, FormControl, FormLabel, Input, Text, useColorModeValue, Alert, AlertIcon, AlertDescription, } from "@chakra-ui/react";
+// Assets
+import BgSignUp from "assets/img/BgSignUp.png";
+import React, { useState } from "react";
+import { login } from "common/api.js";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { getStations } from "common/api";
+import { decodeToken } from "utils/utils";
+function SignUp() {
+    const bgForm = useColorModeValue("white", "navy.800");
+    const textColor = useColorModeValue("gray.700", "white");
+    const { selectStation } = useESSContext();
+    const { signIn } = useAuth();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const getDefaultStation = async (user) => {
+        const stations = await getStations(user);
+        if (stations.length > 0) {
+            return stations[0];
+        }
+        return null;
+    };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (!username || !password) {
+            setErrorMessage("Please fill in both username and password fields.");
+            return;
+        }
+        try {
+            const { access_token } = await login(username, password);
+            const user = decodeToken(access_token);
+            const defaultStation = await getDefaultStation(user);
+            if (defaultStation) {
+                selectStation(defaultStation);
+            }
+            signIn(user);
+        }
+        catch (error) {
+            console.error(error);
+            setErrorMessage("Invalid username or password.");
+        }
+    };
+    return (React.createElement(Flex, { direction: "column", alignSelf: "center", justifySelf: "center", overflow: "hidden" },
+        React.createElement(Box, { position: "absolute", minH: { base: "70vh", md: "50vh" }, maxH: { base: "70vh", md: "50vh" }, w: { md: "calc(100vw - 50px)" }, maxW: { md: "calc(100vw - 50px)" }, left: "0", right: "0", bgRepeat: "no-repeat", overflow: "hidden", zIndex: "-1", top: "0", bgImage: BgSignUp, bgSize: "cover", mx: { md: "auto" }, mt: { md: "14px" }, borderRadius: { base: "0px", md: "20px" } },
+            React.createElement(Box, { w: "100vw", h: "100vh", bg: "blue.500", opacity: "0.8" })),
+        React.createElement(Flex, { direction: "column", textAlign: "center", justifyContent: "center", align: "center", mt: "125px", mb: "30px" },
+            React.createElement(Text, { fontSize: "4xl", color: "white", fontWeight: "bold" }, "Fuel Stations Management"),
+            React.createElement(Text, { fontSize: "md", color: "white", fontWeight: "normal", mt: "10px", mb: "26px", w: { base: "90%", sm: "60%", lg: "40%", xl: "333px" } })),
+        React.createElement(Flex, { alignItems: "center", justifyContent: "center", mb: "60px", mt: "20px" },
+            React.createElement(Flex, { direction: "column", w: "445px", background: "transparent", borderRadius: "15px", p: "40px", mx: { base: "100px" }, bg: bgForm, boxShadow: useColorModeValue("0px 5px 14px rgba(0, 0, 0, 0.05)", "unset") },
+                React.createElement(Text, { fontSize: "xl", color: textColor, fontWeight: "bold", textAlign: "center", mb: "22px" }, "Please login to connect"),
+                React.createElement(FormControl, null,
+                    React.createElement(FormLabel, { ms: "4px", fontSize: "sm", fontWeight: "normal" }, "Username"),
+                    React.createElement(Input, { id: "username", variant: "auth", fontSize: "sm", ms: "4px", type: "text", placeholder: "Type your username", mb: "24px", size: "lg", value: username, onChange: (e) => setUsername(e.target.value) }),
+                    React.createElement(FormLabel, { ms: "4px", fontSize: "sm", fontWeight: "normal" }, "Password"),
+                    React.createElement(Input, { id: "password", variant: "auth", fontSize: "sm", ms: "4px", type: "password", placeholder: "Type your password", mb: "24px", size: "lg", value: password, onChange: (e) => setPassword(e.target.value) }),
+                    React.createElement(Button, { fontSize: "10px", variant: "dark", fontWeight: "bold", w: "100%", h: "45", mb: "24px", onClick: handleSubmit }, "LOGIN"),
+                    errorMessage && (React.createElement(Alert, { status: "error", mb: 4 },
+                        React.createElement(AlertIcon, null),
+                        React.createElement(AlertDescription, null, errorMessage))))))));
+}
+export default SignUp;

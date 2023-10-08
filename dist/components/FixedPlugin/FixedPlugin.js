@@ -1,0 +1,14 @@
+// Chakra Imports
+import { Button, useColorModeValue } from "@chakra-ui/react";
+// Custom Icons
+import { SettingsIcon } from "components/Icons/Icons";
+import React from "react";
+export default function FixedPlugin(props) {
+    // Chakra Color Mode
+    let navbarIcon = useColorModeValue("gray.500", "gray.200");
+    let bgButton = useColorModeValue("white", "gray.600");
+    const settingsRef = React.useRef();
+    return (React.createElement(React.Fragment, null,
+        React.createElement(Button, { h: "52px", w: "52px", onClick: props.onOpen, bg: bgButton, position: "fixed", variant: "no-hover", left: "", right: "35px", bottom: "30px", borderRadius: "50px", boxShadow: "0 2px 12px 0 rgb(0 0 0 / 16%)" },
+            React.createElement(SettingsIcon, { cursor: "pointer", ref: settingsRef, color: navbarIcon, w: "20px", h: "20px" }))));
+}
