@@ -2,21 +2,24 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": ["*"]
+      "*": ["*"],
+      "@assets/*": ["assets/*"]
     },
     "target": "ESNext",
     "allowJs": true,
-    "module": "ESNext",
+    "module": "CommonJS",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": true,
     "outDir": "./dist",
-    "jsx": "react",
-    "moduleResolution": "node",
-    "rootDir": "./src"
+    "jsx": "preserve",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
-  "include": ["src/**/*"],
+  "include": [ "src/**/*"],
   "exclude": ["node_modules"]
 }

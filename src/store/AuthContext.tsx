@@ -10,11 +10,14 @@ import { useESSContext } from "./ESSContext";
 import { decodeToken } from "src/utils/utils";
 
 interface User {
+  id: string | null;
+  name: string | null;
   token: string | null;
   expireTime: number;
 }
 
 interface AuthContextProps {
+  user: User | null;
   token: string | null;
   isSignedIn: boolean;
   signIn: (user: User) => void;
@@ -22,6 +25,7 @@ interface AuthContextProps {
 }
 
 export const AuthContext = React.createContext<AuthContextProps>({
+  user: null,
   token: null,
   isSignedIn: false,
   signIn: () => {},
@@ -38,10 +42,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   children,
 }) => {
   const storedAuth = localStorage.getItem("auth");
-  const initialUser: User | null = storedAuth
-    ? decodeToken(storedAuth)
-    : { token: null, expireTime: 0 };
-  const [user, setUser] = useState<User | null>(initialUser);
+  const [user, setUser] = useState<User | null>(null);
   const isSignedIn = !!user?.token;
 
   const { clearContext } = useESSContext();
@@ -51,7 +52,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   }, []);
 
   const signOutHandler = useCallback(() => {
-    setUser({ token: null, expireTime: 0 });
+    setUser({ id: null, name: null, token: null, expireTime: 0 });
     clearContext();
   }, [clearContext]);
 
@@ -89,6 +90,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
     isSignedIn,
     signIn: signInHandler,
     signOut: signOutHandler,
+    user: null
   };
 
   return (

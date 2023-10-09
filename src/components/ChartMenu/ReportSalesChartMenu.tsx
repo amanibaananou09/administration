@@ -1,0 +1,196 @@
+import React, { useEffect, useState } from "react";
+import {
+  Menu,
+  MenuItem,
+  MenuButton,
+  SubMenu,
+  MenuDivider,
+} from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { useAuth } from "src/store/AuthContext";
+import { useESSContext } from "src/store/ESSContext";
+import { getAllPump, getAllFuelGrades, getAllTank } from "src/common/api";
+
+interface ReportSalesChartMenuProps {
+  filter: {
+    type: string;
+    fuelGrade: string;
+    pump: string;
+    tank: string;
+    period: string;
+  };
+  onChange: (filter: any) => void;
+}
+
+const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
+  filter,
+  onChange,
+}) => {
+  const { user } = useAuth();
+
+  const { selectedStation } = useESSContext();
+  const controllerId = selectedStation;
+  
+  const [config, setConfig] = useState<{
+    pumps: any[];
+    fuelGrades: any[];
+    tanks: any[];
+  }>({
+    pumps: [],
+    fuelGrades: [],
+    tanks: [],
+  });
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const token = user?.token;
+        if (!token) {
+          console.error("Token is null or undefined.");
+          return;
+        }
+        const pumps = await getAllPump(controllerId, token);
+        const fuelGrades = await getAllFuelGrades(controllerId, token);
+        const tanks = await getAllTank(controllerId, token);
+
+        setConfig({
+          pumps,
+          fuelGrades,
+          tanks,
+        });
+      } catch (error) {
+        console.error("Error fetching data fuelgrades:", error);
+      }
+    };
+
+    fetchConfig();
+  }, [controllerId, user]);
+
+  const handleChange = (key: string, value: string) => {
+    const updatedFilter = { ...filter, [key]: value };
+    onChange(filter);
+  };
+
+  return (
+    <Menu
+      menuButton={
+        <MenuButton>
+          <HamburgerIcon color="white" boxSize={6} />
+        </MenuButton>
+      }
+    >
+      <SubMenu label="Type">
+        <MenuItem
+          type="checkbox"
+          onClick={() => handleChange("type", "sale")}
+          checked={filter.type === "sale"}
+        >
+          Sale
+        </MenuItem>
+        <MenuItem
+          type="checkbox"
+          onClick={() => handleChange("type", "purchase")}
+          checked={filter.type === "purchase"}
+        >
+          Purchase
+        </MenuItem>
+      </SubMenu>
+      <MenuDivider />
+      <SubMenu label="Fuel Grades">
+        <MenuItem
+          type="checkbox"
+          value="all"
+          onClick={() => handleChange("fuelGrade", "all")}
+          checked={filter.fuelGrade === "all"}
+        >
+          All Fuel Grades
+        </MenuItem>
+        {config.fuelGrades.map((fuel: any) => (
+          <MenuItem
+            type="checkbox"
+            key={fuel.name}
+            value={fuel.name}
+            onClick={() => handleChange("fuelGrade", fuel.name)}
+            checked={filter.fuelGrade === fuel.name}
+          >
+            {fuel.name}
+          </MenuItem>
+        ))}
+      </SubMenu>
+      <MenuDivider />
+
+      {filter.type === "sale" ? (
+        <SubMenu label="Pump">
+          <MenuItem
+            type="checkbox"
+            value="all"
+            onClick={() => handleChange("pump", "all")}
+            checked={filter.pump === "all"}
+          >
+            All Pumps
+          </MenuItem>
+          {config.pumps.map((pump: any) => (
+            <MenuItem
+              type="checkbox"
+              key={pump.id}
+              value={pump.id}
+              onClick={() => handleChange("pump", pump.id)}
+              checked={filter.pump === pump.id}
+            >
+              Pump {pump.id}
+            </MenuItem>
+          ))}
+        </SubMenu>
+      ) : (
+        <SubMenu label="Tank">
+          <MenuItem
+            type="checkbox"
+            value="all"
+            onClick={() => handleChange("tank", "all")}
+            checked={filter.tank === "all"}
+          >
+            All Tank
+          </MenuItem>
+          {config.tanks.map((tank: any) => (
+            <MenuItem
+              type="checkbox"
+              key={tank.idConf}
+              value={tank.idConf}
+              onClick={() => handleChange("tank", tank.idConf)}
+              checked={filter.tank === tank.idConf}
+            >
+              Tank {tank.idConf}
+            </MenuItem>
+          ))}
+        </SubMenu>
+      )}
+      <MenuDivider />
+      <SubMenu label="Period">
+        <MenuItem
+          type="checkbox"
+          onClick={() => handleChange("period", "weekly")}
+          checked={filter.period === "weekly"}
+        >
+          current week
+        </MenuItem>
+        <MenuItem
+          type="checkbox"
+          onClick={() => handleChange("period", "monthly")}
+          checked={filter.period === "monthly"}
+        >
+          current Month
+        </MenuItem>
+        <MenuItem
+          type="checkbox"
+          onClick={() => handleChange("period", "yearly")}
+          checked={filter.period === "yearly"}
+        >
+          current Yearly
+        </MenuItem>
+      </SubMenu>
+    </Menu>
+  );
+};
+
+export default ReportSalesChartMenu;
