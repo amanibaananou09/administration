@@ -15,10 +15,10 @@ import {
 import { Formik, Form, Field } from "formik";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 
-interface Station {
-  name: string;
-  address: string;
-  controllerPtsId: string;
+export interface Station {
+  name?: string;
+  address?: string;
+  controllerPtsId?: string;
 }
 
 export interface StationModalProps {

@@ -63,11 +63,11 @@ const AuthNavbar: React.FC<AuthNavbarProps> = (props) => {
     >
     </Link>
   );
-  hamburgerColor = { base: "white" };
+  hamburgerColor = { base: "white",md: "" };
 
   return (
     <Flex
-      position={navbarPosition}
+      bgPosition={navbarPosition}
       top="16px"
       left="50%"
       transform="translate(-50%, 0px)"

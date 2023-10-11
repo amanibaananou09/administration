@@ -11,7 +11,7 @@ import {
 import AdminNavbarLinks from "./AdminNavbarLinks";
 
 interface AdminNavbarProps {
-  logoText: any;
+  logoText: string;
   variant: any;
   children: any;
   fixed: boolean;
@@ -63,16 +63,16 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
       navbarPosition = "fixed";
       navbarShadow = useColorModeValue(
         "0px 7px 23px rgba(0, 0, 0, 0.05)",
-        "none"
+        "none",
       );
       navbarBg = useColorModeValue(
         "linear-gradient(112.83deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.8) 110.84%)",
-        "linear-gradient(112.83deg, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0) 110.84%)"
+        "linear-gradient(112.83deg, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0) 110.84%)",
       );
       navbarBorder = useColorModeValue("#FFFFFF", "rgba(255, 255, 255, 0.31)");
       navbarFilter = useColorModeValue(
         "none",
-        "drop-shadow(0px 7px 23px rgba(0, 0, 0, 0.05))"
+        "drop-shadow(0px 7px 23px rgba(0, 0, 0, 0.05))",
       );
     }
   if (props.secondary) {
@@ -175,7 +175,10 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
             logoText={props.logoText}
             secondary={props.secondary}
             fixed={props.fixed}
-            scrolled={scrolled} variant={undefined} children={undefined}          />
+            scrolled={scrolled}
+            variant={undefined}
+            children={undefined}
+          />
         </Box>
       </Flex>
     </Flex>

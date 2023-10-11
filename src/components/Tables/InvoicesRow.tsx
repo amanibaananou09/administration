@@ -7,7 +7,6 @@ import {
   Spacer,
   Text,
   useColorModeValue,
-  IconType,
 } from "@chakra-ui/react";
 
 interface InvoicesRowProps {
@@ -15,7 +14,7 @@ interface InvoicesRowProps {
   code: string;
   price: string;
   format: string;
-  logo: IconType;
+  logo: any;
 }
 
 const InvoicesRow: React.FC<InvoicesRowProps> = ({

@@ -9,11 +9,10 @@ import {
   Text,
   Tr,
   useColorModeValue,
-  IconType,
 } from "@chakra-ui/react";
 
 interface DashboardTableRowProps {
-  logo: IconType;
+  logo: any ;
   name: string;
   members: string[];
   budget: string;

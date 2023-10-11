@@ -8,10 +8,9 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import SidebarHelpImage from "assets/img/SidebarHelpImage.png";
 import React from "react";
 
-export function SidebarHelp(props) {
+export function SidebarHelp(props: any) {
   // Pass the computed styles into the `__css` prop
   const { children, sidebarVariant, ...rest } = props;
   const textColor = useColorModeValue("gray.700", "white");
