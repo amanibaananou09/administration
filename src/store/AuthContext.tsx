@@ -9,20 +9,25 @@ import React, {
 import { useESSContext } from "./ESSContext";
 import { decodeToken } from "src/utils/utils";
 
-interface User {
+export interface User {
   id: string | null;
   name: string | null;
   token: string | null;
   expireTime: number;
+  fullName: string | null;
+  username: string | null;
+  email: string | null;
 }
 
-interface AuthContextProps {
+export interface AuthContextProps {
   user: User | null;
   token: string | null;
   isSignedIn: boolean;
   signIn: (user: User) => void;
   signOut: () => void;
 }
+
+
 
 export const AuthContext = React.createContext<AuthContextProps>({
   user: null,
@@ -52,7 +57,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   }, []);
 
   const signOutHandler = useCallback(() => {
-    setUser({ id: null, name: null, token: null, expireTime: 0 });
+    setUser({ id: null, name: null, token: null, expireTime: 0 ,fullName:null,username:null,email:null});
     clearContext();
   }, [clearContext]);
 

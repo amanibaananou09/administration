@@ -592,13 +592,13 @@ export const updateStation = async (station: { id?: any; name?: any; address?: a
   return data;
 };
 
-export const deleteStation = async (id: any, user: { token: string; }) => {
+export const deleteStation = async (id: any, token: string ) => {
   const data = await fetchUrl({
     url: `${STATION_DELETE_ENDPOINT}/${id}`,
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + user.token,
+      Authorization: "Bearer " + token,
     },
   });
 

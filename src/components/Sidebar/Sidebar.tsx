@@ -2,7 +2,13 @@ import React, { Fragment, useState, useRef } from "react";
 import {
   Box,
   Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
   Flex,
+  Icon,
   Stack,
   Text,
   useColorMode,
@@ -23,7 +29,7 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "src/store/AuthContext";
 
-interface NavLinkProps {
+export interface NavLinkProps {
   layout: string;
   path: string;
   icon: React.ReactNode;
@@ -36,7 +42,7 @@ interface NavLinkProps {
   privateRoute?: boolean;
 }
 
-interface SidebarProps {
+export interface SidebarProps {
   logo: React.ReactNode;
   routes: NavLinkProps[];
   sidebarVariant: string;
@@ -89,6 +95,9 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
             {createLinks(prop.views)}
           </Fragment>
         );
+      }
+      if (!prop.state) {
+        return null;
       }
       return (
         <NavLink to={prop.layout + prop.path} key={key}>
@@ -161,7 +170,7 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
                 xl: "16px",
               }}
               borderRadius="15px"
-              _hover="none"
+              hover="none"
               w="100%"
               _active={{
                 bg: "inherit",
@@ -233,7 +242,7 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
             renderTrackVertical={renderTrack}
             renderThumbVertical={useColorModeValue(
               renderThumbLight,
-              renderThumbDark
+              renderThumbDark,
             )}
             renderView={renderView}
           >
@@ -253,7 +262,7 @@ interface SidebarResponsiveProps {
   logo: React.ReactNode;
   routes: NavLinkProps[];
   colorMode: string;
-  hamburgerColor: Record<string, string>;
+  hamburgerColor: string;
 }
 
 export function SidebarResponsive({
@@ -271,7 +280,7 @@ export function SidebarResponsive({
   let inactiveColor = useColorModeValue("gray.400", "white");
   let sidebarActiveShadow = useColorModeValue(
     "0px 7px 11px rgba(0, 0, 0, 0.04)",
-    "none"
+    "none",
   );
   let sidebarBackgroundColor = useColorModeValue("white", "navy.800");
 

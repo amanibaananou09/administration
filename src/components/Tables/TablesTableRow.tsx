@@ -42,7 +42,7 @@ const TablesTableRow: React.FC<TablesTableRowProps> = ({
         minWidth={{ sm: "250px" }}
         pl="0px"
         borderColor={borderColor}
-        borderBottom={isLast ? "none" : null}
+        borderBottom={!isLast ? "none" : undefined}
       >
         <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
           <Avatar src={logo} w="50px" borderRadius="12px" me="18px" />
@@ -62,7 +62,7 @@ const TablesTableRow: React.FC<TablesTableRowProps> = ({
         </Flex>
       </Td>
 
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined} >
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
             {domain}
@@ -72,7 +72,7 @@ const TablesTableRow: React.FC<TablesTableRowProps> = ({
           </Text>
         </Flex>
       </Td>
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+      <Td borderColor={borderColor}  borderBottom={isLast ? "none" : undefined} >
         <Badge
           bg={status === "Online" ? "green.400" : bgStatus}
           color={status === "Online" ? "white" : "white"}
@@ -83,12 +83,12 @@ const TablesTableRow: React.FC<TablesTableRowProps> = ({
           {status}
         </Badge>
       </Td>
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined} >
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
           {date}
         </Text>
       </Td>
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
         <Button p="0px" bg="transparent" variant="no-effects">
           <Text
             fontSize="md"

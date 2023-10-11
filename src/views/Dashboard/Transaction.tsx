@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "src/store/AuthContext";
+import { User, useAuth } from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
 import { getallTransactionPump } from "src/common/api";
 import {
@@ -46,27 +46,32 @@ const Transaction: React.FC<TransactionProps> = () => {
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
 
-  const controllerId: any | null = selectedStation
-    ? selectedStation.controllerId
-    : null;
-  useEffect(() => {
-    const { token } = user;
-    const getAllTransaction = async () => {
-      try {
-        const result = await getallTransactionPump(
-          currentPage,
-          controllerId,
-          token,
-        );
-        const { content, totalPages, totalElements } = result; 
+  const {
+    selectedStation: { controllerId },
+  } = useESSContext();
 
-        setTransactions(content);
-        setTotalPages(totalPages);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getAllTransaction();
+  useEffect(() => {
+    const { token } = user as User;
+    if (token) {
+      const getAllTransaction = async () => {
+        try {
+          const result = await getallTransactionPump(
+            currentPage,
+            controllerId,
+            token,
+          );
+          const { content, totalPages, totalElements } = result;
+
+          setTransactions(content);
+          setTotalPages(totalPages);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getAllTransaction();
+    } else {
+      console.error("Token is null");
+    }
   }, [currentPage, controllerId, user]);
 
   const handlePageChange = (newPage: number) => {

@@ -1,8 +1,8 @@
 import React, { useState, useCallback, ReactNode, useContext } from "react";
 
 interface ESSContextProps {
-  selectedStation: string | null;
-  selectStation: (station: string) => void;
+  selectedStation: any | null;
+  selectStation: (station: any | null) => void;
   clearContext: () => void;
 }
 
@@ -25,9 +25,11 @@ export const ESSContextProvider: React.FC<ESSContextProviderProps> = ({
     localStorage.getItem("ess") || null,
   );
 
-  const selectStation = useCallback((station: string) => {
-    localStorage.setItem("ess", station);
-    setSelectedStation(station);
+  const selectStation = useCallback((station: string | null) => {
+    if (station) {
+      localStorage.setItem("ess", station);
+      setSelectedStation(station);
+    }
   }, []);
 
   const clearContext = useCallback(() => {
@@ -41,7 +43,9 @@ export const ESSContextProvider: React.FC<ESSContextProviderProps> = ({
     clearContext,
   };
 
-  return <ESSContext.Provider value={contextValue}>{children}</ESSContext.Provider>;
+  return (
+    <ESSContext.Provider value={contextValue}>{children}</ESSContext.Provider>
+  );
 };
 
 export const useESSContext = (): ESSContextProps => {

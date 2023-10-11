@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "src/store/AuthContext";
+import { User, useAuth } from "src/store/AuthContext";
 import { getAllTankDelivery } from "src/common/api";
 import { useESSContext } from "src/store/ESSContext";
 import {
@@ -47,23 +47,27 @@ function TankDelivery(): JSX.Element {
   } = useESSContext();
 
   useEffect(() => {
-    const { token } = user;
-    const allTankDelivery = async () => {
-      try {
-        const result = await getAllTankDelivery(
-          currentPage,
-          controllerId,
-          token,
-        );
-        const { content, totalPages, totalElements } = result;
-        setTotalElements(totalElements);
-        setTankDelivery(content);
-        setTotalPages(totalPages);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    allTankDelivery();
+    const { token } = user as User;
+    if (token) {
+      const allTankDelivery = async () => {
+        try {
+          const result = await getAllTankDelivery(
+            currentPage,
+            controllerId,
+            token,
+          );
+          const { content, totalPages, totalElements } = result;
+          setTotalElements(totalElements);
+          setTankDelivery(content);
+          setTotalPages(totalPages);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      allTankDelivery();
+    } else {
+      console.error("Token is null");
+    }
   }, [currentPage, controllerId, user]);
 
   const handlePageChange = (newPage: number): void => {

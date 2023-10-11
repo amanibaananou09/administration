@@ -1,6 +1,6 @@
 import React from "react";
+import { BellIcon } from "@chakra-ui/icons";
 import {
-  BellIcon,
   Box,
   Flex,
   Menu,
@@ -11,18 +11,17 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import avatar1 from "src/assets/img/avatars/avatar1.png";
-import avatar2 from "assets/img/avatars/avatar2.png";
-import avatar3 from "assets/img/avatars/avatar3.png";
+import avatar1 from "../../assets/img/avatars/avatar1.png";
+import avatar2 from "../../assets/img/avatars/avatar2.png";
+import avatar3 from "../../assets/img/avatars/avatar3.png";
 import { ProfileIcon, SettingsIcon } from "src/components/Icons/Icons";
 import { ItemContent } from "src/components/Menu/ItemContent";
 import { SidebarResponsive } from "src/components/Sidebar/Sidebar";
-import routes from "src/router/routes.js";
+import routes from "src/router/routes";
 import { useAuth } from "src/store/AuthContext";
 import { useHistory } from "react-router-dom";
 
 interface HeaderLinksProps {
-  logoText: string;
   variant: any;
   children: any;
   fixed: boolean;
@@ -32,8 +31,15 @@ interface HeaderLinksProps {
 }
 
 const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
-  const { variant, children, fixed, scrolled, secondary, onOpen, ...rest } =
-    props;
+  const {
+    variant,
+    children,
+    fixed,
+    scrolled,
+    secondary,
+    onOpen,
+    ...rest
+  } = props;
 
   const { signOut, user } = useAuth();
   const { colorMode } = useColorMode();

@@ -1,10 +1,25 @@
-import React, { FC, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
-import Logo from "../assets/svg/fuel-station-logo.svg";
-import { useDisclosure, useColorMode } from "@chakra-ui/react";
+// Chakra imports
+import {
+  Portal,
+  useDisclosure,
+  Stack,
+  Box,
+  useColorMode,
+  Text,
+} from "@chakra-ui/react";
+import Configurator from "src/components/Configurator/Configurator";
+import Footer from "src/components/Footer/Footer";
+
+import Logo  from "../assets/svg/fuel-station-logo.svg";
+// Layout components
+import AdminNavbar from "src/components/Navbars/AdminNavbar";
+import Sidebar from "src/components/Sidebar/Sidebar";
+import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import routes from "../router/routes";
+import routes from "src/router/routes";
+// Custom Chakra theme
 import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
+// Custom components
 import MainPanel from "../components/Layout/MainPanel";
 import PanelContainer from "../components/Layout/PanelContainer";
 import PanelContent from "../components/Layout/PanelContent";
@@ -14,24 +29,20 @@ import { useAuth } from "../store/AuthContext";
 import MainRoute from "../router/Route/MainRoute";
 import { useESSContext } from "../store/ESSContext";
 
-interface DashboardProps {
-  isSignedIn: boolean;
-}
-
-const Dashboard: FC<DashboardProps> = (props) => {
+export default function Dashboard(props: { [x: string]: any; }) {
   const { isSignedIn } = useAuth();
+
   const { selectedStation } = useESSContext();
+
   const { ...rest } = props;
-
-  const [fixed, setFixed] = useState<boolean>(false);
+  // states and functions
+  const [fixed, setFixed] = useState(false);
   const { colorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const getRoute = (): boolean => {
+  // functions for changing the states from components
+  const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
-
-  const getActiveRoute = (routes: any[]): string => {
+  const getActiveRoute = (routes: any ): any  => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
@@ -54,8 +65,8 @@ const Dashboard: FC<DashboardProps> = (props) => {
     }
     return activeRoute;
   };
-
-  const getActiveNavbar = (routes: any[]): boolean => {
+  // This changes navbar state(fixed or not)
+  const getActiveNavbar = (routes: any) : any => {
     let activeNavbar = false;
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].category) {
@@ -75,9 +86,8 @@ const Dashboard: FC<DashboardProps> = (props) => {
     }
     return activeNavbar;
   };
-
-  const getRoutes = (routes: any[]): JSX.Element[] => {
-    return routes.map((prop, key) => {
+  const getRoutes = (routes : any  )   =>  {
+    return routes.map((prop : any , key :  any ) => {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
@@ -112,9 +122,9 @@ const Dashboard: FC<DashboardProps> = (props) => {
       }
     });
   };
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
-
+  // Chakra Color Mode
   return (
     <Box>
       <Box
@@ -197,6 +207,4 @@ const Dashboard: FC<DashboardProps> = (props) => {
       </MainPanel>
     </Box>
   );
-};
-
-export default Dashboard;
+}

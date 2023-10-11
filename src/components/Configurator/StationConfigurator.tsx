@@ -48,16 +48,20 @@ const StationConfigurator: FC = () => {
 
   return stations.length > 0 ? (
     <>
-      <p style={{ fontSize: "md", fontWeight: "bold" }}>
-        Select Station:
-      </p>
+      <p style={{ fontSize: "md", fontWeight: "bold" }}>Select Station:</p>
       {selectedStation &&
         stations.map((station: Station, key: number) => {
           if (station.id === String(selectedStation)) {
             return (
               <button
                 key={key}
-                style={{ background: bgButton, color: colorButton, fontSize: "xs", padding: "30px", cursor: "default" }}
+                style={{
+                  background: bgButton,
+                  color: colorButton,
+                  fontSize: "xs",
+                  padding: "30px",
+                  cursor: "default",
+                }}
               >
                 {station.name}
               </button>
@@ -66,18 +70,24 @@ const StationConfigurator: FC = () => {
             return (
               <button
                 key={key}
-              
-                style={{ background: secondaryButtonBg, border: `1px solid ${secondaryButtonBorder}`, color: secondaryButtonColor, fontSize: "xs", padding: "20px", marginBottom: "16px" }}
+                style={{
+                  background: secondaryButtonBg,
+                  border: `1px solid ${secondaryButtonBorder}`,
+                  color: secondaryButtonColor,
+                  fontSize: "xs",
+                  padding: "20px",
+                  marginBottom: "16px",
+                }}
                 onClick={() => selectStation(station.name)}
               >
-               {station.name}
+                {station.name}
               </button>
             );
           }
         })}
     </>
   ) : (
-    <p style={{fontSize:"md" ,fontWeight:"bold"}}>
+    <p style={{ fontSize: "md", fontWeight: "bold" }}>
       No station affected, please contact the administrator
     </p>
   );

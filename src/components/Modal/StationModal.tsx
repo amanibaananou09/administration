@@ -21,8 +21,8 @@ interface Station {
   controllerPtsId: string;
 }
 
-interface StationModalProps {
-  onSubmit: (values: Station) => Promise<void>;
+export interface StationModalProps {
+  onSubmit: (station: Station) => Promise<void>;
 }
 
 const initStation: Station = {
@@ -81,7 +81,7 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
             {(props) => (
               <Form>
                 <Field name="name" validate={isNotNull}>
-                {({ field, form }: { field: any; form: any }) => (
+                  {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={form.errors.name && form.touched.name}
                       mb="24px"
@@ -96,7 +96,7 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
                 </Field>
 
                 <Field name="address" validate={isNotNull}>
-                   {({ field, form }: { field: any; form: any }) => (
+                  {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={form.errors.address && form.touched.address}
                       mb="24px"
@@ -110,7 +110,7 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
                   )}
                 </Field>
                 <Field name="controllerPtsId" validate={isNotNull}>
-                {({ field, form }: { field: any; form: any }) => (
+                  {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={
                         form.errors.controllerPtsId &&
@@ -139,7 +139,6 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
                   h="45"
                   isLoading={props.isSubmitting}
                   type="submit"
-                  
                 >
                   SUBMIT
                 </Button>

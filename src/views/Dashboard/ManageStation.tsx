@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAuth } from "src/store/AuthContext";
+import {
+  User,
+  useAuth,
+} from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
 import {
   Button,
@@ -48,17 +51,26 @@ const ManageStation: React.FC = () => {
     confirmationModalRef.current.open(station);
   };
 
+  const { token } = user as User;
   const deleteStationHandler = async (station: Station) => {
     try {
-      await deleteStation(station.id, user);
+      if (token) {
+        await deleteStation(station.id, token);
 
-      setStations((prev) => prev.filter((st) => st.id !== station.id));
+        setStations((prev) => prev.filter((st) => st.id !== station.id));
 
-      if (isStationSelected && stations.length > 0 && selectedStation!.id === station.id) {
-        selectStation(stations.find((st) => st.id !== station.id));
+        if (
+          isStationSelected &&
+          stations.length > 0 &&
+          selectedStation!.id === station.id
+        ) {
+          selectStation(stations.find((st) => st.id !== station.id));
+        }
+
+        confirmationModalRef.current.close();
+      } else {
+        console.error("Token is null");
       }
-
-      confirmationModalRef.current.close();
     } catch (error) {
       console.error(error);
     }
@@ -117,7 +129,16 @@ const ManageStation: React.FC = () => {
                 <Button
                   variant="primary"
                   maxH="30px"
-                  onClick={() => openStationModal()}
+                  onClick={() =>
+                    openStationModal({
+                      id: "",
+                      name: "",
+                      address: "",
+                      controllerId: "",
+                      controllerPtsId: "",
+                      firmwareVersion: "",
+                    })
+                  }
                 >
                   CREATE STATION
                 </Button>

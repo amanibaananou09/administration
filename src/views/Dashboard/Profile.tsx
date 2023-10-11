@@ -85,13 +85,13 @@ const Profile: FC<ProfileProps> = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Card p="16px" my={{ sm: "24px", xl: "0px" }}>
-          <CardHeader p="12px 5px" mb="12px">
+        <Card variant="" p="16px" my={{ sm: "24px", xl: "0px" }}>
+          <CardHeader variant="" p="12px 5px" mb="12px">
             <Text fontSize="lg" color={textColor} fontWeight="bold">
               Profile Information
             </Text>
           </CardHeader>
-          <CardBody px="5px">
+          <CardBody variant="" px="5px">
             <Flex direction="column">
               <Flex align="center" mb="18px">
                 <Text

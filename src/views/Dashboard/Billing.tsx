@@ -58,6 +58,7 @@ function Billing() {
             gap="26px"
           >
             <Card
+              variant=""
               backgroundImage={
                 colorMode === "dark"
                   ? "linear-gradient(180deg, #3182CE 0%, #63B3ED 100%)"
@@ -70,7 +71,7 @@ function Billing() {
               h={{ sm: "220px", xl: "100%" }}
               gridArea={{ md: "1 / 1 / 2 / 3", xl: "1 / 1 / 2 / 3" }}
             >
-              <CardBody h="100%" w="100%">
+              <CardBody variant="" h="100%" w="100%">
                 <Flex
                   direction="column"
                   color="white"
@@ -119,7 +120,7 @@ function Billing() {
               </CardBody>
             </Card>
             <Card p="16px" display="flex" align="center" justify="center">
-              <CardBody>
+              <CardBody variant="">
                 <Flex direction="column" align="center" w="100%" py="14px">
                   <IconBox as="Box" h={"60px"} w={"60px"} bg={iconBlue}>
                     <Icon h={"24px"} w={"24px"} color="white" as={FaWallet} />
@@ -152,7 +153,7 @@ function Billing() {
               </CardBody>
             </Card>
             <Card p="16px" display="flex" align="center" justify="center">
-              <CardBody>
+              <CardBody variant={""} children={undefined}>
                 <Flex
                   direction="column"
                   align="center"
@@ -191,8 +192,8 @@ function Billing() {
               </CardBody>
             </Card>
           </Grid>
-          <Card p="16px" mt="24px">
-            <CardHeader>
+          <Card variant="" p="16px" mt="24px">
+            <CardHeader variant="">
               <Flex
                 justify="space-between"
                 align="center"
@@ -207,7 +208,7 @@ function Billing() {
                 </Button>
               </Flex>
             </CardHeader>
-            <CardBody>
+            <CardBody variant="">
               <Flex
                 direction={{ sm: "column", md: "row" }}
                 align="center"
@@ -274,11 +275,12 @@ function Billing() {
           </Card>
         </Box>
         <Card
+          variant=""
           p="22px"
           my={{ sm: "24px", lg: "0px" }}
           ms={{ sm: "0px", lg: "24px" }}
         >
-          <CardHeader>
+          <CardHeader variant="">
             <Flex justify="space-between" align="center" mb="1rem" w="100%">
               <Text fontSize="lg" color={textColor} fontWeight="bold">
                 Invoices
@@ -295,7 +297,7 @@ function Billing() {
               </Button>
             </Flex>
           </CardHeader>
-          <CardBody>
+          <CardBody variant="">
             <Flex direction="column" w="100%">
               {invoicesData.map((row, idx) => {
                 return (
@@ -314,14 +316,14 @@ function Billing() {
         </Card>
       </Grid>
       <Grid templateColumns={{ sm: "1fr", lg: "1.6fr 1.2fr" }}>
-        <Card my={{ lg: "24px" }} me={{ lg: "24px" }}>
+        <Card variant="" my={{ lg: "24px" }} me={{ lg: "24px" }}>
           <Flex direction="column">
-            <CardHeader py="12px">
+            <CardHeader variant="" py="12px">
               <Text color={textColor} fontSize="lg" fontWeight="bold">
                 Billing Information
               </Text>
             </CardHeader>
-            <CardBody>
+            <CardBody variant="">
               <Flex direction="column" w="100%">
                 {billingData.map((row, key) => {
                   return (
@@ -338,8 +340,8 @@ function Billing() {
             </CardBody>
           </Flex>
         </Card>
-        <Card my="24px" ms={{ lg: "24px" }}>
-          <CardHeader mb="12px">
+        <Card variant="" my="24px" ms={{ lg: "24px" }}>
+          <CardHeader variant="" mb="12px">
             <Flex direction="column" w="100%">
               <Flex
                 direction={{ sm: "column", lg: "row" }}
@@ -369,7 +371,7 @@ function Billing() {
               </Flex>
             </Flex>
           </CardHeader>
-          <CardBody>
+          <CardBody variant="">
             <Flex direction="column" w="100%">
               <Text
                 color="gray.400"
