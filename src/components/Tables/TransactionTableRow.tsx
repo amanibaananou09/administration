@@ -14,9 +14,9 @@ interface TablesTableRowProps {
   pump: string;
   fuelGrade: string;
   state: string;
-  volume: string;
-  price: string;
-  amount: string;
+  volume: number;
+  price: number;
+  amount: number;
   DateTimeStart: string;
   DateTime: string;
 }

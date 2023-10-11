@@ -11,10 +11,10 @@ import {
 interface TankDeliveryRowProps {
   tank: string;
   fuelGradeName: string;
-  productHeight: string;
-  waterHeight: string;
-  temperature: string;
-  productVolume: string;
+  productHeight: number;
+  waterHeight: number;
+  temperature: number;
+  productVolume: number;
 }
 
 const TankDeliveryRow: React.FC<TankDeliveryRowProps> = ({
@@ -35,7 +35,7 @@ const TankDeliveryRow: React.FC<TankDeliveryRowProps> = ({
 
   return (
     <Tr>
-      <Td minWidth={{ sm: "50px" }} pl="45px" {...tdStyle}>
+      <Td minWidth={{ base: "50px" }} pl="45px" {...tdStyle}>
         <Flex py=".8rem" minWidth="100%" flexWrap="nowrap">
           <Flex direction="column">
             <Text

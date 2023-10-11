@@ -9,7 +9,7 @@ import {
   DocumentIcon,
   SupportIcon,
   WalletIcon,
-} from "../components/Icons/Icons.ts";
+} from "../components/Icons/Icons";
 import ManageStation from "../views/Dashboard/ManageStation";
 import Transaction from "../views/Dashboard/Transaction";
 import TankDelivery from "../views/Dashboard/TankDelivery";

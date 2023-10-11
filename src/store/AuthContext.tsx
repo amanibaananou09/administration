@@ -90,7 +90,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
     isSignedIn,
     signIn: signInHandler,
     signOut: signOutHandler,
-    user: null
+    user: user ?? null,
   };
 
   return (

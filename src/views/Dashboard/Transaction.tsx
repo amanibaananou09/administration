@@ -44,10 +44,11 @@ const Transaction: React.FC<TransactionProps> = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useAuth();
-  const {
-    selectedStation: { controllerId },
-  } = useESSContext();
+  const { selectedStation } = useESSContext();
 
+  const controllerId: any | null = selectedStation
+    ? selectedStation.controllerId
+    : null;
   useEffect(() => {
     const { token } = user;
     const getAllTransaction = async () => {
@@ -55,9 +56,9 @@ const Transaction: React.FC<TransactionProps> = () => {
         const result = await getallTransactionPump(
           currentPage,
           controllerId,
-          token
+          token,
         );
-        const { content, totalPages, totalElements } = result; // Assuming the API response structure
+        const { content, totalPages, totalElements } = result; 
 
         setTransactions(content);
         setTotalPages(totalPages);
@@ -74,13 +75,13 @@ const Transaction: React.FC<TransactionProps> = () => {
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader p="6px 0px 22px 0px">
+      <Card variant="" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
+        <CardHeader variant="" p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             Transactions
           </Text>
         </CardHeader>
-        <CardBody>
+        <CardBody variant="">
           <Table variant="simple" color={textColor} size="sm">
             <Thead>
               <Tr color="gray.400">
@@ -151,8 +152,6 @@ const Transaction: React.FC<TransactionProps> = () => {
                     volume={row.volume}
                     price={row.price}
                     amount={row.amount}
-                    totalVolume={row.totalVolume}
-                    totalAmount={row.totalAmount}
                     DateTimeStart={row.DateTimeStart}
                     DateTime={row.DateTime}
                     state={row.state}

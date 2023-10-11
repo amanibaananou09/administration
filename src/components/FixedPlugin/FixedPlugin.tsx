@@ -21,15 +21,15 @@ const FixedPlugin: FC<FixedPluginProps> = (props) => {
         bg={bgButton}
         position="fixed"
         variant="no-hover"
-        left={''}
-        right={'35px'}
+        left={'' as string}
+        right={'35px' as string}
         bottom="30px"
         borderRadius="50px"
         boxShadow="0 2px 12px 0 rgb(0 0 0 / 16%)"
       >
         <SettingsIcon
           cursor="pointer"
-          ref={settingsRef}
+         // ref={settingsRef}
           color={navbarIcon}
           w="20px"
           h="20px"

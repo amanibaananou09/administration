@@ -38,6 +38,8 @@ const ManageStation: React.FC = () => {
 
   const textColor = useColorModeValue("gray.700", "white");
 
+  const isStationSelected = selectedStation !== null;
+
   const openStationModal = (station: Station) => {
     stationModalRef.current.open(station);
   };
@@ -52,7 +54,7 @@ const ManageStation: React.FC = () => {
 
       setStations((prev) => prev.filter((st) => st.id !== station.id));
 
-      if (stations.length > 0 && selectedStation.id === station.id) {
+      if (isStationSelected && stations.length > 0 && selectedStation!.id === station.id) {
         selectStation(stations.find((st) => st.id !== station.id));
       }
 
@@ -78,7 +80,7 @@ const ManageStation: React.FC = () => {
 
         setStations(newStations);
 
-        if (selectedStation.id === station.id) {
+        if (isStationSelected && selectedStation!.id === station.id) {
           selectStation(station);
         }
       } else {
@@ -105,9 +107,9 @@ const ManageStation: React.FC = () => {
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-        <Card my={{ lg: "24px" }} me={{ lg: "24px" }}>
+        <Card variant="primary" my={{ lg: "24px" }} me={{ lg: "24px" }}>
           <Flex direction="column">
-            <CardHeader py="12px">
+            <CardHeader variant="primary" py="12px">
               <Flex align="center" justify="space-between" p="22px">
                 <Text fontSize="lg" color={textColor} fontWeight="bold">
                   Manage Stations
@@ -121,7 +123,7 @@ const ManageStation: React.FC = () => {
                 </Button>
               </Flex>
             </CardHeader>
-            <CardBody>
+            <CardBody variant="primary">
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
                   return (

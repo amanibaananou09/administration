@@ -1,12 +1,12 @@
 import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+  Button as ChakraButton,
+  Modal as ChakraModal,
+  ModalBody as ChakraModalBody,
+  ModalCloseButton as ChakraModalCloseButton,
+  ModalContent as ChakraModalContent,
+  ModalFooter as ChakraModalFooter,
+  ModalHeader as ChakraModalHeader,
+  ModalOverlay as ChakraModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
@@ -22,7 +22,7 @@ const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
   const [station, setStation] = useState<any>({});
 
   useImperativeHandle(ref, () => ({
-    open(station) {
+    open(station: any) {
       setStation(station);
       onOpen();
     },
@@ -32,26 +32,26 @@ const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
   }));
 
   return (
-    <Modal
+    <ChakraModal
       motionPreset="slideInBottom"
       closeOnOverlayClick={false}
       blockScrollOnMount={true}
       isOpen={isOpen}
       onClose={onClose}
     >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{station.name}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>{message}</ModalBody>
-        <ModalFooter>
-          <Button colorScheme="teal" mr={3} onClick={() => onConfirm(station)}>
+      <ChakraModalOverlay />
+      <ChakraModalContent>
+        <ChakraModalHeader>{station.name}</ChakraModalHeader>
+        <ChakraModalCloseButton />
+        <ChakraModalBody pb={6}>{message}</ChakraModalBody>
+        <ChakraModalFooter>
+          <ChakraButton colorScheme="teal" mr={3} onClick={() => onConfirm(station)}>
             Confirm
-          </Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+          </ChakraButton>
+          <ChakraButton onClick={onClose}>Cancel</ChakraButton>
+        </ChakraModalFooter>
+      </ChakraModalContent>
+    </ChakraModal>
   );
 });
 

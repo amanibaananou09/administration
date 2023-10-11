@@ -1,3 +1,4 @@
+// Import necessary modules
 import React, { FC, useEffect } from "react";
 import { Button, Text } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/system";
@@ -17,15 +18,15 @@ const StationConfigurator: FC = () => {
 
   const [stations, setStations] = useState<Station[]>([]);
 
-  let bgButton: string = useColorModeValue(
+  const bgButton = useColorModeValue(
     "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)",
     "white",
   );
-  let colorButton: string = useColorModeValue("white", "gray.700");
+  const colorButton = useColorModeValue("white", "gray.700");
 
-  const secondaryButtonBg: string = useColorModeValue("white", "transparent");
-  const secondaryButtonBorder: string = useColorModeValue("gray.700", "white");
-  const secondaryButtonColor: string = useColorModeValue("gray.700", "white");
+  const secondaryButtonBg = useColorModeValue("white", "transparent");
+  const secondaryButtonBorder = useColorModeValue("gray.700", "white");
+  const secondaryButtonColor = useColorModeValue("gray.700", "white");
 
   useEffect(() => {
     const getAllStations = async () => {
@@ -47,52 +48,38 @@ const StationConfigurator: FC = () => {
 
   return stations.length > 0 ? (
     <>
-      <Text fontSize="md" fontWeight="bold" my="16px">
+      <p style={{ fontSize: "md", fontWeight: "bold" }}>
         Select Station:
-      </Text>
+      </p>
       {selectedStation &&
         stations.map((station: Station, key: number) => {
-          if (station.id === selectedStation.id) {
+          if (station.id === String(selectedStation)) {
             return (
-              <Button
+              <button
                 key={key}
-                w="100%"
-                mb="16px"
-                bg={bgButton}
-                color={colorButton}
-                fontSize="xs"
-                variant="no-effects"
-                px="30px"
-                cursor="default"
+                style={{ background: bgButton, color: colorButton, fontSize: "xs", padding: "30px", cursor: "default" }}
               >
                 {station.name}
-              </Button>
+              </button>
             );
           } else {
             return (
-              <Button
+              <button
                 key={key}
-                w="100%"
-                bg={secondaryButtonBg}
-                border="1px solid"
-                borderColor={secondaryButtonBorder}
-                color={secondaryButtonColor}
-                fontSize="xs"
-                variant="no-effects"
-                px="20px"
-                mb="16px"
-                onClick={() => selectStation(station)}
+              
+                style={{ background: secondaryButtonBg, border: `1px solid ${secondaryButtonBorder}`, color: secondaryButtonColor, fontSize: "xs", padding: "20px", marginBottom: "16px" }}
+                onClick={() => selectStation(station.name)}
               >
-                <Text textDecorationColor="none">{station.name}</Text>
-              </Button>
+               {station.name}
+              </button>
             );
           }
         })}
     </>
   ) : (
-    <Text fontSize="md" fontWeight="bold" my="16px">
+    <p style={{fontSize:"md" ,fontWeight:"bold"}}>
       No station affected, please contact the administrator
-    </Text>
+    </p>
   );
 };
 

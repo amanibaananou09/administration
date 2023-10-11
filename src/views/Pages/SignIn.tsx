@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { FC } from "react";
+// Chakra imports
 import {
   Box,
   Button,
@@ -13,27 +12,27 @@ import {
   AlertIcon,
   AlertDescription,
 } from "@chakra-ui/react";
+// Assets
 import BgSignUp from "../../assets/img/BgSignUp.png";
+import React, { useState } from "react";
 import { login } from "src/common/api";
 import { useAuth } from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
 import { getStations } from "src/common/api";
 import { decodeToken } from "src/utils/utils";
 
-interface SignInProps {}
-
-const SignIn: FC<SignInProps> = () => {
-  const bgForm: string = useColorModeValue("white", "navy.800");
-  const textColor: string = useColorModeValue("gray.700", "white");
+function SignIn() {
+  const bgForm = useColorModeValue("white", "navy.800");
+  const textColor = useColorModeValue("gray.700", "white");
 
   const { selectStation } = useESSContext();
   const { signIn } = useAuth();
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const getDefaultStation = async (user: any): Promise<any> => {
+  const getDefaultStation = async (user :any) => {
     const stations = await getStations(user);
     if (stations.length > 0) {
       return stations[0];
@@ -42,7 +41,7 @@ const SignIn: FC<SignInProps> = () => {
     return null;
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     if (!username || !password) {
       setErrorMessage("Please fill in both username and password fields.");
@@ -59,7 +58,8 @@ const SignIn: FC<SignInProps> = () => {
         selectStation(defaultStation);
       }
 
-      signIn(user);
+      setErrorMessage("No default station found for the user.");
+
     } catch (error) {
       console.error(error);
       setErrorMessage("Invalid username or password.");
@@ -191,6 +191,6 @@ const SignIn: FC<SignInProps> = () => {
       </Flex>
     </Flex>
   );
-};
+}
 
 export default SignIn;

@@ -22,8 +22,14 @@ interface Station {
 }
 
 interface StationModalProps {
-  onSubmit: (values: Station) => void;
+  onSubmit: (values: Station) => Promise<void>;
 }
+
+const initStation: Station = {
+  name: "",
+  address: "",
+  controllerPtsId: "",
+};
 
 const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,8 +47,8 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
     return error;
   };
 
-  const submitHandler = (values: Station) => {
-    onSubmit(values);
+  const submitHandler = async (values: Station) => {
+    await onSubmit(values);
   };
 
   useImperativeHandle(ref, () => ({
@@ -75,7 +81,7 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
             {(props) => (
               <Form>
                 <Field name="name" validate={isNotNull}>
-                  {({ field, form }) => (
+                {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={form.errors.name && form.touched.name}
                       mb="24px"
@@ -88,8 +94,9 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
                     </FormControl>
                   )}
                 </Field>
+
                 <Field name="address" validate={isNotNull}>
-                  {({ field, form }) => (
+                   {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={form.errors.address && form.touched.address}
                       mb="24px"
@@ -103,7 +110,7 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
                   )}
                 </Field>
                 <Field name="controllerPtsId" validate={isNotNull}>
-                  {({ field, form }) => (
+                {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={
                         form.errors.controllerPtsId &&
@@ -132,6 +139,7 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
                   h="45"
                   isLoading={props.isSubmitting}
                   type="submit"
+                  
                 >
                   SUBMIT
                 </Button>

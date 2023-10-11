@@ -11,6 +11,7 @@ import {
 import AdminNavbarLinks from "./AdminNavbarLinks";
 
 interface AdminNavbarProps {
+  logoText: any;
   variant: any;
   children: any;
   fixed: boolean;
@@ -92,7 +93,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
 
   return (
     <Flex
-      position={navbarPosition}
+      bgPosition={navbarPosition}
       boxShadow={navbarShadow}
       bg={navbarBg}
       borderColor={navbarBorder}
@@ -174,8 +175,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
             logoText={props.logoText}
             secondary={props.secondary}
             fixed={props.fixed}
-            scrolled={scrolled}
-          />
+            scrolled={scrolled} variant={undefined} children={undefined}          />
         </Box>
       </Flex>
     </Flex>

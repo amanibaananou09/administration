@@ -35,20 +35,27 @@ function TankDelivery(): JSX.Element {
   const borderColor: string = useColorModeValue("gray.200", "gray.600");
   const [tankdelivery, setTankDelivery] = useState<TankDeliveryProps[]>([]);
   const { user } = useAuth();
-  const [tankDeliveryList, setTankDeliveryList] = useState<TankDeliveryProps[]>([]);
+  const [tankDeliveryList, setTankDeliveryList] = useState<TankDeliveryProps[]>(
+    [],
+  );
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalElements, setTotalElements] = useState<number>(0);
+
   const {
     selectedStation: { controllerId },
   } = useESSContext();
 
   useEffect(() => {
     const { token } = user;
-    const allTankDelivery = async (page: number): Promise<void> => {
+    const allTankDelivery = async () => {
       try {
-        const result = await getAllTankDelivery(currentPage, controllerId, token);
-        const { content, totalPages, totalElements } = result; // Assuming the API response structure
+        const result = await getAllTankDelivery(
+          currentPage,
+          controllerId,
+          token,
+        );
+        const { content, totalPages, totalElements } = result;
         setTotalElements(totalElements);
         setTankDelivery(content);
         setTotalPages(totalPages);
@@ -65,32 +72,61 @@ function TankDelivery(): JSX.Element {
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader p="6px 0px 22px 0px">
+      <Card variant="" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
+        <CardHeader variant="" p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             Tank Delivery
           </Text>
         </CardHeader>
-        <CardBody>
-          <Table variant="simple" color={textColor} size="sm" textAlign="center">
+        <CardBody variant="">
+          <Table
+            variant="simple"
+            color={textColor}
+            size="sm"
+            textAlign="center"
+          >
             <Thead>
               <Tr color="gray.400">
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   tank
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   product Volume
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   fuel Grade
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   product Height
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   water Height
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   temperature
                 </Th>
               </Tr>
@@ -124,7 +160,10 @@ function TankDelivery(): JSX.Element {
         </CardBody>
       </Card>
       <ButtonGroup mt={4} spacing={4}>
-        <Button isDisabled={currentPage === 0} onClick={() => handlePageChange(currentPage - 1)}>
+        <Button
+          isDisabled={currentPage === 0}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
           Previous
         </Button>
         <Button>{currentPage + 1}</Button>

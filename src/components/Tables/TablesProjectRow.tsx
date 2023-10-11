@@ -38,7 +38,7 @@ const DashboardTableRow: React.FC<DashboardTableRowProps> = ({
         minWidth={{ sm: "250px" }}
         pl="0px"
         borderColor={borderColor}
-        borderBottom={isLast ? "none" : null}
+        borderBottom={!isLast ? "none" : undefined}
       >
         <Flex alignItems="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
           <Icon as={logo} h={"24px"} w={"24px"} me="18px" />
@@ -52,17 +52,17 @@ const DashboardTableRow: React.FC<DashboardTableRowProps> = ({
           </Text>
         </Flex>
       </Td>
-      <Td borderBottom={isLast ? "none" : null} borderColor={borderColor}>
+      <Td borderBottom={isLast ? "none" : undefined} borderColor={borderColor}>
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
           {budget}
         </Text>
       </Td>
-      <Td borderBottom={isLast ? "none" : null} borderColor={borderColor}>
+      <Td borderBottom={isLast ? "none" : undefined} borderColor={borderColor}>
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
           {status}
         </Text>
       </Td>
-      <Td borderBottom={isLast ? "none" : null} borderColor={borderColor}>
+      <Td borderBottom={isLast ? "none" : undefined} borderColor={borderColor}>
         <Flex direction="column">
           <Text
             fontSize="md"
@@ -78,7 +78,7 @@ const DashboardTableRow: React.FC<DashboardTableRowProps> = ({
           />
         </Flex>
       </Td>
-      <Td borderBottom={isLast ? "none" : null} borderColor={borderColor}>
+      <Td borderBottom={isLast ? "none" : undefined} borderColor={borderColor}>
         <Button p="0px" bg="transparent" variant="no-effects">
           <Icon as={FaEllipsisV} color="gray.400" cursor="pointer" />
         </Button>
