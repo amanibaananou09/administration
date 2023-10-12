@@ -12,12 +12,13 @@ import AdminNavbarLinks from "./AdminNavbarLinks";
 
 interface AdminNavbarProps {
   logoText: string;
-  variant: any;
-  children: any;
+  variant: undefined;
+  children: undefined;
   fixed: boolean;
   secondary: boolean;
   brandText: string;
   onOpen: () => void;
+  scrolled: boolean;
 }
 
 const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {

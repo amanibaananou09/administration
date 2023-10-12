@@ -137,47 +137,41 @@ export default function Dashboard(props: { [x: string]: any; }) {
         top="0"
       />
       <Sidebar
-        routes={routes}
-        logo={
-          <Stack
-            direction="column"
-            spacing="12px"
-            align="center"
-            justify="center"
-          >
-            <Logo style={{ height: "100px" }} />
-            {selectedStation && (
-              <Text
-                fontSize={{ sm: "lg", lg: "xl" }}
-                fontWeight="bold"
-                ms={{ sm: "8px", md: "0px" }}
-              >
-                {selectedStation.name}
-              </Text>
-            )}
-          </Stack>
-        }
-        display="none"
-        {...rest}
-      />
+        sidebarVariant={""} colorMode={""} hamburgerColor={""} routes={routes}
+        logo={<Stack
+          direction="column"
+          spacing="12px"
+          align="center"
+          justify="center"
+        >
+          <Logo style={{ height: "100px" }} />
+          {selectedStation && (
+            <Text
+              fontSize={{ sm: "lg", lg: "xl" }}
+              fontWeight="bold"
+              ms={{ sm: "8px", md: "0px" }}
+            >
+              {selectedStation.name}
+            </Text>
+          )}
+        </Stack>}
+        {...rest}      />
       <MainPanel
         w={{
           base: "100%",
           xl: "calc(100% - 275px)",
-        }}
-      >
+        }} variant={""}      >
         <Portal>
           <AdminNavbar
-            onOpen={onOpen}
+            logoText={""} variant={undefined} children={undefined} onOpen={onOpen}
             brandText={getActiveRoute(routes)}
             secondary={getActiveNavbar(routes)}
             fixed={fixed}
-            {...rest}
-          />
+            {...rest}          />
         </Portal>
         {getRoute() ? (
-          <PanelContent>
-            <PanelContainer>
+          <PanelContent variant={""}>
+            <PanelContainer variant={""}>
               <Switch>
                 {getRoutes(routes)}
                 <MainRoute />
@@ -185,7 +179,7 @@ export default function Dashboard(props: { [x: string]: any; }) {
             </PanelContainer>
           </PanelContent>
         ) : null}
-        <Footer />
+        <Footer alignBase={""} />
         <Portal>
           <FixedPlugin
             secondary={getActiveNavbar(routes)}

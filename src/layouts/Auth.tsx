@@ -121,7 +121,7 @@ const Pages: React.FC<PagesProps> = (props) => {
         </Box>
       </Box>
       <Box px="24px" mx="auto" width="1044px" maxW="100%" mt="60px">
-        <Footer alignBase={""} alignXl={""} />
+        <Footer alignBase={""} />
       </Box>
     </Box>
   );

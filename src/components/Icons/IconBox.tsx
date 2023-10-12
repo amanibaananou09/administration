@@ -18,6 +18,6 @@ const IconBox: React.FC<IconBoxProps> = (props) => {
       {children}
     </Flex>
   );
-}
+};
 
 export default IconBox;

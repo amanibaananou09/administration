@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  User,
-  useAuth,
-} from "src/store/AuthContext";
+import { User, useAuth } from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
 import {
   Button,

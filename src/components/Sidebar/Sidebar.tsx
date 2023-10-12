@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, FC } from "react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -15,7 +16,6 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
 import IconBox from "src/components/Icons/IconBox";
 import {
   renderThumbDark,
@@ -29,54 +29,62 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "src/store/AuthContext";
 
-export interface NavLinkProps {
+interface SidebarProps {
+  logo: JSX.Element;
+  routes: any;
+  sidebarVariant: string;
+  colorMode :string;
+  hamburgerColor : string ;
+}
+
+interface Route {
   layout: string;
   path: string;
-  icon: React.ReactNode;
   name: string;
+  onlyPublicRoute?: boolean;
+  privateRoute?: boolean;
   redirect?: boolean;
   category?: boolean;
   state?: string;
-  views?: NavLinkProps[];
-  onlyPublicRoute?: boolean;
-  privateRoute?: boolean;
+  views?: Route[];
+  icon?: string | JSX.Element;
 }
 
-export interface SidebarProps {
-  logo: React.ReactNode;
-  routes: NavLinkProps[];
-  sidebarVariant: string;
-}
-
-function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
+const Sidebar: FC<SidebarProps> = (props) => {
   const { isSignedIn } = useAuth();
   let location = useLocation();
-  const [state, setState] = useState({});
-  const mainPanel = useRef(null);
+  const [state, setState] = React.useState<{ [key: string]: boolean }>({});
+  const mainPanel = React.useRef<HTMLDivElement>(null);
   let variantChange = "0.2s linear";
 
   const activeRoute = (routeName: string) => {
     return location.pathname === routeName ? "active" : "";
   };
 
-  const { colorMode } = useColorMode();
-  let activeBg = useColorModeValue("white", "navy.700");
-  let inactiveBg = useColorModeValue("white", "navy.700");
-  let activeColor = useColorModeValue("gray.700", "white");
-  let inactiveColor = useColorModeValue("gray.400", "gray.400");
-  let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
-  let sidebarBgColor = useColorModeValue("white", "navy.800");
+  const createLinks = (routes: any) => {
+    let activeBg = useColorModeValue("white", "navy.700");
+    let inactiveBg = useColorModeValue("white", "navy.700");
+    let activeColor = useColorModeValue("gray.700", "white");
+    let inactiveColor = useColorModeValue("gray.400", "gray.400");
+    let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
 
-  const createLinks = (routes: NavLinkProps[]) => {
-    return routes.map((prop, key) => {
+    return routes.map((prop :any, key :any) => {
+      if (isSignedIn && prop.onlyPublicRoute) {
+        return null;
+      }
+
+      if (!isSignedIn && prop.privateRoute) {
+        return null;
+      }
+
       if (prop.redirect) {
         return null;
       }
       if (prop.category) {
-        var st = {};
-        st[prop["state"]] = !state[prop.state];
+        var st: { [key: string]: boolean } = {};
+        st[prop.state!] = !state[prop.state!];
         return (
-          <Fragment key={key}>
+          <>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -92,12 +100,9 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
             >
               {prop.name}
             </Text>
-            {createLinks(prop.views)}
-          </Fragment>
+            {createLinks(prop.views!)}
+          </>
         );
-      }
-      if (!prop.state) {
-        return null;
       }
       return (
         <NavLink to={prop.layout + prop.path} key={key}>
@@ -121,7 +126,7 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
               }}
               py="12px"
               borderRadius="15px"
-              _hover="none"
+              
               w="100%"
               _active={{
                 bg: "inherit",
@@ -170,7 +175,7 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
                 xl: "16px",
               }}
               borderRadius="15px"
-              hover="none"
+              
               w="100%"
               _active={{
                 bg: "inherit",
@@ -207,8 +212,13 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
     });
   };
 
+  const { logo, routes } = props;
+
   var links = <>{createLinks(routes)}</>;
 
+  let sidebarBg = useColorModeValue("white", "navy.800");
+  let sidebarRadius = "20px";
+  let sidebarMargins = "0px";
   var brand = (
     <Box pt={"25px"} mb="12px">
       {logo}
@@ -220,7 +230,7 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
     <Box ref={mainPanel}>
       <Box display={{ sm: "none", xl: "block" }} position="fixed">
         <Box
-          bg={sidebarBgColor}
+          bg={sidebarBg}
           transition={variantChange}
           w="260px"
           maxW="260px"
@@ -233,9 +243,9 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
           h="calc(100vh - 32px)"
           ps="20px"
           pe="20px"
-          m="0px"
+          m={sidebarMargins}
           filter="drop-shadow(0px 5px 14px rgba(0, 0, 0, 0.05))"
-          borderRadius="20px"
+          borderRadius={sidebarRadius}
         >
           <Scrollbars
             autoHide
@@ -250,30 +260,22 @@ function Sidebar({ logo, routes, sidebarVariant }: SidebarProps) {
             <Stack direction="column" mb="40px">
               <Box>{links}</Box>
             </Stack>
-            <SidebarHelp sidebarVariant={sidebarVariant} />
+            <SidebarHelp sidebarVariant={props.sidebarVariant} />
           </Scrollbars>
         </Box>
       </Box>
     </Box>
   );
-}
+};
 
-interface SidebarResponsiveProps {
-  logo: React.ReactNode;
-  routes: NavLinkProps[];
-  colorMode: string;
-  hamburgerColor: string;
-}
-
-export function SidebarResponsive({
-  logo,
-  routes,
-  colorMode,
-  hamburgerColor,
-}: SidebarResponsiveProps) {
+export const SidebarResponsive: FC<SidebarProps> = (props) => {
   let location = useLocation();
-  const [state, setState] = useState({});
-  const mainPanel = useRef(null);
+  const { logo, routes, colorMode, hamburgerColor, ...rest } = props;
+  const [state, setState] = React.useState<{ [key: string]: boolean }>({});
+  const mainPanel = React.useRef<HTMLDivElement>(null);
+  const activeRoute = (routeName: string) => {
+    return location.pathname === routeName ? "active" : "";
+  };
   let activeBg = useColorModeValue("white", "navy.700");
   let inactiveBg = useColorModeValue("white", "navy.700");
   let activeColor = useColorModeValue("gray.700", "white");
@@ -284,14 +286,14 @@ export function SidebarResponsive({
   );
   let sidebarBackgroundColor = useColorModeValue("white", "navy.800");
 
-  const createLinks = (routes: NavLinkProps[]) => {
-    return routes.map((prop, key) => {
+  const createLinks = (routes: any) => {
+    return routes.map((prop: any, key: any ) => {
       if (prop.redirect) {
         return null;
       }
       if (prop.category) {
-        var st = {};
-        st[prop["state"]] = !state[prop.state];
+        var st: { [key: string]: boolean } = {};
+        st[prop.state!] = !state[prop.state!];
         return (
           <Fragment key={key}>
             <Text
@@ -309,7 +311,7 @@ export function SidebarResponsive({
             >
               {prop.name}
             </Text>
-            {createLinks(prop.views)}
+            {createLinks(prop.views!)}
           </Fragment>
         );
       }
@@ -334,7 +336,7 @@ export function SidebarResponsive({
               }}
               py="12px"
               borderRadius="15px"
-              _hover="none"
+             
               w="100%"
               _active={{
                 bg: "inherit",
@@ -382,7 +384,7 @@ export function SidebarResponsive({
                 xl: "16px",
               }}
               borderRadius="15px"
-              _hover="none"
+              
               w="100%"
               _active={{
                 bg: "inherit",
@@ -428,7 +430,7 @@ export function SidebarResponsive({
   );
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef(null);
+  const btnRef = React.useRef<SVGSVGElement>(null);
 
   return (
     <Flex
@@ -474,6 +476,6 @@ export function SidebarResponsive({
       </Drawer>
     </Flex>
   );
-}
+};
 
 export default Sidebar;

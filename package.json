@@ -83,7 +83,7 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "next": "^13.5.4",
     "prettier": "2.2.1",
-    "typescript": "^5.2.2"
+    "typescript": "^4.2.4"
   },
   "browserslist": {
     "production": [

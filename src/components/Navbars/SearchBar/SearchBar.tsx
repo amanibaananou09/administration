@@ -26,7 +26,7 @@ export function SearchBar(props: SearchBarProps) {
           <IconButton
             bg="inherit"
             borderRadius="inherit"
-            _hover="none"
+
             _active={{
               bg: "inherit",
               transform: "none",
@@ -35,8 +35,7 @@ export function SearchBar(props: SearchBarProps) {
             _focus={{
               boxShadow: "none",
             }}
-            icon={<SearchIcon color={searchIconColor} w="15px" h="15px" />}
-          ></IconButton>
+            icon={<SearchIcon color={searchIconColor} w="15px" h="15px" />} aria-label={""}          ></IconButton>
         }
       />
       <Input

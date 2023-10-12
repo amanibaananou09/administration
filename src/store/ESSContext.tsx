@@ -1,46 +1,40 @@
-import React, { useState, useCallback, ReactNode, useContext } from "react";
+import React, { useCallback, useContext, useState, FC } from "react";
 
 interface ESSContextProps {
-  selectedStation: any | null;
-  selectStation: (station: any | null) => void;
+  selectedStation: any;
+  selectStation: (selectedStation: any) => void;
   clearContext: () => void;
 }
 
-const defaultESSContext: ESSContextProps = {
+export const ESSContext = React.createContext<ESSContextProps>({
   selectedStation: null,
   selectStation: () => {},
   clearContext: () => {},
-};
-
-const ESSContext = React.createContext<ESSContextProps>(defaultESSContext);
+});
 
 interface ESSContextProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-export const ESSContextProvider: React.FC<ESSContextProviderProps> = ({
-  children,
-}) => {
-  const [selectedStation, setSelectedStation] = useState<string | null>(
-    localStorage.getItem("ess") || null,
+export const ESSContextProvider: FC<ESSContextProviderProps> = ({ children }) => {
+  const [selectedStation, setSelectedStation] = useState<any>(
+    JSON.parse(localStorage.getItem("ess")) || null,
   );
 
-  const selectStation = useCallback((station: string | null) => {
-    if (station) {
-      localStorage.setItem("ess", station);
-      setSelectedStation(station);
-    }
+  const setESSContextHandler = useCallback((selectedStation: any) => {
+    localStorage.setItem("ess", JSON.stringify(selectedStation));
+    setSelectedStation(selectedStation);
   }, []);
 
-  const clearContext = useCallback(() => {
+  const clearESSContextHandler = useCallback(() => {
     localStorage.removeItem("ess");
     setSelectedStation(null);
   }, []);
 
   const contextValue: ESSContextProps = {
     selectedStation,
-    selectStation,
-    clearContext,
+    selectStation: setESSContextHandler,
+    clearContext: clearESSContextHandler,
   };
 
   return (
@@ -48,6 +42,6 @@ export const ESSContextProvider: React.FC<ESSContextProviderProps> = ({
   );
 };
 
-export const useESSContext = (): ESSContextProps => {
+export const useESSContext = () => {
   return useContext(ESSContext);
 };

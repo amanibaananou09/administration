@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from 'react';
+import React, { FC, useState, useRef } from "react";
 import {
   Button,
   Drawer,
@@ -11,11 +11,12 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { HSeparator } from 'src/components/Separator/Separator';
-import StationConfigurator from './StationConfigurator';
+} from "@chakra-ui/react";
+import { HSeparator } from "src/components/Separator/Separator";
+import StationConfigurator from "./StationConfigurator";
 
 interface ConfiguratorProps {
+  secondary: any;
   isOpen: boolean;
   onClose: () => void;
   isChecked: boolean;
@@ -26,7 +27,7 @@ const Configurator: FC<ConfiguratorProps> = (props) => {
   const [switched, setSwitched] = useState<boolean>(props.isChecked);
 
   const { colorMode, toggleColorMode } = useColorMode();
-  const bgDrawer = useColorModeValue('white', 'navy.800');
+  const bgDrawer = useColorModeValue("white", "navy.800");
 
   const settingsRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +36,7 @@ const Configurator: FC<ConfiguratorProps> = (props) => {
       <Drawer
         isOpen={props.isOpen}
         onClose={props.onClose}
-        placement={'right'}
+        placement={"right"}
         finalFocusRef={settingsRef}
         blockScrollOnMount={false}
       >
@@ -80,9 +81,9 @@ const Configurator: FC<ConfiguratorProps> = (props) => {
                 </Text>
                 <Button
                   onClick={toggleColorMode}
-                  color={colorMode === 'light' ? 'Dark' : 'Light'}
+                  color={colorMode === "light" ? "Dark" : "Light"}
                 >
-                  Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
+                  Toggle {colorMode === "light" ? "Dark" : "Light"}
                 </Button>
               </Flex>
 

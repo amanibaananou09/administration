@@ -21,7 +21,7 @@ import { useESSContext } from "src/store/ESSContext";
 import { getStations } from "src/common/api";
 import { decodeToken } from "src/utils/utils";
 
-function SignIn() {
+function SignUp() {
   const bgForm = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("gray.700", "white");
 
@@ -32,7 +32,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const getDefaultStation = async (user :any) => {
+  const getDefaultStation = async (user) => {
     const stations = await getStations(user);
     if (stations.length > 0) {
       return stations[0];
@@ -41,7 +41,7 @@ function SignIn() {
     return null;
   };
 
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!username || !password) {
       setErrorMessage("Please fill in both username and password fields.");
@@ -58,8 +58,7 @@ function SignIn() {
         selectStation(defaultStation);
       }
 
-      setErrorMessage("No default station found for the user.");
-
+      signIn(user);
     } catch (error) {
       console.error(error);
       setErrorMessage("Invalid username or password.");
@@ -193,4 +192,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;

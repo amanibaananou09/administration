@@ -26,7 +26,7 @@ interface HeaderLinksProps {
   children: any;
   fixed: boolean;
   scrolled: boolean;
-  secondary: boolean;
+  secondary: any;
   onOpen: () => void;
 }
 

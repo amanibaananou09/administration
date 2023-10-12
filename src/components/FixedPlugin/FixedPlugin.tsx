@@ -3,6 +3,8 @@ import { Button, useColorModeValue } from "@chakra-ui/react";
 import { SettingsIcon } from "src/components/Icons/Icons";
 
 interface FixedPluginProps {
+  secondary: any;
+  fixed: any;
   onOpen: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 

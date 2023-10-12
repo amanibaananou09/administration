@@ -22,7 +22,7 @@ export interface Station {
 }
 
 export interface StationModalProps {
-  onSubmit: (station: Station) => Promise<void>;
+  //onSubmit: (station: Station) => Promise<void>;
 }
 
 const initStation: Station = {
@@ -31,7 +31,7 @@ const initStation: Station = {
   controllerPtsId: "",
 };
 
-const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
+const StationModal = forwardRef(({}: StationModalProps, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [station, setStation] = useState<Station>({
     name: "",
@@ -48,7 +48,7 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
   };
 
   const submitHandler = async (values: Station) => {
-    await onSubmit(values);
+    await onsubmit(values);
   };
 
   useImperativeHandle(ref, () => ({
