@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { User, useAuth } from "src/store/AuthContext";
+import { useAuth } from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
 import {
   Button,
@@ -9,10 +9,12 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { updateStation } from "src/common/api";
-import { deleteStation } from "src/common/api";
-import { createStation } from "src/common/api";
-import { getStations } from "src/common/api";
+import {
+  updateStation,
+  deleteStation,
+  createStation,
+  getStations,
+} from "src/common/api";
 import Card from "src/components/Card/Card";
 import CardBody from "src/components/Card/CardBody";
 import CardHeader from "src/components/Card/CardHeader";
@@ -33,41 +35,31 @@ const ManageStation: React.FC = () => {
   const { user } = useAuth();
   const { selectStation, selectedStation } = useESSContext();
   const [stations, setStations] = useState<Station[]>([]);
-  const stationModalRef = useRef<any>();
-  const confirmationModalRef = useRef<any>();
+  const stationModalRef = useRef<any>(null);
+  const confirmationModalRef = useRef<any>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
 
-  const isStationSelected = selectedStation !== null;
-
+  
   const openStationModal = (station: Station) => {
-    stationModalRef.current.open(station);
+    stationModalRef.current?.open(station);
   };
 
   const openConfirmationToDeleteModal = (station: Station) => {
-    confirmationModalRef.current.open(station);
+    confirmationModalRef.current?.open(station);
   };
 
-  const { token } = user as User;
   const deleteStationHandler = async (station: Station) => {
     try {
-      if (token) {
-        await deleteStation(station.id, token);
+      await deleteStation(station.id, user);
 
-        setStations((prev) => prev.filter((st) => st.id !== station.id));
+      setStations((prev) => prev.filter((st) => st.id !== station.id));
 
-        if (
-          isStationSelected &&
-          stations.length > 0 &&
-          selectedStation!.id === station.id
-        ) {
-          selectStation(stations.find((st) => st.id !== station.id));
-        }
-
-        confirmationModalRef.current.close();
-      } else {
-        console.error("Token is null");
+      if (stations.length > 0 && selectedStation.id === station.id) {
+        selectStation(stations.find((st) => st.id !== station.id));
       }
+
+      confirmationModalRef.current?.close();
     } catch (error) {
       console.error(error);
     }
@@ -89,7 +81,7 @@ const ManageStation: React.FC = () => {
 
         setStations(newStations);
 
-        if (isStationSelected && selectedStation!.id === station.id) {
+        if (selectedStation.id === station.id) {
           selectStation(station);
         }
       } else {
@@ -97,7 +89,7 @@ const ManageStation: React.FC = () => {
         setStations((prev) => [newStation, ...prev]);
       }
 
-      stationModalRef.current.close();
+      stationModalRef.current?.close();
     } catch (error) {
       console.error(error);
     }
@@ -116,9 +108,9 @@ const ManageStation: React.FC = () => {
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-        <Card variant="primary" my={{ lg: "24px" }} me={{ lg: "24px" }}>
+        <Card variant={""} my={{ lg: "24px" }} me={{ lg: "24px" }}>
           <Flex direction="column">
-            <CardHeader variant="primary" py="12px">
+            <CardHeader variant={""} py="12px">
               <Flex align="center" justify="space-between" p="22px">
                 <Text fontSize="lg" color={textColor} fontWeight="bold">
                   Manage Stations
@@ -126,22 +118,13 @@ const ManageStation: React.FC = () => {
                 <Button
                   variant="primary"
                   maxH="30px"
-                  onClick={() =>
-                    openStationModal({
-                      id: "",
-                      name: "",
-                      address: "",
-                      controllerId: "",
-                      controllerPtsId: "",
-                      firmwareVersion: "",
-                    })
-                  }
+                  onClick={() => openStationModal}
                 >
                   CREATE STATION
                 </Button>
               </Flex>
             </CardHeader>
-            <CardBody variant="primary">
+            <CardBody variant={""}>
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
                   return (
@@ -158,7 +141,7 @@ const ManageStation: React.FC = () => {
                     />
                   );
                 })}
-                {stations.length == 0 && (
+                {stations.length === 0 && (
                   <Stack width="100%" margin="20px 0px">
                     <Skeleton height="200px" borderRadius="10px" />
                     <Skeleton height="200px" borderRadius="10px" />

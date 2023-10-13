@@ -1,3 +1,4 @@
+import React, { FC, forwardRef, useImperativeHandle, useState } from 'react';
 import {
   Button,
   Modal,
@@ -12,8 +13,7 @@ import {
   Input,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { Formik, Form, Field, FormikProps, FormikHelpers } from "formik";
 
 export interface Station {
   name?: string;
@@ -22,22 +22,34 @@ export interface Station {
 }
 
 export interface StationModalProps {
-  //onSubmit: (station: Station) => Promise<void>;
+  onSubmit: (values: Station) => void;
 }
 
-const initStation: Station = {
-  name: "",
-  address: "",
-  controllerPtsId: "",
-};
-
-const StationModal = forwardRef(({}: StationModalProps, ref) => {
+const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [station, setStation] = useState<Station>({
     name: "",
     address: "",
     controllerPtsId: "",
   });
+
+  useImperativeHandle(ref, () => ({
+    open(station: Station) {
+      if (station) {
+        setStation(station);
+      } else {
+        setStation({
+          name: "",
+          address: "",
+          controllerPtsId: "",
+        });
+      }
+      onOpen();
+    },
+    close() {
+      onClose();
+    },
+  }));
 
   const isNotNull = (value: string) => {
     let error: string | undefined;
@@ -47,23 +59,10 @@ const StationModal = forwardRef(({}: StationModalProps, ref) => {
     return error;
   };
 
-  const submitHandler = async (values: Station) => {
-    await onsubmit(values);
+  const submitHandler = (values: Station, { setSubmitting }: FormikHelpers<Station> ) => {
+    onSubmit(values);
+    setSubmitting(false);
   };
-
-  useImperativeHandle(ref, () => ({
-    open(station: Station | null) {
-      if (station) {
-        setStation(station);
-      } else {
-        setStation({ ...initStation });
-      }
-      onOpen();
-    },
-    close() {
-      onClose();
-    },
-  }));
 
   return (
     <Modal
@@ -81,9 +80,9 @@ const StationModal = forwardRef(({}: StationModalProps, ref) => {
             {(props) => (
               <Form>
                 <Field name="name" validate={isNotNull}>
-                  {({ field, form }: { field: any; form: any }) => (
+                  {({ field  , form }: { field: { name: string; value: string; onChange: (e: React.ChangeEvent<any>) => void; onBlur: () => void }; form: { errors: { name: string }; touched: { name: boolean } } }) => (
                     <FormControl
-                      isInvalid={form.errors.name && form.touched.name}
+                      isInvalid={!!form.errors.name && !!form.touched.name}
                       mb="24px"
                     >
                       <FormLabel htmlFor="name">Name</FormLabel>
@@ -94,11 +93,10 @@ const StationModal = forwardRef(({}: StationModalProps, ref) => {
                     </FormControl>
                   )}
                 </Field>
-
                 <Field name="address" validate={isNotNull}>
-                  {({ field, form }: { field: any; form: any }) => (
+                  {({ field, form }: { field: { name: string; value: string; onChange: (e: React.ChangeEvent<any>) => void; onBlur: () => void }; form: { errors: { address: string }; touched: { address: boolean } } }) => (
                     <FormControl
-                      isInvalid={form.errors.address && form.touched.address}
+                      isInvalid={!!form.errors.address && !!form.touched.address}
                       mb="24px"
                     >
                       <FormLabel htmlFor="address">Address</FormLabel>
@@ -110,11 +108,11 @@ const StationModal = forwardRef(({}: StationModalProps, ref) => {
                   )}
                 </Field>
                 <Field name="controllerPtsId" validate={isNotNull}>
-                  {({ field, form }: { field: any; form: any }) => (
+                  {({ field, form}: { field: { name: string; value: string; onChange: (e: React.ChangeEvent<any>) => void; onBlur: () => void }; form: { errors: { controllerPtsId: string }; touched: { controllerPtsId: boolean } } }) => (
                     <FormControl
                       isInvalid={
-                        form.errors.controllerPtsId &&
-                        form.touched.controllerPtsId
+                       !! form.errors.controllerPtsId &&
+                       !! form.touched.controllerPtsId
                       }
                       mb="40px"
                     >

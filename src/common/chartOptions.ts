@@ -1,6 +1,3 @@
-import ApexOptions from "react-apexcharts";
-import  Series  from "react-apexcharts";
-
 export const createReportSalesChartOptions = (labels: string[]): object => {
   return {
     chart: {
@@ -77,7 +74,55 @@ export const createReportSalesChartOptions = (labels: string[]): object => {
   };
 };
 
-export const tankSalesChartConfig: object = {
+export const tankLevelChartConfig: any = {
+  options: {
+    chart: {
+      id: "dashed-line",
+      toolbar: {
+        show: false,
+      },
+    },
+    xaxis: {
+      categories: [],
+      style: {
+        fontSize: "10px",
+      },
+    },
+    yaxis: {
+      beginAtZero: true,
+      tickAmount: 12,
+      labels: {
+        formatter: function (value: number) {
+          return value.toFixed(2);
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 100,
+        },
+      },
+    },
+  },
+  series: [
+    {
+      name: "Gasoil",
+      data: [],
+    },
+    {
+      name: "Super Sans Plomb",
+      data: [],
+    },
+    {
+      name: "Gasoil Sans Soufre",
+      data: [],
+    },
+  ],
+};
+
+export const tankSalesChartConfig = {
   options: {
     chart: {
       height: 350,

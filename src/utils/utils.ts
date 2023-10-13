@@ -1,6 +1,16 @@
 import jwt_decode from "jwt-decode";
 
-interface DecodedToken {
+export interface User {
+  id?: string;
+  fullName?: string;
+  username?: string;
+  role?: string;
+  token?: string ;
+  email?: string;
+  expireTime?: number;
+}
+
+export interface DecodedToken {
   id?: string;
   fullName?: string;
   username?: string;
@@ -8,9 +18,10 @@ interface DecodedToken {
   token?: string;
   email?: string;
   expireTime?: number;
+  user: User;
 }
 
-interface decode {
+export interface decode {
   sid: string;
   name: string;
   preferred_username: string;
@@ -28,6 +39,16 @@ export const decodeToken = (token: string | null): DecodedToken | null => {
 
   const { sid, name, preferred_username, realm_access, email, exp } = decoding;
 
+  const user: User = {
+    id: sid,
+    fullName: name,
+    username: preferred_username,
+    role: realm_access.roles[0],
+    token: token || "",
+    email,
+    expireTime: (exp * 1000),
+  };
+
   return {
     id: sid,
     fullName: name,
@@ -36,5 +57,6 @@ export const decodeToken = (token: string | null): DecodedToken | null => {
     token: token || "",
     email,
     expireTime: exp * 1000,
+    user: user,
   };
 };

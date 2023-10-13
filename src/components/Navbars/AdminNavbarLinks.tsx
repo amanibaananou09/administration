@@ -22,6 +22,7 @@ import { useAuth } from "src/store/AuthContext";
 import { useHistory } from "react-router-dom";
 
 interface HeaderLinksProps {
+  logoText: string;
   variant: any;
   children: any;
   fixed: boolean;

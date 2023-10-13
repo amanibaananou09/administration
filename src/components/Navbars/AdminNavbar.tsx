@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
 
-interface AdminNavbarProps {
+export interface AdminNavbarProps {
   logoText: string;
   variant: undefined;
   children: undefined;

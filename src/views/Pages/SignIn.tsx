@@ -1,4 +1,5 @@
-// Chakra imports
+import React, { useState } from "react";
+import { FC } from "react";
 import {
   Box,
   Button,
@@ -12,27 +13,27 @@ import {
   AlertIcon,
   AlertDescription,
 } from "@chakra-ui/react";
-// Assets
 import BgSignUp from "../../assets/img/BgSignUp.png";
-import React, { useState } from "react";
 import { login } from "src/common/api";
 import { useAuth } from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
 import { getStations } from "src/common/api";
 import { decodeToken } from "src/utils/utils";
 
-function SignUp() {
-  const bgForm = useColorModeValue("white", "navy.800");
-  const textColor = useColorModeValue("gray.700", "white");
+interface SignInProps {}
+
+const SignIn: FC<SignInProps> = () => {
+  const bgForm: string = useColorModeValue("white", "navy.800");
+  const textColor: string = useColorModeValue("gray.700", "white");
 
   const { selectStation } = useESSContext();
   const { signIn } = useAuth();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const getDefaultStation = async (user) => {
+  const getDefaultStation = async (user: any): Promise<any> => {
     const stations = await getStations(user);
     if (stations.length > 0) {
       return stations[0];
@@ -41,7 +42,7 @@ function SignUp() {
     return null;
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!username || !password) {
       setErrorMessage("Please fill in both username and password fields.");
@@ -190,6 +191,6 @@ function SignUp() {
       </Flex>
     </Flex>
   );
-}
+};
 
-export default SignUp;
+export default SignIn;

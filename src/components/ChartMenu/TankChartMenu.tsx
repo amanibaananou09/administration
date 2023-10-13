@@ -4,9 +4,9 @@ import "@szhsin/react-menu/dist/index.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
 interface TankChartMenuProps {
-  tanks: Array<{ idConf: string }>;
-  selectedTank: string;
-  onChange: (idConf: string) => void;
+  tanks: Array<{ idConf: string | number | null }>;
+  selectedTank: string | null;
+  onChange: (idConf: string | number | null) => void;
 }
 
 const TankChartMenu: FC<TankChartMenuProps> = ({

@@ -617,7 +617,7 @@ export const getStationForUser = async (username: any, token: string) => {
   return data;
 };
 
-export const getStations = async (user: { username: any; token: any; }) => {
+export const getStations = async (user: any) => {
   return await getStationForUser(user.username, user.token);
 };
 
@@ -678,7 +678,7 @@ export const getAllStatVent = async (controllerId: any, token: string) => {
   return data;
 };
 
-export const getAllTankByIdc = async (controllerId: any, token: string) => {
+export const getAllTankByIdc = async (controllerId: any, token: string | undefined) => {
   const data = await fetchUrl({
     url: `${CHART_TANK_ALL_BY_IDC}/${controllerId}`,
     withCredentials: true,
@@ -693,7 +693,7 @@ export const getAllTankByIdc = async (controllerId: any, token: string) => {
   return data;
 };
 
-export const getTankLevelSelected = async (selectedTank: string | number | null, token: string) => {
+export const getTankLevelSelected = async (selectedTank: string | number | null, token: string| undefined) => {
   const data = await fetchUrl({
     url: `${CHART_TANK_LEVEL_ENDPOINT}/${selectedTank}`,
     withCredentials: true,

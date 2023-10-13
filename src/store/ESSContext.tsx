@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState, FC } from "react";
 
-interface ESSContextProps {
+export interface ESSContextProps {
   selectedStation: any;
   selectStation: (selectedStation: any) => void;
   clearContext: () => void;
@@ -16,9 +16,14 @@ interface ESSContextProviderProps {
   children: React.ReactNode;
 }
 
-export const ESSContextProvider: FC<ESSContextProviderProps> = ({ children }) => {
-  const [selectedStation, setSelectedStation] = useState<any>(
-    JSON.parse(localStorage.getItem("ess")) || null,
+export const ESSContextProvider: FC<ESSContextProviderProps> = ({
+  children,
+}) => {
+  const storedValue: string | null = localStorage.getItem("ess");
+  const selected: string | null = storedValue ? JSON.parse(storedValue) : null;
+
+  const [selectedStation, setSelectedStation] = useState<string | null>(
+    selected,
   );
 
   const setESSContextHandler = useCallback((selectedStation: any) => {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { User, useAuth } from "src/store/AuthContext";
+import { useAuth } from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
 import { getallTransactionPump } from "src/common/api";
+
 import {
   Flex,
   Skeleton,
@@ -16,6 +17,7 @@ import {
   ButtonGroup,
   Button,
 } from "@chakra-ui/react";
+
 import Card from "src/components/Card/Card";
 import CardBody from "src/components/Card/CardBody";
 import CardHeader from "src/components/Card/CardHeader";
@@ -23,7 +25,7 @@ import TransactionTableRow from "src/components/Tables/TransactionTableRow";
 
 interface TransactionProps {}
 
-interface TransactionData {
+interface Transaction {
   id: string;
   pump: string;
   fuelGrade: string;
@@ -40,38 +42,38 @@ interface TransactionData {
 const Transaction: React.FC<TransactionProps> = () => {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const [transactions, setTransactions] = useState<TransactionData[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useAuth();
-  const { selectedStation } = useESSContext();
-
   const {
     selectedStation: { controllerId },
   } = useESSContext();
 
   useEffect(() => {
-    const { token } = user as User;
-    if (token) {
-      const getAllTransaction = async () => {
-        try {
-          const result = await getallTransactionPump(
-            currentPage,
-            controllerId,
-            token,
-          );
-          const { content, totalPages, totalElements } = result;
+    const getAllTransaction = async () => {
+      if (typeof user !== "string") {
+        console.error("User is not a string");
+        return;
+      }
 
-          setTransactions(content);
-          setTotalPages(totalPages);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getAllTransaction();
-    } else {
-      console.error("Token is null");
-    }
+      const token = user;
+
+      try {
+        const result = await getallTransactionPump(
+          currentPage,
+          controllerId,
+          token,
+        );
+        const { content, totalPages } = result; // Assuming the API response structure
+
+        setTransactions(content);
+        setTotalPages(totalPages);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getAllTransaction();
   }, [currentPage, controllerId, user]);
 
   const handlePageChange = (newPage: number) => {
@@ -80,13 +82,13 @@ const Transaction: React.FC<TransactionProps> = () => {
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-      <Card variant="" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader variant="" p="6px 0px 22px 0px">
+      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" variant={""}>
+        <CardHeader p="6px 0px 22px 0px" variant={""}>
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             Transactions
           </Text>
         </CardHeader>
-        <CardBody variant="">
+        <CardBody variant={""}>
           <Table variant="simple" color={textColor} size="sm">
             <Thead>
               <Tr color="gray.400">
@@ -151,15 +153,12 @@ const Transaction: React.FC<TransactionProps> = () => {
               {transactions.map((row, key) => {
                 return (
                   <TransactionTableRow
-                    id={row.id}
                     pump={row.pump}
                     fuelGrade={row.fuelGrade}
                     volume={row.volume}
                     price={row.price}
                     amount={row.amount}
                     DateTimeStart={row.DateTimeStart}
-                    DateTime={row.DateTime}
-                    state={row.state}
                     key={key}
                   />
                 );

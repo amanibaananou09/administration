@@ -2,16 +2,12 @@ import React, { useContext, useEffect, useState, FC, ReactNode } from "react";
 import { useCallback } from "react";
 
 import { useESSContext } from "./ESSContext";
-import { decodeToken } from "src/utils/utils";
-
-interface User {
-  token: string;
-  expireTime: string;
-}
+import { decodeToken, User } from "src/utils/utils";
 
 interface AuthContextProps {
   token: string | null;
   isSignedIn: boolean;
+  user: User | null;
   signIn: (user: User) => void;
   signOut: () => void;
 }
@@ -19,6 +15,7 @@ interface AuthContextProps {
 export const AuthContext = React.createContext<AuthContextProps>({
   token: null,
   isSignedIn: false,
+  user: null,
   signIn: (user) => {},
   signOut: () => {},
 });
@@ -33,7 +30,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(
-    decodeToken(localStorage.getItem("auth")) || null
+    decodeToken(localStorage.getItem("auth")) || null,
   );
   const isSignedIn = !!user;
 
@@ -51,9 +48,9 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   useEffect(() => {
     let signOutTimer: NodeJS.Timeout;
 
-    if (user) {
+    if (user && user.expireTime) {
       const remainingTime = new Date(
-        +user.expireTime - new Date().getTime()
+        +user.expireTime - new Date().getTime(),
       ).getTime();
       if (remainingTime <= 0) {
         signOutHandler();
@@ -68,7 +65,7 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
       return;
     }
 
-    if (user) {
+    if (user && user.token) {
       localStorage.setItem("auth", user.token);
     } else {
       localStorage.removeItem("auth");
@@ -80,10 +77,11 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   }, [user, signOutHandler]);
 
   const contextValue: AuthContextProps = {
-    user,
+    user: user,
     isSignedIn,
     signIn: signInHandler,
     signOut: signOutHandler,
+    token: null,
   };
 
   return (
