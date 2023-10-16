@@ -13,12 +13,15 @@ import {
   Input,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { Formik, Form, Field, FormikProps, FormikHelpers } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 
 export interface Station {
-  name?: string;
-  address?: string;
-  controllerPtsId?: string;
+  id: string;
+  name: string;
+  address: string;
+  controllerId: string;
+  controllerPtsId: string;
+  firmwareVersion: string;
 }
 
 export interface StationModalProps {
@@ -28,9 +31,12 @@ export interface StationModalProps {
 const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [station, setStation] = useState<Station>({
+    id: "",
     name: "",
     address: "",
+    controllerId: "",
     controllerPtsId: "",
+    firmwareVersion: "",
   });
 
   useImperativeHandle(ref, () => ({
@@ -39,9 +45,12 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
         setStation(station);
       } else {
         setStation({
+          id: "",
           name: "",
           address: "",
+          controllerId: "",
           controllerPtsId: "",
+          firmwareVersion: "",
         });
       }
       onOpen();

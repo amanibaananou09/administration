@@ -22,6 +22,7 @@ import ConfirmationModal from "src/components/Modal/ConfirmationModal";
 import StationModal from "src/components/Modal/StationModal";
 import StationRow from "src/components/Tables/StationRow";
 
+
 interface Station {
   id: string;
   name: string;
@@ -30,7 +31,6 @@ interface Station {
   controllerPtsId: string;
   firmwareVersion: string;
 }
-
 const ManageStation: React.FC = () => {
   const { user } = useAuth();
   const { selectStation, selectedStation } = useESSContext();
@@ -40,7 +40,7 @@ const ManageStation: React.FC = () => {
 
   const textColor = useColorModeValue("gray.700", "white");
 
-  
+
   const openStationModal = (station: Station) => {
     stationModalRef.current?.open(station);
   };
@@ -51,6 +51,11 @@ const ManageStation: React.FC = () => {
 
   const deleteStationHandler = async (station: Station) => {
     try {
+      if (typeof user !== "string") {
+        console.error("User is not a string");
+        return;
+      }
+      const token = user;
       await deleteStation(station.id, user);
 
       setStations((prev) => prev.filter((st) => st.id !== station.id));
@@ -67,6 +72,11 @@ const ManageStation: React.FC = () => {
 
   const submitModalHandler = async (station: Station) => {
     try {
+      if (typeof user !== "string") {
+        console.error("User is not a string");
+        return;
+      }
+      const token = user;
       if (station.id) {
         await updateStation(station, user);
 
