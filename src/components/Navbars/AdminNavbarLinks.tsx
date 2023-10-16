@@ -137,12 +137,13 @@ const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
         </MenuList>
       </Menu>
       <SidebarResponsive
+        logo={undefined}
+        sidebarVariant={""} 
         hamburgerColor={"white"}
         colorMode={colorMode}
         secondary={props.secondary}
         routes={routes}
-        {...rest}
-      />
+        {...rest}      />
       <SettingsIcon
         cursor="pointer"
         ms={{ base: "16px", xl: "0px" }}

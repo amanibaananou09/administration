@@ -10,7 +10,7 @@ import {
 import Configurator from "src/components/Configurator/Configurator";
 import Footer from "src/components/Footer/Footer";
 
-import Logo  from "../assets/svg/fuel-station-logo.svg";
+import Logo from "../assets/svg/fuel-station-logo.svg";
 // Layout components
 import AdminNavbar from "src/components/Navbars/AdminNavbar";
 import Sidebar from "src/components/Sidebar/Sidebar";
@@ -29,7 +29,7 @@ import { useAuth } from "../store/AuthContext";
 import MainRoute from "../router/Route/MainRoute";
 import { useESSContext } from "../store/ESSContext";
 
-export default function Dashboard(props: { [x: string]: any; }) {
+export default function Dashboard(props: { [x: string]: any }) {
   const { isSignedIn } = useAuth();
 
   const { selectedStation } = useESSContext();
@@ -42,7 +42,7 @@ export default function Dashboard(props: { [x: string]: any; }) {
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
-  const getActiveRoute = (routes: any ): any  => {
+  const getActiveRoute = (routes: any): any => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
@@ -66,7 +66,7 @@ export default function Dashboard(props: { [x: string]: any; }) {
     return activeRoute;
   };
   // This changes navbar state(fixed or not)
-  const getActiveNavbar = (routes: any) : any => {
+  const getActiveNavbar = (routes: any): any => {
     let activeNavbar = false;
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].category) {
@@ -86,8 +86,8 @@ export default function Dashboard(props: { [x: string]: any; }) {
     }
     return activeNavbar;
   };
-  const getRoutes = (routes : any  )   =>  {
-    return routes.map((prop : any , key :  any ) => {
+  const getRoutes = (routes: any) => {
+    return routes.map((prop: any, key: any) => {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
@@ -137,33 +137,45 @@ export default function Dashboard(props: { [x: string]: any; }) {
         top="0"
       />
       <Sidebar
-        sidebarVariant={""} colorMode={""} hamburgerColor={""} routes={routes}
-        logo={<Stack
-          direction="column"
-          spacing="12px"
-          align="center"
-          justify="center"
-        >
-          <Logo style={{ height: "100px" }} />
-          {selectedStation && (
-            <Text
-              fontSize={{ sm: "lg", lg: "xl" }}
-              fontWeight="bold"
-              ms={{ sm: "8px", md: "0px" }}
-            >
-              {selectedStation.name}
-            </Text>
-          )}
-        </Stack>}
-        {...rest}      />
+        secondary={undefined}
+        sidebarVariant={""}
+        colorMode={""}
+        hamburgerColor={""}
+        routes={routes}
+        logo={
+          <Stack
+            direction="column"
+            spacing="12px"
+            align="center"
+            justify="center"
+          >
+            <Logo style={{ height: "100px" }} />
+            {selectedStation && (
+              <Text
+                fontSize={{ sm: "lg", lg: "xl" }}
+                fontWeight="bold"
+                ms={{ sm: "8px", md: "0px" }}
+              >
+                {selectedStation.name}
+              </Text>
+            )}
+          </Stack>
+        }
+        {...rest}
+      />
       <MainPanel
         w={{
           base: "100%",
           xl: "calc(100% - 275px)",
-        }} variant={""}      >
+        }}
+        variant={""}
+      >
         <Portal>
           <AdminNavbar
-            logoText={""} variant={undefined} children={undefined} onOpen={onOpen}
+            scrolled={false} logoText={""}
+            variant={undefined}
+            children={undefined}
+            onOpen={onOpen}
             brandText={getActiveRoute(routes)}
             secondary={getActiveNavbar(routes)}
             fixed={fixed}

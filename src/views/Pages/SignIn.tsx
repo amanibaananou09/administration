@@ -42,7 +42,9 @@ const SignIn: FC<SignInProps> = () => {
     return null;
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (
+    event,
+  ) => {
     event.preventDefault();
     if (!username || !password) {
       setErrorMessage("Please fill in both username and password fields.");
@@ -59,7 +61,11 @@ const SignIn: FC<SignInProps> = () => {
         selectStation(defaultStation);
       }
 
-      signIn(user);
+      if (user) {
+        signIn(user);
+      } else {
+        setErrorMessage("User information is missing.");
+      }
     } catch (error) {
       console.error(error);
       setErrorMessage("Invalid username or password.");

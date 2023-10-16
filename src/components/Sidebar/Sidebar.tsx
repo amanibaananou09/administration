@@ -30,11 +30,13 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "src/store/AuthContext";
 
 interface SidebarProps {
-  logo: JSX.Element;
+  logo: any;
   routes: any;
   sidebarVariant: string;
   colorMode :string;
   hamburgerColor : string ;
+  secondary: any;
+
 }
 
 interface Route {
