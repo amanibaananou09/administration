@@ -1,6 +1,6 @@
 import { mode } from "@chakra-ui/theme-tools";
 
-interface ButtonStyles {
+export interface ButtonStyles {
   components: {
     Button: {
       variants: {

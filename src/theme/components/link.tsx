@@ -1,6 +1,6 @@
 import { CSSObject } from "@chakra-ui/react";
 
-interface LinkStyles {
+export interface LinkStyles {
   components: {
     Link: {
       decoration: string;

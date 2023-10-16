@@ -1,6 +1,6 @@
 import { CSSObject } from "@chakra-ui/react";
 
-interface MainPanelBaseStyle {
+export interface MainPanelBaseStyle {
   float: string;
   maxWidth: string;
   overflow: string;
@@ -12,15 +12,15 @@ interface MainPanelBaseStyle {
   transitionTimingFunction: string;
 }
 
-interface MainPanelVariants {
+export interface MainPanelVariants {
   main: (props: Record<string, any>) => CSSObject;
 }
 
-interface MainPanelProps {
+export interface MainPanelProps {
   variant: string;
 }
 
-interface MainPanelComponentProps {
+export interface MainPanelComponentProps {
   MainPanel: {
     baseStyle: MainPanelBaseStyle;
     variants: MainPanelVariants;
@@ -28,7 +28,7 @@ interface MainPanelComponentProps {
   };
 }
 
-const MainPanel: MainPanelBaseStyle = {
+export const MainPanel: MainPanelBaseStyle = {
   float: "right",
   maxWidth: "100%",
   overflow: "auto",

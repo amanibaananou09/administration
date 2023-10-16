@@ -24,10 +24,10 @@ import StationRow from "src/components/Tables/StationRow";
 
 
 interface Station {
-  id: string;
+  id: number;
   name: string;
   address: string;
-  controllerId: string;
+  controllerId: number;
   controllerPtsId: string;
   firmwareVersion: string;
 }

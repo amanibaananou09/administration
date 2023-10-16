@@ -1,4 +1,4 @@
-const PanelContent = {
+export const PanelContent = {
   baseStyle: {
     ms: "auto",
     me: "auto",

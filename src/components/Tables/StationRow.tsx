@@ -10,10 +10,10 @@ import {
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 
 interface StationRowProps {
-  id: string;
+  id: number;
   name: string;
   address: string;
-  controllerId: string;
+  controllerId: number;
   controllerPtsId: string;
   firmwareVersion: string;
   onEdit: () => void;

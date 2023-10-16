@@ -16,10 +16,10 @@ import {
 import { Formik, Form, Field, FormikHelpers } from "formik";
 
 export interface Station {
-  id: string;
+  id: number;
   name: string;
   address: string;
-  controllerId: string;
+  controllerId: number;
   controllerPtsId: string;
   firmwareVersion: string;
 }
@@ -33,10 +33,10 @@ interface StationModalProps {
 const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [station, setStation] = useState<Station>({
-    id: "",
+    id: 0,
     name: "",
     address: "",
-    controllerId: "",
+    controllerId: 0,
     controllerPtsId: "",
     firmwareVersion: "",
   });
@@ -47,10 +47,10 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
         setStation(station);
       } else {
         setStation({
-          id: "",
+          id: 0 ,
           name: "",
           address: "",
-          controllerId: "",
+          controllerId: 0,
           controllerPtsId: "",
           firmwareVersion: "",
         });

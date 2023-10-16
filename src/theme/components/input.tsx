@@ -1,6 +1,6 @@
 import { mode } from "@chakra-ui/theme-tools";
 
-interface InputStyles {
+export interface InputStyles {
   components: {
     Input: {
       baseStyle: {

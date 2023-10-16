@@ -1,18 +1,19 @@
+import React, { FC } from "react";
 import { Box, useStyleConfig, BoxProps } from "@chakra-ui/react";
-import React, { ReactNode } from "react";
 
 interface CardBodyProps extends BoxProps {
   variant: string;
-  children: ReactNode;
 }
 
-const CardBody: React.FC<CardBodyProps> = ({ variant, children, ...rest }) => {
+const CardBody: FC<CardBodyProps> = (props) => {
+  const { variant, children, ...rest } = props;
   const styles = useStyleConfig("CardBody", { variant });
+  // Pass the computed styles into the `__css` prop
   return (
     <Box __css={styles} {...rest}>
       {children}
     </Box>
   );
-};
+}
 
 export default CardBody;

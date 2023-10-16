@@ -70,7 +70,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
     let inactiveColor = useColorModeValue("gray.400", "gray.400");
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
 
-    return routes.map((prop: any, key: any ) => {
+    return routes.map((prop: any, key: number ) => {
       if (prop.redirect) {
         return null;
       }

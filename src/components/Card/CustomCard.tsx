@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Avatar, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 
 interface CustomCardProps {
@@ -8,7 +8,7 @@ interface CustomCardProps {
   onClick: (title: string) => void;
 }
 
-const CustomCard: React.FC<CustomCardProps> = ({
+const CustomCard: FC<CustomCardProps> = ({
   title,
   avatar,
   description,

@@ -30,7 +30,7 @@ const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
   const { user } = useAuth();
 
   const { selectedStation } = useESSContext();
-  const controllerId = selectedStation;
+  const controllerId = selectedStation.controllerId;
   
   const [config, setConfig] = useState<{
     pumps: any[];
@@ -53,7 +53,6 @@ const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
         const pumps = await getAllPump(controllerId, token);
         const fuelGrades = await getAllFuelGrades(controllerId, token);
         const tanks = await getAllTank(controllerId, token);
-
         setConfig({
           pumps,
           fuelGrades,

@@ -1,6 +1,6 @@
 import { CSSObject, useColorMode } from "@chakra-ui/react";
 
-interface CardBaseStyle {
+export interface CardBaseStyle {
   p: string;
   display: string;
   flexDirection: string;
@@ -12,15 +12,15 @@ interface CardBaseStyle {
   backgroundClip: string;
 }
 
-interface CardVariants {
+export interface CardVariants {
   panel: (props: { colorMode: string }) => CSSObject;
 }
 
-interface CardProps {
+export interface CardProps {
   variant: string;
 }
 
-interface CardComponentProps {
+export interface CardComponentProps {
   Card: {
     baseStyle: CardBaseStyle;
     variants: CardVariants;
@@ -28,7 +28,7 @@ interface CardComponentProps {
   };
 }
 
-const Card: CardBaseStyle = {
+export const Card: CardBaseStyle = {
   p: "22px",
   display: "flex",
   flexDirection: "column",

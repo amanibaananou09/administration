@@ -1,15 +1,15 @@
 import { CSSObject } from "@chakra-ui/react";
 
-interface BadgeSize {
+export interface BadgeSize {
   width: string;
   height: string;
 }
 
-interface BadgeSizes {
+export interface BadgeSizes {
   [key: string]: BadgeSize;
 }
 
-interface BadgeStyles {
+export interface BadgeStyles {
   components: {
     Badge: {
       sizes: BadgeSizes;

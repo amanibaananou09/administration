@@ -1,7 +1,7 @@
 import { CSSObject } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 
-interface GlobalStyles {
+export interface GlobalStyles {
   colors: {
     gray: {
       700: string;
