@@ -24,8 +24,10 @@ export interface Station {
   firmwareVersion: string;
 }
 
-export interface StationModalProps {
+interface StationModalProps {
   onSubmit: (values: Station) => void;
+  station: Station | null;
+  onClose: () => void;
 }
 
 const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
@@ -56,9 +58,10 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
       onOpen();
     },
     close() {
-      onClose();
+      onClose(); // Call the onClose callback to close the modal
     },
   }));
+
 
   const isNotNull = (value: string) => {
     let error: string | undefined;

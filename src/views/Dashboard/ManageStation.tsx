@@ -37,14 +37,21 @@ const ManageStation: React.FC = () => {
   const [stations, setStations] = useState<Station[]>([]);
   const stationModalRef = useRef<any>(null);
   const confirmationModalRef = useRef<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [modalStation, setModalStation] = useState<Station | null>(null); // State to store station for modal
+
+
 
   const textColor = useColorModeValue("gray.700", "white");
 
-
   const openStationModal = (station: Station) => {
-    stationModalRef.current?.open(station);
+    setModalStation(station);
+    setIsModalOpen(true);
   };
 
+  const closeStationModal = () => {
+    setIsModalOpen(false);
+  };
   const openConfirmationToDeleteModal = (station: Station) => {
     confirmationModalRef.current?.open(station);
   };
@@ -162,8 +169,13 @@ const ManageStation: React.FC = () => {
           </Flex>
         </Card>
       </Flex>
-      <StationModal onSubmit={submitModalHandler} ref={stationModalRef} />
-      <ConfirmationModal
+      {isModalOpen && (
+        <StationModal
+          onSubmit={submitModalHandler}
+          station={modalStation} // Pass the selected station to the modal
+          onClose={closeStationModal} // Pass a callback to close the modal
+        />
+      )}      <ConfirmationModal
         message="Are you sure you want to delete this station ?"
         onConfirm={deleteStationHandler}
         ref={confirmationModalRef}
