@@ -13,10 +13,10 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import Card from "src/components/Card/Card";
-//import ReportSalesChart from "src/components/Charts/ReportSalesChart";
-//import TankLevelChart from "src/components/Charts/TankLevelChart";
-//import TankSalesChart from "src/components/Charts/TankSalesChart";
-//import UserSalesChart from "src/components/Charts/UserSalesChart";
+import ReportSalesChart from "src/components/Charts/ReportSalesChart";
+import TankLevelChart from "src/components/Charts/TankLevelChart";
+import TankSalesChart from "src/components/Charts/TankSalesChart";
+import UserSalesChart from "src/components/Charts/UserSalesChart";
 import IconBox from "src/components/Icons/IconBox";
 // Custom icons
 import {
@@ -216,9 +216,9 @@ export default function Dashboard() {
               Month Wise Sales Report
             </Text>
           </Flex>
-          {/*<Box minH="300px">
+          {<Box minH="300px">
             <ReportSalesChart />
-          </Box>*/}
+          </Box>}
         </Card>
         <Card variant={""} p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-10px" p="28px 0px 0px 22px">
@@ -226,9 +226,9 @@ export default function Dashboard() {
               Users Sales
             </Text>
           </Flex>
-          {/*<Box minH="300px">
+          {<Box minH="300px">
             <UserSalesChart />
-          </Box>*/}
+          </Box>}
         </Card>
       </Grid>
       <Grid
@@ -248,9 +248,9 @@ export default function Dashboard() {
               Tank Level
             </Text>
           </Flex>
-          {/*    <Box minH="300px">
+          { <Box minH="300px">
             <TankLevelChart />
-          </Box>*/}
+          </Box>}
         </Card>
         <Card variant={""} p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
@@ -264,9 +264,9 @@ export default function Dashboard() {
               Sales
             </Text>
           </Flex>
-          {/* <Box minH="300px">
+          { <Box minH="300px">
             <TankSalesChart />
-          </Box>*/}
+          </Box>}
         </Card>
       </Grid>
     </Flex>

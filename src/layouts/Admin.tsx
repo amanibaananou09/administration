@@ -10,7 +10,7 @@ import {
 import Configurator from "src/components/Configurator/Configurator";
 import Footer from "src/components/Footer/Footer";
 
-import Logo from "../assets/svg/fuel-station-logo.svg";
+import { ReactComponent as Logo } from "../assets/svg/fuel-station-logo.svg";
 // Layout components
 import AdminNavbar from "src/components/Navbars/AdminNavbar";
 import Sidebar from "src/components/Sidebar/Sidebar";

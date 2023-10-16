@@ -70,15 +70,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
     let inactiveColor = useColorModeValue("gray.400", "gray.400");
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
 
-    return routes.map((prop :any, key :any) => {
-      if (isSignedIn && prop.onlyPublicRoute) {
-        return null;
-      }
-
-      if (!isSignedIn && prop.privateRoute) {
-        return null;
-      }
-
+    return routes.map((prop: any, key: any ) => {
       if (prop.redirect) {
         return null;
       }
@@ -86,7 +78,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
         var st: { [key: string]: boolean } = {};
         st[prop.state!] = !state[prop.state!];
         return (
-          <>
+          <Fragment key={key}> {/* Add a key prop here */}
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -103,7 +95,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
               {prop.name}
             </Text>
             {createLinks(prop.views!)}
-          </>
+          </Fragment>
         );
       }
       return (
