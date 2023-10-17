@@ -5,23 +5,12 @@ export interface User {
   fullName?: string;
   username?: string;
   role?: string;
-  token?: string ;
-  email?: string;
-  expireTime?: number;
-}
-
-export interface DecodedToken {
-  id?: string;
-  fullName?: string;
-  username?: string;
-  role?: string;
   token?: string;
   email?: string;
   expireTime?: number;
-  user: User;
 }
 
-export interface decode {
+export interface Decode {
   sid: string;
   name: string;
   preferred_username: string;
@@ -30,14 +19,19 @@ export interface decode {
   exp: number;
 }
 
-export const decodeToken = (token: string | null): DecodedToken | null => {
+export const decodeToken = (token: string | null): User | null => {
   if (!token) {
     return null;
   }
 
-  const decoding: decode = jwt_decode(token);
-
-  const { sid, name, preferred_username, realm_access, email, exp } = decoding;
+  const {
+    sid,
+    name,
+    preferred_username,
+    realm_access,
+    email,
+    exp,
+  } = jwt_decode<Decode>(token);
 
   const user: User = {
     id: sid,
@@ -46,17 +40,8 @@ export const decodeToken = (token: string | null): DecodedToken | null => {
     role: realm_access.roles[0],
     token: token || "",
     email,
-    expireTime: (exp * 1000),
+    expireTime: exp * 1000,
   };
 
-  return {
-    id: sid,
-    fullName: name,
-    username: preferred_username,
-    role: realm_access.roles[0],
-    token: token || "",
-    email,
-    expireTime: exp * 1000,
-    user: user,
-  };
+  return user;
 };
