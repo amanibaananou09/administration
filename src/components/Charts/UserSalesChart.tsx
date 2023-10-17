@@ -15,7 +15,7 @@ const UserSalesChart: React.FC<UserSalesChartProps> = () => {
   const {
     user,
   } = useAuth();
-  const token = user?.token || "";;
+  const token = user?.token || "";
 
   const [data, setData] = useState<{
     labels: string[];

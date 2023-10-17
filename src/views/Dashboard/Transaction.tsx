@@ -35,8 +35,6 @@ interface Transaction {
   totalVolume: number;
   totalAmount: number;
   DateTimeStart: string;
-  DateTime: string;
-  state: string;
 }
 
 const Transaction: React.FC<TransactionProps> = () => {
@@ -44,26 +42,31 @@ const Transaction: React.FC<TransactionProps> = () => {
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [filterType, setFilterType] = useState<string>("");
+  const [pumpId, setPumpId] = useState<number>(0);
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useAuth();
   const {
     selectedStation: { controllerId },
   } = useESSContext();
 
+  const token = user?.token || "";
+
   useEffect(() => {
     const getAllTransaction = async () => {
-      if (typeof user !== "string") {
-        console.error("User is not a string");
-        return;
-      }
 
-      const token = user;
 
       try {
         const result = await getallTransactionPump(
           currentPage,
           controllerId,
           token,
+          filterType,
+          pumpId,
+          startDate,
+          endDate,
         );
         const { content, totalPages } = result; // Assuming the API response structure
 

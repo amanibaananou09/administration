@@ -523,10 +523,14 @@ export const getAllPumpByNozzel = async (controllerId: any, selectedPump: any, t
 export const getallTransactionPump = async (
   currentPage: number,
   controllerId: any,
-  token: string
+  token: string,
+  filterType: string,
+  pumpId: number,
+  startDate: string,
+  endDate: string
 ) => {
   const data = await fetchUrl({
-    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?page=${currentPage}`,
+    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?filterType=${filterType}&pumpId=${pumpId}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -710,13 +714,14 @@ export const getTankLevelSelected = async (selectedTank: string | number | null,
 
 export const getChartByFuelPumpPeriod = async (
   controllerId: any,
-  fuelGrade: string,
+  fuel: string,
   pump: string,
-  period: string,
-  token: string
+  periode: string,
+  token: string,
+  chartType: string
 ) => {
   const data = await fetchUrl({
-    url: `${CHART_ENDPOINT}/${fuelGrade}/${pump}/${period}/${controllerId}`,
+    url: `${CHART_ENDPOINT}/${controllerId}?chartType=${chartType}&fuel=${fuel}&pump=${pump}&periode=${periode}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

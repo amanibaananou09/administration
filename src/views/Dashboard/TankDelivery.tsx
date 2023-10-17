@@ -41,13 +41,11 @@ function TankDelivery(): JSX.Element {
     selectedStation: { controllerId },
   } = useESSContext();
 
+  const token = user?.token || "";
+
   useEffect(() => {
     const allTankDelivery = async () => {
-      if (typeof user !== "string") {
-        console.error("User is not a string");
-        return;
-      }
-      const token = user;
+
       try {
         const result = await getAllTankDelivery(currentPage, controllerId, token);
         const { content, totalPages} = result;

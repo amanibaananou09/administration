@@ -26,6 +26,7 @@ interface Filter {
   pump: string;
   tank: string;
   period: string;
+  chartType: string;
 }
 
 const ReportSalesChart: React.FC = () => {
@@ -34,6 +35,7 @@ const ReportSalesChart: React.FC = () => {
   } = useESSContext();
 
   const { user } = useAuth();
+  const token = user?.token || "";
 
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
@@ -52,6 +54,7 @@ const ReportSalesChart: React.FC = () => {
     pump: "all",
     tank: "all",
     period: "weekly",
+    chartType: "amount",
   });
 
   const handleMenuChange = (newFilter: Filter) => {
@@ -70,15 +73,10 @@ const ReportSalesChart: React.FC = () => {
     fetchData();
   }, [filter, controllerId]);
 
+
   const updateChartData = useCallback(async () => {
-    if (typeof user !== "string") {
-      console.error("User is not a string");
-      return;
-    }
 
-    const token = user;
-
-    const { type, fuelGrade, pump, tank, period } = filter;
+    const { type, fuelGrade, pump, tank, period, chartType} = filter;
 
     try {
       let data;
@@ -89,6 +87,7 @@ const ReportSalesChart: React.FC = () => {
           pump,
           period,
           token,
+          chartType,
         );
       } else if (type === "purchase") {
         data = await getChartByFuelTankPeriod(
@@ -159,7 +158,7 @@ const ReportSalesChart: React.FC = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [filter, controllerId]);
+  }, [filter, controllerId,token]);
   return (
     <>
       <Flex marginLeft="3%">

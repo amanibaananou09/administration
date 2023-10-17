@@ -11,7 +11,10 @@ type TankType = string | number | null;
 interface TankSalesChartProps {}
 
 const TankSalesChart: React.FC<TankSalesChartProps> = () => {
-  const { user } = useAuth();
+  const {
+    user,
+  } = useAuth();
+  const token = user?.token || "";
 
   const {
     selectedStation: { controllerId },
@@ -28,11 +31,7 @@ const TankSalesChart: React.FC<TankSalesChartProps> = () => {
 
   useEffect(() => {
     const fetchTanks = async () => {
-      if (typeof user !== "string") {
-        console.error("User is not a string");
-        return;
-      }
-      const token = user;
+
       try {
         const tankList = await getAllTankByIdc(controllerId, token);
 
@@ -53,11 +52,6 @@ const TankSalesChart: React.FC<TankSalesChartProps> = () => {
   useEffect(() => {
     const updateChart = async () => {
       try {
-        if (typeof user !== "string") {
-          console.error("User is not a string");
-          return;
-        }
-        const token = user;
         const chartData = await getTankLevelSelected(selectedTank, token);
 
         const filteredData = {
