@@ -9,7 +9,7 @@ interface UserSalesChartProps {}
 
 const UserSalesChart: React.FC<UserSalesChartProps> = () => {
   const {
-    selectedStation: { controllerId },
+    selectedStation: { controllerPts: { id: controllerId } },
   } = useESSContext();
 
   const {

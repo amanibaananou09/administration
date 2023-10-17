@@ -17,7 +17,7 @@ const TankSalesChart: React.FC<TankSalesChartProps> = () => {
   const token = user?.token || "";
 
   const {
-    selectedStation: { controllerId },
+    selectedStation: { controllerPts: { id: controllerId } },
   } = useESSContext();
 
   const [selectedTank, setSelectedTank] = useState<string | null>(null);

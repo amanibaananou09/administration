@@ -49,8 +49,10 @@ const Transaction: React.FC<TransactionProps> = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useAuth();
   const {
-    selectedStation: { controllerId },
+    selectedStation: { controllerPts: { id: controllerId } },
   } = useESSContext();
+
+  console.log("controllerid", controllerId)
 
   const token = user?.token || "";
 

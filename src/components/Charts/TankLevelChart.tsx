@@ -22,7 +22,7 @@ const TankLevelChart: React.FC = () => {
   const { user } = useAuth();
   const token = user?.token;
   const {
-    selectedStation: { controllerId },
+    selectedStation: { controllerPts: { id: controllerId } },
   } = useESSContext();
 
   useEffect(() => {

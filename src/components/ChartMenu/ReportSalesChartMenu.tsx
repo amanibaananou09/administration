@@ -29,8 +29,9 @@ const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
 }) => {
   const { user } = useAuth();
 
-  const { selectedStation } = useESSContext();
-  const controllerId = selectedStation.controllerId;
+  const {
+    selectedStation: { controllerPts: { id: controllerId } },
+  } = useESSContext();
   
   const [config, setConfig] = useState<{
     pumps: any[];

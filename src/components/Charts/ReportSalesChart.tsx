@@ -31,7 +31,7 @@ interface Filter {
 
 const ReportSalesChart: React.FC = () => {
   const {
-    selectedStation: { controllerId },
+    selectedStation: { controllerPts: { id: controllerId } },
   } = useESSContext();
 
   const { user } = useAuth();
