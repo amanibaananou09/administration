@@ -16,27 +16,26 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import IconBox from "src/components/Icons/IconBox";
+import IconBox from "components/Icons/IconBox";
 import {
   renderThumbDark,
   renderThumbLight,
   renderTrack,
   renderView,
-} from "src/components/Scrollbar/Scrollbar";
-import { HSeparator } from "src/components/Separator/Separator";
-import { SidebarHelp } from "src/components/Sidebar/SidebarHelp";
+} from "components/Scrollbar/Scrollbar";
+import { HSeparator } from "components/Separator/Separator";
+import { SidebarHelp } from "components/Sidebar/SidebarHelp";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
-import { useAuth } from "src/store/AuthContext";
+import { useAuth } from "store/AuthContext";
 
 export interface SidebarProps {
   logo: any;
   routes?: any;
   sidebarVariant?: string;
-  colorMode ?:string;
-  hamburgerColor ?: string ;
+  colorMode?: string;
+  hamburgerColor?: string;
   secondary?: any;
-
 }
 
 export interface Route {
@@ -70,7 +69,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
     let inactiveColor = useColorModeValue("gray.400", "gray.400");
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
 
-    return routes.map((prop: any, key: number ) => {
+    return routes.map((prop: any, key: number) => {
       if (prop.redirect) {
         return null;
       }
@@ -78,7 +77,9 @@ const Sidebar: FC<SidebarProps> = (props) => {
         var st: { [key: string]: boolean } = {};
         st[prop.state!] = !state[prop.state!];
         return (
-          <Fragment key={key}> {/* Add a key prop here */}
+          <Fragment key={key}>
+            {" "}
+            {/* Add a key prop here */}
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -120,7 +121,6 @@ const Sidebar: FC<SidebarProps> = (props) => {
               }}
               py="12px"
               borderRadius="15px"
-              
               w="100%"
               _active={{
                 bg: "inherit",
@@ -169,7 +169,6 @@ const Sidebar: FC<SidebarProps> = (props) => {
                 xl: "16px",
               }}
               borderRadius="15px"
-              
               w="100%"
               _active={{
                 bg: "inherit",
@@ -281,7 +280,7 @@ export const SidebarResponsive: FC<SidebarProps> = (props) => {
   let sidebarBackgroundColor = useColorModeValue("white", "navy.800");
 
   const createLinks = (routes: any) => {
-    return routes.map((prop: any, key: any ) => {
+    return routes.map((prop: any, key: any) => {
       if (prop.redirect) {
         return null;
       }
@@ -330,7 +329,6 @@ export const SidebarResponsive: FC<SidebarProps> = (props) => {
               }}
               py="12px"
               borderRadius="15px"
-             
               w="100%"
               _active={{
                 bg: "inherit",
@@ -378,7 +376,6 @@ export const SidebarResponsive: FC<SidebarProps> = (props) => {
                 xl: "16px",
               }}
               borderRadius="15px"
-              
               w="100%"
               _active={{
                 bg: "inherit",

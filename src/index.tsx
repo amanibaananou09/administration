@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
-import theme from 'src/theme/theme';
-import { AuthContextProvider } from 'src/store/AuthContext';
-import AuthLayout from 'src/layouts/Auth';
-import AdminLayout from 'src/layouts/Admin';
-import MainRoute from 'src/router/Route/MainRoute';
-import { ESSContextProvider } from 'src/store/ESSContext';
+import theme from "theme/theme";
+import { AuthContextProvider } from "store/AuthContext";
+import AuthLayout from "layouts/Auth";
+import AdminLayout from "layouts/Admin";
+import MainRoute from "router/Route/MainRoute";
+import { ESSContextProvider } from "store/ESSContext";
 
 ReactDOM.render(
   <ESSContextProvider>
@@ -25,5 +25,5 @@ ReactDOM.render(
       </ChakraProvider>
     </AuthContextProvider>
   </ESSContextProvider>,
-  document.getElementById('root')
+  document.getElementById("root"),
 );

@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { getAllTankByIdc, getTankLevelSelected } from "src/common/api";
-import { useAuth } from "src/store/AuthContext";
+import { getAllTankByIdc, getTankLevelSelected } from "common/api";
+import { useAuth } from "store/AuthContext";
 import { Flex } from "@chakra-ui/react";
-import { useESSContext } from "src/store/ESSContext";
-import TankChartMenu from "src/components/ChartMenu/TankChartMenu";
-import { tankSalesChartConfig } from "src/common/chartOptions";
+import { useESSContext } from "store/ESSContext";
+import TankChartMenu from "components/ChartMenu/TankChartMenu";
+import { tankSalesChartConfig } from "common/chartOptions";
 type TankType = string | number | null;
 
 interface TankSalesChartProps {}
 
 const TankSalesChart: React.FC<TankSalesChartProps> = () => {
-  const {
-    user,
-  } = useAuth();
+  const { user } = useAuth();
   const token = user?.token || "";
 
   const {
-    selectedStation: { controllerPts: { id: controllerId } },
+    selectedStation: {
+      controllerPts: { id: controllerId },
+    },
   } = useESSContext();
 
   const [selectedTank, setSelectedTank] = useState<string | null>(null);
@@ -31,7 +31,6 @@ const TankSalesChart: React.FC<TankSalesChartProps> = () => {
 
   useEffect(() => {
     const fetchTanks = async () => {
-
       try {
         const tankList = await getAllTankByIdc(controllerId, token);
 
@@ -116,7 +115,6 @@ const TankSalesChart: React.FC<TankSalesChartProps> = () => {
           tanks={tanks}
           selectedTank={selectedTank}
           onChange={(tank) => handleSelectedTankChange(tank)}
-
         />
       </Flex>
       <ReactApexChart

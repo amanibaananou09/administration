@@ -17,16 +17,16 @@ import avatar1 from "../../assets/img/avatars/avatar1.png";
 import avatar2 from "../../assets/img/avatars/avatar2.png";
 import avatar3 from "../../assets/img/avatars/avatar3.png";
 // Custom Icons
-import { ProfileIcon, SettingsIcon } from "src/components/Icons/Icons";
+import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
 // Custom Components
-import { ItemContent } from "src/components/Menu/ItemContent";
-import { SidebarResponsive } from "src/components/Sidebar/Sidebar";
+import { ItemContent } from "components/Menu/ItemContent";
+import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
-import routes from "src/router/routes";
-import { useAuth } from "src/store/AuthContext";
+import routes from "router/routes";
+import { useAuth } from "store/AuthContext";
 import { useHistory } from "react-router-dom";
 
-export default function HeaderLinks(props : any) {
+export default function HeaderLinks(props: any) {
   const {
     variant,
     children,

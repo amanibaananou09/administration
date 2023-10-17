@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { Flex } from "@chakra-ui/react";
-import { useAuth } from "src/store/AuthContext";
-import { getAllTankByIdc, getTankLevelSelected } from "src/common/api";
-import { useESSContext } from "src/store/ESSContext";
-import TankChartMenu from "src/components/ChartMenu/TankChartMenu";
-import { tankLevelChartConfig } from "src/common/chartOptions";
+import { useAuth } from "store/AuthContext";
+import { getAllTankByIdc, getTankLevelSelected } from "common/api";
+import { useESSContext } from "store/ESSContext";
+import TankChartMenu from "components/ChartMenu/TankChartMenu";
+import { tankLevelChartConfig } from "common/chartOptions";
 type TankType = string | number | null;
 interface Tank {
   idConf: string;
@@ -22,7 +22,9 @@ const TankLevelChart: React.FC = () => {
   const { user } = useAuth();
   const token = user?.token;
   const {
-    selectedStation: { controllerPts: { id: controllerId } },
+    selectedStation: {
+      controllerPts: { id: controllerId },
+    },
   } = useESSContext();
 
   useEffect(() => {

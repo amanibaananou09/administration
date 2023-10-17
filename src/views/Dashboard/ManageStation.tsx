@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAuth } from "src/store/AuthContext";
-import { useESSContext } from "src/store/ESSContext";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 import {
   Button,
   Flex,
@@ -14,14 +14,13 @@ import {
   deleteStation,
   createStation,
   getStations,
-} from "src/common/api";
-import Card from "src/components/Card/Card";
-import CardBody from "src/components/Card/CardBody";
-import CardHeader from "src/components/Card/CardHeader";
-import ConfirmationModal from "src/components/Modal/ConfirmationModal";
-import StationModal from "src/components/Modal/StationModal";
-import StationRow from "src/components/Tables/StationRow";
-
+} from "common/api";
+import Card from "components/Card/Card";
+import CardBody from "components/Card/CardBody";
+import CardHeader from "components/Card/CardHeader";
+import ConfirmationModal from "components/Modal/ConfirmationModal";
+import StationModal from "components/Modal/StationModal";
+import StationRow from "components/Tables/StationRow";
 
 interface Station {
   id: number;
@@ -39,8 +38,6 @@ const ManageStation: React.FC = () => {
   const confirmationModalRef = useRef<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const [modalStation, setModalStation] = useState<Station | null>(null); // State to store station for modal
-
-
 
   const textColor = useColorModeValue("gray.700", "white");
 
@@ -175,7 +172,8 @@ const ManageStation: React.FC = () => {
           station={modalStation} // Pass the selected station to the modal
           onClose={closeStationModal} // Pass a callback to close the modal
         />
-      )}      <ConfirmationModal
+      )}{" "}
+      <ConfirmationModal
         message="Are you sure you want to delete this station ?"
         onConfirm={deleteStationHandler}
         ref={confirmationModalRef}

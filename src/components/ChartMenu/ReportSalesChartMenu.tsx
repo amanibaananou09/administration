@@ -8,9 +8,9 @@ import {
 } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { useAuth } from "src/store/AuthContext";
-import { useESSContext } from "src/store/ESSContext";
-import { getAllPump, getAllTank, getAllFuelGrades } from "src/common/api";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { getAllPump, getAllTank, getAllFuelGrades } from "common/api";
 
 export interface Filter {
   type: string;
@@ -22,7 +22,7 @@ export interface Filter {
 }
 
 export interface ReportSalesChartMenuProps {
-  filter: Filter;  
+  filter: Filter;
   onChange: (newFilter: Filter) => void;
 }
 
@@ -33,9 +33,11 @@ const ReportSalesChartMenu = ({
   const { user } = useAuth();
 
   const {
-    selectedStation: { controllerPts: { id: controllerId } },
+    selectedStation: {
+      controllerPts: { id: controllerId },
+    },
   } = useESSContext();
-  
+
   const [config, setConfig] = useState<{
     pumps: any[];
     fuelGrades: any[];
@@ -113,7 +115,7 @@ const ReportSalesChartMenu = ({
         >
           All Fuel Grades
         </MenuItem>
-        {config.fuelGrades.map((fuel:any) => (
+        {config.fuelGrades.map((fuel: any) => (
           <MenuItem
             type="checkbox"
             key={fuel.name}

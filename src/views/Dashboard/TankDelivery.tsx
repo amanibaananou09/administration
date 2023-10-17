@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "src/store/AuthContext";
-import { getAllTankDelivery } from "src/common/api";
-import { useESSContext } from "src/store/ESSContext";
+import { useAuth } from "store/AuthContext";
+import { getAllTankDelivery } from "common/api";
+import { useESSContext } from "store/ESSContext";
 import {
   Flex,
   Skeleton,
@@ -16,10 +16,10 @@ import {
   ButtonGroup,
   Button,
 } from "@chakra-ui/react";
-import Card from "src/components/Card/Card";
-import CardBody from "src/components/Card/CardBody";
-import CardHeader from "src/components/Card/CardHeader";
-import TankDeliveryRow from "src/components/Tables/TankDeliveryRow";
+import Card from "components/Card/Card";
+import CardBody from "components/Card/CardBody";
+import CardHeader from "components/Card/CardHeader";
+import TankDeliveryRow from "components/Tables/TankDeliveryRow";
 
 interface TankDeliveryProps {
   tank: string;
@@ -38,18 +38,22 @@ function TankDelivery(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const {
-    selectedStation: { controllerPts: { id: controllerId } },
+    selectedStation: {
+      controllerPts: { id: controllerId },
+    },
   } = useESSContext();
-
 
   const token = user?.token || "";
 
   useEffect(() => {
     const allTankDelivery = async () => {
-
       try {
-        const result = await getAllTankDelivery(currentPage, controllerId, token);
-        const { content, totalPages} = result;
+        const result = await getAllTankDelivery(
+          currentPage,
+          controllerId,
+          token,
+        );
+        const { content, totalPages } = result;
         setTankDelivery(content);
         setTotalPages(totalPages);
       } catch (error) {
@@ -65,32 +69,61 @@ function TankDelivery(): JSX.Element {
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" >
-        <CardHeader p="6px 0px 22px 0px" >
+      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
+        <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             Tank Delivery
           </Text>
         </CardHeader>
         <CardBody>
-          <Table variant="simple" color={textColor} size="sm" textAlign="center">
+          <Table
+            variant="simple"
+            color={textColor}
+            size="sm"
+            textAlign="center"
+          >
             <Thead>
               <Tr color="gray.400">
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   tank
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   product Volume
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   fuel Grade
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   product Height
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   water Height
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
+                >
                   temperature
                 </Th>
               </Tr>
@@ -124,7 +157,10 @@ function TankDelivery(): JSX.Element {
         </CardBody>
       </Card>
       <ButtonGroup mt={4} spacing={4}>
-        <Button isDisabled={currentPage === 0} onClick={() => handlePageChange(currentPage - 1)}>
+        <Button
+          isDisabled={currentPage === 0}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
           Previous
         </Button>
         <Button>{currentPage + 1}</Button>

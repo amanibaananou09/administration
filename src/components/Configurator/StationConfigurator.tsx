@@ -1,10 +1,10 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect } from "react";
 import { Button, Text } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/system";
-import { getStations } from "src/common/api";
+import { getStations } from "common/api";
 import { useState } from "react";
-import { useAuth } from "src/store/AuthContext";
-import { useESSContext } from "src/store/ESSContext";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 
 interface Station {
   id: string;

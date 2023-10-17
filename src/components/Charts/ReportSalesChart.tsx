@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ReactApexChart from "react-apexcharts";
 import { Flex, Text } from "@chakra-ui/react";
-import { useAuth } from "src/store/AuthContext";
-import {
-  getChartByFuelPumpPeriod,
-  getChartByFuelTankPeriod,
-} from "src/common/api";
-import { useESSContext } from "src/store/ESSContext";
-import ReportSalesChartMenu from "src/components/ChartMenu/ReportSalesChartMenu";
-import { createReportSalesChartOptions } from "src/common/chartOptions";
+import { useAuth } from "store/AuthContext";
+import { getChartByFuelPumpPeriod, getChartByFuelTankPeriod } from "common/api";
+import { useESSContext } from "store/ESSContext";
+import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
+import { createReportSalesChartOptions } from "common/chartOptions";
 
 interface ChartData {
   labels: any;
@@ -31,7 +28,9 @@ interface Filter {
 
 const ReportSalesChart: React.FC = () => {
   const {
-    selectedStation: { controllerPts: { id: controllerId } },
+    selectedStation: {
+      controllerPts: { id: controllerId },
+    },
   } = useESSContext();
 
   const { user } = useAuth();
@@ -73,10 +72,8 @@ const ReportSalesChart: React.FC = () => {
     fetchData();
   }, [filter, controllerId]);
 
-
   const updateChartData = useCallback(async () => {
-
-    const { type, fuelGrade, pump, tank, period, chartType} = filter;
+    const { type, fuelGrade, pump, tank, period, chartType } = filter;
 
     try {
       let data;
@@ -158,7 +155,7 @@ const ReportSalesChart: React.FC = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [filter, controllerId,token]);
+  }, [filter, controllerId, token]);
   return (
     <>
       <Flex marginLeft="3%">

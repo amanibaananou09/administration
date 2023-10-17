@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 import {
   Flex,
   Table,
@@ -9,12 +9,11 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Card from "src/components/Card/Card";
-import CardBody from "src/components/Card/CardBody";
-import CardHeader from "src/components/Card/CardHeader";
-import TablesProjectRow from "src/components/Tables/TablesProjectRow";
-import TablesTableRow from "src/components/Tables/TablesTableRow";
-import { tablesProjectData, tablesTableData } from "src/variables/general";
+import Card from "components/Card/Card";
+import CardBody from "components/Card/CardBody";
+import CardHeader from "components/Card/CardHeader";
+import TablesProjectRow from "components/Tables/TablesProjectRow";
+import { tablesProjectData } from "variables/general";
 
 interface TablesProps {}
 
@@ -30,7 +29,7 @@ const Tables: FC<TablesProps> = () => {
             Authors Table
           </Text>
         </CardHeader>
-        <CardBody >
+        <CardBody>
           <Table variant="simple" color={textColor}>
             <Thead>
               <Tr my=".8rem" pl="0px" color="gray.400">
@@ -49,20 +48,19 @@ const Tables: FC<TablesProps> = () => {
                 <Th borderColor={borderColor}></Th>
               </Tr>
             </Thead>
-            <Tbody>
-            </Tbody>
+            <Tbody></Tbody>
           </Table>
         </CardBody>
       </Card>
-      <Card  my="22px" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader  p="6px 0px 22px 0px">
+      <Card my="22px" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
+        <CardHeader p="6px 0px 22px 0px">
           <Flex direction="column">
             <Text fontSize="lg" color={textColor} fontWeight="bold" pb=".5rem">
               Projects Table
             </Text>
           </Flex>
         </CardHeader>
-        <CardBody >
+        <CardBody>
           <Table variant="simple" color={textColor}>
             <Thead>
               <Tr my=".8rem" pl="0px">
@@ -101,6 +99,6 @@ const Tables: FC<TablesProps> = () => {
       </Card>
     </Flex>
   );
-}
+};
 
 export default Tables;

@@ -14,11 +14,11 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import BgSignUp from "../../assets/img/BgSignUp.png";
-import { login } from "src/common/api";
-import { useAuth } from "src/store/AuthContext";
-import { useESSContext } from "src/store/ESSContext";
-import { getStations } from "src/common/api";
-import { decodeToken } from "src/utils/utils";
+import { login } from "common/api";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { getStations } from "common/api";
+import { decodeToken } from "utils/utils";
 
 interface SignInProps {}
 
@@ -157,6 +157,7 @@ const SignIn: FC<SignInProps> = () => {
               placeholder="Type your username"
               mb="24px"
               size="lg"
+              width="fill-available"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -172,6 +173,7 @@ const SignIn: FC<SignInProps> = () => {
               placeholder="Type your password"
               mb="24px"
               size="lg"
+              width="fill-available"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
-import { SettingsIcon } from "src/components/Icons/Icons";
+import { SettingsIcon } from "components/Icons/Icons";
 
 interface FixedPluginProps {
   secondary: any;

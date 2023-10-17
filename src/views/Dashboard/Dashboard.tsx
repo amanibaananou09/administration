@@ -12,22 +12,22 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 // Custom components
-import Card from "src/components/Card/Card";
-import ReportSalesChart from "src/components/Charts/ReportSalesChart";
-//import TankLevelChart from "src/components/Charts/TankLevelChart";
-//import TankSalesChart from "src/components/Charts/TankSalesChart";
-import UserSalesChart from "src/components/Charts/UserSalesChart";
-import IconBox from "src/components/Icons/IconBox";
+import Card from "components/Card/Card";
+import ReportSalesChart from "components/Charts/ReportSalesChart";
+//import TankLevelChart from "components/Charts/TankLevelChart";
+//import TankSalesChart from "components/Charts/TankSalesChart";
+import UserSalesChart from "components/Charts/UserSalesChart";
+import IconBox from "components/Icons/IconBox";
 // Custom icons
 import {
   CartIcon,
   DocumentIcon,
   GlobeIcon,
   WalletIcon,
-} from "src/components/Icons/Icons";
+} from "components/Icons/Icons";
 import React from "react";
 
-import { useESSContext } from "src/store/ESSContext";
+import { useESSContext } from "store/ESSContext";
 
 export default function Dashboard() {
   const context = useESSContext();
@@ -246,7 +246,7 @@ export default function Dashboard() {
               Tank Level
             </Text>
           </Flex>
-          { /*<Box minH="300px">
+          {/*<Box minH="300px">
             <TankLevelChart />
           </Box>*/}
         </Card>
@@ -262,7 +262,7 @@ export default function Dashboard() {
               Sales
             </Text>
           </Flex>
-          { /*<Box minH="300px">
+          {/*<Box minH="300px">
             <TankSalesChart />
           </Box>*/}
         </Card>
@@ -270,4 +270,3 @@ export default function Dashboard() {
     </Flex>
   );
 }
-

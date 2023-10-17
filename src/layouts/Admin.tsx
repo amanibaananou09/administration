@@ -7,26 +7,26 @@ import {
   useColorMode,
   Text,
 } from "@chakra-ui/react";
-import Configurator from "src/components/Configurator/Configurator";
-import Footer from "src/components/Footer/Footer";
+import Configurator from "components/Configurator/Configurator";
+import Footer from "components/Footer/Footer";
 
-import { ReactComponent as Logo } from "../assets/svg/fuel-station-logo.svg";
+import { ReactComponent as Logo } from "assets/svg/fuel-station-logo.svg";
 // Layout components
-import AdminNavbar from "src/components/Navbars/AdminNavbar";
-import Sidebar from "src/components/Sidebar/Sidebar";
+import AdminNavbar from "components/Navbars/AdminNavbar";
+import Sidebar from "components/Sidebar/Sidebar";
 import React, { useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import routes from "src/router/routes";
+import { Route, Switch } from "react-router-dom";
+import routes from "router/routes";
 // Custom Chakra theme
-import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
+import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 // Custom components
-import MainPanel from "../components/Layout/MainPanel";
-import PanelContainer from "../components/Layout/PanelContainer";
-import PanelContent from "../components/Layout/PanelContent";
-import bgAdmin from "../assets/img/admin-background.png";
-import PrivateRoute from "../router/Route/PrivateRoute";
-import { useAuth } from "../store/AuthContext";
-import MainRoute from "../router/Route/MainRoute";
+import MainPanel from "components/Layout/MainPanel";
+import PanelContainer from "components/Layout/PanelContainer";
+import PanelContent from "components/Layout/PanelContent";
+import bgAdmin from "assets/img/admin-background.png";
+import PrivateRoute from "router/Route/PrivateRoute";
+import { useAuth } from "store/AuthContext";
+import MainRoute from "router/Route/MainRoute";
 import { useESSContext } from "../store/ESSContext";
 
 export default function Dashboard(props: { [x: string]: any }) {
@@ -172,7 +172,8 @@ export default function Dashboard(props: { [x: string]: any }) {
             brandText={getActiveRoute(routes)}
             secondary={getActiveNavbar(routes)}
             fixed={fixed}
-            {...rest}          />
+            {...rest}
+          />
         </Portal>
         {getRoute() ? (
           <PanelContent>

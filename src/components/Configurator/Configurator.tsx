@@ -12,7 +12,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { HSeparator } from "src/components/Separator/Separator";
+import { HSeparator } from "components/Separator/Separator";
 import StationConfigurator from "./StationConfigurator";
 
 export interface ConfiguratorProps {

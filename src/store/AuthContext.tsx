@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, FC, ReactNode } from "react";
 import { useCallback } from "react";
 
 import { useESSContext } from "./ESSContext";
-import { decodeToken, User } from "src/utils/utils";
+import { decodeToken, User } from "utils/utils";
 
 interface AuthContextProps {
   token: string | null;

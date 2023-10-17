@@ -1,19 +1,10 @@
-import React, { FC } from 'react';
-import {
-  Avatar,
-  Button,
-  Flex,
-  Grid,
-  Icon,
-  Text,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { useESSContext } from "src/store/ESSContext";
+import React, { FC } from "react";
+import { Avatar, Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
+import { useESSContext } from "store/ESSContext";
 import avatar5 from "../../assets/img/avatars/avatar5.png";
-import Card from "src/components/Card/Card";
-import CardBody from "src/components/Card/CardBody";
-import CardHeader from "src/components/Card/CardHeader";
+import Card from "components/Card/Card";
+import CardBody from "components/Card/CardBody";
+import CardHeader from "components/Card/CardHeader";
 
 interface ProfileProps {}
 
@@ -151,6 +142,6 @@ const Profile: FC<ProfileProps> = () => {
       </Grid>
     </Flex>
   );
-}
+};
 
 export default Profile;
