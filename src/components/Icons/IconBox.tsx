@@ -1,11 +1,7 @@
-import React, { ReactNode } from "react";
-import { Flex, FlexProps } from "@chakra-ui/react";
+import React from "react";
+import { Flex } from "@chakra-ui/react";
 
-interface IconBoxProps extends FlexProps {
-  children: ReactNode;
-}
-
-const IconBox: React.FC<IconBoxProps> = (props) => {
+export default function IconBox(props: any) {
   const { children, ...rest } = props;
 
   return (
@@ -18,6 +14,4 @@ const IconBox: React.FC<IconBoxProps> = (props) => {
       {children}
     </Flex>
   );
-};
-
-export default IconBox;
+}

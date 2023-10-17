@@ -1,8 +1,7 @@
-import React from "react";
 import { Redirect } from "react-router-dom";
 import { useAuth } from "src/store/AuthContext";
 
-const MainRoute: React.FC = () => {
+const MainRoute = () => {
   const { isSignedIn } = useAuth();
 
   if (isSignedIn) {

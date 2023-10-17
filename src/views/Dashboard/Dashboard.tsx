@@ -33,10 +33,9 @@ export default function Dashboard() {
   const context = useESSContext();
 
   // Chakra Color Mode
-  const iconBlue: string = useColorModeValue("blue.500", "blue.500");
-  const iconBoxInside: string = useColorModeValue("white", "white");
-  const textColor: string = useColorModeValue("gray.700", "white");
-
+  const iconBlue = useColorModeValue("blue.500", "blue.500");
+  const iconBoxInside = useColorModeValue("white", "white");
+  const textColor = useColorModeValue("gray.700", "white");
   const { colorMode } = useColorMode();
 
   if (!context.selectedStation) {
@@ -46,7 +45,7 @@ export default function Dashboard() {
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
-        <Card variant={""} minH="125px">
+        <Card minH="125px">
           <Flex direction="column">
             <Flex
               flexDirection="row"
@@ -82,7 +81,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
         </Card>
-        <Card variant={""} minH="125px">
+        <Card minH="125px">
           <Flex direction="column">
             <Flex
               flexDirection="row"
@@ -118,7 +117,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
         </Card>
-        <Card minH="125px" variant={""}>
+        <Card minH="125px">
           <Flex direction="column">
             <Flex
               flexDirection="row"
@@ -154,7 +153,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
         </Card>
-        <Card minH="125px" variant={""}>
+        <Card minH="125px">
           <Flex direction="column">
             <Flex
               flexDirection="row"
@@ -204,7 +203,6 @@ export default function Dashboard() {
           }
           p="0px"
           maxW={{ sm: "320px", md: "100%" }}
-          variant={""}
         >
           <Flex
             direction="column"
@@ -216,19 +214,19 @@ export default function Dashboard() {
               Month Wise Sales Report
             </Text>
           </Flex>
-          {<Box minH="300px">
+          <Box minH="300px">
             <ReportSalesChart />
-          </Box>}
+          </Box>
         </Card>
-        <Card variant={""} p="0px" maxW={{ sm: "320px", md: "100%" }}>
+        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-10px" p="28px 0px 0px 22px">
             <Text color={textColor} fontSize="lg" fontWeight="bold">
               Users Sales
             </Text>
           </Flex>
-          {<Box minH="300px">
+          <Box minH="300px">
             <UserSalesChart />
-          </Box>}
+          </Box>
         </Card>
       </Grid>
       <Grid
@@ -236,7 +234,7 @@ export default function Dashboard() {
         templateRows={{ lg: "repeat(2, auto)" }}
         gap="20px"
       >
-        <Card variant={""} p="0px" maxW={{ sm: "320px", md: "100%" }}>
+        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
             <Text
               color={textColor}
@@ -252,7 +250,7 @@ export default function Dashboard() {
             <TankLevelChart />
           </Box>*/}
         </Card>
-        <Card variant={""} p="0px" maxW={{ sm: "320px", md: "100%" }}>
+        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
             <Text
               color={textColor}
@@ -272,3 +270,4 @@ export default function Dashboard() {
     </Flex>
   );
 }
+

@@ -1,75 +1,5 @@
 import { mode } from "@chakra-ui/theme-tools";
-
-export interface ButtonStyles {
-  components: {
-    Button: {
-      variants: {
-        primary: {
-          fontSize: string;
-          bg: string;
-          color: string;
-          _hover: { bg: string };
-          _focus: { bg: string };
-          _active: { bg: string };
-        };
-        navy: {
-          fontSize: string;
-          bg: string;
-          color: string;
-          _hover: { bg: string };
-          _focus: { bg: string };
-          _active: { bg: string };
-        };
-        "no-effects": {
-          _hover: string;
-          _active: string;
-          _focus: string;
-        };
-        danger: () => {
-          color: string;
-          bg: string;
-          fontSize: string;
-          _hover: string;
-          _focus: string;
-          _active: string;
-        };
-        outlined: (props: any) => {
-          color: string;
-          bg: string;
-          fontSize: string;
-          border: string;
-          borderColor: { bg: string };
-          _hover: { bg: string };
-          _focus: { bg: string };
-          _active: { bg: string };
-        };
-        dark: (props: any) => {
-          color: string;
-          bg: string;
-          fontSize: string;
-          _hover: { bg: string };
-          _focus: { bg: string };
-          _active: { bg: string };
-        };
-        light: (props: any) => {
-          color: string;
-          bg: string;
-          fontSize: string;
-          _hover: { bg: string };
-          _focus: { bg: string };
-          _active: { bg: string };
-        };
-      };
-      baseStyle: {
-        fontWeight: string;
-        borderRadius: string;
-        fontSize: string;
-      };
-    };
-  };
-}
-
-export const buttonStyles: ButtonStyles = {
+export const buttonStyles = {
   components: {
     Button: {
       variants: {
@@ -102,7 +32,7 @@ export const buttonStyles: ButtonStyles = {
           _focus: "red.400",
           _active: "red.400",
         }),
-        outlined: (props) => ({
+        outlined: (props :any) => ({
           color: mode("blue.400", "white")(props),
           bg: "transparent",
           fontSize: "10px",
@@ -112,7 +42,7 @@ export const buttonStyles: ButtonStyles = {
           _focus: { bg: mode("blue.50", "transparent")(props) },
           _active: { bg: mode("blue.50", "transparent")(props) },
         }),
-        dark: (props) => ({
+        dark: (props :any) => ({
           color: "white",
           bg: mode("gray.700", "blue.500")(props),
           fontSize: "10px",
@@ -120,7 +50,7 @@ export const buttonStyles: ButtonStyles = {
           _focus: { bg: mode("gray.700", "blue.600")(props) },
           _active: { bg: mode("gray.700", "blue.400")(props) },
         }),
-        light: (props) => ({
+        light: (props :any ) => ({
           color: mode("gray.700", "gray.700")(props),
           bg: mode("gray.100", "white")(props),
           fontSize: "10px",

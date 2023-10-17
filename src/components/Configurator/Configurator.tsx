@@ -15,7 +15,7 @@ import {
 import { HSeparator } from "src/components/Separator/Separator";
 import StationConfigurator from "./StationConfigurator";
 
-interface ConfiguratorProps {
+export interface ConfiguratorProps {
   secondary: any;
   isOpen: boolean;
   onClose: () => void;

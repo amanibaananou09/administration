@@ -1,39 +1,18 @@
 import React from "react";
 import {
-  Box,
-  Button,
   Flex,
-  HStack,
   Link,
-  Stack,
-  Text,
-  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {
-  ArgonLogoDark,
-  ArgonLogoLight,
-  ChakraLogoBlue,
-  ChakraLogoDark,
-  ChakraLogoLight,
-  DocumentIcon,
-  HomeIcon,
-  PersonIcon,
-  RocketIcon,
-} from "src/components/Icons/Icons";
-import { SidebarResponsive } from "src/components/Sidebar/Sidebar";
-import { NavLink } from "react-router-dom";
-import routes from "src/router/routes";
 
 interface AuthNavbarProps {
-  logo: any;
-  logoText: string;
-  secondary: any;
+  logo?: any;
+  logoText?: string;
+  secondary?: any;
 }
 
 const AuthNavbar: React.FC<AuthNavbarProps> = (props) => {
   const { logo, logoText, secondary, ...rest } = props;
-  const { colorMode } = useColorMode();
 
   // Chakra color mode
   let mainText = "white";
@@ -43,8 +22,6 @@ const AuthNavbar: React.FC<AuthNavbarProps> = (props) => {
   let navbarShadow = "initial";
   let navbarFilter = "initial";
   let navbarBackdrop = "none";
-  let bgButton = useColorModeValue("white", "navy.900");
-  let colorButton = useColorModeValue("gray.700", "white");
   let navbarPosition = "absolute";
   let hamburgerColor = {
     base: useColorModeValue("gray.700", "white"),
@@ -60,10 +37,9 @@ const AuthNavbar: React.FC<AuthNavbarProps> = (props) => {
       justifyContent="center"
       alignItems="center"
       color={mainText}
-    >
-    </Link>
+    ></Link>
   );
-  hamburgerColor = { base: "white",md: "" };
+  hamburgerColor = { base: "white", md: "" };
 
   return (
     <Flex

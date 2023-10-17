@@ -1,5 +1,6 @@
-import React from "react";
+// Chakra Icons
 import { BellIcon } from "@chakra-ui/icons";
+// Chakra Imports
 import {
   Box,
   Flex,
@@ -11,27 +12,21 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+// Assets
 import avatar1 from "../../assets/img/avatars/avatar1.png";
 import avatar2 from "../../assets/img/avatars/avatar2.png";
 import avatar3 from "../../assets/img/avatars/avatar3.png";
+// Custom Icons
 import { ProfileIcon, SettingsIcon } from "src/components/Icons/Icons";
+// Custom Components
 import { ItemContent } from "src/components/Menu/ItemContent";
 import { SidebarResponsive } from "src/components/Sidebar/Sidebar";
+import React from "react";
 import routes from "src/router/routes";
 import { useAuth } from "src/store/AuthContext";
 import { useHistory } from "react-router-dom";
 
-interface HeaderLinksProps {
-  logoText: string;
-  variant: any;
-  children: any;
-  fixed: boolean;
-  scrolled: boolean;
-  secondary: any;
-  onOpen: () => void;
-}
-
-const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
+export default function HeaderLinks(props : any) {
   const {
     variant,
     children,
@@ -45,7 +40,8 @@ const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
   const { signOut, user } = useAuth();
   const { colorMode } = useColorMode();
   const history = useHistory();
-
+  console.log("user:", user);
+  // Chakra Color Mode
   let navbarIcon =
     fixed && scrolled
       ? useColorModeValue("gray.700", "gray.200")
@@ -54,7 +50,6 @@ const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
   if (secondary) {
     navbarIcon = "white";
   }
-
   return (
     <Flex
       pe={{ sm: "0px", md: "16px" }}
@@ -137,13 +132,12 @@ const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
         </MenuList>
       </Menu>
       <SidebarResponsive
-        logo={undefined}
-        sidebarVariant={""} 
         hamburgerColor={"white"}
         colorMode={colorMode}
         secondary={props.secondary}
         routes={routes}
-        {...rest}      />
+        {...rest}
+      />
       <SettingsIcon
         cursor="pointer"
         ms={{ base: "16px", xl: "0px" }}
@@ -180,7 +174,7 @@ const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
             <MenuItem borderRadius="8px">
               <ItemContent
                 time="3 days ago"
-                info="Payment successfully completed!"
+                info="Payment succesfully completed!"
                 boldInfo=""
                 aName="Kara"
                 aSrc={avatar3}
@@ -191,6 +185,4 @@ const HeaderLinks: React.FC<HeaderLinksProps> = (props) => {
       </Menu>
     </Flex>
   );
-};
-
-export default HeaderLinks;
+}

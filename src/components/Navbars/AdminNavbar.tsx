@@ -11,14 +11,14 @@ import {
 import AdminNavbarLinks from "./AdminNavbarLinks";
 
 export interface AdminNavbarProps {
-  logoText: string;
-  variant: undefined;
-  children: undefined;
-  fixed: boolean;
-  secondary: boolean;
-  brandText: string;
+  logoText ?: string;
+  variant?: undefined;
+  children?: undefined;
+  fixed : boolean;
+  secondary?: boolean;
+  brandText?: string;
   onOpen: () => void;
-  scrolled: boolean;
+  scrolled?: boolean;
 }
 
 const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
@@ -115,7 +115,6 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
       mx="auto"
       mt={secondaryMargin}
       pb="8px"
-      left={""}
       right={"30px"}
       px={{
         sm: paddingX,

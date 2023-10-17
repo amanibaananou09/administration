@@ -1,36 +1,5 @@
 import { mode } from "@chakra-ui/theme-tools";
-
-export interface InputStyles {
-  components: {
-    Input: {
-      baseStyle: {
-        field: {
-          fontWeight: number;
-        };
-      };
-      variants: {
-        auth: (props: any) => {
-          field: {
-            bg: string;
-            border: string;
-            borderColor: string;
-            _placeholder: { color: string };
-          };
-        };
-        search: (props: any) => {
-          field: {
-            border: string;
-            py: string;
-            borderRadius: string;
-            _placeholder: { color: string };
-          };
-        };
-      };
-    };
-  };
-}
-
-export const inputStyles: InputStyles = {
+export const inputStyles = {
   components: {
     Input: {
       baseStyle: {
@@ -38,8 +7,9 @@ export const inputStyles: InputStyles = {
           fontWeight: 400,
         },
       },
+
       variants: {
-        auth: (props: any) => ({
+        auth: (props : any ) => ({
           field: {
             bg: mode("white", "navy.700")(props),
             border: "1px solid",
@@ -47,7 +17,7 @@ export const inputStyles: InputStyles = {
             _placeholder: { color: mode("gray.300", "gray.400")(props) },
           },
         }),
-        search: (props: any) => ({
+        search: (props : any ) => ({
           field: {
             border: "none",
             py: "11px",

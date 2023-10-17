@@ -3,7 +3,7 @@ import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
-interface TankChartMenuProps {
+export interface TankChartMenuProps {
   tanks: Array<{ idConf: string | number | null }>;
   selectedTank: string | null;
   onChange: (idConf: string | number | null) => void;

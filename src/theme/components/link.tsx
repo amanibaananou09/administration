@@ -1,17 +1,7 @@
-import { CSSObject } from "@chakra-ui/react";
-
-export interface LinkStyles {
+export const linkStyles = {
   components: {
     Link: {
-      decoration: string;
-      baseStyle: CSSObject;
-    };
-  };
-}
-
-export const linkStyles: LinkStyles = {
-  components: {
-    Link: {
+      // 3. We can add a new visual variant
       decoration: "none",
       baseStyle: {
         _hover: {

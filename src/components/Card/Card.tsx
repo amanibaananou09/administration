@@ -1,11 +1,6 @@
-import React, { FC } from "react";
-import { Box, useStyleConfig, BoxProps } from "@chakra-ui/react";
-
-interface CardProps extends BoxProps {
-  variant: string;
-}
-
-const Card: FC<CardProps> = (props) => {
+import { Box, useStyleConfig } from "@chakra-ui/react";
+import React, { Component } from "react";
+function Card(props : any) {
   const { variant, children, ...rest } = props;
   const styles = useStyleConfig("Card", { variant });
   // Pass the computed styles into the `__css` prop

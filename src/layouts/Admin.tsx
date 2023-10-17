@@ -137,10 +137,6 @@ export default function Dashboard(props: { [x: string]: any }) {
         top="0"
       />
       <Sidebar
-        secondary={undefined}
-        sidebarVariant={""}
-        colorMode={""}
-        hamburgerColor={""}
         routes={routes}
         logo={
           <Stack
@@ -168,13 +164,10 @@ export default function Dashboard(props: { [x: string]: any }) {
           base: "100%",
           xl: "calc(100% - 275px)",
         }}
-        variant={""}
       >
         <Portal>
           <AdminNavbar
-            scrolled={false} logoText={""}
-            variant={undefined}
-            children={undefined}
+            scrolled={false}
             onOpen={onOpen}
             brandText={getActiveRoute(routes)}
             secondary={getActiveNavbar(routes)}
@@ -182,8 +175,8 @@ export default function Dashboard(props: { [x: string]: any }) {
             {...rest}          />
         </Portal>
         {getRoute() ? (
-          <PanelContent variant={""}>
-            <PanelContainer variant={""}>
+          <PanelContent>
+            <PanelContainer>
               <Switch>
                 {getRoutes(routes)}
                 <MainRoute />
@@ -191,7 +184,7 @@ export default function Dashboard(props: { [x: string]: any }) {
             </PanelContainer>
           </PanelContent>
         ) : null}
-        <Footer alignBase={""} />
+        <Footer />
         <Portal>
           <FixedPlugin
             secondary={getActiveNavbar(routes)}

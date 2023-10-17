@@ -65,13 +65,13 @@ function TankDelivery(): JSX.Element {
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" variant={""}>
-        <CardHeader p="6px 0px 22px 0px" variant={""}>
+      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" >
+        <CardHeader p="6px 0px 22px 0px" >
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             Tank Delivery
           </Text>
         </CardHeader>
-        <CardBody variant={""}>
+        <CardBody>
           <Table variant="simple" color={textColor} size="sm" textAlign="center">
             <Thead>
               <Tr color="gray.400">

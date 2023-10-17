@@ -9,26 +9,16 @@ import { CardComponent } from "./additions/card/Card";
 import { MainPanelComponent } from "./additions/layout/MainPanel";
 import { PanelContentComponent } from "./additions/layout/PanelContent";
 import { PanelContainerComponent } from "./additions/layout/PanelContainer";
-
-const customTheme = extendTheme({
-  config: {
-    initialColorMode: "light",
-    useSystemColorMode: false,
-    breakpoints,
-  },
-  styles: {
-    global: globalStyles,
-  },
-  components: {
-    Button: buttonStyles,
-    Badge: badgeStyles,
-    Link: linkStyles,
-    Input: inputStyles,
-    CardComponent,
-    MainPanelComponent,
-    PanelContentComponent,
-    PanelContainerComponent,
-  },
-});
-
-export default customTheme;
+// import { mode } from "@chakra-ui/theme-tools";
+export default extendTheme(
+  { breakpoints }, // Breakpoints
+  globalStyles,
+  buttonStyles, // Button styles
+  badgeStyles, // Badge styles
+  linkStyles, // Link styles
+  inputStyles, // Input styles
+  CardComponent, // Card component
+  MainPanelComponent, // Main Panel component
+  PanelContentComponent, // Panel Content component
+  PanelContainerComponent, // Panel Container component
+);

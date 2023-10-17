@@ -24,13 +24,13 @@ const Tables: FC<TablesProps> = () => {
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-      <Card variant="" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader variant="" p="6px 0px 22px 0px">
+      <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
+        <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             Authors Table
           </Text>
         </CardHeader>
-        <CardBody variant="">
+        <CardBody >
           <Table variant="simple" color={textColor}>
             <Thead>
               <Tr my=".8rem" pl="0px" color="gray.400">
@@ -54,15 +54,15 @@ const Tables: FC<TablesProps> = () => {
           </Table>
         </CardBody>
       </Card>
-      <Card  variant=""my="22px" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader  variant="" p="6px 0px 22px 0px">
+      <Card  my="22px" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
+        <CardHeader  p="6px 0px 22px 0px">
           <Flex direction="column">
             <Text fontSize="lg" color={textColor} fontWeight="bold" pb=".5rem">
               Projects Table
             </Text>
           </Flex>
         </CardHeader>
-        <CardBody variant="">
+        <CardBody >
           <Table variant="simple" color={textColor}>
             <Thead>
               <Tr my=".8rem" pl="0px">

@@ -29,17 +29,17 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "src/store/AuthContext";
 
-interface SidebarProps {
+export interface SidebarProps {
   logo: any;
-  routes: any;
-  sidebarVariant: string;
-  colorMode :string;
-  hamburgerColor : string ;
-  secondary: any;
+  routes?: any;
+  sidebarVariant?: string;
+  colorMode ?:string;
+  hamburgerColor ?: string ;
+  secondary?: any;
 
 }
 
-interface Route {
+export interface Route {
   layout: string;
   path: string;
   name: string;

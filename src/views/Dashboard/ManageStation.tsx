@@ -125,9 +125,9 @@ const ManageStation: React.FC = () => {
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-        <Card variant={""} my={{ lg: "24px" }} me={{ lg: "24px" }}>
+        <Card my={{ lg: "24px" }} me={{ lg: "24px" }}>
           <Flex direction="column">
-            <CardHeader variant={""} py="12px">
+            <CardHeader py="12px">
               <Flex align="center" justify="space-between" p="22px">
                 <Text fontSize="lg" color={textColor} fontWeight="bold">
                   Manage Stations
@@ -141,7 +141,7 @@ const ManageStation: React.FC = () => {
                 </Button>
               </Flex>
             </CardHeader>
-            <CardBody variant={""}>
+            <CardBody>
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
                   return (

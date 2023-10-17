@@ -110,7 +110,7 @@ const Pages: React.FC<PagesProps> = (props) => {
   return (
     <Box ref={navRef} w="100%">
       <Portal containerRef={navRef}>
-        <AuthNavbar secondary={getActiveNavbar(routes)} logoText="" logo={undefined} />
+        <AuthNavbar secondary={getActiveNavbar(routes)} />
       </Portal>
       <Box w="100%">
         <Box ref={wrapper} w="100%">
@@ -121,7 +121,7 @@ const Pages: React.FC<PagesProps> = (props) => {
         </Box>
       </Box>
       <Box px="24px" mx="auto" width="1044px" maxW="100%" mt="60px">
-        <Footer alignBase={""} />
+        <Footer />
       </Box>
     </Box>
   );

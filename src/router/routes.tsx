@@ -1,47 +1,23 @@
+// import
 import React from "react";
-import Dashboard from "../views/Dashboard/Dashboard";
-import Profile from "../views/Dashboard/Profile";
-import SignIn from "../views/Pages/SignIn";
+import Dashboard from "src/views/Dashboard/Dashboard";
+import Profile from "src/views/Dashboard/Profile";
+import SignIn from "src/views/Pages/SignIn";
 
 import {
   HomeIcon,
+  StatsIcon,
+  CreditIcon,
   PersonIcon,
   DocumentIcon,
   SupportIcon,
   WalletIcon,
-} from "../components/Icons/Icons";
-import ManageStation from "../views/Dashboard/ManageStation";
-import Transaction from "../views/Dashboard/Transaction";
-import TankDelivery from "../views/Dashboard/TankDelivery";
+} from "src/components/Icons/Icons";
+import ManageStation from "src/views/Dashboard/ManageStation";
+import Transaction from "src/views/Dashboard/Transaction";
+import TankDelivery from "src/views/Dashboard/TankDelivery";
 
-interface DashRoute {
-  path: string;
-  name: string;
-  icon: JSX.Element;
-  component: React.FC;
-  layout: string;
-  privateRoute: boolean;
-}
-
-interface AccountPage {
-  path: string;
-  name: string;
-  icon: JSX.Element;
-  secondaryNavbar?: boolean;
-  component: React.FC;
-  layout: string;
-  privateRoute: boolean;
-  onlyPublicRoute?: boolean;
-}
-
-interface DashRouteCategory {
-  name: string;
-  category: string;
-  state: string;
-  views: AccountPage[];
-}
-
-const dashRoutes: (DashRoute | DashRouteCategory)[] = [
+var dashRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -95,10 +71,8 @@ const dashRoutes: (DashRoute | DashRouteCategory)[] = [
         component: SignIn,
         layout: "/auth",
         onlyPublicRoute: true,
-        privateRoute: false,
       },
     ],
   },
 ];
-
 export default dashRoutes;

@@ -10,23 +10,26 @@ import "@szhsin/react-menu/dist/index.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "src/store/AuthContext";
 import { useESSContext } from "src/store/ESSContext";
-import { getAllPump, getAllFuelGrades, getAllTank } from "src/common/api";
+import { getAllPump, getAllTank, getAllFuelGrades } from "src/common/api";
 
-interface ReportSalesChartMenuProps {
-  filter: {
-    type: string;
-    fuelGrade: string;
-    pump: string;
-    tank: string;
-    period: string;
-  };
-  onChange: (filter: any) => void;
+export interface Filter {
+  type: string;
+  fuelGrade: string;
+  pump: string;
+  tank: string;
+  period: string;
+  chartType: string;
 }
 
-const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
+export interface ReportSalesChartMenuProps {
+  filter: Filter;  
+  onChange: (newFilter: Filter) => void;
+}
+
+const ReportSalesChartMenu = ({
   filter,
   onChange,
-}) => {
+}: ReportSalesChartMenuProps) => {
   const { user } = useAuth();
 
   const {
@@ -47,13 +50,17 @@ const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
     const fetchConfig = async () => {
       try {
         const token = user?.token;
+
         if (!token) {
           console.error("Token is null or undefined.");
           return;
         }
         const pumps = await getAllPump(controllerId, token);
+
         const fuelGrades = await getAllFuelGrades(controllerId, token);
+
         const tanks = await getAllTank(controllerId, token);
+
         setConfig({
           pumps,
           fuelGrades,
@@ -65,11 +72,11 @@ const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
     };
 
     fetchConfig();
-  }, [controllerId, user]);
+  }, [controllerId]);
 
   const handleChange = (key: string, value: string) => {
     const updatedFilter = { ...filter, [key]: value };
-    onChange(filter);
+    onChange(updatedFilter);
   };
 
   return (
@@ -106,7 +113,7 @@ const ReportSalesChartMenu: React.FC<ReportSalesChartMenuProps> = ({
         >
           All Fuel Grades
         </MenuItem>
-        {config.fuelGrades.map((fuel: any) => (
+        {config.fuelGrades.map((fuel:any) => (
           <MenuItem
             type="checkbox"
             key={fuel.name}

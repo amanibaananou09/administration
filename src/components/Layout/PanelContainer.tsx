@@ -1,22 +1,14 @@
-import { Box, useStyleConfig, BoxProps } from "@chakra-ui/react";
-import React from "react";
-
-interface PanelContainerProps extends BoxProps {
-  variant: string;
-}
-
-const PanelContainer: React.FC<PanelContainerProps> = ({
-  variant,
-  children,
-  ...rest
-}) => {
+import { Box, useStyleConfig } from "@chakra-ui/react";
+import React, { Component } from "react";
+function PanelContainer(props :any) {
+  const { variant, children, ...rest } = props;
   const styles = useStyleConfig("PanelContainer", { variant });
-
+  // Pass the computed styles into the `__css` prop
   return (
     <Box __css={styles} {...rest}>
       {children}
     </Box>
   );
-};
+}
 
 export default PanelContainer;

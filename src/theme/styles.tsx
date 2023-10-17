@@ -1,21 +1,6 @@
-import { CSSObject } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 
-export interface GlobalStyles {
-  colors: {
-    gray: {
-      700: string;
-    };
-    navy: {
-      [key: number]: string;
-    };
-  };
-  styles: {
-    global: (props: { colorMode: string }) => CSSObject;
-  };
-}
-
-export const globalStyles: GlobalStyles = {
+export const globalStyles = {
   colors: {
     gray: {
       700: "#1f2733",
@@ -34,7 +19,7 @@ export const globalStyles: GlobalStyles = {
     },
   },
   styles: {
-    global: (props) => ({
+    global: (props : any ) => ({
       body: {
         overflowX: "hidden",
         bg: mode("gray.50", "#1B254B")(props),

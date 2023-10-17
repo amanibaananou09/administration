@@ -33,7 +33,6 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
           pe="6px"
           zIndex="1"
           position="relative"
-          right={""}
           left={"-8px"}
         />
         <Box

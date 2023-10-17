@@ -1,11 +1,8 @@
+/*eslint-disable*/
+import { Flex, Text } from "@chakra-ui/react";
 import React from "react";
-import { Flex, Text, BoxProps } from "@chakra-ui/react";
 
-interface FooterProps {
-  alignBase: string;
-}
-
-export default function Footer(props: FooterProps) {
+export default function Footer(props: any) {
   return (
     <Flex
       flexDirection={{
@@ -27,7 +24,8 @@ export default function Footer(props: FooterProps) {
           xl: "start",
         }}
         mb={{ base: "20px", xl: "0px" }}
-      ></Text>
+      >
+      </Text>
     </Flex>
   );
 }
