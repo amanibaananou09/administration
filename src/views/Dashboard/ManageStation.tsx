@@ -30,37 +30,27 @@ interface Station {
   controllerPtsId: string;
   firmwareVersion: string;
 }
-const ManageStation: React.FC = () => {
+const ManageStation = (): ReactElement => {
   const { user } = useAuth();
   const { selectStation, selectedStation } = useESSContext();
   const [stations, setStations] = useState<Station[]>([]);
   const stationModalRef = useRef<any>(null);
   const confirmationModalRef = useRef<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-  const [modalStation, setModalStation] = useState<Station | null>(null); // State to store station for modal
 
   const textColor = useColorModeValue("gray.700", "white");
+  const token = user?.token;
 
-  const openStationModal = (station: Station) => {
-    setModalStation(station);
-    setIsModalOpen(true);
+  const openStationModal = (station?: Station) => {
+    stationModalRef.current.open(station);
   };
 
-  const closeStationModal = () => {
-    setIsModalOpen(false);
-  };
   const openConfirmationToDeleteModal = (station: Station) => {
-    confirmationModalRef.current?.open(station);
+    confirmationModalRef.current.open(station);
   };
 
   const deleteStationHandler = async (station: Station) => {
     try {
-      if (typeof user !== "string") {
-        console.error("User is not a string");
-        return;
-      }
-      const token = user;
-      await deleteStation(station.id, user);
+      await deleteStation(station.id, user?.token);
 
       setStations((prev) => prev.filter((st) => st.id !== station.id));
 
@@ -68,7 +58,7 @@ const ManageStation: React.FC = () => {
         selectStation(stations.find((st) => st.id !== station.id));
       }
 
-      confirmationModalRef.current?.close();
+      confirmationModalRef.current.close();
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +93,7 @@ const ManageStation: React.FC = () => {
         setStations((prev) => [newStation, ...prev]);
       }
 
-      stationModalRef.current?.close();
+      stationModalRef.current.close();
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +122,7 @@ const ManageStation: React.FC = () => {
                 <Button
                   variant="primary"
                   maxH="30px"
-                  onClick={() => openStationModal}
+                  onClick={() => openStationModal()}
                 >
                   CREATE STATION
                 </Button>
@@ -166,13 +156,9 @@ const ManageStation: React.FC = () => {
           </Flex>
         </Card>
       </Flex>
-      {isModalOpen && (
-        <StationModal
-          onSubmit={submitModalHandler}
-          station={modalStation} // Pass the selected station to the modal
-          onClose={closeStationModal} // Pass a callback to close the modal
-        />
-      )}{" "}
+      <StationModal onSubmit={submitModalHandler} ref={stationModalRef} station={null} onClose={function (): void {
+        throw new Error("Function not implemented.");
+      } } />
       <ConfirmationModal
         message="Are you sure you want to delete this station ?"
         onConfirm={deleteStationHandler}

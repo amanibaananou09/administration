@@ -28,6 +28,7 @@ interface StationModalProps {
   onSubmit: (values: Station) => void;
   station: Station | null;
   onClose: () => void;
+  ref?: React.Ref<any>;
 }
 
 const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {

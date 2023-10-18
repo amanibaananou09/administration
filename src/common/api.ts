@@ -575,7 +575,7 @@ export const createStation = async (station: { name: any; address: any; controll
   return data;
 };
 
-export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; }, user: { token: string; username: any; }) => {
+export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; }, user: { token: string ; username: any; } ) => {
   const { name, address, controllerPtsId } = station;
 
   const data = await fetchUrl({
@@ -596,7 +596,7 @@ export const updateStation = async (station: { id?: any; name?: any; address?: a
   return data;
 };
 
-export const deleteStation = async (id: any, token: string ) => {
+export const deleteStation = async (id: any, token: string | undefined) => {
   const data = await fetchUrl({
     url: `${STATION_DELETE_ENDPOINT}/${id}`,
     method: "DELETE",
