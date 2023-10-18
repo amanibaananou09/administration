@@ -1,20 +1,19 @@
-import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
-import theme from "theme/theme";
-import { AuthContextProvider } from "store/AuthContext";
-import AuthLayout from "layouts/Auth";
 import AdminLayout from "layouts/Admin";
+import AuthLayout from "layouts/Auth";
 import MainRoute from "router/Route/MainRoute";
+import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
+import theme from "theme/theme";
 
 ReactDOM.render(
   <ESSContextProvider>
     <AuthContextProvider>
-      <ChakraProvider theme={theme} resetCSS={false}>
+      <ChakraProvider theme={theme} resetCss={false} position="relative">
         <HashRouter>
           <Switch>
             <Route path={`/auth`} component={AuthLayout} />

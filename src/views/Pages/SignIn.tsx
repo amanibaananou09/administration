@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { FC } from "react";
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Box,
   Button,
   Flex,
@@ -9,16 +10,13 @@ import {
   Input,
   Text,
   useColorModeValue,
-  Alert,
-  AlertIcon,
-  AlertDescription,
 } from "@chakra-ui/react";
-import BgSignUp from "../../assets/img/BgSignUp.png";
-import { login } from "common/api";
+import { getStations, login } from "common/api";
+import React, { FC, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { getStations } from "common/api";
 import { decodeToken } from "utils/utils";
+import BgSignUp from "../../assets/img/BgSignUp.png";
 
 interface SignInProps {}
 
@@ -157,7 +155,6 @@ const SignIn: FC<SignInProps> = () => {
               placeholder="Type your username"
               mb="24px"
               size="lg"
-              width="fill-available"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -173,7 +170,6 @@ const SignIn: FC<SignInProps> = () => {
               placeholder="Type your password"
               mb="24px"
               size="lg"
-              width="fill-available"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
