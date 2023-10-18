@@ -1,9 +1,6 @@
 import React from "react";
+import { RenderThumbProps, RenderTrackProps } from "common/model";
 
-interface RenderTrackProps {
-  style: React.CSSProperties;
-  [key: string]: any;
-}
 
 export const renderTrack = ({ style, ...props }: RenderTrackProps) => {
   const trackStyle: React.CSSProperties = {
@@ -20,10 +17,6 @@ export const renderTrack = ({ style, ...props }: RenderTrackProps) => {
   return <div style={{ ...style, ...trackStyle }} {...props} />;
 };
 
-interface RenderThumbProps {
-  style: React.CSSProperties;
-  [key: string]: any;
-}
 
 export const renderThumbDark = ({ style, ...props }: RenderThumbProps) => {
   const thumbStyle: React.CSSProperties = {

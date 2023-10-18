@@ -9,17 +9,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
+import { AdminNavbarProps } from "common/model";
 
-export interface AdminNavbarProps {
-  logoText ?: string;
-  variant?: undefined;
-  children?: undefined;
-  fixed : boolean;
-  secondary?: boolean;
-  brandText?: string;
-  onOpen: () => void;
-  scrolled?: boolean;
-}
 
 const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
   const [scrolled, setScrolled] = useState(false);
@@ -94,6 +85,8 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
 
   return (
     <Flex
+      position="fixed" // Set the position to fixed
+      width="100%" // Take up the full width
       bgPosition={navbarPosition}
       boxShadow={navbarShadow}
       bg={navbarBg}

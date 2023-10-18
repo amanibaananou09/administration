@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { getallTransactionPump } from "common/api";
+export interface TransactionProps {}
+export interface Transaction {
+  id: string;
+  pump: string;
+  fuelGradeName: string;
+  volume: number;
+  price: number;
+  amount: number;
+  totalVolume: number;
+  totalAmount: number;
+  dateTimeStart: string;
+}
 
 import {
   Flex,
@@ -23,20 +35,6 @@ import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import TransactionTableRow from "components/Tables/TransactionTableRow";
 
-interface TransactionProps {}
-
-interface Transaction {
-  id: string;
-  pump: string;
-  fuelGrade: string;
-  volume: number;
-  price: number;
-  amount: number;
-  totalVolume: number;
-  totalAmount: number;
-  DateTimeStart: string;
-}
-
 const Transaction: React.FC<TransactionProps> = () => {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -44,6 +42,7 @@ const Transaction: React.FC<TransactionProps> = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [filterType, setFilterType] = useState<string>("");
   const [pumpId, setPumpId] = useState<number>(0);
+  const [fuelGradeName, setFuelGradeName] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -67,6 +66,7 @@ const Transaction: React.FC<TransactionProps> = () => {
           token,
           filterType,
           pumpId,
+          fuelGradeName,
           startDate,
           endDate,
         );
@@ -97,9 +97,6 @@ const Transaction: React.FC<TransactionProps> = () => {
           <Table variant="simple" color={textColor} size="sm">
             <Thead>
               <Tr color="gray.400">
-                <Th borderColor={borderColor} color="gray.400">
-                  ID
-                </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
@@ -107,7 +104,10 @@ const Transaction: React.FC<TransactionProps> = () => {
                 >
                   Pump
                 </Th>
-                <Th borderColor={borderColor} color="gray.400">
+                <Th         borderColor={borderColor}
+                            color="gray.400"
+                            textAlign="center"
+                >
                   Fuel Grade
                 </Th>
                 <Th
@@ -138,20 +138,6 @@ const Transaction: React.FC<TransactionProps> = () => {
                 >
                   Date time start
                 </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  Date time
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  State
-                </Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -159,11 +145,11 @@ const Transaction: React.FC<TransactionProps> = () => {
                 return (
                   <TransactionTableRow
                     pump={row.pump}
-                    fuelGrade={row.fuelGrade}
+                    fuelGrade={row.fuelGradeName}
                     volume={row.volume}
                     price={row.price}
                     amount={row.amount}
-                    DateTimeStart={row.DateTimeStart}
+                    dateTimeStart={row.dateTimeStart}
                     key={key}
                   />
                 );

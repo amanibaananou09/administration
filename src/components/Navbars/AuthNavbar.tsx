@@ -4,12 +4,8 @@ import {
   Link,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { AuthNavbarProps } from "common/model";
 
-interface AuthNavbarProps {
-  logo?: any;
-  logoText?: string;
-  secondary?: any;
-}
 
 const AuthNavbar: React.FC<AuthNavbarProps> = (props) => {
   const { logo, logoText, secondary, ...rest } = props;

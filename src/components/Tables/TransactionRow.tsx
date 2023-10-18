@@ -1,12 +1,7 @@
 import React from "react";
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react";
+import { TransactionRowProps } from "common/model";
 
-interface TransactionRowProps {
-  name: string;
-  date: string;
-  logo: React.ElementType;
-  price: string;
-}
 
 const TransactionRow: React.FC<TransactionRowProps> = ({
   name,

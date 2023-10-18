@@ -526,11 +526,12 @@ export const getallTransactionPump = async (
   token: string,
   filterType: string,
   pumpId: number,
+  fuelGrade: number,
   startDate: string,
   endDate: string
 ) => {
   const data = await fetchUrl({
-    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?filterType=${filterType}&pumpId=${pumpId}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
+    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?filterType=${filterType}&pumpId=${pumpId}&fuelGrade=${fuelGrade}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -554,8 +555,8 @@ export const getUploadTransactionPump = async (token: string) => {
   return data;
 };
 
-export const createStation = async (station: { name: any; address: any; controllerPtsId: any; }, user: { token: string; username: any; }) => {
-  const { name, address, controllerPtsId } = station;
+export const createStation = async (station: { name: any; address: any; controllerPtsId: any; countryId: any ; }, user: { token: string; username: any; }) => {
+  const { name, address, controllerPtsId, countryId, } = station;
 
   const data = await fetchUrl({
     url: STATION_ADD_ENDPOINT,
@@ -568,6 +569,7 @@ export const createStation = async (station: { name: any; address: any; controll
       name,
       address,
       controllerPtsId,
+      countryId,
       userLogin: user.username,
     },
   });
@@ -575,8 +577,8 @@ export const createStation = async (station: { name: any; address: any; controll
   return data;
 };
 
-export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; }, user: { token: string ; username: any; } ) => {
-  const { name, address, controllerPtsId } = station;
+export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; countryId?: any | null}, user: { token: string; username: any; }) => {
+  const { name, address, controllerPtsId, countryId, } = station;
 
   const data = await fetchUrl({
     url: `${STATION_UPDATE_ENDPOINT}/${station.id}`,
@@ -589,6 +591,7 @@ export const updateStation = async (station: { id?: any; name?: any; address?: a
       name,
       address,
       controllerPtsId,
+      countryId,
       userLogin: user.username,
     },
   });

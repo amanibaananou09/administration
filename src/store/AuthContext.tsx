@@ -2,15 +2,9 @@ import React, { useContext, useEffect, useState, FC, ReactNode } from "react";
 import { useCallback } from "react";
 
 import { useESSContext } from "./ESSContext";
-import { decodeToken, User } from "utils/utils";
+import { decodeToken } from "utils/utils";
+import { AuthContextProps, AuthContextProviderProps,User } from "common/model";
 
-interface AuthContextProps {
-  token: string | null;
-  isSignedIn: boolean;
-  user: User | null;
-  signIn: (user: User) => void;
-  signOut: () => void;
-}
 
 export const AuthContext = React.createContext<AuthContextProps>({
   token: null,
@@ -21,10 +15,6 @@ export const AuthContext = React.createContext<AuthContextProps>({
 });
 
 let firstLoad = true;
-
-interface AuthContextProviderProps {
-  children: ReactNode;
-}
 
 export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   children,

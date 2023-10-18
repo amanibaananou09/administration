@@ -8,18 +8,10 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { TablesTableRowProps } from "common/model";
 
-interface TablesTableRowProps {
-  pump: string;
-  fuelGrade: string;
-  volume: number;
-  price: number;
-  amount: number;
-  DateTimeStart: string;
-}
-
-function formatDate(DateTimeStart: string): string {
-  return new Date(DateTimeStart).toLocaleString("fr-FR", {
+function formatDate(dateTimeStart: string): string {
+  return new Date(dateTimeStart).toLocaleString("fr-FR", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -35,13 +27,13 @@ const TablesTableRow: React.FC<TablesTableRowProps> = ({
   volume,
   price,
   amount,
-  DateTimeStart,
+  dateTimeStart,
 }: TablesTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
   const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const formattedDateTimeStart = formatDate(DateTimeStart);
+  const formattedDateTimeStart = formatDate(dateTimeStart);
 
   return (
     <Tr>
@@ -58,7 +50,6 @@ const TablesTableRow: React.FC<TablesTableRowProps> = ({
         </Flex>
       </Td>
       <Td borderColor={borderColor}>
-        <Button p="0px" bg="transparent" variant="no-effects">
           <Text
             fontSize="sm"
             align="center"
@@ -67,7 +58,6 @@ const TablesTableRow: React.FC<TablesTableRowProps> = ({
           >
             {fuelGrade}
           </Text>
-        </Button>
       </Td>
       <Td borderColor={borderColor}>
         <Text

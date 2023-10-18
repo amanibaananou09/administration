@@ -8,14 +8,8 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { InvoicesRowProps } from "common/model";
 
-interface InvoicesRowProps {
-  date: string;
-  code: string;
-  price: string;
-  format: string;
-  logo: any;
-}
 
 const InvoicesRow: React.FC<InvoicesRowProps> = ({
   date,

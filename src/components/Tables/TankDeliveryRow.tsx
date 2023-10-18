@@ -6,15 +6,8 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { TankDeliveryRowProps } from "common/model";
 
-interface TankDeliveryRowProps {
-  tank: string;
-  fuelGradeName: string;
-  productHeight: number;
-  waterHeight: number;
-  temperature: number;
-  productVolume: number;
-}
 
 const TankDeliveryRow: React.FC<TankDeliveryRowProps> = ({
   tank,
@@ -33,13 +26,7 @@ const TankDeliveryRow: React.FC<TankDeliveryRowProps> = ({
       <Td minWidth={{ base: "50px" }} pl="45px" borderColor={borderColor}>
         <Flex py=".8rem" minWidth="100%" flexWrap="nowrap">
           <Flex direction="column">
-            <Text
-              fontSize="sm"
-              color={titleColor}
-              fontWeight="bold"
-              minWidth="100%"
-              align="center"
-            >
+            <Text fontSize="sm" align="center" color={textColor} fontWeight="bold" pb=".5rem">
               {tank}
             </Text>
           </Flex>

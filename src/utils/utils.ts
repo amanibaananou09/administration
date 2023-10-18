@@ -1,23 +1,6 @@
 import jwt_decode from "jwt-decode";
+import { Decode, User } from "common/model";
 
-export interface User {
-  id?: string;
-  fullName?: string;
-  username?: string;
-  role?: string;
-  token?: string;
-  email?: string;
-  expireTime?: number;
-}
-
-export interface Decode {
-  sid: string;
-  name: string;
-  preferred_username: string;
-  realm_access: any;
-  email: string;
-  exp: number;
-}
 
 export const decodeToken = (token: string | null): User | null => {
   if (!token) {

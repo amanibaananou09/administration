@@ -10,14 +10,8 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { DashboardTableRowProps } from "common/model";
 
-interface DashboardTableRowProps {
-  logo: any ;
-  name: string;
-  members: string[];
-  budget: string;
-  progression: number;
-}
 
 const DashboardTableRow: React.FC<DashboardTableRowProps> = ({
   logo,

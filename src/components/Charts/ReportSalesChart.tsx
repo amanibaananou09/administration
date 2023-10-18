@@ -6,25 +6,8 @@ import { getChartByFuelPumpPeriod, getChartByFuelTankPeriod } from "common/api";
 import { useESSContext } from "store/ESSContext";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import { createReportSalesChartOptions } from "common/chartOptions";
-
-interface ChartData {
-  labels: any;
-  datasets: {
-    name: string;
-    data: number[];
-    backgroundColor: string;
-    borderWidth?: number;
-  }[];
-}
-
-interface Filter {
-  type: string;
-  fuelGrade: string;
-  pump: string;
-  tank: string;
-  period: string;
-  chartType: string;
-}
+import { Filter } from "common/model";
+import { ChartData } from "common/model";
 
 const ReportSalesChart: React.FC = () => {
   const {

@@ -7,9 +7,8 @@ import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 import { tankLevelChartConfig } from "common/chartOptions";
 type TankType = string | number | null;
-interface Tank {
-  idConf: string;
-}
+import { Tank } from "common/model";
+
 
 const TankLevelChart: React.FC = () => {
   const [selectedTank, setSelectedTank] = useState<string | null>(null);

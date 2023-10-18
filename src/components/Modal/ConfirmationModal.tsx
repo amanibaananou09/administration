@@ -10,11 +10,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
-
-interface ConfirmationModalProps {
-  message: string;
-  onConfirm: (station: any) => void;
-}
+import { ConfirmationModalProps } from "common/model";
 
 const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
   const { message, onConfirm } = props;

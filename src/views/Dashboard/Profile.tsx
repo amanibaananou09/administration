@@ -1,15 +1,20 @@
 import React, { FC } from "react";
 import { Avatar, Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
-import { useESSContext } from "store/ESSContext";
 import avatar5 from "../../assets/img/avatars/avatar5.png";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
+import { useAuth } from "../../store/AuthContext";
 
 interface ProfileProps {}
 
 const Profile: FC<ProfileProps> = () => {
-  const { selectedStation } = useESSContext();
+  const { user } = useAuth();
+
+  // Check if user is null, and provide default values or handle the null case appropriately
+  const username = user?.username || " ";
+  const userEmail = user?.email || " ";
+  const userFullName = user?.fullName || " ";
 
   const textColor: string = useColorModeValue("gray.700", "white");
   const bgProfile: string = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
@@ -53,14 +58,14 @@ const Profile: FC<ProfileProps> = () => {
               fontWeight="bold"
               ms={{ sm: "8px", md: "0px" }}
             >
-              {selectedStation.userLogin}
+              {username}
             </Text>
             <Text
               fontSize={{ sm: "sm", md: "md" }}
               color={emailColor}
               fontWeight="semibold"
             >
-              {selectedStation.user.email}
+              {userEmail}
             </Text>
           </Flex>
         </Flex>
@@ -91,25 +96,13 @@ const Profile: FC<ProfileProps> = () => {
                   fontWeight="bold"
                   me="10px"
                 >
-                  first Name:{" "}
+                  Name:{" "}
                 </Text>
                 <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {selectedStation.user.firstName}
+                  {userFullName}
                 </Text>
               </Flex>
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  last Name:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {selectedStation.user.lastName}
-                </Text>
-              </Flex>
+
               <Flex align="center" mb="18px">
                 <Text
                   fontSize="md"
@@ -120,20 +113,7 @@ const Profile: FC<ProfileProps> = () => {
                   Email:{" "}
                 </Text>
                 <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {selectedStation.user.email}
-                </Text>
-              </Flex>
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  Location:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {selectedStation.address}
+                  {userEmail}
                 </Text>
               </Flex>
             </Flex>

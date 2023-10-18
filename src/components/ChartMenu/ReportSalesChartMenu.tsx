@@ -11,20 +11,9 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { getAllPump, getAllTank, getAllFuelGrades } from "common/api";
+import { Filter } from "common/model";
+import { ReportSalesChartMenuProps } from "common/model";
 
-export interface Filter {
-  type: string;
-  fuelGrade: string;
-  pump: string;
-  tank: string;
-  period: string;
-  chartType: string;
-}
-
-export interface ReportSalesChartMenuProps {
-  filter: Filter;
-  onChange: (newFilter: Filter) => void;
-}
 
 const ReportSalesChartMenu = ({
   filter,

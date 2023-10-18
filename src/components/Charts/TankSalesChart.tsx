@@ -6,9 +6,9 @@ import { Flex } from "@chakra-ui/react";
 import { useESSContext } from "store/ESSContext";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 import { tankSalesChartConfig } from "common/chartOptions";
+import { TankSalesChartProps } from "common/model";
 type TankType = string | number | null;
 
-interface TankSalesChartProps {}
 
 const TankSalesChart: React.FC<TankSalesChartProps> = () => {
   const { user } = useAuth();

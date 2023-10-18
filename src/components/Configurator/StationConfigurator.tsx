@@ -5,11 +5,8 @@ import { getStations } from "common/api";
 import { useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import { Station } from "common/model";
 
-interface Station {
-  id: string;
-  name: string;
-}
 
 const StationConfigurator: FC = () => {
   const { user } = useAuth();

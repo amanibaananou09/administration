@@ -8,17 +8,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import { StationRowProps } from "common/model";
 
-interface StationRowProps {
-  id: number;
-  name: string;
-  address: string;
-  controllerId: number;
-  controllerPtsId: string;
-  firmwareVersion: string;
-  onEdit: () => void;
-  onDelete: () => void;
-}
 
 const StationRow: React.FC<StationRowProps> = ({
   id,
@@ -26,7 +17,7 @@ const StationRow: React.FC<StationRowProps> = ({
   address,
   controllerId,
   controllerPtsId,
-  firmwareVersion,
+  firmwareInformations,
   onEdit,
   onDelete,
 }: StationRowProps) => {
@@ -56,7 +47,7 @@ const StationRow: React.FC<StationRowProps> = ({
           <Text color="gray.400" fontSize="sm" fontWeight="semibold">
             Firmware version:{" "}
             <Text as="span" color={nameColor}>
-              {firmwareVersion}
+              {firmwareInformations}
             </Text>
           </Text>
         </Flex>

@@ -14,22 +14,8 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { Formik, Form, Field, FormikHelpers } from "formik";
+import { Station, StationModalProps } from "common/model";
 
-export interface Station {
-  id: number;
-  name: string;
-  address: string;
-  controllerId: number;
-  controllerPtsId: string;
-  firmwareVersion: string;
-}
-
-interface StationModalProps {
-  onSubmit: (values: Station) => void;
-  station: Station | null;
-  onClose: () => void;
-  ref?: React.Ref<any>;
-}
 
 const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,7 +25,9 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
     address: "",
     controllerId: 0,
     controllerPtsId: "",
-    firmwareVersion: "",
+    firmwareInformations: "",
+    controllerPts:"" ,
+    countryId: "",
   });
 
   useImperativeHandle(ref, () => ({
@@ -53,7 +41,9 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
           address: "",
           controllerId: 0,
           controllerPtsId: "",
-          firmwareVersion: "",
+          firmwareInformations: "",
+          controllerPts:"" ,
+          countryId: "",
         });
       }
       onOpen();

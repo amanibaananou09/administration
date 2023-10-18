@@ -20,15 +20,9 @@ import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import TankDeliveryRow from "components/Tables/TankDeliveryRow";
+import { TankDeliveryProps } from "common/model";
 
-interface TankDeliveryProps {
-  tank: string;
-  fuelGradeName: string;
-  productHeight: number;
-  waterHeight: number;
-  temperature: number;
-  productVolume: number;
-}
+
 
 function TankDelivery(): JSX.Element {
   const textColor: string = useColorModeValue("gray.700", "white");

@@ -4,8 +4,8 @@ import { getAllStatVent } from "common/api";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { useColorModeValue } from "@chakra-ui/react";
+import { UserSalesChartProps } from "common/model";
 
-interface UserSalesChartProps {}
 
 const UserSalesChart: React.FC<UserSalesChartProps> = () => {
   const {

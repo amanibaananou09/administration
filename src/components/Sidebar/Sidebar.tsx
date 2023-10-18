@@ -12,7 +12,6 @@ import {
   Icon,
   Stack,
   Text,
-  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -28,28 +27,8 @@ import { SidebarHelp } from "components/Sidebar/SidebarHelp";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
+import { SidebarProps } from "../../common/model";
 
-export interface SidebarProps {
-  logo: any;
-  routes?: any;
-  sidebarVariant?: string;
-  colorMode?: string;
-  hamburgerColor?: string;
-  secondary?: any;
-}
-
-export interface Route {
-  layout: string;
-  path: string;
-  name: string;
-  onlyPublicRoute?: boolean;
-  privateRoute?: boolean;
-  redirect?: boolean;
-  category?: boolean;
-  state?: string;
-  views?: Route[];
-  icon?: string | JSX.Element;
-}
 
 const Sidebar: FC<SidebarProps> = (props) => {
   const { isSignedIn } = useAuth();

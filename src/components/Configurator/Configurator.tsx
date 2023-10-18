@@ -14,14 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { HSeparator } from "components/Separator/Separator";
 import StationConfigurator from "./StationConfigurator";
-
-export interface ConfiguratorProps {
-  secondary: any;
-  isOpen: boolean;
-  onClose: () => void;
-  isChecked: boolean;
-  onSwitch: (isChecked: boolean) => void;
-}
+import { ConfiguratorProps } from "common/model";
 
 const Configurator: FC<ConfiguratorProps> = (props) => {
   const [switched, setSwitched] = useState<boolean>(props.isChecked);

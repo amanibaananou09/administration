@@ -1,12 +1,6 @@
 import React from "react";
 import { Avatar, Flex, Text, useColorModeValue } from "@chakra-ui/react";
-
-interface CustomCardProps {
-  title: string;
-  avatar?: string;
-  description?: string;
-  onClick: (title: string) => void;
-}
+import { CustomCardProps } from "common/model";
 
 function CustomCard({ title, avatar, description, onClick }: CustomCardProps) {
   const textColor = useColorModeValue("gray.700", "white");

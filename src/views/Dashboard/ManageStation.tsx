@@ -21,16 +21,8 @@ import CardHeader from "components/Card/CardHeader";
 import ConfirmationModal from "components/Modal/ConfirmationModal";
 import StationModal from "components/Modal/StationModal";
 import StationRow from "components/Tables/StationRow";
-
-interface Station {
-  id: number;
-  name: string;
-  address: string;
-  controllerId: number;
-  controllerPtsId: string;
-  firmwareVersion: string;
-}
-const ManageStation :React.FC = ()  => {
+import { Station } from "common/model";
+const ManageStation: React.FC = () => {
   const { user } = useAuth();
   const { selectStation, selectedStation } = useESSContext();
   const [stations, setStations] = useState<Station[]>([]);
@@ -131,14 +123,16 @@ const ManageStation :React.FC = ()  => {
             <CardBody>
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
+                  const firmwareInformation = row.controllerPts.firmwareInformations[0];
+
                   return (
                     <StationRow
                       id={row.id}
                       name={row.name}
                       address={row.address}
                       controllerId={row.controllerId}
-                      controllerPtsId={row.controllerPtsId}
-                      firmwareVersion={row.firmwareVersion}
+                      controllerPtsId={row.controllerPts.ptsId}
+                      firmwareInformations={firmwareInformation.dateTime}
                       onEdit={() => openStationModal(row)}
                       onDelete={() => openConfirmationToDeleteModal(row)}
                       key={key}

@@ -1,12 +1,7 @@
 import React from "react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
 import { SettingsIcon } from "components/Icons/Icons";
-
-interface FixedPluginProps {
-  secondary: any;
-  fixed: any;
-  onOpen: React.MouseEventHandler<HTMLButtonElement> | undefined;
-}
+import { FixedPluginProps } from "common/model";
 
 const FixedPlugin: React.FC<FixedPluginProps> = (props) => {
   const navbarIcon = useColorModeValue("gray.500", "gray.200");
