@@ -40,7 +40,6 @@ export default function HeaderLinks(props: any) {
   const { signOut, user } = useAuth();
   const { colorMode } = useColorMode();
   const history = useHistory();
-  console.log("user:", user);
   // Chakra Color Mode
   let navbarIcon =
     fixed && scrolled

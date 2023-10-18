@@ -53,7 +53,6 @@ const Transaction: React.FC<TransactionProps> = () => {
     },
   } = useESSContext();
 
-  console.log("controllerid", controllerId);
 
   const token = user?.token || "";
 
