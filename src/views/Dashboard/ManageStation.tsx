@@ -30,7 +30,7 @@ interface Station {
   controllerPtsId: string;
   firmwareVersion: string;
 }
-const ManageStation = (): ReactElement => {
+const ManageStation :React.FC = ()  => {
   const { user } = useAuth();
   const { selectStation, selectedStation } = useESSContext();
   const [stations, setStations] = useState<Station[]>([]);
