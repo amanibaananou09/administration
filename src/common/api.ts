@@ -1,67 +1,73 @@
+import { User } from "./model";
+
 export const localhostURL = "http://localhost:8083";
 export const webSocketURL = "ws://localhost:8083";
 //get ptsId
 const PtsId = localStorage.getItem("PtsId");
 
 //controller
-export const ALL_CONTROLLERS_ENDPOINT = `${localhostURL}/api/station/allContoller`;
-export const ADD_CONTROLLERS_ENDPOINT = `${localhostURL}/api/station/addController`;
+export const ALL_CONTROLLERS_ENDPOINT = `${localhostURL}/station/AllContoller`;
+export const ADD_CONTROLLERS_ENDPOINT = `${localhostURL}/station/addController`;
 
 //Grades
-export const FUELGRADES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/fuelGrade`;
+export const FUELGRADES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/fuelGrade`;
 
 //Web_socket
-export const CONFIG_WEBSOCKET_ENDPOINT = `${localhostURL}/api/configuration/ws/${PtsId}`;
+export const CONFIG_WEBSOCKET_ENDPOINT = `${localhostURL}/configuration/ws/${PtsId}`;
 
 //History Endpoint
-export const HISTORY_USER_ENDPOINT = `${localhostURL}/api/userHistory`;
+export const HISTORY_USER_ENDPOINT = `${localhostURL}/user/UserHistory`;
 
 //UserHistory
-export const HISTORY_USER_GETID = `${localhostURL}/api/getTranById`;
+export const HISTORY_USER_GETID = `${localhostURL}/user/getTranById`;
 
 //login
-export const LOGIN_ENDPOINT = `${localhostURL}/api/login`;
-//User
-export const CREATE_USER_ENDPOINT = `${localhostURL}/api/createUser`;
-export const LIST_USERS_ENDPOINT = `${localhostURL}/api/listUsers`;
+export const LOGIN_ENDPOINT = `${localhostURL}/login`;
 
 //version
-export const VERSION_CONFIG_ENDPOINT = `${localhostURL}/api/configuration/version`;
+export const VERSION_CONFIG_ENDPOINT = `${localhostURL}/configuration/version`;
 
 //Nozzles
-export const NOZZLES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/nozzle`;
-export const NOZZEL_BY_PUMP_READ_ENDPOINT = `${localhostURL}/api/configuration/nozzleByPump`;
+export const NOZZLES_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/nozzle`;
+export const NOZZEL_BY_PUMP_READ_ENDPOINT = `${localhostURL}/configuration/read/nozzleByPump`;
 
 //Pump
-export const PUMP_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/pump`;
-export const PUMP_ALL_TRANSACTION_READ_CONFIG = `${localhostURL}/api/configuration/transaction`;
-export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/api/UploadPumpTransaction`;
+export const PUMP_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/pump`;
+export const PUMP_TANSACTION_START_END = `${localhostURL}/essstatus/uploadPumpTansaction`;
+export const PUMP_ALL_TRANSACTION_READ_CONFIG = `${localhostURL}/configuration/read/transaction`;
+export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/UploadPumpTransaction`;
 
 //Tank
-export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/tank`;
-export const TANK_CONFIG_READ_DELIVERY_ENDPOINT = `${localhostURL}/api/configuration/delivery`;
-export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/api/essTransaction/TankMeasurements`;
+export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/tank`;
+export const TANK_CONFIG_READ_DELIVERY_ENDPOINT =`${localhostURL}/configuration/read/delivery`;
+export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/essTransaction/TankMeasurements`;
 
 //Probe
-export const PROBE_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/probe`;
+export const PROBE_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/probe`;
 
 //Reader
-export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/reader`;
+export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/configuration/read/reader`;
 
 //Station
-export const STATION_ADD_ENDPOINT = `${localhostURL}/api/station/add`;
-export const STATION_UPDATE_ENDPOINT = `${localhostURL}/api/station/update`;
-export const STATION_DELETE_ENDPOINT = `${localhostURL}/api/station/delete`;
-export const STATION_ALL_ENDPOINT = `${localhostURL}/api/station`;
-export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/api/station/findController`;
+export const STATION_ADD_ENDPOINT = `${localhostURL}/station/addStation`;
+export const STATION_UPDATE_ENDPOINT = `${localhostURL}/station/updateStation`;
+export const STATION_DELETE_ENDPOINT = `${localhostURL}/station/deleteStation`;
+export const STATION_ALL_ENDPOINT = `${localhostURL}/station/AllStation`;
+export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/station/findController`;
+
+//User
+export const CREATE_USER_ENDPOINT = `${localhostURL}/createUser`;
+export const LIST_USERS_ENDPOINT = `${localhostURL}/listUsers`;
+export const REGISTER_USER_ENDPOINT = `${localhostURL}/api/v1/auth/register`;
 
 //chart
-export const CHART_ENDPOINT = `${localhostURL}/api/data/sales`;
-export const CHART_TANK_ENDPOINT = `${localhostURL}/api/data/deliveries`;
-export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/api/data/salesByUser`;
-export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/api/data/allTankByIdC`;
-export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/api/data/tankLevel`;
-export const CHART_TANK_LEVEL_ALL = `${localhostURL}/api/data/tankLevelByPeriod/all`;
+export const CHART_ENDPOINT = `${localhostURL}/stat/Chart`;
+export const CHART_TANK_ENDPOINT = `${localhostURL}/stat/ChartGradeTank`;
+export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/stat/vent`;
+export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/stat/AllTankByIdC`;
+export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/stat/ChartTankLevel`;
+export const CHART_TANK_LEVEL_ALL = `${localhostURL}/stat/ChartTankLevel/all`;
+
 
 export const fetchUrl = async (config: { url: any; method?: any; headers: any; body?: any; withCredentials?: boolean; crossorigin?: boolean; mode?: string; }) => {
   const response = await fetch(config.url, {
@@ -524,14 +530,9 @@ export const getallTransactionPump = async (
   currentPage: number,
   controllerId: any,
   token: string,
-  filterType: string,
-  pumpId: number,
-  fuelGrade: number,
-  startDate: string,
-  endDate: string
 ) => {
   const data = await fetchUrl({
-    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?filterType=${filterType}&pumpId=${pumpId}&fuelGrade=${fuelGrade}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
+    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?page=${currentPage}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -555,8 +556,8 @@ export const getUploadTransactionPump = async (token: string) => {
   return data;
 };
 
-export const createStation = async (station: { name: any; address: any; controllerPtsId: any; countryId: any ; }, user: { token: string; username: any; }) => {
-  const { name, address, controllerPtsId, countryId, } = station;
+export const createStation = async (station: { name: any; address: any; controllerPtsId: any }, user: User) => {
+  const { name, address, controllerPtsId } = station;
 
   const data = await fetchUrl({
     url: STATION_ADD_ENDPOINT,
@@ -569,7 +570,6 @@ export const createStation = async (station: { name: any; address: any; controll
       name,
       address,
       controllerPtsId,
-      countryId,
       userLogin: user.username,
     },
   });
@@ -577,12 +577,12 @@ export const createStation = async (station: { name: any; address: any; controll
   return data;
 };
 
-export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; countryId?: any | null}, user: { token: string; username: any; }) => {
-  const { name, address, controllerPtsId, countryId, } = station;
+export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; }, user: User) => {
+  const { name, address, controllerPtsId } = station;
 
   const data = await fetchUrl({
     url: `${STATION_UPDATE_ENDPOINT}/${station.id}`,
-    method: "PUT",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + user.token,
@@ -591,7 +591,6 @@ export const updateStation = async (station: { id?: any; name?: any; address?: a
       name,
       address,
       controllerPtsId,
-      countryId,
       userLogin: user.username,
     },
   });
@@ -602,7 +601,7 @@ export const updateStation = async (station: { id?: any; name?: any; address?: a
 export const deleteStation = async (id: any, token: string | undefined) => {
   const data = await fetchUrl({
     url: `${STATION_DELETE_ENDPOINT}/${id}`,
-    method: "DELETE",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -615,6 +614,7 @@ export const deleteStation = async (id: any, token: string | undefined) => {
 export const getStationForUser = async (username: any, token: string) => {
   const data = await fetchUrl({
     url: `${STATION_ALL_ENDPOINT}/${username}`,
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -717,14 +717,13 @@ export const getTankLevelSelected = async (selectedTank: string | number | null,
 
 export const getChartByFuelPumpPeriod = async (
   controllerId: any,
-  fuel: string,
+  fuelGrade: string,
   pump: string,
-  periode: string,
+  period: string,
   token: string,
-  chartType: string
 ) => {
   const data = await fetchUrl({
-    url: `${CHART_ENDPOINT}/${controllerId}?chartType=${chartType}&fuel=${fuel}&pump=${pump}&periode=${periode}`,
+    url: `${CHART_ENDPOINT}/${fuelGrade}/${pump}/${period}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -775,7 +774,7 @@ export const getChartTankLevel = async (token: string) => {
 
 export const getAllTankDelivery = async (currentPage: number, controllerId: any, token: string) => {
   const data = await fetchUrl({
-    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${controllerId}?page=${currentPage}`,
+    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

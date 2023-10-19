@@ -30,9 +30,7 @@ const TankDelivery = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
+    selectedStation: { controllerId },
   } = useESSContext();
 
   const token = user?.token || "";
@@ -46,7 +44,7 @@ const TankDelivery = () => {
           token,
         );
         const { content, totalPages } = result;
-        setTankDelivery(content);
+        setTankDelivery(result);
         setTotalPages(totalPages);
       } catch (error) {
         console.error(error);

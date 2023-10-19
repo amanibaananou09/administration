@@ -20,9 +20,7 @@ const ReportSalesChartMenu = ({
   const { user } = useAuth();
 
   const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
+    selectedStation: { controllerId },
   } = useESSContext();
 
   const [config, setConfig] = useState<{

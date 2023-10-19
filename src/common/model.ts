@@ -6,15 +6,14 @@ export interface Station {
   address: string;
   controllerId: number;
   controllerPtsId: string;
-  firmwareInformations: any;
+  version: string;
   controllerPts: any;
-  countryId: any;
 }
 
 export interface Transaction {
   id: string;
   pump: string;
-  fuelGradeName: string;
+  fuelName: string;
   volume: number;
   price: number;
   amount: number;
@@ -75,7 +74,7 @@ export interface ChartData {
 
 export interface TablesTableRowProps {
   pump: string;
-  fuelGrade: string;
+  fuelName: string;
   volume: number;
   price: number;
   amount: number;
@@ -178,7 +177,7 @@ export interface StationRowProps {
   address: string;
   controllerId: number;
   controllerPtsId: string;
-  firmwareInformations: any;
+  firmwareVersion: string;
   onEdit: () => void;
   onDelete: () => void;
 }

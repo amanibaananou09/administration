@@ -13,9 +13,7 @@ const TankSalesChart = () => {
   const token = user?.token || "";
 
   const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
+    selectedStation: { controllerId },
   } = useESSContext();
 
   const [selectedTank, setSelectedTank] = useState<string | null>(null);

@@ -10,9 +10,7 @@ import { useESSContext } from "store/ESSContext";
 
 const ReportSalesChart = () => {
   const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
+    selectedStation: { controllerId },
   } = useESSContext();
 
   const { user } = useAuth();
@@ -55,7 +53,7 @@ const ReportSalesChart = () => {
   }, [filter, controllerId]);
 
   const updateChartData = useCallback(async () => {
-    const { type, fuelGrade, pump, tank, period, chartType } = filter;
+    const { type, fuelGrade, pump, tank, period } = filter;
 
     try {
       let data;
@@ -66,7 +64,6 @@ const ReportSalesChart = () => {
           pump,
           period,
           token,
-          chartType,
         );
       } else if (type === "purchase") {
         data = await getChartByFuelTankPeriod(

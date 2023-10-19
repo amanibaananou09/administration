@@ -29,19 +29,11 @@ const Transactions = () => {
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [filterType, setFilterType] = useState<string>("");
-  const [pumpId, setPumpId] = useState<number>(0);
-  const [fuelGradeName, setFuelGradeName] = useState<number>(0);
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useAuth();
   const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
+    selectedStation: { controllerId },
   } = useESSContext();
-
   const token = user?.token || "";
 
   useEffect(() => {
@@ -51,15 +43,9 @@ const Transactions = () => {
           currentPage,
           controllerId,
           token,
-          filterType,
-          pumpId,
-          fuelGradeName,
-          startDate,
-          endDate,
         );
-        const { content, totalPages } = result; // Assuming the API response structure
 
-        setTransactions(content);
+        setTransactions(result);
         setTotalPages(totalPages);
       } catch (error) {
         console.error(error);
@@ -133,7 +119,7 @@ const Transactions = () => {
                 return (
                   <TransactionTableRow
                     pump={row.pump}
-                    fuelGrade={row.fuelGradeName}
+                    fuelName={row.fuelName}
                     volume={row.volume}
                     price={row.price}
                     amount={row.amount}

@@ -25,6 +25,10 @@ import {
 } from "components/Icons/Icons";
 
 import { useESSContext } from "store/ESSContext";
+import TankLevelChart from "../../components/Charts/TankLevelChart";
+import React from "react";
+import TankSalesChart from "../../components/Charts/TankSalesChart";
+import { useAuth } from "../../store/AuthContext";
 
 export default function Dashboard() {
   const context = useESSContext();
@@ -243,9 +247,9 @@ export default function Dashboard() {
               Tank Level
             </Text>
           </Flex>
-          {/*<Box minH="300px">
+          {<Box minH="300px">
             <TankLevelChart />
-          </Box>*/}
+          </Box>}
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
@@ -259,9 +263,9 @@ export default function Dashboard() {
               Sales
             </Text>
           </Flex>
-          {/*<Box minH="300px">
+          <Box minH="300px">
             <TankSalesChart />
-          </Box>*/}
+          </Box>
         </Card>
       </Grid>
     </Flex>
