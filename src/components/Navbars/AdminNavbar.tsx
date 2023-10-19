@@ -4,14 +4,15 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Flex,
+  Interpolation,
   Link,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { AdminNavbarProps } from "common/model";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
 
-const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
+const AdminNavbar = (props: AdminNavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -84,7 +85,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
 
   return (
     <Flex
-      //position={navbarPosition}
+      css={{ position: navbarPosition } as Interpolation<{}>}
       boxShadow={navbarShadow}
       bg={navbarBg}
       borderColor={navbarBorder}
