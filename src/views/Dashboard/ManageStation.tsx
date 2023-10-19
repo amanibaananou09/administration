@@ -1,6 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useAuth } from "store/AuthContext";
-import { useESSContext } from "store/ESSContext";
 import {
   Button,
   Flex,
@@ -10,19 +7,22 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
-  updateStation,
-  deleteStation,
   createStation,
+  deleteStation,
   getStations,
+  updateStation,
 } from "common/api";
+import { Station } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import ConfirmationModal from "components/Modal/ConfirmationModal";
 import StationModal from "components/Modal/StationModal";
 import StationRow from "components/Tables/StationRow";
-import { Station } from "common/model";
-const ManageStation: React.FC = () => {
+import { useEffect, useRef, useState } from "react";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+const ManageStation = () => {
   const { user } = useAuth();
   const { selectStation, selectedStation } = useESSContext();
   const [stations, setStations] = useState<Station[]>([]);
@@ -30,7 +30,6 @@ const ManageStation: React.FC = () => {
   const confirmationModalRef = useRef<any>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
-  const token = user?.token;
 
   const openStationModal = (station?: Station) => {
     stationModalRef.current.open(station);
@@ -123,7 +122,8 @@ const ManageStation: React.FC = () => {
             <CardBody>
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
-                  const firmwareInformation = row.controllerPts.firmwareInformations[0];
+                  const firmwareInformation =
+                    row.controllerPts.firmwareInformations[0];
 
                   return (
                     <StationRow
@@ -150,9 +150,14 @@ const ManageStation: React.FC = () => {
           </Flex>
         </Card>
       </Flex>
-      <StationModal onSubmit={submitModalHandler} ref={stationModalRef} station={null} onClose={function (): void {
-        throw new Error("Function not implemented.");
-      } } />
+      <StationModal
+        onSubmit={submitModalHandler}
+        ref={stationModalRef}
+        station={null}
+        onClose={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
       <ConfirmationModal
         message="Are you sure you want to delete this station ?"
         onConfirm={deleteStationHandler}

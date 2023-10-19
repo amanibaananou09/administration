@@ -1,9 +1,9 @@
-import React from "react";
 import { Button, useColorModeValue } from "@chakra-ui/react";
-import { SettingsIcon } from "components/Icons/Icons";
 import { FixedPluginProps } from "common/model";
+import { SettingsIcon } from "components/Icons/Icons";
+import React from "react";
 
-const FixedPlugin: React.FC<FixedPluginProps> = (props) => {
+const FixedPlugin = (props: FixedPluginProps) => {
   const navbarIcon = useColorModeValue("gray.500", "gray.200");
   const bgButton = useColorModeValue("white", "gray.600");
 

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Chart from "react-apexcharts";
+import { useColorModeValue } from "@chakra-ui/react";
 import { getAllStatVent } from "common/api";
+import { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { useColorModeValue } from "@chakra-ui/react";
-import { UserSalesChartProps } from "common/model";
 
-
-const UserSalesChart: React.FC<UserSalesChartProps> = () => {
+const UserSalesChart = () => {
   const {
     selectedStation: {
       controllerPts: { id: controllerId },

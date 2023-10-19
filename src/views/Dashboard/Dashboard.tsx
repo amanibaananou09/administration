@@ -14,8 +14,6 @@ import {
 // Custom components
 import Card from "components/Card/Card";
 import ReportSalesChart from "components/Charts/ReportSalesChart";
-//import TankLevelChart from "components/Charts/TankLevelChart";
-//import TankSalesChart from "components/Charts/TankSalesChart";
 import UserSalesChart from "components/Charts/UserSalesChart";
 import IconBox from "components/Icons/IconBox";
 // Custom icons
@@ -25,7 +23,6 @@ import {
   GlobeIcon,
   WalletIcon,
 } from "components/Icons/Icons";
-import React from "react";
 
 import { useESSContext } from "store/ESSContext";
 

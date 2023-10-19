@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Button,
@@ -7,15 +6,12 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import { StationRowProps } from "common/model";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 
-
-const StationRow: React.FC<StationRowProps> = ({
-  id,
+const StationRow = ({
   name,
   address,
-  controllerId,
   controllerPtsId,
   firmwareInformations,
   onEdit,

@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { getallTransactionPump } from "common/api";
+import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { getallTransactionPump } from "common/api";
-export interface TransactionProps {}
-export interface Transaction {
-  id: string;
-  pump: string;
-  fuelGradeName: string;
-  volume: number;
-  price: number;
-  amount: number;
-  totalVolume: number;
-  totalAmount: number;
-  dateTimeStart: string;
-}
 
 import {
+  Button,
+  ButtonGroup,
   Flex,
   Skeleton,
   Stack,
@@ -26,16 +16,15 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-  ButtonGroup,
-  Button,
 } from "@chakra-ui/react";
 
+import { Transaction } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import TransactionTableRow from "components/Tables/TransactionTableRow";
 
-const Transaction: React.FC<TransactionProps> = () => {
+const Transactions = () => {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -52,7 +41,6 @@ const Transaction: React.FC<TransactionProps> = () => {
       controllerPts: { id: controllerId },
     },
   } = useESSContext();
-
 
   const token = user?.token || "";
 
@@ -103,9 +91,10 @@ const Transaction: React.FC<TransactionProps> = () => {
                 >
                   Pump
                 </Th>
-                <Th         borderColor={borderColor}
-                            color="gray.400"
-                            textAlign="center"
+                <Th
+                  borderColor={borderColor}
+                  color="gray.400"
+                  textAlign="center"
                 >
                   Fuel Grade
                 </Th>
@@ -185,4 +174,4 @@ const Transaction: React.FC<TransactionProps> = () => {
   );
 };
 
-export default Transaction;
+export default Transactions;

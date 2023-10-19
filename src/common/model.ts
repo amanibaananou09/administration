@@ -10,6 +10,19 @@ export interface Station {
   controllerPts: any;
   countryId: any;
 }
+
+export interface Transaction {
+  id: string;
+  pump: string;
+  fuelGradeName: string;
+  volume: number;
+  price: number;
+  amount: number;
+  totalVolume: number;
+  totalAmount: number;
+  dateTimeStart: string;
+}
+
 export interface TankDeliveryProps {
   tank: string;
   fuelGradeName: string;
@@ -18,6 +31,7 @@ export interface TankDeliveryProps {
   temperature: number;
   productVolume: number;
 }
+
 export interface Tank {
   idConf: string;
 }
@@ -37,15 +51,18 @@ export interface Filter {
   period: string;
   chartType: string;
 }
+
 export interface ReportSalesChartMenuProps {
   filter: Filter;
   onChange: (newFilter: Filter) => void;
 }
+
 export interface TankChartMenuProps {
   tanks: Array<{ idConf: string | number | null }>;
   selectedTank: string | null;
   onChange: (idConf: string | number | null) => void;
 }
+
 export interface ChartData {
   labels: any;
   datasets: {
@@ -55,6 +72,7 @@ export interface ChartData {
     borderWidth?: number;
   }[];
 }
+
 export interface TablesTableRowProps {
   pump: string;
   fuelGrade: string;
@@ -63,8 +81,7 @@ export interface TablesTableRowProps {
   amount: number;
   dateTimeStart: string;
 }
-export interface TankSalesChartProps {}
-export interface UserSalesChartProps {}
+
 export interface ConfiguratorProps {
   secondary: any;
   isOpen: boolean;
@@ -82,35 +99,41 @@ export interface ConfirmationModalProps {
   message: string;
   onConfirm: (station: any) => void;
 }
+
 export interface StationModalProps {
   onSubmit: (values: Station) => void;
   station: Station | null;
   onClose: () => void;
   ref?: React.Ref<any>;
 }
+
 export interface AdminNavbarProps {
-  logoText ?: string;
+  logoText?: string;
   variant?: undefined;
   children?: undefined;
-  fixed : boolean;
+  fixed: boolean;
   secondary?: boolean;
   brandText?: string;
   onOpen: () => void;
   scrolled?: boolean;
 }
+
 export interface AuthNavbarProps {
   logo?: any;
   logoText?: string;
   secondary?: any;
 }
+
 export interface RenderTrackProps {
   style: React.CSSProperties;
   [key: string]: any;
 }
+
 export interface RenderThumbProps {
   style: React.CSSProperties;
   [key: string]: any;
 }
+
 export interface SidebarProps {
   logo: any;
   routes?: any;
@@ -134,12 +157,13 @@ export interface Route {
 }
 
 export interface DashboardTableRowProps {
-  logo: any ;
+  logo: any;
   name: string;
   members: string[];
   budget: string;
   progression: number;
 }
+
 export interface InvoicesRowProps {
   date: string;
   code: string;
@@ -147,6 +171,7 @@ export interface InvoicesRowProps {
   format: string;
   logo: any;
 }
+
 export interface StationRowProps {
   id: number;
   name: string;
@@ -157,6 +182,7 @@ export interface StationRowProps {
   onEdit: () => void;
   onDelete: () => void;
 }
+
 export interface TankDeliveryRowProps {
   tank: string;
   fuelGradeName: string;
@@ -165,12 +191,14 @@ export interface TankDeliveryRowProps {
   temperature: number;
   productVolume: number;
 }
+
 export interface TransactionRowProps {
   name: string;
   date: string;
   logo: React.ElementType;
   price: string;
 }
+
 export interface AuthContextProps {
   token: string | null;
   isSignedIn: boolean;
@@ -182,6 +210,7 @@ export interface AuthContextProps {
 export interface AuthContextProviderProps {
   children: ReactNode;
 }
+
 export interface User {
   id?: string;
   fullName?: string;

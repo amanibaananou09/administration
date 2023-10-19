@@ -1,9 +1,6 @@
-import {
-  Stack,
-} from "@chakra-ui/react";
-import React from "react";
+import { Stack } from "@chakra-ui/react";
 
-export function SidebarHelp(props: any) {
+const SidebarHelp = (props: any) => {
   // Pass the computed styles into the `__css` prop
   return (
     <Stack
@@ -14,7 +11,8 @@ export function SidebarHelp(props: any) {
       mb="22px"
       mt="auto"
       mx="20px"
-    >
-    </Stack>
+    ></Stack>
   );
-}
+};
+
+export default SidebarHelp;

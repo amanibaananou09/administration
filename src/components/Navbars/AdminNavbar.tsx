@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   Box,
   Breadcrumb,
@@ -8,9 +7,9 @@ import {
   Link,
   useColorModeValue,
 } from "@chakra-ui/react";
-import AdminNavbarLinks from "./AdminNavbarLinks";
 import { AdminNavbarProps } from "common/model";
-
+import React, { useEffect, useState } from "react";
+import AdminNavbarLinks from "./AdminNavbarLinks";
 
 const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
   const [scrolled, setScrolled] = useState(false);
@@ -21,7 +20,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
     return () => {
       window.removeEventListener("scroll", changeNavbar);
     };
-  }, []);
+  });
 
   const {
     variant,
@@ -85,9 +84,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
 
   return (
     <Flex
-      position="fixed" // Set the position to fixed
-      width="100%" // Take up the full width
-      bgPosition={navbarPosition}
+      //position={navbarPosition}
       boxShadow={navbarShadow}
       bg={navbarBg}
       borderColor={navbarBorder}
@@ -97,7 +94,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
       borderStyle="solid"
       transitionDelay="0s, 0s, 0s, 0s"
       transitionDuration=" 0.25s, 0.25s, 0.25s, 0s"
-      transitionProperty="box-shadow, background-color, filter, border"
+      transition-property="box-shadow, background-color, filter, border"
       transitionTimingFunction="linear, linear, linear, linear"
       alignItems={{ xl: "center" }}
       borderRadius="16px"
@@ -108,6 +105,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
       mx="auto"
       mt={secondaryMargin}
       pb="8px"
+      left={""}
       right={"30px"}
       px={{
         sm: paddingX,
@@ -169,8 +167,6 @@ const AdminNavbar: React.FC<AdminNavbarProps> = (props) => {
             secondary={props.secondary}
             fixed={props.fixed}
             scrolled={scrolled}
-            variant={undefined}
-            children={undefined}
           />
         </Box>
       </Flex>

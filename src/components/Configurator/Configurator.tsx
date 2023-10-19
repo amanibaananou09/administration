@@ -1,4 +1,3 @@
-import React, { FC, useState, useRef } from "react";
 import {
   Button,
   Drawer,
@@ -12,11 +11,12 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { HSeparator } from "components/Separator/Separator";
-import StationConfigurator from "./StationConfigurator";
 import { ConfiguratorProps } from "common/model";
+import { HSeparator } from "components/Separator/Separator";
+import { useRef, useState } from "react";
+import StationConfigurator from "./StationConfigurator";
 
-const Configurator: FC<ConfiguratorProps> = (props) => {
+const Configurator = (props: ConfiguratorProps) => {
   const [switched, setSwitched] = useState<boolean>(props.isChecked);
 
   const { colorMode, toggleColorMode } = useColorMode();

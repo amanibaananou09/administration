@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, FC } from "react";
+import React, { useCallback, useContext, useState } from "react";
 
 export interface ESSContextProps {
   selectedStation: any;
@@ -16,9 +16,7 @@ interface ESSContextProviderProps {
   children: React.ReactNode;
 }
 
-export const ESSContextProvider: FC<ESSContextProviderProps> = ({
-  children,
-}) => {
+export const ESSContextProvider = ({ children }: ESSContextProviderProps) => {
   const storedValue: string | null = localStorage.getItem("ess");
   const selected: string | null = storedValue ? JSON.parse(storedValue) : null;
 

@@ -12,15 +12,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { getStations, login } from "common/api";
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 
-interface SignInProps {}
-
-const SignIn: FC<SignInProps> = () => {
+const SignIn = () => {
   const bgForm: string = useColorModeValue("white", "navy.800");
   const textColor: string = useColorModeValue("gray.700", "white");
 

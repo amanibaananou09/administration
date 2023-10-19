@@ -1,7 +1,6 @@
-import React from "react";
 import { Flex } from "@chakra-ui/react";
 
-export function HSeparator(props: any) {
+export const HSeparator = (props: any) => {
   const { variant, children, ...rest } = props;
   return (
     <Flex
@@ -11,9 +10,9 @@ export function HSeparator(props: any) {
       {...rest}
     ></Flex>
   );
-}
+};
 
-export function VSeparator(props: any) {
+export const VSeparator = (props: any) => {
   const { variant, children, ...rest } = props;
   return (
     <Flex
@@ -22,4 +21,4 @@ export function VSeparator(props: any) {
       {...rest}
     ></Flex>
   );
-}
+};

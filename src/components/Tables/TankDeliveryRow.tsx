@@ -1,15 +1,7 @@
-import React from "react";
-import {
-  Flex,
-  Td,
-  Text,
-  Tr,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
 import { TankDeliveryRowProps } from "common/model";
 
-
-const TankDeliveryRow: React.FC<TankDeliveryRowProps> = ({
+const TankDeliveryRow = ({
   tank,
   fuelGradeName,
   productHeight,
@@ -18,7 +10,6 @@ const TankDeliveryRow: React.FC<TankDeliveryRowProps> = ({
   productVolume,
 }: TankDeliveryRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
-  const titleColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   return (
@@ -26,43 +17,72 @@ const TankDeliveryRow: React.FC<TankDeliveryRowProps> = ({
       <Td minWidth={{ base: "50px" }} pl="45px" borderColor={borderColor}>
         <Flex py=".8rem" minWidth="100%" flexWrap="nowrap">
           <Flex direction="column">
-            <Text fontSize="sm" align="center" color={textColor} fontWeight="bold" pb=".5rem">
+            <Text
+              fontSize="sm"
+              align="center"
+              color={textColor}
+              fontWeight="bold"
+              pb=".5rem"
+            >
               {tank}
             </Text>
           </Flex>
         </Flex>
       </Td>
-      <Td borderColor={borderColor}
-      >
-        <Text fontSize="sm" align="center" color={textColor} fontWeight="bold" pb=".5rem">
+      <Td borderColor={borderColor}>
+        <Text
+          fontSize="sm"
+          align="center"
+          color={textColor}
+          fontWeight="bold"
+          pb=".5rem"
+        >
           {productVolume}
         </Text>
       </Td>
-      <Td borderColor={borderColor}
-      >
+      <Td borderColor={borderColor}>
         <Flex direction="column">
-          <Text fontSize="sm" align="center" color={textColor} fontWeight="bold">
+          <Text
+            fontSize="sm"
+            align="center"
+            color={textColor}
+            fontWeight="bold"
+          >
             {fuelGradeName}
           </Text>
         </Flex>
       </Td>
-      <Td borderColor={borderColor}
-      >
+      <Td borderColor={borderColor}>
         <Flex direction="column">
-          <Text fontSize="sm" align="center" color={textColor} fontWeight="bold">
+          <Text
+            fontSize="sm"
+            align="center"
+            color={textColor}
+            fontWeight="bold"
+          >
             {productHeight}
           </Text>
         </Flex>
       </Td>
-      <Td borderColor={borderColor}
-      >
-        <Text fontSize="sm" align="center" color={textColor} fontWeight="bold" pb=".5rem">
+      <Td borderColor={borderColor}>
+        <Text
+          fontSize="sm"
+          align="center"
+          color={textColor}
+          fontWeight="bold"
+          pb=".5rem"
+        >
           {waterHeight}
         </Text>
       </Td>
-      <Td borderColor={borderColor}
-      >
-        <Text fontSize="sm" align="center" color={textColor} fontWeight="bold" pb=".5rem">
+      <Td borderColor={borderColor}>
+        <Text
+          fontSize="sm"
+          align="center"
+          color={textColor}
+          fontWeight="bold"
+          pb=".5rem"
+        >
           {temperature}
         </Text>
       </Td>

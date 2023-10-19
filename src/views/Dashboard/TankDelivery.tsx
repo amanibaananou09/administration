@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useAuth } from "store/AuthContext";
-import { getAllTankDelivery } from "common/api";
-import { useESSContext } from "store/ESSContext";
 import {
+  Button,
+  ButtonGroup,
   Flex,
   Skeleton,
   Stack,
@@ -13,18 +11,18 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-  ButtonGroup,
-  Button,
 } from "@chakra-ui/react";
+import { getAllTankDelivery } from "common/api";
+import { TankDeliveryProps } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import TankDeliveryRow from "components/Tables/TankDeliveryRow";
-import { TankDeliveryProps } from "common/model";
+import { useEffect, useState } from "react";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 
-
-
-function TankDelivery(): JSX.Element {
+const TankDelivery = () => {
   const textColor: string = useColorModeValue("gray.700", "white");
   const borderColor: string = useColorModeValue("gray.200", "gray.600");
   const [tankdelivery, setTankDelivery] = useState<TankDeliveryProps[]>([]);
@@ -167,6 +165,6 @@ function TankDelivery(): JSX.Element {
       </ButtonGroup>
     </Flex>
   );
-}
+};
 
 export default TankDelivery;

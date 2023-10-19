@@ -1,6 +1,9 @@
-import React, { FC, forwardRef, useImperativeHandle, useState } from 'react';
 import {
   Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -8,16 +11,12 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
 } from "@chakra-ui/react";
-import { Formik, Form, Field, FormikHelpers } from "formik";
 import { Station, StationModalProps } from "common/model";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 
-
-const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
+const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [station, setStation] = useState<Station>({
     id: 0,
@@ -26,7 +25,7 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
     controllerId: 0,
     controllerPtsId: "",
     firmwareInformations: "",
-    controllerPts:"" ,
+    controllerPts: "",
     countryId: "",
   });
 
@@ -36,13 +35,13 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
         setStation(station);
       } else {
         setStation({
-          id: 0 ,
+          id: 0,
           name: "",
           address: "",
           controllerId: 0,
           controllerPtsId: "",
           firmwareInformations: "",
-          controllerPts:"" ,
+          controllerPts: "",
           countryId: "",
         });
       }
@@ -53,7 +52,6 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
     },
   }));
 
-
   const isNotNull = (value: string) => {
     let error: string | undefined;
     if (!value) {
@@ -62,7 +60,10 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
     return error;
   };
 
-  const submitHandler = (values: Station, { setSubmitting }: FormikHelpers<Station> ) => {
+  const submitHandler = (
+    values: Station,
+    { setSubmitting }: FormikHelpers<Station>,
+  ) => {
     onSubmit(values);
     setSubmitting(false);
   };
@@ -83,7 +84,21 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
             {(props) => (
               <Form>
                 <Field name="name" validate={isNotNull}>
-                  {({ field  , form }: { field: { name: string; value: string; onChange: (e: React.ChangeEvent<any>) => void; onBlur: () => void }; form: { errors: { name: string }; touched: { name: boolean } } }) => (
+                  {({
+                    field,
+                    form,
+                  }: {
+                    field: {
+                      name: string;
+                      value: string;
+                      onChange: (e: React.ChangeEvent<any>) => void;
+                      onBlur: () => void;
+                    };
+                    form: {
+                      errors: { name: string };
+                      touched: { name: boolean };
+                    };
+                  }) => (
                     <FormControl
                       isInvalid={!!form.errors.name && !!form.touched.name}
                       mb="24px"
@@ -97,9 +112,25 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
                   )}
                 </Field>
                 <Field name="address" validate={isNotNull}>
-                  {({ field, form }: { field: { name: string; value: string; onChange: (e: React.ChangeEvent<any>) => void; onBlur: () => void }; form: { errors: { address: string }; touched: { address: boolean } } }) => (
+                  {({
+                    field,
+                    form,
+                  }: {
+                    field: {
+                      name: string;
+                      value: string;
+                      onChange: (e: React.ChangeEvent<any>) => void;
+                      onBlur: () => void;
+                    };
+                    form: {
+                      errors: { address: string };
+                      touched: { address: boolean };
+                    };
+                  }) => (
                     <FormControl
-                      isInvalid={!!form.errors.address && !!form.touched.address}
+                      isInvalid={
+                        !!form.errors.address && !!form.touched.address
+                      }
                       mb="24px"
                     >
                       <FormLabel htmlFor="address">Address</FormLabel>
@@ -111,11 +142,25 @@ const StationModal: FC<StationModalProps> = forwardRef(({ onSubmit }, ref) => {
                   )}
                 </Field>
                 <Field name="controllerPtsId" validate={isNotNull}>
-                  {({ field, form}: { field: { name: string; value: string; onChange: (e: React.ChangeEvent<any>) => void; onBlur: () => void }; form: { errors: { controllerPtsId: string }; touched: { controllerPtsId: boolean } } }) => (
+                  {({
+                    field,
+                    form,
+                  }: {
+                    field: {
+                      name: string;
+                      value: string;
+                      onChange: (e: React.ChangeEvent<any>) => void;
+                      onBlur: () => void;
+                    };
+                    form: {
+                      errors: { controllerPtsId: string };
+                      touched: { controllerPtsId: boolean };
+                    };
+                  }) => (
                     <FormControl
                       isInvalid={
-                       !! form.errors.controllerPtsId &&
-                       !! form.touched.controllerPtsId
+                        !!form.errors.controllerPtsId &&
+                        !!form.touched.controllerPtsId
                       }
                       mb="40px"
                     >

@@ -1,19 +1,18 @@
 // import
-import React from "react";
 import Dashboard from "views/Dashboard/Dashboard";
 import Profile from "views/Dashboard/Profile";
 import SignIn from "views/Pages/SignIn";
 
 import {
+  DocumentIcon,
   HomeIcon,
   PersonIcon,
-  DocumentIcon,
   SupportIcon,
   WalletIcon,
 } from "components/Icons/Icons";
 import ManageStation from "views/Dashboard/ManageStation";
-import Transaction from "views/Dashboard/Transaction";
 import TankDelivery from "views/Dashboard/TankDelivery";
+import Transactions from "views/Dashboard/Transactions";
 
 var dashRoutes = [
   {
@@ -36,7 +35,7 @@ var dashRoutes = [
     path: "/transaction",
     name: "Transactions",
     icon: <WalletIcon color="inherit" />,
-    component: Transaction,
+    component: Transactions,
     layout: "/admin",
     privateRoute: true,
   },

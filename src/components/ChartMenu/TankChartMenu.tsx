@@ -1,15 +1,13 @@
-import React, { FC } from "react";
-import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
-import "@szhsin/react-menu/dist/index.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { Menu, MenuButton, MenuItem } from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
 import { TankChartMenuProps } from "common/model";
 
-
-const TankChartMenu: FC<TankChartMenuProps> = ({
+const TankChartMenu = ({
   tanks,
   selectedTank,
   onChange,
-}) => {
+}: TankChartMenuProps) => {
   return (
     <Menu
       menuButton={

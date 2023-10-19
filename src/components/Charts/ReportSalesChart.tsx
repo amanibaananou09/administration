@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
-import ReactApexChart from "react-apexcharts";
 import { Flex, Text } from "@chakra-ui/react";
-import { useAuth } from "store/AuthContext";
 import { getChartByFuelPumpPeriod, getChartByFuelTankPeriod } from "common/api";
-import { useESSContext } from "store/ESSContext";
-import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import { createReportSalesChartOptions } from "common/chartOptions";
-import { Filter } from "common/model";
-import { ChartData } from "common/model";
+import { ChartData, Filter } from "common/model";
+import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
+import { useCallback, useEffect, useState } from "react";
+import ReactApexChart from "react-apexcharts";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 
-const ReportSalesChart: React.FC = () => {
+const ReportSalesChart = () => {
   const {
     selectedStation: {
       controllerPts: { id: controllerId },

@@ -1,6 +1,5 @@
-import jwt_decode from "jwt-decode";
 import { Decode, User } from "common/model";
-
+import jwt_decode from "jwt-decode";
 
 export const decodeToken = (token: string | null): User | null => {
   if (!token) {
@@ -27,4 +26,15 @@ export const decodeToken = (token: string | null): User | null => {
   };
 
   return user;
+};
+
+export const formatDate = (dateTimeStart: string): string => {
+  return new Date(dateTimeStart).toLocaleString("fr-FR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 };

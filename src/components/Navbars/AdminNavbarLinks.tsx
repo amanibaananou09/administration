@@ -19,14 +19,14 @@ import avatar3 from "../../assets/img/avatars/avatar3.png";
 // Custom Icons
 import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
 // Custom Components
-import { ItemContent } from "components/Menu/ItemContent";
+
+import ItemContent from "components/Menu/ItemContent";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
-import React from "react";
+import { useHistory } from "react-router-dom";
 import routes from "router/routes";
 import { useAuth } from "store/AuthContext";
-import { useHistory } from "react-router-dom";
 
-export default function HeaderLinks(props: any) {
+const HeaderLinks = (props: any) => {
   const {
     variant,
     children,
@@ -184,4 +184,6 @@ export default function HeaderLinks(props: any) {
       </Menu>
     </Flex>
   );
-}
+};
+
+export default HeaderLinks;

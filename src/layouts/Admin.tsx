@@ -1,11 +1,11 @@
 // Chakra imports
 import {
-  Portal,
-  useDisclosure,
-  Stack,
   Box,
-  useColorMode,
+  Portal,
+  Stack,
   Text,
+  useColorMode,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer";
@@ -14,22 +14,22 @@ import { ReactComponent as Logo } from "assets/svg/fuel-station-logo.svg";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Sidebar from "components/Sidebar/Sidebar";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import routes from "router/routes";
 // Custom Chakra theme
 import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 // Custom components
+import bgAdmin from "assets/img/admin-background.png";
 import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
 import PanelContent from "components/Layout/PanelContent";
-import bgAdmin from "assets/img/admin-background.png";
+import MainRoute from "router/Route/MainRoute";
 import PrivateRoute from "router/Route/PrivateRoute";
 import { useAuth } from "store/AuthContext";
-import MainRoute from "router/Route/MainRoute";
 import { useESSContext } from "../store/ESSContext";
 
-export default function Dashboard(props: { [x: string]: any }) {
+const Dashboard = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
 
   const { selectedStation } = useESSContext();
@@ -207,4 +207,6 @@ export default function Dashboard(props: { [x: string]: any }) {
       </MainPanel>
     </Box>
   );
-}
+};
+
+export default Dashboard;

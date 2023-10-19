@@ -1,45 +1,17 @@
-import React from "react";
-import {
-  Flex,
-  Link,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { AuthNavbarProps } from "common/model";
 
-
-const AuthNavbar: React.FC<AuthNavbarProps> = (props) => {
-  const { logo, logoText, secondary, ...rest } = props;
-
+const AuthNavbar = (props: AuthNavbarProps) => {
   // Chakra color mode
-  let mainText = "white";
-  let navbarIcon = "white";
   let navbarBg = "none";
   let navbarBorder = "none";
   let navbarShadow = "initial";
   let navbarFilter = "initial";
   let navbarBackdrop = "none";
-  let navbarPosition = "absolute";
-  let hamburgerColor = {
-    base: useColorModeValue("gray.700", "white"),
-    md: "white",
-  };
-  let brand = (
-    <Link
-      href={`${process.env.PUBLIC_URL}/#/`}
-      target="_blank"
-      display="flex"
-      lineHeight="100%"
-      fontWeight="bold"
-      justifyContent="center"
-      alignItems="center"
-      color={mainText}
-    ></Link>
-  );
-  hamburgerColor = { base: "white", md: "" };
 
   return (
     <Flex
-      bgPosition={navbarPosition}
+      position="absolute"
       top="16px"
       left="50%"
       transform="translate(-50%, 0px)"

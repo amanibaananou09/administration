@@ -1,18 +1,16 @@
 // Chakra imports
-import { Box, ChakraProvider, Portal } from "@chakra-ui/react";
+import { Box, Portal } from "@chakra-ui/react";
 import Footer from "../components/Footer/Footer";
 // Core components
+import { useEffect, useRef } from "react";
+import { Route, Switch } from "react-router-dom";
 import AuthNavbar from "../components/Navbars/AuthNavbar";
 import MainRoute from "../router/Route/MainRoute";
 import PrivateRoute from "../router/Route/PrivateRoute";
-import React, { useEffect, useRef } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "../router/routes";
 import { useAuth } from "../store/AuthContext";
 
-interface PagesProps {}
-
-const Pages: React.FC<PagesProps> = (props) => {
+const Pages = () => {
   const { isSignedIn } = useAuth();
   const wrapper = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
@@ -47,7 +45,7 @@ const Pages: React.FC<PagesProps> = (props) => {
     return activeRoute;
   };
 
-  const getActiveNavbar = (routes: any[]):any => {
+  const getActiveNavbar = (routes: any[]): any => {
     let activeNavbar = false;
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].category) {

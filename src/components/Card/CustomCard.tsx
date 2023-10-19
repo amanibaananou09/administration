@@ -1,8 +1,12 @@
-import React from "react";
 import { Avatar, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import { CustomCardProps } from "common/model";
 
-function CustomCard({ title, avatar, description, onClick }: CustomCardProps) {
+const CustomCard = ({
+  title,
+  avatar,
+  description,
+  onClick,
+}: CustomCardProps) => {
   const textColor = useColorModeValue("gray.700", "white");
   const emailColor = useColorModeValue("gray.400", "gray.300");
   const bgProfile = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
@@ -62,6 +66,6 @@ function CustomCard({ title, avatar, description, onClick }: CustomCardProps) {
       </Flex>
     </Flex>
   );
-}
+};
 
 export default CustomCard;

@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Menu,
-  MenuItem,
   MenuButton,
-  SubMenu,
   MenuDivider,
+  MenuItem,
+  SubMenu,
 } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { getAllFuelGrades, getAllPump, getAllTank } from "common/api";
+import { ReportSalesChartMenuProps } from "common/model";
+import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { getAllPump, getAllTank, getAllFuelGrades } from "common/api";
-import { Filter } from "common/model";
-import { ReportSalesChartMenuProps } from "common/model";
-
 
 const ReportSalesChartMenu = ({
   filter,

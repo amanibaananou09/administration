@@ -63,8 +63,7 @@
     "tsc:w": "tsc -w"
   },
   "optionalDependencies": {
-    "@babel/core": "7.14.0",
-    "typescript": "4.2.4"
+    "@babel/core": "7.14.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx-source": "^7.14.5",
@@ -83,7 +82,7 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "next": "^13.5.4",
     "prettier": "2.2.1",
-    "typescript": "^4.2.4"
+    "typescript": "~4.7.0"
   },
   "browserslist": {
     "production": [

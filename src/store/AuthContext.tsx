@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState, FC, ReactNode } from "react";
-import { useCallback } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { useESSContext } from "./ESSContext";
+import { AuthContextProps, AuthContextProviderProps, User } from "common/model";
 import { decodeToken } from "utils/utils";
-import { AuthContextProps, AuthContextProviderProps,User } from "common/model";
-
+import { useESSContext } from "./ESSContext";
 
 export const AuthContext = React.createContext<AuthContextProps>({
   token: null,
@@ -16,9 +14,7 @@ export const AuthContext = React.createContext<AuthContextProps>({
 
 let firstLoad = true;
 
-export const AuthContextProvider: FC<AuthContextProviderProps> = ({
-  children,
-}) => {
+export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(
     decodeToken(localStorage.getItem("auth")) || null,
   );

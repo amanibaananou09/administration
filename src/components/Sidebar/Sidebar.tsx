@@ -1,4 +1,3 @@
-import React, { Fragment, FC } from "react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -23,15 +22,13 @@ import {
   renderView,
 } from "components/Scrollbar/Scrollbar";
 import { HSeparator } from "components/Separator/Separator";
-import { SidebarHelp } from "components/Sidebar/SidebarHelp";
+import SidebarHelp from "components/Sidebar/SidebarHelp";
+import React, { FC, Fragment } from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
-import { useAuth } from "store/AuthContext";
 import { SidebarProps } from "../../common/model";
 
-
 const Sidebar: FC<SidebarProps> = (props) => {
-  const { isSignedIn } = useAuth();
   let location = useLocation();
   const [state, setState] = React.useState<{ [key: string]: boolean }>({});
   const mainPanel = React.useRef<HTMLDivElement>(null);
@@ -57,7 +54,6 @@ const Sidebar: FC<SidebarProps> = (props) => {
         st[prop.state!] = !state[prop.state!];
         return (
           <Fragment key={key}>
-            {" "}
             {/* Add a key prop here */}
             <Text
               color={activeColor}

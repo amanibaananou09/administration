@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
-import ReactApexChart from "react-apexcharts";
 import { Flex } from "@chakra-ui/react";
-import { useAuth } from "store/AuthContext";
 import { getAllTankByIdc, getTankLevelSelected } from "common/api";
-import { useESSContext } from "store/ESSContext";
-import TankChartMenu from "components/ChartMenu/TankChartMenu";
 import { tankLevelChartConfig } from "common/chartOptions";
-type TankType = string | number | null;
 import { Tank } from "common/model";
+import TankChartMenu from "components/ChartMenu/TankChartMenu";
+import { useEffect, useState } from "react";
+import ReactApexChart from "react-apexcharts";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+type TankType = string | number | null;
 
-
-const TankLevelChart: React.FC = () => {
+const TankLevelChart = () => {
   const [selectedTank, setSelectedTank] = useState<string | null>(null);
   const [tanks, setTanks] = useState<Tank[]>([]);
   const [chartOptions, setChartOptions] = useState(

@@ -1,14 +1,11 @@
-import React, { FC } from "react";
 import { Avatar, Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
-import avatar5 from "../../assets/img/avatars/avatar5.png";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
+import avatar5 from "../../assets/img/avatars/avatar5.png";
 import { useAuth } from "../../store/AuthContext";
 
-interface ProfileProps {}
-
-const Profile: FC<ProfileProps> = () => {
+const Profile = () => {
   const { user } = useAuth();
 
   // Check if user is null, and provide default values or handle the null case appropriately
