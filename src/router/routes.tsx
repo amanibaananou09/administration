@@ -67,7 +67,7 @@ var dashRoutes = [
         icon: <DocumentIcon color="inherit" />,
         component: SignIn,
         layout: "/auth",
-        onlyPublicRoute: true,
+        publicRoute: true,
       },
     ],
   },
