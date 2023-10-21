@@ -26,9 +26,11 @@ import SidebarHelp from "components/Sidebar/SidebarHelp";
 import React, { FC, Fragment } from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "store/AuthContext";
 import { SidebarProps } from "../../common/model";
 
 const Sidebar: FC<SidebarProps> = (props) => {
+  const { isSignedIn } = useAuth();
   let location = useLocation();
   const [state, setState] = React.useState<{ [key: string]: boolean }>({});
   const mainPanel = React.useRef<HTMLDivElement>(null);
@@ -46,6 +48,10 @@ const Sidebar: FC<SidebarProps> = (props) => {
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
 
     return routes.map((prop: any, key: number) => {
+      if (isSignedIn && prop.publicRoute) {
+        return null;
+      }
+
       if (prop.redirect) {
         return null;
       }

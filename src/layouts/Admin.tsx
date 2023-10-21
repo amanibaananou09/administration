@@ -95,7 +95,7 @@ const Dashboard = (props: { [x: string]: any }) => {
         return getRoutes(prop.views);
       }
 
-      if (isSignedIn && prop.onlyPublicRoute) {
+      if (isSignedIn && prop.publicRoute) {
         return null;
       }
 

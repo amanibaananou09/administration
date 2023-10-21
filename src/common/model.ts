@@ -146,7 +146,7 @@ export interface Route {
   layout: string;
   path: string;
   name: string;
-  onlyPublicRoute?: boolean;
+  publicRoute?: boolean;
   privateRoute?: boolean;
   redirect?: boolean;
   category?: boolean;
