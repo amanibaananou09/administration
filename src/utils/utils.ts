@@ -8,16 +8,24 @@ export const decodeToken = (token: string | null): User | null => {
 
   const {
     sid,
-    name,
+    family_name,
+    given_name,
     preferred_username,
     realm_access,
     email,
     exp,
+    Address,
+    Phone,
+    name,
   } = jwt_decode<Decode>(token);
 
   const user: User = {
     id: sid,
-    fullName: name,
+    Address: Address,
+    Phone: Phone,
+    name :name,
+    given_name: given_name,
+    family_name: family_name,
     username: preferred_username,
     role: realm_access.roles[0],
     token: token || "",

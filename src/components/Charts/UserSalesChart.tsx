@@ -7,7 +7,9 @@ import { useESSContext } from "store/ESSContext";
 
 const UserSalesChart = () => {
   const {
-    selectedStation: { controllerId },
+    selectedStation: {
+      controllerPts: { id: controllerId },
+    },
   } = useESSContext();
 
   const { user } = useAuth();

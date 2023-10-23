@@ -13,7 +13,7 @@ const StationRow = ({
   name,
   address,
   controllerPtsId,
-   firmwareVersion,
+  firmwareInformations,
   onEdit,
   onDelete,
 }: StationRowProps) => {
@@ -43,7 +43,7 @@ const StationRow = ({
           <Text color="gray.400" fontSize="sm" fontWeight="semibold">
             Firmware version:{" "}
             <Text as="span" color={nameColor}>
-              {firmwareVersion}
+              {firmwareInformations}
             </Text>
           </Text>
         </Flex>

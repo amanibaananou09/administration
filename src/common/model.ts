@@ -6,14 +6,15 @@ export interface Station {
   address: string;
   controllerId: number;
   controllerPtsId: string;
-  version: string;
+  firmwareInformations: any;
   controllerPts: any;
+  countryId: any;
 }
 
 export interface Transaction {
   id: string;
   pump: string;
-  fuelName: string;
+  fuelGradeName: string;
   volume: number;
   price: number;
   amount: number;
@@ -74,7 +75,7 @@ export interface ChartData {
 
 export interface TablesTableRowProps {
   pump: string;
-  fuelName: string;
+  fuelGrade: string;
   volume: number;
   price: number;
   amount: number;
@@ -177,7 +178,7 @@ export interface StationRowProps {
   address: string;
   controllerId: number;
   controllerPtsId: string;
-  firmwareVersion: string;
+  firmwareInformations: any;
   onEdit: () => void;
   onDelete: () => void;
 }
@@ -212,12 +213,16 @@ export interface AuthContextProviderProps {
 
 export interface User {
   id?: string;
-  fullName?: string;
+  given_name?: string;
+  family_name?: string;
+  email?: string;
   username?: string;
   role?: string;
   token?: string;
-  email?: string;
   expireTime?: number;
+  Address: string,
+  Phone: string,
+  name :string,
 }
 
 export interface Decode {
@@ -227,4 +232,8 @@ export interface Decode {
   realm_access: any;
   email: string;
   exp: number;
+  given_name: string;
+  family_name: string;
+  Address: string,
+  Phone: string,
 }

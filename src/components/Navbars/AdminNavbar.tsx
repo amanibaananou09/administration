@@ -93,6 +93,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
       backdropFilter={navbarBackdrop}
       borderWidth="1.5px"
       borderStyle="solid"
+      boxSizing= "border-box"
       transitionDelay="0s, 0s, 0s, 0s"
       transitionDuration=" 0.25s, 0.25s, 0.25s, 0s"
       transition-property="box-shadow, background-color, filter, border"

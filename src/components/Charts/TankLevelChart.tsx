@@ -20,7 +20,9 @@ const TankLevelChart = () => {
   const { user } = useAuth();
   const token = user?.token;
   const {
-    selectedStation: { controllerId },
+    selectedStation: {
+      controllerPts: { id: controllerId },
+    },
   } = useESSContext();
 
   useEffect(() => {

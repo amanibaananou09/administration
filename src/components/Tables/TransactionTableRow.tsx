@@ -4,7 +4,7 @@ import { formatDate } from "utils/utils";
 
 const TablesTableRow = ({
   pump,
-  fuelName,
+  fuelGrade,
   volume,
   price,
   amount,
@@ -31,7 +31,7 @@ const TablesTableRow = ({
       </Td>
       <Td borderColor={borderColor}>
         <Text fontSize="sm" align="center" color={textColor} fontWeight="bold">
-          {fuelName}
+          {fuelGrade}
         </Text>
       </Td>
       <Td borderColor={borderColor}>

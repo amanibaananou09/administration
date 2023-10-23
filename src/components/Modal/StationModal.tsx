@@ -24,8 +24,9 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
     address: "",
     controllerId: 0,
     controllerPtsId: "",
-    version: "",
+    firmwareInformations: "",
     controllerPts: "",
+    countryId: "",
   });
 
   useImperativeHandle(ref, () => ({
@@ -39,8 +40,9 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
           address: "",
           controllerId: 0,
           controllerPtsId: "",
-          version: "",
+          firmwareInformations: "",
           controllerPts: "",
+          countryId: "",
         });
       }
       onOpen();
