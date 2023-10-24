@@ -10,6 +10,7 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
+  CircularProgress,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card";
@@ -23,13 +24,12 @@ import {
   GlobeIcon,
   WalletIcon,
 } from "components/Icons/Icons";
-
+import React, { useState, useEffect } from "react";
 import { useESSContext } from "store/ESSContext";
 import TankLevelChart from "../../components/Charts/TankLevelChart";
-import React from "react";
 import TankSalesChart from "../../components/Charts/TankSalesChart";
 import { useAuth } from "../../store/AuthContext";
-
+import TankMeasurement from "../../stat/TankMeasurement";
 export default function Dashboard() {
   const context = useESSContext();
 
@@ -45,151 +45,8 @@ export default function Dashboard() {
 
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  Today's Money
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $53,897
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="green.400" fontWeight="bold">
-                +3.48%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  Today's Users
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $3,200
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="green.400" fontWeight="bold">
-                +5.2%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  New Clients
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    +2,503
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="red.500" fontWeight="bold">
-                -2.82%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  Total Sales
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $173,000
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="green.400" fontWeight="bold">
-                +8.12%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
+      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20">
+        <TankMeasurement  />
       </SimpleGrid>
       <Grid
         templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
@@ -247,9 +104,11 @@ export default function Dashboard() {
               Tank Level
             </Text>
           </Flex>
-          {<Box minH="300px">
-            <TankLevelChart />
-          </Box>}
+          {
+            <Box minH="300px">
+              <TankLevelChart />
+            </Box>
+          }
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
