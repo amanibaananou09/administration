@@ -6,9 +6,12 @@ import {
   Stat,
   useColorModeValue,
   Circle,
+  Image,
+  Tooltip, // Import du composant Tooltip
 } from "@chakra-ui/react";
 import Card from "components/Card/Card";
-import RaportTankMeasurement from "../components/Modal/RaportTankMeasurement";
+import LastTankDelivery from "stat/LastTankDelivery"; 
+import tank from "../assets/img/tank.png";
 
 function TankMeasurement() {
   const [tankLevel, setTankLevel] = useState<number>(60);
@@ -35,6 +38,16 @@ function TankMeasurement() {
     setBoxColor(getColorForLevel(tankLevel));
   }, [tankLevel]);
 
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
+  const handleOpenTooltip = () => {
+    setIsTooltipOpen(true);
+  };
+
+  const handleCloseTooltip = () => {
+    setIsTooltipOpen(false);
+  };
+
   return (
     <Card minH="125px">
       <Flex>
@@ -53,6 +66,19 @@ function TankMeasurement() {
             Gasoil
           </Text>
         </Stat>
+        <Tooltip
+          label={<LastTankDelivery />}
+          isOpen={isTooltipOpen}
+          onClose={handleCloseTooltip}
+          hasArrow
+        >
+          <Image
+            src={tank}
+            height="75%"
+            width="15%"
+            onMouseEnter={handleOpenTooltip} 
+          />
+        </Tooltip>
       </Flex>
       <Flex direction="row">
         <Flex flexDirection="column" justify="center" w="200%" height="150px">

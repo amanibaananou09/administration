@@ -3,6 +3,7 @@ import {
   Box,
   Flex,
   Grid,
+  SimpleGrid,
   Text,
   useColorMode,
   useColorModeValue,
@@ -13,6 +14,7 @@ import UserSalesChart from "../../components/Charts/UserSalesChart"; // Update t
 import TankLevelChart from "../../components/Charts/TankLevelChart"; // Update the path to the Chart component
 import TankSalesChart from "../../components/Charts/TankSalesChart"; // Update the path to the Chart component
 import { useAuth } from "../../store/AuthContext";
+import TankMeasurement from "../../stat/TankMeasurement";
 import { useESSContext } from "../../store/ESSContext";
 import { Grades } from "common/model";
 import { getAllSalesByGrades } from "common/api";
@@ -32,9 +34,12 @@ export default function Dashboard() {
     return <div>No Station</div>;
   }
 
-  return(
-
+  
+  return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
+      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20">
+        <TankMeasurement />
+      </SimpleGrid>
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
         <SalesGrades />
       </Flex>
