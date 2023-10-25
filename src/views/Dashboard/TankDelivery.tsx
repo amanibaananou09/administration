@@ -46,7 +46,7 @@ const TankDelivery = () => {
           token,
         );
         const { content, totalPages } = result;
-        setTankDelivery(result);
+        setTankDelivery(content);
         setTotalPages(totalPages);
       } catch (error) {
         console.error(error);

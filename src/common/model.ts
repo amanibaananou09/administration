@@ -237,3 +237,10 @@ export interface Decode {
   Address: string,
   Phone: string,
 }
+
+
+export interface Grades{
+  fuelGrade: string;
+  totalSalesParAmount: number;
+  totalSalesParVolume:number;
+}
