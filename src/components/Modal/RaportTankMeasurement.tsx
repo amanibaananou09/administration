@@ -18,8 +18,6 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import FilterPump from "filter/FilterPump";
-import FilterFuelGrade from "filter/FilterFuelGrade";
 import { Transaction } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -74,39 +72,9 @@ const Transactions = () => {
     setCurrentPage(newPage);
   };
 
-  const [filters, setFilters] = useState<Record<string, string>>({
-    pump: "",
-    fuelGrade: "",
-    pompiste: "",
-    voiture: "",
-    minVolume: "100",
-  });
-
-  const handleFilterChange = (filterName: string, value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterName]: value,
-    }));
-  };
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-      <Box padding="10px">
-        <Box
-          p="4"
-          borderWidth="1px"
-          borderRadius="2xl"
-          borderColor="gray.300"
-          bg="white"
-        >
-          <HStack spacing={4}>
-            <FilterPump onFilterChange={handleFilterChange} />
-            <FilterFuelGrade onFilterChange={handleFilterChange} />
-            <FilterPump onFilterChange={handleFilterChange} />
-            <FilterPump onFilterChange={handleFilterChange} />
-          </HStack>
-        </Box>
-      </Box>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
         <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
