@@ -13,22 +13,16 @@ import ReportSalesChart from "../../components/Charts/ReportSalesChart"; // Upda
 import UserSalesChart from "../../components/Charts/UserSalesChart"; // Update the path to the Chart component
 import TankLevelChart from "../../components/Charts/TankLevelChart"; // Update the path to the Chart component
 import TankSalesChart from "../../components/Charts/TankSalesChart"; // Update the path to the Chart component
-import { useAuth } from "../../store/AuthContext";
 import TankMeasurement from "../../stat/TankMeasurement";
 import { useESSContext } from "../../store/ESSContext";
-import { Grades } from "common/model";
-import { getAllSalesByGrades } from "common/api";
+
 import SalesGrades from "./SalesGrades";
 
 export default function Dashboard() {
   const context = useESSContext();
   const { colorMode } = useColorMode();
   const textColor = useColorModeValue("gray.700", "white");
-  const [grades, setGrades] = useState<Grades[]>([]);
-  const { user } = useAuth();
-  const [fuelGrade, setFuelGrade] = useState<string>("");
-  const [totalSalesParAmount, setTotalSalesParAmount] = useState<number>(0);
-  const [totalSalesParVolume, setTotalSalesParVolume] = useState<number>(0);
+
 
   if (!context.selectedStation) {
     return <div>No Station</div>;

@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import { SimpleGrid, Flex, Stat, StatLabel, Text } from "@chakra-ui/react";
+import { Grades } from "../../common/model";
+import { useAuth } from "../../store/AuthContext";
+import { getAllSalesByGrades } from "common/api";
+import { useESSContext } from "../../store/ESSContext";
 
+const [grades, setGrades] = useState<Grades[]>([]);
+const { user } = useAuth();
+const [fuelGrade, setFuelGrade] = useState<string>("");
+const [totalSalesParAmount, setTotalSalesParAmount] = useState<number>(0);
+const [totalSalesParVolume, setTotalSalesParVolume] = useState<number>(0);
 
+const {
+  selectedStation: {
+    controllerPts: { id: controllerId },
+  },
+} = useESSContext();
+
+const token = user?.token || "";
 function SalesGrades() {
   return (
     <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
