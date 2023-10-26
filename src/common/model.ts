@@ -244,3 +244,15 @@ export interface Grades{
   totalSalesParAmount: number;
   totalSalesParVolume:number;
 }
+
+export interface TankStat {
+  tank : number;
+  fuelGrade: string;
+  percentage: number;
+  productVolume: number;
+  waterVolume: number;
+  temperature:number;
+}
+export interface TankMeasurementRowProps {
+  row: TankStat;
+}
