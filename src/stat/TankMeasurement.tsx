@@ -6,7 +6,7 @@ import { useESSContext } from "store/ESSContext";
 import { useAuth } from "store/AuthContext";
 import { getStatTankMeasurment } from "common/api";
 import { TankStat } from "common/model";
-import TankMeasurementRow from "components/Tables/TankMeasurementRow";
+import {TankMeasurementRow } from "components/Tables/TankMeasurementRow";
 function TankMeasurement() {
   const [tankStat, setTankStat] = useState<TankStat[]>([]);
   const { user } = useAuth();
@@ -31,7 +31,7 @@ function TankMeasurement() {
 
 
   return (
-    <Flex >
+    <Flex>
     {tankStat.map((row, key) => (
         <TankMeasurementRow row={row} />
     ))}

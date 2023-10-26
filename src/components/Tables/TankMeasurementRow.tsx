@@ -1,4 +1,4 @@
-import React,{ useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Flex,
   Box,
@@ -12,10 +12,9 @@ import {
 import Card from "components/Card/Card";
 import LastTankDelivery from "stat/LastTankDelivery";
 import tank from "../../assets/img/tank.png";
-import { TankStat, TankMeasurementRowProps } from "common/model";
+import { TankMeasurementRowProps } from "common/model";
 
-
-const TankMeasurementRows = ({ row }:TankMeasurementRowProps) =>  {
+export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
   const textColor = useColorModeValue("gray.700", "white");
   const boxHeight = `${row.percentage}%`;
   const circleColor = row.percentage <= 20 ? "red" : "green";
@@ -38,7 +37,7 @@ const TankMeasurementRows = ({ row }:TankMeasurementRowProps) =>  {
     setBoxColor(getColorForLevel(tankLevel));
   }, [tankLevel]);
   return (
-    <Card minH="125px">
+    <Card minH="125px" m="4">
       <Flex>
         <Circle size="25px" bg={circleColor} color="white">
           {row.tank}
@@ -59,29 +58,36 @@ const TankMeasurementRows = ({ row }:TankMeasurementRowProps) =>  {
           <Image src={tank} height="75%" width="15%" />
         </Tooltip>
       </Flex>
+
       <Flex direction="row">
-        <Flex flexDirection="column" justify="center" w="200%" height="150px">
-          <Flex textAlign="left">
+        <Flex flexDirection="column" justify="center" w="450%" height="150px">
+          <Flex >
             <Text fontSize="m" fontWeight="semibold" color={textColor}>
-              <Text as="span" color="gray.600" fontWeight="normal" p="2">
+              <Text as="span" color="gray.600" fontWeight="normal" p="1">
                 Product volume:
               </Text>
-              {row.productVolume} L
+              {row.productVolume}L
             </Text>
           </Flex>
-          <Text fontSize="m" fontWeight="semibold" color={textColor}>
-            <Text as="span" color="gray.600" fontWeight="normal" p="2">
-              Water volume:
+          <Flex >
+            <Text fontSize="m" fontWeight="semibold" color={textColor}>
+              <Text as="span" color="gray.600" fontWeight="normal" p="0">
+                Water volume:
+              </Text>
+              {row.waterVolume}L
             </Text>
-            {row.waterVolume} L
-          </Text>
-          <Text fontSize="m" fontWeight="semibold" color={textColor}>
-            <Text as="span" color="gray.600" fontWeight="normal" p="2">
-              Temperature:
+          </Flex>
+          <Flex>
+            <Text fontSize="m" fontWeight="semibold" color={textColor} >
+              <Text as="span" color="gray.600" fontWeight="normal" p="1">
+                Temperature:
+              </Text>
+              {row.temperature}°C
             </Text>
-            {row.temperature}°C
-          </Text>
+          </Flex>
         </Flex>
+
+        <Box mr={10}></Box>
         <Box
           width="100px"
           height="100%"
