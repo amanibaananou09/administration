@@ -1,3 +1,5 @@
+import { User } from "./model";
+
 export const localhostURL = "http://localhost:8083";
 export const webSocketURL = "ws://localhost:8083";
 //get ptsId
@@ -62,6 +64,9 @@ export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/api/data/salesByUser`;
 export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/api/data/allTankByIdC`;
 export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/api/data/tankLevel`;
 export const CHART_TANK_LEVEL_ALL = `${localhostURL}/api/data/tankLevelByPeriod/all`;
+
+//statistique
+export const ALL_SALES_BY_GRADES = `${localhostURL}/api/stat/sales/fuelName`;
 
 export const fetchUrl = async (config: { url: any; method?: any; headers: any; body?: any; withCredentials?: boolean; crossorigin?: boolean; mode?: string; }) => {
   const response = await fetch(config.url, {
@@ -555,7 +560,7 @@ export const getUploadTransactionPump = async (token: string) => {
   return data;
 };
 
-export const createStation = async (station: { name: any; address: any; controllerPtsId: any; countryId: any ; }, user: { token: string; username: any; }) => {
+export const createStation = async (station: { name: any; address: any; controllerPtsId: any; countryId: any ; }, user: User ) => {
   const { name, address, controllerPtsId, countryId, } = station;
 
   const data = await fetchUrl({
@@ -577,7 +582,7 @@ export const createStation = async (station: { name: any; address: any; controll
   return data;
 };
 
-export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; countryId?: any | null}, user: { token: string; username: any; }) => {
+export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; countryId?: any | null}, user: User ) => {
   const { name, address, controllerPtsId, countryId, } = station;
 
   const data = await fetchUrl({
@@ -642,13 +647,16 @@ export const findControllerByStation = async (stationName: any, token: string) =
 };
 
 export const createUserStation = async (
-  firstname: any,
-  lastname: any,
-  username: any,
-  password: any,
-  email: any,
-  role: any,
-  token: string
+  firstname: string,
+  lastname: string,
+  username: string,
+  password: string,
+  email: string,
+  role: string,
+  token: string,
+  Address: string,
+  Phone: string,
+  name :string,
 ) => {
   const data = await fetchUrl({
     url: CREATE_USER_ENDPOINT,
@@ -776,6 +784,21 @@ export const getChartTankLevel = async (token: string) => {
 export const getAllTankDelivery = async (currentPage: number, controllerId: any, token: string) => {
   const data = await fetchUrl({
     url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${controllerId}?page=${currentPage}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
+
+export const getAllSalesByGrades = async (fuelGrade: string, totalSalesParAmount: number, totalSalesParVolume: number , controllerId: any, token: string) => {
+  const data = await fetchUrl({
+    url: `${ALL_SALES_BY_GRADES}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

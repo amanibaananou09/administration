@@ -213,12 +213,16 @@ export interface AuthContextProviderProps {
 
 export interface User {
   id?: string;
-  fullName?: string;
+  given_name?: string;
+  family_name?: string;
+  email?: string;
   username?: string;
   role?: string;
   token?: string;
-  email?: string;
   expireTime?: number;
+  Address: string,
+  Phone: string,
+  name :string,
 }
 
 export interface Decode {
@@ -228,4 +232,15 @@ export interface Decode {
   realm_access: any;
   email: string;
   exp: number;
+  given_name: string;
+  family_name: string;
+  Address: string,
+  Phone: string,
+}
+
+
+export interface Grades{
+  fuelGrade: string;
+  totalSalesParAmount: number;
+  totalSalesParVolume:number;
 }

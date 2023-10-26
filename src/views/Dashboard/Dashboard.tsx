@@ -1,197 +1,55 @@
-// Chakra imports
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
   Grid,
   SimpleGrid,
-  Stat,
-  StatLabel,
-  StatNumber,
   Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Custom components
-import Card from "components/Card/Card";
-import ReportSalesChart from "components/Charts/ReportSalesChart";
-import UserSalesChart from "components/Charts/UserSalesChart";
-import IconBox from "components/Icons/IconBox";
-// Custom icons
-import {
-  CartIcon,
-  DocumentIcon,
-  GlobeIcon,
-  WalletIcon,
-} from "components/Icons/Icons";
-
-import { useESSContext } from "store/ESSContext";
+import Card from "../../components/Card/Card"; // Update the path to the Card component
+import ReportSalesChart from "../../components/Charts/ReportSalesChart"; // Update the path to the Chart component
+import UserSalesChart from "../../components/Charts/UserSalesChart"; // Update the path to the Chart component
+import TankLevelChart from "../../components/Charts/TankLevelChart"; // Update the path to the Chart component
+import TankSalesChart from "../../components/Charts/TankSalesChart"; // Update the path to the Chart component
+import { useAuth } from "../../store/AuthContext";
+import TankMeasurement from "../../stat/TankMeasurement";
+import { useESSContext } from "../../store/ESSContext";
+import { Grades } from "common/model";
+import { getAllSalesByGrades } from "common/api";
+import SalesGrades from "./SalesGrades";
 
 export default function Dashboard() {
   const context = useESSContext();
-
-  // Chakra Color Mode
-  const iconBlue = useColorModeValue("blue.500", "blue.500");
-  const iconBoxInside = useColorModeValue("white", "white");
-  const textColor = useColorModeValue("gray.700", "white");
   const { colorMode } = useColorMode();
+  const textColor = useColorModeValue("gray.700", "white");
+  const [grades, setGrades] = useState<Grades[]>([]);
+  const { user } = useAuth();
+  const [fuelGrade, setFuelGrade] = useState<string>("");
+  const [totalSalesParAmount, setTotalSalesParAmount] = useState<number>(0);
+  const [totalSalesParVolume, setTotalSalesParVolume] = useState<number>(0);
 
   if (!context.selectedStation) {
     return <div>No Station</div>;
   }
 
+  
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  Today's Money
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $53,897
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="green.400" fontWeight="bold">
-                +3.48%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  Today's Users
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $3,200
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="green.400" fontWeight="bold">
-                +5.2%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  New Clients
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    +2,503
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="red.500" fontWeight="bold">
-                -2.82%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH="125px">
-          <Flex direction="column">
-            <Flex
-              flexDirection="row"
-              align="center"
-              justify="center"
-              w="100%"
-              mb="25px"
-            >
-              <Stat me="auto">
-                <StatLabel
-                  fontSize="xs"
-                  color="gray.400"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                >
-                  Total Sales
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $173,000
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox borderRadius="50%" h={"45px"} w={"45px"} bg={iconBlue}>
-                <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color="gray.400" fontSize="sm">
-              <Text as="span" color="green.400" fontWeight="bold">
-                +8.12%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
+      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20">
+        <TankMeasurement />
       </SimpleGrid>
+      <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
+        <SalesGrades />
+      </Flex>
+
       <Grid
         templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
         gap="20px"
       >
+
         <Card
           bg={
             colorMode === "dark"
@@ -201,6 +59,7 @@ export default function Dashboard() {
           p="0px"
           maxW={{ sm: "320px", md: "100%" }}
         >
+
           <Flex
             direction="column"
             mb="-32px"
@@ -243,9 +102,9 @@ export default function Dashboard() {
               Tank Level
             </Text>
           </Flex>
-          {/*<Box minH="300px">
+          <Box minH="300px">
             <TankLevelChart />
-          </Box>*/}
+          </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
@@ -259,9 +118,9 @@ export default function Dashboard() {
               Sales
             </Text>
           </Flex>
-          {/*<Box minH="300px">
+          <Box minH="300px">
             <TankSalesChart />
-          </Box>*/}
+          </Box>
         </Card>
       </Grid>
     </Flex>

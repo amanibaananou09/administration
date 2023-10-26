@@ -8,7 +8,7 @@ import {
   HomeIcon,
   PersonIcon,
   SupportIcon,
-  WalletIcon,
+  WalletIcon
 } from "components/Icons/Icons";
 import ManageStation from "views/Dashboard/ManageStation";
 import TankDelivery from "views/Dashboard/TankDelivery";
@@ -21,7 +21,7 @@ var dashRoutes = [
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
     layout: "/admin",
-    privateRoute: true,
+    privateRoute: true
   },
   {
     path: "/manage-station",
@@ -29,7 +29,7 @@ var dashRoutes = [
     icon: <SupportIcon color="inherit" />,
     component: ManageStation,
     layout: "/admin",
-    privateRoute: true,
+    privateRoute: true
   },
   {
     path: "/transaction",
@@ -37,7 +37,7 @@ var dashRoutes = [
     icon: <WalletIcon color="inherit" />,
     component: Transactions,
     layout: "/admin",
-    privateRoute: true,
+    privateRoute: true
   },
   {
     path: "/tank-delivery",
@@ -45,31 +45,24 @@ var dashRoutes = [
     icon: <WalletIcon color="inherit" />,
     component: TankDelivery,
     layout: "/admin",
-    privateRoute: true,
+    privateRoute: true
   },
   {
-    name: "ACCOUNT PAGES",
-    category: "account",
-    state: "pageCollapse",
-    views: [
-      {
-        path: "/profile",
-        name: "Profile",
-        icon: <PersonIcon color="inherit" />,
-        secondaryNavbar: true,
-        component: Profile,
-        layout: "/admin",
-        privateRoute: true,
-      },
-      {
-        path: "/signin",
-        name: "Sign In",
-        icon: <DocumentIcon color="inherit" />,
-        component: SignIn,
-        layout: "/auth",
-        publicRoute: true,
-      },
-    ],
+    path: "/profile",
+    name: "Profile",
+    icon: <PersonIcon color="inherit" />,
+    secondaryNavbar: true,
+    component: Profile,
+    layout: "/admin",
+    privateRoute: true
   },
+  {
+    path: "/signin",
+    name: "Sign In",
+    icon: <DocumentIcon color="inherit" />,
+    component: SignIn,
+    layout: "/auth",
+    publicRoute: true
+  }
 ];
 export default dashRoutes;

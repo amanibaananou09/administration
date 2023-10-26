@@ -66,7 +66,7 @@ const HeaderLinks = (props: any) => {
                 color={navbarIcon}
                 me="16px"
               >
-                {user && user.fullName ? user.fullName : "Unknown Name"}
+                {user && user.name ? user.name : "Unknown Name"}
               </Text>
             </Box>
             <Box>

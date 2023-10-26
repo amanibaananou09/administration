@@ -11,7 +11,12 @@ const Profile = () => {
   // Check if user is null, and provide default values or handle the null case appropriately
   const username = user?.username || " ";
   const userEmail = user?.email || " ";
-  const userFullName = user?.fullName || " ";
+  const userFirstName = user?.given_name || " ";
+  const userLastName = user?.family_name || " ";
+  const userName = user?.name || " ";
+  const userAddress = user?.Address || " ";
+  const userPhone = user?.Phone || " ";
+console.log("user", user)
 
   const textColor: string = useColorModeValue("gray.700", "white");
   const bgProfile: string = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
@@ -86,6 +91,7 @@ const Profile = () => {
           </CardHeader>
           <CardBody px="5px">
             <Flex direction="column">
+
               <Flex align="center" mb="18px">
                 <Text
                   fontSize="md"
@@ -96,10 +102,64 @@ const Profile = () => {
                   Name:{" "}
                 </Text>
                 <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {userFullName}
+                  {userName}
                 </Text>
               </Flex>
 
+              <Flex align="center" mb="18px">
+                <Text
+                  fontSize="md"
+                  color={textColor}
+                  fontWeight="bold"
+                  me="10px"
+                >
+                  FirstName:{" "}
+                </Text>
+                <Text fontSize="md" color="gray.400" fontWeight="400">
+                  {userFirstName}
+                </Text>
+              </Flex>
+              <Flex align="center" mb="18px">
+                <Text
+                  fontSize="md"
+                  color={textColor}
+                  fontWeight="bold"
+                  me="10px"
+                >
+                  LastName:{" "}
+                </Text>
+                <Text fontSize="md" color="gray.400" fontWeight="400">
+                  {userLastName}
+                </Text>
+              </Flex>
+
+              <Flex align="center" mb="18px">
+                <Text
+                  fontSize="md"
+                  color={textColor}
+                  fontWeight="bold"
+                  me="10px"
+                >
+                  Address:{" "}
+                </Text>
+                <Text fontSize="md" color="gray.400" fontWeight="400">
+                  {userAddress}
+                </Text>
+              </Flex>
+
+              <Flex align="center" mb="18px">
+                <Text
+                  fontSize="md"
+                  color={textColor}
+                  fontWeight="bold"
+                  me="10px"
+                >
+                  Phone:{" "}
+                </Text>
+                <Text fontSize="md" color="gray.400" fontWeight="400">
+                  {userPhone}
+                </Text>
+              </Flex>
               <Flex align="center" mb="18px">
                 <Text
                   fontSize="md"
@@ -113,6 +173,7 @@ const Profile = () => {
                   {userEmail}
                 </Text>
               </Flex>
+
             </Flex>
           </CardBody>
         </Card>

@@ -30,6 +30,7 @@ const ManageStation = () => {
   const confirmationModalRef = useRef<any>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
+  const token = user?.token || "";
 
   const openStationModal = (station?: Station) => {
     stationModalRef.current.open(station);
@@ -57,12 +58,11 @@ const ManageStation = () => {
 
   const submitModalHandler = async (station: Station) => {
     try {
-      if (typeof user !== "string") {
-        console.error("User is not a string");
+      if (!user) {
+        console.error("User is not authenticated.");
         return;
       }
-      const token = user;
-      if (station.id) {
+     if (station.id) {
         await updateStation(station, user);
 
         const newStations = stations.map((oldStation) => {
