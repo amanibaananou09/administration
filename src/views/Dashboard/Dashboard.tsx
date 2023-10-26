@@ -17,6 +17,7 @@ import TankMeasurement from "../../stat/TankMeasurement";
 import { useESSContext } from "../../store/ESSContext";
 
 import SalesGrades from "./SalesGrades";
+import PumpSales from "stat/PumpSales";
 
 export default function Dashboard() {
   const context = useESSContext();
@@ -34,6 +35,9 @@ export default function Dashboard() {
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20">
         <TankMeasurement />
       </SimpleGrid>
+      <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
+        <PumpSales />
+      </Flex>
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
         <SalesGrades />
       </Flex>

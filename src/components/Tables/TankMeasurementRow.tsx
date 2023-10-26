@@ -15,7 +15,7 @@ import tank from "../../assets/img/tank.png";
 import { TankStat, TankMeasurementRowProps } from "common/model";
 
 
-const TankMeasurementRows = ({ row }:TankMeasurementRowProps) =>  {
+export const TankMeasurementRow = ({ row }:TankMeasurementRowProps) =>  {
   const textColor = useColorModeValue("gray.700", "white");
   const boxHeight = `${row.percentage}%`;
   const circleColor = row.percentage <= 20 ? "red" : "green";

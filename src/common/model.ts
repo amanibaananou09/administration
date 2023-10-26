@@ -256,3 +256,9 @@ export interface TankStat {
 export interface TankMeasurementRowProps {
   row: TankStat;
 }
+
+export interface SalesPump{
+  pumpId: number;
+  allSales: number;
+  pumpSales:number;
+}

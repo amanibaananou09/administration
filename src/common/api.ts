@@ -68,6 +68,8 @@ export const CHART_TANK_LEVEL_ALL = `${localhostURL}/api/data/tankLevelByPeriod/
 
 //statistique
 export const ALL_SALES_BY_GRADES = `${localhostURL}/api/stat/sales/fuelName`;
+export const ALL_SALES_BY_PUMP = `${localhostURL}/api/stat/sales`;
+
 
 export const fetchUrl = async (config: { url: any; method?: any; headers: any; body?: any; withCredentials?: boolean; crossorigin?: boolean; mode?: string; }) => {
   const response = await fetch(config.url, {
@@ -800,6 +802,21 @@ export const getAllTankDelivery = async (currentPage: number, controllerId: any,
 export const getAllSalesByGrades = async (fuelGrade: string, totalSalesParAmount: number, totalSalesParVolume: number , controllerId: any, token: string) => {
   const data = await fetchUrl({
     url: `${ALL_SALES_BY_GRADES}/${controllerId}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
+
+export const getAllSalesByPump = async (pumpId: number, allSales: number, pumpSales: number , controllerId: any, token: string) => {
+  const data = await fetchUrl({
+    url: `${ALL_SALES_BY_PUMP}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
