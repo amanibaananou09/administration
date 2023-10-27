@@ -44,7 +44,7 @@ export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/
 export const TANK_CONFIG_READ_DELIVERY_ENDPOINT = `${localhostURL}/api/configuration/delivery`;
 export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/api/essTransaction/TankMeasurements`;
 export const TANK_MEASURMENT_STAT = `${localhostURL}/api/stat/tank`;
-
+export const TANK_LAST_DELIVERY = `${localhostURL}/api/stat/lastDelivery`;
 //Probe
 export const PROBE_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/probe`;
 
@@ -832,6 +832,21 @@ export const getAllSalesByPump = async (pumpId: number, allSales: number, pumpSa
 export const getStatTankMeasurment  = async ( controllerId: number, token: string) => {
   const data = await fetchUrl({
     url: `${TANK_MEASURMENT_STAT}/${controllerId}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
+
+export const getLastTankdelivery  = async ( controllerId: number, token: string, tank:number) => {
+  const data = await fetchUrl({
+    url: `${TANK_LAST_DELIVERY}/${controllerId}/${tank}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

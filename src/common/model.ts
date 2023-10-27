@@ -262,3 +262,21 @@ export interface SalesPump{
   allSales: number;
   pumpSales:number;
 }
+
+export interface TankDelivery{
+  dateTime: string;
+  tank: number;
+  fullGrade: string;
+  productHeight: number;
+  waterHeight: number;
+  temperature: number;
+  productVolume: number;
+  waterVolume: number;
+  pumpsDispensedVolume: number;
+  productTCVolume: number;
+  productDensity:number;
+  productMass:number;
+}
+export interface LastTankRowProps {
+  tank: number;
+}

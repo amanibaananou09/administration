@@ -15,7 +15,7 @@ import TankLevelChart from "../../components/Charts/TankLevelChart"; // Update t
 import TankSalesChart from "../../components/Charts/TankSalesChart"; // Update the path to the Chart component
 import TankMeasurement from "../../stat/TankMeasurement";
 import { useESSContext } from "../../store/ESSContext";
-
+import FilterPeriod from "filter/FilterPeriod";
 import SalesGrades from "./SalesGrades";
 import PumpSales from "stat/PumpSales";
 
@@ -23,18 +23,31 @@ export default function Dashboard() {
   const context = useESSContext();
   const { colorMode } = useColorMode();
   const textColor = useColorModeValue("gray.700", "white");
+  const [selectedFilter, setSelectedFilter] = useState<string>("Today");
+  const [fromDate, setFromDate] = useState<string>("");
+  const [toDate, setToDate] = useState<string>("");
 
+  const handleSearchFilters = (fromDate: string, toDate: string) => {
+    setFromDate(fromDate);
+    setToDate(toDate);
+  };
+  const handleFilterChange = (filter: string) => {
+    setSelectedFilter(filter);
+  };
 
   if (!context.selectedStation) {
     return <div>No Station</div>;
   }
-
-  
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20">
+      <SimpleGrid columns={{ sm: 1, md: 2, xl: 2 }} spacing="24px" mb="20">
         <TankMeasurement />
       </SimpleGrid>
+      <FilterPeriod
+        selectedFilter={selectedFilter}
+        onFilterChange={handleFilterChange}
+        onSearch={handleSearchFilters}
+      />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
         <PumpSales />
       </Flex>
@@ -47,7 +60,6 @@ export default function Dashboard() {
         templateRows={{ lg: "repeat(2, auto)" }}
         gap="20px"
       >
-
         <Card
           bg={
             colorMode === "dark"
@@ -57,7 +69,6 @@ export default function Dashboard() {
           p="0px"
           maxW={{ sm: "320px", md: "100%" }}
         >
-
           <Flex
             direction="column"
             mb="-32px"

@@ -54,7 +54,7 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
             {row.fuelGrade}
           </Text>
         </Stat>
-        <Tooltip label={<LastTankDelivery />} hasArrow>
+        <Tooltip label={<LastTankDelivery tank={row.tank} />} hasArrow>
           <Image src={tank} height="75%" width="15%" />
         </Tooltip>
       </Flex>
@@ -63,7 +63,7 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
         <Flex flexDirection="column" justify="center" w="450%" height="150px">
           <Flex >
             <Text fontSize="m" fontWeight="semibold" color={textColor}>
-              <Text as="span" color="gray.600" fontWeight="normal" p="1">
+              <Text as="span" color="gray.600" fontWeight="normal" p="0">
                 Product volume:
               </Text>
               {row.productVolume} L
