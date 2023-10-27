@@ -1,10 +1,11 @@
-import { Circle, Flex, SimpleGrid, Stat, StatLabel, Text } from "@chakra-ui/react";
+import { Circle, Flex, Image, SimpleGrid, Stat, StatLabel, Text } from "@chakra-ui/react";
 import Card from "../components/Card/Card";
 import React, { useEffect, useState } from "react";
 import { SalesPump } from "../common/model";
 import { useAuth } from "../store/AuthContext";
 import { useESSContext } from "../store/ESSContext";
 import { getAllSalesByPump } from "../common/api";
+import pump from "../assets/img/pump.png";
 
 function PumpSales() {
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
@@ -15,8 +16,8 @@ function PumpSales() {
   const {
     selectedStation: {
       controllerPts: { id: controllerId },
-      country: { currency: { code } },
-    },
+      country: { currency: { code } }
+    }
   } = useESSContext();
   const token = user?.token || "";
 
@@ -50,11 +51,13 @@ function PumpSales() {
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
         {salesPumps.map((salesPump, index) => (
           <Card key={index} minH="125px" borderWidth="2px" borderColor="gray.500">
-            <Stat me="auto">
+            <Flex display="flex" alignItems="center" justifyContent="space-between">
               <Circle size="25px" bg="yellow.600" color="white">
                 {salesPump.pumpId}
               </Circle>
-            </Stat>
+              <Image src={pump} height="75%" width="15%" />
+            </Flex>
+
             <Text as="span" color="blue.600" fontWeight="normal" p="3" fontSize="sm">
               Sales By Pump : {salesPump.pumpSales}{" "}
               <Text as="span" fontWeight="bold" color="blue.600" display="inline">

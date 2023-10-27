@@ -66,7 +66,7 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
               <Text as="span" color="gray.600" fontWeight="normal" p="1">
                 Product volume:
               </Text>
-              {row.productVolume}L
+              {row.productVolume} L
             </Text>
           </Flex>
           <Flex >
