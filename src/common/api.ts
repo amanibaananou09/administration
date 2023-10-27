@@ -37,7 +37,7 @@ export const NOZZEL_BY_PUMP_READ_ENDPOINT = `${localhostURL}/api/configuration/n
 //Pump
 export const PUMP_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/pump`;
 export const PUMP_ALL_TRANSACTION_READ_CONFIG = `${localhostURL}/api/configuration/transaction`;
-export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/api/UploadPumpTransaction`;
+export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/api/PumpTransaction`;
 
 //Tank
 export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/tank`;

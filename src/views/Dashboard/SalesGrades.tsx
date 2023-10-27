@@ -40,7 +40,6 @@ const token = user?.token || "";
     allStatGrades();
   }, [fuelGrade, totalSalesParAmount, totalSalesParVolume, controllerId, token]);
 
-function SalesGrades() {
   return (
     <SimpleGrid columns={{ sm: 1, md: 2, xl: 3 }} spacing="24px" mb="20px">
       {grades.map((grade, index) => (
