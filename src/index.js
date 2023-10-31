@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
@@ -10,7 +10,9 @@ import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
 import theme from "theme/theme";
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"));
+
+root.render(
   <ESSContextProvider>
     <AuthContextProvider>
       <ChakraProvider theme={theme} resetCss={false} position="relative">
@@ -24,5 +26,4 @@ ReactDOM.render(
       </ChakraProvider>
     </AuthContextProvider>
   </ESSContextProvider>,
-  document.getElementById("root"),
 );
