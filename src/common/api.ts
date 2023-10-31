@@ -69,6 +69,8 @@ export const CHART_TANK_LEVEL_ALL = `${localhostURL}/api/data/tankLevelByPeriod/
 //statistique
 export const ALL_SALES_BY_GRADES = `${localhostURL}/api/stat/sales/fuelName`;
 export const ALL_SALES_BY_PUMP = `${localhostURL}/api/stat/sales`;
+export const ALL_SALES_BY_PUMP_AND_GRADE = `${localhostURL}/api/stat/salesByGrades`;
+
 
 
 export const fetchUrl = async (config: { url: any; method?: any; headers: any; body?: any; withCredentials?: boolean; crossorigin?: boolean; mode?: string; }) => {
@@ -814,7 +816,7 @@ export const getAllSalesByGrades = async (fuelGrade: string, totalSalesParAmount
   return data;
 };
 
-export const getAllSalesByPump = async (pumpId: number, allSales: number, pumpSales: number , controllerId: any, token: string) => {
+export const getAllSalesByPump = async (pumpId: number, controllerId: any, token: string) => {
   const data = await fetchUrl({
     url: `${ALL_SALES_BY_PUMP}/${controllerId}`,
     withCredentials: true,
@@ -829,6 +831,21 @@ export const getAllSalesByPump = async (pumpId: number, allSales: number, pumpSa
   return data;
 };
 
+export const getAllSalesByPumpAndGrades = async (pumpId: number, controllerId: any, token: string) => {
+  const data = await fetchUrl({
+    url: `${ALL_SALES_BY_PUMP_AND_GRADE}/${controllerId}/${pumpId}`,
+    withCredentials: true,
+    crossorigin: true,
+    method: 'GET',
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
 export const getStatTankMeasurment  = async ( controllerId: number, token: string) => {
   const data = await fetchUrl({
     url: `${TANK_MEASURMENT_STAT}/${controllerId}`,

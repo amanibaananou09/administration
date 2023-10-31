@@ -263,6 +263,11 @@ export interface SalesPump{
   pumpSales:number;
 }
 
+export interface SalesPumpGrades{
+  pumpId: number;
+  fuelGrade: String;
+  totalSalesParAmount:number;
+}
 export interface TankDelivery{
   dateTime: string;
   tank: number;
@@ -279,4 +284,8 @@ export interface TankDelivery{
 }
 export interface LastTankRowProps {
   tank: number;
+}
+
+export interface SalesPumpGradesRowProps {
+  pumpId: number;
 }

@@ -50,11 +50,9 @@ export default function Dashboard() {
       />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
         <PumpSales />
-      </Flex>
-      <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
         <SalesGrades />
       </Flex>
-
+      <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Grid
         templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
@@ -132,6 +130,7 @@ export default function Dashboard() {
           </Box>
         </Card>
       </Grid>
+    </Flex>
     </Flex>
   );
 }
