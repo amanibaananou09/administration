@@ -122,8 +122,7 @@ const ManageStation = () => {
             <CardBody>
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
-                  const firmwareInformation =
-                    row.controllerPts.firmwareInformations[0];
+                  const firmwareInformation = (row.controllerPts.firmwareInformations[0] && row.controllerPts.firmwareInformations[0].dateTime) || 'N/A';
 
                   return (
                     <StationRow
@@ -132,7 +131,7 @@ const ManageStation = () => {
                       address={row.address}
                       controllerId={row.controllerId}
                       controllerPtsId={row.controllerPts.ptsId}
-                      firmwareInformations={firmwareInformation.dateTime}
+                      firmwareInformations={firmwareInformation}
                       onEdit={() => openStationModal(row)}
                       onDelete={() => openConfirmationToDeleteModal(row)}
                       key={key}

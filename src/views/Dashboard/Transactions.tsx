@@ -81,7 +81,8 @@ const Transactions = () => {
           </Text>
         </CardHeader>
         <CardBody>
-          <Table variant="simple" color={textColor} size="sm">
+          <Table variant="simple" color={textColor} size="sm" textAlign="center"
+          >
             <Thead>
               <Tr color="gray.400">
                 <Th

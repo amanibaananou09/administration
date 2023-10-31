@@ -5,6 +5,7 @@ import { Grades } from "../../common/model";
 import { useAuth } from "../../store/AuthContext";
 import { getAllSalesByGrades } from "common/api";
 import { useESSContext } from "../../store/ESSContext";
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
 function SalesGrades() {
 
@@ -39,8 +40,24 @@ const token = user?.token || "";
     };
     allStatGrades();
   }, [fuelGrade, totalSalesParAmount, totalSalesParVolume, controllerId, token]);
+  const [isContentVisible, setIsContentVisible] = useState(true);
+
 
   return (
+    <Flex flexDirection="column" justifyContent="space-between">
+    <Text
+      as="span"
+      fontSize="2xl"
+      fontWeight="bold"
+      color="blue.700"
+      display="inline"
+      onClick={() => setIsContentVisible(!isContentVisible)}
+    >
+      FuelGrades :{" "}
+      {isContentVisible ? <TriangleUpIcon /> : <TriangleDownIcon />}
+    </Text>
+      <br />
+  {isContentVisible && (
     <SimpleGrid columns={{ sm: 1, md: 2, xl: 3 }} spacing="24px" mb="20px">
       {grades.map((grade, index) => (
         <Card key={index} minH="125px" borderWidth="2px" borderColor="gray.500">
@@ -63,6 +80,8 @@ const token = user?.token || "";
         </Card>
       ))}
     </SimpleGrid>
+  )}
+    </Flex>
   );
 };
 
