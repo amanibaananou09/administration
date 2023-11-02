@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { getAllTankByIdc, getTankLevelSelected } from "common/api";
+import { getAllTankByIdc, getTankMeasurementByPeriod } from "common/api";
 import { tankSalesChartConfig } from "common/chartOptions";
 import TankChartMenu from "components/ChartMenu/TankChartMenu";
 import { useEffect, useState } from "react";
@@ -49,7 +49,7 @@ const TankSalesChart = () => {
   useEffect(() => {
     const updateChart = async () => {
       try {
-        const chartData = await getTankLevelSelected(selectedTank, token);
+        const chartData = await getTankMeasurementByPeriod(selectedTank, token);
 
         const filteredData = {
           categories: chartData.map((item: any) => {

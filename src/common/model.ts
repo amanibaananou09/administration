@@ -289,3 +289,20 @@ export interface LastTankRowProps {
 export interface SalesPumpGradesRowProps {
   pumpId: number;
 }
+
+export interface tankMeasurementData{
+  dateTime: string;
+  tank: number;
+  fullGrade: string;
+  productVolume: number;
+}
+export interface tankLevelData{
+  dateTime: string;
+  tank: number;
+  fullGrade: string;
+  productVolume: number;
+  salesVolume: number;
+  tankVolumeChanges: number;
+  changedVolume: number;
+
+}

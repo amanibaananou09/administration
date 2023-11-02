@@ -55,7 +55,7 @@ export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuratio
 export const STATION_ADD_ENDPOINT = `${localhostURL}/api/station/add`;
 export const STATION_UPDATE_ENDPOINT = `${localhostURL}/api/station/update`;
 export const STATION_DELETE_ENDPOINT = `${localhostURL}/api/station/delete`;
-export const STATION_ALL_ENDPOINT = `${localhostURL}/api/station`;
+export const STATION_ALL_ENDPOINT = `${localhostURL}/api/administration`;
 export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/api/station/findController`;
 
 //chart
@@ -63,8 +63,8 @@ export const CHART_ENDPOINT = `${localhostURL}/api/data/sales`;
 export const CHART_TANK_ENDPOINT = `${localhostURL}/api/data/deliveries`;
 export const CHART_STAT_VENT_ENDPOINT = `${localhostURL}/api/data/salesByUser`;
 export const CHART_TANK_ALL_BY_IDC = `${localhostURL}/api/data/allTankByIdC`;
-export const CHART_TANK_LEVEL_ENDPOINT = `${localhostURL}/api/data/tankLevel`;
-export const CHART_TANK_LEVEL_ALL = `${localhostURL}/api/data/tankLevelByPeriod/all`;
+export const CHART_TANK_Measurement_BY_PERIOD = `${localhostURL}/api/data/tankMeasurementByPeriod`;
+export const CHART_TANK_LEVEL_BY_PERIOD = `${localhostURL}/api/data/tankLevelByPeriod`;
 
 //statistique
 export const ALL_SALES_BY_GRADES = `${localhostURL}/api/stat/sales/fuelName`;
@@ -713,9 +713,24 @@ export const getAllTankByIdc = async (controllerId: any, token: string | undefin
   return data;
 };
 
-export const getTankLevelSelected = async (selectedTank: string | number | null, token: string| undefined) => {
+export const getTankMeasurementByPeriod = async (controllerId: any | number | null, token: string| undefined) => {
   const data = await fetchUrl({
-    url: `${CHART_TANK_LEVEL_ENDPOINT}/${selectedTank}`,
+    url: `${CHART_TANK_Measurement_BY_PERIOD}/${controllerId}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return data;
+};
+
+export const getTankLevelByPeriod = async (token: string | undefined, controllerId: any) => {
+  const data = await fetchUrl({
+    url: `${CHART_TANK_LEVEL_BY_PERIOD}/${controllerId}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -771,20 +786,6 @@ export const getChartByFuelTankPeriod = async (
   return data;
 };
 
-export const getChartTankLevel = async (token: string) => {
-  const data = await fetchUrl({
-    url: CHART_TANK_LEVEL_ALL,
-    withCredentials: true,
-    crossorigin: true,
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
-
-  return data;
-};
 
 export const getAllTankDelivery = async (currentPage: number, controllerId: any, token: string) => {
   const data = await fetchUrl({

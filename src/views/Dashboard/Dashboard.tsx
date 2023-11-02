@@ -11,13 +11,13 @@ import {
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import ReportSalesChart from "../../components/Charts/ReportSalesChart"; // Update the path to the Chart component
 import UserSalesChart from "../../components/Charts/UserSalesChart"; // Update the path to the Chart component
-import TankLevelChart from "../../components/Charts/TankLevelChart"; // Update the path to the Chart component
 import TankSalesChart from "../../components/Charts/TankSalesChart"; // Update the path to the Chart component
 import TankMeasurement from "../../stat/TankMeasurement";
 import { useESSContext } from "../../store/ESSContext";
 import FilterPeriod from "filter/FilterPeriod";
 import SalesGrades from "./SalesGrades";
 import PumpSales from "stat/PumpSales";
+import ChartComponent from "../../components/Charts/ChartComponent";
 
 export default function Dashboard() {
   const context = useESSContext();
@@ -110,7 +110,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <TankLevelChart />
+            <ChartComponent />
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
