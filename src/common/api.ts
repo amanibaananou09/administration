@@ -713,9 +713,9 @@ export const getAllTankByIdc = async (controllerId: any, token: string | undefin
   return data;
 };
 
-export const getTankMeasurementByPeriod = async (controllerId: any | number | null, token: string| undefined) => {
+export const getTankMeasurementByPeriod = async (controllerId: any | number | null, token: string| undefined, tank : string, periode : string) => {
   const data = await fetchUrl({
-    url: `${CHART_TANK_Measurement_BY_PERIOD}/${controllerId}`,
+    url: `${CHART_TANK_Measurement_BY_PERIOD}/${controllerId}?tank=${tank}&periode=${periode}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
@@ -728,9 +728,9 @@ export const getTankMeasurementByPeriod = async (controllerId: any | number | nu
   return data;
 };
 
-export const getTankLevelByPeriod = async (token: string | undefined, controllerId: any) => {
+export const getTankLevelByPeriod = async (token: string | undefined, controllerId: any, tank : string, periode : string) => {
   const data = await fetchUrl({
-    url: `${CHART_TANK_LEVEL_BY_PERIOD}/${controllerId}`,
+    url: `${CHART_TANK_LEVEL_BY_PERIOD}/${controllerId}?tank=${tank}&periode=${periode}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",

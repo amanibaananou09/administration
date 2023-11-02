@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { getAllTankByIdc } from "common/api";
+import { getAllTankByIdc, getTankLevelByPeriod, getTankMeasurementByPeriod } from "common/api";
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
-import { Tank, tankLevelData, tankMeasurementData } from "common/model";
+import { Filter, Tank, tankLevelData, tankMeasurementData } from "common/model";
 import { chartOptions2 } from "components/Charts/ChartOptions2";
-import TankChartMenu from "components/ChartMenu/TankChartMenu";
+import TankChartMenu from "../ChartMenu/TankChartMenu";
+type TankType = string | number | null;
 
 const ChartComponent = () => {
   const [chartData, setChartData] = useState({
     tankMeasurementData: [] as tankMeasurementData[],
     tankLevelData: [] as tankLevelData[],
   });
-  const [selectedTank, setSelectedTank] = useState<string | null>(null);
-  const [tanks, setTanks] = useState<Tank[]>([]);
-  const [chartOptions, setChartOptions2] = useState(
-    chartOptions2.options,
-  );
 
+  const [selectedTank, setSelectedTank] = useState<string | null>("");
+  const [tanks, setTanks] = useState<Tank[]>([]);
+  const [chartOptions, setChartOptions2] = useState(chartOptions2.options);
+  const [periode, setPeriode] = useState<string>("");
   const { user } = useAuth();
   const token = user?.token;
   const {
@@ -32,7 +32,6 @@ const ChartComponent = () => {
         const tankList = await getAllTankByIdc(controllerId, token);
         setTanks(tankList);
 
-        // Select default Tank
         if (tankList.length > 0) {
           setSelectedTank(tankList[0].idConf);
         }
@@ -44,69 +43,77 @@ const ChartComponent = () => {
     fetchTanks();
   }, [token, controllerId]);
 
-  /*  useEffect(() => {
-     // Fetch tank measurement data for the selected tank
+  useEffect(() => {
     if (selectedTank) {
-       getTankMeasurementByPeriod(controllerId, token, selectedTank)
-         .then((measurementData) => {
-           setChartData((prevData) => ({ ...prevData, tankMeasurementData: measurementData }));
-         })
-         .catch((error) => {
-           console.error('Error fetching tank measurement data: ', error);
-         });
+      getTankMeasurementByPeriod(controllerId, token, selectedTank, periode)
+        .then((measurementData) => {
+          setChartData((prevData) => ({ ...prevData, tankMeasurementData: measurementData }));
+        })
+        .catch((error) => {
+          console.error('Error fetching tank measurement data: ', error);
+        });
 
-       // Fetch tank level data for the selected tank
-       getTankLevelByPeriod(token, controllerId, selectedTank)
-         .then((levelData) => {
-           setChartData((prevData) => ({ ...prevData, tankLevelData: levelData }));
-         })
-         .catch((error) => {
-           console.error('Error fetching tank level data: ', error);
-         });
-     }
-   }, [controllerId, token, selectedTank]);*/
+      getTankLevelByPeriod(token, controllerId, selectedTank, periode)
+        .then((levelData) => {
+          setChartData((prevData) => ({ ...prevData, tankLevelData: levelData }));
+        })
+        .catch((error) => {
+          console.error('Error fetching tank level data: ', error);
+        });
+    }
+  }, [controllerId, token, selectedTank]);
+
+  // Ensure the data points are aligned
+  const alignedChartData = alignDataPoints(chartData);
 
   // Process and merge data for the chart
   const chartSeries = [
     {
-      name: 'Tank Level',
+      name: 'Changed Volume',
       type: 'line',
-      data: chartData.tankLevelData.map((item) => ({
-        x: new Date(item.dateTime).getTime(),
+      data: alignedChartData.tankLevelData.map((item) => ({
+        x: item.dateTime,
         y: item.tankVolumeChanges,
       })),
     },
     {
-      name: 'Fuel Volume',
+      name: 'Tank Volume',
       type: 'line',
-      data: chartData.tankMeasurementData.map((item) => ({
-        x: new Date(item.dateTime).getTime(),
+      data: alignedChartData.tankMeasurementData.map((item) => ({
+        x: item.dateTime,
         y: item.productVolume,
       })),
     },
   ];
 
-  // Function to handle tank selection
-  const handleTankSelect = (tankId: string) => {
-    setSelectedTank(tankId);
-  };
-
   return (
-/*    <div>
+    <div>
       <TankChartMenu
         tanks={tanks}
         selectedTank={selectedTank}
-        onChange={handleTankSelect}
-      />*/
-      <ReactApexChart
-        options={chartOptions}
-        series={chartSeries}
-        type="line"
-        width="100%"
-        height="500px"
+        onChange={(tank) => setSelectedTank(tank ? tank.toString() : null)}
       />
-    // </div>
+      {alignedChartData.tankLevelData.length > 0 && alignedChartData.tankMeasurementData.length > 0 && (
+        <ReactApexChart
+          options={chartOptions}
+          series={chartSeries}
+          type="line"
+          width="100%"
+          height="500px"
+        />
+      )}
+    </div>
   );
+};
+
+const alignDataPoints = (data: {
+  tankMeasurementData: tankMeasurementData[];
+  tankLevelData: tankLevelData[];
+}): {
+  tankMeasurementData: tankMeasurementData[];
+  tankLevelData: tankLevelData[];
+} => {
+  return data;
 };
 
 export default ChartComponent;
