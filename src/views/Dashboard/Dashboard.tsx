@@ -11,7 +11,6 @@ import {
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import ReportSalesChart from "../../components/Charts/ReportSalesChart"; // Update the path to the Chart component
 import UserSalesChart from "../../components/Charts/UserSalesChart"; // Update the path to the Chart component
-import TankSalesChart from "../../components/Charts/TankSalesChart"; // Update the path to the Chart component
 import TankMeasurement from "../../stat/TankMeasurement";
 import { useESSContext } from "../../store/ESSContext";
 import FilterPeriod from "filter/FilterPeriod";
@@ -92,11 +91,6 @@ export default function Dashboard() {
           </Box>
         </Card>
       </Grid>
-      <Grid
-        templateColumns={{ sm: "1fr", lg: "1fr 1fr" }}
-        templateRows={{ lg: "repeat(2, auto)" }}
-        gap="20px"
-      >
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
             <Text
@@ -113,24 +107,7 @@ export default function Dashboard() {
             <ChartComponent />
           </Box>
         </Card>
-        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
-            <Text
-              color={textColor}
-              fontSize="lg"
-              fontWeight="bold"
-              mb="6px"
-              marginLeft="10%"
-            >
-              Sales
-            </Text>
-          </Flex>
-          <Box minH="300px">
-            <TankSalesChart />
-          </Box>
-        </Card>
-      </Grid>
-    </Flex>
+      </Flex>
     </Flex>
   );
 }
