@@ -9,16 +9,16 @@ import {
   ModalOverlay as ChakraModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ConfirmationModalProps } from "common/model";
+import { ConfirmationModalProps ,Station} from "common/model";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
   const { message, onConfirm } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [station, setStation] = useState<any>({});
+  const [station, setStation] = useState<Station>();
 
   useImperativeHandle(ref, () => ({
-    open(station: any) {
+    open(station: Station) {
       setStation(station);
       onOpen();
     },
@@ -26,7 +26,6 @@ const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
       onClose();
     },
   }));
-
   return (
     <ChakraModal
       motionPreset="slideInBottom"
@@ -37,14 +36,14 @@ const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
     >
       <ChakraModalOverlay />
       <ChakraModalContent>
-        <ChakraModalHeader>{station.name}</ChakraModalHeader>
+        <ChakraModalHeader>{station?.name}</ChakraModalHeader>
         <ChakraModalCloseButton />
         <ChakraModalBody pb={6}>{message}</ChakraModalBody>
         <ChakraModalFooter>
           <ChakraButton
             colorScheme="teal"
             mr={3}
-            onClick={() => onConfirm(station)}
+            onClick={() => station && onConfirm(station)}
           >
             Confirm
           </ChakraButton>

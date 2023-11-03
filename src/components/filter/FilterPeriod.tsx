@@ -31,34 +31,42 @@ function FilterPeriod(props: FilterPeriodProps) {
       <Stack direction="row" spacing={4} align="center">
         <Box>
           <Button
-            colorScheme={selectedFilter === "Today" ? "blue" : "gray"}
-            onClick={() => onFilterChange("Today")}
+            colorScheme={selectedFilter === "today" ? "blue" : "gray"}
+            onClick={() => onFilterChange("today")}
           >
             Today
           </Button>
         </Box>
         <Box>
           <Button
-            colorScheme={selectedFilter === "Yesterday" ? "blue" : "gray"}
-            onClick={() => onFilterChange("Yesterday")}
+            colorScheme={selectedFilter === "yesterday" ? "blue" : "gray"}
+            onClick={() => onFilterChange("yesterday")}
           >
             Yesterday
           </Button>
         </Box>
         <Box>
           <Button
-            colorScheme={selectedFilter === "Week" ? "blue" : "gray"}
-            onClick={() => onFilterChange("Week")}
+            colorScheme={selectedFilter === "weekly" ? "blue" : "gray"}
+            onClick={() => onFilterChange("weekly")}
           >
             Week
           </Button>
         </Box>
         <Box>
           <Button
-            colorScheme={selectedFilter === "Month" ? "blue" : "gray"}
-            onClick={() => onFilterChange("Month")}
+            colorScheme={selectedFilter === "monthly" ? "blue" : "gray"}
+            onClick={() => onFilterChange("monthly")}
           >
             Month
+          </Button>
+        </Box>
+        <Box>
+          <Button
+            colorScheme={selectedFilter === "yearly" ? "blue" : "gray"}
+            onClick={() => onFilterChange("yearly")}
+          >
+            Year
           </Button>
         </Box>
         <Box>
@@ -91,8 +99,9 @@ function FilterPeriod(props: FilterPeriodProps) {
           </FormControl>
         </Box>
         <Box>
-          <Button onClick={searchFilters} colorScheme="telegram"
-    size="md">Search</Button>
+          <Button onClick={searchFilters} colorScheme="telegram" size="md">
+            Search
+          </Button>
         </Box>
       </Stack>
     </Box>

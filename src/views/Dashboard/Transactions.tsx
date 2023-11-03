@@ -36,20 +36,19 @@ const Transactions = () => {
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useAuth();
-  const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
-  } = useESSContext();
+  const { selectedStation } = useESSContext();
 
   const token = user?.token || "";
 
   useEffect(() => {
     const getAllTransaction = async () => {
+      if (!selectedStation) {
+        return;
+      }
       try {
         const result = await getallTransactionPump(
           currentPage,
-          controllerId,
+          selectedStation,
           token,
           filterType,
           pumpId,
@@ -57,7 +56,7 @@ const Transactions = () => {
           startDate,
           endDate,
         );
-        const { content, totalPages } = result; // Assuming the API response structure
+        const { content, totalPages } = result;
 
         setTransactions(content);
         setTotalPages(totalPages);
@@ -66,7 +65,7 @@ const Transactions = () => {
       }
     };
     getAllTransaction();
-  }, [currentPage, controllerId, user]);
+  }, [currentPage, selectedStation, user]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);

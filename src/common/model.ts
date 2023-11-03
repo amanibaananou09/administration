@@ -4,11 +4,35 @@ export interface Station {
   id: number;
   name: string;
   address: string;
-  controllerId: number;
-  controllerPtsId: string;
-  firmwareInformations: any;
-  controllerPts: any;
-  countryId: any;
+  actif: boolean;
+  controllerPts: controllerPts;
+  country: country;
+}
+
+export interface country {
+  id: number;
+  name: string;
+  code: string;
+  currency: currency;
+}
+export interface currency {
+  code: string;
+  id: number;
+  locale: string;
+  name: string;
+}
+export interface controllerPts{
+  id : number;
+  ptsId: string;
+  currentConfigurationId: number;
+  currentFirmwareInformation: currentFirmwareInformation;
+}
+
+export interface currentFirmwareInformation {
+  ptsId: string;
+  dateTime: string;
+  versionState: boolean;
+  modificationDate: string;
 }
 
 export interface Transaction {
@@ -44,11 +68,8 @@ export interface CustomCardProps {
 }
 
 export interface Filter {
-  type: string;
   fuelGrade: string;
   pump: string;
-  tank: string;
-  period: string;
   chartType: string;
 }
 
@@ -56,7 +77,6 @@ export interface ReportSalesChartMenuProps {
   filter: Filter;
   onChange: (newFilter: Filter) => void;
 }
-
 export interface TankChartMenuProps {
   tanks: Array<{ idConf: string | number | null }>;
   selectedTank: string | null;
@@ -64,11 +84,10 @@ export interface TankChartMenuProps {
 }
 
 export interface ChartData {
-  labels: any;
+  labels: string[];
   datasets: {
     name: string;
     data: number[];
-    backgroundColor: string;
     borderWidth?: number;
   }[];
 }
@@ -97,7 +116,7 @@ export interface FixedPluginProps {
 }
 export interface ConfirmationModalProps {
   message: string;
-  onConfirm: (station: any) => void;
+  onConfirm: (station: Station) => void;
 }
 
 export interface StationModalProps {
@@ -176,7 +195,6 @@ export interface StationRowProps {
   id: number;
   name: string;
   address: string;
-  controllerId: number;
   controllerPtsId: string;
   firmwareInformations: any;
   onEdit: () => void;
@@ -207,18 +225,28 @@ export interface AuthContextProps {
   signOut: () => void;
 }
 
+export interface ESSContextProps {
+  selectedStation: Station | null;
+  selectStation: (selectedStation: Station) => void;
+  clearContext: () => void;
+}
+
 export interface AuthContextProviderProps {
   children: ReactNode;
 }
 
+export interface ModalRef {
+  open: (station?: Station) => void;
+  close: () => void;
+}
 export interface User {
   id?: string;
   given_name?: string;
   family_name?: string;
   email?: string;
-  username?: string;
+  username: string;
   role?: string;
-  token?: string;
+  token: string;
   expireTime?: number;
   Address: string,
   Phone: string,
@@ -238,13 +266,24 @@ export interface Decode {
   Phone: string,
 }
 
-
+export interface fuelGrade{
+  name: string,
+  price: number,
+  expansionCoefficient: string,
+}
 export interface Grades{
   fuelGrade: string;
   totalSalesParAmount: number;
   totalSalesParVolume:number;
 }
 
+export interface pump{
+  id: string,
+  portId: string,
+  protocol: number,
+  baudRate: number,
+  address: string,
+}
 export interface TankStat {
   tank : number;
   fuelGrade: string;
@@ -304,5 +343,7 @@ export interface tankLevelData{
   salesVolume: number;
   tankVolumeChanges: number;
   changedVolume: number;
-
+}
+export interface periodeProps {
+  periode: string;
 }

@@ -7,8 +7,8 @@ import {
   SubMenu,
 } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
-import { getAllFuelGrades, getAllPump, getAllTank } from "common/api";
-import { ReportSalesChartMenuProps } from "common/model";
+import { getAllFuelGrades, getAllPump } from "common/api";
+import { fuelGrade, ReportSalesChartMenuProps ,pump} from "common/model";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
@@ -19,41 +19,29 @@ const ReportSalesChartMenu = ({
 }: ReportSalesChartMenuProps) => {
   const { user } = useAuth();
 
-  const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
-  } = useESSContext();
+  const { selectedStation } = useESSContext();
 
   const [config, setConfig] = useState<{
-    pumps: any[];
-    fuelGrades: any[];
-    tanks: any[];
+    pumps: pump[];
+    fuelGrades: fuelGrade[];
   }>({
     pumps: [],
     fuelGrades: [],
-    tanks: [],
   });
 
   useEffect(() => {
     const fetchConfig = async () => {
+      if (!selectedStation || !user) {
+        return;
+      }
       try {
-        const token = user?.token;
+        const pumps = await getAllPump(selectedStation, user);
 
-        if (!token) {
-          console.error("Token is null or undefined.");
-          return;
-        }
-        const pumps = await getAllPump(controllerId, token);
-
-        const fuelGrades = await getAllFuelGrades(controllerId, token);
-
-        const tanks = await getAllTank(controllerId, token);
+        const fuelGrades = await getAllFuelGrades(selectedStation, user);
 
         setConfig({
           pumps,
           fuelGrades,
-          tanks,
         });
       } catch (error) {
         console.error("Error fetching data fuelgrades:", error);
@@ -61,7 +49,7 @@ const ReportSalesChartMenu = ({
     };
 
     fetchConfig();
-  }, [controllerId]);
+  }, [selectedStation]);
 
   const handleChange = (key: string, value: string) => {
     const updatedFilter = { ...filter, [key]: value };
@@ -79,17 +67,17 @@ const ReportSalesChartMenu = ({
       <SubMenu label="Type">
         <MenuItem
           type="checkbox"
-          onClick={() => handleChange("type", "sale")}
-          checked={filter.type === "sale"}
+          onClick={() => handleChange("chartType", "amount")}
+          checked={filter.chartType === "amount"}
         >
-          Sale
+          Amount
         </MenuItem>
         <MenuItem
           type="checkbox"
-          onClick={() => handleChange("type", "purchase")}
-          checked={filter.type === "purchase"}
+          onClick={() => handleChange("chartType", "volume")}
+          checked={filter.chartType === "volume"}
         >
-          Purchase
+          Volume
         </MenuItem>
       </SubMenu>
       <MenuDivider />
@@ -102,7 +90,7 @@ const ReportSalesChartMenu = ({
         >
           All Fuel Grades
         </MenuItem>
-        {config.fuelGrades.map((fuel: any) => (
+        {config.fuelGrades.map((fuel: fuelGrade) => (
           <MenuItem
             type="checkbox"
             key={fuel.name}
@@ -116,74 +104,26 @@ const ReportSalesChartMenu = ({
       </SubMenu>
       <MenuDivider />
 
-      {filter.type === "sale" ? (
-        <SubMenu label="Pump">
+      <SubMenu label="Pump">
+        <MenuItem
+          type="checkbox"
+          value="all"
+          onClick={() => handleChange("pump", "all")}
+          checked={filter.pump === "all"}
+        >
+          All Pumps
+        </MenuItem>
+        {config.pumps.map((pump: pump) => (
           <MenuItem
             type="checkbox"
-            value="all"
-            onClick={() => handleChange("pump", "all")}
-            checked={filter.pump === "all"}
+            key={pump.id}
+            value={pump.id}
+            onClick={() => handleChange("pump", pump.id)}
+            checked={filter.pump === pump.id}
           >
-            All Pumps
+            Pump {pump.id}
           </MenuItem>
-          {config.pumps.map((pump: any) => (
-            <MenuItem
-              type="checkbox"
-              key={pump.id}
-              value={pump.id}
-              onClick={() => handleChange("pump", pump.id)}
-              checked={filter.pump === pump.id}
-            >
-              Pump {pump.id}
-            </MenuItem>
-          ))}
-        </SubMenu>
-      ) : (
-        <SubMenu label="Tank">
-          <MenuItem
-            type="checkbox"
-            value="all"
-            onClick={() => handleChange("tank", "all")}
-            checked={filter.tank === "all"}
-          >
-            All Tank
-          </MenuItem>
-          {config.tanks.map((tank: any) => (
-            <MenuItem
-              type="checkbox"
-              key={tank.idConf}
-              value={tank.idConf}
-              onClick={() => handleChange("tank", tank.idConf)}
-              checked={filter.tank === tank.idConf}
-            >
-              Tank {tank.idConf}
-            </MenuItem>
-          ))}
-        </SubMenu>
-      )}
-      <MenuDivider />
-      <SubMenu label="Period">
-        <MenuItem
-          type="checkbox"
-          onClick={() => handleChange("period", "weekly")}
-          checked={filter.period === "weekly"}
-        >
-          current week
-        </MenuItem>
-        <MenuItem
-          type="checkbox"
-          onClick={() => handleChange("period", "monthly")}
-          checked={filter.period === "monthly"}
-        >
-          current Month
-        </MenuItem>
-        <MenuItem
-          type="checkbox"
-          onClick={() => handleChange("period", "yearly")}
-          checked={filter.period === "yearly"}
-        >
-          current Yearly
-        </MenuItem>
+        ))}
       </SubMenu>
     </Menu>
   );

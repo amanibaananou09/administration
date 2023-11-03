@@ -55,13 +55,7 @@ export const createReportSalesChartOptions = (labels: string[]): object => {
         opacityTo: 0,
         stops: [],
       },
-      //colors: ["#fff", "#3182CE"],
-    },
-    // colors: ["#fff", "#3182CE"],
-    plugins: {
-      grouped: {
-        groupBy: "nameF",
-      },
+
     },
     plotOptions: {
       bar: {

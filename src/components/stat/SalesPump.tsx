@@ -8,18 +8,15 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 export const SalesByGrades = ({ pumpId }: SalesPumpGradesRowProps) => {
   const [pumpGrades, setPumpGrades] = useState<SalesPumpGrades[]>([]);
   const { user } = useAuth();
-  const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-      country: { currency: { code } }
-    },
-  } = useESSContext();
-  const token = user?.token || "";
+  const { selectedStation} = useESSContext();
 
   useEffect(() => {
     const getAllLastTankDelivery = async () => {
+    if (!selectedStation|| !user) {
+            return;
+          }
       try {
-        const result = await getAllSalesByPumpAndGrades(pumpId, controllerId, token);
+        const result = await getAllSalesByPumpAndGrades(pumpId, selectedStation, user);
         const tankArray = Array.isArray(result) ? result : [result];
         setPumpGrades(tankArray);
       } catch (error) {
@@ -27,7 +24,7 @@ export const SalesByGrades = ({ pumpId }: SalesPumpGradesRowProps) => {
       }
     };
     getAllLastTankDelivery();
-  }, [controllerId]);
+  }, [selectedStation,pumpId, selectedStation]);
 
   return (
     <Box p={4} maxW="600px" mx="auto">
@@ -37,7 +34,7 @@ export const SalesByGrades = ({ pumpId }: SalesPumpGradesRowProps) => {
           <Text fontWeight="normal" mb={2}>
             {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount} {" "}
             <Text as="span" fontWeight="bold" color="blue.600" display="inline">
-              {code}
+              {selectedStation?.country?.currency?.code}
             </Text>
           </Text>
         </div>

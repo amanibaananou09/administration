@@ -1,11 +1,11 @@
 import { Box, Circle, Flex, Grid, GridItem, Image, SimpleGrid, Stat, StatLabel, Text } from "@chakra-ui/react";
-import Card from "../components/Card/Card";
 import React, { useEffect, useState } from "react";
-import { SalesPump } from "../common/model";
-import { useAuth } from "../store/AuthContext";
-import { useESSContext } from "../store/ESSContext";
-import { getAllSalesByPump } from "../common/api";
-import pump from "../assets/img/pump.png";
+import Card from "components/Card/Card";
+import { SalesPump } from "common/model";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
+import { getAllSalesByPump } from "common/api";
+import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
@@ -15,29 +15,22 @@ function PumpSales() {
   const [pumpId, setPumpId] = useState<number>(0);
   const [allSales, setAllSales] = useState<number>(0);
   const [pumpSales, setPumpSales] = useState<number>(0);
-  const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-      country: { currency: { code } }
-    }
-  } = useESSContext();
-  const token = user?.token || "";
+  const { selectedStation } = useESSContext();
 
   useEffect(() => {
     const fetchSalesByPump = async () => {
+      if (!selectedStation || !user) {
+        return;
+      }
       try {
-        const result = await getAllSalesByPump(
-          pumpId,
-          controllerId,
-          token
-        );
+        const result = await getAllSalesByPump(selectedStation, user);
         setSalesPumps(result);
       } catch (error) {
         console.error(error);
       }
     };
     fetchSalesByPump();
-  }, [pumpId, allSales, pumpSales, controllerId, token]);
+  }, [selectedStation, user]);
   const [isContentVisible, setIsContentVisible] = useState(true);
 
   return (
@@ -45,7 +38,7 @@ function PumpSales() {
       <Flex flexDirection="column">
         <Text fontSize="2xl" fontWeight="normal" display="inline">
           <Text as="span" fontWeight="bold" color="blue.700">Total Sales :</Text>{' '}
-          {salesPumps.reduce((total, pump) => total + pump.allSales, 0)} {code}
+          {salesPumps.reduce((total, pump) => total + pump.allSales, 0)} {selectedStation?.country?.currency?.code}
         </Text>
 
         <br/>
@@ -82,7 +75,7 @@ function PumpSales() {
                 </Text>{" "}
                 {salesPump.pumpSales}{" "}
                 <Text as="span" fontWeight="bold" color="blue.600" display="inline">
-                  {code}
+                  {selectedStation?.country?.currency?.code}
                 </Text>
               </Text>
               <Image src={pump} height="75%" width="15%" />

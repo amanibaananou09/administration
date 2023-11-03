@@ -15,23 +15,17 @@ const [fuelGrade, setFuelGrade] = useState<string>("");
 const [totalSalesParAmount, setTotalSalesParAmount] = useState<number>(0);
 const [totalSalesParVolume, setTotalSalesParVolume] = useState<number>(0);
 
-const {
-  selectedStation: {
-    controllerPts: { id: controllerId },
-    country: { currency: { code } }
-  },
-} = useESSContext();
-const token = user?.token || "";
+  const { selectedStation } = useESSContext();
 
   useEffect(() => {
     const allStatGrades = async () => {
+      if (!selectedStation || !user) {
+        return;
+      }
       try {
         const result = await getAllSalesByGrades(
-          fuelGrade,
-          totalSalesParAmount,
-          totalSalesParVolume,
-          controllerId,
-          token,
+          selectedStation,
+          user,
         );
         setGrades(result);
       } catch (error) {
@@ -39,7 +33,7 @@ const token = user?.token || "";
       }
     };
     allStatGrades();
-  }, [fuelGrade, totalSalesParAmount, totalSalesParVolume, controllerId, token]);
+  }, [ selectedStation, user]);
   const [isContentVisible, setIsContentVisible] = useState(true);
 
 
@@ -69,7 +63,7 @@ const token = user?.token || "";
           <Text as="span" color="blue.600" fontWeight="normal" p="3" fontSize="sm">
             Total Sales Amount: {grade.totalSalesParAmount}{' '}
             <Text as="span" fontWeight="bold" color="blue.600" display="inline">
-              {code}
+              {selectedStation?.country.currency.code}
             </Text>
             <br />
             Total Sales Volume: {grade.totalSalesParVolume}{' '}

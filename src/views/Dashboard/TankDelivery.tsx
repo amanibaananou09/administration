@@ -29,21 +29,19 @@ const TankDelivery = () => {
   const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
-  } = useESSContext();
+  const { selectedStation } = useESSContext();
 
-  const token = user?.token || "";
 
   useEffect(() => {
     const allTankDelivery = async () => {
+      if (!selectedStation || !user) {
+        return;
+      }
       try {
         const result = await getAllTankDelivery(
           currentPage,
-          controllerId,
-          token,
+          selectedStation,
+          user,
         );
         const { content, totalPages } = result;
         setTankDelivery(content);
@@ -53,7 +51,7 @@ const TankDelivery = () => {
       }
     };
     allTankDelivery();
-  }, [currentPage, controllerId, user]);
+  }, [currentPage, selectedStation, user]);
 
   const handlePageChange = (newPage: number): void => {
     setCurrentPage(newPage);

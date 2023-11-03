@@ -15,14 +15,14 @@ import TankMeasurement from "../../stat/TankMeasurement";
 import { useESSContext } from "../../store/ESSContext";
 import FilterPeriod from "filter/FilterPeriod";
 import SalesGrades from "./SalesGrades";
-import PumpSales from "stat/PumpSales";
+import PumpSales from "../../components/stat/PumpSales";
 import ChartComponent from "../../components/Charts/ChartComponent";
 
 export default function Dashboard() {
   const context = useESSContext();
   const { colorMode } = useColorMode();
   const textColor = useColorModeValue("gray.700", "white");
-  const [selectedFilter, setSelectedFilter] = useState<string>("Today");
+  const [selectedFilter, setSelectedFilter] = useState<string>("today");
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
 
@@ -77,7 +77,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <ReportSalesChart />
+            <ReportSalesChart periode={selectedFilter}/>
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>

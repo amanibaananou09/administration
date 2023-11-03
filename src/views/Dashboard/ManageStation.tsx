@@ -12,7 +12,7 @@ import {
   getStations,
   updateStation,
 } from "common/api";
-import { Station } from "common/model";
+import { Station, ModalRef } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -22,35 +22,43 @@ import StationRow from "components/Tables/StationRow";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+
 const ManageStation = () => {
   const { user } = useAuth();
   const { selectStation, selectedStation } = useESSContext();
   const [stations, setStations] = useState<Station[]>([]);
-  const stationModalRef = useRef<any>(null);
-  const confirmationModalRef = useRef<any>(null);
+  const stationModalRef = useRef<ModalRef>(null);
+  const confirmationModalRef = useRef<ModalRef>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
-  const token = user?.token || "";
 
   const openStationModal = (station?: Station) => {
-    stationModalRef.current.open(station);
+      stationModalRef.current?.open(station);
   };
 
   const openConfirmationToDeleteModal = (station: Station) => {
-    confirmationModalRef.current.open(station);
+    confirmationModalRef.current?.open(station);
   };
 
   const deleteStationHandler = async (station: Station) => {
+    if (!user) {
+      return;
+    }
     try {
-      await deleteStation(station.id, user?.token);
+      await deleteStation(station, user);
 
       setStations((prev) => prev.filter((st) => st.id !== station.id));
 
-      if (stations.length > 0 && selectedStation.id === station.id) {
-        selectStation(stations.find((st) => st.id !== station.id));
+      if (stations.length > 0 && selectedStation?.id === station.id) {
+        const newSelectedStation = stations.find((st) => st.id !== station.id);
+        if (newSelectedStation) {
+          selectStation(newSelectedStation);
+        } else {
+          console.log("no staton selectid");
+        }
       }
 
-      confirmationModalRef.current.close();
+      confirmationModalRef.current?.close();
     } catch (error) {
       console.error(error);
     }
@@ -59,10 +67,9 @@ const ManageStation = () => {
   const submitModalHandler = async (station: Station) => {
     try {
       if (!user) {
-        console.error("User is not authenticated.");
         return;
       }
-     if (station.id) {
+      if (station.id) {
         await updateStation(station, user);
 
         const newStations = stations.map((oldStation) => {
@@ -76,15 +83,17 @@ const ManageStation = () => {
 
         setStations(newStations);
 
-        if (selectedStation.id === station.id) {
+        if (selectedStation?.id === station.id) {
           selectStation(station);
         }
       } else {
-        const newStation = await createStation(station, user);
+        const newStation = await createStation(
+          station, user
+        );
         setStations((prev) => [newStation, ...prev]);
       }
 
-      stationModalRef.current.close();
+      stationModalRef.current?.close();
     } catch (error) {
       console.error(error);
     }
@@ -98,7 +107,7 @@ const ManageStation = () => {
     };
 
     getAllStations();
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -122,14 +131,15 @@ const ManageStation = () => {
             <CardBody>
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
-                  const firmwareInformation = (row.controllerPts.firmwareInformations[0] && row.controllerPts.firmwareInformations[0].dateTime) || 'N/A';
-
+                   const firmwareInformation =
+                     (row.controllerPts.currentFirmwareInformation &&
+                       row.controllerPts.currentFirmwareInformation.dateTime) ||
+                     "N/A";
                   return (
                     <StationRow
                       id={row.id}
                       name={row.name}
                       address={row.address}
-                      controllerId={row.controllerId}
                       controllerPtsId={row.controllerPts.ptsId}
                       firmwareInformations={firmwareInformation}
                       onEdit={() => openStationModal(row)}

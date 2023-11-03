@@ -6,14 +6,9 @@ import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
 const UserSalesChart = () => {
-  const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
-  } = useESSContext();
+  const { selectedStation } = useESSContext();
 
   const { user } = useAuth();
-  const token = user?.token || "";
 
   const [data, setData] = useState<{
     labels: string[];
@@ -48,57 +43,62 @@ const UserSalesChart = () => {
       const dataSet2: number[] = [];
       const dataSet3: number[] = [];
       const uniqueUserIds = new Set<number>();
-      const res = await getAllStatVent(controllerId, token);
+      if(!user){
+        return;
+      }
+      if (selectedStation) {
+        const res = await getAllStatVent(selectedStation, user);
 
-      try {
-        if (Array.isArray(res)) {
-          for (const val of res) {
-            if (val.fuelGradeName === "Gasoil") {
-              dataSet1.push(val.sumVolume);
-            } else if (val.fuelGradeName === "Super Sans Plomb") {
-              dataSet2.push(val.sumVolume);
-            } else if (val.fuelGradeName === "Gasoil Sans Soufre") {
-              dataSet3.push(val.sumVolume);
+        try {
+          if (Array.isArray(res)) {
+            for (const val of res) {
+              if (val.fuelGradeName === "Gasoil") {
+                dataSet1.push(val.sumVolume);
+              } else if (val.fuelGradeName === "Super Sans Plomb") {
+                dataSet2.push(val.sumVolume);
+              } else if (val.fuelGradeName === "Gasoil Sans Soufre") {
+                dataSet3.push(val.sumVolume);
+              }
+              if (val.userId) {
+                uniqueUserIds.add(val.userId);
+              }
             }
-            if (val.userId) {
-              uniqueUserIds.add(val.userId);
-            }
+          } else {
+            console.error("res is not an array:", res);
           }
-        } else {
-          console.error("res is not an array:", res);
-        }
 
-        const labelSet = [...uniqueUserIds].map((userId) => `user ${userId}`);
-        setData({
-          labels: labelSet,
-          datasets: [
-            {
-              name: "Gasoil",
-              data: dataSet1,
-              backgroundColor: "rgba(32,178,170,0.6)",
-              borderWidth: 1,
-            },
-            {
-              name: "Super Sans Plomb",
-              data: dataSet2,
-              borderWidth: 1,
-              backgroundColor: "rgba(53, 162, 235, 0.5)",
-            },
-            {
-              name: "Gasoil Sans Soufre",
-              data: dataSet3,
-              borderWidth: 1,
-              backgroundColor: "rgba(255, 99, 132, 0.5)",
-            },
-          ],
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error);
+          const labelSet = [...uniqueUserIds].map((userId) => `user ${userId}`);
+          setData({
+            labels: labelSet,
+            datasets: [
+              {
+                name: "Gasoil",
+                data: dataSet1,
+                backgroundColor: "rgba(32,178,170,0.6)",
+                borderWidth: 1,
+              },
+              {
+                name: "Super Sans Plomb",
+                data: dataSet2,
+                borderWidth: 1,
+                backgroundColor: "rgba(53, 162, 235, 0.5)",
+              },
+              {
+                name: "Gasoil Sans Soufre",
+                data: dataSet3,
+                borderWidth: 1,
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
+              },
+            ],
+          });
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
       }
     };
 
     fetchData();
-  }, [controllerId]);
+  }, [selectedStation]);
 
   const UserSalesBarChartOptions = {
     chart: {
