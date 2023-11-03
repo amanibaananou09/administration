@@ -54,7 +54,7 @@ export const READER_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuratio
 export const STATION_ADD_ENDPOINT = `${localhostURL}/api/station/add`;
 export const STATION_UPDATE_ENDPOINT = `${localhostURL}/api/station/update`;
 export const STATION_DELETE_ENDPOINT = `${localhostURL}/api/station/delete`;
-export const STATION_ALL_ENDPOINT = `${localhostURL}/api/administration`;
+export const STATION_ALL_ENDPOINT = `${localhostURL}/api/customerAccount/station`;
 export const FIND_CONTROLLER_BY_STATION_ENDPOINT = `${localhostURL}/api/station/findController`;
 
 //chart

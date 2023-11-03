@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card";
-import LastTankDelivery from "stat/LastTankDelivery";
+import LastTankDelivery from "components/stat/LastTankDelivery";
 import tank from "../../assets/img/tank.png";
 import { TankMeasurementRowProps } from "common/model";
 
