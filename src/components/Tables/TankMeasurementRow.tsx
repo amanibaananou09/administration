@@ -37,7 +37,7 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
     setBoxColor(getColorForLevel(tankLevel));
   }, [tankLevel]);
   return (
-    <Card minH="125px" m="4">
+    <Card minH="125px" m="5">
       <Flex>
         <Circle size="25px" bg={circleColor} color="white">
           {row.tank}
@@ -59,14 +59,14 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
         </Tooltip>
       </Flex>
 
-      <Flex direction="row">
-        <Flex flexDirection="column" justify="center" w="450%" height="150px">
+      <Flex direction="row" >
+        <Flex flexDirection="column" justify="center" w="550%" height="150px">
           <Flex >
             <Text fontSize="m" fontWeight="semibold" color={textColor}>
               <Text as="span" color="gray.600" fontWeight="normal" p="0">
                 Product volume:
               </Text>
-              {row.productVolume} L
+              {row.productVolume}L
             </Text>
           </Flex>
           <Flex >
@@ -79,7 +79,7 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
           </Flex>
           <Flex>
             <Text fontSize="m" fontWeight="semibold" color={textColor} >
-              <Text as="span" color="gray.600" fontWeight="normal" p="1">
+              <Text as="span" color="gray.600" fontWeight="normal" p="0">
                 Temperature:
               </Text>
               {row.temperature}°C

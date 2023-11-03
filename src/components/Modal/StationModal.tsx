@@ -22,11 +22,29 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
     id: 0,
     name: "",
     address: "",
-    controllerId: 0,
-    controllerPtsId: "",
-    firmwareInformations: "",
-    controllerPts: "",
-    countryId: "",
+    actif: false,
+    controllerPts: {
+      id: 0,
+      ptsId: "",
+      currentConfigurationId: 0,
+      currentFirmwareInformation: {
+        ptsId: "",
+        dateTime: "",
+        versionState: false,
+        modificationDate: "",
+      },
+    },
+    country: {
+      id: 0,
+      name: "",
+      code: "",
+      currency: {
+        code: "",
+        id: 0,
+        locale: "",
+        name: "",
+      },
+    },
   });
 
   useImperativeHandle(ref, () => ({
@@ -38,11 +56,29 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
           id: 0,
           name: "",
           address: "",
-          controllerId: 0,
-          controllerPtsId: "",
-          firmwareInformations: "",
-          controllerPts: "",
-          countryId: "",
+          actif: false,
+          controllerPts: {
+            id: 0,
+            ptsId: "",
+            currentConfigurationId: 0,
+            currentFirmwareInformation: {
+              ptsId: "",
+              dateTime: "",
+              versionState: false,
+              modificationDate: "",
+            },
+          },
+          country: {
+            id: 0,
+            name: "",
+            code: "",
+            currency: {
+              code: "",
+              id: 0,
+              locale: "",
+              name: "",
+            },
+          },
         });
       }
       onOpen();

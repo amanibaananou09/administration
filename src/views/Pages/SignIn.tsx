@@ -17,6 +17,7 @@ import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
+import { User } from "common/model";
 
 const SignIn = () => {
   const bgForm: string = useColorModeValue("white", "navy.800");
@@ -29,7 +30,7 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const getDefaultStation = async (user: any): Promise<any> => {
+  const getDefaultStation = async (user: User | null): Promise<any> => {
     const stations = await getStations(user);
     if (stations.length > 0) {
       return stations[0];

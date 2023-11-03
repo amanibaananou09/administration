@@ -21,15 +21,15 @@ const ChartComponent = () => {
   const { user } = useAuth();
   const token = user?.token;
   const {
-    selectedStation: {
-      controllerPts: { id: controllerId },
-    },
-  } = useESSContext();
+    selectedStation} = useESSContext();
 
   useEffect(() => {
     const fetchTanks = async () => {
-      try {
-        const tankList = await getAllTankByIdc(controllerId, token);
+ if (!selectedStation || !user) {
+        return;
+      }
+        try {
+        const tankList = await getAllTankByIdc(selectedStation, user);
         setTanks(tankList);
 
         if (tankList.length > 0) {
@@ -41,11 +41,14 @@ const ChartComponent = () => {
     };
 
     fetchTanks();
-  }, [token, controllerId]);
+  }, [user, selectedStation]);
 
   useEffect(() => {
+  if (!selectedStation || !user) {
+          return;
+        }
     if (selectedTank) {
-      getTankMeasurementByPeriod(controllerId, token, selectedTank, periode)
+      getTankMeasurementByPeriod(selectedStation, user, selectedTank, periode)
         .then((measurementData) => {
           setChartData((prevData) => ({ ...prevData, tankMeasurementData: measurementData }));
         })
@@ -53,7 +56,7 @@ const ChartComponent = () => {
           console.error('Error fetching tank measurement data: ', error);
         });
 
-      getTankLevelByPeriod(token, controllerId, selectedTank, periode)
+      getTankLevelByPeriod(user, selectedStation, selectedTank, periode)
         .then((levelData) => {
           setChartData((prevData) => ({ ...prevData, tankLevelData: levelData }));
         })
@@ -61,7 +64,7 @@ const ChartComponent = () => {
           console.error('Error fetching tank level data: ', error);
         });
     }
-  }, [controllerId, token, selectedTank]);
+  }, [selectedStation, user, selectedTank]);
 
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);

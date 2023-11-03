@@ -1,4 +1,4 @@
-import { User } from "./model";
+import { Station, User,Filter } from "./model";
 
 export const localhostURL = "http://localhost:8083";
 export const webSocketURL = "ws://localhost:8083";
@@ -42,7 +42,6 @@ export const PUMP_UPLOAD_TRANSACTION = `${localhostURL}/api/PumpTransaction`;
 //Tank
 export const TANK_CONFIG_READ_ALL_ENDPOINT = `${localhostURL}/api/configuration/tank`;
 export const TANK_CONFIG_READ_DELIVERY_ENDPOINT = `${localhostURL}/api/configuration/delivery`;
-export const TANK_MEASURMENTS_ENDPOINT = `${localhostURL}/api/essTransaction/TankMeasurements`;
 export const TANK_MEASURMENT_STAT = `${localhostURL}/api/stat/tank`;
 export const TANK_LAST_DELIVERY = `${localhostURL}/api/stat/lastDelivery`;
 //Probe
@@ -72,8 +71,7 @@ export const ALL_SALES_BY_PUMP = `${localhostURL}/api/stat/sales`;
 export const ALL_SALES_BY_PUMP_AND_GRADE = `${localhostURL}/api/stat/salesByGrades`;
 
 
-
-export const fetchUrl = async (config: { url: any; method?: any; headers: any; body?: any; withCredentials?: boolean; crossorigin?: boolean; mode?: string; }) => {
+export const fetchUrl = async (config: { url: string; method?: string; headers: Record<string, string>; body?: Record<string, any>; withCredentials?: boolean; crossorigin?: boolean; mode?: string; }) => {
   const response = await fetch(config.url, {
     method: config.method ? config.method : "GET",
     headers: config.headers,
@@ -96,7 +94,7 @@ export const fetchUrl = async (config: { url: any; method?: any; headers: any; b
   return data;
 };
 
-export const setFuelGradesConfiguration = async (fuelGrades: any, token: string) => {
+export const setFuelGradesConfiguration = async (fuelGrades: string, token: string) => {
   const body = {
     Protocol: "jsonPTS",
     Packets: [
@@ -123,78 +121,78 @@ export const setFuelGradesConfiguration = async (fuelGrades: any, token: string)
   return data;
 };
 
-export const getAllFuelGrades = async (controllerId: any, token: string) => {
+export const getAllFuelGrades = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${FUELGRADES_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
+    url: `${FUELGRADES_CONFIG_READ_ALL_ENDPOINT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
-export const getAllReader = async (controllerId: any, token: string) => {
+export const getAllReader = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${READER_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
+    url: `${READER_CONFIG_READ_ALL_ENDPOINT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
-export const getAllNozzle = async (controllerId: any, token: string) => {
+export const getAllNozzle = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${NOZZLES_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
+    url: `${NOZZLES_CONFIG_READ_ALL_ENDPOINT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
-export const getAllPump = async (controllerId: any, token: string) => {
+export const getAllPump = async ( station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${PUMP_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
+    url: `${PUMP_CONFIG_READ_ALL_ENDPOINT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
-export const getAllTank = async (controllerId: any, token: string) => {
+export const getAllTank = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${TANK_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
+    url: `${TANK_CONFIG_READ_ALL_ENDPOINT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getListUser = async (token: string) => {
+export const getListUser = async (user: User) => {
   const data = await fetchUrl({
     url: LIST_USERS_ENDPOINT,
     withCredentials: true,
@@ -202,28 +200,28 @@ export const getListUser = async (token: string) => {
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getAllProb = async (controllerId: any, token: string) => {
+export const getAllProb = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${PROBE_CONFIG_READ_ALL_ENDPOINT}/${controllerId}`,
+    url: `${PROBE_CONFIG_READ_ALL_ENDPOINT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
-export const setPumpNozzlesConfiguration = async (pumpNozzles: any, token: string) => {
+export const setPumpNozzlesConfiguration = async (pumpNozzles: string, token: string) => {
   // Create the body object with the Port and Probe data variables
   const body = {
     Protocol: "jsonPTS",
@@ -251,7 +249,7 @@ export const setPumpNozzlesConfiguration = async (pumpNozzles: any, token: strin
   return data;
 };
 
-export const setProbesConfiguration = async (ports: any, probes: any, token: string) => {
+export const setProbesConfiguration = async (ports: number, probes: number, user: User) => {
   const body = {
     Protocol: "jsonPTS",
     Packets: [
@@ -271,7 +269,7 @@ export const setProbesConfiguration = async (ports: any, probes: any, token: str
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
     body,
   });
@@ -279,7 +277,7 @@ export const setProbesConfiguration = async (ports: any, probes: any, token: str
   return data;
 };
 
-export const setPumpsConfiguration = async (ports: any, pumps: any, token: string) => {
+export const setPumpsConfiguration = async (ports: number, pumps: string, user: User) => {
   // Create the body object with the Port and Probe data variables
   const body = {
     Protocol: "jsonPTS",
@@ -300,7 +298,7 @@ export const setPumpsConfiguration = async (ports: any, pumps: any, token: strin
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
     body,
   });
@@ -308,7 +306,7 @@ export const setPumpsConfiguration = async (ports: any, pumps: any, token: strin
   return data;
 };
 
-export const sendPumpAuthorize = async (pump: any, nozzle: any, type: any, dose: any, token: string) => {
+export const sendPumpAuthorize = async (pump: string, nozzle: string, type: string, dose: number, user: User) => {
   const body = {
     Protocol: "jsonPTS",
     PtsId: PtsId,
@@ -331,7 +329,7 @@ export const sendPumpAuthorize = async (pump: any, nozzle: any, type: any, dose:
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
     body,
   });
@@ -339,7 +337,7 @@ export const sendPumpAuthorize = async (pump: any, nozzle: any, type: any, dose:
   return data;
 };
 
-export const setReadersConfiguration = async (ports: any, readers: any, token: string) => {
+export const setReadersConfiguration = async (ports: number, readers: string, user: User) => {
   // Create the body object with the Port and Probe data variables
   const body = {
     Protocol: "jsonPTS",
@@ -360,7 +358,7 @@ export const setReadersConfiguration = async (ports: any, readers: any, token: s
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
     body,
   });
@@ -368,7 +366,7 @@ export const setReadersConfiguration = async (ports: any, readers: any, token: s
   return data;
 };
 
-export const setTanksConfiguration = async (tank: any, token: string) => {
+export const setTanksConfiguration = async (tank: string, user: User) => {
   var body = {
     Protocol: "jsonPTS",
     PtsId: PtsId,
@@ -388,7 +386,7 @@ export const setTanksConfiguration = async (tank: any, token: string) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
     body,
   });
@@ -396,33 +394,6 @@ export const setTanksConfiguration = async (tank: any, token: string) => {
   return data;
 };
 
-export const getAllControllers = async (token: string) => {
-  const data = await fetchUrl({
-    url: ALL_CONTROLLERS_ENDPOINT,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
-
-  return data;
-};
-
-export const addController = async (station: any, ptsId: any, token: string) => {
-  const data = await fetchUrl({
-    url: `${ADD_CONTROLLERS_ENDPOINT}/${station}`,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-    body: {
-      ptsId,
-    },
-  });
-
-  return data;
-};
 
 export const login = async (username: string, password: string) => {
   const data = await fetchUrl({
@@ -440,71 +411,46 @@ export const login = async (username: string, password: string) => {
   return data;
 };
 
-export const getControllerVersion = async (token: string) => {
+export const getUserHistory = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: VERSION_CONFIG_ENDPOINT,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
-
-  return data;
-};
-
-export const getUserHistory = async (controllerId: any, token: string) => {
-  const data = await fetchUrl({
-    url: `${HISTORY_USER_ENDPOINT}/${controllerId}/Action`,
+    url: `${HISTORY_USER_ENDPOINT}/${station.controllerPts.id}/Action`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const consultUserHistory = async (controllerId: any, token: string) => {
+export const consultUserHistory = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${HISTORY_USER_ENDPOINT}/${controllerId}/Consult`,
+    url: `${HISTORY_USER_ENDPOINT}/${station.controllerPts.id}/Consult`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
-};
+}
 
-export const getTankMeasurements = async (controllerId: any, token: string) => {
+export const getPumpAuthorizeforhistoryUser = async (station: Station , user: User) => {
   const data = await fetchUrl({
-    url: `${TANK_MEASURMENTS_ENDPOINT}/${controllerId}`,
+    url: `${HISTORY_USER_ENDPOINT}/${station.controllerPts.id}/PumpAuthorize`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getPumpAuthorizeforhistoryUser = async (controllerId: any, token: string) => {
-  const data = await fetchUrl({
-    url: `${HISTORY_USER_ENDPOINT}/${controllerId}/PumpAuthorize`,
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
-
-  return data;
-};
-
-export const getIdUserHistory = async (idAction: any, token: string) => {
+export const getIdUserHistory = async (idAction: number, token: string) => {
   const data = await fetchUrl({
     url: `${HISTORY_USER_GETID}/${idAction}`,
     mode: "cors",
@@ -517,13 +463,13 @@ export const getIdUserHistory = async (idAction: any, token: string) => {
   return data;
 };
 
-export const getAllPumpByNozzel = async (controllerId: any, selectedPump: any, token: string) => {
+export const getAllPumpByNozzel = async (station: Station, selectedPump: string, user: User) => {
   const data = await fetchUrl({
-    url: `${NOZZEL_BY_PUMP_READ_ENDPOINT}/${controllerId}/${selectedPump}`,
+    url: `${NOZZEL_BY_PUMP_READ_ENDPOINT}/${station.controllerPts.id}/${selectedPump}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
@@ -532,7 +478,7 @@ export const getAllPumpByNozzel = async (controllerId: any, selectedPump: any, t
 
 export const getallTransactionPump = async (
   currentPage: number,
-  controllerId: any,
+ station:Station,
   token: string,
   filterType: string,
   pumpId: number,
@@ -541,7 +487,7 @@ export const getallTransactionPump = async (
   endDate: string
 ) => {
   const data = await fetchUrl({
-    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${controllerId}?filterType=${filterType}&pumpId=${pumpId}&fuelGrade=${fuelGrade}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
+    url: `${PUMP_ALL_TRANSACTION_READ_CONFIG}/${station.controllerPts.id}?filterType=${filterType}&pumpId=${pumpId}&fuelGrade=${fuelGrade}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
@@ -552,21 +498,21 @@ export const getallTransactionPump = async (
   return data;
 };
 
-export const getUploadTransactionPump = async (token: string) => {
+export const getUploadTransactionPump = async (user: User) => {
   const data = await fetchUrl({
     url: PUMP_UPLOAD_TRANSACTION,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const createStation = async (station: { name: any; address: any; controllerPtsId: any; countryId: any ; }, user: User ) => {
-  const { name, address, controllerPtsId, countryId, } = station;
+export const createStation = async (station: Station, user: User ) => {
+  const { name, address, controllerPts, country } = station;
 
   const data = await fetchUrl({
     url: STATION_ADD_ENDPOINT,
@@ -578,8 +524,8 @@ export const createStation = async (station: { name: any; address: any; controll
     body: {
       name,
       address,
-      controllerPtsId,
-      countryId,
+      controllerPts,
+      country,
       userLogin: user.username,
     },
   });
@@ -587,8 +533,8 @@ export const createStation = async (station: { name: any; address: any; controll
   return data;
 };
 
-export const updateStation = async (station: { id?: any; name?: any; address?: any; controllerPtsId?: any; countryId?: any | null}, user: User ) => {
-  const { name, address, controllerPtsId, countryId, } = station;
+export const updateStation = async (station: Station, user: User ) => {
+  const { name, address, controllerPts, country } = station;
 
   const data = await fetchUrl({
     url: `${STATION_UPDATE_ENDPOINT}/${station.id}`,
@@ -600,8 +546,8 @@ export const updateStation = async (station: { id?: any; name?: any; address?: a
     body: {
       name,
       address,
-      controllerPtsId,
-      countryId,
+      controllerPts,
+      country,
       userLogin: user.username,
     },
   });
@@ -609,20 +555,20 @@ export const updateStation = async (station: { id?: any; name?: any; address?: a
   return data;
 };
 
-export const deleteStation = async (id: any, token: string | undefined) => {
+export const deleteStation = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${STATION_DELETE_ENDPOINT}/${id}`,
+    url: `${STATION_DELETE_ENDPOINT}/${station.id}`,
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getStationForUser = async (username: any, token: string) => {
+export const getStationForUser = async (username: string, token: string) => {
   const data = await fetchUrl({
     url: `${STATION_ALL_ENDPOINT}/${username}`,
     headers: {
@@ -634,47 +580,36 @@ export const getStationForUser = async (username: any, token: string) => {
   return data;
 };
 
-export const getStations = async (user: any) => {
-  return await getStationForUser(user.username, user.token);
+export const getStations = async (user: User | null) => {
+  return await getStationForUser(user!.username, user!.token);
 };
 
-export const findControllerByStation = async (stationName: any, token: string) => {
+export const findControllerByStation = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${FIND_CONTROLLER_BY_STATION_ENDPOINT}/${stationName}`,
+    url: `${FIND_CONTROLLER_BY_STATION_ENDPOINT}/${station.name}`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const createUserStation = async (
-  firstname: string,
-  lastname: string,
-  username: string,
-  password: string,
-  email: string,
-  role: string,
-  token: string,
-  Address: string,
-  Phone: string,
-  name :string,
-) => {
+export const createUserStation = async (user : User) => {
+  const {family_name, given_name, username, email,role}= user;
   const data = await fetchUrl({
     url: CREATE_USER_ENDPOINT,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
     body: {
-      firstname,
-      lastname,
+      family_name,
+      given_name,
       username,
-      password,
       email,
       role,
     },
@@ -683,60 +618,60 @@ export const createUserStation = async (
   return data;
 };
 
-export const getAllStatVent = async (controllerId: any, token: string) => {
+export const getAllStatVent = async (station:Station , user: User) => {
   const data = await fetchUrl({
-    url: `${CHART_STAT_VENT_ENDPOINT}/${controllerId}`,
+    url: `${CHART_STAT_VENT_ENDPOINT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getAllTankByIdc = async (controllerId: any, token: string | undefined) => {
+export const getAllTankByIdc = async (station:Station, user: User) => {
   const data = await fetchUrl({
-    url: `${CHART_TANK_ALL_BY_IDC}/${controllerId}`,
+    url: `${CHART_TANK_ALL_BY_IDC}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getTankMeasurementByPeriod = async (controllerId: any | number | null, token: string| undefined, tank : string, periode : string) => {
+export const getTankMeasurementByPeriod = async (station: Station, user: User, tank : string, periode : string) => {
   const data = await fetchUrl({
-    url: `${CHART_TANK_Measurement_BY_PERIOD}/${controllerId}?tank=${tank}&periode=${periode}`,
+    url: `${CHART_TANK_Measurement_BY_PERIOD}/${station.controllerPts.id}?tank=${tank}&periode=${periode}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getTankLevelByPeriod = async (token: string | undefined, controllerId: any, tank : string, periode : string) => {
+export const getTankLevelByPeriod = async (user: User, station: Station,tank : string, periode : string) => {
   const data = await fetchUrl({
-    url: `${CHART_TANK_LEVEL_BY_PERIOD}/${controllerId}?tank=${tank}&periode=${periode}`,
+    url: `${CHART_TANK_LEVEL_BY_PERIOD}/${station.controllerPts.id}?tank=${tank}&periode=${periode}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
@@ -744,21 +679,19 @@ export const getTankLevelByPeriod = async (token: string | undefined, controller
 };
 
 export const getChartByFuelPumpPeriod = async (
-  controllerId: any,
-  fuel: string,
-  pump: string,
+  station: Station,
+  filter:Filter,
   periode: string,
-  token: string,
-  chartType: string
+  user: User,
 ) => {
   const data = await fetchUrl({
-    url: `${CHART_ENDPOINT}/${controllerId}?chartType=${chartType}&fuel=${fuel}&pump=${pump}&periode=${periode}`,
+    url: `${CHART_ENDPOINT}/${station.controllerPts.id}?chartType=${filter.chartType}&fuel=${filter.fuelGrade}&pump=${filter.pump}&periode=${periode}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
@@ -766,7 +699,7 @@ export const getChartByFuelPumpPeriod = async (
 };
 
 export const getChartByFuelTankPeriod = async (
-  controllerId: any,
+  controllerId: string,
   fuelGrade: string,
   tank: string,
   period: string,
@@ -787,90 +720,91 @@ export const getChartByFuelTankPeriod = async (
 };
 
 
-export const getAllTankDelivery = async (currentPage: number, controllerId: any, token: string) => {
+export const getAllTankDelivery = async (currentPage: number, station:Station,user: User) => {
   const data = await fetchUrl({
-    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${controllerId}?page=${currentPage}`,
+    url: `${TANK_CONFIG_READ_DELIVERY_ENDPOINT}/${station.controllerPts.id}?page=${currentPage}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getAllSalesByGrades = async (fuelGrade: string, totalSalesParAmount: number, totalSalesParVolume: number , controllerId: any, token: string) => {
+export const getAllSalesByGrades = async ( station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${ALL_SALES_BY_GRADES}/${controllerId}`,
+    url: `${ALL_SALES_BY_GRADES}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getAllSalesByPump = async (pumpId: number, controllerId: any, token: string) => {
+export const getAllSalesByPump = async (station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${ALL_SALES_BY_PUMP}/${controllerId}`,
+    url: `${ALL_SALES_BY_PUMP}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getAllSalesByPumpAndGrades = async (pumpId: number, controllerId: any, token: string) => {
+export const getAllSalesByPumpAndGrades = async (pumpId: number,  station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${ALL_SALES_BY_PUMP_AND_GRADE}/${controllerId}/${pumpId}`,
+    url: `${ALL_SALES_BY_PUMP_AND_GRADE}/${station.controllerPts.id}/${pumpId}`,
     withCredentials: true,
     crossorigin: true,
     method: 'GET',
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  });
-
-  return data;
-};
-export const getStatTankMeasurment  = async ( controllerId: number, token: string) => {
-  const data = await fetchUrl({
-    url: `${TANK_MEASURMENT_STAT}/${controllerId}`,
-    withCredentials: true,
-    crossorigin: true,
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
   return data;
 };
 
-export const getLastTankdelivery  = async ( controllerId: number, token: string, tank:number) => {
+export const getStatTankMeasurment  = async ( station: Station, user: User) => {
   const data = await fetchUrl({
-    url: `${TANK_LAST_DELIVERY}/${controllerId}/${tank}`,
+    url: `${TANK_MEASURMENT_STAT}/${station.controllerPts.id}`,
     withCredentials: true,
     crossorigin: true,
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
+    },
+  });
+
+  return data;
+};
+
+export const getLastTankdelivery  = async ( station: Station, user: User, tank:number) => {
+  const data = await fetchUrl({
+    url: `${TANK_LAST_DELIVERY}/${station.controllerPts.id}/${tank}`,
+    withCredentials: true,
+    crossorigin: true,
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + user.token,
     },
   });
 
