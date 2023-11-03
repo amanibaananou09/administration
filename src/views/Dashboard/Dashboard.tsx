@@ -8,15 +8,15 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Card from "../../components/Card/Card"; // Update the path to the Card component
-import ReportSalesChart from "../../components/Charts/ReportSalesChart"; // Update the path to the Chart component
-import UserSalesChart from "../../components/Charts/UserSalesChart"; // Update the path to the Chart component
-import TankMeasurement from "../../stat/TankMeasurement";
-import { useESSContext } from "../../store/ESSContext";
-import FilterPeriod from "filter/FilterPeriod";
+import Card from "components/Card/Card"; // Update the path to the Card component
+import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
+import UserSalesChart from "components/Charts/UserSalesChart"; // Update the path to the Chart component
+import TankMeasurement from "components/stat/TankMeasurement";
+import { useESSContext } from "store/ESSContext";
+import FilterPeriod from "components/filter/FilterPeriod";
 import SalesGrades from "./SalesGrades";
-import PumpSales from "../../components/stat/PumpSales";
-import ChartComponent from "../../components/Charts/ChartComponent";
+import PumpSales from "components/stat/PumpSales";
+import ChartComponent from "components/Charts/ChartComponent";
 
 export default function Dashboard() {
   const context = useESSContext();
