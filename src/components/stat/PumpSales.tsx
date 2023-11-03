@@ -8,8 +8,9 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
+
 import { getAllSalesByPump } from "common/api/statistique-api";
-import { SalesPump } from "common/model";
+import { periodeProps, SalesPump } from "common/model";
 import Card from "components/Card/Card";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
@@ -17,12 +18,9 @@ import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
 
-function PumpSales() {
+export const PumpSales = ({ periode }: periodeProps) => {
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
-  const [pumpId, setPumpId] = useState<number>(0);
-  const [allSales, setAllSales] = useState<number>(0);
-  const [pumpSales, setPumpSales] = useState<number>(0);
   const { selectedStation } = useESSContext();
 
   useEffect(() => {
@@ -31,16 +29,15 @@ function PumpSales() {
         return;
       }
       try {
-        const result = await getAllSalesByPump(selectedStation);
+        const result = await getAllSalesByPump(selectedStation, periode);
         setSalesPumps(result);
       } catch (error) {
         console.error(error);
       }
     };
     fetchSalesByPump();
-  }, [selectedStation, user]);
+  }, [selectedStation, user, periode]);
   const [isContentVisible, setIsContentVisible] = useState(true);
-
   return (
     <>
       <Flex flexDirection="column">
@@ -116,7 +113,7 @@ function PumpSales() {
                 <Image src={pump} height="75%" width="15%" />
               </Flex>
               <Text as="span" fontWeight="bold" color="blue.600">
-                <SalesByGrades pumpId={salesPump.pumpId} />
+                <SalesByGrades pumpId={salesPump.pumpId} periode={periode} />
               </Text>
             </Card>
           ))}
@@ -124,6 +121,6 @@ function PumpSales() {
       )}
     </>
   );
-}
+};
 
 export default PumpSales;

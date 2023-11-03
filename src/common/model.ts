@@ -327,6 +327,7 @@ export interface LastTankRowProps {
 
 export interface SalesPumpGradesRowProps {
   pumpId: number;
+  periode: string;
 }
 
 export interface tankMeasurementData{

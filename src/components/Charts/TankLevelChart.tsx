@@ -3,27 +3,33 @@ import {
   getTankLevelByPeriod,
   getTankMeasurementByPeriod,
 } from "common/api/chart-api";
-import { Tank, tankLevelData, tankMeasurementData } from "common/model";
-import { chartOptions2 } from "components/Charts/ChartOptions2";
+import { tankLevelChartConfig } from "common/chartOptions";
+import {
+  periodeProps,
+  Tank,
+  tankLevelData,
+  tankMeasurementData,
+} from "common/model";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import { useAuth } from "store/AuthContext";
+import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartMenu from "../ChartMenu/TankChartMenu";
 type TankType = string | number | null;
 
-const ChartComponent = () => {
+export const TankLevelChart = ({ periode }: periodeProps) => {
   const [chartData, setChartData] = useState({
     tankMeasurementData: [] as tankMeasurementData[],
     tankLevelData: [] as tankLevelData[],
   });
 
-  const { user } = useAuth();
-
   const [selectedTank, setSelectedTank] = useState<string | null>("");
   const [tanks, setTanks] = useState<Tank[]>([]);
-  const [chartOptions, setChartOptions2] = useState(chartOptions2.options);
-  const [periode, setPeriode] = useState<string>("");
+
+  const [chartOptions, setChartOptions] = useState(
+    tankLevelChartConfig.options,
+  );
+  const { user } = useAuth();
   const { selectedStation } = useESSContext();
 
   useEffect(() => {
@@ -74,10 +80,10 @@ const ChartComponent = () => {
         });
     }
   }, [selectedStation, user, selectedTank]);
-
+  console.log(" chart data ", chartData);
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);
-
+  console.log("alignedChartData: ", alignedChartData);
   // Process and merge data for the chart
   const chartSeries = [
     {
@@ -129,4 +135,4 @@ const alignDataPoints = (data: {
   return data;
 };
 
-export default ChartComponent;
+export default TankLevelChart;

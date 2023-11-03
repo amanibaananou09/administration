@@ -69,100 +69,31 @@ export const createReportSalesChartOptions = (labels: string[]): object => {
 };
 
 export const tankLevelChartConfig: any = {
-  options: {
-    chart: {
-      id: "dashed-line",
-      toolbar: {
-        show: false,
-      },
-    },
-    xaxis: {
-      categories: [],
-      style: {
-        fontSize: "10px",
-      },
-    },
-    yaxis: {
-      beginAtZero: true,
-      tickAmount: 12,
-      labels: {
-        formatter: function (value: number) {
-          return value.toFixed(2);
+    options: {
+      chart: {
+        id: "dashed-line",
+        toolbar: {
+          show: false,
         },
       },
-    },
-    scales: {
-      y: {
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
         beginAtZero: true,
-        ticks: {
-          stepSize: 100,
-        },
-      },
-    },
-  },
-  series: [
-    {
-      name: "Gasoil",
-      data: [],
-    },
-    {
-      name: "Super Sans Plomb",
-      data: [],
-    },
-    {
-      name: "Gasoil Sans Soufre",
-      data: [],
-    },
-  ],
-};
-
-export const tankSalesChartConfig = {
-  options: {
-    chart: {
-      height: 350,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: "80%",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    xaxis: {
-      categories: [],
-    },
-    yaxis: [
-      {
         labels: {
           formatter: function (value: number) {
-            return value.toFixed(2);
+            return value !== undefined ? value.toFixed(2) : "";
           },
         },
       },
-    ],
-    colors: ["#F15B46", "#FEB019", "#38B2AC"],
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 100,
+          },
+        },
+      },
     },
-  },
-  series: [
-    {
-      name: "Sales Volume",
-      data: [],
-    },
-    {
-      name: "Change Volume",
-      data: [],
-    },
-    {
-      name: "Leak",
-      data: [],
-    },
-  ],
-};
+  };

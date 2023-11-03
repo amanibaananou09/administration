@@ -16,7 +16,7 @@ import { useESSContext } from "store/ESSContext";
 import FilterPeriod from "components/filter/FilterPeriod";
 import SalesGrades from "./SalesGrades";
 import PumpSales from "components/stat/PumpSales";
-import ChartComponent from "components/Charts/ChartComponent";
+import TankLevelChart from "components/Charts/TankLevelChart";
 
 export default function Dashboard() {
   const context = useESSContext();
@@ -48,8 +48,8 @@ export default function Dashboard() {
         onSearch={handleSearchFilters}
       />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-        <PumpSales />
-        <SalesGrades />
+        <PumpSales periode={selectedFilter} />
+        <SalesGrades periode={selectedFilter}/>
       </Flex>
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Grid
@@ -73,7 +73,7 @@ export default function Dashboard() {
             marginLeft="30%"
           >
             <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
-              Month Wise Sales Report
+             Sales
             </Text>
           </Flex>
           <Box minH="300px">
@@ -104,7 +104,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <ChartComponent />
+            <TankLevelChart  periode={selectedFilter}/>
           </Box>
         </Card>
       </Flex>
