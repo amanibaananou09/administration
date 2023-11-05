@@ -7,8 +7,8 @@ import {
   SubMenu,
 } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
-import { getAllFuelGrades, getAllPump } from "common/api";
-import { fuelGrade, ReportSalesChartMenuProps ,pump} from "common/model";
+import { getAllFuelGrades, getAllPump } from "common/api/configuration-api";
+import { fuelGrade, pump, ReportSalesChartMenuProps } from "common/model";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
@@ -35,9 +35,9 @@ const ReportSalesChartMenu = ({
         return;
       }
       try {
-        const pumps = await getAllPump(selectedStation, user);
+        const pumps = await getAllPump(selectedStation);
 
-        const fuelGrades = await getAllFuelGrades(selectedStation, user);
+        const fuelGrades = await getAllFuelGrades(selectedStation);
 
         setConfig({
           pumps,
