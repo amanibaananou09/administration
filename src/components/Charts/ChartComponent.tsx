@@ -2,7 +2,7 @@ import {
   getAllTankByIdc,
   getTankLevelByPeriod,
   getTankMeasurementByPeriod,
-} from "common/api/data-api";
+} from "common/api/chart-api";
 import { Tank, tankLevelData, tankMeasurementData } from "common/model";
 import { chartOptions2 } from "components/Charts/ChartOptions2";
 import { useEffect, useState } from "react";

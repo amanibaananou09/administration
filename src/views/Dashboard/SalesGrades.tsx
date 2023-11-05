@@ -1,6 +1,6 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Flex, SimpleGrid, Stat, StatLabel, Text } from "@chakra-ui/react";
-import { getAllSalesByGrades } from "common/api/stat-api";
+import { getAllSalesByGrades } from "common/api/statistique-api";
 import { useEffect, useState } from "react";
 import { Grades } from "../../common/model";
 import Card from "../../components/Card/Card"; // Update the path to the Card component

@@ -1,6 +1,6 @@
 import { Button, Text } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/system";
-import { getStations } from "common/api/administration-api";
+import { getStations } from "common/api/station-api";
 import { Station } from "common/model";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";

@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { getAllStatVent } from "common/api/data-api";
+import { getAllStatVent } from "common/api/chart-api";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useAuth } from "store/AuthContext";

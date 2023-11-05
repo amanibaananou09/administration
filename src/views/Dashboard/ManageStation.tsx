@@ -6,10 +6,10 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { getStations } from "common/api/administration-api";
 import {
   createStation,
   deleteStation,
+  getStations,
   updateStation,
 } from "common/api/station-api";
 import { ModalRef, Station } from "common/model";
