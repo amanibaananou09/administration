@@ -1,6 +1,4 @@
-import { getallTransactionPump } from "common/api";
 import { useEffect, useState } from "react";
-import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
 import {
@@ -18,6 +16,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
+import { getallTransactionPump } from "common/api/configuration-api";
 import { Transaction } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -35,10 +34,7 @@ const Transactions = () => {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
-  const { user } = useAuth();
   const { selectedStation } = useESSContext();
-
-  const token = user?.token || "";
 
   useEffect(() => {
     const getAllTransaction = async () => {
@@ -49,7 +45,6 @@ const Transactions = () => {
         const result = await getallTransactionPump(
           currentPage,
           selectedStation,
-          token,
           filterType,
           pumpId,
           fuelGradeName,
@@ -65,7 +60,7 @@ const Transactions = () => {
       }
     };
     getAllTransaction();
-  }, [currentPage, selectedStation, user]);
+  }, [currentPage, selectedStation]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -80,7 +75,11 @@ const Transactions = () => {
           </Text>
         </CardHeader>
         <CardBody>
-          <Table variant="simple" color={textColor} size="sm" textAlign="center"
+          <Table
+            variant="simple"
+            color={textColor}
+            size="sm"
+            textAlign="center"
           >
             <Thead>
               <Tr color="gray.400">

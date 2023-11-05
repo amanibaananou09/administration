@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
-import { useESSContext } from "store/ESSContext";
-import { getChartByFuelPumpPeriod } from "common/api";
+
+import { Flex, Text } from "@chakra-ui/react";
+import { getChartByFuelPumpPeriod } from "common/api/data-api";
 import { createReportSalesChartOptions } from "common/chartOptions";
 import { ChartData, Filter, periodeProps } from "common/model";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import ReactApexChart from "react-apexcharts";
-import { Flex, Text } from "@chakra-ui/react";
+import { useESSContext } from "store/ESSContext";
 
 export const ReportSalesChart = ({ periode }: periodeProps) => {
   const { selectedStation } = useESSContext();
@@ -42,21 +43,18 @@ export const ReportSalesChart = ({ periode }: periodeProps) => {
         selectedStation,
         filter,
         periode,
-        user,
       );
 
-     const filteredData: ChartData = {
+      const filteredData: ChartData = {
         labels: data.map((item: { date: string; dateF: string }) => {
           if (chartType === "amount" && pump === "all" && fuelGrade === "all") {
             return item.date;
           } else if (
-            (chartType === "amount" &&
-            pump !== "all" &&
-            fuelGrade !== "all")|| (chartType === "volume")
+            (chartType === "amount" && pump !== "all" && fuelGrade !== "all") ||
+            chartType === "volume"
           ) {
             return item.dateF;
-          }
-           else {
+          } else {
             return item.date;
           }
         }),
@@ -73,8 +71,9 @@ export const ReportSalesChart = ({ periode }: periodeProps) => {
                 return item.sum;
               } else if (
                 (chartType === "amount" &&
-                pump !== "all" &&
-                fuelGrade !== "all") || (chartType === "volume")
+                  pump !== "all" &&
+                  fuelGrade !== "all") ||
+                chartType === "volume"
               ) {
                 return item.sumF;
               } else {

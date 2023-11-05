@@ -1,0 +1,21 @@
+import { User } from "common/model";
+import api from "./axios";
+
+export const createUserStation = async (user: User) => {
+  const { family_name, given_name, username, email, role } = user;
+  const response = await api.post("/createUser", {
+    family_name,
+    given_name,
+    username,
+    email,
+    role,
+  });
+
+  return response.data;
+};
+
+export const getListUser = async () => {
+  const response = await api.get("/listUsers");
+
+  return response.data;
+};

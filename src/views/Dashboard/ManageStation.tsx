@@ -6,13 +6,13 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { getStations } from "common/api/administration-api";
 import {
   createStation,
   deleteStation,
-  getStations,
   updateStation,
-} from "common/api";
-import { Station, ModalRef } from "common/model";
+} from "common/api/station-api";
+import { ModalRef, Station } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -33,7 +33,7 @@ const ManageStation = () => {
   const textColor = useColorModeValue("gray.700", "white");
 
   const openStationModal = (station?: Station) => {
-      stationModalRef.current?.open(station);
+    stationModalRef.current?.open(station);
   };
 
   const openConfirmationToDeleteModal = (station: Station) => {
@@ -45,7 +45,7 @@ const ManageStation = () => {
       return;
     }
     try {
-      await deleteStation(station, user);
+      await deleteStation(station);
 
       setStations((prev) => prev.filter((st) => st.id !== station.id));
 
@@ -87,9 +87,7 @@ const ManageStation = () => {
           selectStation(station);
         }
       } else {
-        const newStation = await createStation(
-          station, user
-        );
+        const newStation = await createStation(station, user);
         setStations((prev) => [newStation, ...prev]);
       }
 
@@ -101,7 +99,7 @@ const ManageStation = () => {
 
   useEffect(() => {
     const getAllStations = async () => {
-      const retrievedStations = await getStations(user);
+      const retrievedStations = await getStations(user!!);
 
       setStations([...retrievedStations]);
     };
@@ -131,10 +129,10 @@ const ManageStation = () => {
             <CardBody>
               <Flex direction="column" w="100%">
                 {stations.map((row, key) => {
-                   const firmwareInformation =
-                     (row.controllerPts.currentFirmwareInformation &&
-                       row.controllerPts.currentFirmwareInformation.dateTime) ||
-                     "N/A";
+                  const firmwareInformation =
+                    (row.controllerPts.currentFirmwareInformation &&
+                      row.controllerPts.currentFirmwareInformation.dateTime) ||
+                    "N/A";
                   return (
                     <StationRow
                       id={row.id}

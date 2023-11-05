@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
 import {
   Box,
-  Heading,
   Flex,
-  Text,
+  Heading,
+  Icon,
   List,
   ListItem,
-  Icon,
+  Text,
 } from "@chakra-ui/react";
-import { useESSContext } from "store/ESSContext";
-import { useAuth } from "store/AuthContext";
-import { MdCheckCircle } from "react-icons/md";
+import { getLastTankDelivery } from "common/api/stat-api";
 import { LastTankRowProps, TankDelivery } from "common/model";
-import { getLastTankdelivery } from "common/api";
+import { useEffect, useState } from "react";
+import { MdCheckCircle } from "react-icons/md";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 export const LastTankDelivery = ({ tank }: LastTankRowProps) => {
   const [lastTank, setLastTank] = useState<TankDelivery[]>([]);
   const { user } = useAuth();
@@ -24,7 +24,7 @@ export const LastTankDelivery = ({ tank }: LastTankRowProps) => {
         return;
       }
       try {
-        const result = await getLastTankdelivery(selectedStation, user, tank);
+        const result = await getLastTankDelivery(selectedStation, tank);
         const tankArray = Array.isArray(result) ? result : [result];
         setLastTank(tankArray);
       } catch (error) {

@@ -12,7 +12,7 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { getAllTankDelivery } from "common/api";
+import { getAllTankDelivery } from "common/api/configuration-api";
 import { TankDeliveryProps } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -31,18 +31,13 @@ const TankDelivery = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const { selectedStation } = useESSContext();
 
-
   useEffect(() => {
     const allTankDelivery = async () => {
       if (!selectedStation || !user) {
         return;
       }
       try {
-        const result = await getAllTankDelivery(
-          currentPage,
-          selectedStation,
-          user,
-        );
+        const result = await getAllTankDelivery(currentPage, selectedStation);
         const { content, totalPages } = result;
         setTankDelivery(content);
         setTotalPages(totalPages);

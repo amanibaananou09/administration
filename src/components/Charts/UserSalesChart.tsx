@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { getAllStatVent } from "common/api";
+import { getAllStatVent } from "common/api/data-api";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useAuth } from "store/AuthContext";
@@ -9,7 +9,6 @@ const UserSalesChart = () => {
   const { selectedStation } = useESSContext();
 
   const { user } = useAuth();
-
   const [data, setData] = useState<{
     labels: string[];
     datasets: {
@@ -43,11 +42,11 @@ const UserSalesChart = () => {
       const dataSet2: number[] = [];
       const dataSet3: number[] = [];
       const uniqueUserIds = new Set<number>();
-      if(!user){
+      if (!user) {
         return;
       }
       if (selectedStation) {
-        const res = await getAllStatVent(selectedStation, user);
+        const res = await getAllStatVent(selectedStation);
 
         try {
           if (Array.isArray(res)) {

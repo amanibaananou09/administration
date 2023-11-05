@@ -10,7 +10,9 @@ import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
 import theme from "theme/theme";
 
-const root = createRoot(document.getElementById("root"));
+const container = document.getElementById("root");
+
+const root = createRoot(container);
 
 root.render(
   <ESSContextProvider>

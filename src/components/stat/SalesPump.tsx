@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { useESSContext } from "store/ESSContext";
-import { useAuth } from "store/AuthContext";
+import { Box, Text } from "@chakra-ui/react";
+import { getAllSalesByPumpAndGrades } from "common/api/stat-api";
 import { SalesPumpGrades, SalesPumpGradesRowProps } from "common/model";
-import { getAllSalesByPumpAndGrades } from "common/api";
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 
 export const SalesByGrades = ({ pumpId }: SalesPumpGradesRowProps) => {
   const [pumpGrades, setPumpGrades] = useState<SalesPumpGrades[]>([]);
   const { user } = useAuth();
-  const { selectedStation} = useESSContext();
+  const { selectedStation } = useESSContext();
 
   useEffect(() => {
     const getAllLastTankDelivery = async () => {
-    if (!selectedStation|| !user) {
-            return;
-          }
+      if (!selectedStation || !user) {
+        return;
+      }
       try {
-        const result = await getAllSalesByPumpAndGrades(pumpId, selectedStation, user);
+        const result = await getAllSalesByPumpAndGrades(
+          pumpId,
+          selectedStation,
+        );
         const tankArray = Array.isArray(result) ? result : [result];
         setPumpGrades(tankArray);
       } catch (error) {
@@ -24,15 +27,15 @@ export const SalesByGrades = ({ pumpId }: SalesPumpGradesRowProps) => {
       }
     };
     getAllLastTankDelivery();
-  }, [selectedStation,pumpId, selectedStation]);
+  }, [selectedStation, pumpId, selectedStation]);
 
   return (
     <Box p={4} maxW="600px" mx="auto">
       <Box borderBottom="1px solid #e5e5e5" my={4} />
       {pumpGrades.map((pumpGrade, index) => (
-        <div key={pumpGrade.pumpId}>
+        <div key={index}>
           <Text fontWeight="normal" mb={2}>
-            {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount} {" "}
+            {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount}{" "}
             <Text as="span" fontWeight="bold" color="blue.600" display="inline">
               {selectedStation?.country?.currency?.code}
             </Text>
