@@ -7,7 +7,7 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
-import { getLastTankDelivery } from "common/api/stat-api";
+import { getLastTankDelivery } from "common/api/statistique-api";
 import { LastTankRowProps, TankDelivery } from "common/model";
 import { useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 
 import { Flex, Text } from "@chakra-ui/react";
-import { getChartByFuelPumpPeriod } from "common/api/data-api";
+import { getChartByFuelPumpPeriod } from "common/api/chart-api";
 import { createReportSalesChartOptions } from "common/chartOptions";
 import { ChartData, Filter, periodeProps } from "common/model";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";

@@ -1,20 +1,20 @@
 import { Station, User } from "common/model";
 import api from "./axios";
 
-const API_URL = "/station";
+const API_URL = "/customerAccount";
 
-export const getAllControllers = async () => {
-  const response = await api.get(`${API_URL}/allContoller`);
+export const getStationForUser = async (username: string, token: string) => {
+  const response = await api.get(`${API_URL}/station/${username}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
 
   return response.data;
 };
 
-export const addController = async (station: any, ptsId: any) => {
-  const response = await api.post(`${API_URL}/addController/${station}`, {
-    ptsId,
-  });
-
-  return response.data;
+export const getStations = async (user: User) => {
+  return await getStationForUser(user.username, user.token);
 };
 
 export const createStation = async (station: Station, user: User) => {
@@ -26,6 +26,20 @@ export const createStation = async (station: Station, user: User) => {
     controllerPts,
     country,
     userLogin: user.username,
+  });
+
+  return response.data;
+};
+
+export const getAllControllers = async () => {
+  const response = await api.get(`${API_URL}/allContoller`);
+
+  return response.data;
+};
+
+export const addController = async (station: any, ptsId: any) => {
+  const response = await api.post(`${API_URL}/addController/${station}`, {
+    ptsId,
   });
 
   return response.data;

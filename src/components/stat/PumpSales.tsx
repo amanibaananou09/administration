@@ -8,7 +8,7 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { getAllSalesByPump } from "common/api/stat-api";
+import { getAllSalesByPump } from "common/api/statistique-api";
 import { SalesPump } from "common/model";
 import Card from "components/Card/Card";
 import { useEffect, useState } from "react";

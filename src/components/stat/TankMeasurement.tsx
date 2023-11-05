@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { getStatTankMeasurment } from "common/api/stat-api";
+import { getStatTankMeasurment } from "common/api/statistique-api";
 import { TankStat } from "common/model";
 import { TankMeasurementRow } from "components/Tables/TankMeasurementRow";
 import { useEffect, useState } from "react";

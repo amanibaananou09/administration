@@ -11,8 +11,8 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { getStations } from "common/api/administration-api";
 import { login } from "common/api/auth-api";
+import { getStations } from "common/api/station-api";
 import { User } from "common/model";
 import React, { useState } from "react";
 import { useAuth } from "store/AuthContext";
