@@ -128,7 +128,7 @@ const Dashboard = (props: { [x: string]: any }) => {
   return (
     <Box>
       <Box
-        minH="50vh"
+        minH="41vh"
         w="100%"
         position="absolute"
         bgImage={colorMode === "light" ? bgAdmin : "none"}

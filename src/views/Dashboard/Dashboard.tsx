@@ -29,6 +29,7 @@ export default function Dashboard() {
   const handleSearchFilters = (fromDate: string, toDate: string) => {
     setFromDate(fromDate);
     setToDate(toDate);
+    setSelectedFilter("");
   };
   const handleFilterChange = (filter: string) => {
     setSelectedFilter(filter);
@@ -48,8 +49,8 @@ export default function Dashboard() {
         onSearch={handleSearchFilters}
       />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-        <PumpSales periode={selectedFilter} />
-        <SalesGrades periode={selectedFilter}/>
+        <PumpSales periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
+        <SalesGrades periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
       </Flex>
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Grid
@@ -77,7 +78,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <ReportSalesChart periode={selectedFilter}/>
+            <ReportSalesChart periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
@@ -87,7 +88,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <UserSalesChart />
+            <UserSalesChart periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
           </Box>
         </Card>
       </Grid>
@@ -104,7 +105,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <TankLevelChart  periode={selectedFilter}/>
+            <TankLevelChart  periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
           </Box>
         </Card>
       </Flex>

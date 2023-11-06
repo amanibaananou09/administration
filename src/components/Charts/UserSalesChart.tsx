@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-
-const UserSalesChart = () => {
+import { periodeProps } from "common/model";
+const UserSalesChart = ({ periode, startDate, endDate }: periodeProps) => {
   const { selectedStation } = useESSContext();
 
   const { user } = useAuth();
@@ -46,7 +46,7 @@ const UserSalesChart = () => {
         return;
       }
       if (selectedStation) {
-        const res = await getAllStatVent(selectedStation);
+        const res = await getAllStatVent(selectedStation,periode, startDate, endDate);
 
         try {
           if (Array.isArray(res)) {
@@ -97,7 +97,7 @@ const UserSalesChart = () => {
     };
 
     fetchData();
-  }, [selectedStation]);
+  }, [selectedStation, periode, startDate, endDate]);
 
   const UserSalesBarChartOptions = {
     chart: {

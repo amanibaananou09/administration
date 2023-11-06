@@ -15,9 +15,8 @@ import ReactApexChart from "react-apexcharts";
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartMenu from "../ChartMenu/TankChartMenu";
-type TankType = string | number | null;
 
-export const TankLevelChart = ({ periode }: periodeProps) => {
+export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => {
   const [chartData, setChartData] = useState({
     tankMeasurementData: [] as tankMeasurementData[],
     tankLevelData: [] as tankLevelData[],
@@ -53,37 +52,31 @@ export const TankLevelChart = ({ periode }: periodeProps) => {
   }, [user, selectedStation]);
 
   useEffect(() => {
-    if (!selectedStation || !user) {
+    if (!selectedStation || !user || !selectedTank) {
       return;
     }
-    if (selectedTank) {
-      getTankMeasurementByPeriod(selectedStation, selectedTank, periode)
-        .then((measurementData) => {
+    const fetchData = async () => {
+      try {
+        const measurementData = await getTankMeasurementByPeriod(selectedStation, selectedTank, periode, startDate, endDate);
           setChartData((prevData) => ({
             ...prevData,
             tankMeasurementData: measurementData,
           }));
-        })
-        .catch((error) => {
-          console.error("Error fetching tank measurement data: ", error);
-        });
 
-      getTankLevelByPeriod(selectedStation, selectedTank, periode)
-        .then((levelData) => {
+          const levelData = await getTankLevelByPeriod(selectedStation, selectedTank, periode, startDate, endDate);
           setChartData((prevData) => ({
             ...prevData,
             tankLevelData: levelData,
           }));
-        })
-        .catch((error) => {
-          console.error("Error fetching tank level data: ", error);
-        });
-    }
-  }, [selectedStation, user, selectedTank]);
-  console.log(" chart data ", chartData);
+        } catch (error) {
+          console.error("Error fetching tank data: ", error);
+        }
+      };
+      fetchData();
+    }, [periode, selectedStation, user, selectedTank , startDate, endDate]);
+  
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);
-  console.log("alignedChartData: ", alignedChartData);
   // Process and merge data for the chart
   const chartSeries = [
     {
@@ -109,7 +102,7 @@ export const TankLevelChart = ({ periode }: periodeProps) => {
       <TankChartMenu
         tanks={tanks}
         selectedTank={selectedTank}
-        onChange={(tank) => setSelectedTank(tank ? tank.toString() : null)}
+        onChange={(tank) => setSelectedTank(String(tank))}
       />
       {alignedChartData.tankLevelData.length > 0 &&
         alignedChartData.tankMeasurementData.length > 0 && (

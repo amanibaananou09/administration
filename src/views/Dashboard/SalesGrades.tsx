@@ -7,7 +7,7 @@ import Card from "../../components/Card/Card"; // Update the path to the Card co
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 
-export const SalesGrades = ({ periode }: periodeProps) => {
+export const SalesGrades = ({ periode ,startDate, endDate}: periodeProps) => {
   const [grades, setGrades] = useState<Grades[]>([]);
   const { user } = useAuth();
 
@@ -19,14 +19,14 @@ export const SalesGrades = ({ periode }: periodeProps) => {
         return;
       }
       try {
-        const result = await getAllSalesByGrades(selectedStation, periode);
+        const result = await getAllSalesByGrades(selectedStation, periode, startDate, endDate);
         setGrades(result);
       } catch (error) {
         console.error(error);
       }
     };
     allStatGrades();
-  }, [selectedStation, user, periode]);
+  }, [selectedStation, user, periode , startDate, endDate]);
   const [isContentVisible, setIsContentVisible] = useState(true);
 
   return (

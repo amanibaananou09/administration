@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
-export const SalesByGrades = ({ pumpId, periode }: SalesPumpGradesRowProps) => {
+export const SalesByGrades = ({ pumpId, periode, startDate, endDate }: SalesPumpGradesRowProps) => {
   const [pumpGrades, setPumpGrades] = useState<SalesPumpGrades[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
@@ -20,6 +20,8 @@ export const SalesByGrades = ({ pumpId, periode }: SalesPumpGradesRowProps) => {
           pumpId,
           selectedStation,
           periode,
+          startDate, 
+          endDate
         );
         setPumpGrades(result);
       } catch (error) {
@@ -27,7 +29,7 @@ export const SalesByGrades = ({ pumpId, periode }: SalesPumpGradesRowProps) => {
       }
     };
     getAllLastTankDelivery();
-  }, [selectedStation, pumpId, periode]);
+  }, [selectedStation, pumpId, periode,startDate, endDate]);
   return (
     <Box p={4} maxW="600px" mx="auto">
       <Box borderBottom="1px solid #e5e5e5" my={4} />
