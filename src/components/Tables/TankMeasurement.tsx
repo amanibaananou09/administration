@@ -1,46 +1,46 @@
-import React, { useState, useEffect } from "react";
 import {
-  Flex,
   Box,
-  Text,
-  Stat,
-  useColorModeValue,
   Circle,
+  Flex,
   Image,
+  Stat,
+  Text,
   Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import { TankMeasurementRowProps } from "common/model";
 import Card from "components/Card/Card";
 import LastTankDelivery from "components/stat/LastTankDelivery";
-import tank from "../../assets/img/tank.png";
-import { TankMeasurementRowProps } from "common/model";
+import tankImg from "../../assets/img/tank.png";
 
-export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
+const getColorForLevel = (level: number): string => {
+  if (level >= 90) {
+    return "#07C100";
+  } else if (level >= 60) {
+    return "#1FC32F";
+  } else if (level >= 50) {
+    return "#EAA817";
+  } else if (level >= 30) {
+    return "#EA8B17";
+  } else {
+    return "#E02200";
+  }
+};
+
+export const TankMeasurement = ({
+  tankMeasurement,
+}: TankMeasurementRowProps) => {
   const textColor = useColorModeValue("gray.700", "white");
-  const boxHeight = `${row.percentage}%`;
-  const circleColor = row.percentage <= 20 ? "red" : "green";
-  const [tankLevel, setTankLevel] = useState<number>(row.percentage);
-  const getColorForLevel = (level: number): string => {
-    if (level >= 90) {
-      return "#07C100";
-    } else if (level >= 60) {
-      return "#1FC32F";
-    } else if (level >= 50) {
-      return "#EAA817";
-    } else if (level >= 30) {
-      return "#EA8B17";
-    } else {
-      return "#E02200";
-    }
-  };
-  const [boxColor, setBoxColor] = useState<string>("");
-  useEffect(() => {
-    setBoxColor(getColorForLevel(tankLevel));
-  }, [tankLevel]);
+  const boxHeight = `${tankMeasurement.percentage}%`;
+  const circleColor = tankMeasurement.percentage <= 20 ? "red" : "green";
+  const tankLevel = tankMeasurement.percentage;
+  const boxColor = getColorForLevel(tankLevel);
+
   return (
     <Card minH="125px" m="5" width="500px">
       <Flex alignItems="center">
         <Circle size="25px" bg={circleColor} color="white">
-          {row.tank}
+          {tankMeasurement.tank}
         </Circle>
 
         <Stat flex="1" textAlign="left">
@@ -51,38 +51,65 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
             p="10px"
             borderBottom="1px solid black"
           >
-            {row.fuelGrade}
+            {tankMeasurement.fuelGrade}
           </Text>
         </Stat>
-        <Tooltip label={<LastTankDelivery tank={row.tank} />} hasArrow>
-          <Image src={tank} height="75%" width="15%" />
+        <Tooltip
+          label={<LastTankDelivery tankId={tankMeasurement.tank} />}
+          placement="auto"
+          hasArrow
+        >
+          <Image src={tankImg} height="75%" width="15%" />
         </Tooltip>
       </Flex>
 
       <Flex direction="row">
-        <Flex flexDirection="column"  justifyContent="center" w="100%" height="150px">
+        <Flex
+          flexDirection="column"
+          justifyContent="center"
+          w="100%"
+          height="150px"
+        >
           <Flex alignItems="center">
             <Text fontSize="xl" fontWeight="semibold" color={textColor}>
-              <Text as="span" textAlign="center" color="gray.600" fontWeight="normal" p="0">
+              <Text
+                as="span"
+                textAlign="center"
+                color="gray.600"
+                fontWeight="normal"
+                p="0"
+              >
                 Product volume:
               </Text>
-              {row.productVolume}L
+              {tankMeasurement.productVolume}L
             </Text>
           </Flex>
           <Flex alignItems="center">
             <Text fontSize="xl" fontWeight="semibold" color={textColor}>
-              <Text as="span" textAlign="center" color="gray.600" fontWeight="normal" p="0">
+              <Text
+                as="span"
+                textAlign="center"
+                color="gray.600"
+                fontWeight="normal"
+                p="0"
+              >
                 Water volume:
               </Text>
-              {row.waterVolume}L
+              {tankMeasurement.waterVolume}L
             </Text>
           </Flex>
           <Flex alignItems="center">
             <Text fontSize="xl" fontWeight="semibold" color={textColor}>
-              <Text as="span" textAlign="center" color="gray.600" fontWeight="normal" p="0">
+              <Text
+                as="span"
+                textAlign="center"
+                color="gray.600"
+                fontWeight="normal"
+                p="0"
+              >
                 Temperature:
               </Text>
-              {row.temperature}°C
+              {tankMeasurement.temperature}°C
             </Text>
           </Flex>
         </Flex>
@@ -108,7 +135,7 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
             color="white"
             fontWeight="bold"
           >
-            {row.percentage}%
+            {tankMeasurement.percentage}%
           </Box>
         </Box>
       </Flex>

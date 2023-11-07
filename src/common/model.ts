@@ -284,7 +284,7 @@ export interface pump {
   baudRate: number;
   address: string;
 }
-export interface TankStat {
+export interface TankMeasurement {
   tank: number;
   fuelGrade: string;
   percentage: number;
@@ -293,7 +293,7 @@ export interface TankStat {
   temperature: number;
 }
 export interface TankMeasurementRowProps {
-  row: TankStat;
+  tankMeasurement: TankMeasurement;
 }
 
 export interface SalesPump {
@@ -322,7 +322,7 @@ export interface TankDelivery {
   productMass: number;
 }
 export interface LastTankRowProps {
-  tank: number;
+  tankId: number;
 }
 
 export interface SalesPumpGradesRowProps {
@@ -354,5 +354,5 @@ export interface periodeProps {
 }
 
 export interface FilterTables {
-   pump : String;
+  pump: String;
 }

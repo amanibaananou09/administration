@@ -8,7 +8,6 @@ const TankChartMenu = ({
   selectedTank,
   onChange,
 }: TankChartMenuProps) => {
-  
   return (
     <Menu
       menuButton={
@@ -17,15 +16,15 @@ const TankChartMenu = ({
         </MenuButton>
       }
     >
-      {tanks.map((tankElement) => (
+      {tanks.map((tankElement, index) => (
         <MenuItem
+          key={index}
           type="checkbox"
           value={tankElement.idConf}
           onClick={() => onChange(tankElement.idConf)}
           checked={selectedTank === tankElement.idConf}
         >
           Tank {tankElement.idConf}
-          
         </MenuItem>
       ))}
     </Menu>
