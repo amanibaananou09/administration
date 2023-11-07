@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -40,7 +40,7 @@ export default function Dashboard() {
   }
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 2 }} spacing="24px" mb="20">
+      <SimpleGrid columns={{ sm: 2, md: 2, xl: 1 }} spacing="24px" mb="20">
         <TankMeasurement />
       </SimpleGrid>
       <FilterPeriod
