@@ -4,7 +4,7 @@ import api from "./axios";
 const API_URL = "/customerAccount";
 
 export const getStationForUser = async (username: string, token: string) => {
-  const response = await api.get(`${API_URL}/station/${username}`, {
+  const response = await api.get(`${API_URL}/1/station/${username}`, {
     headers: {
       Authorization: "Bearer " + token,
     },
@@ -37,7 +37,7 @@ export const getAllControllers = async () => {
   return response.data;
 };
 
-export const addController = async (station: Station, ptsId: string) => {
+export const addController = async (station: any, ptsId: any) => {
   const response = await api.post(`${API_URL}/addController/${station}`, {
     ptsId,
   });

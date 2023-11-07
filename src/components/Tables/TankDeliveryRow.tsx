@@ -14,8 +14,7 @@ const TankDeliveryRow = ({
 
   return (
     <Tr>
-      <Td minWidth={{ base: "50px" }} pl="45px" borderColor={borderColor}>
-        <Flex py=".8rem" minWidth="100%" flexWrap="nowrap">
+      <Td borderColor={borderColor}>
           <Flex direction="column">
             <Text
               fontSize="sm"
@@ -27,7 +26,6 @@ const TankDeliveryRow = ({
               {tank}
             </Text>
           </Flex>
-        </Flex>
       </Td>
       <Td borderColor={borderColor}>
         <Text

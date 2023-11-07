@@ -37,8 +37,8 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
     setBoxColor(getColorForLevel(tankLevel));
   }, [tankLevel]);
   return (
-    <Card minH="125px" m="5">
-      <Flex>
+    <Card minH="125px" m="5" width="500px">
+      <Flex alignItems="center">
         <Circle size="25px" bg={circleColor} color="white">
           {row.tank}
         </Circle>
@@ -59,27 +59,27 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
         </Tooltip>
       </Flex>
 
-      <Flex direction="row" >
-        <Flex flexDirection="column" justify="center" w="550%" height="150px">
-          <Flex >
-            <Text fontSize="m" fontWeight="semibold" color={textColor}>
-              <Text as="span" color="gray.600" fontWeight="normal" p="0">
+      <Flex direction="row">
+        <Flex flexDirection="column"  justifyContent="center" w="100%" height="150px">
+          <Flex alignItems="center">
+            <Text fontSize="xl" fontWeight="semibold" color={textColor}>
+              <Text as="span" textAlign="center" color="gray.600" fontWeight="normal" p="0">
                 Product volume:
               </Text>
               {row.productVolume}L
             </Text>
           </Flex>
-          <Flex >
-            <Text fontSize="m" fontWeight="semibold" color={textColor}>
-              <Text as="span" color="gray.600" fontWeight="normal" p="0">
+          <Flex alignItems="center">
+            <Text fontSize="xl" fontWeight="semibold" color={textColor}>
+              <Text as="span" textAlign="center" color="gray.600" fontWeight="normal" p="0">
                 Water volume:
               </Text>
               {row.waterVolume}L
             </Text>
           </Flex>
-          <Flex>
-            <Text fontSize="m" fontWeight="semibold" color={textColor} >
-              <Text as="span" color="gray.600" fontWeight="normal" p="0">
+          <Flex alignItems="center">
+            <Text fontSize="xl" fontWeight="semibold" color={textColor}>
+              <Text as="span" textAlign="center" color="gray.600" fontWeight="normal" p="0">
                 Temperature:
               </Text>
               {row.temperature}°C
@@ -87,7 +87,6 @@ export const TankMeasurementRow = ({ row }: TankMeasurementRowProps) => {
           </Flex>
         </Flex>
 
-        <Box mr={10}></Box>
         <Box
           width="100px"
           height="100%"
