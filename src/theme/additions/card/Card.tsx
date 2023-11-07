@@ -1,5 +1,5 @@
 const Card = {
-  baseStyle: {
+  baseStyle: (props: any) => ({
     p: "22px",
     display: "flex",
     flexDirection: "column",
@@ -9,9 +9,10 @@ const Card = {
     position: "relative",
     wordWrap: "break-word",
     backgroundClip: "border-box",
-  },
+    bg: props.colorMode === "dark" ? "#111C44" : "white",
+  }),
   variants: {
-    panel: (props :any) => ({
+    panel: (props: any) => ({
       bg: props.colorMode === "dark" ? "#111C44" : "white",
     }),
   },
