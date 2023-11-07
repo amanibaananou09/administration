@@ -17,11 +17,12 @@ import {
 } from "@chakra-ui/react";
 
 import { getallTransactionPump } from "common/api/configuration-api";
-import { Transaction } from "common/model";
+import { Transaction ,FilterTables} from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import TransactionTableRow from "components/Tables/TransactionTableRow";
+import FilterPump from "components/filter/FilterPump";
 
 const Transactions = () => {
   const textColor = useColorModeValue("gray.700", "white");
@@ -35,6 +36,7 @@ const Transactions = () => {
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
   const { selectedStation } = useESSContext();
+  const [selectedPump, setSelectedPump] = useState<string>("");
 
   useEffect(() => {
     const getAllTransaction = async () => {
@@ -66,6 +68,20 @@ const Transactions = () => {
     setCurrentPage(newPage);
   };
 
+  const [filters, setFilters] = useState<FilterTables>({
+    pump: "",
+  });
+
+  const handleFilterChange = (filterName: string, value: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
+  setSelectedPump(value);
+  };
+
+  
+
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
@@ -74,7 +90,10 @@ const Transactions = () => {
             Transactions
           </Text>
         </CardHeader>
+       
         <CardBody>
+        <FilterPump onFilterChange={handleFilterChange}/>
+      <text>{selectedPump}</text>
           <Table
             variant="simple"
             color={textColor}

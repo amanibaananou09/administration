@@ -115,7 +115,9 @@ export const ReportSalesChart = ({
 
       <Flex justifyContent="center" color="white" flexDirection="row">
         <Text marginRight="10px">Type: {filter.chartType}</Text>
-        <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
+        {filter.chartType === "amount" ? null : (
+      <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
+   )}
         <Text marginRight="10px">Pump: {filter.pump}</Text>
       </Flex>
     </>

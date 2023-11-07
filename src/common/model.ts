@@ -352,3 +352,7 @@ export interface periodeProps {
   startDate: string;
   endDate: string;
 }
+
+export interface FilterTables {
+   pump : String;
+}
