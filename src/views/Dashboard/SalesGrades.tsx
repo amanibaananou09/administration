@@ -2,17 +2,14 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Flex, SimpleGrid, Stat, StatLabel, Text } from "@chakra-ui/react";
 import { getAllSalesByGrades } from "common/api/statistique-api";
 import { useEffect, useState } from "react";
-import { Grades } from "../../common/model";
+import { Grades, periodeProps } from "../../common/model";
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 
-function SalesGrades() {
+export const SalesGrades = ({ periode ,startDate, endDate}: periodeProps) => {
   const [grades, setGrades] = useState<Grades[]>([]);
   const { user } = useAuth();
-  const [fuelGrade, setFuelGrade] = useState<string>("");
-  const [totalSalesParAmount, setTotalSalesParAmount] = useState<number>(0);
-  const [totalSalesParVolume, setTotalSalesParVolume] = useState<number>(0);
 
   const { selectedStation } = useESSContext();
 
@@ -22,14 +19,14 @@ function SalesGrades() {
         return;
       }
       try {
-        const result = await getAllSalesByGrades(selectedStation);
+        const result = await getAllSalesByGrades(selectedStation, periode, startDate, endDate);
         setGrades(result);
       } catch (error) {
         console.error(error);
       }
     };
     allStatGrades();
-  }, [selectedStation, user]);
+  }, [selectedStation, user, periode , startDate, endDate]);
   const [isContentVisible, setIsContentVisible] = useState(true);
 
   return (
@@ -98,6 +95,6 @@ function SalesGrades() {
       )}
     </Flex>
   );
-}
+};
 
 export default SalesGrades;

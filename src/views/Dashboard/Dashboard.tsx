@@ -16,7 +16,7 @@ import { useESSContext } from "store/ESSContext";
 import FilterPeriod from "components/filter/FilterPeriod";
 import SalesGrades from "./SalesGrades";
 import PumpSales from "components/stat/PumpSales";
-import ChartComponent from "components/Charts/ChartComponent";
+import TankLevelChart from "components/Charts/TankLevelChart";
 
 export default function Dashboard() {
   const context = useESSContext();
@@ -29,6 +29,7 @@ export default function Dashboard() {
   const handleSearchFilters = (fromDate: string, toDate: string) => {
     setFromDate(fromDate);
     setToDate(toDate);
+    setSelectedFilter("");
   };
   const handleFilterChange = (filter: string) => {
     setSelectedFilter(filter);
@@ -48,8 +49,8 @@ export default function Dashboard() {
         onSearch={handleSearchFilters}
       />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-        <PumpSales />
-        <SalesGrades />
+        <PumpSales periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
+        <SalesGrades periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
       </Flex>
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Grid
@@ -73,11 +74,11 @@ export default function Dashboard() {
             marginLeft="30%"
           >
             <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
-              Month Wise Sales Report
+             Sales
             </Text>
           </Flex>
           <Box minH="300px">
-            <ReportSalesChart periode={selectedFilter}/>
+            <ReportSalesChart periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
@@ -87,7 +88,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <UserSalesChart />
+            <UserSalesChart periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
           </Box>
         </Card>
       </Grid>
@@ -104,7 +105,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <ChartComponent />
+            <TankLevelChart  periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
           </Box>
         </Card>
       </Flex>

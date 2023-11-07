@@ -7,9 +7,11 @@ export const getChartByFuelPumpPeriod = async (
   station: Station,
   filter: Filter,
   periode: string,
+  startDate: string,
+  endDate: string,
 ) => {
   const response = await api.get(
-    `${API_URL}/sales/${station.controllerPts.id}?chartType=${filter.chartType}&fuel=${filter.fuelGrade}&pump=${filter.pump}&periode=${periode}`,
+    `${API_URL}/sales/${station.controllerPts.id}?chartType=${filter.chartType}&fuel=${filter.fuelGrade}&pump=${filter.pump}&periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
   );
 
   return response.data;
@@ -28,9 +30,14 @@ export const getChartByFuelTankPeriod = async (
   return response.data;
 };
 
-export const getAllStatVent = async (station: Station) => {
+export const getAllStatVent = async (
+  station: Station,
+  periode: string,
+  startDate: string,
+  endDate: string,
+) => {
   const response = await api.get(
-    `${API_URL}/salesByUser/${station.controllerPts.id}`,
+    `${API_URL}/salesByUser/${station.controllerPts.id}?periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
   );
 
   return response.data;
@@ -48,9 +55,11 @@ export const getTankMeasurementByPeriod = async (
   station: Station,
   tank: string,
   periode: string,
+  startDate: string,
+  endDate: string,
 ) => {
   const response = await api.get(
-    `${API_URL}/tankMeasurementByPeriod/${station.controllerPts.id}?tank=${tank}&periode=${periode}`,
+    `${API_URL}/tankMeasurementByPeriod/${station.controllerPts.id}?tank=${tank}&periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
   );
 
   return response.data;
@@ -60,9 +69,11 @@ export const getTankLevelByPeriod = async (
   station: Station,
   tank: string,
   periode: string,
+  startDate: string,
+  endDate: string,
 ) => {
   const response = await api.get(
-    `${API_URL}/tankLevelByPeriod/${station.controllerPts.id}?tank=${tank}&periode=${periode}`,
+    `${API_URL}/tankLevelByPeriod/${station.controllerPts.id}?tank=${tank}&periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
   );
 
   return response.data;

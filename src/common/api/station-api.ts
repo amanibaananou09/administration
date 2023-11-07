@@ -37,7 +37,7 @@ export const getAllControllers = async () => {
   return response.data;
 };
 
-export const addController = async (station: any, ptsId: any) => {
+export const addController = async (station: Station, ptsId: string) => {
   const response = await api.post(`${API_URL}/addController/${station}`, {
     ptsId,
   });

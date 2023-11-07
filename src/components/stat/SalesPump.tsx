@@ -1,11 +1,11 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { getAllSalesByPumpAndGrades } from "common/api/statistique-api";
 import { SalesPumpGrades, SalesPumpGradesRowProps } from "common/model";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
-export const SalesByGrades = ({ pumpId }: SalesPumpGradesRowProps) => {
+export const SalesByGrades = ({ pumpId, periode, startDate, endDate }: SalesPumpGradesRowProps) => {
   const [pumpGrades, setPumpGrades] = useState<SalesPumpGrades[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
@@ -19,28 +19,29 @@ export const SalesByGrades = ({ pumpId }: SalesPumpGradesRowProps) => {
         const result = await getAllSalesByPumpAndGrades(
           pumpId,
           selectedStation,
+          periode,
+          startDate, 
+          endDate
         );
-        const tankArray = Array.isArray(result) ? result : [result];
-        setPumpGrades(tankArray);
+        setPumpGrades(result);
       } catch (error) {
         console.error(error);
       }
     };
     getAllLastTankDelivery();
-  }, [selectedStation, pumpId, selectedStation]);
-
+  }, [selectedStation, pumpId, periode,startDate, endDate]);
   return (
     <Box p={4} maxW="600px" mx="auto">
       <Box borderBottom="1px solid #e5e5e5" my={4} />
-      {pumpGrades.map((pumpGrade, index) => (
-        <div key={index}>
+      {pumpGrades.map((pumpGrade) => (
+        <Flex>
           <Text fontWeight="normal" mb={2}>
             {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount}{" "}
             <Text as="span" fontWeight="bold" color="blue.600" display="inline">
               {selectedStation?.country?.currency?.code}
             </Text>
           </Text>
-        </div>
+        </Flex>
       ))}
     </Box>
   );

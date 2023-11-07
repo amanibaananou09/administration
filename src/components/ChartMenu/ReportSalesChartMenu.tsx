@@ -81,6 +81,9 @@ const ReportSalesChartMenu = ({
         </MenuItem>
       </SubMenu>
       <MenuDivider />
+      {filter.chartType === "amount" ? (
+  null
+) : (
       <SubMenu label="Fuel Grades">
         <MenuItem
           type="checkbox"
@@ -102,8 +105,8 @@ const ReportSalesChartMenu = ({
           </MenuItem>
         ))}
       </SubMenu>
+      )}
       <MenuDivider />
-
       <SubMenu label="Pump">
         <MenuItem
           type="checkbox"

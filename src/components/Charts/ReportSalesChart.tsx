@@ -9,7 +9,11 @@ import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import ReactApexChart from "react-apexcharts";
 import { useESSContext } from "store/ESSContext";
 
-export const ReportSalesChart = ({ periode }: periodeProps) => {
+export const ReportSalesChart = ({
+  periode,
+  startDate,
+  endDate,
+}: periodeProps) => {
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
 
@@ -43,6 +47,8 @@ export const ReportSalesChart = ({ periode }: periodeProps) => {
         selectedStation,
         filter,
         periode,
+        startDate,
+        endDate,
       );
 
       const filteredData: ChartData = {
@@ -93,7 +99,7 @@ export const ReportSalesChart = ({ periode }: periodeProps) => {
   useEffect(() => {
     // Fetch data when filter or periode changes
     updateChartData();
-  }, [filter, selectedStation, user, periode]);
+  }, [filter, selectedStation, user, periode, startDate, endDate]);
 
   return (
     <>
@@ -109,7 +115,9 @@ export const ReportSalesChart = ({ periode }: periodeProps) => {
 
       <Flex justifyContent="center" color="white" flexDirection="row">
         <Text marginRight="10px">Type: {filter.chartType}</Text>
-        <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
+        {filter.chartType === "amount" ? null : (
+      <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
+   )}
         <Text marginRight="10px">Pump: {filter.pump}</Text>
       </Flex>
     </>

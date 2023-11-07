@@ -21,8 +21,8 @@ export interface currency {
   locale: string;
   name: string;
 }
-export interface controllerPts{
-  id : number;
+export interface controllerPts {
+  id: number;
   ptsId: string;
   currentConfigurationId: number;
   currentFirmwareInformation: currentFirmwareInformation;
@@ -102,7 +102,7 @@ export interface TablesTableRowProps {
 }
 
 export interface ConfiguratorProps {
-  secondary: any;
+  secondary: string;
   isOpen: boolean;
   onClose: () => void;
   isChecked: boolean;
@@ -110,8 +110,8 @@ export interface ConfiguratorProps {
 }
 
 export interface FixedPluginProps {
-  secondary: any;
-  fixed: any;
+  secondary: string;
+  fixed: boolean;
   onOpen: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 export interface ConfirmationModalProps {
@@ -248,9 +248,9 @@ export interface User {
   role?: string;
   token: string;
   expireTime?: number;
-  Address: string,
-  Phone: string,
-  name :string,
+  Address: string;
+  Phone: string;
+  name: string;
 }
 
 export interface Decode {
@@ -262,52 +262,52 @@ export interface Decode {
   exp: number;
   given_name: string;
   family_name: string;
-  Address: string,
-  Phone: string,
+  Address: string;
+  Phone: string;
 }
 
-export interface fuelGrade{
-  name: string,
-  price: number,
-  expansionCoefficient: string,
+export interface fuelGrade {
+  name: string;
+  price: number;
+  expansionCoefficient: string;
 }
-export interface Grades{
+export interface Grades {
   fuelGrade: string;
   totalSalesParAmount: number;
-  totalSalesParVolume:number;
+  totalSalesParVolume: number;
 }
 
-export interface pump{
-  id: string,
-  portId: string,
-  protocol: number,
-  baudRate: number,
-  address: string,
+export interface pump {
+  id: string;
+  portId: string;
+  protocol: number;
+  baudRate: number;
+  address: string;
 }
 export interface TankStat {
-  tank : number;
+  tank: number;
   fuelGrade: string;
   percentage: number;
   productVolume: number;
   waterVolume: number;
-  temperature:number;
+  temperature: number;
 }
 export interface TankMeasurementRowProps {
   row: TankStat;
 }
 
-export interface SalesPump{
+export interface SalesPump {
   pumpId: number;
   allSales: number;
-  pumpSales:number;
+  pumpSales: number;
 }
 
-export interface SalesPumpGrades{
+export interface SalesPumpGrades {
   pumpId: number;
   fuelGrade: String;
-  totalSalesParAmount:number;
+  totalSalesParAmount: number;
 }
-export interface TankDelivery{
+export interface TankDelivery {
   dateTime: string;
   tank: number;
   fullGrade: string;
@@ -318,8 +318,8 @@ export interface TankDelivery{
   waterVolume: number;
   pumpsDispensedVolume: number;
   productTCVolume: number;
-  productDensity:number;
-  productMass:number;
+  productDensity: number;
+  productMass: number;
 }
 export interface LastTankRowProps {
   tank: number;
@@ -327,15 +327,18 @@ export interface LastTankRowProps {
 
 export interface SalesPumpGradesRowProps {
   pumpId: number;
+  periode: string;
+  startDate: string;
+  endDate: string;
 }
 
-export interface tankMeasurementData{
+export interface tankMeasurementData {
   dateTime: string;
   tank: number;
   fullGrade: string;
   productVolume: number;
 }
-export interface tankLevelData{
+export interface tankLevelData {
   dateTime: string;
   tank: number;
   fullGrade: string;
@@ -346,4 +349,10 @@ export interface tankLevelData{
 }
 export interface periodeProps {
   periode: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface FilterTables {
+   pump : String;
 }
