@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -10,16 +9,17 @@ import {
 } from "@chakra-ui/react";
 import Card from "components/Card/Card"; // Update the path to the Card component
 import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
-import UserSalesChart from "components/Charts/UserSalesChart"; // Update the path to the Chart component
-import TankMeasurement from "components/stat/TankMeasurement";
-import { useESSContext } from "store/ESSContext";
-import FilterPeriod from "components/filter/FilterPeriod";
-import SalesGrades from "./SalesGrades";
-import PumpSales from "components/stat/PumpSales";
 import TankLevelChart from "components/Charts/TankLevelChart";
+import UserSalesChart from "components/Charts/UserSalesChart"; // Update the path to the Chart component
+import FilterPeriod from "components/filter/FilterPeriod";
+import PumpSales from "components/stat/PumpSales";
+import TankMeasurementSection from "components/stat/TankMeasurementSection";
+import { useState } from "react";
+import { useESSContext } from "store/ESSContext";
+import SalesGrades from "./SalesGrades";
 
 export default function Dashboard() {
-  const context = useESSContext();
+  const { selectedStation } = useESSContext();
   const { colorMode } = useColorMode();
   const textColor = useColorModeValue("gray.700", "white");
   const [selectedFilter, setSelectedFilter] = useState<string>("today");
@@ -35,13 +35,13 @@ export default function Dashboard() {
     setSelectedFilter(filter);
   };
 
-  if (!context.selectedStation) {
+  if (!selectedStation) {
     return <div>No Station</div>;
   }
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 2, md: 2, xl: 1 }} spacing="24px" mb="20">
-        <TankMeasurement />
+        <TankMeasurementSection />
       </SimpleGrid>
       <FilterPeriod
         selectedFilter={selectedFilter}
@@ -49,49 +49,65 @@ export default function Dashboard() {
         onSearch={handleSearchFilters}
       />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-        <PumpSales periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
-        <SalesGrades periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
+        <PumpSales
+          periode={selectedFilter}
+          startDate={fromDate}
+          endDate={toDate}
+        />
+        <SalesGrades
+          periode={selectedFilter}
+          startDate={fromDate}
+          endDate={toDate}
+        />
       </Flex>
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <Grid
-        templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
-        templateRows={{ lg: "repeat(2, auto)" }}
-        gap="20px"
-      >
-        <Card
-          bg={
-            colorMode === "dark"
-              ? "navy.800"
-              : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
-          }
-          p="0px"
-          maxW={{ sm: "320px", md: "100%" }}
+        <Grid
+          templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
+          templateRows={{ lg: "repeat(2, auto)" }}
+          gap="20px"
         >
-          <Flex
-            direction="column"
-            mb="-32px"
-            p="28px 0px 0px 22px"
-            marginLeft="30%"
+          <Card
+            bg={
+              colorMode === "dark"
+                ? "navy.800"
+                : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
+            }
+            p="0px"
+            maxW={{ sm: "320px", md: "100%" }}
           >
-            <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
-             Sales
-            </Text>
-          </Flex>
-          <Box minH="300px">
-            <ReportSalesChart periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
-          </Box>
-        </Card>
-        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column" mb="-10px" p="28px 0px 0px 22px">
-            <Text color={textColor} fontSize="lg" fontWeight="bold">
-              Users Sales
-            </Text>
-          </Flex>
-          <Box minH="300px">
-            <UserSalesChart periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
-          </Box>
-        </Card>
-      </Grid>
+            <Flex
+              direction="column"
+              mb="-32px"
+              p="28px 0px 0px 22px"
+              marginLeft="30%"
+            >
+              <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
+                Sales
+              </Text>
+            </Flex>
+            <Box minH="300px">
+              <ReportSalesChart
+                periode={selectedFilter}
+                startDate={fromDate}
+                endDate={toDate}
+              />
+            </Box>
+          </Card>
+          <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
+            <Flex direction="column" mb="-10px" p="28px 0px 0px 22px">
+              <Text color={textColor} fontSize="lg" fontWeight="bold">
+                Users Sales
+              </Text>
+            </Flex>
+            <Box minH="300px">
+              <UserSalesChart
+                periode={selectedFilter}
+                startDate={fromDate}
+                endDate={toDate}
+              />
+            </Box>
+          </Card>
+        </Grid>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
             <Text
@@ -105,7 +121,11 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <TankLevelChart  periode={selectedFilter} startDate={fromDate} endDate={toDate}/>
+            <TankLevelChart
+              periode={selectedFilter}
+              startDate={fromDate}
+              endDate={toDate}
+            />
           </Box>
         </Card>
       </Flex>

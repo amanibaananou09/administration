@@ -16,7 +16,6 @@ const Profile = () => {
   const userName = user?.name || " ";
   const userAddress = user?.Address || " ";
   const userPhone = user?.Phone || " ";
-console.log("user", user)
 
   const textColor: string = useColorModeValue("gray.700", "white");
   const bgProfile: string = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
@@ -91,7 +90,6 @@ console.log("user", user)
           </CardHeader>
           <CardBody px="5px">
             <Flex direction="column">
-
               <Flex align="center" mb="18px">
                 <Text
                   fontSize="md"
@@ -173,7 +171,6 @@ console.log("user", user)
                   {userEmail}
                 </Text>
               </Flex>
-
             </Flex>
           </CardBody>
         </Card>

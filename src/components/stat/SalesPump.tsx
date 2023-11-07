@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
-export const SalesByGrades = ({ pumpId, periode, startDate, endDate }: SalesPumpGradesRowProps) => {
+export const SalesByGrades = ({
+  pumpId,
+  periode,
+  startDate,
+  endDate,
+}: SalesPumpGradesRowProps) => {
   const [pumpGrades, setPumpGrades] = useState<SalesPumpGrades[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
@@ -20,8 +25,8 @@ export const SalesByGrades = ({ pumpId, periode, startDate, endDate }: SalesPump
           pumpId,
           selectedStation,
           periode,
-          startDate, 
-          endDate
+          startDate,
+          endDate,
         );
         setPumpGrades(result);
       } catch (error) {
@@ -29,12 +34,12 @@ export const SalesByGrades = ({ pumpId, periode, startDate, endDate }: SalesPump
       }
     };
     getAllLastTankDelivery();
-  }, [selectedStation, pumpId, periode,startDate, endDate]);
+  }, [selectedStation, pumpId, periode, startDate, endDate]);
   return (
     <Box p={4} maxW="600px" mx="auto">
       <Box borderBottom="1px solid #e5e5e5" my={4} />
-      {pumpGrades.map((pumpGrade) => (
-        <Flex>
+      {pumpGrades.map((pumpGrade, index) => (
+        <Flex key={index}>
           <Text fontWeight="normal" mb={2}>
             {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount}{" "}
             <Text as="span" fontWeight="bold" color="blue.600" display="inline">

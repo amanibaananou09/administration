@@ -13,25 +13,25 @@ import { useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-export const LastTankDelivery = ({ tank }: LastTankRowProps) => {
-  const [lastTank, setLastTank] = useState<TankDelivery[]>([]);
+import { formatDate } from "utils/utils";
+export const LastTankDelivery = ({ tankId }: LastTankRowProps) => {
+  const [lastTankDelivery, setLastTankDelivery] = useState<TankDelivery>();
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
 
   useEffect(() => {
-    const getAllLastTankDelivery = async () => {
+    const fetchData = async () => {
       if (!selectedStation || !user) {
         return;
       }
       try {
-        const result = await getLastTankDelivery(selectedStation, tank);
-        const tankArray = Array.isArray(result) ? result : [result];
-        setLastTank(tankArray);
+        const result = await getLastTankDelivery(selectedStation, tankId);
+        setLastTankDelivery(result);
       } catch (error) {
         console.error(error);
       }
     };
-    getAllLastTankDelivery();
+    fetchData();
   }, [selectedStation]);
   return (
     <Box p={4} maxW="600px" mx="auto">
@@ -40,14 +40,17 @@ export const LastTankDelivery = ({ tank }: LastTankRowProps) => {
       </Heading>
       <Box borderBottom="1px solid #e5e5e5" my={4} />
 
-      {lastTank.map((tank, index) => (
+      {lastTankDelivery && (
         <>
-          <Heading fontSize="m" fontWeight="medium" mb={4}>
-            - Date :
-          </Heading>
-          <Text textAlign="center" mb={2}>
-            {tank.dateTime}
-          </Text>
+          <Flex mb={4} alignItems="center">
+            <Heading fontSize="m" fontWeight="medium" mr={2}>
+              - Date:
+            </Heading>
+            <Text textAlign="center">
+              {formatDate(lastTankDelivery.dateTime)}
+            </Text>
+          </Flex>
+
           <Heading fontSize="m" fontWeight="medium" mb={4}>
             - Delivery absolute values:
           </Heading>
@@ -55,43 +58,33 @@ export const LastTankDelivery = ({ tank }: LastTankRowProps) => {
             <ListItem>
               <Flex alignItems="center">
                 <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                <Text>Product height: {tank.productHeight} mm</Text>
+                <Text>Product height: {lastTankDelivery.productHeight} mm</Text>
               </Flex>
             </ListItem>
             <ListItem>
               <Flex alignItems="center">
                 <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                <Text>Water height: {tank.waterHeight} mm</Text>
+                <Text>Water height: {lastTankDelivery.waterHeight} mm</Text>
               </Flex>
             </ListItem>
             <ListItem>
               <Flex alignItems="center">
                 <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                <Text>Temperature: {tank.temperature} °C</Text>
+                <Text>Temperature: {lastTankDelivery.temperature} °C</Text>
               </Flex>
             </ListItem>
             <ListItem>
               <Flex alignItems="center">
                 <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                <Text>Product volume: {tank.productVolume} L</Text>
+                <Text>Product volume: {lastTankDelivery.productVolume} L</Text>
               </Flex>
             </ListItem>
             <ListItem>
               <Flex alignItems="center">
                 <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                <Text>Product TC volume: {tank.productTCVolume} L</Text>
-              </Flex>
-            </ListItem>
-            <ListItem>
-              <Flex alignItems="center">
-                <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                <Text> Product density: {tank.productDensity} kg/m³</Text>
-              </Flex>
-            </ListItem>
-            <ListItem>
-              <Flex alignItems="center">
-                <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                <Text>Product mass: {tank.productMass} kg</Text>
+                <Text>
+                  Product TC volume: {lastTankDelivery.productTCVolume} L
+                </Text>
               </Flex>
             </ListItem>
             <ListItem>
@@ -99,13 +92,28 @@ export const LastTankDelivery = ({ tank }: LastTankRowProps) => {
                 <Icon as={MdCheckCircle} color="green.500" mr={2} />
                 <Text>
                   {" "}
-                  Pumps Dispensed Volume:{tank.pumpsDispensedVolume} L
+                  Product density: {lastTankDelivery.productDensity} kg/m³
+                </Text>
+              </Flex>
+            </ListItem>
+            <ListItem>
+              <Flex alignItems="center">
+                <Icon as={MdCheckCircle} color="green.500" mr={2} />
+                <Text>Product mass: {lastTankDelivery.productMass} kg</Text>
+              </Flex>
+            </ListItem>
+            <ListItem>
+              <Flex alignItems="center">
+                <Icon as={MdCheckCircle} color="green.500" mr={2} />
+                <Text>
+                  Pumps Dispensed Volume:{lastTankDelivery.pumpsDispensedVolume}{" "}
+                  L
                 </Text>
               </Flex>
             </ListItem>
           </List>
         </>
-      ))}
+      )}
     </Box>
   );
 };
