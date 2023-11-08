@@ -38,6 +38,7 @@ export default function Dashboard() {
   if (!selectedStation) {
     return <div>No Station</div>;
   }
+
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 2, md: 2, xl: 1 }} spacing="24px" mb="20">
@@ -48,6 +49,7 @@ export default function Dashboard() {
         onFilterChange={handleFilterChange}
         onSearch={handleSearchFilters}
       />
+      <br />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
         <PumpSales
           periode={selectedFilter}
@@ -60,68 +62,39 @@ export default function Dashboard() {
           endDate={toDate}
         />
       </Flex>
-      <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-        <Grid
-          templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
-          templateRows={{ lg: "repeat(2, auto)" }}
-          gap="20px"
-        >
-          <Card
-            bg={
-              colorMode === "dark"
-                ? "navy.800"
-                : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
-            }
-            p="0px"
-            maxW={{ sm: "320px", md: "100%" }}
+      <Flex flexDirection="row" pt={{ base: "120px", md: "75px" }}>
+        <Card minH="125px" m="5" width="900px"
+              bg={
+                colorMode === "dark"
+                  ? "navy.800"
+                  : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
+              }>
+          <Flex
+            direction="column"
+            mb="-32px"
+            p="28px 0px 0px 22px"
+            marginLeft="30%"
           >
-            <Flex
-              direction="column"
-              mb="-32px"
-              p="28px 0px 0px 22px"
-              marginLeft="30%"
-            >
-              <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
-                Sales
-              </Text>
-            </Flex>
-            <Box minH="300px">
-              <ReportSalesChart
-                periode={selectedFilter}
-                startDate={fromDate}
-                endDate={toDate}
-              />
-            </Box>
-          </Card>
-          <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-            <Flex direction="column" mb="-10px" p="28px 0px 0px 22px">
-              <Text color={textColor} fontSize="lg" fontWeight="bold">
-                Users Sales
-              </Text>
-            </Flex>
-            <Box minH="300px">
-              <UserSalesChart
-                periode={selectedFilter}
-                startDate={fromDate}
-                endDate={toDate}
-              />
-            </Box>
-          </Card>
-        </Grid>
-        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
-            <Text
-              color={textColor}
-              fontSize="lg"
-              fontWeight="bold"
-              mb="6px"
-              marginLeft="10%"
-            >
-              Tank Level
+            <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
+              Sales
             </Text>
           </Flex>
           <Box minH="300px">
-            <TankLevelChart
+            <ReportSalesChart
+              periode={selectedFilter}
+              startDate={fromDate}
+              endDate={toDate}
+            />
+          </Box>
+        </Card>
+        <Card minH="125px" m="5" width="700px">
+          <Flex direction="column">
+            <Text color={textColor} fontSize="lg" fontWeight="bold">
+              Users Sales
+            </Text>
+          </Flex>
+          <Box minH="300px">
+            <UserSalesChart
               periode={selectedFilter}
               startDate={fromDate}
               endDate={toDate}
@@ -129,6 +102,26 @@ export default function Dashboard() {
           </Box>
         </Card>
       </Flex>
+      <Card minH="125px" m="5" width="1500px">
+        <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
+          <Text
+            color={textColor}
+            fontSize="lg"
+            fontWeight="bold"
+            mb="6px"
+            marginLeft="10%"
+          >
+            Tank Level
+          </Text>
+        </Flex>
+        <Box minH="300px">
+          <TankLevelChart
+            periode={selectedFilter}
+            startDate={fromDate}
+            endDate={toDate}
+          />
+        </Box>
+      </Card>
     </Flex>
   );
 }

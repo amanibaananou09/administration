@@ -40,7 +40,7 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
   const [isContentVisible, setIsContentVisible] = useState(true);
   return (
     <>
-      <Flex flexDirection="column">
+      <Flex flexDirection="column" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="normal" display="inline">
           <Text as="span" fontWeight="bold" color="blue.700">
             Total Sales :
@@ -69,14 +69,10 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
         <br />
       </Flex>
       {isContentVisible && (
-        <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
+        <Flex flexWrap="wrap">
           {salesPumps.map((salesPump, index) => (
-            <Card
-              key={index}
-              minH="125px"
-              borderWidth="2px"
-              borderColor="gray.500"
-            >
+            <Card minH="100px" m="5" width="400px">
+
               <Flex
                 display="flex"
                 alignItems="center"
@@ -117,7 +113,7 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
               </Text>
             </Card>
           ))}
-        </SimpleGrid>
+        </Flex>
       )}
     </>
   );

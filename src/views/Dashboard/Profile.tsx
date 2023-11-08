@@ -1,14 +1,21 @@
-import { Avatar, Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
+import React from "react";
+import {
+  Avatar,
+  Flex,
+  Grid,
+  Image,
+  Text,
+  useColorModeValue
+} from "@chakra-ui/react";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import avatar5 from "../../assets/img/avatars/avatar5.png";
-import { useAuth } from "../../store/AuthContext";
+import avatar5 from "assets/img/avatars/avatar5.png";
+import { useAuth } from "store/AuthContext";
 
 const Profile = () => {
   const { user } = useAuth();
 
-  // Check if user is null, and provide default values or handle the null case appropriately
   const username = user?.username || " ";
   const userEmail = user?.email || " ";
   const userFirstName = user?.given_name || " ";
@@ -17,10 +24,10 @@ const Profile = () => {
   const userAddress = user?.Address || " ";
   const userPhone = user?.Phone || " ";
 
-  const textColor: string = useColorModeValue("gray.700", "white");
-  const bgProfile: string = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
-  const borderProfileColor: string = useColorModeValue("white", "transparent");
-  const emailColor: string = useColorModeValue("gray.400", "gray.300");
+  const textColor = useColorModeValue("gray.700", "white");
+  const bgProfile = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
+  const borderProfileColor = useColorModeValue("white", "transparent");
+  const emailColor = useColorModeValue("gray.400", "gray.300");
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px", lg: "100px" }}>
@@ -28,7 +35,6 @@ const Profile = () => {
         direction={{ sm: "column", md: "row" }}
         mb="24px"
         maxH="330px"
-        justifyContent={{ sm: "center", md: "space-between" }}
         align="center"
         backdropFilter="blur(21px)"
         boxShadow="0px 2px 5.5px rgba(0, 0, 0, 0.02)"
@@ -38,13 +44,7 @@ const Profile = () => {
         p="24px"
         borderRadius="20px"
       >
-        <Flex
-          align="center"
-          mb={{ sm: "10px", md: "0px" }}
-          direction={{ sm: "column", md: "row" }}
-          w={{ sm: "100%" }}
-          textAlign={{ sm: "center", md: "start" }}
-        >
+        <Flex align="center" direction="row">
           <Avatar
             me={{ md: "22px" }}
             src={avatar5}
@@ -54,7 +54,7 @@ const Profile = () => {
           />
           <Flex direction="column" maxWidth="100%" my={{ sm: "14px" }}>
             <Text
-              fontSize={{ sm: "lg", lg: "xl" }}
+              fontSize={{ sm: "xl", lg: "2xl" }}
               color={textColor}
               fontWeight="bold"
               ms={{ sm: "8px", md: "0px" }}
@@ -62,7 +62,7 @@ const Profile = () => {
               {username}
             </Text>
             <Text
-              fontSize={{ sm: "sm", md: "md" }}
+              fontSize={{ sm: "md", md: "lg" }}
               color={emailColor}
               fontWeight="semibold"
             >
@@ -70,10 +70,6 @@ const Profile = () => {
             </Text>
           </Flex>
         </Flex>
-        <Flex
-          direction={{ sm: "column", lg: "row" }}
-          w={{ sm: "100%", md: "50%", lg: "auto" }}
-        ></Flex>
       </Flex>
 
       <Grid
@@ -82,95 +78,96 @@ const Profile = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Card p="16px" my={{ sm: "24px", xl: "0px" }}>
+        <Card p="16px" my={{ sm: "24px", xl: "0px" }} width="150%">
           <CardHeader p="12px 5px" mb="12px">
-            <Text fontSize="lg" color={textColor} fontWeight="bold">
+            <Text fontSize="3xl" textAlign="center" color={textColor} fontWeight="bold">
               Profile Information
             </Text>
           </CardHeader>
           <CardBody px="5px">
-            <Flex direction="column">
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  Name:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {userName}
-                </Text>
-              </Flex>
+            <Flex align="center" mb="18px">
+              <Text
+                fontSize="lg"
+                color={textColor}
+                fontWeight="bold"
+                me="10px"
+                textAlign="center"
+              >
+                Name:{" "}
+              </Text>
+              <Text fontSize="lg" textAlign="center" color="gray.400" fontWeight="400">
+                {userName}
+              </Text>
+            </Flex>
 
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  FirstName:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {userFirstName}
-                </Text>
-              </Flex>
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  LastName:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {userLastName}
-                </Text>
-              </Flex>
+            <Flex align="center" mb="18px">
+              <Text
+                fontSize="lg"
+                color={textColor}
+                fontWeight="bold"
+                me="10px"
+              >
+                FirstName:{" "}
+              </Text>
+              <Text fontSize="lg" textAlign="center" color="gray.400" fontWeight="400">
+                {userFirstName}
+              </Text>
+            </Flex>
 
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  Address:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {userAddress}
-                </Text>
-              </Flex>
+            <Flex align="center" mb="18px">
+              <Text
+                fontSize="lg"
+                color={textColor}
+                fontWeight="bold"
+                me="10px"
+              >
+                LastName:{" "}
+              </Text>
+              <Text fontSize="lg" textAlign="center" color="gray.400" fontWeight="400">
+                {userLastName}
+              </Text>
+            </Flex>
 
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  Phone:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {userPhone}
-                </Text>
-              </Flex>
-              <Flex align="center" mb="18px">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  me="10px"
-                >
-                  Email:{" "}
-                </Text>
-                <Text fontSize="md" color="gray.400" fontWeight="400">
-                  {userEmail}
-                </Text>
-              </Flex>
+            <Flex align="center" mb="18px">
+              <Text
+                fontSize="lg"
+                color={textColor}
+                fontWeight="bold"
+                me="10px"
+              >
+                Address:{" "}
+              </Text>
+              <Text fontSize="lg" textAlign="center" color="gray.400" fontWeight="400">
+                {userAddress}
+              </Text>
+            </Flex>
+
+            <Flex align="center" mb="18px">
+              <Text
+                fontSize="lg"
+                color={textColor}
+                fontWeight="bold"
+                me="10px"
+              >
+                Phone:{" "}
+              </Text>
+              <Text fontSize="lg" textAlign="center" color="gray.400" fontWeight="400">
+                {userPhone}
+              </Text>
+            </Flex>
+
+            <Flex align="center" mb="18px">
+              <Text
+                fontSize="lg"
+                color={textColor}
+                fontWeight="bold"
+                me="10px"
+              >
+                Email:{" "}
+              </Text>
+              <Text fontSize="lg" textAlign="center" color="gray.400" fontWeight="400">
+                {userEmail}
+              </Text>
             </Flex>
           </CardBody>
         </Card>

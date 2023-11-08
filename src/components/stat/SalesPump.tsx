@@ -4,13 +4,14 @@ import { SalesPumpGrades, SalesPumpGradesRowProps } from "common/model";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import Card from "../Card/Card";
 
 export const SalesByGrades = ({
-  pumpId,
-  periode,
-  startDate,
-  endDate,
-}: SalesPumpGradesRowProps) => {
+                                pumpId,
+                                periode,
+                                startDate,
+                                endDate
+                              }: SalesPumpGradesRowProps) => {
   const [pumpGrades, setPumpGrades] = useState<SalesPumpGrades[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
@@ -26,7 +27,7 @@ export const SalesByGrades = ({
           selectedStation,
           periode,
           startDate,
-          endDate,
+          endDate
         );
         setPumpGrades(result);
       } catch (error) {
@@ -36,19 +37,21 @@ export const SalesByGrades = ({
     getAllLastTankDelivery();
   }, [selectedStation, pumpId, periode, startDate, endDate]);
   return (
-    <Box p={4} maxW="600px" mx="auto">
-      <Box borderBottom="1px solid #e5e5e5" my={4} />
-      {pumpGrades.map((pumpGrade, index) => (
-        <Flex key={index}>
-          <Text fontWeight="normal" mb={2}>
-            {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount}{" "}
-            <Text as="span" fontWeight="bold" color="blue.600" display="inline">
-              {selectedStation?.country?.currency?.code}
+    <Flex flexDirection="column" justifyContent="space-between">
+      <Card minH="125px" m="5" width="300px">
+        <Box borderBottom="2px solid #e5e5e5" my={2} />
+        {pumpGrades.map((pumpGrade, index) => (
+          <Flex key={index}>
+            <Text fontWeight="normal" mb={2}>
+              {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount}{" "}
+              <Text as="span" fontWeight="bold" color="blue.600" display="inline">
+                {selectedStation?.country?.currency?.code}
+              </Text>
             </Text>
-          </Text>
-        </Flex>
-      ))}
-    </Box>
+          </Flex>
+        ))}
+      </Card>
+    </Flex>
   );
 };
 
