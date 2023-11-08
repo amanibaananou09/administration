@@ -1,5 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { Flex, SimpleGrid, Stat, StatLabel, Text } from "@chakra-ui/react";
+import { Flex, Stat, StatLabel, Text } from "@chakra-ui/react";
 import { getAllSalesByGrades } from "common/api/statistique-api";
 import { useEffect, useState } from "react";
 import { Grades, periodeProps } from "../../common/model";
@@ -7,7 +7,7 @@ import Card from "../../components/Card/Card"; // Update the path to the Card co
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 
-export const SalesGrades = ({ periode ,startDate, endDate}: periodeProps) => {
+export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
   const [grades, setGrades] = useState<Grades[]>([]);
   const { user } = useAuth();
 
@@ -19,14 +19,19 @@ export const SalesGrades = ({ periode ,startDate, endDate}: periodeProps) => {
         return;
       }
       try {
-        const result = await getAllSalesByGrades(selectedStation, periode, startDate, endDate);
+        const result = await getAllSalesByGrades(
+          selectedStation,
+          periode,
+          startDate,
+          endDate
+        );
         setGrades(result);
       } catch (error) {
         console.error(error);
       }
     };
     allStatGrades();
-  }, [selectedStation, user, periode , startDate, endDate]);
+  }, [selectedStation, user, periode, startDate, endDate]);
   const [isContentVisible, setIsContentVisible] = useState(true);
 
   return (
@@ -44,14 +49,10 @@ export const SalesGrades = ({ periode ,startDate, endDate}: periodeProps) => {
       </Text>
       <br />
       {isContentVisible && (
-        <SimpleGrid columns={{ sm: 1, md: 2, xl: 3 }} spacing="24px" mb="20px">
+        <Flex flexWrap="wrap">
           {grades.map((grade, index) => (
-            <Card
-              key={index}
-              minH="125px"
-              borderWidth="2px"
-              borderColor="gray.500"
-            >
+            <Card minH="125px" m="5" width="500px">
+
               <Stat me="auto">
                 <StatLabel
                   fontSize="lg"
@@ -91,7 +92,7 @@ export const SalesGrades = ({ periode ,startDate, endDate}: periodeProps) => {
               </Text>
             </Card>
           ))}
-        </SimpleGrid>
+        </Flex>
       )}
     </Flex>
   );
