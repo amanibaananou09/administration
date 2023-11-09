@@ -1,17 +1,8 @@
 // Chakra imports
-import {
-  Box,
-  Portal,
-  Stack,
-  Text,
-  useColorMode,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Portal, useColorMode, useDisclosure } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer";
 
-import { ReactComponent as AdminLogo } from "assets/svg/administration-logo.svg";
-import { ReactComponent as Logo } from "assets/svg/fuel-station-logo.svg";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Sidebar from "components/Sidebar/Sidebar";
@@ -25,6 +16,7 @@ import bgAdmin from "assets/img/admin-background.png";
 import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
 import PanelContent from "components/Layout/PanelContent";
+import SidebarLogo from "components/Sidebar/SidebarLogo";
 import MainRoute from "router/Route/MainRoute";
 import PrivateRoute from "router/Route/PrivateRoute";
 import { useAuth } from "store/AuthContext";
@@ -33,7 +25,7 @@ import { useESSContext } from "../store/ESSContext";
 const Main = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
 
-  const { selectedStation, isAdminMode } = useESSContext();
+  const { isAdminMode } = useESSContext();
 
   const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
 
@@ -142,33 +134,7 @@ const Main = (props: { [x: string]: any }) => {
         bgSize="cover"
         top="0"
       />
-      <Sidebar
-        routes={routes}
-        logo={
-          <Stack
-            direction="column"
-            spacing="12px"
-            align="center"
-            justify="center"
-          >
-            {isAdminMode ? (
-              <AdminLogo style={{ height: "100px" }} />
-            ) : (
-              <Logo style={{ height: "100px" }} />
-            )}
-            {selectedStation && (
-              <Text
-                fontSize={{ sm: "lg", lg: "xl" }}
-                fontWeight="bold"
-                ms={{ sm: "8px", md: "0px" }}
-              >
-                {selectedStation.name}
-              </Text>
-            )}
-          </Stack>
-        }
-        {...rest}
-      />
+      <Sidebar routes={routes} logo={<SidebarLogo />} {...rest} />
       <MainPanel
         w={{
           base: "100%",
