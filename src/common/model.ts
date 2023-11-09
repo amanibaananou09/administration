@@ -102,7 +102,7 @@ export interface TablesTableRowProps {
 }
 
 export interface ConfiguratorProps {
-  secondary: string;
+  secondary: boolean;
   isOpen: boolean;
   onClose: () => void;
   isChecked: boolean;
@@ -110,7 +110,7 @@ export interface ConfiguratorProps {
 }
 
 export interface FixedPluginProps {
-  secondary: string;
+  secondary: boolean;
   fixed: boolean;
   onOpen: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
@@ -162,7 +162,7 @@ export interface SidebarProps {
   secondary?: any;
 }
 
-export interface Route {
+export interface RouteConfig {
   layout: string;
   path: string;
   name: string;
@@ -171,8 +171,9 @@ export interface Route {
   redirect?: boolean;
   category?: boolean;
   state?: string;
-  views?: Route[];
+  views?: RouteConfig[];
   icon?: string | JSX.Element;
+  secondaryNavbar?: boolean;
 }
 
 export interface DashboardTableRowProps {

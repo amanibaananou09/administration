@@ -1,0 +1,93 @@
+import { RouteConfig } from "common/model";
+import { Route } from "react-router-dom";
+import PrivateRoute from "router/Route/PrivateRoute";
+import { useAuth } from "store/AuthContext";
+
+const useRoutes = () => {
+  const { isSignedIn } = useAuth();
+
+  const getActiveRoute = (routes: any): string => {
+    let activeRoute = "Default Brand Text";
+    for (let i = 0; i < routes.length; i++) {
+      if (routes[i].collapse) {
+        let collapseActiveRoute = getActiveRoute(routes[i].views);
+        if (collapseActiveRoute !== activeRoute) {
+          return collapseActiveRoute;
+        }
+      } else if (routes[i].category) {
+        let categoryActiveRoute = getActiveRoute(routes[i].views);
+        if (categoryActiveRoute !== activeRoute) {
+          return categoryActiveRoute;
+        }
+      } else {
+        if (
+          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+        ) {
+          return routes[i].name;
+        }
+      }
+    }
+    return activeRoute;
+  };
+  // This changes navbar state(fixed or not)
+  const getActiveNavbar = (routes: RouteConfig[]): boolean => {
+    let activeNavbar = false;
+    for (let i = 0; i < routes.length; i++) {
+      if (routes[i].category) {
+        let categoryActiveNavbar = getActiveNavbar(routes[i].views!!);
+        if (categoryActiveNavbar !== activeNavbar) {
+          return categoryActiveNavbar;
+        }
+      } else {
+        if (
+          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+        ) {
+          if (routes[i].secondaryNavbar) {
+            return routes[i].secondaryNavbar!!;
+          }
+        }
+      }
+    }
+    return activeNavbar;
+  };
+  const getRoutesForLayout = (routes: RouteConfig[], layout: String): any => {
+    return routes.map((prop: any, key: any) => {
+      if (prop.collapse) {
+        return getRoutesForLayout(prop.views, layout);
+      }
+      if (prop.category === "account") {
+        return getRoutesForLayout(prop.views, layout);
+      }
+
+      if (isSignedIn && prop.publicRoute) {
+        return null;
+      }
+
+      if (prop.privateRoute) {
+        return (
+          <PrivateRoute
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
+      }
+
+      if (prop.layout === layout) {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
+      } else {
+        return null;
+      }
+    });
+  };
+
+  return { getActiveRoute, getActiveNavbar, getRoutesForLayout };
+};
+
+export default useRoutes;

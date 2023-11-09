@@ -38,7 +38,7 @@ const HeaderLinks = (props: any) => {
     ...rest
   } = props;
 
-  const { signOut, user } = useAuth();
+  const { signOut, user, isSignedIn } = useAuth();
   const { selectDashboardMode, selectAdminMode, isAdminMode } = useESSContext();
 
   const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
@@ -72,7 +72,7 @@ const HeaderLinks = (props: any) => {
                 color={navbarIcon}
                 me="16px"
               >
-                {user && user.name ? user.name : "Unknown Name"}
+                {isSignedIn ? user!!.name : "Unknown Name"}
               </Text>
             </Box>
             <Box>
@@ -108,10 +108,10 @@ const HeaderLinks = (props: any) => {
                   >
                     User Login:
                   </Text>
-                  {user && user.username ? user.username : "Unknown User Name"}
+                  {isSignedIn ? user!!.username : "Unknown User Name"}
                 </Text>
                 <Text fontSize="sm" color="gray.500">
-                  {user && user.email ? user.email : "Unknown Email"}
+                  {isSignedIn && user!!.email ? user!!.email : "Unknown Email"}
                 </Text>
               </Box>
             </Flex>

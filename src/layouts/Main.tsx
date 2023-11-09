@@ -7,7 +7,7 @@ import Footer from "components/Footer/Footer";
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Sidebar from "components/Sidebar/Sidebar";
 import { useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { administrationRoutes, dashboardRoutes } from "../router/routes";
 // Custom Chakra theme
 import FixedPlugin from "components/FixedPlugin/FixedPlugin";
@@ -17,17 +17,17 @@ import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
 import PanelContent from "components/Layout/PanelContent";
 import SidebarLogo from "components/Sidebar/SidebarLogo";
+import useRoutes from "hooks/useRoutes";
 import MainRoute from "router/Route/MainRoute";
-import PrivateRoute from "router/Route/PrivateRoute";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "../store/ESSContext";
 
 const Main = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
-
   const { isAdminMode } = useESSContext();
-
   const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
+
+  const { getActiveRoute, getActiveNavbar, getRoutesForLayout } = useRoutes();
 
   const { ...rest } = props;
   // states and functions
@@ -37,86 +37,7 @@ const Main = (props: { [x: string]: any }) => {
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
-  const getActiveRoute = (routes: any): any => {
-    let activeRoute = "Default Brand Text";
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].collapse) {
-        let collapseActiveRoute = getActiveRoute(routes[i].views);
-        if (collapseActiveRoute !== activeRoute) {
-          return collapseActiveRoute;
-        }
-      } else if (routes[i].category) {
-        let categoryActiveRoute = getActiveRoute(routes[i].views);
-        if (categoryActiveRoute !== activeRoute) {
-          return categoryActiveRoute;
-        }
-      } else {
-        if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-        ) {
-          return routes[i].name;
-        }
-      }
-    }
-    return activeRoute;
-  };
-  // This changes navbar state(fixed or not)
-  const getActiveNavbar = (routes: any): any => {
-    let activeNavbar = false;
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].category) {
-        let categoryActiveNavbar = getActiveNavbar(routes[i].views);
-        if (categoryActiveNavbar !== activeNavbar) {
-          return categoryActiveNavbar;
-        }
-      } else {
-        if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-        ) {
-          if (routes[i].secondaryNavbar) {
-            return routes[i].secondaryNavbar;
-          }
-        }
-      }
-    }
-    return activeNavbar;
-  };
-  const getRoutes = (routes: any) => {
-    return routes.map((prop: any, key: any) => {
-      if (prop.collapse) {
-        return getRoutes(prop.views);
-      }
-      if (prop.category === "account") {
-        return getRoutes(prop.views);
-      }
 
-      if (isSignedIn && prop.publicRoute) {
-        return null;
-      }
-
-      if (prop.privateRoute) {
-        return (
-          <PrivateRoute
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      }
-
-      if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
 
@@ -155,7 +76,7 @@ const Main = (props: { [x: string]: any }) => {
           <PanelContent>
             <PanelContainer>
               <Switch>
-                {getRoutes(routes)}
+                {getRoutesForLayout(routes, "/dashboard")}
                 <MainRoute />
               </Switch>
             </PanelContainer>
