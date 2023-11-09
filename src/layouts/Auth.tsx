@@ -7,13 +7,15 @@ import { Route, Switch } from "react-router-dom";
 import AuthNavbar from "../components/Navbars/AuthNavbar";
 import MainRoute from "../router/Route/MainRoute";
 import PrivateRoute from "../router/Route/PrivateRoute";
-import routes from "../router/routes";
+import { administrationRoutes, dashboardRoutes } from "../router/routes";
 import { useAuth } from "../store/AuthContext";
 
 const Pages = () => {
   const { isSignedIn } = useAuth();
   const wrapper = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
+
+  const routes = [...dashboardRoutes, ...administrationRoutes];
 
   useEffect(() => {
     document.body.style.overflow = "unset";

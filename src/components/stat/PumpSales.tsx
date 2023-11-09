@@ -1,13 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import {
-  Circle,
-  Flex,
-  Grid,
-  GridItem,
-  Image,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Circle, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 
 import { getAllSalesByPump } from "common/api/statistique-api";
 import { periodeProps, SalesPump } from "common/model";
@@ -18,7 +10,7 @@ import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
 
-export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
+export const PumpSales = ({ periode, startDate, endDate }: periodeProps) => {
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
@@ -29,7 +21,12 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
         return;
       }
       try {
-        const result = await getAllSalesByPump(selectedStation, periode, startDate, endDate);
+        const result = await getAllSalesByPump(
+          selectedStation,
+          periode,
+          startDate,
+          endDate,
+        );
         setSalesPumps(result);
       } catch (error) {
         console.error(error);
@@ -59,7 +56,7 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
             display="inline"
             onClick={() => setIsContentVisible(!isContentVisible)}
           >
-            Pumps :{" "}
+            Pumps :
             {isContentVisible ? <TriangleUpIcon /> : <TriangleDownIcon />}
           </Text>
         </Flex>
@@ -71,8 +68,7 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
       {isContentVisible && (
         <Flex flexWrap="wrap">
           {salesPumps.map((salesPump, index) => (
-            <Card minH="100px" m="5" width="400px">
-
+            <Card key={index} minH="100px" m="5" width="400px">
               <Flex
                 display="flex"
                 alignItems="center"
@@ -95,8 +91,8 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
                     display="inline"
                   >
                     Total :
-                  </Text>{" "}
-                  {salesPump.pumpSales}{" "}
+                  </Text>
+                  {salesPump.pumpSales}
                   <Text
                     as="span"
                     fontWeight="bold"
@@ -109,7 +105,12 @@ export const PumpSales = ({ periode ,startDate, endDate}: periodeProps) => {
                 <Image src={pump} height="75%" width="15%" />
               </Flex>
               <Text as="span" fontWeight="bold" color="blue.600">
-                <SalesByGrades pumpId={salesPump.pumpId} periode={periode} startDate={startDate} endDate={endDate}/>
+                <SalesByGrades
+                  pumpId={salesPump.pumpId}
+                  periode={periode}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
               </Text>
             </Card>
           ))}

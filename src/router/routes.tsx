@@ -8,44 +8,44 @@ import {
   HomeIcon,
   PersonIcon,
   SupportIcon,
-  WalletIcon
+  WalletIcon,
 } from "components/Icons/Icons";
 import ManageStation from "views/Dashboard/ManageStation";
 import TankDelivery from "views/Dashboard/TankDelivery";
 import Transactions from "views/Dashboard/Transactions";
 
-var dashRoutes = [
+export const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/home",
     name: "Dashboard",
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
-    layout: "/admin",
-    privateRoute: true
+    layout: "/dashboard",
+    privateRoute: true,
   },
   {
     path: "/manage-station",
     name: "Manage Stations",
     icon: <SupportIcon color="inherit" />,
     component: ManageStation,
-    layout: "/admin",
-    privateRoute: true
+    layout: "/dashboard",
+    privateRoute: true,
   },
   {
     path: "/transaction",
     name: "Transactions",
     icon: <WalletIcon color="inherit" />,
     component: Transactions,
-    layout: "/admin",
-    privateRoute: true
+    layout: "/dashboard",
+    privateRoute: true,
   },
   {
     path: "/tank-delivery",
     name: "Tank Delivery",
     icon: <WalletIcon color="inherit" />,
     component: TankDelivery,
-    layout: "/admin",
-    privateRoute: true
+    layout: "/dashboard",
+    privateRoute: true,
   },
   {
     path: "/profile",
@@ -53,8 +53,8 @@ var dashRoutes = [
     icon: <PersonIcon color="inherit" />,
     secondaryNavbar: true,
     component: Profile,
-    layout: "/admin",
-    privateRoute: true
+    layout: "/dashboard",
+    privateRoute: true,
   },
   {
     path: "/signin",
@@ -62,7 +62,17 @@ var dashRoutes = [
     icon: <DocumentIcon color="inherit" />,
     component: SignIn,
     layout: "/auth",
-    publicRoute: true
-  }
+    publicRoute: true,
+  },
 ];
-export default dashRoutes;
+
+export const administrationRoutes = [
+  {
+    path: "/home",
+    name: "Manage Accounts",
+    icon: <HomeIcon color="inherit" />,
+    component: Dashboard,
+    layout: "/administration",
+    privateRoute: true,
+  },
+];

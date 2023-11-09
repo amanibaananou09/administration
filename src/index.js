@@ -3,8 +3,8 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
-import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
+import MainLayout from "layouts/Main";
 import MainRoute from "router/Route/MainRoute";
 import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
@@ -21,7 +21,8 @@ root.render(
         <HashRouter>
           <Switch>
             <Route path={`/auth`} component={AuthLayout} />
-            <Route path={`/admin`} component={AdminLayout} />
+            <Route path={`/dashboard`} component={MainLayout} />
+            <Route path={`/administration`} component={MainLayout} />
             <MainRoute />
           </Switch>
         </HashRouter>

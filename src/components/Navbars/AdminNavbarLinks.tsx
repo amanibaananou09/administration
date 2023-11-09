@@ -23,8 +23,9 @@ import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
 import ItemContent from "components/Menu/ItemContent";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import { useHistory } from "react-router-dom";
-import routes from "router/routes";
+import { administrationRoutes, dashboardRoutes } from "router/routes";
 import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 
 const HeaderLinks = (props: any) => {
   const {
@@ -38,6 +39,10 @@ const HeaderLinks = (props: any) => {
   } = props;
 
   const { signOut, user } = useAuth();
+  const { selectDashboardMode, selectAdminMode, isAdminMode } = useESSContext();
+
+  const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
+
   const { colorMode } = useColorMode();
   const history = useHistory();
   // Chakra Color Mode
@@ -49,6 +54,7 @@ const HeaderLinks = (props: any) => {
   if (secondary) {
     navbarIcon = "white";
   }
+
   return (
     <Flex
       pe={{ sm: "0px", md: "16px" }}
@@ -110,15 +116,34 @@ const HeaderLinks = (props: any) => {
               </Box>
             </Flex>
           </MenuItem>
-          <MenuItem
-            borderRadius="8px"
-            _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
-            onClick={() => {
-              history.push("/admin/profile");
-            }}
-          >
-            My Profile
-          </MenuItem>
+          {!isAdminMode && (
+            <MenuItem
+              borderRadius="8px"
+              _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
+              onClick={() => {
+                history.push("/admin/profile");
+              }}
+            >
+              My Profile
+            </MenuItem>
+          )}
+          {isAdminMode ? (
+            <MenuItem
+              borderRadius="8px"
+              _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
+              onClick={() => selectDashboardMode()}
+            >
+              Dashboard
+            </MenuItem>
+          ) : (
+            <MenuItem
+              borderRadius="8px"
+              _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
+              onClick={() => selectAdminMode()}
+            >
+              Administration
+            </MenuItem>
+          )}
           <MenuItem
             borderRadius="8px"
             onClick={() => {
