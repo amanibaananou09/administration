@@ -10,13 +10,14 @@ import {
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer";
 
+import { ReactComponent as AdminLogo } from "assets/svg/administration-logo.svg";
 import { ReactComponent as Logo } from "assets/svg/fuel-station-logo.svg";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Sidebar from "components/Sidebar/Sidebar";
 import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
-import routes from "router/routes";
+import { administrationRoutes, dashboardRoutes } from "../router/routes";
 // Custom Chakra theme
 import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 // Custom components
@@ -29,10 +30,12 @@ import PrivateRoute from "router/Route/PrivateRoute";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "../store/ESSContext";
 
-const Dashboard = (props: { [x: string]: any }) => {
+const Main = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
 
-  const { selectedStation } = useESSContext();
+  const { selectedStation, isAdminMode } = useESSContext();
+
+  const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
 
   const { ...rest } = props;
   // states and functions
@@ -124,6 +127,9 @@ const Dashboard = (props: { [x: string]: any }) => {
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
+
+  const layoutBg = isAdminMode ? "gray" : bgAdmin;
+
   // Chakra Color Mode
   return (
     <Box>
@@ -131,8 +137,8 @@ const Dashboard = (props: { [x: string]: any }) => {
         minH="200vh"
         w="100%"
         position="absolute"
-        bgImage={colorMode === "light" ? bgAdmin : "none"}
-        bg={colorMode === "light" ? bgAdmin : "navy.900"}
+        bgImage={colorMode === "light" ? layoutBg : "none"}
+        bg={colorMode === "light" ? layoutBg : "navy.900"}
         bgSize="cover"
         top="0"
       />
@@ -145,7 +151,11 @@ const Dashboard = (props: { [x: string]: any }) => {
             align="center"
             justify="center"
           >
-            <Logo style={{ height: "100px" }} />
+            {isAdminMode ? (
+              <AdminLogo style={{ height: "100px" }} />
+            ) : (
+              <Logo style={{ height: "100px" }} />
+            )}
             {selectedStation && (
               <Text
                 fontSize={{ sm: "lg", lg: "xl" }}
@@ -209,4 +219,4 @@ const Dashboard = (props: { [x: string]: any }) => {
   );
 };
 
-export default Dashboard;
+export default Main;
