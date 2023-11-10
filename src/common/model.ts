@@ -229,6 +229,7 @@ export interface AuthContextProps {
 export interface ESSContextProps {
   selectedStation: Station | null;
   isAdminMode: Boolean;
+  isLoading: boolean;
   selectStation: (selectedStation: Station) => void;
   selectAdminMode: () => void;
   selectDashboardMode: () => void;

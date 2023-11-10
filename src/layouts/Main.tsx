@@ -1,5 +1,11 @@
 // Chakra imports
-import { Box, Portal, useColorMode, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Portal,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer";
 
@@ -12,6 +18,8 @@ import { administrationRoutes, dashboardRoutes } from "../router/routes";
 // Custom Chakra theme
 import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 // Custom components
+import { faGasPump } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bgAdmin from "assets/img/admin-background.png";
 import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
@@ -24,7 +32,7 @@ import { useESSContext } from "../store/ESSContext";
 
 const Main = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
-  const { isAdminMode } = useESSContext();
+  const { isAdminMode, isLoading } = useESSContext();
   const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
 
   const { getActiveRoute, getActiveNavbar, getRoutesForLayout } = useRoutes();
@@ -42,6 +50,14 @@ const Main = (props: { [x: string]: any }) => {
   document.documentElement.dir = "ltr";
 
   const layoutBg = isAdminMode ? "gray" : bgAdmin;
+
+  if (isLoading) {
+    return (
+      <Flex h="100vh" w="100%" alignItems="center" justifyContent="center">
+        <FontAwesomeIcon icon={faGasPump} size="2xl" beatFade />
+      </Flex>
+    );
+  }
 
   // Chakra Color Mode
   return (
