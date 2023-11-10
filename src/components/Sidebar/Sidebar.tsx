@@ -29,7 +29,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
 import { SidebarProps } from "../../common/model";
 
-const Sidebar: FC<SidebarProps> = (props) => {
+const Sidebar = (props: SidebarProps) => {
   const { isSignedIn } = useAuth();
   let location = useLocation();
   const [state, setState] = React.useState<{ [key: string]: boolean }>({});

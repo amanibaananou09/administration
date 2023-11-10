@@ -1,6 +1,6 @@
+import { Mode } from "common/enums";
 import { ESSContextProps, Station } from "common/model";
 import React, { useCallback, useContext, useState } from "react";
-import { Mode } from "utils/enums";
 
 export const ESSContext = React.createContext<ESSContextProps>({
   selectedStation: null,

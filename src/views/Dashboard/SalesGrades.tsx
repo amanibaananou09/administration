@@ -23,7 +23,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
           selectedStation,
           periode,
           startDate,
-          endDate
+          endDate,
         );
         setGrades(result);
       } catch (error) {
@@ -51,8 +51,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
       {isContentVisible && (
         <Flex flexWrap="wrap">
           {grades.map((grade, index) => (
-            <Card minH="125px" m="5" width="500px">
-
+            <Card key={index} minH="125px" m="5" width="500px">
               <Stat me="auto">
                 <StatLabel
                   fontSize="lg"
