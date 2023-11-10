@@ -53,15 +53,27 @@ export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
           {grades.map((grade, index) => (
             <Card key={index} minH="125px" m="5" width="500px">
               <Stat me="auto">
-                <StatLabel
-                  fontSize="lg"
-                  color="teal.500"
-                  fontWeight="semibold"
-                  textTransform="capitalize"
-                >
-                  {grade.fuelGrade}
-                </StatLabel>
+                <Flex justify="center" align="center">
+                  <StatLabel
+                    fontSize="2xl"
+                    color="teal.500"
+                    fontWeight="semibold"
+                    textTransform="capitalize"
+                  >
+                    {grade.fuelGrade}
+                  </StatLabel>
+                </Flex>
               </Stat>
+              <br/>
+              <Text
+                as="span"
+                fontWeight="bold"
+                color="blue.600"
+                display="inline"
+                fontSize="xl"
+              >
+                Total Sales Volume: {grade.totalSalesParVolume}{" "} Litre
+              </Text>
               <Text
                 as="span"
                 color="blue.600"
@@ -75,19 +87,12 @@ export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
                   fontWeight="bold"
                   color="blue.600"
                   display="inline"
+                  fontSize="sm"
                 >
                   {selectedStation?.country.currency.code}
                 </Text>
                 <br />
-                Total Sales Volume: {grade.totalSalesParVolume}{" "}
-                <Text
-                  as="span"
-                  fontWeight="bold"
-                  color="blue.600"
-                  display="inline"
-                >
-                  Litre
-                </Text>
+
               </Text>
             </Card>
           ))}

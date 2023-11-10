@@ -92,6 +92,12 @@ export interface ChartData {
   }[];
 }
 
+export interface CustomerAccountTableRowProps {
+  name: string;
+  description: string;
+  status: boolean;
+  masterUser:any;
+}
 export interface TablesTableRowProps {
   pump: string;
   fuelGrade: string;
