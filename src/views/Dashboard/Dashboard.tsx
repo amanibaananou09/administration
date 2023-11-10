@@ -1,11 +1,10 @@
 import {
   Box,
   Flex,
-  Grid,
   SimpleGrid,
   Text,
   useColorMode,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import Card from "components/Card/Card"; // Update the path to the Card component
 import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
@@ -51,16 +50,19 @@ export default function Dashboard() {
       />
       <br />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-        <PumpSales
-          periode={selectedFilter}
-          startDate={fromDate}
-          endDate={toDate}
-        />
+
         <SalesGrades
           periode={selectedFilter}
           startDate={fromDate}
           endDate={toDate}
         />
+        <br />
+        <PumpSales
+          periode={selectedFilter}
+          startDate={fromDate}
+          endDate={toDate}
+        />
+
       </Flex>
       <Flex flexDirection="row" pt={{ base: "120px", md: "75px" }}>
         <Card minH="125px" m="5" width="900px"

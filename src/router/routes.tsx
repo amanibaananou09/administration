@@ -10,7 +10,7 @@ import {
   SupportIcon,
   WalletIcon,
 } from "components/Icons/Icons";
-import Home from "views/Administration/Home";
+import CustomerAccount from "../views/Administration/CustomerAccount";
 import ManageStation from "views/Dashboard/ManageStation";
 import TankDelivery from "views/Dashboard/TankDelivery";
 import Transactions from "views/Dashboard/Transactions";
@@ -72,7 +72,7 @@ export const administrationRoutes = [
     path: "/home",
     name: "Manage Accounts",
     icon: <HomeIcon color="inherit" />,
-    component: Home,
+    component: CustomerAccount,
     layout: "/administration",
     privateRoute: true,
   },
