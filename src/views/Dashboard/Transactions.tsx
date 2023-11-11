@@ -27,7 +27,7 @@ import TransactionTableRow from "components/Tables/TransactionTableRow";
 const Transactions = () => {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [filterType, setFilterType] = useState<string>("");
   const [pumpId, setPumpId] = useState<number>(0);
@@ -145,22 +145,23 @@ const Transactions = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {transactions.map((row, key) => {
-                return (
-                  <TransactionTableRow
-                    pump={row.pump}
-                    fuelGrade={row.fuelGradeName}
-                    volume={row.volume}
-                    price={row.price}
-                    amount={row.amount}
-                    dateTimeStart={row.dateTimeStart}
-                    key={key}
-                  />
-                );
-              })}
+              {transactions &&
+                transactions.map((row, key) => {
+                  return (
+                    <TransactionTableRow
+                      pump={row.pump}
+                      fuelGrade={row.fuelGradeName}
+                      volume={row.volume}
+                      price={row.price}
+                      amount={row.amount}
+                      dateTimeStart={row.dateTimeStart}
+                      key={key}
+                    />
+                  );
+                })}
             </Tbody>
           </Table>
-          {transactions.length === 0 && (
+          {!transactions && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />
               <Skeleton height="50px" borderRadius="10px" />

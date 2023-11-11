@@ -2,7 +2,7 @@ import { Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
 import { TablesTableRowProps } from "common/model";
 import { formatDate } from "utils/utils";
 
-const TablesTableRow = ({
+const TransactionTableRow = ({
   pump,
   fuelGrade,
   volume,
@@ -82,4 +82,4 @@ const TablesTableRow = ({
   );
 };
 
-export default TablesTableRow;
+export default TransactionTableRow;

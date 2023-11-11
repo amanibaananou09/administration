@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { getStatTankMeasurment } from "common/api/statistique-api";
 import { TankMeasurement as TankMeasurementModel } from "common/model";
-import { TankMeasurement } from "components/Tables/TankMeasurement";
+import { TankMeasurement } from "components/stat/TankMeasurement";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
