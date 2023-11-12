@@ -10,10 +10,11 @@ import {
   SupportIcon,
   WalletIcon,
 } from "components/Icons/Icons";
-import CustomerAccount from "../views/Administration/CustomerAccount";
+import ManageUsers from "views/Administration/ManageUsers";
 import ManageStation from "views/Dashboard/ManageStation";
 import TankDelivery from "views/Dashboard/TankDelivery";
 import Transactions from "views/Dashboard/Transactions";
+import CustomerAccount from "../views/Administration/CustomerAccount";
 
 export const dashboardRoutes = [
   {
@@ -73,6 +74,14 @@ export const administrationRoutes = [
     name: "Manage Accounts",
     icon: <HomeIcon color="inherit" />,
     component: CustomerAccount,
+    layout: "/administration",
+    privateRoute: true,
+  },
+  {
+    path: "/manages-users",
+    name: "Manage Users",
+    icon: <PersonIcon color="inherit" />,
+    component: ManageUsers,
     layout: "/administration",
     privateRoute: true,
   },

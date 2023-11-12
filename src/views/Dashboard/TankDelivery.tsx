@@ -25,7 +25,7 @@ import { useESSContext } from "store/ESSContext";
 const TankDelivery = () => {
   const textColor: string = useColorModeValue("gray.700", "white");
   const borderColor: string = useColorModeValue("gray.200", "gray.600");
-  const [tankdelivery, setTankDelivery] = useState<TankDeliveryProps[]>([]);
+  const [tankdelivery, setTankDelivery] = useState<TankDeliveryProps[]>();
   const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -114,23 +114,24 @@ const TankDelivery = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {tankdelivery.map((row: TankDeliveryProps, key: number) => {
-                return (
-                  <TankDeliveryRow
-                    tank={row.tank}
-                    fuelGradeName={row.fuelGradeName}
-                    productHeight={row.productHeight}
-                    waterHeight={row.waterHeight}
-                    temperature={row.temperature}
-                    productVolume={row.productVolume}
-                    key={key}
-                  />
-                );
-              })}
+              {tankdelivery &&
+                tankdelivery.map((row: TankDeliveryProps, key: number) => {
+                  return (
+                    <TankDeliveryRow
+                      tank={row.tank}
+                      fuelGradeName={row.fuelGradeName}
+                      productHeight={row.productHeight}
+                      waterHeight={row.waterHeight}
+                      temperature={row.temperature}
+                      productVolume={row.productVolume}
+                      key={key}
+                    />
+                  );
+                })}
             </Tbody>
           </Table>
 
-          {tankdelivery.length === 0 && (
+          {!tankdelivery && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />
               <Skeleton height="50px" borderRadius="10px" />

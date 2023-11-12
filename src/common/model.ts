@@ -96,7 +96,7 @@ export interface CustomerAccountTableRowProps {
   name: string;
   description: string;
   status: boolean;
-  masterUser:any;
+  masterUser: any;
 }
 export interface TablesTableRowProps {
   pump: string;
@@ -366,4 +366,17 @@ export interface periodeProps {
 
 export interface FilterTables {
   pump: String;
+}
+
+export interface GeneralUser {
+  id: number;
+  actif: boolean;
+  dateStatusChange: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: string;
+  address: string;
 }
