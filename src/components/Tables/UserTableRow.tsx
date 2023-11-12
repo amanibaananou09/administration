@@ -7,10 +7,11 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { UserAcount } from "common/model";
+import { GeneralUser } from "common/model";
+import { formatDate } from "utils/utils";
 
 export interface UserTableRowProps {
-  user: UserAcount;
+  user: GeneralUser;
   isLast: boolean;
 }
 
@@ -67,6 +68,13 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         >
           {user.actif ? "Active" : "Desactivated"}
         </Badge>
+      </Td>
+      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
+        <Flex direction="column">
+          <Text fontSize="md" color={textColor} fontWeight="bold">
+            {formatDate(user.dateStatusChange)}
+          </Text>
+        </Flex>
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
         <Button p="0px" bg="transparent" variant="no-effects">

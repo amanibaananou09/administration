@@ -368,10 +368,10 @@ export interface FilterTables {
   pump: String;
 }
 
-export interface UserAcount {
+export interface GeneralUser {
   id: number;
   actif: boolean;
-  dateStatusChange: Date;
+  dateStatusChange: string;
   username: string;
   firstName: string;
   lastName: string;
