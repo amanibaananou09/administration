@@ -53,7 +53,7 @@ export const getAllTankByIdc = async (station: Station) => {
 
 export const getTankMeasurementByPeriod = async (
   station: Station,
-  tank: string,
+  tank: string |number,
   periode: string,
   startDate: string,
   endDate: string,
@@ -67,7 +67,7 @@ export const getTankMeasurementByPeriod = async (
 
 export const getTankLevelByPeriod = async (
   station: Station,
-  tank: string,
+  tank: string | number,
   periode: string,
   startDate: string,
   endDate: string,

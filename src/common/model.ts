@@ -79,7 +79,7 @@ export interface ReportSalesChartMenuProps {
 }
 export interface TankChartMenuProps {
   tanks: Array<{ idConf: string | number | null }>;
-  selectedTank: string | null;
+  selectedTank: string| number | null;
   onChange: (idConf: string | number | null) => void;
 }
 

@@ -110,8 +110,8 @@ export default function Dashboard() {
             color={textColor}
             fontSize="lg"
             fontWeight="bold"
-            mb="6px"
-            marginLeft="10%"
+            mb="30px"
+            marginLeft="0%"
           >
             Tank Level
           </Text>

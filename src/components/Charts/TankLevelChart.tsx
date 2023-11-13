@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
-import TankChartMenu from "../ChartMenu/TankChartMenu";
+import TankChartButton from "../ChartMenu/TankChartButton";
 
 export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => {
   const [chartData, setChartData] = useState({
@@ -22,7 +22,7 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
     tankLevelData: [] as tankLevelData[],
   });
 
-  const [selectedTank, setSelectedTank] = useState<string | null>("");
+  const [selectedTank, setSelectedTank] = useState<string|number | null>(1);
   const [tanks, setTanks] = useState<Tank[]>([]);
 
   const [chartOptions, setChartOptions] = useState(
@@ -33,23 +33,19 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
 
   useEffect(() => {
     const fetchTanks = async () => {
-      if (!selectedStation || !user) {
+      if (!selectedStation ) {
         return;
       }
       try {
         const tankList = await getAllTankByIdc(selectedStation);
         setTanks(tankList);
-
-        if (tankList.length > 0) {
-          setSelectedTank(tankList[0].idConf);
-        }
       } catch (error) {
         console.error("Error fetching data tank:", error);
       }
     };
 
     fetchTanks();
-  }, [user, selectedStation]);
+  }, [selectedStation]);
 
   useEffect(() => {
     if (!selectedStation || !user || !selectedTank) {
@@ -68,6 +64,7 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
             ...prevData,
             tankLevelData: levelData,
           }));
+
         } catch (error) {
           console.error("Error fetching tank data: ", error);
         }
@@ -99,10 +96,10 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
 
   return (
     <div>
-      <TankChartMenu
+      <TankChartButton
         tanks={tanks}
         selectedTank={selectedTank}
-        onChange={(tank) => setSelectedTank(String(tank))}
+        onChange={(tank) => setSelectedTank(tank)}
       />
       {alignedChartData.tankLevelData.length > 0 &&
         alignedChartData.tankMeasurementData.length > 0 && (
