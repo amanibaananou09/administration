@@ -14,10 +14,13 @@ import {
 import { ConfiguratorProps } from "common/model";
 import { HSeparator } from "components/Separator/Separator";
 import { useRef, useState } from "react";
+import { useESSContext } from "store/ESSContext";
 import StationConfigurator from "./StationConfigurator";
 
 const Configurator = (props: ConfiguratorProps) => {
   const [switched, setSwitched] = useState<boolean>(props.isChecked);
+
+  const { isAdminMode } = useESSContext();
 
   const { colorMode, toggleColorMode } = useColorMode();
   const bgDrawer = useColorModeValue("white", "navy.800");
@@ -82,7 +85,7 @@ const Configurator = (props: ConfiguratorProps) => {
 
               <HSeparator />
 
-              <StationConfigurator />
+              {!isAdminMode && <StationConfigurator />}
             </Flex>
           </DrawerBody>
         </DrawerContent>

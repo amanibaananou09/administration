@@ -3,7 +3,7 @@ import { Box, Portal } from "@chakra-ui/react";
 import Footer from "../components/Footer/Footer";
 // Core components
 import AuthNavbar from "components/Navbars/AuthNavbar";
-import useRoutes from "hooks/useRoutes";
+import useRoutes from "hooks/use-routes";
 import { useEffect, useRef } from "react";
 import { Switch } from "react-router-dom";
 import MainRoute from "../router/Route/MainRoute";

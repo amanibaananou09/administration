@@ -39,7 +39,7 @@ const HeaderLinks = (props: any) => {
   } = props;
 
   const { signOut, user, isSignedIn } = useAuth();
-  const { selectDashboardMode, selectAdminMode, isAdminMode } = useESSContext();
+  const { isAdminMode } = useESSContext();
 
   const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
 
@@ -125,23 +125,6 @@ const HeaderLinks = (props: any) => {
               }}
             >
               My Profile
-            </MenuItem>
-          )}
-          {isAdminMode ? (
-            <MenuItem
-              borderRadius="8px"
-              _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
-              onClick={() => selectDashboardMode()}
-            >
-              Dashboard
-            </MenuItem>
-          ) : (
-            <MenuItem
-              borderRadius="8px"
-              _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
-              onClick={() => selectAdminMode()}
-            >
-              Administration
             </MenuItem>
           )}
           <MenuItem

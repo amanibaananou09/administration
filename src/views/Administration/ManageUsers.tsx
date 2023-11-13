@@ -11,8 +11,9 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { getUsers } from "common/api/general-user-api";
+
 import { GeneralUser } from "common/AdminModel";
+import { listUser } from "common/api/general-user-api";
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -23,7 +24,7 @@ import useHttp from "hooks/use-http";
 import { useEffect, useRef } from "react";
 
 const ManageUsers = () => {
-  const { makeRequest, isLoading, data: users } = useHttp(getUsers);
+  const { makeRequest, isLoading, data: users } = useHttp(listUser);
   const userModalRef = useRef<RefType>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
@@ -42,7 +43,7 @@ const ManageUsers = () => {
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
         <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
           <CardHeader p="6px 0px 22px 0px">
-            <Flex align="center" justify="space-between" p="22px">
+            <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 Global Users
               </Text>
