@@ -14,7 +14,7 @@ import {
   SimpleGrid,
   useDisclosure,
 } from "@chakra-ui/react";
-import { createGeneralUser } from "common/api/general-user-api";
+import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
 import { GeneralUser } from "common/AdminModel";
 import { useFormik } from "formik";
@@ -44,7 +44,7 @@ const UserModal = (props: PropsType, ref: Ref<RefType>) => {
     },
     validationSchema: userFormValidationSchema,
     onSubmit: async (values: Partial<FormValues>) => {
-      await createGeneralUser(values as GeneralUser);
+      await addUser(values as GeneralUser);
       form.setSubmitting(false);
     },
   });

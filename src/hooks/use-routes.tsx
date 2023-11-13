@@ -6,16 +6,16 @@ import { useAuth } from "store/AuthContext";
 const useRoutes = () => {
   const { isSignedIn } = useAuth();
 
-  const getActiveRoute = (routes: any): string => {
+  const getActiveRoute = (routes: RouteConfig[]): string => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
-        let collapseActiveRoute = getActiveRoute(routes[i].views);
+        let collapseActiveRoute = getActiveRoute(routes[i].views!!);
         if (collapseActiveRoute !== activeRoute) {
           return collapseActiveRoute;
         }
       } else if (routes[i].category) {
-        let categoryActiveRoute = getActiveRoute(routes[i].views);
+        let categoryActiveRoute = getActiveRoute(routes[i].views!!);
         if (categoryActiveRoute !== activeRoute) {
           return categoryActiveRoute;
         }

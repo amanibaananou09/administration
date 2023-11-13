@@ -169,11 +169,12 @@ export interface RouteConfig {
   publicRoute?: boolean;
   privateRoute?: boolean;
   redirect?: boolean;
-  category?: boolean;
+  category?: string;
   state?: string;
   views?: RouteConfig[];
   icon?: string | JSX.Element;
   secondaryNavbar?: boolean;
+  collapse?: boolean;
 }
 
 export interface DashboardTableRowProps {

@@ -24,7 +24,11 @@ const SignIn = () => {
   const bgForm: string = useColorModeValue("white", "navy.800");
   const textColor: string = useColorModeValue("gray.700", "white");
 
-  const { selectStation } = useESSContext();
+  const {
+    selectStation,
+    selectAdminMode,
+    selectDashboardMode,
+  } = useESSContext();
   const { signIn } = useAuth();
 
   const [username, setUsername] = useState<string>("");
@@ -49,15 +53,25 @@ const SignIn = () => {
       return;
     }
     try {
-      const { access_token } = await login(username, password);
+      const { access_token, customer_account_id } = await login(
+        username,
+        password,
+      );
 
       const user = decodeToken(access_token);
 
-      const defaultStation = await getDefaultStation(user!!);
+      if (customer_account_id) {
+        selectDashboardMode();
+        const defaultStation = await getDefaultStation(user!!);
 
-      signIn(user!!);
-      if (defaultStation) {
-        selectStation(defaultStation);
+        signIn(user!!);
+
+        if (defaultStation) {
+          selectStation(defaultStation);
+        }
+      } else {
+        selectAdminMode();
+        signIn(user!!);
       }
     } catch (error) {
       console.error(error);

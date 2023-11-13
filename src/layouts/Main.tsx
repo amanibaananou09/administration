@@ -25,7 +25,7 @@ import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
 import PanelContent from "components/Layout/PanelContent";
 import SidebarLogo from "components/Sidebar/SidebarLogo";
-import useRoutes from "hooks/useRoutes";
+import useRoutes from "hooks/use-routes";
 import MainRoute from "router/Route/MainRoute";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "../store/ESSContext";

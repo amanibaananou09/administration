@@ -3,11 +3,11 @@ import api from "./axios";
 
 const API_URL = "/user";
 
-export const getUsers = async (): Promise<GeneralUser[]> => {
+export const listUser = async (): Promise<GeneralUser[]> => {
   const response = await api.get(API_URL);
   return response.data;
 };
 
-export const createGeneralUser = async (user: GeneralUser): Promise<void> => {
+export const addUser = async (user: GeneralUser): Promise<void> => {
   await api.post(`${API_URL}/add`, user);
 };
