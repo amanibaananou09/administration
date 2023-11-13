@@ -1,12 +1,12 @@
 import { Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
-import { CustomerAccountTableRowProps } from "common/model";
+import { CustomerAccountTableRowProps } from "common/AdminModel";
 
 const CustomerAccountTableRow = ({
-                                   name,
-                                   description,
-                                   status,
-                                   masterUser,
-                                 }: CustomerAccountTableRowProps) => {
+  name,
+  description,
+  status,
+  masterUser,
+}: CustomerAccountTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
   const bgColor = useColorModeValue("gray.100", "gray.800");
 
@@ -48,4 +48,4 @@ const CustomerAccountTableRow = ({
   );
 };
 
-export default  CustomerAccountTableRow;
+export default CustomerAccountTableRow;

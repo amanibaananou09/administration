@@ -1,4 +1,4 @@
-import { GeneralUser } from "common/model";
+import { GeneralUser } from "common/AdminModel";
 import api from "./axios";
 
 const API_URL = "/user";

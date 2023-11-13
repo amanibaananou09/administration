@@ -17,27 +17,26 @@ import {
 } from "@chakra-ui/react";
 
 import { getallTransactionPump } from "common/api/configuration-api";
-import { FilterTables, Transaction } from "common/model";
+import { Transaction } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import FilterPump from "components/filter/FilterPump";
 import TransactionTableRow from "components/Tables/TransactionTableRow";
+import FilterTransaction from "components/filter/FilterTransaction";
 
 const Transactions = () => {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [transactions, setTransactions] = useState<Transaction[]>();
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [filterType, setFilterType] = useState<string>("");
   const [pumpId, setPumpId] = useState<number>(0);
   const [fuelGradeName, setFuelGradeName] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
   const { selectedStation } = useESSContext();
-  const [selectedPump, setSelectedPump] = useState<string>("");
-
+  const [selectedFilterTransactions,setSelectedFilterTransactions]= useState<string>("");
+  
   useEffect(() => {
     const getAllTransaction = async () => {
       if (!selectedStation) {
@@ -47,7 +46,7 @@ const Transactions = () => {
         const result = await getallTransactionPump(
           currentPage,
           selectedStation,
-          filterType,
+          selectedFilterTransactions,
           pumpId,
           fuelGradeName,
           startDate,
@@ -62,23 +61,33 @@ const Transactions = () => {
       }
     };
     getAllTransaction();
-  }, [currentPage, selectedStation]);
+  }, [currentPage, selectedStation, pumpId, fuelGradeName,selectedFilterTransactions,startDate,endDate]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const [filters, setFilters] = useState<FilterTables>({
-    pump: "",
-  });
-
-  const handleFilterChange = (filterName: string, value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterName]: value,
-    }));
-    setSelectedPump(value);
+  const handleFilterChange = (filterType: string) => {
+    setSelectedFilterTransactions(filterType);
   };
+
+  const handleChange = (value: number | null) => {
+    if (selectedFilterTransactions === "pump") {
+      setPumpId(value || 0);
+      setFuelGradeName(0);
+    } else if (selectedFilterTransactions === "fuelGrade") {
+      setPumpId(0);
+      setFuelGradeName(value || 0);
+    }
+  };
+  const handleSearchFilters = (startDate: string, endDate: string) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+    setFuelGradeName(0);
+    setPumpId(0);
+  };
+
+  
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -90,8 +99,12 @@ const Transactions = () => {
         </CardHeader>
 
         <CardBody>
-          <FilterPump onFilterChange={handleFilterChange} />
-          <Text>{selectedPump}</Text>
+          <FilterTransaction
+            selectedFilterTransactions={selectedFilterTransactions}
+            onFilterChange={handleFilterChange}
+            onChange={handleChange}
+            onSearch={handleSearchFilters}
+          />
           <Table
             variant="simple"
             color={textColor}

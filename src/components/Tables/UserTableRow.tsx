@@ -7,7 +7,7 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { GeneralUser } from "common/model";
+import { GeneralUser } from "common/AdminModel";
 import { formatDate } from "utils/utils";
 
 export interface UserTableRowProps {

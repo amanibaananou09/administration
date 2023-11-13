@@ -6,7 +6,6 @@ import {
   Input,
   Stack,
   Heading,
-  Divider,
 } from "@chakra-ui/react";
 
 interface FilterPeriodProps {
@@ -16,8 +15,8 @@ interface FilterPeriodProps {
 }
 
 function FilterPeriod(props: FilterPeriodProps) {
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] =  useState<string>("");
+  const [toDate, setToDate] =  useState<string>("");
   const { selectedFilter, onFilterChange, onSearch } = props;
 
   const handleFromDateChange = (date: string) => setFromDate(date);

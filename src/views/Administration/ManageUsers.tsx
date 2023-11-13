@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { getUsers } from "common/api/general-user-api";
-import { GeneralUser } from "common/model";
+import { GeneralUser } from "common/AdminModel";
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";

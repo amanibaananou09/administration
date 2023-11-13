@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { createGeneralUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
-import { GeneralUser } from "common/model";
+import { GeneralUser } from "common/AdminModel";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
 

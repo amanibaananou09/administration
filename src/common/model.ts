@@ -92,12 +92,6 @@ export interface ChartData {
   }[];
 }
 
-export interface CustomerAccountTableRowProps {
-  name: string;
-  description: string;
-  status: boolean;
-  masterUser: any;
-}
 export interface TablesTableRowProps {
   pump: string;
   fuelGrade: string;
@@ -278,6 +272,7 @@ export interface Decode {
 }
 
 export interface fuelGrade {
+  idConf: number;
   name: string;
   price: number;
   expansionCoefficient: string;
@@ -366,17 +361,4 @@ export interface periodeProps {
 
 export interface FilterTables {
   pump: String;
-}
-
-export interface GeneralUser {
-  id: number;
-  actif: boolean;
-  dateStatusChange: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  role: string;
-  address: string;
 }
