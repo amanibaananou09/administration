@@ -239,7 +239,8 @@ const StationModal = forwardRef(({ onSubmit }: AccountModalProps, ref) => {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="firstName" validate={isNotNull}>
+
+                    <Field name="email" validate={isNotNull}>
                       {({
                         field,
                         form,
@@ -251,33 +252,33 @@ const StationModal = forwardRef(({ onSubmit }: AccountModalProps, ref) => {
                           onBlur: () => void;
                         };
                         form: {
-                          errors: { firstName: string };
-                          touched: { firstName: boolean };
+                          errors: { email: string };
+                          touched: { email: boolean };
                         };
                       }) => (
                         <FormControl
                           isInvalid={
-                            !!form.errors.firstName && !!form.touched.firstName
+                            !!form.errors.email && !!form.touched.email
                           }
                           mb="24px"
                         >
                           <FormLabel htmlFor="name">E-mail</FormLabel>
                           <Input
                             {...field}
-                            id="firstName"
-                            placeholder="First Name"
+                            id="email"
+                            placeholder="E-mail"
                           />
                           <FormErrorMessage>
-                            First Name {form.errors.firstName}
+                            E-mail {form.errors.email}
                           </FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
                     <Field name="firstName" validate={isNotNull}>
                       {({
-                        field,
-                        form,
-                      }: {
+                          field,
+                          form,
+                        }: {
                         field: {
                           name: string;
                           value: string;
@@ -371,6 +372,40 @@ const StationModal = forwardRef(({ onSubmit }: AccountModalProps, ref) => {
                           />
                           <FormErrorMessage>
                             Password {form.errors.password}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="role" validate={isNotNull}>
+                      {({
+                          field,
+                          form,
+                        }: {
+                        field: {
+                          name: string;
+                          value: string;
+                          onChange: (e: React.ChangeEvent<any>) => void;
+                          onBlur: () => void;
+                        };
+                        form: {
+                          errors: { role: string };
+                          touched: { role: boolean };
+                        };
+                      }) => (
+                        <FormControl
+                          isInvalid={
+                            !!form.errors.role && !!form.touched.role
+                          }
+                          mb="24px"
+                        >
+                          <FormLabel htmlFor="name">Role</FormLabel>
+                          <Input
+                            {...field}
+                            id="role"
+                            placeholder="Role"
+                          />
+                          <FormErrorMessage>
+                            Password {form.errors.role}
                           </FormErrorMessage>
                         </FormControl>
                       )}
