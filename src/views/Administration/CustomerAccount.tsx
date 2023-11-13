@@ -40,8 +40,6 @@ const CustomerAccount = () => {
   const [customerAccounts, setCustomerAccounts] = useState<
     CustomerAccountTableRowProps[]
   >([]);
-  const { user } = useAuth();
-  const token = user?.token || "";
 
   const openAccountModal = (account?: CustAccount) => {
     accountModalRef.current?.open(account);
@@ -49,9 +47,6 @@ const CustomerAccount = () => {
 
   const submitModalHandler = async (account: CustAccount) => {
     try {
-      if (!user) {
-        return;
-      }
       const newAccount = await createCustomerAccount(account);
       setAccount((prev) => [newAccount, ...prev]);
       accountModalRef.current?.close();
@@ -62,12 +57,15 @@ const CustomerAccount = () => {
 
   useEffect(() => {
     const getListAccounts = async () => {
+      try{
       const result = await getListOfCustomerAccount();
       setCustomerAccounts(result);
+      } catch (error) {
+        console.error(error);
+      }
     };
     getListAccounts();
-  });
-
+  }, []);
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
