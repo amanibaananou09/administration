@@ -20,6 +20,7 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  useToast ,
 } from "@chakra-ui/react";
 import CardHeader from "../../components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
@@ -36,7 +37,7 @@ const CustomerAccount = () => {
   const skeletonColor = useColorModeValue("gray.200", "gray.600");
   const accountModalRef = useRef<ModalRefCustAccount>(null);
   const [account, setAccount] = useState<CustAccount[]>([]);
-
+  const toast = useToast();
   const [customerAccounts, setCustomerAccounts] = useState<
     CustomerAccountTableRowProps[]
   >([]);
@@ -50,8 +51,22 @@ const CustomerAccount = () => {
       const newAccount = await createCustomerAccount(account);
       setAccount((prev) => [newAccount, ...prev]);
       accountModalRef.current?.close();
+      toast({
+        title: "Customer Account Added",
+        description: "The customer account has been successfully added.",
+        status: "success",
+        duration: 5000, 
+        isClosable: true,
+      });
     } catch (error) {
       console.error(error);
+      toast({
+        title: "Error",
+        description: "An error occurred while adding the customer account.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
