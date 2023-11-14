@@ -16,8 +16,6 @@ const TankChartButton = ({
                 selectedTank === tankElement.idConf ? "blue" : "gray"
               }
               onClick={() => {
-                console.log("tankElement.idConf:", tankElement.idConf);
-                console.log("selectedTank:", selectedTank);
                 onChange(tankElement.idConf);
               }}
             >
