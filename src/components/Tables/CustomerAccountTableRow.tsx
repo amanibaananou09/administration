@@ -1,46 +1,56 @@
-import { Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { Badge, Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
 import { CustomerAccountTableRowProps } from "common/AdminModel";
+import { useHistory } from "react-router-dom";
 
 const CustomerAccountTableRow = ({
-  name,
-  description,
-  status,
-  masterUser,
-}: CustomerAccountTableRowProps) => {
+                                   name,
+                                   description,
+                                   status,
+                                   masterUser
+                                 }: CustomerAccountTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
-  const bgColor = useColorModeValue("gray.100", "gray.800");
+  const bgStatus = useColorModeValue("gray.400", "navy.900");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const history = useHistory();
+
+  const handleLinkClick = () => {
+    history.push(`/CustomerAccountInformation/${name}`);
+  };
 
   return (
-    <Tr _odd={{ bg: bgColor }} _even={{ bg: bgColor }}>
-      <Td width="20%">
-        <Text fontSize="m" align="center" color={textColor} fontWeight="bold">
-          {name}
-        </Text>
+    <Tr>
+      <Td borderColor={borderColor}>
+        <Flex direction="column">
+          <Text
+            fontSize="md"
+            textAlign="center"
+            color={textColor}
+            fontWeight="bold"
+            style={{ cursor: 'pointer', textDecoration: 'underline' }}
+            onClick={handleLinkClick}
+          >
+            {name}
+          </Text>
+        </Flex>
       </Td>
-      <Td width="30%">
-        <Text fontSize="m" align="center" color={textColor} fontWeight="bold">
+      <Td borderColor={borderColor}>
+        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
           {description}
         </Text>
       </Td>
-      <Td width="20%">
-        <Text
-          fontSize="m"
-          align="center"
-          color={textColor}
-          fontWeight="bold"
-          pb=".5rem"
+      <Td borderColor={borderColor} display="flex" justifyContent="center" alignItems="center">
+        <Badge
+          bg={status ? "green.400" : bgStatus}
+          color={status ? "white" : "white"}
+          fontSize="16px"
+          p="3px 10px"
+          borderRadius="8px"
         >
           {status}
-        </Text>
+        </Badge>
       </Td>
-      <Td width="30%">
-        <Text
-          fontSize="m"
-          align="center"
-          color={textColor}
-          fontWeight="bold"
-          pb=".5rem"
-        >
+      <Td borderColor={borderColor}>
+        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
           {masterUser}
         </Text>
       </Td>

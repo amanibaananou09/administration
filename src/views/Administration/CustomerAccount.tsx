@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "store/AuthContext";
 import {
-  CustomerAccountTableRowProps,
-  CustAccount,
-  ModalRefCustAccount,
+  CustAccount, CustomerAccountTableRowProps,
+  ModalRefCustAccount
 } from "common/AdminModel";
 import {
   Box,
@@ -33,8 +32,6 @@ import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
 const CustomerAccount = () => {
   const textColor = useColorModeValue("teal.800", "teal.200");
   const borderColor = useColorModeValue("teal.200", "teal.600");
-  const bgColor = useColorModeValue("white", "gray.800");
-  const skeletonColor = useColorModeValue("gray.200", "gray.600");
   const accountModalRef = useRef<ModalRefCustAccount>(null);
   const [account, setAccount] = useState<CustAccount[]>([]);
   const toast = useToast();
@@ -84,77 +81,47 @@ const CustomerAccount = () => {
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-        <Card
-          overflowX={{ sm: "scroll", xl: "hidden" }}
-          pb="0px"
-          bgColor={bgColor}
-          maxW="80vw"
-        >
-          <CardHeader p="6px 0px 22px 0px" bgColor={bgColor}>
-            <br />
-            <Text
-              fontSize="3xl"
-              color={textColor}
-              textAlign="center"
-              fontWeight="bold"
-            >
-              Customer Accounts
-            </Text>
+        <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" borderRadius="16px" >
+          <CardHeader p="6px 0px 22px 0px">
+            <Flex align="center" justify="space-between" p="5px">
+              <Text fontSize="xl" color={textColor} fontWeight="bold">
+                   Customer Accounts
+              </Text>
+              <Button
+                colorScheme="teal"
+                size="md"
+                onClick={() => openAccountModal()}
+              >
+                Add Customer Account
+              </Button>
+            </Flex>
           </CardHeader>
-          <CardBody bgColor={bgColor}>
-            <Table
-              variant="simple"
-              color={textColor}
-              size="lg"
-              textAlign="center"
-            >
+
+          <CardBody>
+            <Table variant="simple" color={textColor}>
               <Thead>
-                <Tr bg="teal.200" color="white">
-                  <Th
-                    borderColor={borderColor}
-                    textAlign="center"
-                    fontSize="lg"
-                    fontWeight="bold"
-                    p={4}
-                  >
+                <Tr my=".8rem" pl="0px" color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.400" textAlign="center">
                     Name
                   </Th>
-                  <Th
-                    borderColor={borderColor}
-                    textAlign="center"
-                    fontSize="lg"
-                    fontWeight="bold"
-                    p={4}
-                  >
+                  <Th borderColor={borderColor} color="gray.400" textAlign="center">
                     Description
                   </Th>
-                  <Th
-                    borderColor={borderColor}
-                    textAlign="center"
-                    fontSize="lg"
-                    fontWeight="bold"
-                    p={4}
-                  >
+                  <Th borderColor={borderColor} color="gray.400" textAlign="center">
                     Status
                   </Th>
-                  <Th
-                    borderColor={borderColor}
-                    textAlign="center"
-                    fontSize="lg"
-                    fontWeight="bold"
-                    p={4}
-                  >
+                  <Th borderColor={borderColor} color="gray.400" textAlign="center">
                     Master User
                   </Th>
+
                 </Tr>
               </Thead>
-
               <Tbody>
                 {customerAccounts.map((account, key) => (
                   <CustomerAccountTableRow
                     name={account.name}
                     description={account.description}
-                    status={account.status}
+                    status={account.status }
                     masterUser={account.masterUser.username}
                     key={key}
                   />
@@ -163,42 +130,14 @@ const CustomerAccount = () => {
             </Table>
             {customerAccounts.length === 0 && (
               <Stack width="100%" margin="20px 0px">
-                <Skeleton
-                  height="50px"
-                  borderRadius="10px"
-                  bgColor={skeletonColor}
-                />
-                <Skeleton
-                  height="50px"
-                  borderRadius="10px"
-                  bgColor={skeletonColor}
-                />
-                <Skeleton
-                  height="50px"
-                  borderRadius="10px"
-                  bgColor={skeletonColor}
-                />
-                <Skeleton
-                  height="50px"
-                  borderRadius="10px"
-                  bgColor={skeletonColor}
-                />
+                <Skeleton height="50px" borderRadius="10px" />
+                <Skeleton height="50px" borderRadius="10px" />
+                <Skeleton height="50px" borderRadius="10px" />
+                <Skeleton height="50px" borderRadius="10px" />
+                <Skeleton height="50px" borderRadius="10px" />
               </Stack>
             )}
           </CardBody>
-          <br />
-          <Flex justify="right" align="flex-end">
-            <Box marginRight="4">
-              <Button
-                colorScheme="teal"
-                size="lg"
-                onClick={() => openAccountModal()}
-              >
-                Add Customer Account
-              </Button>
-            </Box>
-          </Flex>
-          <br />
         </Card>
       </Flex>
       <CustomerAccountModal
