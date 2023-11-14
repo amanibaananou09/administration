@@ -15,6 +15,7 @@ import ManageStation from "views/Dashboard/ManageStation";
 import TankDelivery from "views/Dashboard/TankDelivery";
 import Transactions from "views/Dashboard/Transactions";
 import CustomerAccount from "../views/Administration/CustomerAccount";
+import CustomerAccountInformation from "../views/Administration/CustomerAccountInformation";
 
 export const dashboardRoutes = [
   {
@@ -82,6 +83,14 @@ export const administrationRoutes = [
     name: "Manage Users",
     icon: <PersonIcon color="inherit" />,
     component: ManageUsers,
+    layout: "/administration",
+    privateRoute: true,
+  },
+  {
+    path: "/CustomerAccountInformation",
+    name: "Information Accounts",
+    icon: <HomeIcon color="inherit" />,
+    component: CustomerAccountInformation,
     layout: "/administration",
     privateRoute: true,
   },

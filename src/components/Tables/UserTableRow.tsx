@@ -38,8 +38,8 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
               minWidth="100%"
             >
               {`${user.firstName} ${user.lastName}`}
-            </Text>
-            <Text fontSize="sm" color="gray.400" fontWeight="normal">
+          </Text>
+          <Text fontSize="sm" color="gray.400" fontWeight="normal">
               {user.username}
             </Text>
           </Flex>
