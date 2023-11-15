@@ -15,6 +15,7 @@ import ReactApexChart from "react-apexcharts";
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartButton from "../ChartMenu/TankChartButton";
+import { formatDate } from "utils/utils";
 
 export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => {
   const [chartData, setChartData] = useState({
@@ -71,28 +72,35 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
       };
       fetchData();
     }, [periode, selectedStation, user, selectedTank , startDate, endDate]);
-  
+
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);
+  console.log(alignedChartData);
   // Process and merge data for the chart
   const chartSeries = [
     {
       name: "Changed Volume",
       type: "line",
-      data: alignedChartData.tankLevelData.map((item) => ({
-        x: item.dateTime,
-        y: item.tankVolumeChanges,
-      })),
+      data: alignedChartData.tankLevelData
+        .filter((item) => item.tankVolumeChanges !== null)
+        .map((item) => ({
+          x: formatDate(item.dateTime),
+          y: item.tankVolumeChanges,
+        })),
     },
     {
       name: "Tank Volume",
       type: "line",
-      data: alignedChartData.tankMeasurementData.map((item) => ({
-        x: item.dateTime,
-        y: item.productVolume,
-      })),
+      data: alignedChartData.tankMeasurementData
+        .filter((item) => item.productVolume !== null)
+        .map((item) => ({
+          x: formatDate(item.dateTime),
+          y: item.productVolume,
+        })),
     },
   ];
+
+
 
   return (
     <div>
@@ -119,10 +127,35 @@ const alignDataPoints = (data: {
   tankMeasurementData: tankMeasurementData[];
   tankLevelData: tankLevelData[];
 }): {
-  tankMeasurementData: tankMeasurementData[];
-  tankLevelData: tankLevelData[];
+  tankMeasurementData: (tankMeasurementData | { dateTime: string; productVolume: null })[];
+  tankLevelData: (tankLevelData | { dateTime: string; tankVolumeChanges: null })[];
 } => {
-  return data;
+  const allDatetimes = [
+    ...data.tankMeasurementData.map((item) => item.dateTime),
+    ...data.tankLevelData.map((item) => item.dateTime),
+  ];
+
+  // Remove duplicates by converting the array to a Set and back to an array
+  const uniqueDatetimes = [...new Set(allDatetimes)];
+
+  // Sort datetime values
+  uniqueDatetimes.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
+  // Create aligned data based on unique and sorted datetime values
+  const alignedData = {
+    tankMeasurementData: uniqueDatetimes.map((dateTime) => {
+      const measurementItem = data.tankMeasurementData.find((item) => item.dateTime === dateTime);
+      return measurementItem || { dateTime, productVolume: null };
+    }),
+    tankLevelData: uniqueDatetimes.map((dateTime) => {
+      const levelItem = data.tankLevelData.find((item) => item.dateTime === dateTime);
+      return levelItem || { dateTime, tankVolumeChanges: null };
+    }),
+  };
+
+  return alignedData;
 };
+
+
 
 export default TankLevelChart;

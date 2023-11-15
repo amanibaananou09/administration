@@ -87,11 +87,11 @@ export const administrationRoutes = [
     privateRoute: true,
   },
   {
-    path: "/CustomerAccountInformation",
+    path: "/CustomerAccountInformation/:id",
     name: "Information Accounts",
     icon: <HomeIcon color="inherit" />,
     component: CustomerAccountInformation,
     layout: "/administration",
     privateRoute: true,
-  },
+  }
 ];

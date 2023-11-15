@@ -3,10 +3,10 @@ import api from "./axios";
 
 const API_URL = "/customerAccount";
 
-export const getStationForUser = async (username: string, token: string) => {
-  const response = await api.get(`${API_URL}/1/station?userLogin=${username}`, {
+export const getStationForUser = async (username: string, user: User) => {
+  const response = await api.get(`${API_URL}/${user.customerAccountId}/station?userLogin=${username}`, {
     headers: {
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + user.token,
     },
   });
 
@@ -14,7 +14,7 @@ export const getStationForUser = async (username: string, token: string) => {
 };
 
 export const getStations = async (user: User) => {
-  return await getStationForUser(user.username, user.token);
+  return await getStationForUser(user.username, user);
 };
 
 export const createStation = async (station: Station, user: User) => {
@@ -51,18 +51,18 @@ export const deleteStation = async (station: Station) => {
   return response.data;
 };
 
-export const allStationByCustomerAccount = async () => {
-  const response = await api.get(`${API_URL}/1/station`);
+export const allStationByCustomerAccount = async (id: number) => {
+  const response = await api.get(`${API_URL}/${id}/station`);
 
   return response.data;
 };
-export const allUserByCustomerAccount = async () => {
-  const response = await api.get(`${API_URL}/1/user`);
+export const allUserByCustomerAccount = async (id: number) => {
+  const response = await api.get(`${API_URL}/${id}/user`);
 
   return response.data;
 };
-export const ListOfCustomerAccount = async (id : number) => {
-  const response = await api.get(`${API_URL}?id=${id}`);
+export const ListOfCustomerAccount = async (id: number) => {
+  const response = await api.get(`${API_URL}/${id}/info`);
 
   return response.data;
 };

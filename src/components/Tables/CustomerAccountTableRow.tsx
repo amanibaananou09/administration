@@ -1,8 +1,10 @@
 import { Badge, Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
 import { CustomerAccountTableRowProps } from "common/AdminModel";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"
+import { Link as RouterLink } from "react-router-dom";
 
-const CustomerAccountTableRow = ({
+
+const CustomerAccountTableRow = ({ id,
                                    name,
                                    description,
                                    status,
@@ -13,8 +15,9 @@ const CustomerAccountTableRow = ({
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const history = useHistory();
 
-  const handleLinkClick = () => {
-    history.push(`/CustomerAccountInformation/${name}`);
+  const handleClick = () => {
+    console.log("Clicked id:", id);
+    history.push(`/CustomerAccountInformation/${id}`);
   };
 
   return (
@@ -22,12 +25,10 @@ const CustomerAccountTableRow = ({
       <Td borderColor={borderColor}>
         <Flex direction="column">
           <Text
-            fontSize="md"
             textAlign="center"
-            color={textColor}
-            fontWeight="bold"
-            style={{ cursor: 'pointer', textDecoration: 'underline' }}
-            onClick={handleLinkClick}
+            as="span"
+            style={{ textDecoration: 'underline', cursor: 'pointer' }}
+            onClick={handleClick}
           >
             {name}
           </Text>

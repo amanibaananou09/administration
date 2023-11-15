@@ -17,6 +17,7 @@ export const decodeToken = (token: string | null): User | null => {
     Address,
     Phone,
     name,
+    customerAccountId,
   } = jwt_decode<Decode>(token);
 
   const user: User = {
@@ -31,6 +32,7 @@ export const decodeToken = (token: string | null): User | null => {
     token: token || "",
     email,
     expireTime: exp * 1000,
+    customerAccountId: customerAccountId,
   };
 
   return user;

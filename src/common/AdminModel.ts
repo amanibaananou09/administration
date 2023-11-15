@@ -1,4 +1,5 @@
 export interface CustomerAccountTableRowProps {
+  id : number;
   name: string;
   description: string;
   status: boolean;
@@ -43,4 +44,12 @@ export interface GeneralUser {
   password: string;
   role: string;
   address: string;
+}
+
+export interface Accounts {
+  name: string;
+  status: string;
+  dateStatusChange: string;
+  description: string;
+
 }

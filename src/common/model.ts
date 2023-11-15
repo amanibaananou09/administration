@@ -176,23 +176,6 @@ export interface RouteConfig {
   secondaryNavbar?: boolean;
   collapse?: boolean;
 }
-
-export interface DashboardTableRowProps {
-  logo: any;
-  name: string;
-  members: string[];
-  budget: string;
-  progression: number;
-}
-
-export interface InvoicesRowProps {
-  date: string;
-  code: string;
-  price: string;
-  format: string;
-  logo: any;
-}
-
 export interface StationRowProps {
   id: number;
   name: string;
@@ -211,14 +194,6 @@ export interface TankDeliveryRowProps {
   temperature: number;
   productVolume: number;
 }
-
-export interface TransactionRowProps {
-  name: string;
-  date: string;
-  logo: React.ElementType;
-  price: string;
-}
-
 export interface AuthContextProps {
   token: string | null;
   isSignedIn: boolean;
@@ -257,6 +232,7 @@ export interface User {
   Address: string;
   Phone: string;
   name: string;
+  customerAccountId: string;
 }
 
 export interface Decode {
@@ -270,6 +246,7 @@ export interface Decode {
   family_name: string;
   Address: string;
   Phone: string;
+  customerAccountId: string,
 }
 
 export interface fuelGrade {
@@ -358,8 +335,4 @@ export interface periodeProps {
   periode: string;
   startDate: string;
   endDate: string;
-}
-
-export interface FilterTables {
-  pump: String;
 }

@@ -104,7 +104,7 @@ export default function Dashboard() {
           </Box>
         </Card>
       </Flex>
-      <Card minH="125px" m="5" width="1500px">
+      <Card minH="125px" m="5" width="1650px">
         <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
           <Text
             color={textColor}

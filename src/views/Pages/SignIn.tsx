@@ -53,17 +53,16 @@ const SignIn = () => {
       return;
     }
     try {
-      const { access_token, customer_account_id } = await login(
+      const { access_token } = await login(
         username,
         password,
       );
 
       const user = decodeToken(access_token);
 
-      if (customer_account_id) {
+      if (user?.customerAccountId) {
         selectDashboardMode();
         const defaultStation = await getDefaultStation(user!!);
-
         signIn(user!!);
 
         if (defaultStation) {

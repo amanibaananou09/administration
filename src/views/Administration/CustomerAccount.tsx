@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { useAuth } from "store/AuthContext";
 import {
   CustAccount, CustomerAccountTableRowProps,
   ModalRefCustAccount
@@ -78,6 +77,7 @@ const CustomerAccount = () => {
     };
     getListAccounts();
   }, []);
+
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -119,6 +119,7 @@ const CustomerAccount = () => {
               <Tbody>
                 {customerAccounts.map((account, key) => (
                   <CustomerAccountTableRow
+                    id={account.id}
                     name={account.name}
                     description={account.description}
                     status={account.status }
