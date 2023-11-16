@@ -42,7 +42,7 @@ export const getAllPumpByNozzel = async (
   selectedPump: string,
 ) => {
   const response = await api.get(
-    `${API_URL}/nozzleByPump//${station.controllerPts.id}/${selectedPump}`,
+    `${API_URL}/nozzleByPump/${station.controllerPts.id}/${selectedPump}`,
   );
 
   return response.data;

@@ -30,6 +30,7 @@ const ManageUsers = () => {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
+
   useEffect(() => {
     makeRequest();
   }, []);
@@ -61,20 +62,20 @@ const ManageUsers = () => {
             <Table variant="simple" color={textColor}>
               <Thead>
                 <Tr my=".8rem" pl="0px" color="gray.400">
-                  <Th pl="0px" borderColor={borderColor} color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                    User Name
+                  </Th>
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
                     Name
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
                     Email
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400">
-                    Address
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                    Phone
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
                     Status
-                  </Th>
-                  <Th borderColor={borderColor} color="gray.400">
-                    Last update
                   </Th>
                   <Th borderColor={borderColor}></Th>
                 </Tr>

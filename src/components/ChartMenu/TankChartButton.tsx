@@ -2,15 +2,15 @@ import { Box, Stack, Button } from "@chakra-ui/react";
 import { TankChartMenuProps } from "common/model";
 
 const TankChartButton = ({
-  tanks,
-  selectedTank,
-  onChange,
-}: TankChartMenuProps) => {
+                           tanks,
+                           selectedTank,
+                           onChange,
+                         }: TankChartMenuProps) => {
   return (
     <Box p={4}>
       <Stack direction="row" spacing={4} align="center">
         {tanks.map((tankElement) => (
-          <Box >
+          <Box key={tankElement.idConf}>
             <Button
               colorScheme={
                 selectedTank === tankElement.idConf ? "blue" : "gray"

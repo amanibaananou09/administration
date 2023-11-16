@@ -13,7 +13,7 @@ export interface MasterUser {
   lastName: string;
   phone?: string;
   password: string;
-  role: string;
+  role?: string;
 }
 
 export interface AccountModalProps {
@@ -41,7 +41,7 @@ export interface GeneralUser {
   email: string;
   password: string;
   role: string;
-  address: string;
+  phone: string;
 }
 
 export interface Accounts {
