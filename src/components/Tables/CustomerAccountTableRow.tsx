@@ -1,90 +1,59 @@
-import {
-  Badge,
-  Button,
-  Flex,
-  Td,
-  Text,
-  Tr,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Badge, Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
 import { CustAccount } from "common/AdminModel";
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
-export interface CustomerAccountTableRowProps {
-  customerAccount: CustAccount;
-  isLast: boolean;
-}
 
-const CustomerAccountTableRow = ({
-  customerAccount,
-  isLast,
-}: CustomerAccountTableRowProps) => {
+const CustomerAccountTableRow = ({ id,
+                                   name,
+                                   description,
+                                   status,
+                                   masterUser
+                                 }: CustAccount )=> {
   const textColor = useColorModeValue("gray.500", "white");
-  const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
+
   const history = useHistory();
 
+
   const handleNameClick = () => {
-    history.push(
-      `/administration/CustomerAccountInformation/${customerAccount.id}`,
-    );
+    history.push(`/administration/CustomerAccountInformation/${id}`);
   };
 
   return (
     <Tr>
-      <Td
-        borderColor={borderColor}
-        borderBottom={isLast ? "none" : undefined}
-        paddingLeft="0"
-      >
+      <Td borderColor={borderColor}>
         <Flex direction="column">
-          <Text fontSize="md" color={titleColor} fontWeight="bold">
-            {customerAccount.name}
+          <Text
+            textAlign="center"
+            as="span"
+            style={{ textDecoration: 'underline', cursor: 'pointer' }}
+            onClick={handleNameClick}
+          >
+            {name}
           </Text>
         </Flex>
       </Td>
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
-        <Flex direction="column">
-          <Text fontSize="md" color={textColor} fontWeight="bold">
-            {customerAccount.description}
-          </Text>
-        </Flex>
+      <Td borderColor={borderColor}>
+        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
+          {description}
+        </Text>
       </Td>
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
+      <Td borderColor={borderColor} display="flex" justifyContent="center" alignItems="center">
         <Badge
-          bg={customerAccount.status === "ENABLED" ? "green.400" : bgStatus}
-          color={customerAccount.status === "DESABLED" ? "white" : "white"}
+          bg={status ? "green.400" : bgStatus}
+          color={status ? "white" : "white"}
           fontSize="16px"
           p="3px 10px"
           borderRadius="8px"
         >
-          {customerAccount.status}
+          {status}
         </Badge>
       </Td>
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
-        <Flex direction="column">
-          <Text fontSize="md" color={textColor} fontWeight="bold">
-            {customerAccount.masterUser.username}
-          </Text>
-        </Flex>
-      </Td>
-      <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
-        <Button
-          p="0px"
-          bg="transparent"
-          variant="no-effects"
-          onClick={handleNameClick}
-        >
-          <Text
-            fontSize="md"
-            color="gray.400"
-            fontWeight="bold"
-            cursor="pointer"
-          >
-            View
-          </Text>
-        </Button>
+      <Td borderColor={borderColor}>
+        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
+          {masterUser.username}
+        </Text>
       </Td>
     </Tr>
   );

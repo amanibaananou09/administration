@@ -1,4 +1,8 @@
+import { useEffect, useState, useRef } from "react";
+import { useAuth } from "store/AuthContext";
+import { CustAccount, CustomAccountModalRefType } from "common/AdminModel";
 import {
+  Box,
   Button,
   Flex,
   Skeleton,
@@ -12,7 +16,6 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { CustAccount, CustomAccountModalRefType } from "common/AdminModel";
 import {
   createCustomerAccount,
   getListOfCustomerAccount,
@@ -23,8 +26,8 @@ import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
-import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
+import { useHistory } from 'react-router-dom';
 
 const CustomerAccount = () => {
   const textColor = useColorModeValue("teal.800", "teal.200");
@@ -63,6 +66,7 @@ const CustomerAccount = () => {
       ];
 
       setCustomerAccounts(updatedAccounts);
+
     } catch (error) {
       console.error(error);
       toast({
@@ -90,15 +94,15 @@ const CustomerAccount = () => {
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-        <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
+        <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" borderRadius="16px" >
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
-                Customer Accounts
+                   Customer Accounts
               </Text>
               <Button
                 colorScheme="teal"
-                variant="solid"
+                size="md"
                 onClick={() => openAccountModal()}
               >
                 Add Customer Account
@@ -110,27 +114,30 @@ const CustomerAccount = () => {
             <Table variant="simple" color={textColor}>
               <Thead>
                 <Tr my=".8rem" pl="0px" color="gray.400">
-                  <Th pl="0px" borderColor={borderColor} color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
                     Name
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
                     Description
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
                     Status
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400">
+                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
                     Master User
                   </Th>
-                  <Th borderColor={borderColor}></Th>
+
                 </Tr>
               </Thead>
               <Tbody>
-                {customerAccounts.map((account: CustAccount, index: number) => (
+                {customerAccounts.map((account: CustAccount, key: number) => (
                   <CustomerAccountTableRow
-                    customerAccount={account}
-                    isLast={index === customerAccounts.length - 1}
-                    key={index}
+                    id={account.id}
+                    name={account.name}
+                    description={account.description}
+                    status={account.status}
+                    masterUser={account.masterUser}
+                    key={key}
                   />
                 ))}
               </Tbody>
@@ -158,5 +165,4 @@ const CustomerAccount = () => {
     </>
   );
 };
-
 export default CustomerAccount;

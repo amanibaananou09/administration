@@ -39,7 +39,6 @@ const AddUserModal = (props: PropsType, ref: Ref<RefType>) => {
       phone: "",
       email: "",
       password: "",
-      role: "",
     },
     validationSchema: adduserFormValidationSchema,
     onSubmit: async (values: Partial<MasterUser>) => {
@@ -176,21 +175,6 @@ const AddUserModal = (props: PropsType, ref: Ref<RefType>) => {
                   placeholder="Password"
                 />
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-              </FormControl>
-              <FormControl
-                isInvalid={!!form.errors.role && !!form.touched.role}
-              >
-                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Role
-                </FormLabel>
-                <Input
-                  id="role"
-                  name="role"
-                  value={form.values.role}
-                  onChange={form.handleChange}
-                  placeholder="Role"
-                />
-                <FormErrorMessage>{form.errors.role}</FormErrorMessage>
               </FormControl>
             </SimpleGrid>
           </form>

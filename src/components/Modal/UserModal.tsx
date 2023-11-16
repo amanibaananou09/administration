@@ -23,7 +23,7 @@ import { forwardRef, Ref, useImperativeHandle } from "react";
 interface PropsType {}
 
 interface FormValues extends GeneralUser {
-  confirmPassword: string;
+  phone: string;
 }
 
 const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
@@ -36,7 +36,7 @@ const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
       lastName: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      phone: "",
     },
     validationSchema: userFormValidationSchema,
     onSubmit: async (values: Partial<FormValues>) => {
@@ -157,26 +157,24 @@ const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={
-                  !!form.errors.confirmPassword &&
-                  !!form.touched.confirmPassword
-                }
+                isInvalid={!!form.errors.phone && !!form.touched.phone}
+                mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Confirm Password
+                  Phone
                 </FormLabel>
                 <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={form.values.confirmPassword}
+                  id="phone"
+                  name="phone"
+                  value={form.values.phone}
                   onChange={form.handleChange}
-                  type="password"
-                  placeholder="Confirm Password"
+                  type="phone"
+                  placeholder="phone"
                 />
-                <FormErrorMessage>
-                  {form.errors.confirmPassword}
-                </FormErrorMessage>
+                <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
               </FormControl>
+
+
             </SimpleGrid>
           </form>
         </ModalBody>

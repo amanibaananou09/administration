@@ -75,32 +75,25 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
 
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);
-  console.log(alignedChartData);
   // Process and merge data for the chart
   const chartSeries = [
     {
       name: "Changed Volume",
       type: "line",
-      data: alignedChartData.tankLevelData
-        .filter((item) => item.tankVolumeChanges !== null)
-        .map((item) => ({
-          x: formatDate(item.dateTime),
-          y: item.tankVolumeChanges,
-        })),
+      data: alignedChartData.tankLevelData.map((item) => ({
+        x: formatDate(item.dateTime),
+        y: item.tankVolumeChanges,
+      })),
     },
     {
       name: "Tank Volume",
       type: "line",
-      data: alignedChartData.tankMeasurementData
-        .filter((item) => item.productVolume !== null)
-        .map((item) => ({
-          x: formatDate(item.dateTime),
-          y: item.productVolume,
-        })),
+      data: alignedChartData.tankMeasurementData.map((item) => ({
+        x: formatDate(item.dateTime),
+        y: item.productVolume,
+      })),
     },
   ];
-
-
 
   return (
     <div>
@@ -127,35 +120,10 @@ const alignDataPoints = (data: {
   tankMeasurementData: tankMeasurementData[];
   tankLevelData: tankLevelData[];
 }): {
-  tankMeasurementData: (tankMeasurementData | { dateTime: string; productVolume: null })[];
-  tankLevelData: (tankLevelData | { dateTime: string; tankVolumeChanges: null })[];
+  tankMeasurementData: tankMeasurementData[];
+  tankLevelData: tankLevelData[];
 } => {
-  const allDatetimes = [
-    ...data.tankMeasurementData.map((item) => item.dateTime),
-    ...data.tankLevelData.map((item) => item.dateTime),
-  ];
-
-  // Remove duplicates by converting the array to a Set and back to an array
-  const uniqueDatetimes = [...new Set(allDatetimes)];
-
-  // Sort datetime values
-  uniqueDatetimes.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
-  // Create aligned data based on unique and sorted datetime values
-  const alignedData = {
-    tankMeasurementData: uniqueDatetimes.map((dateTime) => {
-      const measurementItem = data.tankMeasurementData.find((item) => item.dateTime === dateTime);
-      return measurementItem || { dateTime, productVolume: null };
-    }),
-    tankLevelData: uniqueDatetimes.map((dateTime) => {
-      const levelItem = data.tankLevelData.find((item) => item.dateTime === dateTime);
-      return levelItem || { dateTime, tankVolumeChanges: null };
-    }),
-  };
-
-  return alignedData;
+  return data;
 };
-
-
 
 export default TankLevelChart;
