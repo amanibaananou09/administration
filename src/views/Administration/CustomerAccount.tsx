@@ -114,29 +114,23 @@ const CustomerAccount = () => {
                     Name
                   </Th>
                   <Th borderColor={borderColor} color="gray.400">
-                    Email
-                  </Th>
-                  <Th borderColor={borderColor} color="gray.400">
-                    Address
+                    Description
                   </Th>
                   <Th borderColor={borderColor} color="gray.400">
                     Status
                   </Th>
                   <Th borderColor={borderColor} color="gray.400">
-                    Last update
+                    Master User
                   </Th>
                   <Th borderColor={borderColor}></Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {customerAccounts.map((account: CustAccount, key: number) => (
+                {customerAccounts.map((account: CustAccount, index: number) => (
                   <CustomerAccountTableRow
-                    id={account.id}
-                    name={account.name}
-                    description={account.description}
-                    status={account.status}
-                    masterUser={account.masterUser}
-                    key={key}
+                    customerAccount={account}
+                    isLast={index === customerAccounts.length - 1}
+                    key={index}
                   />
                 ))}
               </Tbody>
