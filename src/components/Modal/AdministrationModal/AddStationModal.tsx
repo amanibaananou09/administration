@@ -13,6 +13,7 @@ import {
   ModalOverlay,
   SimpleGrid,
   useDisclosure,
+  Select,
 } from "@chakra-ui/react";
 import { AddStation, RouteParams, UserModalRefType } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
@@ -42,14 +43,19 @@ const AddStationModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
       controllerPts: {
         ptsId: "",
       },
-      country: 0,
+      countryId: 0,
       customerAccountId: 0,
     },
     validationSchema: addStationFormValidationSchema,
     onSubmit: async (values: AddStation) => {
-      await addStation(values, id);
-      form.setSubmitting(false);
-      onClose();
+      values.customerAccountId = id ? Number(id) : 0;
+      try {
+        await addStation(values, id);
+        form.setSubmitting(false);
+        onClose();
+      } catch (error) {
+        form.setSubmitting(false);
+      }
     },
   });
 
@@ -147,22 +153,28 @@ const AddStationModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
                   {form.errors.controllerPts?.ptsId}
                 </FormErrorMessage>
               </FormControl>
+
               <FormControl
-                isInvalid={!!form.errors.country && !!form.touched.country}
+                isInvalid={!!form.errors.countryId && !!form.touched.countryId}
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   Country
                 </FormLabel>
-                <Input
+                <Select
                   id="country"
-                  name="country"
-                  value={form.values.country}
+                  name="countryId"
+                  value={form.values.countryId}
                   onChange={form.handleChange}
-                  type="text"
-                  placeholder="Country"
-                />
-                <FormErrorMessage>{form.errors.country}</FormErrorMessage>
+                  placeholder="Select country"
+                >
+                  {country.map((countryData) => (
+                    <option key={countryData.id} value={countryData.id}>
+                      {countryData.name}
+                    </option>
+                  ))}
+                </Select>
+                <FormErrorMessage>{form.errors.countryId}</FormErrorMessage>
               </FormControl>
             </SimpleGrid>
           </form>
@@ -174,7 +186,7 @@ const AddStationModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
             fontWeight="bold"
             w="100%"
             isLoading={form.isSubmitting}
-            type="submit"
+            onClick={() => form.handleSubmit()}
             mr={3}
           >
             Submit

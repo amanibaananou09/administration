@@ -25,7 +25,11 @@ export const adduserFormValidationSchema = Yup.object().shape({
 
 export const addStationFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
-  address: Yup.string().required("address is required"),
-  ptsId: Yup.string().required("ptsId is required"),
-  country: Yup.string().required("Country  is required"),
+  address: Yup.string().required("Address is required"),
+  controllerPts: Yup.object().shape({
+    ptsId: Yup.string().required("ptsId is required"),
+  }),
+  countryId: Yup.number()
+    .required("Country is required")
+    .test("country-id-check", "Country is required", (value) => value > 0),
 });

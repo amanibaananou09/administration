@@ -16,10 +16,16 @@ export interface MasterUser {
   role?: string;
 }
 
+export interface ModalRefCustAccount {
+  open: (account?: CustAccount) => void;
+  close: () => void;
+}
+
 export interface AccountModalProps {
   onSubmit: (values: CustAccount) => void;
   account: CustAccount | null;
   onClose: () => void;
+   ref?: React.Ref<any>;
 }
 
 export interface CustomAccountModalRefType {
@@ -49,18 +55,19 @@ export interface Accounts {
   status: string;
   dateStatusChange: string;
   description: string;
+
+}
+
+export interface ControllerPts {
+  ptsId: string;
 }
 
 export interface AddStation {
   name: string;
   address: string;
-  controllerPts: ControllerPts;
-  country: number;
+  controllerPts : ControllerPts;
+  countryId: number;
   customerAccountId: number;
-}
-
-export interface ControllerPts {
-  ptsId: string;
 }
 
 export interface RouteParams {
