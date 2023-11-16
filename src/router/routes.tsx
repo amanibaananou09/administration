@@ -93,5 +93,6 @@ export const administrationRoutes = [
     component: CustomerAccountInformation,
     layout: "/administration",
     privateRoute: true,
+    hideInNavbar: true,
   }
 ];

@@ -54,7 +54,6 @@ const HeaderLinks = (props: any) => {
   if (secondary) {
     navbarIcon = "white";
   }
-
   return (
     <Flex
       pe={{ sm: "0px", md: "16px" }}

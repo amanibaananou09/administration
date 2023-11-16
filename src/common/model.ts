@@ -14,6 +14,7 @@ export interface country {
   name: string;
   code: string;
   currency: currency;
+  currencyId?: number;
 }
 export interface currency {
   code: string;

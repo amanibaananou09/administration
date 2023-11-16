@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef } from "react";
 import { Box, ChakraProvider, CSSReset, extendTheme, Container, Flex, Text, Button, chakra } from "@chakra-ui/react";
 import {
   allStationByCustomerAccount,
@@ -6,11 +6,14 @@ import {
   ListOfCustomerAccount
 } from "../../common/api/station-api";
 import { Station, User } from "../../common/model";
-import { Accounts, CustomerAccountTableRowProps } from "../../common/AdminModel";
+import { Accounts, RouteParams } from "common/AdminModel";
 import { formatDate } from "utils/utils";
-import { useAuth } from "../../store/AuthContext";
 
-
+import AddUserModal, {
+  RefType,
+} from "components/Modal/AdministrationModal/AddUserModal";
+import AddStationModal from "components/Modal/AdministrationModal/AddStationModal";
+import { useParams } from "react-router-dom";
 const theme = extendTheme({
   styles: {
     global: {
@@ -21,8 +24,18 @@ const theme = extendTheme({
     }
   }
 });
+const CustomerAccountInformation = (  ) => {
+  
+  const { id } = useParams<RouteParams>();
+  const addUserModalRef = useRef<RefType>(null);
+  const addstationModalRef = useRef<RefType>(null);
+  const openUserModal = () => {
+    addUserModalRef.current?.open();
+  };
 
-const CustomerAccountInformation = ( { id }: CustomerAccountTableRowProps ) => {
+  const openStationModal = () => {
+    addstationModalRef.current?.open();
+  };
   const [stationAccounts, setStationAccounts] = useState<Station[]>([]);
   const [userAccounts, setUserAccounts] = useState<User[]>([]);
   const [accounts, setAccounts] = useState<Accounts[]>([]);
@@ -37,7 +50,8 @@ const CustomerAccountInformation = ( { id }: CustomerAccountTableRowProps ) => {
       }
     };
     allStationByAccount();
-  }, []);
+  }, [id]);
+
   useEffect(() => {
     const allUserByAccount = async () => {
       try {
@@ -48,7 +62,7 @@ const CustomerAccountInformation = ( { id }: CustomerAccountTableRowProps ) => {
       }
     };
     allUserByAccount();
-  }, []);
+  }, [id]);
 
   const allAccounts = async () => {
     try {
@@ -64,10 +78,11 @@ const CustomerAccountInformation = ( { id }: CustomerAccountTableRowProps ) => {
 
   useEffect(() => {
     allAccounts();
-  }, []);
+  }, [id]);
 
 
   return (
+    <>
     <Flex direction="column" pt={{ base: "125px", md: "75px" }}>
       <ChakraProvider theme={theme}>
         <CSSReset />
@@ -148,6 +163,7 @@ const CustomerAccountInformation = ( { id }: CustomerAccountTableRowProps ) => {
                 <Button
                   colorScheme="teal"
                   size="md"
+                  onClick={() => openUserModal()}
                 >
                   Add User
                 </Button>
@@ -175,6 +191,7 @@ const CustomerAccountInformation = ( { id }: CustomerAccountTableRowProps ) => {
                 <Button
                   colorScheme="teal"
                   size="md"
+                  onClick={() => openStationModal()}
                 >
                   Add Station
                 </Button>
@@ -184,6 +201,9 @@ const CustomerAccountInformation = ( { id }: CustomerAccountTableRowProps ) => {
         </Container>
       </ChakraProvider>
     </Flex>
+    <AddUserModal ref={addUserModalRef}/>
+    <AddStationModal ref={addstationModalRef}/>
+    </>
   );
 };
 
