@@ -1,12 +1,5 @@
-export interface CustomerAccountTableRowProps {
-  id : number;
-  name: string;
-  description: string;
-  status: boolean;
-  masterUser: any;
-}
-
 export interface CustAccount {
+  id?: number | string;
   name: string;
   description: string;
   status: string;
@@ -18,9 +11,11 @@ export interface MasterUser {
   email: string;
   firstName: string;
   lastName: string;
+  phone?: string;
   password: string;
   role: string;
 }
+ 
 export interface ModalRefCustAccount {
   open: (account?: CustAccount) => void;
   close: () => void;
@@ -28,7 +23,7 @@ export interface ModalRefCustAccount {
 
 export interface AccountModalProps {
   onSubmit: (values: CustAccount) => void;
-  station: CustAccount | null;
+  account: CustAccount | null;
   onClose: () => void;
   ref?: React.Ref<any>;
 }
@@ -52,4 +47,20 @@ export interface Accounts {
   dateStatusChange: string;
   description: string;
 
+}
+
+export interface AddStation {
+  name : string;
+  address: string;
+  controllerPts : ControllerPts;
+  country: number;
+  customerAccountId: number;
+}
+
+export interface ControllerPts {
+  ptsId: string;
+}
+
+export interface RouteParams {
+  id: string; 
 }

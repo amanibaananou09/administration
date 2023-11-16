@@ -209,13 +209,13 @@ const CustomerAccountModal = forwardRef(
                     </Flex>
 
                     <Box>
-                      <Flex  justifyContent="center" mb="4">
+                      <Flex mb="4">
                         <FormLabel
                           htmlFor="masterUser"
                           fontWeight="semibold"
                           textDecoration="underline"
                           textDecorationColor="teal"
-                          fontSize="18px" 
+                          fontSize="20px" 
                         >
                           Master User
                         </FormLabel>
@@ -287,14 +287,14 @@ const CustomerAccountModal = forwardRef(
                                 }
                                 mb="24px"
                               >
-                                <FormLabel htmlFor="email">E-mail</FormLabel>
+                                <FormLabel htmlFor="email">Email</FormLabel>
                                 <Input
                                   {...field}
                                   id="email"
-                                  placeholder="E-mail"
+                                  placeholder="Email"
                                 />
                                 <FormErrorMessage>
-                                  E-mail {form.errors.masterUser?.email}
+                                  Email {form.errors.masterUser?.email}
                                 </FormErrorMessage>
                               </FormControl>
                             )}

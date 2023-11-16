@@ -1,8 +1,6 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  CustAccount, CustomerAccountTableRowProps,
-  ModalRefCustAccount
-} from "common/AdminModel";
+import { useAuth } from "store/AuthContext";
+import { CustAccount, ModalRefCustAccount } from "common/AdminModel";
 import {
   Box,
   Button,
@@ -18,7 +16,7 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-  useToast ,
+  useToast,
 } from "@chakra-ui/react";
 import CardHeader from "../../components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
@@ -27,6 +25,9 @@ import {
   getListOfCustomerAccount,
 } from "common/api/customerAccount-api";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
+import { v4 as uuidv4 } from 'uuid';
+import { useHistory } from 'react-router-dom';
+
 
 const CustomerAccount = () => {
   const textColor = useColorModeValue("teal.800", "teal.200");
@@ -34,9 +35,8 @@ const CustomerAccount = () => {
   const accountModalRef = useRef<ModalRefCustAccount>(null);
   const [account, setAccount] = useState<CustAccount[]>([]);
   const toast = useToast();
-  const [customerAccounts, setCustomerAccounts] = useState<
-    CustomerAccountTableRowProps[]
-  >([]);
+  const [customerAccounts, setCustomerAccounts] = useState<CustAccount[]>([]);
+  const history = useHistory();
 
   const openAccountModal = (account?: CustAccount) => {
     accountModalRef.current?.open(account);
@@ -45,15 +45,29 @@ const CustomerAccount = () => {
   const submitModalHandler = async (account: CustAccount) => {
     try {
       const newAccount = await createCustomerAccount(account);
+
       setAccount((prev) => [newAccount, ...prev]);
       accountModalRef.current?.close();
       toast({
         title: "Customer Account Added",
         description: "The customer account has been successfully added.",
         status: "success",
-        duration: 5000, 
+        duration: 5000,
         isClosable: true,
       });
+      const updatedAccounts = [
+        ...customerAccounts,
+        {
+          name: newAccount.name,
+          description: newAccount.description,
+          status: newAccount.status,
+          masterUser: newAccount.masterUser,
+          key: uuidv4(), 
+        },
+      ];
+  
+      setCustomerAccounts(updatedAccounts);
+
     } catch (error) {
       console.error(error);
       toast({
@@ -68,9 +82,9 @@ const CustomerAccount = () => {
 
   useEffect(() => {
     const getListAccounts = async () => {
-      try{
-      const result = await getListOfCustomerAccount();
-      setCustomerAccounts(result);
+      try {
+        const result = await getListOfCustomerAccount();
+        setCustomerAccounts(result);
       } catch (error) {
         console.error(error);
       }
@@ -119,11 +133,11 @@ const CustomerAccount = () => {
               <Tbody>
                 {customerAccounts.map((account, key) => (
                   <CustomerAccountTableRow
-                    id={account.id}
+                    id={account.id} 
                     name={account.name}
                     description={account.description}
-                    status={account.status }
-                    masterUser={account.masterUser.username}
+                    status={account.status}
+                    masterUser={account.masterUser}
                     key={key}
                   />
                 ))}
@@ -144,7 +158,7 @@ const CustomerAccount = () => {
       <CustomerAccountModal
         onSubmit={submitModalHandler}
         ref={accountModalRef}
-        station={null}
+        account={null}
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
