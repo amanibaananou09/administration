@@ -38,7 +38,7 @@ const Sidebar = (props: SidebarProps) => {
   let variantChange = "0.2s linear";
 
   const activeRoute = (routeName: string) => {
-    return location.pathname === routeName ? "active" : "";
+    return location.pathname.startsWith(routeName) ? "active" : "";
   };
 
   const createLinks = (routes: any) => {
@@ -51,6 +51,10 @@ const Sidebar = (props: SidebarProps) => {
 
     return routes.map((prop: any, key: number) => {
       if (isSignedIn && prop.publicRoute) {
+        return null;
+      }
+
+      if (prop.hideInNavbar) {
         return null;
       }
 

@@ -2,6 +2,7 @@
 import { Box, Portal } from "@chakra-ui/react";
 import Footer from "../components/Footer/Footer";
 // Core components
+import { Layout } from "common/enums";
 import AuthNavbar from "components/Navbars/AuthNavbar";
 import useRoutes from "hooks/use-routes";
 import { useEffect, useRef } from "react";
@@ -32,7 +33,7 @@ const Pages = () => {
       <Box w="100%">
         <Box ref={wrapper} w="100%">
           <Switch>
-            {getRoutesForLayout(routes, "/auth")}
+            {getRoutesForLayout(routes, Layout.AUTH)}
             <MainRoute />
           </Switch>
         </Box>

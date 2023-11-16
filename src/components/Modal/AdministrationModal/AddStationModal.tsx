@@ -1,4 +1,3 @@
-import React ,{ useEffect,useState }from 'react';
 import {
   Button,
   FormControl,
@@ -14,37 +13,41 @@ import {
   ModalOverlay,
   SimpleGrid,
   useDisclosure,
-} from '@chakra-ui/react';
-import { addStation } from 'common/api/customerAccount-api';
-import { addStationFormValidationSchema } from 'common/form-validation';
-import { AddStation , RouteParams } from 'common/AdminModel';
-import { useFormik } from 'formik';
-import { forwardRef, Ref, useImperativeHandle } from 'react';
-import { RefType } from '../UserModal';
-import { useParams } from 'react-router-dom';
-import {country} from 'common/model';
-import { getListOfCountry } from 'common/api/reference-data-api';
+} from "@chakra-ui/react";
+import { AddStation, RouteParams, UserModalRefType } from "common/AdminModel";
+import { addStation } from "common/api/customerAccount-api";
+import { getListOfCountry } from "common/api/reference-data-api";
+import { addStationFormValidationSchema } from "common/form-validation";
+import { country } from "common/model";
+import { useFormik } from "formik";
+import {
+  forwardRef,
+  Ref,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
+import { useParams } from "react-router-dom";
 interface PropsType {}
 
-const AddStationModal = (props: PropsType, ref: Ref<RefType>) => {
-
+const AddStationModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
   const [country, setCountry] = useState<country[]>([]);
 
   const form = useFormik<AddStation>({
     initialValues: {
-      name: '',
-      address: '',
+      name: "",
+      address: "",
       controllerPts: {
-        ptsId: '',
+        ptsId: "",
       },
       country: 0,
       customerAccountId: 0,
     },
     validationSchema: addStationFormValidationSchema,
     onSubmit: async (values: AddStation) => {
-      await addStation(values,id);
+      await addStation(values, id);
       form.setSubmitting(false);
       onClose();
     },
@@ -135,7 +138,7 @@ const AddStationModal = (props: PropsType, ref: Ref<RefType>) => {
                 <Input
                   id="ptsId"
                   name="controllerPts.ptsId"
-                  value={form.values.controllerPts?.ptsId || ''}
+                  value={form.values.controllerPts?.ptsId || ""}
                   onChange={form.handleChange}
                   type="text"
                   placeholder="ptsId"

@@ -63,7 +63,7 @@ const useRoutes = () => {
         return null;
       }
 
-      if (prop.privateRoute) {
+      if (prop.privateRoute && prop.layout === layout) {
         return (
           <PrivateRoute
             path={prop.layout + prop.path}

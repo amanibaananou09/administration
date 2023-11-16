@@ -14,9 +14,9 @@ import {
   SimpleGrid,
   useDisclosure,
 } from "@chakra-ui/react";
+import { GeneralUser, UserModalRefType } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
-import { GeneralUser } from "common/AdminModel";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
 
@@ -26,11 +26,7 @@ interface FormValues extends GeneralUser {
   confirmPassword: string;
 }
 
-export interface RefType {
-  open: () => void;
-}
-
-const UserModal = (props: PropsType, ref: Ref<RefType>) => {
+const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const form = useFormik<Partial<FormValues>>({

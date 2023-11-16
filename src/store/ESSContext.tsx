@@ -24,10 +24,11 @@ export const ESSContextProvider = ({ children }: ESSContextProviderProps) => {
     selected,
   );
 
+  /*show loading screen when moving from dashboard to administration */
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [mode, setMode] = useState<Mode | null>(
-    (localStorage.getItem("mode") as Mode) || Mode.DASHBORAD,
+    (localStorage.getItem("mode") as Mode) || Mode.DASHBOARD,
   );
 
   useEffect(() => {
@@ -52,8 +53,8 @@ export const ESSContextProvider = ({ children }: ESSContextProviderProps) => {
   };
 
   const selectDashboardMode = () => {
-    localStorage.setItem("mode", Mode.DASHBORAD);
-    setMode(Mode.DASHBORAD);
+    localStorage.setItem("mode", Mode.DASHBOARD);
+    setMode(Mode.DASHBOARD);
   };
 
   const clearESSContextHandler = () => {

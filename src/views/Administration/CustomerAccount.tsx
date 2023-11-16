@@ -1,11 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { useAuth } from "store/AuthContext";
-import { CustAccount, ModalRefCustAccount } from "common/AdminModel";
 import {
-  Box,
   Button,
-  Card,
-  CardBody,
   Flex,
   Skeleton,
   Stack,
@@ -18,25 +12,27 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import CardHeader from "../../components/Card/CardHeader";
-import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
+import { CustAccount, CustomAccountModalRefType } from "common/AdminModel";
 import {
   createCustomerAccount,
   getListOfCustomerAccount,
 } from "common/api/customerAccount-api";
-import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
-import { v4 as uuidv4 } from 'uuid';
-import { useHistory } from 'react-router-dom';
 
+import Card from "components/Card/Card";
+import CardBody from "components/Card/CardBody";
+import CardHeader from "components/Card/CardHeader";
+import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
+import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
+import { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const CustomerAccount = () => {
   const textColor = useColorModeValue("teal.800", "teal.200");
   const borderColor = useColorModeValue("teal.200", "teal.600");
-  const accountModalRef = useRef<ModalRefCustAccount>(null);
+  const accountModalRef = useRef<CustomAccountModalRefType>(null);
   const [account, setAccount] = useState<CustAccount[]>([]);
   const toast = useToast();
   const [customerAccounts, setCustomerAccounts] = useState<CustAccount[]>([]);
-  const history = useHistory();
 
   const openAccountModal = (account?: CustAccount) => {
     accountModalRef.current?.open(account);
@@ -62,12 +58,11 @@ const CustomerAccount = () => {
           description: newAccount.description,
           status: newAccount.status,
           masterUser: newAccount.masterUser,
-          key: uuidv4(), 
+          key: uuidv4(),
         },
       ];
-  
-      setCustomerAccounts(updatedAccounts);
 
+      setCustomerAccounts(updatedAccounts);
     } catch (error) {
       console.error(error);
       toast({
@@ -95,15 +90,15 @@ const CustomerAccount = () => {
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-        <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" borderRadius="16px" >
+        <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
-                   Customer Accounts
+                Customer Accounts
               </Text>
               <Button
                 colorScheme="teal"
-                size="md"
+                variant="solid"
                 onClick={() => openAccountModal()}
               >
                 Add Customer Account
@@ -115,25 +110,28 @@ const CustomerAccount = () => {
             <Table variant="simple" color={textColor}>
               <Thead>
                 <Tr my=".8rem" pl="0px" color="gray.400">
-                  <Th pl="0px" borderColor={borderColor} color="gray.400" textAlign="center">
+                  <Th pl="0px" borderColor={borderColor} color="gray.400">
                     Name
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400" textAlign="center">
-                    Description
+                  <Th borderColor={borderColor} color="gray.400">
+                    Email
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400" textAlign="center">
+                  <Th borderColor={borderColor} color="gray.400">
+                    Address
+                  </Th>
+                  <Th borderColor={borderColor} color="gray.400">
                     Status
                   </Th>
-                  <Th borderColor={borderColor} color="gray.400" textAlign="center">
-                    Master User
+                  <Th borderColor={borderColor} color="gray.400">
+                    Last update
                   </Th>
-
+                  <Th borderColor={borderColor}></Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {customerAccounts.map((account, key) => (
+                {customerAccounts.map((account: CustAccount, key: number) => (
                   <CustomerAccountTableRow
-                    id={account.id} 
+                    id={account.id}
                     name={account.name}
                     description={account.description}
                     status={account.status}
@@ -166,4 +164,5 @@ const CustomerAccount = () => {
     </>
   );
 };
+
 export default CustomerAccount;

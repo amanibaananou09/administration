@@ -21,6 +21,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 import { faGasPump } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bgAdmin from "assets/img/admin-background.png";
+import { Layout } from "common/enums";
 import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
 import PanelContent from "components/Layout/PanelContent";
@@ -34,6 +35,7 @@ const Main = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
   const { isAdminMode, isLoading } = useESSContext();
   const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
+  const layout = isAdminMode ? Layout.ADMIN : Layout.DASHBOARD;
 
   const { getActiveRoute, getActiveNavbar, getRoutesForLayout } = useRoutes();
 
@@ -92,7 +94,7 @@ const Main = (props: { [x: string]: any }) => {
           <PanelContent>
             <PanelContainer>
               <Switch>
-                {getRoutesForLayout(routes, "/dashboard")}
+                {getRoutesForLayout(routes, layout)}
                 <MainRoute />
               </Switch>
             </PanelContainer>
