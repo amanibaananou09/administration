@@ -21,6 +21,11 @@ export interface ModalRefCustAccount {
   close: () => void;
 }
 
+export interface ModalRefCustAccount {
+  open: (account?: CustAccount) => void;
+  close: () => void;
+}
+
 export interface AccountModalProps {
   onSubmit: (values: CustAccount) => void;
   account: CustAccount | null;
