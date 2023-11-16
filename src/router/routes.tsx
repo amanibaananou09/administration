@@ -11,6 +11,7 @@ import {
   WalletIcon,
 } from "components/Icons/Icons";
 import ManageUsers from "views/Administration/ManageUsers";
+import UserDetails from "views/Administration/UserDetails";
 import ManageStation from "views/Dashboard/ManageStation";
 import TankDelivery from "views/Dashboard/TankDelivery";
 import Transactions from "views/Dashboard/Transactions";
@@ -79,6 +80,15 @@ export const administrationRoutes = [
     privateRoute: true,
   },
   {
+    path: "/manages-users/details",
+    name: "User Details",
+    icon: <PersonIcon color="inherit" />,
+    component: UserDetails,
+    layout: "/administration",
+    privateRoute: true,
+    hideInNavbar: true,
+  },
+  {
     path: "/manages-users",
     name: "Manage Users",
     icon: <PersonIcon color="inherit" />,
@@ -94,5 +104,5 @@ export const administrationRoutes = [
     layout: "/administration",
     privateRoute: true,
     hideInNavbar: true,
-  }
+  },
 ];

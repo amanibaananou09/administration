@@ -12,7 +12,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { CustAccount, ModalRefCustAccount } from "common/AdminModel";
+import { CustAccount, CustomAccountModalRefType } from "common/AdminModel";
 import {
   createCustomerAccount,
   getListOfCustomerAccount,
@@ -24,17 +24,15 @@ import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
 import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 const CustomerAccount = () => {
   const textColor = useColorModeValue("teal.800", "teal.200");
   const borderColor = useColorModeValue("teal.200", "teal.600");
-  const accountModalRef = useRef<ModalRefCustAccount>(null);
+  const accountModalRef = useRef<CustomAccountModalRefType>(null);
   const [account, setAccount] = useState<CustAccount[]>([]);
   const toast = useToast();
   const [customerAccounts, setCustomerAccounts] = useState<CustAccount[]>([]);
-  const history = useHistory();
 
   const openAccountModal = (account?: CustAccount) => {
     accountModalRef.current?.open(account);
@@ -103,7 +101,7 @@ const CustomerAccount = () => {
                 variant="solid"
                 onClick={() => openAccountModal()}
               >
-                Add New User
+                Add Customer Account
               </Button>
             </Flex>
           </CardHeader>

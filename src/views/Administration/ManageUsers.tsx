@@ -12,20 +12,20 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { GeneralUser } from "common/AdminModel";
+import { GeneralUser, UserModalRefType } from "common/AdminModel";
 import { listUser } from "common/api/general-user-api";
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import UserModal, { RefType } from "components/Modal/UserModal";
+import UserModal from "components/Modal/UserModal";
 import UserTableRow from "components/Tables/UserTableRow";
 import useHttp from "hooks/use-http";
 import { useEffect, useRef } from "react";
 
 const ManageUsers = () => {
   const { makeRequest, isLoading, data: users } = useHttp(listUser);
-  const userModalRef = useRef<RefType>(null);
+  const userModalRef = useRef<UserModalRefType>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");

@@ -1,4 +1,10 @@
 export enum Mode {
-  DASHBORAD = "Dashboard",
+  DASHBOARD = "Dashboard",
   ADMIN = "administration",
+}
+
+export enum Layout {
+  AUTH = "/auth",
+  ADMIN = "/administration",
+  DASHBOARD = "/dashboard",
 }
