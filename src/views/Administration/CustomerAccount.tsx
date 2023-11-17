@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { useAuth } from "store/AuthContext";
 import { CustAccount, CustomAccountModalRefType } from "common/AdminModel";
 import {
   Box,
@@ -26,8 +25,7 @@ import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
-import { v4 as uuidv4 } from 'uuid';
-import { useHistory } from 'react-router-dom';
+import { v4 as uuidv4 } from "uuid";
 
 const CustomerAccount = () => {
   const textColor = useColorModeValue("teal.800", "teal.200");
@@ -66,7 +64,6 @@ const CustomerAccount = () => {
       ];
 
       setCustomerAccounts(updatedAccounts);
-
     } catch (error) {
       console.error(error);
       toast({
@@ -94,11 +91,15 @@ const CustomerAccount = () => {
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
-        <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px" borderRadius="16px" >
+        <Card
+          overflowX={{ sm: "scroll", xl: "hidden" }}
+          pb="0px"
+          borderRadius="16px"
+        >
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
-                   Customer Accounts
+                Customer Accounts
               </Text>
               <Button
                 colorScheme="teal"
@@ -114,19 +115,42 @@ const CustomerAccount = () => {
             <Table variant="simple" color={textColor}>
               <Thead>
                 <Tr my=".8rem" pl="0px" color="gray.400">
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    pl="0px"
+                    borderColor={borderColor}
+                    color="gray.700"
+                    textAlign="center"
+                    style={{ fontSize: "18px" }}
+                  >
                     Name
                   </Th>
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    pl="0px"
+                    borderColor={borderColor}
+                    color="gray.700"
+                    textAlign="center"
+                    style={{ fontSize: "18px" }}
+                  >
                     Description
                   </Th>
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    pl="0px"
+                    borderColor={borderColor}
+                    color="gray.700"
+                    textAlign="center"
+                    style={{ fontSize: "18px" }}
+                  >
                     Status
                   </Th>
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    pl="0px"
+                    borderColor={borderColor}
+                    color="gray.700"
+                    textAlign="center"
+                    style={{ fontSize: "18px" }}
+                  >
                     Master User
                   </Th>
-
                 </Tr>
               </Thead>
               <Tbody>

@@ -30,7 +30,7 @@ export interface AccountModalProps {
   onSubmit: (values: CustAccount) => void;
   account: CustAccount | null;
   onClose: () => void;
-   ref?: React.Ref<any>;
+  ref?: React.Ref<any>;
 }
 
 export interface CustomAccountModalRefType {
@@ -43,7 +43,7 @@ export interface UserModalRefType {
 }
 
 export interface GeneralUser {
-  id: number;
+  id: number | string;
   actif: boolean;
   dateStatusChange: string;
   username: string;
@@ -55,12 +55,18 @@ export interface GeneralUser {
   phone: string;
 }
 
+export interface userScope {
+  id: number;
+  scope: string;
+  code: string;
+  description: string;
+}
+
 export interface Accounts {
   name: string;
   status: string;
   dateStatusChange: string;
   description: string;
-
 }
 
 export interface ControllerPts {
@@ -70,7 +76,7 @@ export interface ControllerPts {
 export interface AddStation {
   name: string;
   address: string;
-  controllerPts : ControllerPts;
+  controllerPts: ControllerPts;
   countryId: number;
   customerAccountId: number;
 }
