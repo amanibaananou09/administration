@@ -1,4 +1,4 @@
-export interface CustAccount {
+export interface customerAccount {
   id?: number | string;
   name: string;
   description: string;
@@ -16,25 +16,16 @@ export interface MasterUser {
   role?: string;
 }
 
-export interface ModalRefCustAccount {
-  open: (account?: CustAccount) => void;
-  close: () => void;
-}
-
-export interface ModalRefCustAccount {
-  open: (account?: CustAccount) => void;
-  close: () => void;
-}
 
 export interface AccountModalProps {
-  onSubmit: (values: CustAccount) => void;
-  account: CustAccount | null;
+  onSubmit: (values: customerAccount) => void;
+  account: customerAccount | null;
   onClose: () => void;
   ref?: React.Ref<any>;
 }
 
 export interface CustomAccountModalRefType {
-  open: (account?: CustAccount) => void;
+  open: (account?: customerAccount) => void;
   close: () => void;
 }
 
@@ -82,5 +73,5 @@ export interface AddStation {
 }
 
 export interface RouteParams {
-  id: string;
+  id: string ;
 }

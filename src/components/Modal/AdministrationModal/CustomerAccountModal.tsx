@@ -15,7 +15,7 @@ import {
   Flex,
   Select,
 } from "@chakra-ui/react";
-import { CustAccount, AccountModalProps,
+import { customerAccount, AccountModalProps,
   CustomAccountModalRefType } from "common/AdminModel";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
@@ -25,7 +25,7 @@ const CustomerAccountModal = (
   ref: Ref<CustomAccountModalRefType>,
 ) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [account, setAccount] = useState<CustAccount>({
+    const [account, setAccount] = useState<customerAccount>({
       name: "",
       description: "",
       status: "",
@@ -40,7 +40,7 @@ const CustomerAccountModal = (
     });
 
     useImperativeHandle(ref, () => ({
-      open(account?: CustAccount) {
+      open(account?: customerAccount) {
         if (account) {
           setAccount(account);
         } else {
@@ -74,8 +74,8 @@ const CustomerAccountModal = (
     };
 
     const submitHandler = (
-      values: CustAccount,
-      { setSubmitting }: FormikHelpers<CustAccount>,
+      values: customerAccount,
+      { setSubmitting }: FormikHelpers<customerAccount>,
     ) => {
       onSubmit(values);
       setSubmitting(false);

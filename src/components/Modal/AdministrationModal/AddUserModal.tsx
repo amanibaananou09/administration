@@ -21,7 +21,9 @@ import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
 import { useParams } from "react-router-dom";
 
-interface PropsType {}
+export interface PropsType {
+  refreshUserList: () => void;
+}
 
 export interface RefType {
   open: () => void;
@@ -45,6 +47,9 @@ const AddUserModal = (props: PropsType, ref: Ref<RefType>) => {
       await addUser(values as MasterUser, id);
       form.setSubmitting(false);
       onClose();
+
+      props.refreshUserList();
+      
     },
   });
 
@@ -130,13 +135,16 @@ const AddUserModal = (props: PropsType, ref: Ref<RefType>) => {
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                Phone
+                  Phone
                 </FormLabel>
                 <Input
                   id="phone"
                   name="phone"
                   value={form.values.phone}
-                  onChange={form.handleChange}
+                  onChange={(e) => {
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '').slice(0, 8);
+                    form.setFieldValue('phone', onlyNumbers);
+                  }}
                   type="text"
                   placeholder="Phone"
                 />

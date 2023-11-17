@@ -1,5 +1,5 @@
 import { Badge, Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
-import { CustAccount } from "common/AdminModel";
+import { customerAccount } from "common/AdminModel";
 import { useHistory } from 'react-router-dom';
 
 
@@ -8,13 +8,16 @@ const CustomerAccountTableRow = ({ id,
                                    description,
                                    status,
                                    masterUser
-                                 }: CustAccount )=> {
+                                 }: customerAccount )=> {
   const textColor = useColorModeValue("gray.500", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   const history = useHistory();
 
+  const getStatusColor = (status : string) => {
+    return status === 'ENABLED' ? 'green.400' : 'red.400';
+  };
 
   const handleNameClick = () => {
     history.push(`/administration/CustomerAccountInformation/${id}`);
@@ -41,8 +44,8 @@ const CustomerAccountTableRow = ({ id,
       </Td>
       <Td borderColor={borderColor} display="flex" justifyContent="center" alignItems="center">
         <Badge
-          bg={status ? "green.400" : bgStatus}
-          color={status ? "white" : "white"}
+          bg={getStatusColor(status)}
+          color="white"
           fontSize="16px"
           p="3px 10px"
           borderRadius="8px"

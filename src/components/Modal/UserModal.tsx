@@ -20,7 +20,9 @@ import { userFormValidationSchema } from "common/form-validation";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
 
-interface PropsType {}
+export interface PropsType {
+  refreshUserList: () => void;
+}
 
 interface FormValues extends GeneralUser {
   phone: string;
@@ -42,6 +44,9 @@ const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
     onSubmit: async (values: Partial<FormValues>) => {
       await addUser(values as GeneralUser);
       form.setSubmitting(false);
+      onClose();
+
+      props.refreshUserList();
     },
   });
 
@@ -167,7 +172,10 @@ const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
                   id="phone"
                   name="phone"
                   value={form.values.phone}
-                  onChange={form.handleChange}
+                  onChange={(e) => {
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '').slice(0, 8);
+                    form.setFieldValue('phone', onlyNumbers);
+                  }}
                   type="phone"
                   placeholder="phone"
                 />

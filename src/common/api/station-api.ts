@@ -51,17 +51,17 @@ export const deleteStation = async (station: Station) => {
   return response.data;
 };
 
-export const allStationByCustomerAccount = async (id: number | string) => {
+export const allStationByCustomerAccount = async (id: string ) => {
   const response = await api.get(`${API_URL}/${id}/station`);
 
   return response.data;
 };
-export const allUserByCustomerAccount = async (id: number | string) => {
+export const allUserByCustomerAccount = async (id: string ) => {
   const response = await api.get(`${API_URL}/${id}/user`);
 
   return response.data;
 };
-export const ListOfCustomerAccount = async (id: number | string) => {
+export const ListOfCustomerAccount = async (id: string) => {
   const response = await api.get(`${API_URL}/${id}/info`);
 
   return response.data;

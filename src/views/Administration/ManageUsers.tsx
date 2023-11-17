@@ -39,6 +39,10 @@ const ManageUsers = () => {
     userModalRef.current?.open();
   };
 
+  const refreshUserList = () => {
+    makeRequest();
+  };
+  
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -105,7 +109,7 @@ const ManageUsers = () => {
           </CardBody>
         </Card>
       </Flex>
-      <UserModal ref={userModalRef} />
+      <UserModal ref={userModalRef} refreshUserList={refreshUserList}/>
     </>
   );
 };

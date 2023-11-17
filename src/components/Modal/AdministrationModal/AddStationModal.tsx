@@ -29,8 +29,9 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
-
-interface PropsType {}
+interface PropsType {
+  refreshStationList: () => void;
+}
 
 const AddStationModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,6 +55,7 @@ const AddStationModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
         await addStation(values, id);
         form.setSubmitting(false);
         onClose();
+        props.refreshStationList();
       } catch (error) {
         form.setSubmitting(false);
       }

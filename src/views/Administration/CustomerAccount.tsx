@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { CustAccount, CustomAccountModalRefType } from "common/AdminModel";
+import { customerAccount, CustomAccountModalRefType } from "common/AdminModel";
 import {
   Box,
   Button,
@@ -31,15 +31,15 @@ const CustomerAccount = () => {
   const textColor = useColorModeValue("teal.800", "teal.200");
   const borderColor = useColorModeValue("teal.200", "teal.600");
   const accountModalRef = useRef<CustomAccountModalRefType>(null);
-  const [account, setAccount] = useState<CustAccount[]>([]);
+  const [account, setAccount] = useState<customerAccount[]>([]);
   const toast = useToast();
-  const [customerAccounts, setCustomerAccounts] = useState<CustAccount[]>([]);
+  const [customerAccounts, setCustomerAccounts] = useState<customerAccount[]>([]);
 
-  const openAccountModal = (account?: CustAccount) => {
+  const openAccountModal = (account?: customerAccount) => {
     accountModalRef.current?.open(account);
   };
 
-  const submitModalHandler = async (account: CustAccount) => {
+  const submitModalHandler = async (account: customerAccount) => {
     try {
       const newAccount = await createCustomerAccount(account);
 
@@ -154,7 +154,7 @@ const CustomerAccount = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {customerAccounts.map((account: CustAccount, key: number) => (
+                {customerAccounts.map((account: customerAccount, key: number) => (
                   <CustomerAccountTableRow
                     id={account.id}
                     name={account.name}

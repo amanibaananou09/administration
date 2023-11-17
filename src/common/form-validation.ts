@@ -8,14 +8,16 @@ export const userFormValidationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
-  phone: Yup.string().required("Phone is required"),
-
-});
+    phone: Yup.string()
+    .matches(/^\d{8,}$/, "Phone must be at least 8 digits")
+    .required("Phone is required"),});
 
 export const adduserFormValidationSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
   lastName: Yup.string().required("Last Name is required"),
-  phone: Yup.string().required("Phone is required"),
+  phone: Yup.string()
+    .matches(/^\d{8,}$/, "Phone must be at least 8 digits")
+    .required("Phone is required"),
   username: Yup.string().required("Username is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
