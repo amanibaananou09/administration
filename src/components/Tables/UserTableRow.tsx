@@ -5,10 +5,11 @@ import {
   Td,
   Text,
   Tr,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import { formatDate } from "utils/utils";
+import { useHistory } from "react-router-dom";
 
 export interface UserTableRowProps {
   user: GeneralUser;
@@ -19,6 +20,11 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
+  const history = useHistory();
+
+  const handleNameClick = () => {
+    history.push(`/administration/UserDetails/${user.id}`);
+  };
 
   return (
     <Tr>
@@ -28,9 +34,16 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         borderColor={borderColor}
         borderBottom={isLast ? "none" : undefined}
       >
-        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
-          {user.username}
-        </Text>
+        <Flex direction="column">
+          <Text
+            textAlign="center"
+            as="span"
+            style={{ textDecoration: "underline", cursor: "pointer" }}
+            onClick={handleNameClick}
+          >
+            {user.username}
+          </Text>
+        </Flex>
       </Td>
       <Td
         minWidth={{ sm: "250px" }}
@@ -38,7 +51,12 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         borderColor={borderColor}
         borderBottom={isLast ? "none" : undefined}
       >
-        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
+        <Text
+          fontSize="md"
+          textAlign="center"
+          color={textColor}
+          fontWeight="bold"
+        >
           {`${user.firstName} ${user.lastName}`}
         </Text>
       </Td>
@@ -48,7 +66,12 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         borderColor={borderColor}
         borderBottom={isLast ? "none" : undefined}
       >
-        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
+        <Text
+          fontSize="md"
+          textAlign="center"
+          color={textColor}
+          fontWeight="bold"
+        >
           {user.email}
         </Text>
       </Td>
@@ -58,7 +81,12 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         borderColor={borderColor}
         borderBottom={isLast ? "none" : undefined}
       >
-        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
+        <Text
+          fontSize="md"
+          textAlign="center"
+          color={textColor}
+          fontWeight="bold"
+        >
           {user.phone}
         </Text>
       </Td>
@@ -80,7 +108,6 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         >
           {user.actif ? "Active" : "Desactivated"}
         </Badge>
-
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : undefined}>
         <Button p="0px" bg="transparent" variant="no-effects">
@@ -93,10 +120,10 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
             Edit
           </Text>
         </Button>
-      </Td>;
+      </Td>
+      ;
     </Tr>
-  )
-    ;
+  );
 };
 
 export default UserTableRow;
