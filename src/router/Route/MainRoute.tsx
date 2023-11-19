@@ -8,7 +8,7 @@ const MainRoute = () => {
 
   if (isSignedIn) {
     return isAdminMode ? (
-      <Redirect to="/administration/home" />
+      <Redirect to="/administration/customer-accounts" />
     ) : (
       <Redirect to="/dashboard/home" />
     );

@@ -19,7 +19,7 @@ const CustomerAccountTableRow = ({
   };
 
   const handleNameClick = () => {
-    history.push(`/administration/CustomerAccountInformation/${id}`);
+    history.push(`/administration/customer-accounts/${id}`);
   };
 
   return (

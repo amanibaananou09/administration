@@ -14,7 +14,7 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
   const history = useHistory();
 
   const handleNameClick = () => {
-    history.push(`/administration/UserDetails/${user.id}`);
+    history.push(`/administration/users/${user.id}`);
   };
 
   return (

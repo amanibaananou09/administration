@@ -1,28 +1,30 @@
-import React, { useEffect, useState, useRef } from "react";
 import {
   Box,
-  ChakraProvider,
-  CSSReset,
-  extendTheme,
-  Container,
-  Flex,
-  Text,
   Button,
   chakra,
+  ChakraProvider,
+  Container,
+  CSSReset,
+  extendTheme,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
+import { Accounts, RouteParams } from "common/AdminModel";
+import { useEffect, useRef, useState } from "react";
+import { formatDate } from "utils/utils";
 import {
   allStationByCustomerAccount,
   allUserByCustomerAccount,
   ListOfCustomerAccount,
 } from "../../common/api/station-api";
 import { Station, User } from "../../common/model";
-import { Accounts, RouteParams } from "common/AdminModel";
-import { formatDate } from "utils/utils";
 
-import AddUserModal, {
-  RefType,
-} from "components/Modal/AdministrationModal/AddUserModal";
+import {
+  AddStationModalRefType,
+  AddUserModalRefType,
+} from "common/react-props";
 import AddStationModal from "components/Modal/AdministrationModal/AddStationModal";
+import AddUserModal from "components/Modal/AdministrationModal/AddUserModal";
 import { useParams } from "react-router-dom";
 const theme = extendTheme({
   styles: {
@@ -36,14 +38,14 @@ const theme = extendTheme({
 });
 const CustomerAccountInformation = () => {
   const { id } = useParams<RouteParams>();
-  const addUserModalRef = useRef<RefType>(null);
-  const addstationModalRef = useRef<RefType>(null);
+  const addUserModalRef = useRef<AddUserModalRefType>(null);
+  const addStationModalRef = useRef<AddStationModalRefType>(null);
   const openUserModal = () => {
     addUserModalRef.current?.open();
   };
 
   const openStationModal = () => {
-    addstationModalRef.current?.open();
+    addStationModalRef.current?.open();
   };
   const [stationAccounts, setStationAccounts] = useState<Station[]>([]);
   const [userAccounts, setUserAccounts] = useState<User[]>([]);
@@ -89,7 +91,7 @@ const CustomerAccountInformation = () => {
     allAccounts();
   }, [id]);
 
-  const refreshUserList = async () => {
+  const submitAddUserModalHandler = async () => {
     try {
       const result = await allUserByCustomerAccount(id);
       setUserAccounts(result);
@@ -98,7 +100,7 @@ const CustomerAccountInformation = () => {
     }
   };
 
-  const refreshStationList = async () => {
+  const submitAddStationModalHandler = async () => {
     try {
       const result = await allStationByCustomerAccount(id);
       setStationAccounts(result);
@@ -242,10 +244,13 @@ const CustomerAccountInformation = () => {
           </Container>
         </ChakraProvider>
       </Flex>
-      <AddUserModal ref={addUserModalRef} refreshUserList={refreshUserList} />
+      <AddUserModal
+        ref={addUserModalRef}
+        onSubmit={submitAddStationModalHandler}
+      />
       <AddStationModal
-        ref={addstationModalRef}
-        refreshStationList={refreshStationList}
+        ref={addStationModalRef}
+        onSubmit={submitAddStationModalHandler}
       />
     </>
   );

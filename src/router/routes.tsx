@@ -72,32 +72,7 @@ export const dashboardRoutes = [
 
 export const administrationRoutes = [
   {
-    path: "/home",
-    name: "Manage Accounts",
-    icon: <HomeIcon color="inherit" />,
-    component: CustomerAccountManagement,
-    layout: "/administration",
-    privateRoute: true,
-  },
-  {
-    path: "/manages-users/details",
-    name: "User Details",
-    icon: <PersonIcon color="inherit" />,
-    component: UserDetails,
-    layout: "/administration",
-    privateRoute: true,
-    hideInNavbar: true,
-  },
-  {
-    path: "/manages-users",
-    name: "Manage Users",
-    icon: <PersonIcon color="inherit" />,
-    component: UserManagement,
-    layout: "/administration",
-    privateRoute: true,
-  },
-  {
-    path: "/CustomerAccountInformation/:id",
+    path: "/customer-accounts/:id",
     name: "Information Accounts",
     icon: <HomeIcon color="inherit" />,
     component: CustomerAccountInformation,
@@ -106,12 +81,28 @@ export const administrationRoutes = [
     hideInNavbar: true,
   },
   {
-    path: "/UserDetails/:id",
+    path: "/customer-accounts",
+    name: "Manage Accounts",
+    icon: <HomeIcon color="inherit" />,
+    component: CustomerAccountManagement,
+    layout: "/administration",
+    privateRoute: true,
+  },
+  {
+    path: "/users/:id",
     name: "User Details",
     icon: <HomeIcon color="inherit" />,
     component: UserDetails,
     layout: "/administration",
     privateRoute: true,
     hideInNavbar: true,
+  },
+  {
+    path: "/users",
+    name: "Manage Users",
+    icon: <PersonIcon color="inherit" />,
+    component: UserManagement,
+    layout: "/administration",
+    privateRoute: true,
   },
 ];

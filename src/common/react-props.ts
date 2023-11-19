@@ -54,7 +54,7 @@ export interface CustomerAccountTableRowProps {
 }
 
 export interface AddStationModalProps {
-  refreshStationList: () => void;
+  onSubmit: () => void;
 }
 
 export interface AddStationModalRefType {
@@ -63,6 +63,11 @@ export interface AddStationModalRefType {
 
 export interface CustomAccountModalRefType {
   open: (account?: CustomerAccount) => void;
+  close: () => void;
+}
+
+export interface StationModalRefType {
+  open: (station: Station) => void;
   close: () => void;
 }
 
@@ -185,4 +190,16 @@ export interface TankDeliveryRowProps {
   waterHeight: number;
   temperature: number;
   productVolume: number;
+}
+
+export interface UserModalProps {
+  onSubmit: () => void;
+}
+
+export interface AddUserModalProps {
+  onSubmit: () => void;
+}
+
+export interface AddUserModalRefType {
+  open: () => void;
 }

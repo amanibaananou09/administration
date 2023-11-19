@@ -25,7 +25,6 @@ import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
-import { v4 as uuidv4 } from "uuid";
 
 const CustomerAccountManagement = () => {
   const textColor = useColorModeValue("gray.700", "white");
@@ -63,7 +62,6 @@ const CustomerAccountManagement = () => {
           description: newAccount.description,
           status: newAccount.status,
           masterUser: newAccount.masterUser,
-          key: uuidv4(),
         },
       ];
 

@@ -25,7 +25,7 @@ import useHttp from "hooks/use-http";
 import { useEffect, useRef } from "react";
 
 const UserManagement = () => {
-  const { makeRequest, isLoading, data: users } = useHttp(listUser);
+  const { makeRequest: fetchUsers, isLoading, data: users } = useHttp(listUser);
   const userModalRef = useRef<UserModalRefType>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
@@ -33,15 +33,11 @@ const UserManagement = () => {
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   useEffect(() => {
-    makeRequest();
+    fetchUsers();
   }, []);
 
   const openUserModal = () => {
     userModalRef.current?.open();
-  };
-
-  const refreshUserList = () => {
-    makeRequest();
   };
 
   return (
@@ -133,7 +129,7 @@ const UserManagement = () => {
           </CardBody>
         </Card>
       </Flex>
-      <UserModal ref={userModalRef} refreshUserList={refreshUserList} />
+      <UserModal ref={userModalRef} onSubmit={fetchUsers} />
     </>
   );
 };

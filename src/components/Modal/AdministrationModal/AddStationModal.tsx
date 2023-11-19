@@ -60,7 +60,7 @@ const AddStationModal = (
         await addStation(values, id);
         form.setSubmitting(false);
         onClose();
-        props.refreshStationList();
+        props.onSubmit();
       } catch (error) {
         form.setSubmitting(false);
       }
