@@ -14,22 +14,18 @@ import {
   SimpleGrid,
   useDisclosure,
 } from "@chakra-ui/react";
+import { MasterUser, RouteParams } from "common/AdminModel";
 import { addUser } from "common/api/customerAccount-api";
 import { adduserFormValidationSchema } from "common/form-validation";
-import { MasterUser, RouteParams } from "common/AdminModel";
+import { AddUserModalProps, AddUserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
 import { useParams } from "react-router-dom";
 
-export interface PropsType {
-  refreshUserList: () => void;
-}
-
-export interface RefType {
-  open: () => void;
-}
-
-const AddUserModal = (props: PropsType, ref: Ref<RefType>) => {
+const AddUserModal = (
+  props: AddUserModalProps,
+  ref: Ref<AddUserModalRefType>,
+) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
 
@@ -48,8 +44,7 @@ const AddUserModal = (props: PropsType, ref: Ref<RefType>) => {
       form.setSubmitting(false);
       onClose();
 
-      props.refreshUserList();
-      
+      props.onSubmit();
     },
   });
 
@@ -142,8 +137,10 @@ const AddUserModal = (props: PropsType, ref: Ref<RefType>) => {
                   name="phone"
                   value={form.values.phone}
                   onChange={(e) => {
-                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '').slice(0, 8);
-                    form.setFieldValue('phone', onlyNumbers);
+                    const onlyNumbers = e.target.value
+                      .replace(/[^0-9]/g, "")
+                      .slice(0, 8);
+                    form.setFieldValue("phone", onlyNumbers);
                   }}
                   type="text"
                   placeholder="Phone"

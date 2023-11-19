@@ -1,6 +1,5 @@
+import { RenderThumbProps, RenderTrackProps } from "common/react-props";
 import React from "react";
-import { RenderThumbProps, RenderTrackProps } from "common/model";
-
 
 export const renderTrack = ({ style, ...props }: RenderTrackProps) => {
   const trackStyle: React.CSSProperties = {
@@ -16,7 +15,6 @@ export const renderTrack = ({ style, ...props }: RenderTrackProps) => {
   };
   return <div style={{ ...style, ...trackStyle }} {...props} />;
 };
-
 
 export const renderThumbDark = ({ style, ...props }: RenderThumbProps) => {
   const thumbStyle: React.CSSProperties = {
@@ -54,7 +52,10 @@ export const kanbanRenderTrack = ({ style, ...props }: RenderTrackProps) => {
   return <div style={{ ...style, ...trackStyle }} {...props} />;
 };
 
-export const kanbanRenderThumbDark = ({ style, ...props }: RenderThumbProps) => {
+export const kanbanRenderThumbDark = ({
+  style,
+  ...props
+}: RenderThumbProps) => {
   const thumbStyle: React.CSSProperties = {
     borderRadius: 15,
     background: "rgba(222, 222, 222, .1)",
@@ -62,7 +63,10 @@ export const kanbanRenderThumbDark = ({ style, ...props }: RenderThumbProps) => 
   return <div style={{ ...style, ...thumbStyle }} {...props} />;
 };
 
-export const kanbanRenderThumbLight = ({ style, ...props }: RenderThumbProps) => {
+export const kanbanRenderThumbLight = ({
+  style,
+  ...props
+}: RenderThumbProps) => {
   const thumbStyle: React.CSSProperties = {
     borderRadius: 15,
     background: "rgba(48, 48, 48, .1)",

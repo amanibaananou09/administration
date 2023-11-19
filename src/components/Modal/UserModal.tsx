@@ -14,21 +14,18 @@ import {
   SimpleGrid,
   useDisclosure,
 } from "@chakra-ui/react";
-import { GeneralUser, UserModalRefType } from "common/AdminModel";
+import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
+import { UserModalProps, UserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
-
-export interface PropsType {
-  refreshUserList: () => void;
-}
 
 interface FormValues extends GeneralUser {
   phone: string;
 }
 
-const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
+const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const form = useFormik<Partial<FormValues>>({
@@ -46,7 +43,7 @@ const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
       form.setSubmitting(false);
       onClose();
 
-      props.refreshUserList();
+      props.onSubmit();
     },
   });
 
@@ -173,16 +170,16 @@ const UserModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
                   name="phone"
                   value={form.values.phone}
                   onChange={(e) => {
-                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '').slice(0, 8);
-                    form.setFieldValue('phone', onlyNumbers);
+                    const onlyNumbers = e.target.value
+                      .replace(/[^0-9]/g, "")
+                      .slice(0, 8);
+                    form.setFieldValue("phone", onlyNumbers);
                   }}
                   type="phone"
                   placeholder="phone"
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
               </FormControl>
-
-
             </SimpleGrid>
           </form>
         </ModalBody>

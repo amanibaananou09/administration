@@ -3,19 +3,24 @@ import {
   Flex,
   Heading,
   Icon,
+  Image,
   List,
   ListItem,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import { getLastTankDelivery } from "common/api/statistique-api";
-import { LastTankRowProps, TankDelivery } from "common/model";
+import { LastTankDelivery } from "common/model";
+import { LastTankRowProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { formatDate } from "utils/utils";
-export const LastTankDelivery = ({ tankId }: LastTankRowProps) => {
-  const [lastTankDelivery, setLastTankDelivery] = useState<TankDelivery>();
+import tankImg from "../../assets/img/tank.png";
+
+export const LastTankDeliveryTooltip = ({ tankId }: LastTankRowProps) => {
+  const [lastTankDelivery, setLastTankDelivery] = useState<LastTankDelivery>();
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
 
@@ -33,7 +38,8 @@ export const LastTankDelivery = ({ tankId }: LastTankRowProps) => {
     };
     fetchData();
   }, [selectedStation]);
-  return (
+
+  const content = (
     <Box p={4} maxW="600px" mx="auto">
       <Heading fontSize="l" fontWeight="semibold" textAlign="center">
         Last Tank Delivery
@@ -116,6 +122,12 @@ export const LastTankDelivery = ({ tankId }: LastTankRowProps) => {
       )}
     </Box>
   );
+
+  return (
+    <Tooltip label={content} placement="auto" hasArrow>
+      <Image src={tankImg} height="75%" width="15%" />
+    </Tooltip>
+  );
 };
 
-export default LastTankDelivery;
+export default LastTankDeliveryTooltip;

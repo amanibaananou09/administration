@@ -1,11 +1,11 @@
-import { Box, Stack, Button } from "@chakra-ui/react";
-import { TankChartMenuProps } from "common/model";
+import { Box, Button, Stack } from "@chakra-ui/react";
+import { TankChartMenuProps } from "common/react-props";
 
 const TankChartButton = ({
-                           tanks,
-                           selectedTank,
-                           onChange,
-                         }: TankChartMenuProps) => {
+  tanks,
+  selectedTank,
+  onChange,
+}: TankChartMenuProps) => {
   return (
     <Box p={4}>
       <Stack direction="row" spacing={4} align="center">

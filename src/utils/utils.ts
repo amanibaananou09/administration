@@ -48,3 +48,17 @@ export const formatDate = (dateTimeStart: string): string => {
     hour12: false,
   });
 };
+
+export const getColorForTankLevel = (level: number): string => {
+  if (level >= 90) {
+    return "#07C100";
+  } else if (level >= 60) {
+    return "#1FC32F";
+  } else if (level >= 50) {
+    return "#EAA817";
+  } else if (level >= 30) {
+    return "#EA8B17";
+  } else {
+    return "#E02200";
+  }
+};

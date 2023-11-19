@@ -4,16 +4,13 @@ import { useAuth } from "store/AuthContext";
 import { Flex, Text } from "@chakra-ui/react";
 import { getChartByFuelPumpPeriod } from "common/api/chart-api";
 import { createReportSalesChartOptions } from "common/chartOptions";
-import { ChartData, Filter, periodeProps } from "common/model";
+import { ChartData, Filter } from "common/model";
+import { PeriodeProps } from "common/react-props";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import ReactApexChart from "react-apexcharts";
 import { useESSContext } from "store/ESSContext";
 
-export const ReportSalesChart = ({
-  periode,
-  startDate,
-  endDate,
-}: periodeProps) => {
+export const ReportSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
 
@@ -116,8 +113,8 @@ export const ReportSalesChart = ({
       <Flex justifyContent="center" color="white" flexDirection="row">
         <Text marginRight="10px">Type: {filter.chartType}</Text>
         {filter.chartType === "amount" ? null : (
-      <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
-   )}
+          <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
+        )}
         <Text marginRight="10px">Pump: {filter.pump}</Text>
       </Flex>
     </>

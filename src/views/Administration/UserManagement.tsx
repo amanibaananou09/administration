@@ -12,8 +12,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { GeneralUser, UserModalRefType } from "common/AdminModel";
+import { GeneralUser } from "common/AdminModel";
 import { listUser } from "common/api/general-user-api";
+import { UserModalRefType } from "common/react-props";
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -23,26 +24,22 @@ import UserTableRow from "components/Tables/UserTableRow";
 import useHttp from "hooks/use-http";
 import { useEffect, useRef } from "react";
 
-const ManageUsers = () => {
-  const { makeRequest, isLoading, data: users } = useHttp(listUser);
+const UserManagement = () => {
+  const { makeRequest: fetchUsers, isLoading, data: users } = useHttp(listUser);
   const userModalRef = useRef<UserModalRefType>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
+  const columnTitleTextColor = useColorModeValue("black", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
-
   useEffect(() => {
-    makeRequest();
+    fetchUsers();
   }, []);
 
   const openUserModal = () => {
     userModalRef.current?.open();
   };
 
-  const refreshUserList = () => {
-    makeRequest();
-  };
-  
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -65,36 +62,59 @@ const ManageUsers = () => {
           <CardBody>
             <Table variant="simple" color={textColor}>
               <Thead>
-                <Tr my=".8rem" pl="0px" color="gray.400">
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                <Tr my=".8rem" pl="0px">
+                  <Th
+                    pl="0px"
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="md"
+                    textAlign="center"
+                  >
                     User Name
                   </Th>
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="md"
+                    textAlign="center"
+                  >
                     Name
                   </Th>
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="md"
+                    textAlign="center"
+                  >
                     Email
                   </Th>
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="md"
+                    textAlign="center"
+                  >
                     Phone
                   </Th>
-                  <Th pl="0px" borderColor={borderColor} color="gray.700" textAlign="center" style={{ fontSize: '18px' }}>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="md"
+                    textAlign="center"
+                  >
                     Status
                   </Th>
-                  <Th borderColor={borderColor}></Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {!isLoading &&
-                  users.map((user: GeneralUser, index: number, arr: []) => {
-                    return (
-                      <UserTableRow
-                        user={user}
-                        isLast={index === arr.length - 1 ? true : false}
-                        key={index}
-                      />
-                    );
-                  })}
+                  users.map((user: GeneralUser, index: number, arr: []) => (
+                    <UserTableRow
+                      user={user}
+                      isLast={index === arr.length - 1 ? true : false}
+                      key={index}
+                    />
+                  ))}
               </Tbody>
             </Table>
             {isLoading && (
@@ -109,9 +129,9 @@ const ManageUsers = () => {
           </CardBody>
         </Card>
       </Flex>
-      <UserModal ref={userModalRef} refreshUserList={refreshUserList}/>
+      <UserModal ref={userModalRef} onSubmit={fetchUsers} />
     </>
   );
 };
 
-export default ManageUsers;
+export default UserManagement;

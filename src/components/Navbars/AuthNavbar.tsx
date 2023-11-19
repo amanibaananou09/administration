@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { AuthNavbarProps } from "common/model";
+import { AuthNavbarProps } from "common/react-props";
 
 const AuthNavbar = (props: AuthNavbarProps) => {
   // Chakra color mode

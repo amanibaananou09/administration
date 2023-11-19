@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -10,97 +12,223 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  Box,
-  Flex,
   Select,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { customerAccount, AccountModalProps,
-  CustomAccountModalRefType } from "common/AdminModel";
+import { CustomerAccount } from "common/AdminModel";
+import {
+  CustomAccountModalRefType,
+  CustomerAccountModalProps,
+} from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
 
 const CustomerAccountModal = (
-  { onSubmit }: AccountModalProps,
+  { onSubmit }: CustomerAccountModalProps,
   ref: Ref<CustomAccountModalRefType>,
 ) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const [account, setAccount] = useState<customerAccount>({
-      name: "",
-      description: "",
-      status: "",
-      masterUser: {
-        username: "",
-        email: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-        phone: "",
-      },
-    });
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [account, setAccount] = useState<CustomerAccount>({
+    name: "",
+    description: "",
+    status: "",
+    masterUser: {
+      username: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      phone: "",
+    },
+  });
 
-    useImperativeHandle(ref, () => ({
-      open(account?: customerAccount) {
-        if (account) {
-          setAccount(account);
-        } else {
-          setAccount({
-            name: "",
-            description: "",
-            status: "",
-            masterUser: {
-              username: "",
-              email: "",
-              firstName: "",
-              lastName: "",
-              password: "",
-              phone: "",
-            },
-          });
-        }
-        onOpen();
-      },
-      close() {
-        onClose();
-      },
-    }));
-
-    const isNotNull = (value: string) => {
-      let error: string | undefined;
-      if (!value) {
-        error = "is required";
+  useImperativeHandle(ref, () => ({
+    open(account?: CustomerAccount) {
+      if (account) {
+        setAccount(account);
+      } else {
+        setAccount({
+          name: "",
+          description: "",
+          status: "",
+          masterUser: {
+            username: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            password: "",
+            phone: "",
+          },
+        });
       }
-      return error;
-    };
+      onOpen();
+    },
+    close() {
+      onClose();
+    },
+  }));
 
-    const submitHandler = (
-      values: customerAccount,
-      { setSubmitting }: FormikHelpers<customerAccount>,
-    ) => {
-      onSubmit(values);
-      setSubmitting(false);
-    };
+  const isNotNull = (value: string) => {
+    let error: string | undefined;
+    if (!value) {
+      error = "is required";
+    }
+    return error;
+  };
 
-    return (
-      <Modal
-        motionPreset="slideInBottom"
-        blockScrollOnMount={true}
-        isOpen={isOpen}
-        onClose={onClose}
-        size="3xl"
-      >
-        <ModalOverlay backdropFilter="blur(10px)" />
-        <ModalContent>
-          <ModalHeader>Create New Customer Account</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody mb="24px">
-            <Formik initialValues={account} onSubmit={submitHandler}>
-              {(props) => (
-                <Form>
-                  <Flex direction="column">
+  const submitHandler = (
+    values: CustomerAccount,
+    { setSubmitting }: FormikHelpers<CustomerAccount>,
+  ) => {
+    onSubmit(values);
+    setSubmitting(false);
+  };
+
+  return (
+    <Modal
+      motionPreset="slideInBottom"
+      blockScrollOnMount={true}
+      isOpen={isOpen}
+      onClose={onClose}
+      size="3xl"
+    >
+      <ModalOverlay backdropFilter="blur(10px)" />
+      <ModalContent>
+        <ModalHeader>Create New Customer Account</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody mb="24px">
+          <Formik initialValues={account} onSubmit={submitHandler}>
+            {(props) => (
+              <Form>
+                <Flex direction="column">
+                  <Flex mb="24px">
+                    <Box flex="1" mr="4">
+                      <Field name="name" validate={isNotNull}>
+                        {({
+                          field,
+                          form,
+                        }: {
+                          field: {
+                            name: string;
+                            value: string;
+                            onChange: (e: React.ChangeEvent<any>) => void;
+                            onBlur: () => void;
+                          };
+                          form: {
+                            errors: { name: string };
+                            touched: { name: boolean };
+                          };
+                        }) => (
+                          <FormControl
+                            isInvalid={
+                              !!form.errors.name && !!form.touched.name
+                            }
+                            mb="24px"
+                          >
+                            <FormLabel htmlFor="name">Name</FormLabel>
+                            <Input {...field} id="name" placeholder="Name" />
+                            <FormErrorMessage>
+                              Name {form.errors.name}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Box>
+                    <Box flex="1" mx="4">
+                      <Field name="description" validate={isNotNull}>
+                        {({
+                          field,
+                          form,
+                        }: {
+                          field: {
+                            name: string;
+                            value: string;
+                            onChange: (e: React.ChangeEvent<any>) => void;
+                            onBlur: () => void;
+                          };
+                          form: {
+                            errors: { description: string };
+                            touched: { description: boolean };
+                          };
+                        }) => (
+                          <FormControl
+                            isInvalid={
+                              !!form.errors.description &&
+                              !!form.touched.description
+                            }
+                            mb="24px"
+                          >
+                            <FormLabel htmlFor="description">
+                              Description
+                            </FormLabel>
+                            <Input
+                              {...field}
+                              id="description"
+                              placeholder="Description"
+                            />
+                            <FormErrorMessage>
+                              Description {form.errors.description}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Box>
+                    <Box flex="1" ml="4">
+                      <Field name="status" validate={isNotNull}>
+                        {({
+                          field,
+                          form,
+                        }: {
+                          field: {
+                            name: string;
+                            value: string;
+                            onChange: (e: React.ChangeEvent<any>) => void;
+                            onBlur: () => void;
+                          };
+                          form: {
+                            errors: { status: boolean };
+                            touched: { status: boolean };
+                          };
+                        }) => (
+                          <FormControl
+                            isInvalid={
+                              !!form.errors.status && !!form.touched.status
+                            }
+                            mb="40px"
+                          >
+                            <FormLabel htmlFor="status">Status</FormLabel>
+                            <Select
+                              {...field}
+                              id="status"
+                              placeholder="Select Status"
+                            >
+                              <option value="ENABLED">ENABLED</option>
+                              <option value="DISABLED">DISABLED</option>
+                            </Select>
+                            <FormErrorMessage>
+                              Status {form.errors.status}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Box>
+                  </Flex>
+
+                  <Box>
+                    <Flex mb="4">
+                      <FormLabel
+                        htmlFor="masterUser"
+                        fontWeight="semibold"
+                        textDecoration="underline"
+                        textDecorationColor="teal"
+                        fontSize="20px"
+                      >
+                        Master User
+                      </FormLabel>
+                    </Flex>
                     <Flex mb="24px">
                       <Box flex="1" mr="4">
-                        <Field name="name" validate={isNotNull}>
+                        <Field name="masterUser.username" validate={isNotNull}>
                           {({
                             field,
                             form,
@@ -112,27 +240,34 @@ const CustomerAccountModal = (
                               onBlur: () => void;
                             };
                             form: {
-                              errors: { name: string };
-                              touched: { name: boolean };
+                              errors: { masterUser: { username: string } };
+                              touched: { masterUser: { username: boolean } };
                             };
                           }) => (
                             <FormControl
                               isInvalid={
-                                !!form.errors.name && !!form.touched.name
+                                !!form.errors.masterUser?.username &&
+                                !!form.touched.masterUser?.username
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="name">Name</FormLabel>
-                              <Input {...field} id="name" placeholder="Name" />
+                              <FormLabel htmlFor="username">
+                                User Name
+                              </FormLabel>
+                              <Input
+                                {...field}
+                                id="username"
+                                placeholder="User Name"
+                              />
                               <FormErrorMessage>
-                                Name {form.errors.name}
+                                User Name {form.errors.masterUser?.username}
                               </FormErrorMessage>
                             </FormControl>
                           )}
                         </Field>
                       </Box>
                       <Box flex="1" mx="4">
-                        <Field name="description" validate={isNotNull}>
+                        <Field name="masterUser.email" validate={isNotNull}>
                           {({
                             field,
                             form,
@@ -144,34 +279,32 @@ const CustomerAccountModal = (
                               onBlur: () => void;
                             };
                             form: {
-                              errors: { description: string };
-                              touched: { description: boolean };
+                              errors: { masterUser: { email: string } };
+                              touched: { masterUser: { email: boolean } };
                             };
                           }) => (
                             <FormControl
                               isInvalid={
-                                !!form.errors.description &&
-                                !!form.touched.description
+                                !!form.errors.masterUser?.email &&
+                                !!form.touched.masterUser?.email
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="description">
-                                Description
-                              </FormLabel>
+                              <FormLabel htmlFor="email">Email</FormLabel>
                               <Input
                                 {...field}
-                                id="description"
-                                placeholder="Description"
+                                id="email"
+                                placeholder="Email"
                               />
                               <FormErrorMessage>
-                                Description {form.errors.description}
+                                Email {form.errors.masterUser?.email}
                               </FormErrorMessage>
                             </FormControl>
                           )}
                         </Field>
                       </Box>
                       <Box flex="1" ml="4">
-                        <Field name="status" validate={isNotNull}>
+                        <Field name="masterUser.firstName" validate={isNotNull}>
                           {({
                             field,
                             form,
@@ -183,295 +316,151 @@ const CustomerAccountModal = (
                               onBlur: () => void;
                             };
                             form: {
-                              errors: { status: boolean };
-                              touched: { status: boolean };
+                              errors: { masterUser: { firstName: string } };
+                              touched: { masterUser: { firstName: boolean } };
                             };
                           }) => (
                             <FormControl
                               isInvalid={
-                                !!form.errors.status && !!form.touched.status
+                                !!form.errors.masterUser?.firstName &&
+                                !!form.touched.masterUser?.firstName
                               }
-                              mb="40px"
+                              mb="24px"
                             >
-                              <FormLabel htmlFor="status">Status</FormLabel>
-                              <Select
+                              <FormLabel htmlFor="firstName">
+                                First Name
+                              </FormLabel>
+                              <Input
                                 {...field}
-                                id="status"
-                                placeholder="Select Status"
-                              >
-                                <option value="ENABLED">ENABLED</option>
-                                <option value="DISABLED">DISABLED</option>
-                              </Select>
+                                id="firstName"
+                                placeholder="First Name"
+                              />
                               <FormErrorMessage>
-                                Status {form.errors.status}
+                                First Name {form.errors.masterUser?.firstName}
                               </FormErrorMessage>
                             </FormControl>
                           )}
                         </Field>
                       </Box>
                     </Flex>
-
-                    <Box>
-                      <Flex mb="4">
-                        <FormLabel
-                          htmlFor="masterUser"
-                          fontWeight="semibold"
-                          textDecoration="underline"
-                          textDecorationColor="teal"
-                          fontSize="20px"
-                        >
-                          Master User
-                        </FormLabel>
-                      </Flex >
-                      <Flex mb="24px">
-                        <Box flex="1" mr="4">
-                          <Field
-                            name="masterUser.username"
-                            validate={isNotNull}
-                          >
-                            {({
-                              field,
-                              form,
-                            }: {
-                              field: {
-                                name: string;
-                                value: string;
-                                onChange: (e: React.ChangeEvent<any>) => void;
-                                onBlur: () => void;
-                              };
-                              form: {
-                                errors: { masterUser: { username: string } };
-                                touched: { masterUser: { username: boolean } };
-                              };
-                            }) => (
-                              <FormControl
-                                isInvalid={
-                                  !!form.errors.masterUser?.username &&
-                                  !!form.touched.masterUser?.username
-                                }
-                                mb="24px"
-                              >
-                                <FormLabel htmlFor="username">
-                                  User Name
-                                </FormLabel>
-                                <Input
-                                  {...field}
-                                  id="username"
-                                  placeholder="User Name"
-                                />
-                                <FormErrorMessage>
-                                  User Name {form.errors.masterUser?.username}
-                                </FormErrorMessage>
-                              </FormControl>
-                            )}
-                          </Field>
-                        </Box>
-                        <Box flex="1" mx="4">
-                          <Field name="masterUser.email" validate={isNotNull}>
-                            {({
-                              field,
-                              form,
-                            }: {
-                              field: {
-                                name: string;
-                                value: string;
-                                onChange: (e: React.ChangeEvent<any>) => void;
-                                onBlur: () => void;
-                              };
-                              form: {
-                                errors: { masterUser: { email: string } };
-                                touched: { masterUser: { email: boolean } };
-                              };
-                            }) => (
-                              <FormControl
-                                isInvalid={
-                                  !!form.errors.masterUser?.email &&
-                                  !!form.touched.masterUser?.email
-                                }
-                                mb="24px"
-                              >
-                                <FormLabel htmlFor="email">Email</FormLabel>
-                                <Input
-                                  {...field}
-                                  id="email"
-                                  placeholder="Email"
-                                />
-                                <FormErrorMessage>
-                                  Email {form.errors.masterUser?.email}
-                                </FormErrorMessage>
-                              </FormControl>
-                            )}
-                          </Field>
-                        </Box>
-                        <Box flex="1" ml="4">
-                          <Field
-                            name="masterUser.firstName"
-                            validate={isNotNull}
-                          >
-                            {({
-                              field,
-                              form,
-                            }: {
-                              field: {
-                                name: string;
-                                value: string;
-                                onChange: (e: React.ChangeEvent<any>) => void;
-                                onBlur: () => void;
-                              };
-                              form: {
-                                errors: { masterUser: { firstName: string } };
-                                touched: { masterUser: { firstName: boolean } };
-                              };
-                            }) => (
-                              <FormControl
-                                isInvalid={
-                                  !!form.errors.masterUser?.firstName &&
-                                  !!form.touched.masterUser?.firstName
-                                }
-                                mb="24px"
-                              >
-                                <FormLabel htmlFor="firstName">
-                                  First Name
-                                </FormLabel>
-                                <Input
-                                  {...field}
-                                  id="firstName"
-                                  placeholder="First Name"
-                                />
-                                <FormErrorMessage>
-                                  First Name {form.errors.masterUser?.firstName}
-                                </FormErrorMessage>
-                              </FormControl>
-                            )}
-                          </Field>
-                        </Box>
-                      </Flex>
-                      <Flex mb="24px">
-                        <Box flex="1" mr="4">
-                          <Field
-                            name="masterUser.lastName"
-                            validate={isNotNull}
-                          >
-                            {({
-                              field,
-                              form,
-                            }: {
-                              field: {
-                                name: string;
-                                value: string;
-                                onChange: (e: React.ChangeEvent<any>) => void;
-                                onBlur: () => void;
-                              };
-                              form: {
-                                errors: { masterUser: { lastName: string } };
-                                touched: { masterUser: { lastName: boolean } };
-                              };
-                            }) => (
-                              <FormControl
-                                isInvalid={
-                                  !!form.errors.masterUser?.lastName &&
-                                  !!form.touched.masterUser?.lastName
-                                }
-                                mb="24px"
-                              >
-                                <FormLabel htmlFor="lastName">
-                                  Last Name
-                                </FormLabel>
-                                <Input
-                                  {...field}
-                                  id="lastName"
-                                  placeholder="Last Name"
-                                />
-                                <FormErrorMessage>
-                                  Last Name {form.errors.masterUser?.lastName}
-                                </FormErrorMessage>
-                              </FormControl>
-                            )}
-                          </Field>
-                        </Box>
-                        <Box flex="1" mx="4">
-                          <Field
-                            name="masterUser.password"
-                            validate={isNotNull}
-                          >
-                            {({
-                              field,
-                              form,
-                            }: {
-                              field: {
-                                name: string;
-                                value: string;
-                                onChange: (e: React.ChangeEvent<any>) => void;
-                                onBlur: () => void;
-                              };
-                              form: {
-                                errors: { masterUser: { password: string } };
-                                touched: { masterUser: { password: boolean } };
-                              };
-                            }) => (
-                              <FormControl
-                                isInvalid={
-                                  !!form.errors.masterUser?.password &&
-                                  !!form.touched.masterUser?.password
-                                }
-                                mb="24px"
-                              >
-                                <FormLabel htmlFor="password">
-                                  Password
-                                </FormLabel>
-                                <Input
-                                  {...field}
-                                  type="password"
-                                  id="password"
-                                  placeholder="Password"
-                                />
-                                <FormErrorMessage>
-                                  Password {form.errors.masterUser?.password}
-                                </FormErrorMessage>
-                              </FormControl>
-                            )}
-                          </Field>
-                        </Box>
-                        <Box flex="1" ml="4">
-                          <Field name="masterUser.phone" validate={isNotNull}>
-                            {({
-                              field,
-                              form,
-                            }: {
-                              field: {
-                                name: string;
-                                value: string;
-                                onChange: (e: React.ChangeEvent<any>) => void;
-                                onBlur: () => void;
-                              };
-                              form: {
-                                errors: { masterUser: { phone: string } };
-                                touched: { masterUser: { phone: boolean } };
-                              };
-                            }) => (
-                              <FormControl
-                                isInvalid={
-                                  !!form.errors.masterUser?.phone &&
-                                  !!form.touched.masterUser?.phone
-                                }
-                                mb="24px"
-                              >
-                                <FormLabel htmlFor="Phone">Phone</FormLabel>
-                                <Input
-                                  {...field}
-                                  id="phone"
-                                  placeholder="Phone"
-                                />
-                                <FormErrorMessage>
-                                  Phone {form.errors.masterUser?.phone}
-                                </FormErrorMessage>
-                              </FormControl>
-                            )}
-                          </Field>
-                        </Box>
-                      </Flex>
-                    </Box>
-                    <Flex  justifyContent="center" >
+                    <Flex mb="24px">
+                      <Box flex="1" mr="4">
+                        <Field name="masterUser.lastName" validate={isNotNull}>
+                          {({
+                            field,
+                            form,
+                          }: {
+                            field: {
+                              name: string;
+                              value: string;
+                              onChange: (e: React.ChangeEvent<any>) => void;
+                              onBlur: () => void;
+                            };
+                            form: {
+                              errors: { masterUser: { lastName: string } };
+                              touched: { masterUser: { lastName: boolean } };
+                            };
+                          }) => (
+                            <FormControl
+                              isInvalid={
+                                !!form.errors.masterUser?.lastName &&
+                                !!form.touched.masterUser?.lastName
+                              }
+                              mb="24px"
+                            >
+                              <FormLabel htmlFor="lastName">
+                                Last Name
+                              </FormLabel>
+                              <Input
+                                {...field}
+                                id="lastName"
+                                placeholder="Last Name"
+                              />
+                              <FormErrorMessage>
+                                Last Name {form.errors.masterUser?.lastName}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
+                      </Box>
+                      <Box flex="1" mx="4">
+                        <Field name="masterUser.password" validate={isNotNull}>
+                          {({
+                            field,
+                            form,
+                          }: {
+                            field: {
+                              name: string;
+                              value: string;
+                              onChange: (e: React.ChangeEvent<any>) => void;
+                              onBlur: () => void;
+                            };
+                            form: {
+                              errors: { masterUser: { password: string } };
+                              touched: { masterUser: { password: boolean } };
+                            };
+                          }) => (
+                            <FormControl
+                              isInvalid={
+                                !!form.errors.masterUser?.password &&
+                                !!form.touched.masterUser?.password
+                              }
+                              mb="24px"
+                            >
+                              <FormLabel htmlFor="password">Password</FormLabel>
+                              <Input
+                                {...field}
+                                type="password"
+                                id="password"
+                                placeholder="Password"
+                              />
+                              <FormErrorMessage>
+                                Password {form.errors.masterUser?.password}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
+                      </Box>
+                      <Box flex="1" ml="4">
+                        <Field name="masterUser.phone" validate={isNotNull}>
+                          {({
+                            field,
+                            form,
+                          }: {
+                            field: {
+                              name: string;
+                              value: string;
+                              onChange: (e: React.ChangeEvent<any>) => void;
+                              onBlur: () => void;
+                            };
+                            form: {
+                              errors: { masterUser: { phone: string } };
+                              touched: { masterUser: { phone: boolean } };
+                            };
+                          }) => (
+                            <FormControl
+                              isInvalid={
+                                !!form.errors.masterUser?.phone &&
+                                !!form.touched.masterUser?.phone
+                              }
+                              mb="24px"
+                            >
+                              <FormLabel htmlFor="Phone">Phone</FormLabel>
+                              <Input
+                                {...field}
+                                id="phone"
+                                placeholder="Phone"
+                              />
+                              <FormErrorMessage>
+                                Phone {form.errors.masterUser?.phone}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
+                      </Box>
+                    </Flex>
+                  </Box>
+                  <Flex justifyContent="center">
                     <Button
                       fontSize="15px"
                       colorScheme="teal"
@@ -479,19 +468,18 @@ const CustomerAccountModal = (
                       w="50%"
                       isLoading={props.isSubmitting}
                       type="submit"
-
                     >
                       SUBMIT
                     </Button>
-                    </Flex>
                   </Flex>
-                </Form>
-              )}
-            </Formik>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    );
+                </Flex>
+              </Form>
+            )}
+          </Formik>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
 };
 
 export default forwardRef(CustomerAccountModal);

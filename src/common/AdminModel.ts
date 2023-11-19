@@ -1,4 +1,4 @@
-export interface customerAccount {
+export interface CustomerAccount {
   id?: number | string;
   name: string;
   description: string;
@@ -14,23 +14,6 @@ export interface MasterUser {
   phone?: string;
   password: string;
   role?: string;
-}
-
-
-export interface AccountModalProps {
-  onSubmit: (values: customerAccount) => void;
-  account: customerAccount | null;
-  onClose: () => void;
-  ref?: React.Ref<any>;
-}
-
-export interface CustomAccountModalRefType {
-  open: (account?: customerAccount) => void;
-  close: () => void;
-}
-
-export interface UserModalRefType {
-  open: () => void;
 }
 
 export interface GeneralUser {
@@ -53,7 +36,7 @@ export interface userScope {
   description: string;
 }
 
-export interface Accounts {
+export interface Account {
   name: string;
   status: string;
   dateStatusChange: string;
@@ -73,5 +56,5 @@ export interface AddStation {
 }
 
 export interface RouteParams {
-  id: string ;
+  id: string;
 }

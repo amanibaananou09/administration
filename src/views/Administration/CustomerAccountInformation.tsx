@@ -1,53 +1,42 @@
-import React, { useEffect, useState, useRef } from "react";
+import { Box, Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Account, RouteParams } from "common/AdminModel";
 import {
-  Box,
-  ChakraProvider,
-  CSSReset,
-  extendTheme,
-  Container,
-  Flex,
-  Text,
-  Button,
-  chakra,
-} from "@chakra-ui/react";
+  AddStationModalRefType,
+  AddUserModalRefType,
+} from "common/react-props";
+import Card from "components/Card/Card";
+import CardBody from "components/Card/CardBody";
+import CardHeader from "components/Card/CardHeader";
+import AddStationModal from "components/Modal/AdministrationModal/AddStationModal";
+import AddUserModal from "components/Modal/AdministrationModal/AddUserModal";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { formatDate } from "utils/utils";
 import {
   allStationByCustomerAccount,
   allUserByCustomerAccount,
-  ListOfCustomerAccount,
+  getCustomerAccountInformation,
 } from "../../common/api/station-api";
 import { Station, User } from "../../common/model";
-import { Accounts, RouteParams } from "common/AdminModel";
-import { formatDate } from "utils/utils";
 
-import AddUserModal, {
-  RefType,
-} from "components/Modal/AdministrationModal/AddUserModal";
-import AddStationModal from "components/Modal/AdministrationModal/AddStationModal";
-import { useParams } from "react-router-dom";
-const theme = extendTheme({
-  styles: {
-    global: {
-      body: {
-        margin: 0,
-        padding: 0,
-      },
-    },
-  },
-});
 const CustomerAccountInformation = () => {
   const { id } = useParams<RouteParams>();
-  const addUserModalRef = useRef<RefType>(null);
-  const addstationModalRef = useRef<RefType>(null);
+  const addUserModalRef = useRef<AddUserModalRefType>(null);
+  const addStationModalRef = useRef<AddStationModalRefType>(null);
+
+  const [account, setAccount] = useState<Account>();
+  const [stationAccounts, setStationAccounts] = useState<Station[]>([]);
+  const [userAccounts, setUserAccounts] = useState<User[]>([]);
+
+  const textColor = useColorModeValue("gray.700", "white");
+
   const openUserModal = () => {
     addUserModalRef.current?.open();
   };
 
   const openStationModal = () => {
-    addstationModalRef.current?.open();
+    addStationModalRef.current?.open();
   };
-  const [stationAccounts, setStationAccounts] = useState<Station[]>([]);
-  const [userAccounts, setUserAccounts] = useState<User[]>([]);
-  const [accounts, setAccounts] = useState<Accounts[]>([]);
 
   useEffect(() => {
     const allStationByAccount = async () => {
@@ -73,23 +62,23 @@ const CustomerAccountInformation = () => {
     allUserByAccount();
   }, [id]);
 
-  const allAccounts = async () => {
-    try {
-      const result = await ListOfCustomerAccount(id);
-
-      const accountsArray = Array.isArray(result) ? result : [result];
-
-      setAccounts(accountsArray);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
 
   useEffect(() => {
+    const allAccounts = async () => {
+      try {
+        const customerAccount = await getCustomerAccountInformation(id);
+
+        setAccount(customerAccount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     allAccounts();
   }, [id]);
 
-  const refreshUserList = async () => {
+  const submitAddUserModalHandler = async () => {
     try {
       const result = await allUserByCustomerAccount(id);
       setUserAccounts(result);
@@ -98,7 +87,7 @@ const CustomerAccountInformation = () => {
     }
   };
 
-  const refreshStationList = async () => {
+  const submitAddStationModalHandler = async () => {
     try {
       const result = await allStationByCustomerAccount(id);
       setStationAccounts(result);
@@ -108,144 +97,131 @@ const CustomerAccountInformation = () => {
   };
   return (
     <>
-      <Flex direction="column" pt={{ base: "125px", md: "75px" }}>
-        <ChakraProvider theme={theme}>
-          <CSSReset />
-          <Container bg="white" maxW="container.xl" p={6} borderRadius="16px">
-            <Text
-              fontSize="3xl"
-              color="gray.700"
-              textAlign="center"
-              fontWeight="bold"
-            >
+      <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
+        <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
+          <CardHeader p="6px 0px 22px 0px">
+            <Text fontSize="xl" color={textColor} fontWeight="bold">
               Customer Account Information
             </Text>
-            <br />
-            <Box
-              border="1px"
-              borderColor="gray.200"
-              color="white"
-              p={6}
-              textAlign="left"
-              width="100%"
-            >
-              {Array.isArray(accounts) && accounts.length > 0 ? (
-                accounts.map((account, key) => (
-                  <div key={key}>
-                    <Text fontSize="xl" color="gray.900" fontWeight="bold">
-                      Name : {""}
-                      <chakra.span
-                        fontSize="md"
-                        fontWeight="medium"
-                        color="gray.500"
-                      >
-                        {account.name}
-                      </chakra.span>
+          </CardHeader>
+          <CardBody>
+            <Box backgroundColor="gray.200" p={6} borderRadius="16px" mb="50px">
+              {account ? (
+                <Flex width="100%" gap="10%">
+                  <Box>
+                    <Text fontSize="md" color="gray.900" fontWeight="bold">
+                      Name :
+                    </Text>
+                    <Text fontSize="md" color="gray.900" fontWeight="bold">
+                      Status :
+                    </Text>
+                    <Text fontSize="md" color="gray.900" fontWeight="bold">
+                      Date Status Change :
+                    </Text>
+                    <Text fontSize="md" color="gray.900" fontWeight="bold">
+                      Description :
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fontSize="md" fontWeight="medium" color="gray.500">
+                      {account.name}
                     </Text>
 
-                    <Text fontSize="xl" color="gray.900" fontWeight="bold">
-                      Status : {""}
-                      <chakra.span
-                        fontSize="md"
-                        fontWeight="medium"
-                        color="gray.500"
-                      >
-                        {account.status}
-                      </chakra.span>
+                    <Text fontSize="md" fontWeight="medium" color="gray.500">
+                      {account.status}
                     </Text>
-                    <Text fontSize="xl" color="gray.900" fontWeight="bold">
-                      Date Status Change : {""}
-                      <chakra.span
-                        fontSize="md"
-                        fontWeight="medium"
-                        color="gray.500"
-                      >
-                        {formatDate(account.dateStatusChange)}
-                      </chakra.span>
+
+                    <Text fontSize="md" fontWeight="medium" color="gray.500">
+                      {formatDate(account.dateStatusChange)}
                     </Text>
-                    <Text fontSize="xl" color="gray.900" fontWeight="bold">
-                      Description : {""}
-                      <chakra.span
-                        fontSize="md"
-                        fontWeight="medium"
-                        color="gray.500"
-                      >
-                        {account.description}
-                      </chakra.span>
+
+                    <Text fontSize="md" fontWeight="medium" color="gray.500">
+                      {account.description}
                     </Text>
-                  </div>
-                ))
+                  </Box>
+                </Flex>
               ) : (
                 <Text color="gray.500">No accounts available.</Text>
               )}
             </Box>
-
-            <br />
-            <Flex direction="row" justifyContent="space-between">
-              <Flex direction="column" flex={1} ml={4} alignItems="center">
+            <Flex gap={4}>
+              <Flex direction="column" flex={1}>
                 <Text
                   fontSize="xl"
                   color="gray.700"
                   textAlign="center"
                   fontWeight="bold"
                 >
-                  Attached users
+                  Attached Users
                 </Text>
-                <Box border="1px" borderColor="gray.200" p={6} width="50%">
-                  {userAccounts.map((user, key) => (
-                    <div key={key}>
-                      <Text fontSize="md" color="gray.700" fontWeight="bold">
+                <Box
+                  backgroundColor="gray.200"
+                  borderRadius="16px"
+                  p={6}
+                  marginBottom="20px"
+                  width="100%"
+                >
+                  {userAccounts.map((user, index) => (
+                    <Fragment key={index}>
+                      <Text fontSize="md" color="gray.700">
                         {user.username}
                       </Text>
-                    </div>
+                    </Fragment>
                   ))}
                 </Box>
-                <Flex align="center" p="5px">
-                  <Button
-                    colorScheme="teal"
-                    size="md"
-                    onClick={() => openUserModal()}
-                  >
-                    Add User
-                  </Button>
-                </Flex>
+                <Button
+                  colorScheme="teal"
+                  size="md"
+                  width="100%"
+                  onClick={() => openUserModal()}
+                >
+                  Add User
+                </Button>
               </Flex>
-              <Flex direction="column" flex={1} ml={4} alignItems="center">
+              <Flex direction="column" flex={1}>
                 <Text
                   fontSize="xl"
                   color="gray.700"
                   textAlign="center"
                   fontWeight="bold"
                 >
-                  Stations
+                  Attached Stations
                 </Text>
-                <Box border="1px" borderColor="gray.200" p={6} width="50%">
-                  {stationAccounts.map((station, key) => (
-                    <div key={key}>
-                      <Text fontSize="md" color="gray.700" fontWeight="bold">
+                <Box
+                  backgroundColor="gray.200"
+                  borderRadius="16px"
+                  p={6}
+                  marginBottom="20px"
+                  width="100%"
+                >
+                  {stationAccounts.map((station, index) => (
+                    <Fragment key={index}>
+                      <Text fontSize="md" color="gray.700">
                         {station.name}
                       </Text>
-                    </div>
+                    </Fragment>
                   ))}
                 </Box>
-                <Flex align="center" p="5px">
-                  <Button
-                    colorScheme="teal"
-                    size="md"
-                    onClick={() => openStationModal()}
-                  >
-                    Add Station
-                  </Button>
-                </Flex>
+                <Button
+                  colorScheme="teal"
+                  size="md"
+                  width="100%"
+                  onClick={() => openStationModal()}
+                >
+                  Add Station
+                </Button>
               </Flex>
             </Flex>
-          </Container>
-        </ChakraProvider>
+          </CardBody>
+        </Card>
       </Flex>
-      <AddUserModal ref={addUserModalRef} refreshUserList={refreshUserList} />
+      <AddUserModal
+        ref={addUserModalRef}
+        onSubmit={submitAddUserModalHandler}
+      />
       <AddStationModal
-        ref={addstationModalRef}
-        refreshStationList={refreshStationList}
+        ref={addStationModalRef}
+        onSubmit={submitAddStationModalHandler}
       />
     </>
   );

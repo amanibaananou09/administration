@@ -2,7 +2,8 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Circle, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 
 import { getAllSalesByPump } from "common/api/statistique-api";
-import { periodeProps, SalesPump } from "common/model";
+import { SalesPump } from "common/model";
+import { PeriodeProps } from "common/react-props";
 import Card from "components/Card/Card";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
@@ -10,7 +11,7 @@ import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
 
-export const PumpSales = ({ periode, startDate, endDate }: periodeProps) => {
+export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();

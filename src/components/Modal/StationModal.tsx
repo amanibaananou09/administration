@@ -12,11 +12,15 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Station, StationModalProps } from "common/model";
+import { Station } from "common/model";
+import { StationModalProps, StationModalRefType } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
 
-const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
+const StationModal = (
+  { onSubmit }: StationModalProps,
+  ref: Ref<StationModalRefType>,
+) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [station, setStation] = useState<Station>({
     id: 0,
@@ -231,6 +235,6 @@ const StationModal = forwardRef(({ onSubmit }: StationModalProps, ref) => {
       </ModalContent>
     </Modal>
   );
-});
+};
 
-export default StationModal;
+export default forwardRef(StationModal);

@@ -1,13 +1,14 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Flex, Stat, StatLabel, Text } from "@chakra-ui/react";
 import { getAllSalesByGrades } from "common/api/statistique-api";
+import { PeriodeProps } from "common/react-props";
 import { useEffect, useState } from "react";
-import { Grades, periodeProps } from "../../common/model";
+import { Grades } from "../../common/model";
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 
-export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
+export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
   const [grades, setGrades] = useState<Grades[]>([]);
   const { user } = useAuth();
 
@@ -64,7 +65,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
                   </StatLabel>
                 </Flex>
               </Stat>
-              <br/>
+              <br />
               <Text
                 as="span"
                 fontWeight="bold"
@@ -72,7 +73,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
                 display="inline"
                 fontSize="xl"
               >
-                Total Sales Volume: {grade.totalSalesParVolume}{" "} Litre
+                Total Sales Volume: {grade.totalSalesParVolume} Litre
               </Text>
               <Text
                 as="span"
@@ -92,7 +93,6 @@ export const SalesGrades = ({ periode, startDate, endDate }: periodeProps) => {
                   {selectedStation?.country.currency.code}
                 </Text>
                 <br />
-
               </Text>
             </Card>
           ))}
