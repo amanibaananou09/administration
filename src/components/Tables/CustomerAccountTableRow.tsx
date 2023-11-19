@@ -1,22 +1,21 @@
-import { Badge, Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
-import { customerAccount } from "common/AdminModel";
-import { useHistory } from 'react-router-dom';
+import { Badge, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { CustomerAccountTableRowProps } from "common/react-props";
+import { useHistory } from "react-router-dom";
 
-
-const CustomerAccountTableRow = ({ id,
-                                   name,
-                                   description,
-                                   status,
-                                   masterUser
-                                 }: customerAccount )=> {
+const CustomerAccountTableRow = ({
+  customerAccount,
+  isLastRow,
+}: CustomerAccountTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
+  const { id, name, description, status, masterUser } = customerAccount;
+
   const history = useHistory();
 
-  const getStatusColor = (status : string) => {
-    return status === 'ENABLED' ? 'green.400' : 'red.400';
+  const getStatusColor = (status: string) => {
+    return status === "ENABLED" ? "green.400" : "red.400";
   };
 
   const handleNameClick = () => {
@@ -25,24 +24,44 @@ const CustomerAccountTableRow = ({ id,
 
   return (
     <Tr>
-      <Td borderColor={borderColor}>
-        <Flex direction="column">
-          <Text
-            textAlign="center"
-            as="span"
-            style={{ textDecoration: 'underline', cursor: 'pointer' }}
-            onClick={handleNameClick}
-          >
-            {name}
-          </Text>
-        </Flex>
+      <Td
+        pl="0px"
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
+        <Text
+          as="span"
+          textDecoration="underline"
+          cursor="pointer"
+          onClick={handleNameClick}
+        >
+          {name}
+        </Text>
       </Td>
-      <Td borderColor={borderColor}>
-        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
+      <Td
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
+        <Text fontSize="md" color={textColor} fontWeight="bold">
           {description}
         </Text>
       </Td>
-      <Td borderColor={borderColor} display="flex" justifyContent="center" alignItems="center">
+      <Td
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
+        <Text fontSize="md" color={textColor} fontWeight="bold">
+          {masterUser.username}
+        </Text>
+      </Td>
+      <Td
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
         <Badge
           bg={getStatusColor(status)}
           color="white"
@@ -52,11 +71,6 @@ const CustomerAccountTableRow = ({ id,
         >
           {status}
         </Badge>
-      </Td>
-      <Td borderColor={borderColor}>
-        <Text fontSize="md" textAlign="center" color={textColor} fontWeight="bold">
-          {masterUser.username}
-        </Text>
       </Td>
     </Tr>
   );

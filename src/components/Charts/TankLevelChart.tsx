@@ -4,26 +4,26 @@ import {
   getTankMeasurementByPeriod,
 } from "common/api/chart-api";
 import { tankLevelChartConfig } from "common/chartOptions";
-import {
-  periodeProps,
-  Tank,
-  tankLevelData,
-  tankMeasurementData,
-} from "common/model";
+import { Tank, tankLevelData, tankMeasurementData } from "common/model";
+import { PeriodeProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { formatDate } from "utils/utils";
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartButton from "../ChartMenu/TankChartButton";
-import { formatDate } from "utils/utils";
 
-export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => {
+export const TankLevelChart = ({
+  periode,
+  startDate,
+  endDate,
+}: PeriodeProps) => {
   const [chartData, setChartData] = useState({
     tankMeasurementData: [] as tankMeasurementData[],
     tankLevelData: [] as tankLevelData[],
   });
 
-  const [selectedTank, setSelectedTank] = useState<string|number | null>(1);
+  const [selectedTank, setSelectedTank] = useState<string | number | null>(1);
   const [tanks, setTanks] = useState<Tank[]>([]);
 
   const [chartOptions, setChartOptions] = useState(
@@ -34,7 +34,7 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
 
   useEffect(() => {
     const fetchTanks = async () => {
-      if (!selectedStation ) {
+      if (!selectedStation) {
         return;
       }
       try {
@@ -54,24 +54,35 @@ export const TankLevelChart = ({ periode ,startDate, endDate}: periodeProps) => 
     }
     const fetchData = async () => {
       try {
-        const measurementData = await getTankMeasurementByPeriod(selectedStation, selectedTank, periode, startDate, endDate);
-          setChartData((prevData) => ({
-            ...prevData,
-            tankMeasurementData: measurementData,
-          }));
+        const measurementData = await getTankMeasurementByPeriod(
+          selectedStation,
+          selectedTank,
+          periode,
+          startDate,
+          endDate,
+        );
+        setChartData((prevData) => ({
+          ...prevData,
+          tankMeasurementData: measurementData,
+        }));
 
-          const levelData = await getTankLevelByPeriod(selectedStation, selectedTank, periode, startDate, endDate);
-          setChartData((prevData) => ({
-            ...prevData,
-            tankLevelData: levelData,
-          }));
-
-        } catch (error) {
-          console.error("Error fetching tank data: ", error);
-        }
-      };
-      fetchData();
-    }, [periode, selectedStation, user, selectedTank , startDate, endDate]);
+        const levelData = await getTankLevelByPeriod(
+          selectedStation,
+          selectedTank,
+          periode,
+          startDate,
+          endDate,
+        );
+        setChartData((prevData) => ({
+          ...prevData,
+          tankLevelData: levelData,
+        }));
+      } catch (error) {
+        console.error("Error fetching tank data: ", error);
+      }
+    };
+    fetchData();
+  }, [periode, selectedStation, user, selectedTank, startDate, endDate]);
 
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);

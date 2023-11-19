@@ -1,11 +1,11 @@
 import { useColorModeValue } from "@chakra-ui/react";
 import { getAllStatVent } from "common/api/chart-api";
+import { PeriodeProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { periodeProps } from "common/model";
-const UserSalesChart = ({ periode, startDate, endDate }: periodeProps) => {
+const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
   const { selectedStation } = useESSContext();
 
   const { user } = useAuth();
@@ -46,7 +46,12 @@ const UserSalesChart = ({ periode, startDate, endDate }: periodeProps) => {
         return;
       }
       if (selectedStation) {
-        const res = await getAllStatVent(selectedStation,periode, startDate, endDate);
+        const res = await getAllStatVent(
+          selectedStation,
+          periode,
+          startDate,
+          endDate,
+        );
 
         try {
           if (Array.isArray(res)) {

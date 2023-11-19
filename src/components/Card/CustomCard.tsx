@@ -1,5 +1,5 @@
 import { Avatar, Flex, Text, useColorModeValue } from "@chakra-ui/react";
-import { CustomCardProps } from "common/model";
+import { CustomCardProps } from "common/react-props";
 
 const CustomCard = ({
   title,

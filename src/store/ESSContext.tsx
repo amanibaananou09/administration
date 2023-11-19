@@ -1,5 +1,6 @@
 import { Mode } from "common/enums";
-import { ESSContextProps, Station } from "common/model";
+import { Station } from "common/model";
+import { ESSContextProps } from "common/react-props";
 import React, { useContext, useEffect, useState } from "react";
 
 export const ESSContext = React.createContext<ESSContextProps>({

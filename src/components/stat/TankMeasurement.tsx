@@ -2,30 +2,14 @@ import {
   Box,
   Circle,
   Flex,
-  Image,
   Stat,
   Text,
-  Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { TankMeasurementRowProps } from "common/model";
+import { TankMeasurementRowProps } from "common/react-props";
 import Card from "components/Card/Card";
-import LastTankDelivery from "components/stat/LastTankDelivery";
-import tankImg from "../../assets/img/tank.png";
-
-const getColorForLevel = (level: number): string => {
-  if (level >= 90) {
-    return "#07C100";
-  } else if (level >= 60) {
-    return "#1FC32F";
-  } else if (level >= 50) {
-    return "#EAA817";
-  } else if (level >= 30) {
-    return "#EA8B17";
-  } else {
-    return "#E02200";
-  }
-};
+import LastTankDeliveryTooltip from "components/stat/LastTankDeliveryTooltip";
+import { getColorForTankLevel } from "utils/utils";
 
 export const TankMeasurement = ({
   tankMeasurement,
@@ -34,7 +18,7 @@ export const TankMeasurement = ({
   const boxHeight = `${tankMeasurement.percentage}%`;
   const circleColor = tankMeasurement.percentage <= 20 ? "red" : "green";
   const tankLevel = tankMeasurement.percentage;
-  const boxColor = getColorForLevel(tankLevel);
+  const boxColor = getColorForTankLevel(tankLevel);
 
   return (
     <Card minH="125px" m="5" width="500px">
@@ -54,13 +38,7 @@ export const TankMeasurement = ({
             {tankMeasurement.fuelGrade}
           </Text>
         </Stat>
-        <Tooltip
-          label={<LastTankDelivery tankId={tankMeasurement.tank} />}
-          placement="auto"
-          hasArrow
-        >
-          <Image src={tankImg} height="75%" width="15%" />
-        </Tooltip>
+        <LastTankDeliveryTooltip tankId={tankMeasurement.tank} />
       </Flex>
 
       <Flex direction="row">

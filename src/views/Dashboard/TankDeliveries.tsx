@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { getAllTankDelivery } from "common/api/configuration-api";
-import { TankDeliveryProps } from "common/model";
+import { TankDelivery } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -22,10 +22,10 @@ import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
-const TankDelivery = () => {
+const TankDeliveries = () => {
   const textColor: string = useColorModeValue("gray.700", "white");
   const borderColor: string = useColorModeValue("gray.200", "gray.600");
-  const [tankdelivery, setTankDelivery] = useState<TankDeliveryProps[]>();
+  const [tankdelivery, setTankDelivery] = useState<TankDelivery[]>();
   const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -115,7 +115,7 @@ const TankDelivery = () => {
             </Thead>
             <Tbody>
               {tankdelivery &&
-                tankdelivery.map((row: TankDeliveryProps, key: number) => {
+                tankdelivery.map((row: TankDelivery, key: number) => {
                   return (
                     <TankDeliveryRow
                       tank={row.tank}
@@ -161,4 +161,4 @@ const TankDelivery = () => {
   );
 };
 
-export default TankDelivery;
+export default TankDeliveries;

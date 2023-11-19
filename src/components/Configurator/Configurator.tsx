@@ -11,7 +11,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ConfiguratorProps } from "common/model";
+import { ConfiguratorProps } from "common/react-props";
 import { HSeparator } from "components/Separator/Separator";
 import { useRef, useState } from "react";
 import { useESSContext } from "store/ESSContext";

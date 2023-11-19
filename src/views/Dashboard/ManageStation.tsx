@@ -12,7 +12,8 @@ import {
   getStations,
   updateStation,
 } from "common/api/station-api";
-import { ModalRef, Station } from "common/model";
+import { Station } from "common/model";
+import { ModalRef } from "common/react-props";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";

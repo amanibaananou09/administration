@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import { SidebarProps } from "common/react-props";
 import IconBox from "components/Icons/IconBox";
 import {
   renderThumbDark,
@@ -28,7 +29,6 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { SidebarProps } from "../../common/model";
 
 const Sidebar = (props: SidebarProps) => {
   const { isSignedIn } = useAuth();

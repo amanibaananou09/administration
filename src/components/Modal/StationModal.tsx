@@ -12,7 +12,8 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Station, StationModalProps } from "common/model";
+import { Station } from "common/model";
+import { StationModalProps } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 

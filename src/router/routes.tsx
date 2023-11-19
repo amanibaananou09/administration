@@ -8,15 +8,15 @@ import {
   HomeIcon,
   PersonIcon,
   SupportIcon,
-  WalletIcon
+  WalletIcon,
 } from "components/Icons/Icons";
-import ManageUsers from "views/Administration/ManageUsers";
 import UserDetails from "views/Administration/UserDetails";
+import UserManagement from "views/Administration/UserManagement";
 import ManageStation from "views/Dashboard/ManageStation";
-import TankDelivery from "views/Dashboard/TankDelivery";
+import TankDeliveries from "views/Dashboard/TankDeliveries";
 import Transactions from "views/Dashboard/Transactions";
-import CustomerAccount from "../views/Administration/CustomerAccount";
 import CustomerAccountInformation from "../views/Administration/CustomerAccountInformation";
+import CustomerAccountManagement from "../views/Administration/CustomerAccountManagement";
 
 export const dashboardRoutes = [
   {
@@ -25,7 +25,7 @@ export const dashboardRoutes = [
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
     layout: "/dashboard",
-    privateRoute: true
+    privateRoute: true,
   },
   {
     path: "/manage-station",
@@ -33,7 +33,7 @@ export const dashboardRoutes = [
     icon: <SupportIcon color="inherit" />,
     component: ManageStation,
     layout: "/dashboard",
-    privateRoute: true
+    privateRoute: true,
   },
   {
     path: "/transaction",
@@ -41,15 +41,15 @@ export const dashboardRoutes = [
     icon: <WalletIcon color="inherit" />,
     component: Transactions,
     layout: "/dashboard",
-    privateRoute: true
+    privateRoute: true,
   },
   {
     path: "/tank-delivery",
     name: "Tank Delivery",
     icon: <WalletIcon color="inherit" />,
-    component: TankDelivery,
+    component: TankDeliveries,
     layout: "/dashboard",
-    privateRoute: true
+    privateRoute: true,
   },
   {
     path: "/profile",
@@ -58,7 +58,7 @@ export const dashboardRoutes = [
     secondaryNavbar: true,
     component: Profile,
     layout: "/dashboard",
-    privateRoute: true
+    privateRoute: true,
   },
   {
     path: "/signin",
@@ -66,8 +66,8 @@ export const dashboardRoutes = [
     icon: <DocumentIcon color="inherit" />,
     component: SignIn,
     layout: "/auth",
-    publicRoute: true
-  }
+    publicRoute: true,
+  },
 ];
 
 export const administrationRoutes = [
@@ -75,9 +75,9 @@ export const administrationRoutes = [
     path: "/home",
     name: "Manage Accounts",
     icon: <HomeIcon color="inherit" />,
-    component: CustomerAccount,
+    component: CustomerAccountManagement,
     layout: "/administration",
-    privateRoute: true
+    privateRoute: true,
   },
   {
     path: "/manages-users/details",
@@ -86,15 +86,15 @@ export const administrationRoutes = [
     component: UserDetails,
     layout: "/administration",
     privateRoute: true,
-    hideInNavbar: true
+    hideInNavbar: true,
   },
   {
     path: "/manages-users",
     name: "Manage Users",
     icon: <PersonIcon color="inherit" />,
-    component: ManageUsers,
+    component: UserManagement,
     layout: "/administration",
-    privateRoute: true
+    privateRoute: true,
   },
   {
     path: "/CustomerAccountInformation/:id",
@@ -103,7 +103,7 @@ export const administrationRoutes = [
     component: CustomerAccountInformation,
     layout: "/administration",
     privateRoute: true,
-    hideInNavbar: true
+    hideInNavbar: true,
   },
   {
     path: "/UserDetails/:id",
@@ -112,6 +112,6 @@ export const administrationRoutes = [
     component: UserDetails,
     layout: "/administration",
     privateRoute: true,
-    hideInNavbar: true
-  }
+    hideInNavbar: true,
+  },
 ];

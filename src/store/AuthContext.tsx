@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { AuthContextProps, AuthContextProviderProps, User } from "common/model";
+import { User } from "common/model";
+import { AuthContextProps, AuthContextProviderProps } from "common/react-props";
 import { decodeToken } from "utils/utils";
 import { useESSContext } from "./ESSContext";
 

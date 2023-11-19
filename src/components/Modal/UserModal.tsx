@@ -14,9 +14,10 @@ import {
   SimpleGrid,
   useDisclosure,
 } from "@chakra-ui/react";
-import { GeneralUser, UserModalRefType } from "common/AdminModel";
+import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
+import { UserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
 

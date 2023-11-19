@@ -1,4 +1,4 @@
-import { customerAccount,MasterUser ,AddStation} from "common/AdminModel";
+import { AddStation, CustomerAccount, MasterUser } from "common/AdminModel";
 import api from "./axios";
 
 const API_URL = "/customerAccount";
@@ -9,18 +9,25 @@ export const getListOfCustomerAccount = async () => {
   return response.data;
 };
 
-export const createCustomerAccount = async (account: customerAccount ) : Promise<customerAccount> => {
+export const createCustomerAccount = async (
+  account: CustomerAccount,
+): Promise<CustomerAccount> => {
   const response = await api.post(`${API_URL}/add`, account);
 
   return response.data;
 };
 
-export const addUser = async (user: MasterUser, id: number | string): Promise<void> => {
+export const addUser = async (
+  user: MasterUser,
+  id: number | string,
+): Promise<void> => {
   const response = await api.post(`${API_URL}/${id}/user/add`, user);
   return response.data;
 };
 
-export const addStation = async (station: AddStation, id: number | string): Promise<void> => {
+export const addStation = async (
+  station: AddStation,
+  id: number | string,
+): Promise<void> => {
   await api.post(`${API_URL}/${id}/station/add`, station);
 };
-

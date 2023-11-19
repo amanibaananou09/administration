@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { getAllSalesByPumpAndGrades } from "common/api/statistique-api";
-import { SalesPumpGrades, SalesPumpGradesRowProps } from "common/model";
+import { SalesPumpGrades } from "common/model";
+import { SalesPumpGradesRowProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";

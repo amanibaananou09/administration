@@ -8,7 +8,8 @@ import {
 } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import { getAllFuelGrades, getAllPump } from "common/api/configuration-api";
-import { fuelGrade, pump, ReportSalesChartMenuProps } from "common/model";
+import { fuelGrade, pump } from "common/model";
+import { ReportSalesChartMenuProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";

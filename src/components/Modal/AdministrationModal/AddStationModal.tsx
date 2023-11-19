@@ -11,15 +11,19 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   SimpleGrid,
   useDisclosure,
-  Select,
 } from "@chakra-ui/react";
-import { AddStation, RouteParams, UserModalRefType } from "common/AdminModel";
+import { AddStation, RouteParams } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
 import { getListOfCountry } from "common/api/reference-data-api";
 import { addStationFormValidationSchema } from "common/form-validation";
 import { country } from "common/model";
+import {
+  AddStationModalProps,
+  AddStationModalRefType,
+} from "common/react-props";
 import { useFormik } from "formik";
 import {
   forwardRef,
@@ -29,11 +33,12 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
-interface PropsType {
-  refreshStationList: () => void;
-}
 
-const AddStationModal = (props: PropsType, ref: Ref<UserModalRefType>) => {
+
+const AddStationModal = (
+  props: AddStationModalProps,
+  ref: Ref<AddStationModalRefType>,
+) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
   const [country, setCountry] = useState<country[]>([]);

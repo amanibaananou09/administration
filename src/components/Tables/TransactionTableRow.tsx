@@ -1,5 +1,5 @@
 import { Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
-import { TablesTableRowProps } from "common/model";
+import { TransactionTableRowProps } from "common/react-props";
 import { formatDate } from "utils/utils";
 
 const TransactionTableRow = ({
@@ -9,7 +9,7 @@ const TransactionTableRow = ({
   price,
   amount,
   dateTimeStart,
-}: TablesTableRowProps) => {
+}: TransactionTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
   const titleColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");

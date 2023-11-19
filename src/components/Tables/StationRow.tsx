@@ -6,7 +6,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { StationRowProps } from "common/model";
+import { StationRowProps } from "common/react-props";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 
 const StationRow = ({

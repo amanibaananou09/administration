@@ -8,7 +8,7 @@ import {
   Link,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { AdminNavbarProps } from "common/model";
+import { AdminNavbarProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import AdminNavbarLinks from "./AdminNavbarLinks";
 

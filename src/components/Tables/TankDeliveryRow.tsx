@@ -1,5 +1,5 @@
 import { Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
-import { TankDeliveryRowProps } from "common/model";
+import { TankDeliveryRowProps } from "common/react-props";
 
 const TankDeliveryRow = ({
   tank,

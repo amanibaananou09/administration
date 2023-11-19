@@ -9,7 +9,8 @@ import {
   ModalOverlay as ChakraModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ConfirmationModalProps ,Station} from "common/model";
+import { Station } from "common/model";
+import { ConfirmationModalProps } from "common/react-props";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
