@@ -61,7 +61,7 @@ export const allUserByCustomerAccount = async (id: string ) => {
 
   return response.data;
 };
-export const ListOfCustomerAccount = async (id: string) => {
+export const getCustomerAccountInformation = async (id: string) => {
   const response = await api.get(`${API_URL}/${id}/info`);
 
   return response.data;

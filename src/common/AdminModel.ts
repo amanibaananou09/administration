@@ -36,7 +36,7 @@ export interface userScope {
   description: string;
 }
 
-export interface Accounts {
+export interface Account {
   name: string;
   status: string;
   dateStatusChange: string;
