@@ -63,7 +63,6 @@ export interface AddStationModalRefType {
 
 export interface CustomAccountModalRefType {
   open: (account?: CustomerAccount) => void;
-  close: () => void;
 }
 
 export interface StationModalRefType {
@@ -72,7 +71,7 @@ export interface StationModalRefType {
 }
 
 export interface CustomerAccountModalProps {
-  onSubmit: (values: CustomerAccount) => void;
+  onSubmit: () => void;
   account: CustomerAccount | null;
   onClose: () => void;
   ref?: React.Ref<any>;
