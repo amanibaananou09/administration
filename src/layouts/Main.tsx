@@ -65,7 +65,7 @@ const Main = (props: { [x: string]: any }) => {
   return (
     <Box>
       <Box
-        minH="100vh"
+        minH="450vh"
         w="100%"
         position="absolute"
         bgImage={colorMode === "light" ? layoutBg : "none"}

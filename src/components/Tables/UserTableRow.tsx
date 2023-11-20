@@ -9,7 +9,7 @@ export interface UserTableRowProps {
 
 const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
-  const bgStatus = useColorModeValue("gray.400", "navy.900");
+  const bgStatus = useColorModeValue("red.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const history = useHistory();
 
@@ -73,7 +73,7 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
           p="3px 10px"
           borderRadius="8px"
         >
-          {user.actif ? "Active" : "Desactivated"}
+          {user.actif ? "Active" : "Deactivate"}
         </Badge>
       </Td>
     </Tr>
