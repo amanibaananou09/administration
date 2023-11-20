@@ -13,11 +13,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
-import {
-  createCustomerAccount,
-  getListOfCustomerAccount,
-} from "common/api/customerAccount-api";
-import { useEffect, useRef, useState } from "react";
+import { getListOfCustomerAccount } from "common/api/customerAccount-api";
+import { useEffect, useRef } from "react";
 
 import { CustomAccountModalRefType } from "common/react-props";
 import Card from "components/Card/Card";
@@ -25,29 +22,30 @@ import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
+import useHttp from "hooks/use-http";
 
 const CustomerAccountManagement = () => {
+  const {
+    makeRequest: fetchCustomerAccounts,
+    isLoading,
+    data: customerAccounts,
+  } = useHttp(getListOfCustomerAccount);
+
   const textColor = useColorModeValue("gray.700", "white");
   const columnTitleTextColor = useColorModeValue("black", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   const accountModalRef = useRef<CustomAccountModalRefType>(null);
-  const [account, setAccount] = useState<CustomerAccount[]>([]);
   const toast = useToast();
-  const [customerAccounts, setCustomerAccounts] = useState<CustomerAccount[]>(
-    [],
-  );
 
   const openAccountModal = (account?: CustomerAccount) => {
     accountModalRef.current?.open(account);
   };
 
-  const submitModalHandler = async (account: CustomerAccount) => {
+  const submitModalHandler = async () => {
     try {
-      const newAccount = await createCustomerAccount(account);
+      await fetchCustomerAccounts();
 
-      setAccount((prev) => [newAccount, ...prev]);
-      accountModalRef.current?.close();
       toast({
         title: "Customer Account Added",
         description: "The customer account has been successfully added.",
@@ -55,17 +53,6 @@ const CustomerAccountManagement = () => {
         duration: 5000,
         isClosable: true,
       });
-      const updatedAccounts = [
-        ...customerAccounts,
-        {
-          name: newAccount.name,
-          description: newAccount.description,
-          status: newAccount.status,
-          masterUser: newAccount.masterUser,
-        },
-      ];
-
-      setCustomerAccounts(updatedAccounts);
     } catch (error) {
       console.error(error);
       toast({
@@ -79,15 +66,7 @@ const CustomerAccountManagement = () => {
   };
 
   useEffect(() => {
-    const getListAccounts = async () => {
-      try {
-        const result = await getListOfCustomerAccount();
-        setCustomerAccounts(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getListAccounts();
+    fetchCustomerAccounts();
   }, []);
 
   return (
@@ -149,18 +128,19 @@ const CustomerAccountManagement = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {customerAccounts.map(
-                  (account: CustomerAccount, index: number) => (
-                    <CustomerAccountTableRow
-                      customerAccount={account}
-                      isLastRow={index == customerAccounts.length - 1}
-                      key={index}
-                    />
-                  ),
-                )}
+                {!isLoading &&
+                  customerAccounts.map(
+                    (account: CustomerAccount, index: number) => (
+                      <CustomerAccountTableRow
+                        customerAccount={account}
+                        isLastRow={index == customerAccounts.length - 1}
+                        key={index}
+                      />
+                    ),
+                  )}
               </Tbody>
             </Table>
-            {customerAccounts.length === 0 && (
+            {isLoading && (
               <Stack width="100%" margin="20px 0px">
                 <Skeleton height="50px" borderRadius="10px" />
                 <Skeleton height="50px" borderRadius="10px" />

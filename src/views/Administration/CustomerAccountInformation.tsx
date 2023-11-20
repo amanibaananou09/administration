@@ -194,13 +194,20 @@ const CustomerAccountInformation = () => {
                   marginBottom="20px"
                   width="100%"
                 >
-                  {stationAccounts.map((station, index) => (
-                    <Fragment key={index}>
-                      <Text fontSize="md" color="gray.700">
-                        {station.name}
-                      </Text>
-                    </Fragment>
-                  ))}
+                  {stationAccounts.length > 0 &&
+                    stationAccounts.map((station, index) => (
+                      <Fragment key={index}>
+                        <Text fontSize="md" color="gray.700">
+                          {station.name}
+                        </Text>
+                      </Fragment>
+                    ))}
+
+                  {stationAccounts.length == 0 && (
+                    <Text fontSize="md" color="gray.700">
+                      No Station Attached
+                    </Text>
+                  )}
                 </Box>
                 <Button
                   colorScheme="teal"

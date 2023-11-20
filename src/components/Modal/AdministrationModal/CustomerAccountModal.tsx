@@ -16,6 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
+import { createCustomerAccount } from "common/api/customerAccount-api";
 import {
   CustomAccountModalRefType,
   CustomerAccountModalProps,
@@ -63,9 +64,6 @@ const CustomerAccountModal = (
       }
       onOpen();
     },
-    close() {
-      onClose();
-    },
   }));
 
   const isNotNull = (value: string) => {
@@ -76,11 +74,13 @@ const CustomerAccountModal = (
     return error;
   };
 
-  const submitHandler = (
+  const submitHandler = async (
     values: CustomerAccount,
     { setSubmitting }: FormikHelpers<CustomerAccount>,
   ) => {
-    onSubmit(values);
+    await createCustomerAccount(values);
+    onClose();
+    onSubmit();
     setSubmitting(false);
   };
 
