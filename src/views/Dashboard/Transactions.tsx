@@ -15,7 +15,8 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-
+import { DownloadIcon } from "@chakra-ui/icons";
+import * as XLSX from "xlsx";
 import { getallTransactionPump } from "common/api/configuration-api";
 import { Transaction } from "common/model";
 import Card from "components/Card/Card";
@@ -35,8 +36,53 @@ const Transactions = () => {
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
   const { selectedStation } = useESSContext();
-  const [selectedFilterTransactions,setSelectedFilterTransactions]= useState<string>("");
-  
+  const [
+    selectedFilterTransactions,
+    setSelectedFilterTransactions,
+  ] = useState<string>("");
+
+  const exportAllToExcel = async () => {
+    if (!selectedStation || !totalPages) {
+      return;
+    }
+
+    let allTransactions: Transaction[] = [];
+
+    try {
+      // Fetch transactions from all pages
+      for (let page = 0; page < totalPages; page++) {
+        const result = await getallTransactionPump(
+          page,
+          selectedStation,
+          selectedFilterTransactions,
+          pumpId,
+          fuelGradeName,
+          startDate,
+          endDate,
+        );
+        const { content } = result;
+        allTransactions = allTransactions.concat(content);
+      }
+
+      // Convert transactions to Excel and export
+      const data = allTransactions.map((transaction) => ({
+        Pump: transaction.pump,
+        "Fuel Grade": transaction.fuelGradeName,
+        Volume: transaction.volume,
+        Price: transaction.price,
+        Amount: transaction.amount,
+        "Date Time Start": transaction.dateTimeStart,
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Transactions");
+      XLSX.writeFile(wb, "all_transactions.xlsx");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const getAllTransaction = async () => {
       if (!selectedStation) {
@@ -61,7 +107,15 @@ const Transactions = () => {
       }
     };
     getAllTransaction();
-  }, [currentPage, selectedStation, pumpId, fuelGradeName,selectedFilterTransactions,startDate,endDate]);
+  }, [
+    currentPage,
+    selectedStation,
+    pumpId,
+    fuelGradeName,
+    selectedFilterTransactions,
+    startDate,
+    endDate,
+  ]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -87,15 +141,25 @@ const Transactions = () => {
     setPumpId(0);
   };
 
-  
-
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader p="6px 0px 22px 0px">
+        <CardHeader
+          p="6px 0px 22px 0px"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             Transactions
           </Text>
+          <Button
+            colorScheme="blue"
+            leftIcon={<DownloadIcon />}
+            onClick={exportAllToExcel}
+          >
+            Export
+          </Button>
         </CardHeader>
 
         <CardBody>
