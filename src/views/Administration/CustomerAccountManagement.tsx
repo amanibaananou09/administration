@@ -5,6 +5,7 @@ import {
   Stack,
   Table,
   Tbody,
+  Td,
   Text,
   Th,
   Thead,
@@ -128,16 +129,32 @@ const CustomerAccountManagement = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {!isLoading &&
+                {!isLoading && customerAccounts.length > 0 ? (
                   customerAccounts.map(
                     (account: CustomerAccount, index: number) => (
                       <CustomerAccountTableRow
                         customerAccount={account}
-                        isLastRow={index == customerAccounts.length - 1}
+                        isLastRow={index === customerAccounts.length - 1}
                         key={index}
                       />
                     ),
-                  )}
+                  )
+                ) : (
+                  <Tr>
+                    <Td colSpan={4} textAlign="center">
+                      <Text
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color="gray.600"
+                        mt={4}
+                      >
+                        {!isLoading
+                          ? "You don't have a customer account."
+                          : "Loading..."}
+                      </Text>
+                    </Td>
+                  </Tr>
+                )}
               </Tbody>
             </Table>
             {isLoading && (

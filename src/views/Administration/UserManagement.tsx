@@ -80,14 +80,7 @@ const UserManagement = () => {
                   >
                     Name
                   </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="md"
-                    textAlign="center"
-                  >
-                    Email
-                  </Th>
+
                   <Th
                     borderColor={borderColor}
                     color={columnTitleTextColor}
@@ -95,6 +88,14 @@ const UserManagement = () => {
                     textAlign="center"
                   >
                     Phone
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="md"
+                    textAlign="center"
+                  >
+                    Email
                   </Th>
                   <Th
                     borderColor={borderColor}

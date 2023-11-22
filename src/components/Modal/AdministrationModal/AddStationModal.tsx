@@ -34,7 +34,6 @@ import {
 } from "react";
 import { useParams } from "react-router-dom";
 
-
 const AddStationModal = (
   props: AddStationModalProps,
   ref: Ref<AddStationModalRefType>,
@@ -49,6 +48,10 @@ const AddStationModal = (
       address: "",
       controllerPts: {
         ptsId: "",
+        userController: {
+          username: "",
+          password: "",
+        },
       },
       countryId: 0,
       customerAccountId: 0,
@@ -183,6 +186,54 @@ const AddStationModal = (
                   ))}
                 </Select>
                 <FormErrorMessage>{form.errors.countryId}</FormErrorMessage>
+              </FormControl>
+              <FormControl
+                isInvalid={
+                  !!form.errors.controllerPts?.userController?.username &&
+                  !!form.touched.controllerPts?.userController?.username
+                }
+                mb="20px"
+              >
+                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
+                  username
+                </FormLabel>
+                <Input
+                  id="username"
+                  name="controllerPts.userController.username"
+                  value={
+                    form.values.controllerPts?.userController?.username || ""
+                  }
+                  onChange={form.handleChange}
+                  type="text"
+                  placeholder="username"
+                />
+                <FormErrorMessage>
+                  {form.errors.controllerPts?.userController?.username}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl
+                isInvalid={
+                  !!form.errors.controllerPts?.userController?.password &&
+                  !!form.touched.controllerPts?.userController?.password
+                }
+                mb="20px"
+              >
+                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
+                  password
+                </FormLabel>
+                <Input
+                  id="password"
+                  name="controllerPts.userController.password"
+                  value={
+                    form.values.controllerPts?.userController?.password || ""
+                  }
+                  onChange={form.handleChange}
+                  type="text"
+                  placeholder="password"
+                />
+                <FormErrorMessage>
+                  {form.errors.controllerPts?.userController?.password}
+                </FormErrorMessage>
               </FormControl>
             </SimpleGrid>
           </form>
