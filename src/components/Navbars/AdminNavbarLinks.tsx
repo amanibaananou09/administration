@@ -1,6 +1,5 @@
-// Chakra Icons
+import React, { useState, useEffect } from 'react';
 import { BellIcon } from "@chakra-ui/icons";
-// Chakra Imports
 import {
   Box,
   Flex,
@@ -12,23 +11,26 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Assets
-import avatar1 from "../../assets/img/avatars/avatar1.png";
-import avatar2 from "../../assets/img/avatars/avatar2.png";
-import avatar3 from "../../assets/img/avatars/avatar3.png";
-// Custom Icons
 import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
-// Custom Components
-
 import ItemContent from "components/Menu/ItemContent";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import { useHistory } from "react-router-dom";
 import { administrationRoutes, dashboardRoutes } from "router/routes";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import NotificationPopup from 'components/Notification/NotificationPopup';
+import WebSocketService from 'components/Notification/WebSocketService';
+import avatar1 from "../../assets/img/avatars/avatar1.png";
+import avatar2 from "../../assets/img/avatars/avatar2.png";
+import avatar3 from "../../assets/img/avatars/avatar3.png";
+
+interface Notification {
+  notification: string;
+  timestamp: Date;
+}
 
 const HeaderLinks = (props: any) => {
-  const {
+const {
     variant,
     children,
     fixed,
@@ -37,23 +39,39 @@ const HeaderLinks = (props: any) => {
     onOpen,
     ...rest
   } = props;
-
-  const { signOut, user, isSignedIn } = useAuth();
-  const { isAdminMode } = useESSContext();
-
-  const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
-
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const { colorMode } = useColorMode();
   const history = useHistory();
-  // Chakra Color Mode
-  let navbarIcon =
-    fixed && scrolled
-      ? useColorModeValue("gray.700", "gray.200")
-      : useColorModeValue("white", "gray.200");
-  let menuBg = useColorModeValue("white", "navy.800");
-  if (secondary) {
-    navbarIcon = "white";
-  }
+  const { signOut, user, isSignedIn } = useAuth();
+  const { isAdminMode } = useESSContext();
+  const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
+
+  const navbarIcon = fixed && scrolled
+    ? useColorModeValue("gray.700", "gray.200")
+    : useColorModeValue("white", "gray.200");
+
+  const menuBg = useColorModeValue("white", "navy.800");
+
+  useEffect(() => {
+    const stompClient = WebSocketService((notification) => {
+      const timestamp = new Date(); // Create a timestamp when the notification is received
+      setNotifications(prevNotifications => [...prevNotifications, { notification, timestamp }]);
+    });
+
+    return () => {
+      stompClient.disconnect();
+    };
+  }, []);
+
+  const handleNotificationClick = (index: number) => {
+    // Mark the notification as read and remove it from the list
+    setNotifications((prevNotifications) => {
+      const updatedNotifications = [...prevNotifications];
+      updatedNotifications.splice(index, 1);
+      return updatedNotifications;
+    });
+  };
+
   return (
     <Flex
       pe={{ sm: "0px", md: "16px" }}
@@ -142,7 +160,7 @@ const HeaderLinks = (props: any) => {
         colorMode={colorMode}
         secondary={props.secondary}
         routes={routes}
-        {...rest}
+        {...props}
       />
       <SettingsIcon
         cursor="pointer"
@@ -153,42 +171,49 @@ const HeaderLinks = (props: any) => {
         w="18px"
         h="18px"
       />
+      {!isAdminMode && (
       <Menu>
         <MenuButton>
           <BellIcon color={navbarIcon} w="18px" h="18px" />
+          {notifications.length > 0 && (
+            <span
+              style={{
+                position: 'absolute',
+                top: '30%',
+                right: '4%',
+                transform: 'translate(50%, -50%)',
+                backgroundColor: 'red',
+                color: 'white',
+                borderRadius: '45%',
+                padding: '4px 8px',
+              }}
+            >
+              {notifications.length}
+            </span>
+          )}
         </MenuButton>
         <MenuList p="16px 8px" bg={menuBg}>
           <Flex flexDirection="column">
-            <MenuItem borderRadius="8px" mb="10px">
-              <ItemContent
-                time="13 minutes ago"
-                info="from Alicia"
-                boldInfo="New Message"
-                aName="Alicia"
-                aSrc={avatar1}
-              />
-            </MenuItem>
-            <MenuItem borderRadius="8px" mb="10px">
-              <ItemContent
-                time="2 days ago"
-                info="by Josh Henry"
-                boldInfo="New Album"
-                aName="Josh Henry"
-                aSrc={avatar2}
-              />
-            </MenuItem>
-            <MenuItem borderRadius="8px">
-              <ItemContent
-                time="3 days ago"
-                info="Payment succesfully completed!"
-                boldInfo=""
-                aName="Kara"
-                aSrc={avatar3}
-              />
-            </MenuItem>
+            {notifications.map((notification, index) => (
+              <MenuItem
+                key={index}
+                borderRadius="8px"
+                mb="10px"
+                onClick={() => handleNotificationClick(index)}
+              >
+                <ItemContent
+                  time={notification.timestamp.toLocaleString()} // Display the received time
+                  info={notification.notification}
+                  boldInfo=""
+                  aName="Kara"
+
+                />
+              </MenuItem>
+            ))}
           </Flex>
         </MenuList>
       </Menu>
+      )}
     </Flex>
   );
 };
