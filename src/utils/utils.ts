@@ -14,17 +14,15 @@ export const decodeToken = (token: string | null): User | null => {
     realm_access,
     email,
     exp,
-    Address,
-    Phone,
+    phone,
     name,
     customerAccountId,
   } = jwt_decode<Decode>(token);
 
   const user: User = {
     id: sid,
-    Address: Address,
-    Phone: Phone,
-    name :name,
+    phone: phone,
+    name: name,
     given_name: given_name,
     family_name: family_name,
     username: preferred_username,

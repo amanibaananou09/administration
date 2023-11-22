@@ -21,23 +21,38 @@ import TankDeliveryRow from "components/Tables/TankDeliveryRow";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import FilterDelivery from "../../components/filter/FilterDelivery";
 
 const TankDeliveries = () => {
   const textColor: string = useColorModeValue("gray.700", "white");
   const borderColor: string = useColorModeValue("gray.200", "gray.600");
-  const [tankdelivery, setTankDelivery] = useState<TankDelivery[]>();
+  const [tankDelivery, setTankDelivery] = useState<TankDelivery[]>();
   const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const { selectedStation } = useESSContext();
+  const [tank, setTank] = useState<number>(0);
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
+
+  const [selectedFilterDelivery, setSelectedFilterDelivery] = useState<string>(
+    "",
+  );
 
   useEffect(() => {
     const allTankDelivery = async () => {
-      if (!selectedStation || !user) {
+      if (!selectedStation) {
         return;
       }
       try {
-        const result = await getAllTankDelivery(currentPage, selectedStation);
+        const result = await getAllTankDelivery(
+          currentPage,
+          selectedStation,
+          selectedFilterDelivery,
+          tank,
+          startDate,
+          endDate,
+        );
         const { content, totalPages } = result;
         setTankDelivery(content);
         setTotalPages(totalPages);
@@ -46,12 +61,33 @@ const TankDeliveries = () => {
       }
     };
     allTankDelivery();
-  }, [currentPage, selectedStation, user]);
-
+  }, [
+    currentPage,
+    selectedStation,
+    user,
+    tank,
+    selectedFilterDelivery,
+    startDate,
+    endDate,
+  ]);
+  console.log("delivery", tank);
   const handlePageChange = (newPage: number): void => {
     setCurrentPage(newPage);
   };
+  const handleFilterChange = (filterType: string) => {
+    setSelectedFilterDelivery(filterType);
+  };
 
+  const handleChange = (value: number | null) => {
+    if (selectedFilterDelivery === "tank") {
+      setTank(value || 0);
+    }
+  };
+  const handleSearchFilters = (startDate: string, endDate: string) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+    setTank(0);
+  };
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
@@ -61,6 +97,12 @@ const TankDeliveries = () => {
           </Text>
         </CardHeader>
         <CardBody>
+          <FilterDelivery
+            selectedFilterDelivery={selectedFilterDelivery}
+            onFilterChange={handleFilterChange}
+            onChange={handleChange}
+            onSearch={handleSearchFilters}
+          />
           <Table
             variant="simple"
             color={textColor}
@@ -114,8 +156,8 @@ const TankDeliveries = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {tankdelivery &&
-                tankdelivery.map((row: TankDelivery, key: number) => {
+              {tankDelivery &&
+                tankDelivery.map((row: TankDelivery, key: number) => {
                   return (
                     <TankDeliveryRow
                       tank={row.tank}
@@ -131,7 +173,7 @@ const TankDeliveries = () => {
             </Tbody>
           </Table>
 
-          {!tankdelivery && (
+          {!tankDelivery && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />
               <Skeleton height="50px" borderRadius="10px" />

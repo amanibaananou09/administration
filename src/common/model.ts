@@ -100,8 +100,7 @@ export interface User {
   role?: string;
   token: string;
   expireTime?: number;
-  Address: string;
-  Phone: string;
+  phone: string;
   name: string;
   customerAccountId: string;
 }
@@ -115,8 +114,7 @@ export interface Decode {
   exp: number;
   given_name: string;
   family_name: string;
-  Address: string;
-  Phone: string;
+  phone: string;
   customerAccountId: string;
 }
 
@@ -126,6 +124,7 @@ export interface fuelGrade {
   price: number;
   expansionCoefficient: string;
 }
+
 export interface Grades {
   fuelGrade: string;
   totalSalesParAmount: number;
@@ -139,6 +138,7 @@ export interface pump {
   baudRate: number;
   address: string;
 }
+
 export interface TankMeasurement {
   tank: number;
   fuelGrade: string;

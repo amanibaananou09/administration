@@ -67,9 +67,13 @@ export const getallTransactionPump = async (
 export const getAllTankDelivery = async (
   currentPage: number,
   station: Station,
+  filterType: string,
+  tank: number,
+  startDate: string,
+  endDate: string,
 ) => {
   const response = await api.get(
-    `${API_URL}/delivery/${station.controllerPts.id}?page=${currentPage}`,
+    `${API_URL}/delivery/${station.controllerPts.id}?filterType=${filterType}&tank=${tank}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
   );
 
   return response.data;

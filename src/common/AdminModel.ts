@@ -45,6 +45,12 @@ export interface Account {
 
 export interface ControllerPts {
   ptsId: string;
+  userController: UserController;
+}
+
+export interface UserController {
+  username: string;
+  password: string;
 }
 
 export interface AddStation {

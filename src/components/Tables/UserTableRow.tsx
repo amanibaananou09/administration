@@ -43,13 +43,14 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
           {`${user.firstName} ${user.lastName}`}
         </Text>
       </Td>
+
       <Td
         borderColor={borderColor}
         borderBottom={isLast ? "none" : undefined}
         textAlign="center"
       >
         <Text fontSize="md" color={textColor} fontWeight="bold">
-          {user.email}
+          {user.phone}
         </Text>
       </Td>
       <Td
@@ -58,7 +59,7 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         textAlign="center"
       >
         <Text fontSize="md" color={textColor} fontWeight="bold">
-          {user.phone}
+          {user.email}
         </Text>
       </Td>
       <Td

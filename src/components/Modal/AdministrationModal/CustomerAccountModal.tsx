@@ -65,12 +65,43 @@ const CustomerAccountModal = (
       onOpen();
     },
   }));
-
   const isNotNull = (value: string) => {
     let error: string | undefined;
     if (!value) {
       error = "is required";
     }
+    return error;
+  };
+  const isNotNullAndMinLength = (value: string) => {
+    let error: string | undefined;
+    if (!value) {
+      error = "is required";
+    } else if (value.length < 4) {
+      error = "must be at least 4 characters";
+    }
+    return error;
+  };
+
+  const isValidPhoneNumber = (value: string) => {
+    let error: string | undefined;
+
+    // Check if the value is a number with exactly 8 digits
+    const isValid = /^\d{8}$/.test(value);
+
+    if (!isValid) {
+      error = "must be a number with exactly 8 digits";
+    }
+
+    return error;
+  };
+
+  const isValidEmail = (value: string) => {
+    let error: string | undefined;
+    // Check if the value contains the "@" symbol
+    if (!/@/.test(value)) {
+      error = "must be a valid email address";
+    }
+
     return error;
   };
 
@@ -82,6 +113,27 @@ const CustomerAccountModal = (
     onClose();
     onSubmit();
     setSubmitting(false);
+  };
+  const isValidPassword = (value: string) => {
+    let error: string | undefined;
+
+    // Check if the password is defined and has at least 6 characters
+    if (!value || value.length < 6) {
+      error = "must be at least 6 characters";
+    } else {
+      // Check if the password contains at least one special character
+      const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+
+      // Check if the password contains at least one numeric digit
+      const hasNumericDigit = /\d/.test(value);
+
+      if (!hasSpecialCharacter || !hasNumericDigit) {
+        error =
+          "must contain at least one special character and one numeric digit";
+      }
+    }
+
+    return error;
   };
 
   return (
@@ -103,7 +155,7 @@ const CustomerAccountModal = (
                 <Flex direction="column">
                   <Flex mb="24px">
                     <Box flex="1" mr="4">
-                      <Field name="name" validate={isNotNull}>
+                      <Field name="name" validate={isNotNullAndMinLength}>
                         {({
                           field,
                           form,
@@ -135,7 +187,10 @@ const CustomerAccountModal = (
                       </Field>
                     </Box>
                     <Box flex="1" mx="4">
-                      <Field name="description" validate={isNotNull}>
+                      <Field
+                        name="description"
+                        validate={isNotNullAndMinLength}
+                      >
                         {({
                           field,
                           form,
@@ -228,7 +283,10 @@ const CustomerAccountModal = (
                     </Flex>
                     <Flex mb="24px">
                       <Box flex="1" mr="4">
-                        <Field name="masterUser.username" validate={isNotNull}>
+                        <Field
+                          name="masterUser.username"
+                          validate={isNotNullAndMinLength}
+                        >
                           {({
                             field,
                             form,
@@ -267,7 +325,7 @@ const CustomerAccountModal = (
                         </Field>
                       </Box>
                       <Box flex="1" mx="4">
-                        <Field name="masterUser.email" validate={isNotNull}>
+                        <Field name="masterUser.email" validate={isValidEmail}>
                           {({
                             field,
                             form,
@@ -304,7 +362,10 @@ const CustomerAccountModal = (
                         </Field>
                       </Box>
                       <Box flex="1" ml="4">
-                        <Field name="masterUser.firstName" validate={isNotNull}>
+                        <Field
+                          name="masterUser.firstName"
+                          validate={isNotNullAndMinLength}
+                        >
                           {({
                             field,
                             form,
@@ -384,7 +445,10 @@ const CustomerAccountModal = (
                         </Field>
                       </Box>
                       <Box flex="1" mx="4">
-                        <Field name="masterUser.password" validate={isNotNull}>
+                        <Field
+                          name="masterUser.password"
+                          validate={isValidPassword}
+                        >
                           {({
                             field,
                             form,
@@ -422,7 +486,10 @@ const CustomerAccountModal = (
                         </Field>
                       </Box>
                       <Box flex="1" ml="4">
-                        <Field name="masterUser.phone" validate={isNotNull}>
+                        <Field
+                          name="masterUser.phone"
+                          validate={isValidPhoneNumber}
+                        >
                           {({
                             field,
                             form,
@@ -450,6 +517,7 @@ const CustomerAccountModal = (
                                 {...field}
                                 id="phone"
                                 placeholder="Phone"
+                                type="number"
                               />
                               <FormErrorMessage>
                                 Phone {form.errors.masterUser?.phone}

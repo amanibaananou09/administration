@@ -62,8 +62,6 @@ const CustomerAccountInformation = () => {
     allUserByAccount();
   }, [id]);
 
-  
-
   useEffect(() => {
     const allAccounts = async () => {
       try {
@@ -168,6 +166,11 @@ const CustomerAccountInformation = () => {
                       </Text>
                     </Fragment>
                   ))}
+                  {userAccounts.length == 0 && (
+                    <Text fontSize="md" color="gray.700">
+                      No user Attached
+                    </Text>
+                  )}
                 </Box>
                 <Button
                   colorScheme="teal"

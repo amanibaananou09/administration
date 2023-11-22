@@ -115,7 +115,9 @@ const UserDetails = () => {
                   marginBottom="20px"
                   width="100%"
                 >
-                  {userScope && Array.isArray(userScope) ? (
+                  {userScope &&
+                  Array.isArray(userScope) &&
+                  userScope.length > 0 ? (
                     userScope.map((scop, key) => (
                       <div
                         key={key}
@@ -139,7 +141,9 @@ const UserDetails = () => {
                       </div>
                     ))
                   ) : (
-                    <Text color="gray.500">No data available.</Text>
+                    <Text fontSize="md" color="gray.700">
+                      No function scopes available.
+                    </Text>
                   )}
                 </Box>
               </Flex>

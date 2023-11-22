@@ -42,7 +42,6 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
       await addUser(values as GeneralUser);
       form.setSubmitting(false);
       onClose();
-
       props.onSubmit();
     },
   });
@@ -74,7 +73,11 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
           <form>
             <SimpleGrid columns={2} spacing={5}>
               <FormControl
-                isInvalid={!!form.errors.firstName && !!form.touched.firstName}
+                isInvalid={
+                  form.errors.firstName && form.touched.firstName
+                    ? true
+                    : undefined
+                }
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -91,7 +94,11 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!form.errors.lastName && !!form.touched.lastName}
+                isInvalid={
+                  form.errors.lastName && form.touched.lastName
+                    ? true
+                    : undefined
+                }
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -108,7 +115,11 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!form.errors.username && !!form.touched.username}
+                isInvalid={
+                  form.errors.username && form.touched.username
+                    ? true
+                    : undefined
+                }
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -125,7 +136,9 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.username}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!form.errors.email && !!form.touched.email}
+                isInvalid={
+                  form.errors.email && form.touched.email ? true : undefined
+                }
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -142,7 +155,11 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.email}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!form.errors.password && !!form.touched.password}
+                isInvalid={
+                  form.errors.password && form.touched.password
+                    ? true
+                    : undefined
+                }
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -159,7 +176,9 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!form.errors.phone && !!form.touched.phone}
+                isInvalid={
+                  form.errors.phone && form.touched.phone ? true : undefined
+                }
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
