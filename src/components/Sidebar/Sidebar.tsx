@@ -48,8 +48,9 @@ const Sidebar = (props: SidebarProps) => {
     let inactiveColor = useColorModeValue("gray.400", "gray.400");
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
     const { isAdminMode } = useESSContext();
+    const routesArray = Object.values(routes);
 
-    return routes.map((prop: any, key: number) => {
+    return routesArray.map((prop: any, key: number) => {
       if (isSignedIn && prop.publicRoute) {
         return null;
       }
@@ -267,7 +268,8 @@ export const SidebarResponsive: FC<SidebarProps> = (props) => {
   let sidebarBackgroundColor = useColorModeValue("white", "navy.800");
 
   const createLinks = (routes: any) => {
-    return routes.map((prop: any, key: any) => {
+    const routesArray = Object.values(routes);
+    return routesArray.map((prop: any, key: any) => {
       if (prop.redirect) {
         return null;
       }

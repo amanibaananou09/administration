@@ -10,6 +10,7 @@ import { TankMeasurementRowProps } from "common/react-props";
 import Card from "components/Card/Card";
 import LastTankDeliveryTooltip from "components/stat/LastTankDeliveryTooltip";
 import { getColorForTankLevel } from "utils/utils";
+import { useTranslation } from "react-i18next";
 
 export const TankMeasurement = ({
   tankMeasurement,
@@ -19,6 +20,7 @@ export const TankMeasurement = ({
   const circleColor = tankMeasurement.percentage <= 20 ? "red" : "green";
   const tankLevel = tankMeasurement.percentage;
   const boxColor = getColorForTankLevel(tankLevel);
+  const { t } = useTranslation("dashboard");
 
   return (
     <Card minH="125px" m="5" width="500px">
@@ -57,7 +59,7 @@ export const TankMeasurement = ({
                 fontWeight="normal"
                 p="0"
               >
-                Product volume:
+                {t("common.productVolume")}:
               </Text>
               {tankMeasurement.productVolume}L
             </Text>
@@ -71,7 +73,7 @@ export const TankMeasurement = ({
                 fontWeight="normal"
                 p="0"
               >
-                Water volume:
+                {t("tankMeasurement.watervolume")}:
               </Text>
               {tankMeasurement.waterVolume}L
             </Text>
@@ -85,7 +87,7 @@ export const TankMeasurement = ({
                 fontWeight="normal"
                 p="0"
               >
-                Temperature:
+                {t("common.temperature")}:
               </Text>
               {tankMeasurement.temperature}°C
             </Text>

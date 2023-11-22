@@ -4,7 +4,7 @@ import {
   SimpleGrid,
   Text,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card"; // Update the path to the Card component
 import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
@@ -14,17 +14,16 @@ import FilterPeriod from "components/filter/FilterPeriod";
 import PumpSales from "components/stat/PumpSales";
 import TankMeasurementSection from "components/stat/TankMeasurementSection";
 import { useState } from "react";
-import { useESSContext } from "store/ESSContext";
 import SalesGrades from "./SalesGrades";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard() {
-  const { selectedStation } = useESSContext();
   const { colorMode } = useColorMode();
   const textColor = useColorModeValue("gray.700", "white");
   const [selectedFilter, setSelectedFilter] = useState<string>("today");
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
-
+  const { t } = useTranslation("dashboard");
   const handleSearchFilters = (fromDate: string, toDate: string) => {
     setFromDate(fromDate);
     setToDate(toDate);
@@ -33,10 +32,6 @@ export default function Dashboard() {
   const handleFilterChange = (filter: string) => {
     setSelectedFilter(filter);
   };
-
-  if (!selectedStation) {
-    return <div>No Station</div>;
-  }
 
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
@@ -50,7 +45,6 @@ export default function Dashboard() {
       />
       <br />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-
         <SalesGrades
           periode={selectedFilter}
           startDate={fromDate}
@@ -62,15 +56,18 @@ export default function Dashboard() {
           startDate={fromDate}
           endDate={toDate}
         />
-
       </Flex>
       <Flex flexDirection="row" pt={{ base: "120px", md: "75px" }}>
-        <Card minH="125px" m="5" width="900px"
-              bg={
-                colorMode === "dark"
-                  ? "navy.800"
-                  : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
-              }>
+        <Card
+          minH="125px"
+          m="5"
+          width="900px"
+          bg={
+            colorMode === "dark"
+              ? "navy.800"
+              : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
+          }
+        >
           <Flex
             direction="column"
             mb="-32px"
@@ -78,7 +75,7 @@ export default function Dashboard() {
             marginLeft="30%"
           >
             <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
-              Sales
+              {t("dashboard.sales")}
             </Text>
           </Flex>
           <Box minH="300px">
@@ -92,7 +89,7 @@ export default function Dashboard() {
         <Card minH="125px" m="5" width="700px">
           <Flex direction="column">
             <Text color={textColor} fontSize="lg" fontWeight="bold">
-              Users Sales
+              {t("dashboard.usersSales")}
             </Text>
           </Flex>
           <Box minH="300px">
@@ -113,7 +110,7 @@ export default function Dashboard() {
             mb="30px"
             marginLeft="0%"
           >
-            Tank Level
+            {t("dashboard.tankLevel")}
           </Text>
         </Flex>
         <Box minH="300px">

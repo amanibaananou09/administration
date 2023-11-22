@@ -36,6 +36,11 @@ export interface ConfiguratorProps {
   isChecked: boolean;
   onSwitch: (isChecked: boolean) => void;
 }
+export interface StationConfiguratorProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 
 export interface FixedPluginProps {
   secondary: boolean;

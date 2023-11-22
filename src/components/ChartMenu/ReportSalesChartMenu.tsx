@@ -13,6 +13,7 @@ import { ReportSalesChartMenuProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import { useTranslation } from "react-i18next";
 
 const ReportSalesChartMenu = ({
   filter,
@@ -51,6 +52,7 @@ const ReportSalesChartMenu = ({
 
     fetchConfig();
   }, [selectedStation]);
+  const { t } = useTranslation("dashboard");
 
   const handleChange = (key: string, value: string) => {
     const updatedFilter = { ...filter, [key]: value };
@@ -65,57 +67,55 @@ const ReportSalesChartMenu = ({
         </MenuButton>
       }
     >
-      <SubMenu label="Type">
+      <SubMenu label={t("common.type")}>
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("chartType", "amount")}
           checked={filter.chartType === "amount"}
         >
-          Amount
+          {t("common.amount")}
         </MenuItem>
         <MenuItem
           type="checkbox"
           onClick={() => handleChange("chartType", "volume")}
           checked={filter.chartType === "volume"}
         >
-          Volume
+          {t("common.volume")}
         </MenuItem>
       </SubMenu>
       <MenuDivider />
-      {filter.chartType === "amount" ? (
-  null
-) : (
-      <SubMenu label="Fuel Grades">
-        <MenuItem
-          type="checkbox"
-          value="all"
-          onClick={() => handleChange("fuelGrade", "all")}
-          checked={filter.fuelGrade === "all"}
-        >
-          All Fuel Grades
-        </MenuItem>
-        {config.fuelGrades.map((fuel: fuelGrade) => (
+      {filter.chartType === "amount" ? null : (
+        <SubMenu label={t("common.fuelGrades")}>
           <MenuItem
             type="checkbox"
-            key={fuel.name}
-            value={fuel.name}
-            onClick={() => handleChange("fuelGrade", fuel.name)}
-            checked={filter.fuelGrade === fuel.name}
+            value="all"
+            onClick={() => handleChange("fuelGrade", "all")}
+            checked={filter.fuelGrade === "all"}
           >
-            {fuel.name}
+            {t("reportSalesChartMenu.allFuelGrades")}
           </MenuItem>
-        ))}
-      </SubMenu>
+          {config.fuelGrades.map((fuel: fuelGrade) => (
+            <MenuItem
+              type="checkbox"
+              key={fuel.name}
+              value={fuel.name}
+              onClick={() => handleChange("fuelGrade", fuel.name)}
+              checked={filter.fuelGrade === fuel.name}
+            >
+              {fuel.name}
+            </MenuItem>
+          ))}
+        </SubMenu>
       )}
       <MenuDivider />
-      <SubMenu label="Pump">
+      <SubMenu label={t("common.pump")}>
         <MenuItem
           type="checkbox"
           value="all"
           onClick={() => handleChange("pump", "all")}
           checked={filter.pump === "all"}
         >
-          All Pumps
+          {t("reportSalesChartMenu.allPumps")}
         </MenuItem>
         {config.pumps.map((pump: pump) => (
           <MenuItem
@@ -125,7 +125,7 @@ const ReportSalesChartMenu = ({
             onClick={() => handleChange("pump", pump.id)}
             checked={filter.pump === pump.id}
           >
-            Pump {pump.id}
+            {t("common.pump")} {pump.id}
           </MenuItem>
         ))}
       </SubMenu>

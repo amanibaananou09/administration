@@ -12,6 +12,7 @@ import { formatDate } from "utils/utils";
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartButton from "../ChartMenu/TankChartButton";
+import { useTranslation } from "react-i18next";
 
 export const TankLevelChart = ({
   periode,
@@ -22,6 +23,7 @@ export const TankLevelChart = ({
     tankMeasurementData: [] as tankMeasurementData[],
     tankLevelData: [] as tankLevelData[],
   });
+  const { t } = useTranslation("dashboard");
 
   const [selectedTank, setSelectedTank] = useState<string | number | null>(1);
   const [tanks, setTanks] = useState<Tank[]>([]);
@@ -89,7 +91,7 @@ export const TankLevelChart = ({
   // Process and merge data for the chart
   const chartSeries = [
     {
-      name: "Changed Volume",
+      name: t("tankLevelChart.changedVolume"),
       type: "line",
       data: alignedChartData.tankLevelData.map((item) => ({
         x: formatDate(item.dateTime),
@@ -97,7 +99,7 @@ export const TankLevelChart = ({
       })),
     },
     {
-      name: "Tank Volume",
+      name: t("tankLevelChart.tankVolume"),
       type: "line",
       data: alignedChartData.tankMeasurementData.map((item) => ({
         x: formatDate(item.dateTime),

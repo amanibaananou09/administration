@@ -15,6 +15,7 @@ import {
 import { GeneralUser } from "common/AdminModel";
 import { listUser } from "common/api/general-user-api";
 import { UserModalRefType } from "common/react-props";
+import { useTranslation } from "react-i18next";
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -27,6 +28,7 @@ import { useEffect, useRef } from "react";
 const UserManagement = () => {
   const { makeRequest: fetchUsers, isLoading, data: users } = useHttp(listUser);
   const userModalRef = useRef<UserModalRefType>(null);
+  const { t } = useTranslation('administration');
 
   const textColor = useColorModeValue("gray.700", "white");
   const columnTitleTextColor = useColorModeValue("black", "white");
@@ -47,14 +49,14 @@ const UserManagement = () => {
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
-                Global Users
+              {t("userManagement.globalUsers.header")}  
               </Text>
               <Button
                 colorScheme="teal"
                 variant="solid"
                 onClick={() => openUserModal()}
               >
-                Add New User
+                {t("userManagement.globalUsers.addNewUserButton")}
               </Button>
             </Flex>
           </CardHeader>
@@ -70,7 +72,7 @@ const UserManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    User Name
+                   {t("userManagement.globalUsers.userNameColumn")}
                   </Th>
                   <Th
                     borderColor={borderColor}
@@ -78,7 +80,7 @@ const UserManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Name
+                    {t("userManagement.globalUsers.nameColumn")}
                   </Th>
 
                   <Th
@@ -95,7 +97,7 @@ const UserManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Email
+                    {t("userManagement.globalUsers.emailColumn")}
                   </Th>
                   <Th
                     borderColor={borderColor}
@@ -103,7 +105,7 @@ const UserManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Status
+                    {t("userManagement.globalUsers.statusColumn")}
                   </Th>
                 </Tr>
               </Thead>

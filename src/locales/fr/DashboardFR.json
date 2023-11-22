@@ -1,0 +1,135 @@
+{
+  "common": {
+    "addressLabel": "Adresse",
+    "controllerPtsIdLabel": "ID du contrôleur PTS",
+    "deleteButtonText": "SUPPRIMER",
+    "editButtonText": "MODIFIER",
+    "pump": "Pompe",
+    "fuelGrades": "Carburant",
+    "type": "Type par ",
+    "all": " Tous ",
+    "user": "Utilisateur",
+    "tank": "Réservoir",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "weekly": "Semaine",
+    "monthly": "Mois",
+    "yearly": "Année",
+    "from": "De",
+    "to": "À",
+    "search": "Rechercher",
+    "productVolume": "Volume de produit",
+    "productHeight": "Hauteur du produit",
+    "temperature": "Température",
+    "volume": "Volume",
+    "amount": "Montant",
+    "dateTimeStart": "Date et heure de début",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "period": "Période",
+    "waterHeight": "Hauteur de l'eau"
+  },
+  "routes": {
+    "dashboard": "Tableau de bord",
+    "manageStations": "Gérer les stations",
+    "transactions": "Transactions",
+    "tankDelivery": "Livraison des réservoirs",
+    "profile": "Profil",
+    "signIn": "Se connecter"
+  },
+  "dashboard": {
+    "sales": "Ventes",
+    "usersSales": "Ventes par Utilisateur",
+    "tankLevel": "Niveau du Réservoir"
+  },
+  "manageStations": {
+    "header": "Gérer les stations",
+    "createStationButton": "CRÉER UNE STATION",
+    "confirmationMessage": "Êtes-vous sûr de vouloir supprimer cette station ?"
+  },
+  "stationModal": {
+    "createStation": "Créer une nouvelle station",
+    "nameLabel": "Nom",
+    "ptsIdLabel": "ID PTS",
+    "submitButtonText": "CRÉER",
+    "isRequired": "est nécessaire"
+  },
+  "stationRow": {
+    "firmwareVersionLabel": "Version du firmware",
+    "noFirmwareInformation": "Aucune information sur le micrologiciel disponible"
+  },
+  "confirmationModal": {
+    "confirmButtonText": "Confirmer",
+    "cancelButtonText": "Annuler"
+  },
+  "reportSalesChartMenu": {
+    "allFuelGrades": "Toutes les carburants",
+    "allPumps": "Toutes les pompes"
+  },
+  "tankLevelChart": {
+    "changedVolume": "Volume changé",
+    "tankVolume": "Volume du réservoir"
+  },
+  "pumpSales": {
+    "totalSales": "Total des ventes",
+    "total": "Total"
+  },
+  "salesGrades": {
+    "totalSalesVolume": "Volume total des ventes",
+    "totalSalesAmount": "Montant total des ventes"
+  },
+  "tankMeasurement": {
+    "watervolume": "Volume d'eau"
+  },
+  "lastTankDeliveryTooltip": {
+    "header": "Dernière livraison de réservoir",
+    "date": "Date",
+    "deliveryAbsoluteValues": "Valeurs absolues de livraison ",
+    "productTcVolume": "Volume du produit TC ",
+    "productDensity": "Densité du produit ",
+    "productMass": "Masse du produit ",
+    "pumpsDispensedVolume": "Volume distribué des pompes "
+  },
+  "transactions": {
+    "header": "Transactions",
+    "price": "Prix",
+    "volumeGreater": "Transactions avec volume supérieur à 100"
+  },
+  "tankDeliveries": {
+    "header": "Livraison des réservoirs"
+  },
+  "profile": {
+    "header": "Détaille de profil",
+    "name": "Nom d'utilisateur",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "E-mail"
+  },
+  "navbarLinks": {
+    "userLogin": "Nom d'utilisateur",
+    "myProfile": "Mon profil",
+    "signOut": "Déconnexion"
+  },
+  "configurator": {
+    "Configurator": "Configurateur",
+    "text": "Voir les options du tableau de bord",
+    "navbarFixed": "Barre de navigation",
+    "Dark_Light": "Foncé/clair",
+    "toggle": " Bascule"
+  },
+  "stationConfigurator": {
+    "selectStation": "La station sélectionner",
+    "text": "Aucune station n'est affectée, veuillez contacter l'administrateur"
+  },
+  "signIn": {
+    "header": "Gestion des stations-service",
+    "text": "Connectez-vous pour continuer",
+    "useName": "Nom d'utilisateur",
+    "password": " Mot de passe",
+    "login": "CONNEXION",
+    "placeholderUsername": "Entrez votre nom d'utilisateur",
+    "placeholderPassword": "Entrez votre mot de passe"
+  }
+}

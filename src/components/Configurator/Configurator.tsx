@@ -14,16 +14,15 @@ import {
 import { ConfiguratorProps } from "common/react-props";
 import { HSeparator } from "components/Separator/Separator";
 import { useRef, useState } from "react";
-import { useESSContext } from "store/ESSContext";
-import StationConfigurator from "./StationConfigurator";
+import { useTranslation } from "react-i18next";
 
 const Configurator = (props: ConfiguratorProps) => {
   const [switched, setSwitched] = useState<boolean>(props.isChecked);
 
-  const { isAdminMode } = useESSContext();
 
   const { colorMode, toggleColorMode } = useColorMode();
   const bgDrawer = useColorModeValue("white", "navy.800");
+  const { t } = useTranslation("dashboard");
 
   const settingsRef = useRef<HTMLDivElement>(null);
 
@@ -40,10 +39,10 @@ const Configurator = (props: ConfiguratorProps) => {
           <DrawerHeader pt="24px" px="24px">
             <DrawerCloseButton />
             <Text fontSize="xl" fontWeight="bold" mt="16px">
-              Configurator
+            {t("configurator.Configurator")}
             </Text>
             <Text fontSize="md" mb="16px">
-              See your dashboard options.
+            {t("configurator.text")}.
             </Text>
             <HSeparator />
           </DrawerHeader>
@@ -51,7 +50,7 @@ const Configurator = (props: ConfiguratorProps) => {
             <Flex flexDirection="column">
               <Flex justifyContent="space-between " mb="16px">
                 <Text fontSize="md" fontWeight="600" mb="4px">
-                  Navbar Fixed
+                {t("configurator.navbarFixed")}
                 </Text>
                 <Switch
                   colorScheme="blue"
@@ -73,19 +72,19 @@ const Configurator = (props: ConfiguratorProps) => {
                 mb="24px"
               >
                 <Text fontSize="md" fontWeight="600" mb="4px">
-                  Dark/Light
+                {t("configurator.Dark_Light")}
                 </Text>
                 <Button
                   onClick={toggleColorMode}
                   color={colorMode === "light" ? "Dark" : "Light"}
                 >
-                  Toggle {colorMode === "light" ? "Dark" : "Light"}
+                  {t("configurator.toggle")} 
                 </Button>
               </Flex>
 
               <HSeparator />
 
-              {!isAdminMode && <StationConfigurator />}
+              
             </Flex>
           </DrawerBody>
         </DrawerContent>

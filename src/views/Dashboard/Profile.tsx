@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
   Avatar,
   Flex,
   Grid,
-  Image,
   Text,
-  useColorModeValue,
+  useColorModeValue,Box
 } from "@chakra-ui/react";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import avatar5 from "assets/img/avatars/avatar5.png";
 import { useAuth } from "store/AuthContext";
+import { useTranslation } from "react-i18next";
+import { FaCamera } from 'react-icons/fa';
 
 const Profile = () => {
   const { user } = useAuth();
+  const { t } = useTranslation("dashboard");
+  const [avatarImageUrl, setAvatarImageUrl] = useState<string>("");
+  const [showCameraIcon, setShowCameraIcon] = useState<boolean>(false);
 
   const username = user?.username || " ";
   const userEmail = user?.email || " ";
@@ -27,6 +30,45 @@ const Profile = () => {
   const bgProfile = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
   const borderProfileColor = useColorModeValue("white", "transparent");
   const emailColor = useColorModeValue("gray.400", "gray.300");
+
+  const handleMouseEnter = () => {
+    setShowCameraIcon(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowCameraIcon(false);
+  };
+
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+  
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        resolve(base64String);
+      };
+  
+      reader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+ const handleFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const imageUrl = await convertToBase64(file); 
+      setAvatarImageUrl(imageUrl);
+    }
+  };
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px", lg: "100px" }}>
@@ -42,15 +84,35 @@ const Profile = () => {
         bg={bgProfile}
         p="24px"
         borderRadius="20px"
+        onClick={handleAvatarClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        style={{ cursor: "pointer", position: "relative" }}
       >
-        <Flex align="center" direction="row">
+
+
+        <Flex align="center" direction="row" position="relative">
           <Avatar
             me={{ md: "22px" }}
-            src={avatar5}
-            w="80px"
-            h="80px"
+            w="85px"
+            h="85px"
             borderRadius="15px"
+            src={avatarImageUrl}
+        />
+        {showCameraIcon && (
+          <Box
+            as={FaCamera}
+            color="white"
+            position="absolute"
+            top="50%"
+            left="14%"
+            transform="translate(-50%, -50%)"
+            bg="black" 
+            borderRadius="20%"
+            fontSize="45px"
+            p="6px" 
           />
+        )}
           <Flex direction="column" maxWidth="100%" my={{ sm: "14px" }}>
             <Text
               fontSize={{ sm: "xl", lg: "2xl" }}
@@ -85,7 +147,7 @@ const Profile = () => {
               color={textColor}
               fontWeight="bold"
             >
-              Profile Information
+              {t("profile.header")}
             </Text>
           </CardHeader>
           <CardBody px="5px">
@@ -97,7 +159,7 @@ const Profile = () => {
                 me="10px"
                 textAlign="center"
               >
-                Name:{" "}
+                 {t("profile.name")}:{" "}
               </Text>
               <Text
                 fontSize="lg"
@@ -111,7 +173,7 @@ const Profile = () => {
 
             <Flex align="center" mb="18px">
               <Text fontSize="lg" color={textColor} fontWeight="bold" me="10px">
-                FirstName:{" "}
+              {t("profile.firstName")}:{" "}
               </Text>
               <Text
                 fontSize="lg"
@@ -125,13 +187,13 @@ const Profile = () => {
 
             <Flex align="center" mb="18px">
               <Text fontSize="lg" color={textColor} fontWeight="bold" me="10px">
-                LastName:{" "}
+              {t("profile.lastName")}:{" "}
               </Text>
               <Text
-                fontSize="lg"
-                textAlign="center"
-                color="gray.400"
-                fontWeight="400"
+               fontSize="lg"
+               textAlign="center"
+               color="gray.400"
+               fontWeight="400"
               >
                 {userLastName}
               </Text>
@@ -139,7 +201,7 @@ const Profile = () => {
 
             <Flex align="center" mb="18px">
               <Text fontSize="lg" color={textColor} fontWeight="bold" me="10px">
-                Phone:{" "}
+              {t("profile.phone")}:{" "}
               </Text>
               <Text
                 fontSize="lg"
@@ -153,20 +215,21 @@ const Profile = () => {
 
             <Flex align="center" mb="18px">
               <Text fontSize="lg" color={textColor} fontWeight="bold" me="10px">
-                Email:{" "}
+              {t("profile.email")}:{" "}
               </Text>
-              <Text
-                fontSize="lg"
-                textAlign="center"
-                color="gray.400"
-                fontWeight="400"
-              >
+              <Text fontSize="lg" textAlign="center" color="gray.400" fontWeight="400">
                 {userEmail}
               </Text>
             </Flex>
           </CardBody>
         </Card>
       </Grid>
+      <input
+        ref={fileInputRef}
+        type="file"
+        onChange={handleFileInputChange}
+        style={{ display: "none" }}
+      />
     </Flex>
   );
 };

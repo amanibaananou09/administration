@@ -18,11 +18,13 @@ import {
   getCustomerAccountInformation,
 } from "../../common/api/station-api";
 import { Station, User } from "../../common/model";
+import { useTranslation } from "react-i18next";
 
 const CustomerAccountInformation = () => {
   const { id } = useParams<RouteParams>();
   const addUserModalRef = useRef<AddUserModalRefType>(null);
   const addStationModalRef = useRef<AddStationModalRefType>(null);
+  const { t } = useTranslation('administration');
 
   const [account, setAccount] = useState<Account>();
   const [stationAccounts, setStationAccounts] = useState<Station[]>([]);
@@ -99,7 +101,7 @@ const CustomerAccountInformation = () => {
         <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
           <CardHeader p="6px 0px 22px 0px">
             <Text fontSize="xl" color={textColor} fontWeight="bold">
-              Customer Account Information
+            {t("customerAccountInformation.header")}
             </Text>
           </CardHeader>
           <CardBody>
@@ -108,16 +110,16 @@ const CustomerAccountInformation = () => {
                 <Flex width="100%" gap="10%">
                   <Box>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      Name :
+                    {t("common.name")} :
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      Status :
+                    {t("common.status")} :
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      Date Status Change :
+                      {t("customerAccountInformation.dateStatusLabel")} :
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      Description :
+                    {t("common.description")} :
                     </Text>
                   </Box>
                   <Box>
@@ -139,7 +141,7 @@ const CustomerAccountInformation = () => {
                   </Box>
                 </Flex>
               ) : (
-                <Text color="gray.500">No accounts available.</Text>
+                <Text color="gray.500">{t("customerAccountInformation.noAccountsAvailable")}.</Text>
               )}
             </Box>
             <Flex gap={4}>
@@ -150,7 +152,7 @@ const CustomerAccountInformation = () => {
                   textAlign="center"
                   fontWeight="bold"
                 >
-                  Attached Users
+                 {t("customerAccountInformation.attachedUsersTitle")} 
                 </Text>
                 <Box
                   backgroundColor="gray.200"
@@ -178,7 +180,7 @@ const CustomerAccountInformation = () => {
                   width="100%"
                   onClick={() => openUserModal()}
                 >
-                  Add User
+                  {t("customerAccountInformation.addUserButton")}
                 </Button>
               </Flex>
               <Flex direction="column" flex={1}>
@@ -188,7 +190,7 @@ const CustomerAccountInformation = () => {
                   textAlign="center"
                   fontWeight="bold"
                 >
-                  Attached Stations
+                  {t("customerAccountInformation.attachedStationsTitle")} 
                 </Text>
                 <Box
                   backgroundColor="gray.200"
@@ -218,7 +220,7 @@ const CustomerAccountInformation = () => {
                   width="100%"
                   onClick={() => openStationModal()}
                 >
-                  Add Station
+                  {t("customerAccountInformation.addStationButton")}
                 </Button>
               </Flex>
             </Flex>

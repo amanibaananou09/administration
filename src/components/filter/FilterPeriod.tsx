@@ -7,6 +7,7 @@ import {
   Stack,
   Heading,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 interface FilterPeriodProps {
   selectedFilter: string;
@@ -18,6 +19,7 @@ function FilterPeriod(props: FilterPeriodProps) {
   const [fromDate, setFromDate] =  useState<string>("");
   const [toDate, setToDate] =  useState<string>("");
   const { selectedFilter, onFilterChange, onSearch } = props;
+  const { t } = useTranslation("dashboard");
 
   const handleFromDateChange = (date: string) => setFromDate(date);
   const handleToDateChange = (date: string) => setToDate(date);
@@ -33,7 +35,7 @@ function FilterPeriod(props: FilterPeriodProps) {
             colorScheme={selectedFilter === "today" ? "blue" : "gray"}
             onClick={() => onFilterChange("today")}
           >
-            Today
+             {t("common.today")}
           </Button>
         </Box>
         <Box>
@@ -41,7 +43,7 @@ function FilterPeriod(props: FilterPeriodProps) {
             colorScheme={selectedFilter === "yesterday" ? "blue" : "gray"}
             onClick={() => onFilterChange("yesterday")}
           >
-            Yesterday
+            {t("common.yesterday")}
           </Button>
         </Box>
         <Box>
@@ -49,7 +51,7 @@ function FilterPeriod(props: FilterPeriodProps) {
             colorScheme={selectedFilter === "weekly" ? "blue" : "gray"}
             onClick={() => onFilterChange("weekly")}
           >
-            Week
+            {t("common.weekly")}
           </Button>
         </Box>
         <Box>
@@ -57,7 +59,7 @@ function FilterPeriod(props: FilterPeriodProps) {
             colorScheme={selectedFilter === "monthly" ? "blue" : "gray"}
             onClick={() => onFilterChange("monthly")}
           >
-            Month
+            {t("common.monthly")}
           </Button>
         </Box>
         <Box>
@@ -65,12 +67,12 @@ function FilterPeriod(props: FilterPeriodProps) {
             colorScheme={selectedFilter === "yearly" ? "blue" : "gray"}
             onClick={() => onFilterChange("yearly")}
           >
-            Year
+            {t("common.yearly")}
           </Button>
         </Box>
         <Box>
           <Heading as="h1" fontSize="lg">
-            From :
+          {t("common.from")} :
           </Heading>
         </Box>
         <Box>
@@ -84,7 +86,7 @@ function FilterPeriod(props: FilterPeriodProps) {
         </Box>
         <Box>
           <Heading as="h1" fontSize="lg">
-            To :
+          {t("common.to")} :
           </Heading>
         </Box>
         <Box>
@@ -99,7 +101,7 @@ function FilterPeriod(props: FilterPeriodProps) {
         </Box>
         <Box>
           <Button onClick={searchFilters} colorScheme="telegram" size="md">
-            Search
+          {t("common.search")}
           </Button>
         </Box>
       </Stack>
