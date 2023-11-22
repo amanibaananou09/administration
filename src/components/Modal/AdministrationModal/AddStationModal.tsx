@@ -33,6 +33,7 @@ import {
   useState,
 } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const AddStationModal = (
   props: AddStationModalProps,
@@ -41,6 +42,7 @@ const AddStationModal = (
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
   const [country, setCountry] = useState<country[]>([]);
+  const { t } = useTranslation('administration');
 
   const form = useFormik<AddStation>({
     initialValues: {
@@ -103,7 +105,7 @@ const AddStationModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>Create New Station</ModalHeader>
+        <ModalHeader>{t("addStationModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form onSubmit={form.handleSubmit}>
@@ -113,7 +115,7 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Name
+                {t("common.name")}
                 </FormLabel>
                 <Input
                   id="name"
@@ -121,7 +123,7 @@ const AddStationModal = (
                   value={form.values.name}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="Name"
+                  placeholder={t("common.name")}
                 />
                 <FormErrorMessage>{form.errors.name}</FormErrorMessage>
               </FormControl>
@@ -130,7 +132,7 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Address
+                {t("common.address")}
                 </FormLabel>
                 <Input
                   id="address"
@@ -138,7 +140,7 @@ const AddStationModal = (
                   value={form.values.address}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="Address"
+                  placeholder={t("common.address")}
                 />
                 <FormErrorMessage>{form.errors.address}</FormErrorMessage>
               </FormControl>
@@ -170,14 +172,14 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Country
+                  {t("common.country")}
                 </FormLabel>
                 <Select
                   id="country"
                   name="countryId"
                   value={form.values.countryId}
                   onChange={form.handleChange}
-                  placeholder="Select country"
+                  placeholder= {t("addStationModal.selectCountry")}
                 >
                   {country.map((countryData) => (
                     <option key={countryData.id} value={countryData.id}>
@@ -195,7 +197,7 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  username
+                {t("userInformation.userNameLabel")}
                 </FormLabel>
                 <Input
                   id="username"
@@ -205,7 +207,7 @@ const AddStationModal = (
                   }
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="username"
+                  placeholder={t("userInformation.userNameLabel")}
                 />
                 <FormErrorMessage>
                   {form.errors.controllerPts?.userController?.username}
@@ -219,7 +221,7 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  password
+                {t("common.password")}
                 </FormLabel>
                 <Input
                   id="password"
@@ -229,7 +231,7 @@ const AddStationModal = (
                   }
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="password"
+                  placeholder={t("common.password")}
                 />
                 <FormErrorMessage>
                   {form.errors.controllerPts?.userController?.password}
@@ -248,7 +250,7 @@ const AddStationModal = (
             onClick={() => form.handleSubmit()}
             mr={3}
           >
-            Submit
+            {t("common.submit")}
           </Button>
           <Button
             fontSize="md"
@@ -257,7 +259,7 @@ const AddStationModal = (
             w="100%"
             onClick={closeModal}
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
         </ModalFooter>
       </ModalContent>

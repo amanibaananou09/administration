@@ -170,7 +170,7 @@ const CustomerAccountInformation = () => {
                   ))}
                   {userAccounts.length == 0 && (
                     <Text fontSize="md" color="gray.700">
-                      No user Attached
+                       {t("customerAccountInformation.noUserAttached")}
                     </Text>
                   )}
                 </Box>
@@ -210,7 +210,7 @@ const CustomerAccountInformation = () => {
 
                   {stationAccounts.length == 0 && (
                     <Text fontSize="md" color="gray.700">
-                      No Station Attached
+                      {t("customerAccountInformation.noStationAttached")}
                     </Text>
                   )}
                 </Box>

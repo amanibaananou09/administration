@@ -2,7 +2,21 @@
   "common": {
     "name": "Nom",
     "description": "Description",
-    "status": "Statut"
+    "status": "Statut",
+    "error": "est obligatoire",
+    "errorLength": "doit contenir au moins 4 caractères",
+    "errorPhone": "doit être un nombre à 8 chiffres exactement",
+    "erroremail": "doit être une adresse e-mail valide",
+    "errorPassword": "doit comporter au moins 6 caractères",
+    "errorNumeric": "doit contenir au moins un caractère spécial et un chiffre",
+    "enabled": "ENABLED (ACTIVÉ)",
+    "disabled": "DISABLED (DÉSACTIVÉ)",
+    "password": "Mot de passe",
+    "submit": "Créer",
+    "cancel": "Annuler",
+    "loading": "Chargement...",
+    "address": "Adresse",
+    "country": "Pays"
   },
   "customerAccounts": {
     "header": "Comptes clients",
@@ -11,24 +25,31 @@
     "accountAddedDescription": "Le compte client a été ajouté avec succès.",
     "errorTitle": "Erreur",
     "errorDescription": "Une erreur s'est produite lors de l'ajout du compte client.",
-    "masterUser": "Utilisateur principal"
+    "masterUser": "Utilisateur principal",
+    "isLoading": "Vous ne possédez pas de compte client"
+  },
+  "customerAccountModal": {
+    "header": "Créer un nouveau compte client",
+    "selectStatus": "Sélectionner un statut"
   },
   "customerAccountInformation": {
     "header": "Informations sur le compte client",
     "dateStatusLabel": "Date de changement de statut",
-    "attachedUsersTitle": "Utilisateurs associés",
-    "attachedStationsTitle": "Stations associées",
+    "attachedUsersTitle": "Utilisateurs attachée",
+    "attachedStationsTitle": "Stations attachée",
     "noAccountsAvailable": "Aucun compte disponible.",
     "addUserButton": "Ajouter un utilisateur",
-    "addStationButton": "Ajouter une station"
+    "addStationButton": "Ajouter une station",
+    "noUserAttached": "Aucune utilisateur attachée",
+    "noStationAttached": "Aucune station attachée"
   },
   "userInformation": {
     "header": "Informations sur l'utilisateur",
-    "userNameLabel": "Nom d'utilisateur :",
-    "firstNameLabel": "Prénom :",
-    "lastNameLabel": "Nom :",
-    "phoneLabel": "Téléphone :",
-    "emailLabel": "Email :",
+    "userNameLabel": "Nom d'utilisateur ",
+    "firstNameLabel": "Prénom ",
+    "lastNameLabel": "Nom ",
+    "phoneLabel": "Téléphone ",
+    "emailLabel": "Email ",
     "noUserAvailable": "Aucun utilisateur disponible.",
     "functionsScopeLabel": "Portée des fonctions",
     "noDataAvailable": "Aucune donnée disponible.",
@@ -52,5 +73,12 @@
     "manageAccounts": "Gérer les comptes",
     "userDetails": "Détails sur l'utilisateur",
     "manageUsers": "Gestion des utilisateurs"
+  },
+  "addUserModal": {
+    "header": "Créer un nouvel utilisateur"
+  },
+  "addStationModal": {
+    "header": "Créer une nouvelle station",
+    "selectCountry": "Sélectionner un pays"
   }
 }
