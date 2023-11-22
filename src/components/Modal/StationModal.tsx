@@ -16,6 +16,7 @@ import { Station } from "common/model";
 import { StationModalProps, StationModalRefType } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const StationModal = (
   { onSubmit }: StationModalProps,
@@ -91,11 +92,11 @@ const StationModal = (
       onClose(); // Call the onClose callback to close the modal
     },
   }));
-
+  const { t } = useTranslation("dashboard");
   const isNotNull = (value: string) => {
     let error: string | undefined;
     if (!value) {
-      error = "is required";
+      error = t("stationModal.isRequired");
     }
     return error;
   };
@@ -108,6 +109,7 @@ const StationModal = (
     setSubmitting(false);
   };
 
+
   return (
     <Modal
       motionPreset="slideInBottom"
@@ -117,7 +119,7 @@ const StationModal = (
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create New Station</ModalHeader>
+        <ModalHeader>{t("stationModal.createStation")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <Formik initialValues={station} onSubmit={submitHandler}>
@@ -143,10 +145,10 @@ const StationModal = (
                       isInvalid={!!form.errors.name && !!form.touched.name}
                       mb="24px"
                     >
-                      <FormLabel htmlFor="name">Name</FormLabel>
-                      <Input {...field} id="name" placeholder="Name" />
+                      <FormLabel htmlFor="name">{t("stationModal.nameLabel")}</FormLabel>
+                      <Input {...field} id="name" placeholder={t("stationModal.nameLabel")} />
                       <FormErrorMessage>
-                        Name {form.errors.name}
+                        {t("stationModal.nameLabel")} {form.errors.name}
                       </FormErrorMessage>
                     </FormControl>
                   )}
@@ -173,10 +175,10 @@ const StationModal = (
                       }
                       mb="24px"
                     >
-                      <FormLabel htmlFor="address">Address</FormLabel>
-                      <Input {...field} id="address" placeholder="Address" />
+                      <FormLabel htmlFor="address">{t("common.addressLabel")}</FormLabel>
+                      <Input {...field} id="address" placeholder={t("common.addressLabel")} />
                       <FormErrorMessage>
-                        Address {form.errors.address}
+                        {t("common.addressLabel")} {form.errors.address}
                       </FormErrorMessage>
                     </FormControl>
                   )}
@@ -204,15 +206,16 @@ const StationModal = (
                       }
                       mb="40px"
                     >
-                      <FormLabel htmlFor="controllerPtsId">Pts ID</FormLabel>
+                      <FormLabel htmlFor="controllerPtsId">{t("stationModal.ptsIdLabel")}</FormLabel>
                       <Input
                         {...field}
                         type="text"
                         id="controllerPtsId"
-                        placeholder="PTS Controller ID"
+                        placeholder={t("common.controllerPtsIdLabel")}
                       />
                       <FormErrorMessage>
-                        PTS ID {form.errors.controllerPtsId}
+                        {t("stationModal.ptsIdLabel")}{" "}
+                        {form.errors.controllerPtsId}
                       </FormErrorMessage>
                     </FormControl>
                   )}
@@ -226,7 +229,7 @@ const StationModal = (
                   isLoading={props.isSubmitting}
                   type="submit"
                 >
-                  SUBMIT
+                  {t("stationModal.submitButtonText")}
                 </Button>
               </Form>
             )}

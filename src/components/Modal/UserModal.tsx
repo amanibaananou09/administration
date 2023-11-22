@@ -20,6 +20,7 @@ import { userFormValidationSchema } from "common/form-validation";
 import { UserModalProps, UserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
+import { useTranslation } from "react-i18next";
 
 interface FormValues extends GeneralUser {
   phone: string;
@@ -27,6 +28,7 @@ interface FormValues extends GeneralUser {
 
 const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { t } = useTranslation('administration');
 
   const form = useFormik<Partial<FormValues>>({
     initialValues: {

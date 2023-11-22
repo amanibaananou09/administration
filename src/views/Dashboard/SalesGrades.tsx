@@ -7,12 +7,14 @@ import { Grades } from "../../common/model";
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
+import { useTranslation } from "react-i18next";
 
 export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
   const [grades, setGrades] = useState<Grades[]>([]);
   const { user } = useAuth();
 
   const { selectedStation } = useESSContext();
+  const { t } = useTranslation("dashboard");
 
   useEffect(() => {
     const allStatGrades = async () => {
@@ -45,7 +47,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
         display="inline"
         onClick={() => setIsContentVisible(!isContentVisible)}
       >
-        FuelGrades :{" "}
+        {t("common.fuelGrades")} :{" "}
         {isContentVisible ? <TriangleUpIcon /> : <TriangleDownIcon />}
       </Text>
       <br />
@@ -73,7 +75,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
                 display="inline"
                 fontSize="xl"
               >
-                Total Sales Volume: {grade.totalSalesParVolume} Litre
+                {t("salesGrades.totalSalesVolume")}: {grade.totalSalesParVolume} Litre
               </Text>
               <Text
                 as="span"
@@ -82,7 +84,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
                 p="3"
                 fontSize="sm"
               >
-                Total Sales Amount: {grade.totalSalesParAmount}{" "}
+                {t("salesGrades.totalSalesAmount")}: {grade.totalSalesParAmount}{" "}
                 <Text
                   as="span"
                   fontWeight="bold"

@@ -14,8 +14,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
-import { getListOfCustomerAccount } from "common/api/customerAccount-api";
 import { useEffect, useRef } from "react";
+import { getListOfCustomerAccount } from "common/api/customerAccount-api";
+import { useTranslation } from "react-i18next";
+
 
 import { CustomAccountModalRefType } from "common/react-props";
 import Card from "components/Card/Card";
@@ -32,6 +34,7 @@ const CustomerAccountManagement = () => {
     data: customerAccounts,
   } = useHttp(getListOfCustomerAccount);
 
+  const { t } = useTranslation('administration');
   const textColor = useColorModeValue("gray.700", "white");
   const columnTitleTextColor = useColorModeValue("black", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -48,17 +51,17 @@ const CustomerAccountManagement = () => {
       await fetchCustomerAccounts();
 
       toast({
-        title: "Customer Account Added",
-        description: "The customer account has been successfully added.",
+        title: t('customerAccounts.accountAddedTitle'),
+        description: t('customerAccounts.accountAddedDescription'),
         status: "success",
         duration: 5000,
         isClosable: true,
       });
     } catch (error) {
-      console.error(error);
+      console.error("Erreur inattendue :", error);
       toast({
-        title: "Error",
-        description: "An error occurred while adding the customer account.",
+        title:  t('customerAccounts.errorTitle'),
+        description: t('customerAccounts.errorDescription'),
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -77,14 +80,14 @@ const CustomerAccountManagement = () => {
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
-                Customer Accounts
+                {t("customerAccounts.header")}
               </Text>
               <Button
                 colorScheme="teal"
                 size="md"
                 onClick={() => openAccountModal()}
               >
-                Add Customer Account
+                 {t('customerAccounts.addAccountButton')}
               </Button>
             </Flex>
           </CardHeader>
@@ -100,7 +103,7 @@ const CustomerAccountManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Name
+                    {t("common.name")}
                   </Th>
                   <Th
                     borderColor={borderColor}
@@ -108,7 +111,7 @@ const CustomerAccountManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Description
+                    {t("common.description")}
                   </Th>
                   <Th
                     borderColor={borderColor}
@@ -116,7 +119,7 @@ const CustomerAccountManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Master User
+                    {t("customerAccounts.masterUser")}
                   </Th>
                   <Th
                     borderColor={borderColor}
@@ -124,7 +127,7 @@ const CustomerAccountManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Status
+                     {t("common.status")}
                   </Th>
                 </Tr>
               </Thead>

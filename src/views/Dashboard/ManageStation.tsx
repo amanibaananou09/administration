@@ -23,6 +23,7 @@ import StationRow from "components/Tables/StationRow";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import { useTranslation } from "react-i18next";
 
 const ManageStation = () => {
   const { user } = useAuth();
@@ -32,6 +33,7 @@ const ManageStation = () => {
   const confirmationModalRef = useRef<ModalRef>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
+  const { t } = useTranslation("dashboard");
 
   const openStationModal = (station?: Station) => {
     stationModalRef.current?.open(station);
@@ -116,14 +118,14 @@ const ManageStation = () => {
             <CardHeader py="12px">
               <Flex align="center" justify="space-between" p="22px">
                 <Text fontSize="lg" color={textColor} fontWeight="bold">
-                  Manage Stations
+                {t("manageStations.header")}
                 </Text>
                 <Button
                   variant="primary"
                   maxH="30px"
                   onClick={() => openStationModal()}
                 >
-                  CREATE STATION
+                  {t("manageStations.createStationButton")}
                 </Button>
               </Flex>
             </CardHeader>
@@ -167,7 +169,7 @@ const ManageStation = () => {
         }}
       />
       <ConfirmationModal
-        message="Are you sure you want to delete this station ?"
+        message={t("manageStations.confirmationMessage")}
         onConfirm={deleteStationHandler}
         ref={confirmationModalRef}
       />

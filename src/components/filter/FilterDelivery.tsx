@@ -13,6 +13,7 @@ import { useESSContext } from "store/ESSContext";
 import { useAuth } from "store/AuthContext";
 import { getAllTankByIdc } from "../../common/api/chart-api";
 import { Tank } from "../../common/model";
+import { useTranslation } from "react-i18next";
 
 interface FilterDeliveryProps {
   selectedFilterDelivery: string;
@@ -28,6 +29,7 @@ function FilterDelivery(props: FilterDeliveryProps) {
   const [endDate, setEndDate] = useState<string>("");
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
+  const { t } = useTranslation("dashboard");
 
   const handleStartDateChange = (date: string) => setStartDate(date);
   const handleEndDateChange = (date: string) => setEndDate(date);
@@ -75,7 +77,7 @@ function FilterDelivery(props: FilterDeliveryProps) {
           colorScheme={selectedFilterDelivery === "tank" ? "blue" : "gray"}
           onClick={() => handleFilterChange("tank")}
         >
-          Tank
+          {t("common.tank")}
         </Button>
       </Box>
 
@@ -84,14 +86,15 @@ function FilterDelivery(props: FilterDeliveryProps) {
           colorScheme={selectedFilterDelivery === "period" ? "blue" : "gray"}
           onClick={() => handleFilterChange("period")}
         >
-          Period
+          {t("common.period")}
         </Button>
       </Box>
 
       {selectedFilterDelivery === "tank" && (
-        <FormControl>
+        <FormControl p="3">
           {liste.tanks.map((tank: Tank) => (
             <Checkbox
+              p="2"
               key={tank.idConf}
               isChecked={selectedTank === Number(tank.idConf)}
               onChange={() =>
@@ -102,19 +105,19 @@ function FilterDelivery(props: FilterDeliveryProps) {
                 )
               }
             >
-              Tank {tank.idConf}
+              {t("common.tank")} {tank.idConf}
             </Checkbox>
           ))}
         </FormControl>
       )}
       {selectedFilterDelivery === "period" && (
         <>
-          <Box>
+          <Box p="3">
             <Heading as="h1" fontSize="lg">
-              From :
+            {t("common.from")}  :
             </Heading>
           </Box>
-          <Box>
+          <Box p="3">
             <FormControl>
               <Input
                 type="datetime-local"
@@ -123,9 +126,9 @@ function FilterDelivery(props: FilterDeliveryProps) {
               />
             </FormControl>
           </Box>
-          <Box>
+          <Box p="3">
             <Heading as="h1" fontSize="lg">
-              To :
+            {t("common.to")} :
             </Heading>
           </Box>
           <Box>
@@ -138,9 +141,9 @@ function FilterDelivery(props: FilterDeliveryProps) {
               />
             </FormControl>
           </Box>
-          <Box>
+          <Box p="3">
             <Button onClick={searchFilters} colorScheme="telegram" size="md">
-              Search
+            {t("common.search")}
             </Button>
           </Box>
         </>

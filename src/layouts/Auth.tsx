@@ -15,7 +15,7 @@ const Pages = () => {
   const wrapper = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
 
-  const routes = [...dashboardRoutes, ...administrationRoutes];
+  const routes = [...dashboardRoutes(), ...administrationRoutes()];
 
   useEffect(() => {
     document.body.style.overflow = "unset";

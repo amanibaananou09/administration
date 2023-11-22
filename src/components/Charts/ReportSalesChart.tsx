@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Box, Stack } from "@chakra-ui/react";
 import { getChartByFuelPumpPeriod } from "common/api/chart-api";
 import { createReportSalesChartOptions } from "common/chartOptions";
 import { ChartData, Filter } from "common/model";
@@ -9,10 +9,16 @@ import { PeriodeProps } from "common/react-props";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import ReactApexChart from "react-apexcharts";
 import { useESSContext } from "store/ESSContext";
+import { useTranslation } from "react-i18next";
 
-export const ReportSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
+export const ReportSalesChart = ({
+  periode,
+  startDate,
+  endDate,
+}: PeriodeProps) => {
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
+  const { t } = useTranslation("dashboard");
 
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
@@ -110,13 +116,34 @@ export const ReportSalesChart = ({ periode, startDate, endDate }: PeriodeProps) 
         height="150%"
       />
 
-      <Flex justifyContent="center" color="white" flexDirection="row">
-        <Text marginRight="10px">Type: {filter.chartType}</Text>
-        {filter.chartType === "amount" ? null : (
-          <Text marginRight="10px">Fuel Grade: {filter.fuelGrade}</Text>
-        )}
-        <Text marginRight="10px">Pump: {filter.pump}</Text>
-      </Flex>
+      <Box
+        p="2"
+        bg="blue.500"
+        width="80%"
+        mt="4"
+        m="0 auto"
+        borderRadius="lg"
+        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
+      >
+        <Stack direction="row" spacing="10" justify="center" color="white">
+          <Text fontSize="lg">
+            {t("common.type")}:{" "}
+            {filter.chartType === "amount"
+              ? t("common.amount")
+              : filter.chartType}
+          </Text>
+          {filter.chartType === "amount" ? null : (
+            <Text fontSize="lg">
+              {t("common.fuelGrades")}:{" "}
+              {filter.fuelGrade === "all" ? t("common.all") : filter.fuelGrade}
+            </Text>
+          )}
+          <Text fontSize="lg">
+            {t("common.pump")}:{" "}
+            {filter.pump === "all" ? t("common.all") : filter.pump}
+          </Text>
+        </Stack>
+      </Box>
     </>
   );
 };

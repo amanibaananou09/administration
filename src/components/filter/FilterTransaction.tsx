@@ -13,6 +13,7 @@ import { getAllPump, getAllFuelGrades } from "common/api/configuration-api";
 import { useESSContext } from "store/ESSContext";
 import { useAuth } from "store/AuthContext";
 import { pump, fuelGrade } from "common/model";
+import { useTranslation } from "react-i18next";
 
 interface FilterTransactionProps {
   selectedFilterTransactions: string;
@@ -34,6 +35,7 @@ function FilterTransaction(props: FilterTransactionProps) {
   const [endDate, setEndDate] = useState<string>("");
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
+  const { t } = useTranslation("dashboard");
 
   const handleStartDateChange = (date: string) => setStartDate(date);
   const handleEndDateChange = (date: string) => setEndDate(date);
@@ -81,6 +83,7 @@ function FilterTransaction(props: FilterTransactionProps) {
     setSelectedfuel(value);
     onChange(value);
   };
+
   return (
     <Flex alignItems="center" p="5">
       <Box>
@@ -88,7 +91,7 @@ function FilterTransaction(props: FilterTransactionProps) {
           colorScheme={selectedFilterTransactions === "pump" ? "blue" : "gray"}
           onClick={() => handleFilterChange("pump")}
         >
-          Pump
+          {t("common.pump")}
         </Button>
       </Box>
       <Box ml={4}>
@@ -98,7 +101,7 @@ function FilterTransaction(props: FilterTransactionProps) {
           }
           onClick={() => handleFilterChange("fuelGrade")}
         >
-          Fuel Grade
+          {t("common.fuelGrades")}
         </Button>
       </Box>
       <Box ml={4}>
@@ -108,7 +111,7 @@ function FilterTransaction(props: FilterTransactionProps) {
           }
           onClick={() => handleFilterChange("volume")}
         >
-          Volume
+          {t("common.volume")}
         </Button>
       </Box>
       <Box ml={4}>
@@ -118,14 +121,15 @@ function FilterTransaction(props: FilterTransactionProps) {
           }
           onClick={() => handleFilterChange("period")}
         >
-          Period
+          {t("common.period")}
         </Button>
       </Box>
-      
+
       {selectedFilterTransactions === "pump" && (
-        <FormControl>
+        <FormControl p="3">
           {liste.pumps.map((pump: pump) => (
             <Checkbox
+              p="2"
               key={pump.id}
               isChecked={selectedPump === Number(pump.id)}
               onChange={() =>
@@ -134,15 +138,16 @@ function FilterTransaction(props: FilterTransactionProps) {
                 )
               }
             >
-              Pump {pump.id}
+              {t("common.pump")} {pump.id}
             </Checkbox>
           ))}
         </FormControl>
       )}
       {selectedFilterTransactions === "fuelGrade" && (
-        <FormControl>
+        <FormControl p="3">
           {liste.fuelGrades.map((fuel: fuelGrade) => (
             <Checkbox
+              p="2"
               key={fuel.idConf}
               isChecked={selectedfuel === Number(fuel.idConf)}
               onChange={() =>
@@ -167,19 +172,19 @@ function FilterTransaction(props: FilterTransactionProps) {
             color="blue.500"
             textAlign="center"
           >
-            Transactions with Volume greater than 100
+            {t("transactions.volumeGreater")}
           </Text>
         </FormControl>
       )}
 
       {selectedFilterTransactions === "period" && (
         <>
-          <Box >
+          <Box p="3">
             <Heading as="h1" fontSize="lg">
-              From :
+            {t("common.from")} :
             </Heading>
           </Box>
-          <Box>
+          <Box p="3">
             <FormControl>
               <Input
                 type="datetime-local"
@@ -188,9 +193,9 @@ function FilterTransaction(props: FilterTransactionProps) {
               />
             </FormControl>
           </Box>
-          <Box>
+          <Box p="3">
             <Heading as="h1" fontSize="lg">
-              To :
+            {t("common.to")} :
             </Heading>
           </Box>
           <Box>
@@ -203,9 +208,9 @@ function FilterTransaction(props: FilterTransactionProps) {
               />
             </FormControl>
           </Box>
-          <Box>
+          <Box p="3">
             <Button onClick={searchFilters} colorScheme="telegram" size="md">
-              Search
+            {t("common.search")}
             </Button>
           </Box>
         </>

@@ -18,6 +18,11 @@ import { useHistory } from "react-router-dom";
 import { administrationRoutes, dashboardRoutes } from "router/routes";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import LanguageSelector from "components/LanguageSelector";
+import { useTranslation } from "react-i18next";
+import StationConfigurator from "components/Configurator/StationConfigurator";
+
+
 import NotificationPopup from 'components/Notification/NotificationPopup';
 import WebSocketService from 'components/Notification/WebSocketService';
 import avatar1 from "../../assets/img/avatars/avatar1.png";
@@ -44,7 +49,9 @@ const {
   const history = useHistory();
   const { signOut, user, isSignedIn } = useAuth();
   const { isAdminMode } = useESSContext();
-  const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
+  const routes = isAdminMode ? administrationRoutes() : dashboardRoutes();
+  const { t } = useTranslation("dashboard");
+  const [showStationConfigurator, setShowStationConfigurator] = useState<boolean>(false);
 
   const navbarIcon = fixed && scrolled
     ? useColorModeValue("gray.700", "gray.200")
@@ -123,7 +130,7 @@ const {
                     fontWeight="bold"
                     mr="12px"
                   >
-                    User Login:
+                     {t("navbarLinks.userLogin")}:
                   </Text>
                   {isSignedIn ? user!!.username : "Unknown User Name"}
                 </Text>
@@ -141,7 +148,7 @@ const {
                 history.push("/admin/profile");
               }}
             >
-              My Profile
+               {t("navbarLinks.myProfile")}
             </MenuItem>
           )}
           <MenuItem
@@ -151,7 +158,7 @@ const {
             }}
             _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
           >
-            Sign Out
+             {t("navbarLinks.signOut")}
           </MenuItem>
         </MenuList>
       </Menu>
@@ -163,10 +170,10 @@ const {
         {...props}
       />
       <SettingsIcon
-        cursor="pointer"
+        cursor="pointe r"
         ms={{ base: "16px", xl: "0px" }}
         me="16px"
-        onClick={props.onOpen}
+        onClick={() => setShowStationConfigurator(true)}
         color={navbarIcon}
         w="18px"
         h="18px"
@@ -214,6 +221,14 @@ const {
         </MenuList>
       </Menu>
       )}
+      <LanguageSelector />
+      {showStationConfigurator && (
+    <StationConfigurator
+      isOpen={showStationConfigurator}
+      onClose={() => setShowStationConfigurator(false)}
+    />
+  )}
+
     </Flex>
   );
 };

@@ -12,11 +12,13 @@ import {
 import { Station } from "common/model";
 import { ConfirmationModalProps } from "common/react-props";
 import { forwardRef, useImperativeHandle, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
   const { message, onConfirm } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [station, setStation] = useState<Station>();
+  const { t } = useTranslation("dashboard");
 
   useImperativeHandle(ref, () => ({
     open(station: Station) {
@@ -46,9 +48,9 @@ const ConfirmationModal = forwardRef((props: ConfirmationModalProps, ref) => {
             mr={3}
             onClick={() => station && onConfirm(station)}
           >
-            Confirm
+            {t("confirmationModal.confirmButtonText")}
           </ChakraButton>
-          <ChakraButton onClick={onClose}>Cancel</ChakraButton>
+          <ChakraButton onClick={onClose}>{t("confirmationModal.cancelButtonText")}</ChakraButton>
         </ChakraModalFooter>
       </ChakraModalContent>
     </ChakraModal>

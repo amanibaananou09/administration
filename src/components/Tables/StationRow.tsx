@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { StationRowProps } from "common/react-props";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const StationRow = ({
   name,
@@ -20,6 +21,7 @@ const StationRow = ({
   const textColor = useColorModeValue("gray.700", "white");
   const bgColor = useColorModeValue("#F8F9FA", "navy.900");
   const nameColor = useColorModeValue("gray.500", "white");
+  const { t } = useTranslation("dashboard");
 
   return (
     <Box p="24px" bg={bgColor} my="22px" borderRadius="12px">
@@ -29,19 +31,19 @@ const StationRow = ({
             {name}
           </Text>
           <Text color="gray.400" fontSize="sm" fontWeight="semibold">
-            Address:{" "}
+          {t("common.addressLabel")}:
             <Text as="span" color={nameColor}>
               {address}
             </Text>
           </Text>
           <Text color="gray.400" fontSize="sm" fontWeight="semibold">
-            Controller Pts Id:{" "}
+          {t("common.controllerPtsIdLabel")}:{" "}
             <Text as="span" color={nameColor}>
               {controllerPtsId}
             </Text>
           </Text>
           <Text color="gray.400" fontSize="sm" fontWeight="semibold">
-            Firmware version:{" "}
+          {t("stationRow.firmwareVersionLabel")}:{" "}
             <Text as="span" color={nameColor}>
               {firmwareInformations}
             </Text>
@@ -63,7 +65,7 @@ const StationRow = ({
             <Flex color="red.500" cursor="pointer" align="center" p="12px">
               <Icon as={FaTrashAlt} me="4px" />
               <Text fontSize="sm" fontWeight="semibold">
-                DELETE
+              {t("common.deleteButtonText")}
               </Text>
             </Flex>
           </Button>
@@ -76,7 +78,7 @@ const StationRow = ({
             <Flex color={textColor} cursor="pointer" align="center" p="12px">
               <Icon as={FaPencilAlt} me="4px" />
               <Text fontSize="sm" fontWeight="semibold">
-                EDIT
+              {t("common.editButtonText")}
               </Text>
             </Flex>
           </Button>

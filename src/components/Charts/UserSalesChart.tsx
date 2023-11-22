@@ -71,7 +71,7 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
             console.error("res is not an array:", res);
           }
 
-          const labelSet = [...uniqueUserIds].map((userId) => `user ${userId}`);
+          const labelSet = [...uniqueUserIds].map((userId) => `ID ${userId}`);
           setData({
             labels: labelSet,
             datasets: [

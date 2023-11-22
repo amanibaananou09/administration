@@ -1,0 +1,135 @@
+{
+  "common": {
+    "addressLabel": "Address",
+    "controllerPtsIdLabel": "Controller PTS ID",
+    "deleteButtonText": "DELETE",
+    "editButtonText": "EDIT",
+    "pump": "Pump",
+    "fuelGrades": "Fuel Grades",
+    "type": "Type by ",
+    "all": " All ",
+    "user": "User",
+    "tank": "Tank",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "weekly": "Week",
+    "monthly": "Month",
+    "yearly": "Year",
+    "from": "From",
+    "to": "To",
+    "search": "Search",
+    "productVolume": "Product volume",
+    "productHeight": "Product Height",
+    "temperature": "Temperature",
+    "volume": "Volume",
+    "amount": "Amount",
+    "dateTimeStart": "Date Time Start",
+    "previous": "Previous",
+    "next": "Next",
+    "period": "Period",
+    "waterHeight": "Water Height"
+  },
+  "routes": {
+    "dashboard": "Dashboard",
+    "manageStations": "Manage Stations",
+    "transactions": "Transactions",
+    "tankDelivery": "Tank Delivery",
+    "profile": "Profile",
+    "signIn": "Sign In"
+  },
+  "dashboard": {
+    "sales": "Sales",
+    "usersSales": "Users Sales",
+    "tankLevel": "Tank Level"
+  },
+  "manageStations": {
+    "header": "Manage Stations",
+    "createStationButton": "CREATE STATION",
+    "confirmationMessage": "Are you sure you want to delete this station ?"
+  },
+  "stationModal": {
+    "createStation": "Create New Station",
+    "nameLabel": "Name",
+    "ptsIdLabel": "PTS ID",
+    "submitButtonText": "SUBMIT",
+    "isRequired": "is required"
+  },
+  "stationRow": {
+    "firmwareVersionLabel": "Firmware Version",
+    "noFirmwareInformation": "No firmware information available"
+  },
+  "confirmationModal": {
+    "confirmButtonText": "Confirm",
+    "cancelButtonText": "Cancel"
+  },
+  "reportSalesChartMenu": {
+    "allFuelGrades": "All Fuel Grades",
+    "allPumps": "All Pumps"
+  },
+  "tankLevelChart": {
+    "changedVolume": "Changed Volume",
+    "tankVolume": "Tank Volume"
+  },
+  "pumpSales": {
+    "totalSales": "Total Sales",
+    "total": "Total"
+  },
+  "salesGrades": {
+    "totalSalesVolume": "Total Sales Volume",
+    "totalSalesAmount": "Total Sales Amount"
+  },
+  "tankMeasurement": {
+    "watervolume": "Water volume"
+  },
+  "lastTankDeliveryTooltip": {
+    "header": "Last Tank Delivery",
+    "date": "Date",
+    "deliveryAbsoluteValues": "Delivery Absolute Values",
+    "productTcVolume": "Product TC Volume",
+    "productDensity": "Product Density",
+    "productMass": "Product Mass",
+    "pumpsDispensedVolume": "Pumps Dispensed Volume"
+  },
+  "transactions": {
+    "header": "Transactions",
+    "price": "Price",
+    "volumeGreater": "Transactions with Volume greater than 100"
+  },
+  "tankDeliveries": {
+    "header": "Tank Delivery"
+  },
+  "profile": {
+    "header": " Profile Information",
+    "name": "Name",
+    "firstName": "FirstName",
+    "lastName": "LastName",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "E-mail"
+  },
+  "navbarLinks": {
+    "userLogin": "User Login",
+    "myProfile": "My Profile",
+    "signOut": "Sign Out"
+  },
+  "configurator": {
+    "Configurator": "Configurator",
+    "text": "See your dashboard options",
+    "navbarFixed": "Navbar Fixed",
+    "Dark_Light": "Dark/Light",
+    "toggle": " Toggle"
+  },
+  "stationConfigurator": {
+    "selectStation": "Select Station",
+    "text": "No station affected, please contact the administrator"
+  },
+  "signIn": {
+    "header": "Fuel Stations Management",
+    "text": "Please login to connect",
+    "useName": "User  Name",
+    "password": " Password",
+    "login": "LOGIN",
+    "placeholderUsername": "Type your username",
+    "placeholderPassword": "Type your password"
+  }
+}

@@ -9,29 +9,32 @@ import MainRoute from "router/Route/MainRoute";
 import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
 import theme from "theme/theme";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import WebSocketService from 'components/Notification/WebSocketService';
-import NotificationPopupContainer from 'components/Notification/NotificationPopupContainer';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import WebSocketService from "components/Notification/WebSocketService";
+import NotificationPopupContainer from "components/Notification/NotificationPopupContainer";
 const container = document.getElementById("root");
+import { TranslationProvider } from "components/TranslationContext";
 
 const root = createRoot(container);
 
 root.render(
   <ESSContextProvider>
-    <AuthContextProvider>
-      <ChakraProvider theme={theme} resetCss={false} position="relative">
-        <HashRouter>
-        <NotificationPopupContainer />
-          <Switch>
-            <Route path={`/auth`} component={AuthLayout} />
-            <Route path={`/dashboard`} component={MainLayout} />
-            <Route path={`/administration`} component={MainLayout} />
-            <MainRoute />
-            <ToastContainer />
-          </Switch>
-        </HashRouter>
-      </ChakraProvider>
-    </AuthContextProvider>
+    <TranslationProvider>
+      <AuthContextProvider>
+        <ChakraProvider theme={theme} resetCss={false} position="relative">
+          <HashRouter>
+            <NotificationPopupContainer />
+            <Switch>
+              <Route path={`/auth`} component={AuthLayout} />
+              <Route path={`/dashboard`} component={MainLayout} />
+              <Route path={`/administration`} component={MainLayout} />
+              <MainRoute />
+              <ToastContainer />
+            </Switch>
+          </HashRouter>
+        </ChakraProvider>
+      </AuthContextProvider>
+    </TranslationProvider>
   </ESSContextProvider>,
 );

@@ -1,11 +1,14 @@
 import { Box, Button, Stack } from "@chakra-ui/react";
 import { TankChartMenuProps } from "common/react-props";
+import { useTranslation } from "react-i18next";
 
 const TankChartButton = ({
   tanks,
   selectedTank,
   onChange,
 }: TankChartMenuProps) => {
+  const { t } = useTranslation("dashboard");
+
   return (
     <Box p={4}>
       <Stack direction="row" spacing={4} align="center">
@@ -19,7 +22,7 @@ const TankChartButton = ({
                 onChange(tankElement.idConf);
               }}
             >
-              Tank {tankElement.idConf}
+              {t("common.tank")} {tankElement.idConf}
             </Button>
           </Box>
         ))}

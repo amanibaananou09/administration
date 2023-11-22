@@ -10,11 +10,13 @@ import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
+import { useTranslation } from "react-i18next";
 
 export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
+  const { t } = useTranslation("dashboard");
 
   useEffect(() => {
     const fetchSalesByPump = async () => {
@@ -41,7 +43,7 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
       <Flex flexDirection="column" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="normal" display="inline">
           <Text as="span" fontWeight="bold" color="blue.700">
-            Total Sales :
+          {t("pumpSales.totalSales")} :
           </Text>{" "}
           {salesPumps.reduce((total, pump) => total + pump.allSales, 0)}{" "}
           {selectedStation?.country?.currency?.code}
@@ -57,7 +59,7 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
             display="inline"
             onClick={() => setIsContentVisible(!isContentVisible)}
           >
-            Pumps :
+            {t("common.pump")} :
             {isContentVisible ? <TriangleUpIcon /> : <TriangleDownIcon />}
           </Text>
         </Flex>
@@ -91,7 +93,7 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
                     color="blue.600"
                     display="inline"
                   >
-                    Total :
+                    {t("pumpSales.total")} :
                   </Text>
                   {salesPump.pumpSales}
                   <Text

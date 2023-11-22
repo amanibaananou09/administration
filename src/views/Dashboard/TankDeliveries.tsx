@@ -21,6 +21,7 @@ import TankDeliveryRow from "components/Tables/TankDeliveryRow";
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import { useTranslation } from "react-i18next";
 import FilterDelivery from "../../components/filter/FilterDelivery";
 
 const TankDeliveries = () => {
@@ -38,6 +39,7 @@ const TankDeliveries = () => {
   const [selectedFilterDelivery, setSelectedFilterDelivery] = useState<string>(
     "",
   );
+  const { t } = useTranslation("dashboard");
 
   useEffect(() => {
     const allTankDelivery = async () => {
@@ -93,7 +95,7 @@ const TankDeliveries = () => {
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
         <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Tank Delivery
+            {t("tankDeliveries.header")}
           </Text>
         </CardHeader>
         <CardBody>
@@ -116,42 +118,42 @@ const TankDeliveries = () => {
                   color="gray.400"
                   textAlign="center"
                 >
-                  tank
+                  {t("common.tank")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  product Volume
+                   {t("common.productVolume")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  fuel Grade
+                  {t("common.fuelGrades")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  product Height
+                  {t("common.productHeight")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  water Height
+                  {t("common.waterHeight")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  temperature
+                  {t("common.temperature")}
                 </Th>
               </Tr>
             </Thead>
@@ -189,14 +191,14 @@ const TankDeliveries = () => {
           isDisabled={currentPage === 0}
           onClick={() => handlePageChange(currentPage - 1)}
         >
-          Previous
+          {t("common.previous")}
         </Button>
         <Button>{currentPage + 1}</Button>
         <Button
           isDisabled={currentPage === totalPages - 1}
           onClick={() => handlePageChange(currentPage + 1)}
         >
-          Next
+          {t("common.next")}
         </Button>
       </ButtonGroup>
     </Flex>

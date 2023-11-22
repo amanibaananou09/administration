@@ -15,6 +15,8 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
+
 import { DownloadIcon } from "@chakra-ui/icons";
 import * as XLSX from "xlsx";
 import { getallTransactionPump } from "common/api/configuration-api";
@@ -40,6 +42,7 @@ const Transactions = () => {
     selectedFilterTransactions,
     setSelectedFilterTransactions,
   ] = useState<string>("");
+  const { t } = useTranslation("dashboard");
 
   const exportAllToExcel = async () => {
     if (!selectedStation || !totalPages) {
@@ -151,7 +154,7 @@ const Transactions = () => {
           alignItems="center"
         >
           <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Transactions
+            {t("transactions.header")}
           </Text>
           <Button
             colorScheme="blue"
@@ -182,42 +185,42 @@ const Transactions = () => {
                   color="gray.400"
                   textAlign="center"
                 >
-                  Pump
+                  {t("common.pump")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Fuel Grade
+                  {t("common.fuelGrades")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Volume
+                  {t("common.volume")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Price
+                  {t("transactions.price")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Amount
+                  {t("common.amount")}
                 </Th>
                 <Th
                   borderColor={borderColor}
                   color="gray.400"
                   textAlign="center"
                 >
-                  Date time start
+                  {t("common.dateTimeStart")}
                 </Th>
               </Tr>
             </Thead>
@@ -254,14 +257,14 @@ const Transactions = () => {
           isDisabled={currentPage === 0}
           onClick={() => handlePageChange(currentPage - 1)}
         >
-          Previous
+          {t("common.previous")}
         </Button>
         <Button>{currentPage + 1}</Button>
         <Button
           isDisabled={currentPage === totalPages - 1}
           onClick={() => handlePageChange(currentPage + 1)}
         >
-          Next
+          {t("common.next")}
         </Button>
       </ButtonGroup>
     </Flex>

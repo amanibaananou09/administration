@@ -30,11 +30,12 @@ import useRoutes from "hooks/use-routes";
 import MainRoute from "router/Route/MainRoute";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "../store/ESSContext";
+import StationConfigurator from "components/Configurator/StationConfigurator";
 
 const Main = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
   const { isAdminMode, isLoading } = useESSContext();
-  const routes = isAdminMode ? administrationRoutes : dashboardRoutes;
+  const routes = isAdminMode ? administrationRoutes() : dashboardRoutes();
   const layout = isAdminMode ? Layout.ADMIN : Layout.DASHBOARD;
 
   const { getActiveRoute, getActiveNavbar, getRoutesForLayout } = useRoutes();

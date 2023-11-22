@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { functionScope, userInformation } from "common/api/general-user-api";
 import { GeneralUser, RouteParams, userScope } from "common/AdminModel";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const UserDetails = () => {
   const { id } = useParams<RouteParams>();
@@ -14,6 +15,7 @@ const UserDetails = () => {
   const [userScope, setUserScope] = useState<userScope | null>(null);
 
   const textColor = useColorModeValue("gray.700", "white");
+  const { t } = useTranslation('administration');
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -49,7 +51,7 @@ const UserDetails = () => {
         <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
           <CardHeader p="6px 0px 22px 0px">
             <Text fontSize="xl" color={textColor} fontWeight="bold">
-              User Information
+            {t("userInformation.header")}
             </Text>
           </CardHeader>
           <CardBody>
@@ -58,19 +60,19 @@ const UserDetails = () => {
                 <Flex width="100%" gap="10%">
                   <Box>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      User Name :{" "}
+                    {t("userInformation.userNameLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      First Name :{" "}
+                    {t("userInformation.firstNameLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      Last Name :{" "}
+                    {t("userInformation.lastNameLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      Phone :{" "}
+                    {t("userInformation.phoneLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                      Email :{" "}
+                    {t("userInformation.emailLabel")} :{" "}
                     </Text>
                   </Box>
                   <Box>
@@ -106,7 +108,7 @@ const UserDetails = () => {
                   textAlign="left"
                   fontWeight="bold"
                 >
-                  Functions Scope
+                 {t("userInformation.functionsScopeLabel")}
                 </Text>
                 <Box
                   backgroundColor="gray.200"
@@ -142,15 +144,15 @@ const UserDetails = () => {
                     ))
                   ) : (
                     <Text fontSize="md" color="gray.700">
-                      No function scopes available.
+                     {t("userInformation.noCustomerAccountAvailable")}.
                     </Text>
                   )}
                 </Box>
               </Flex>
-            </Flex>
-          </CardBody>
-        </Card>
-      </Flex>
+          </Flex>
+        </CardBody>
+      </Card>
+    </Flex>
     </>
   );
 };

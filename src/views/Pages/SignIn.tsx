@@ -14,11 +14,13 @@ import {
 import { login } from "common/api/auth-api";
 import { getStations } from "common/api/station-api";
 import { User } from "common/model";
+import LanguageSelector from "components/LanguageSelector";
 import React, { useState } from "react";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
+import { useTranslation } from "react-i18next";
 
 const SignIn = () => {
   const bgForm: string = useColorModeValue("white", "navy.800");
@@ -30,6 +32,7 @@ const SignIn = () => {
     selectDashboardMode,
   } = useESSContext();
   const { signIn } = useAuth();
+  const { t } = useTranslation("dashboard");
 
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -53,10 +56,7 @@ const SignIn = () => {
       return;
     }
     try {
-      const { access_token } = await login(
-        username,
-        password,
-      );
+      const { access_token } = await login(username, password);
 
       const user = decodeToken(access_token);
 
@@ -106,6 +106,14 @@ const SignIn = () => {
         <Box w="100vw" h="100vh" bg="blue.500" opacity="0.8"></Box>
       </Box>
       <Flex
+        justifyContent="flex-end"
+        alignItems="flex"
+        mt="15px"
+        marginRight="10"
+      >
+        <LanguageSelector />
+      </Flex>
+      <Flex
         direction="column"
         textAlign="center"
         justifyContent="center"
@@ -114,7 +122,7 @@ const SignIn = () => {
         mb="30px"
       >
         <Text fontSize="4xl" color="white" fontWeight="bold">
-          Fuel Stations Management
+          {t("signIn.header")}
         </Text>
         <Text
           fontSize="md"
@@ -148,11 +156,11 @@ const SignIn = () => {
             textAlign="center"
             mb="22px"
           >
-            Please login to connect
+            {t("signIn.text")}
           </Text>
           <FormControl>
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              Username
+              {t("signIn.useName")}
             </FormLabel>
             <Input
               id="username"
@@ -160,14 +168,14 @@ const SignIn = () => {
               fontSize="sm"
               ms="4px"
               type="text"
-              placeholder="Type your username"
+              placeholder={t("signIn.placeholderUsername")}
               mb="24px"
               size="lg"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              Password
+              {t("signIn.password")}
             </FormLabel>
             <Input
               id="password"
@@ -175,7 +183,7 @@ const SignIn = () => {
               fontSize="sm"
               ms="4px"
               type="password"
-              placeholder="Type your password"
+              placeholder={t("signIn.placeholderPassword")}
               mb="24px"
               size="lg"
               value={password}
@@ -190,7 +198,7 @@ const SignIn = () => {
               mb="24px"
               onClick={handleSubmit}
             >
-              LOGIN
+              {t("signIn.login")}
             </Button>
             {errorMessage && (
               <Alert status="error" mb={4}>

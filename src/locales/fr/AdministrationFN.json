@@ -1,0 +1,56 @@
+{
+  "common": {
+    "name": "Nom",
+    "description": "Description",
+    "status": "Statut"
+  },
+  "customerAccounts": {
+    "header": "Comptes clients",
+    "addAccountButton": "Ajouter un compte client",
+    "accountAddedTitle": "Compte client ajouté",
+    "accountAddedDescription": "Le compte client a été ajouté avec succès.",
+    "errorTitle": "Erreur",
+    "errorDescription": "Une erreur s'est produite lors de l'ajout du compte client.",
+    "masterUser": "Utilisateur principal"
+  },
+  "customerAccountInformation": {
+    "header": "Informations sur le compte client",
+    "dateStatusLabel": "Date de changement de statut",
+    "attachedUsersTitle": "Utilisateurs associés",
+    "attachedStationsTitle": "Stations associées",
+    "noAccountsAvailable": "Aucun compte disponible.",
+    "addUserButton": "Ajouter un utilisateur",
+    "addStationButton": "Ajouter une station"
+  },
+  "userInformation": {
+    "header": "Informations sur l'utilisateur",
+    "userNameLabel": "Nom d'utilisateur :",
+    "firstNameLabel": "Prénom :",
+    "lastNameLabel": "Nom :",
+    "phoneLabel": "Téléphone :",
+    "emailLabel": "Email :",
+    "noUserAvailable": "Aucun utilisateur disponible.",
+    "functionsScopeLabel": "Portée des fonctions",
+    "noDataAvailable": "Aucune donnée disponible.",
+    "customerAccountsLabel": "Comptes clients",
+    "noCustomerAccountAvailable": "Aucun compte client disponible."
+  },
+  "userManagement": {
+    "globalUsers": {
+      "header": "Utilisateurs Globaux",
+      "addNewUserButton": "Ajouter un nouvel utilisateur",
+      "userNameColumn": "Nom d'utilisateur",
+      "nameColumn": "Nom",
+      "emailColumn": "Email",
+      "phoneColumn": "Téléphone",
+      "statusColumn": "Statut",
+      "noUserAvailable": "Aucun utilisateur disponible."
+    }
+  },
+  "routes": {
+    "informationAccounts": "Comptes d'information",
+    "manageAccounts": "Gérer les comptes",
+    "userDetails": "Détails sur l'utilisateur",
+    "manageUsers": "Gestion des utilisateurs"
+  }
+}
