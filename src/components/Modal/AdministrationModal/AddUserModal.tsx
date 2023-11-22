@@ -21,6 +21,7 @@ import { AddUserModalProps, AddUserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const AddUserModal = (
   props: AddUserModalProps,
@@ -28,7 +29,7 @@ const AddUserModal = (
 ) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
-
+  const { t } = useTranslation('administration');
   const form = useFormik<Partial<MasterUser>>({
     initialValues: {
       username: "",
@@ -69,7 +70,7 @@ const AddUserModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>Create New User</ModalHeader>
+        <ModalHeader>{t("addUserModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form>
@@ -79,7 +80,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  First Name
+                {t("userInformation.firstNameLabel")}
                 </FormLabel>
                 <Input
                   id="firstName"
@@ -87,7 +88,7 @@ const AddUserModal = (
                   value={form.values.firstName}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="First name"
+                  placeholder={t("userInformation.firstNameLabel")}
                 />
                 <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
               </FormControl>
@@ -96,7 +97,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Last Name
+                {t("userInformation.lastNameLabel")}
                 </FormLabel>
                 <Input
                   id="lastName"
@@ -104,7 +105,7 @@ const AddUserModal = (
                   value={form.values.lastName}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="Last name"
+                  placeholder={t("userInformation.lastNameLabel")}
                 />
                 <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
               </FormControl>
@@ -113,7 +114,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  User Name
+                {t("userInformation.userNameLabel")}
                 </FormLabel>
                 <Input
                   id="username"
@@ -121,7 +122,7 @@ const AddUserModal = (
                   value={form.values.username}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="User Name"
+                  placeholder={t("userInformation.userNameLabel")}
                 />
                 <FormErrorMessage>{form.errors.username}</FormErrorMessage>
               </FormControl>
@@ -130,7 +131,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Phone
+                {t("userInformation.phoneLabel")}
                 </FormLabel>
                 <Input
                   id="phone"
@@ -143,7 +144,7 @@ const AddUserModal = (
                     form.setFieldValue("phone", onlyNumbers);
                   }}
                   type="text"
-                  placeholder="Phone"
+                  placeholder={t("userInformation.phoneLabel")}
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
               </FormControl>
@@ -152,7 +153,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Email
+                {t("userInformation.emailLabel")}
                 </FormLabel>
                 <Input
                   id="email"
@@ -160,7 +161,7 @@ const AddUserModal = (
                   value={form.values.email}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="Email"
+                  placeholder={t("userInformation.emailLabel")}
                 />
                 <FormErrorMessage>{form.errors.email}</FormErrorMessage>
               </FormControl>
@@ -169,7 +170,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Password
+                {t("common.password")}
                 </FormLabel>
                 <Input
                   id="password"
@@ -177,7 +178,7 @@ const AddUserModal = (
                   value={form.values.password}
                   onChange={form.handleChange}
                   type="password"
-                  placeholder="Password"
+                  placeholder={t("common.password")}
                 />
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
@@ -194,7 +195,7 @@ const AddUserModal = (
             onClick={() => form.handleSubmit()}
             mr={3}
           >
-            Submit
+            {t("common.submit")}
           </Button>
           <Button
             fontSize="md"
@@ -203,7 +204,7 @@ const AddUserModal = (
             w="100%"
             onClick={closeModal}
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
         </ModalFooter>
       </ModalContent>

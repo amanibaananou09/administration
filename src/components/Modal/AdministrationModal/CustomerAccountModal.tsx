@@ -23,6 +23,7 @@ import {
 } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const CustomerAccountModal = (
   { onSubmit }: CustomerAccountModalProps,
@@ -42,6 +43,7 @@ const CustomerAccountModal = (
       phone: "",
     },
   });
+  const { t } = useTranslation('administration');
 
   useImperativeHandle(ref, () => ({
     open(account?: CustomerAccount) {
@@ -68,16 +70,16 @@ const CustomerAccountModal = (
   const isNotNull = (value: string) => {
     let error: string | undefined;
     if (!value) {
-      error = "is required";
+      error = t("common.error");
     }
     return error;
   };
   const isNotNullAndMinLength = (value: string) => {
     let error: string | undefined;
     if (!value) {
-      error = "is required";
+      error = t("common.error");
     } else if (value.length < 4) {
-      error = "must be at least 4 characters";
+      error = t("common.errorLength");
     }
     return error;
   };
@@ -89,7 +91,7 @@ const CustomerAccountModal = (
     const isValid = /^\d{8}$/.test(value);
 
     if (!isValid) {
-      error = "must be a number with exactly 8 digits";
+      error = t("common.errorPhone");
     }
 
     return error;
@@ -99,7 +101,7 @@ const CustomerAccountModal = (
     let error: string | undefined;
     // Check if the value contains the "@" symbol
     if (!/@/.test(value)) {
-      error = "must be a valid email address";
+      error = t("common.erroremail");
     }
 
     return error;
@@ -119,7 +121,7 @@ const CustomerAccountModal = (
 
     // Check if the password is defined and has at least 6 characters
     if (!value || value.length < 6) {
-      error = "must be at least 6 characters";
+      error = t("common.errorPassword");
     } else {
       // Check if the password contains at least one special character
       const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(value);
@@ -129,7 +131,7 @@ const CustomerAccountModal = (
 
       if (!hasSpecialCharacter || !hasNumericDigit) {
         error =
-          "must contain at least one special character and one numeric digit";
+        t("common.errorNumeric");
       }
     }
 
@@ -146,7 +148,7 @@ const CustomerAccountModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>Create New Customer Account</ModalHeader>
+        <ModalHeader>{t("customerAccountModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <Formik initialValues={account} onSubmit={submitHandler}>
@@ -177,10 +179,10 @@ const CustomerAccountModal = (
                             }
                             mb="24px"
                           >
-                            <FormLabel htmlFor="name">Name</FormLabel>
-                            <Input {...field} id="name" placeholder="Name" />
+                            <FormLabel htmlFor="name">{t("common.name")}</FormLabel>
+                            <Input {...field} id="name" placeholder={t("common.name")} />
                             <FormErrorMessage>
-                              Name {form.errors.name}
+                            {t("common.name")} {form.errors.name}
                             </FormErrorMessage>
                           </FormControl>
                         )}
@@ -214,15 +216,15 @@ const CustomerAccountModal = (
                             mb="24px"
                           >
                             <FormLabel htmlFor="description">
-                              Description
+                            {t("common.description")}
                             </FormLabel>
                             <Input
                               {...field}
                               id="description"
-                              placeholder="Description"
+                              placeholder={t("common.description")}
                             />
                             <FormErrorMessage>
-                              Description {form.errors.description}
+                            {t("common.description")} {form.errors.description}
                             </FormErrorMessage>
                           </FormControl>
                         )}
@@ -251,17 +253,17 @@ const CustomerAccountModal = (
                             }
                             mb="40px"
                           >
-                            <FormLabel htmlFor="status">Status</FormLabel>
+                            <FormLabel htmlFor="status">{t("common.status")}</FormLabel>
                             <Select
                               {...field}
                               id="status"
-                              placeholder="Select Status"
+                              placeholder={t("customerAccountModal.selectStatus")}
                             >
-                              <option value="ENABLED">ENABLED</option>
-                              <option value="DISABLED">DISABLED</option>
+                              <option value="ENABLED">{t("common.enabled")}</option>
+                              <option value="DISABLED">{t("common.disabled")}</option>
                             </Select>
                             <FormErrorMessage>
-                              Status {form.errors.status}
+                            {t("common.status")} {form.errors.status}
                             </FormErrorMessage>
                           </FormControl>
                         )}
@@ -278,7 +280,7 @@ const CustomerAccountModal = (
                         textDecorationColor="teal"
                         fontSize="20px"
                       >
-                        Master User
+                        {t("customerAccounts.masterUser")}
                       </FormLabel>
                     </Flex>
                     <Flex mb="24px">
@@ -310,15 +312,15 @@ const CustomerAccountModal = (
                               mb="24px"
                             >
                               <FormLabel htmlFor="username">
-                                User Name
+                              {t("userInformation.userNameLabel")}
                               </FormLabel>
                               <Input
                                 {...field}
                                 id="username"
-                                placeholder="User Name"
+                                placeholder= {t("userInformation.userNameLabel")}
                               />
                               <FormErrorMessage>
-                                User Name {form.errors.masterUser?.username}
+                              {t("userInformation.userNameLabel")} {form.errors.masterUser?.username}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -348,14 +350,14 @@ const CustomerAccountModal = (
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="email">Email</FormLabel>
+                              <FormLabel htmlFor="email"> {t("userInformation.emailLabel")}</FormLabel>
                               <Input
                                 {...field}
                                 id="email"
-                                placeholder="Email"
+                                placeholder={t("userInformation.emailLabel")}
                               />
                               <FormErrorMessage>
-                                Email {form.errors.masterUser?.email}
+                              {t("userInformation.emailLabel")} {form.errors.masterUser?.email}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -389,15 +391,15 @@ const CustomerAccountModal = (
                               mb="24px"
                             >
                               <FormLabel htmlFor="firstName">
-                                First Name
+                              {t("userInformation.firstNameLabel")}
                               </FormLabel>
                               <Input
                                 {...field}
                                 id="firstName"
-                                placeholder="First Name"
+                                placeholder={t("userInformation.firstNameLabel")}
                               />
                               <FormErrorMessage>
-                                First Name {form.errors.masterUser?.firstName}
+                              {t("userInformation.firstNameLabel")} {form.errors.masterUser?.firstName}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -430,15 +432,15 @@ const CustomerAccountModal = (
                               mb="24px"
                             >
                               <FormLabel htmlFor="lastName">
-                                Last Name
+                              {t("userInformation.lastNameLabel")}
                               </FormLabel>
                               <Input
                                 {...field}
                                 id="lastName"
-                                placeholder="Last Name"
+                                placeholder= {t("userInformation.lastNameLabel")}
                               />
                               <FormErrorMessage>
-                                Last Name {form.errors.masterUser?.lastName}
+                              {t("userInformation.lastNameLabel")} {form.errors.masterUser?.lastName}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -471,15 +473,15 @@ const CustomerAccountModal = (
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="password">Password</FormLabel>
+                              <FormLabel htmlFor="password"> {t("common.password")}</FormLabel>
                               <Input
                                 {...field}
                                 type="password"
                                 id="password"
-                                placeholder="Password"
+                                placeholder= {t("common.password")}
                               />
                               <FormErrorMessage>
-                                Password {form.errors.masterUser?.password}
+                              {t("common.password")} {form.errors.masterUser?.password}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -512,15 +514,15 @@ const CustomerAccountModal = (
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="Phone">Phone</FormLabel>
+                              <FormLabel htmlFor="Phone"> {t("userInformation.phoneLabel")}</FormLabel>
                               <Input
                                 {...field}
                                 id="phone"
-                                placeholder="Phone"
+                                placeholder={t("userInformation.phoneLabel")}
                                 type="number"
                               />
                               <FormErrorMessage>
-                                Phone {form.errors.masterUser?.phone}
+                              {t("userInformation.phoneLabel")} {form.errors.masterUser?.phone}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -537,7 +539,7 @@ const CustomerAccountModal = (
                       isLoading={props.isSubmitting}
                       type="submit"
                     >
-                      SUBMIT
+                      {t("common.submit")}
                     </Button>
                   </Flex>
                 </Flex>

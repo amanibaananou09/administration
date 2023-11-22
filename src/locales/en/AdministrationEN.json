@@ -2,7 +2,21 @@
   "common": {
     "name": "Name",
     "description": "Description",
-    "status": "Status"
+    "status": "Status",
+    "error": "is required",
+    "errorLength": "must be at least 4 characters",
+    "errorPhone": "must be a number with exactly 8 digits",
+    "erroremail": "must be a valid email address",
+    "errorPassword": "must be at least 6 characters",
+    "errorNumeric": "must contain at least one special character and one numeric digit",
+    "enabled": "ENABLED",
+    "disabled": "DISABLED",
+    "password": "Password",
+    "submit": "SUBMIT",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "address" : "Address",
+    "country" : "Country"
   },
   "customerAccounts": {
     "header": "Customer Accounts",
@@ -11,7 +25,12 @@
     "accountAddedDescription": "The customer account has been successfully added.",
     "errorTitle": "Error",
     "errorDescription": "An error occurred while adding the customer account.",
-    "masterUser": "Master User"
+    "masterUser": "Master User",
+    "isLoading": "You don't have a customer account"
+  },
+  "customerAccountModal": {
+    "header": "Create New Customer Account",
+    "selectStatus": "Select Status"
   },
   "customerAccountInformation": {
     "header": "Customer Account Information",
@@ -20,7 +39,9 @@
     "attachedStationsTitle": "Attached Stations",
     "noAccountsAvailable": "No accounts available.",
     "addUserButton": "Add User",
-    "addStationButton": "Add Station"
+    "addStationButton": "Add Station",
+    "noUserAttached" : "No user Attached",
+    "noStationAttached" : "No Station Attached"
   },
   "userInformation": {
     "header": "User Information",
@@ -52,5 +73,12 @@
     "manageAccounts": "Manage Accounts",
     "userDetails": "User Details",
     "manageUsers": "Manage Users"
+  },
+  "addUserModal": {
+    "header": "Create New User"
+  },
+  "addStationModal": {
+    "header": "Create New Station",
+    "selectCountry": "Select country"
   }
 }
