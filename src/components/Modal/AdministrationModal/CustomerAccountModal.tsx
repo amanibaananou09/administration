@@ -164,9 +164,9 @@ const CustomerAccountModal = (
                     <Box flex="1" mr="4">
                       <Field name="name" validate={isNotNullAndMinLength}>
                         {({
-                            field,
-                            form,
-                          }: {
+                          field,
+                          form,
+                        }: {
                           field: {
                             name: string;
                             value: string;
@@ -245,9 +245,9 @@ const CustomerAccountModal = (
                     <Box flex="1" ml="4">
                       <Field name="status" validate={isNotNull}>
                         {({
-                            field,
-                            form,
-                          }: {
+                          field,
+                          form,
+                        }: {
                           field: {
                             name: string;
                             value: string;
@@ -286,14 +286,14 @@ const CustomerAccountModal = (
                   </Flex>
 
                   <Box>
-                    <Flex mb="7" justifyContent="center">
+                    <Flex mb="7" justifyContent="left">
                       <FormLabel
-                        textAlign="center"
+                        textAlign="left"
                         htmlFor="masterUser"
                         fontWeight="semibold"
                         textDecoration="underline"
                         textDecorationColor="teal"
-                        fontSize="25px"
+                        fontSize="19px"
                         color="teal.500"
                       >
                         {t("customerAccounts.masterUser")}
@@ -346,9 +346,9 @@ const CustomerAccountModal = (
                       <Box flex="1" mx="4">
                         <Field name="masterUser.email" validate={isValidEmail}>
                           {({
-                              field,
-                              form,
-                            }: {
+                            field,
+                            form,
+                          }: {
                             field: {
                               name: string;
                               value: string;
@@ -434,9 +434,9 @@ const CustomerAccountModal = (
                       <Box flex="1" mr="4">
                         <Field name="masterUser.lastName" validate={isNotNull}>
                           {({
-                              field,
-                              form,
-                            }: {
+                            field,
+                            form,
+                          }: {
                             field: {
                               name: string;
                               value: string;
@@ -466,7 +466,8 @@ const CustomerAccountModal = (
                               <FormErrorMessage>
                                 {t("userInformation.lastNameLabel")}{" "}
                                 {form.errors.masterUser?.lastName}
-                                {t("userInformation.lastNameLabel")} {form.errors.masterUser?.lastName}
+                                {t("userInformation.lastNameLabel")}{" "}
+                                {form.errors.masterUser?.lastName}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -478,9 +479,9 @@ const CustomerAccountModal = (
                           validate={isValidPassword}
                         >
                           {({
-                              field,
-                              form,
-                            }: {
+                            field,
+                            form,
+                          }: {
                             field: {
                               name: string;
                               value: string;
@@ -524,7 +525,8 @@ const CustomerAccountModal = (
                                 </InputRightElement>
                               </InputGroup>
                               <FormErrorMessage>
-                              {t("common.password")} {form.errors.masterUser?.password}
+                                {t("common.password")}{" "}
+                                {form.errors.masterUser?.password}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -577,26 +579,26 @@ const CustomerAccountModal = (
                       </Box>
                     </Flex>
                   </Box>
-                  <Flex>
+                  <Flex justifyContent="flex-end">
                     <Button
-                      fontSize="15px"
-                      fontWeight="bold"
-                      colorScheme="red"
-                      w="50%"
-                      mr={3}
-                      onClick={onClose}
-                    >
-                      {t("common.cancel")}
-                    </Button>
-                    <Button
-                      fontSize="15px"
+                      fontSize="md"
                       colorScheme="teal"
                       fontWeight="bold"
-                      w="50%"
+                      size="lg"
+                      mr={3}
                       isLoading={props.isSubmitting}
                       type="submit"
                     >
                       {t("common.submit")}
+                    </Button>
+                    <Button
+                      fontSize="md"
+                      fontWeight="bold"
+                      colorScheme="red"
+                      size="lg"
+                      onClick={onClose}
+                    >
+                      {t("common.cancel")}
                     </Button>
                   </Flex>
                 </Flex>

@@ -14,7 +14,7 @@ import {
   SimpleGrid,
   useDisclosure,
   InputRightElement,
-  InputGroup,
+  InputGroup,Flex
 } from "@chakra-ui/react";
 import { MasterUser, RouteParams } from "common/AdminModel";
 import { addUser } from "common/api/customerAccount-api";
@@ -85,7 +85,7 @@ const AddUserModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>{t("addUserModal.header")}</ModalHeader>
+        <ModalHeader color="teal.500" fontSize="25px" >{t("addUserModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form>
@@ -208,26 +208,28 @@ const AddUserModal = (
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button
-            fontSize="md"
-            colorScheme="red"
-            fontWeight="bold"
-            w="100%"
-            onClick={closeModal}
-            mr={3}
-          >
-            {t("common.cancel")}
-          </Button>
-          <Button
-            fontSize="md"
-            colorScheme="teal"
-            fontWeight="bold"
-            w="100%"
-            isLoading={form.isSubmitting}
-            onClick={() => form.handleSubmit()}
-          >
-            {t("common.submit")}
-          </Button>
+          <Flex justifyContent="flex-end">
+            <Button
+              fontSize="md"
+              colorScheme="teal"
+              fontWeight="bold"
+              size="lg"
+              isLoading={form.isSubmitting}
+              mr={3}
+              onClick={() => form.handleSubmit()}
+            >
+              {t("common.submit")}
+            </Button>
+            <Button
+              fontSize="md"
+              colorScheme="red"
+              fontWeight="bold"
+              size="lg"
+              onClick={closeModal}
+            >
+              {t("common.cancel")}
+            </Button>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>

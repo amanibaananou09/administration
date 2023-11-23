@@ -16,6 +16,7 @@ import {
   useDisclosure,
   InputRightElement,
   InputGroup,
+  Flex,
 } from "@chakra-ui/react";
 import { AddStation, RouteParams } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
@@ -109,7 +110,9 @@ const AddStationModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader fontSize="2xl" color="teal.500">{t("addStationModal.header")}</ModalHeader>
+        <ModalHeader fontSize="2xl" color="teal.500">
+          {t("addStationModal.header")}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form onSubmit={form.handleSubmit}>
@@ -258,26 +261,28 @@ const AddStationModal = (
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button
-            fontSize="md"
-            colorScheme="red"
-            fontWeight="bold"
-            w="100%"
-            onClick={closeModal}
-            mr={3}
-          >
-            {t("common.cancel")}
-          </Button>
+        <Flex justifyContent="flex-end">
           <Button
             fontSize="md"
             colorScheme="teal"
             fontWeight="bold"
-            w="100%"
+            mr={3}
+            size="lg"
             isLoading={form.isSubmitting}
             onClick={() => form.handleSubmit()}
           >
             {t("common.submit")}
           </Button>
+          <Button
+            fontSize="md"
+            colorScheme="red"
+            fontWeight="bold"
+            size="lg"
+            onClick={closeModal}
+          >
+            {t("common.cancel")}
+          </Button>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>
