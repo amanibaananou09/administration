@@ -15,8 +15,8 @@
     "submit": "SUBMIT",
     "cancel": "Cancel",
     "loading": "Loading...",
-    "address" : "Address",
-    "country" : "Country"
+    "address": "Address",
+    "country": "Country"
   },
   "customerAccounts": {
     "header": "Customer Accounts",
@@ -40,8 +40,8 @@
     "noAccountsAvailable": "No accounts available.",
     "addUserButton": "Add User",
     "addStationButton": "Add Station",
-    "noUserAttached" : "No user Attached",
-    "noStationAttached" : "No Station Attached"
+    "noUserAttached": "No user Attached",
+    "noStationAttached": "No Station Attached"
   },
   "userInformation": {
     "header": "User Information",
@@ -80,5 +80,48 @@
   "addStationModal": {
     "header": "Create New Station",
     "selectCountry": "Select country"
+  },
+  "validation": {
+    "firstName": {
+      "min": "First Name must be at least 4 characters",
+      "required": "First Name is required"
+    },
+    "lastName": {
+      "min": "Last Name must be at least 4 characters",
+      "required": "Last Name is required"
+    },
+    "username": {
+      "min": "User Name must be at least 4 characters",
+      "required": "Username is required"
+    },
+    "email": {
+      "email": "Invalid email",
+      "required": "Email is required"
+    },
+    "password": {
+      "min": "Password must be at least 6 characters",
+      "matches": "Password must contain at least one special character",
+      "required": "Password is required"
+    },
+    "phone": {
+      "matches": "Phone must be at least 8 digits",
+      "required": "Phone is required"
+    },
+    "name": {
+      "min": "Name must be at least 4 characters",
+      "required": "Name is required"
+    },
+    "address": {
+      "min": "Address must be at least 4 characters",
+      "required": "Address is required"
+    },
+    "ptsId": {
+      "min": "ptsId must be at least 4 characters",
+      "required": "ptsId is required"
+    },
+    "countryId": {
+      "required": "Country is required",
+      "country-id-check": "Country is required"
+    }
   }
 }

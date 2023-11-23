@@ -31,7 +31,6 @@
   },
   "routes": {
     "dashboard": "Tableau de bord",
-    "manageStations": "Gérer les stations",
     "transactions": "Transactions",
     "tankDelivery": "Livraison des réservoirs",
     "profile": "Profil",
@@ -41,26 +40,6 @@
     "sales": "Ventes",
     "usersSales": "Ventes par Utilisateur",
     "tankLevel": "Niveau du Réservoir"
-  },
-  "manageStations": {
-    "header": "Gérer les stations",
-    "createStationButton": "CRÉER UNE STATION",
-    "confirmationMessage": "Êtes-vous sûr de vouloir supprimer cette station ?"
-  },
-  "stationModal": {
-    "createStation": "Créer une nouvelle station",
-    "nameLabel": "Nom",
-    "ptsIdLabel": "ID PTS",
-    "submitButtonText": "CRÉER",
-    "isRequired": "est nécessaire"
-  },
-  "stationRow": {
-    "firmwareVersionLabel": "Version du firmware",
-    "noFirmwareInformation": "Aucune information sur le micrologiciel disponible"
-  },
-  "confirmationModal": {
-    "confirmButtonText": "Confirmer",
-    "cancelButtonText": "Annuler"
   },
   "reportSalesChartMenu": {
     "allFuelGrades": "Toutes les carburants",

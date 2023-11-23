@@ -80,5 +80,48 @@
   "addStationModal": {
     "header": "Créer une nouvelle station",
     "selectCountry": "Sélectionner un pays"
+  },
+  "validation": {
+    "firstName": {
+      "min": "Le prénom doit comporter au moins 4 caractères",
+      "required": "Le prénom est requis"
+    },
+    "lastName": {
+      "min": "Le nom doit comporter au moins 4 caractères",
+      "required": "Le nom est requis"
+    },
+    "username": {
+      "min": "Le nom d'utilisateur doit comporter au moins 4 caractères",
+      "required": "Le nom d'utilisateur est requis"
+    },
+    "email": {
+      "email": "E-mail invalide",
+      "required": "L'e-mail est requis"
+    },
+    "password": {
+      "min": "Le mot de passe doit comporter au moins 6 caractères",
+      "matches": "Le mot de passe doit contenir au moins un caractère spécial",
+      "required": "Le mot de passe est requis"
+    },
+    "phone": {
+      "matches": "Le téléphone doit comporter au moins 8 chiffres",
+      "required": "Le téléphone est requis"
+    },
+    "name": {
+      "min": "Le nom doit comporter au moins 4 caractères",
+      "required": "Le nom est requis"
+    },
+    "address": {
+      "min": "L'adresse doit comporter au moins 4 caractères",
+      "required": "L'adresse est requise"
+    },
+    "ptsId": {
+      "min": "ptsId doit comporter au moins 4 caractères",
+      "required": "ptsId est requis"
+    },
+    "countryId": {
+      "required": "Le pays est requis",
+      "country-id-check": "Le pays est requis"
+    }
   }
 }

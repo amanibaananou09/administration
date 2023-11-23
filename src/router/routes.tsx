@@ -12,7 +12,6 @@ import {
 } from "components/Icons/Icons";
 import UserDetails from "views/Administration/UserDetails";
 import UserManagement from "views/Administration/UserManagement";
-import ManageStation from "views/Dashboard/ManageStation";
 import TankDeliveries from "views/Dashboard/TankDeliveries";
 import Transactions from "views/Dashboard/Transactions";
 import CustomerAccountInformation from "../views/Administration/CustomerAccountInformation";
@@ -27,14 +26,6 @@ export const dashboardRoutes = () => {
       name: t("routes.dashboard"),
       icon: <HomeIcon color="inherit" />,
       component: Dashboard,
-      layout: "/dashboard",
-      privateRoute: true,
-    },
-    {
-      path: "/manage-station",
-      name: t("routes.manageStations"),
-      icon: <SupportIcon color="inherit" />,
-      component: ManageStation,
       layout: "/dashboard",
       privateRoute: true,
     },

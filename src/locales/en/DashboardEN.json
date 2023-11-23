@@ -31,7 +31,6 @@
   },
   "routes": {
     "dashboard": "Dashboard",
-    "manageStations": "Manage Stations",
     "transactions": "Transactions",
     "tankDelivery": "Tank Delivery",
     "profile": "Profile",
@@ -41,26 +40,6 @@
     "sales": "Sales",
     "usersSales": "Users Sales",
     "tankLevel": "Tank Level"
-  },
-  "manageStations": {
-    "header": "Manage Stations",
-    "createStationButton": "CREATE STATION",
-    "confirmationMessage": "Are you sure you want to delete this station ?"
-  },
-  "stationModal": {
-    "createStation": "Create New Station",
-    "nameLabel": "Name",
-    "ptsIdLabel": "PTS ID",
-    "submitButtonText": "SUBMIT",
-    "isRequired": "is required"
-  },
-  "stationRow": {
-    "firmwareVersionLabel": "Firmware Version",
-    "noFirmwareInformation": "No firmware information available"
-  },
-  "confirmationModal": {
-    "confirmButtonText": "Confirm",
-    "cancelButtonText": "Cancel"
   },
   "reportSalesChartMenu": {
     "allFuelGrades": "All Fuel Grades",
