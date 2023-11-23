@@ -15,6 +15,7 @@ import {
   useDisclosure,
   InputGroup,
   InputRightElement,
+  Flex,
 } from "@chakra-ui/react";
 import { GeneralUser, MasterUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
@@ -81,7 +82,9 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader fontSize="2xl" color="teal.500">{t("addUserModal.header")}</ModalHeader>
+        <ModalHeader fontSize="2xl" color="teal.500">
+          {t("addUserModal.header")}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form>
@@ -224,26 +227,28 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button
-            fontSize="md"
-            colorScheme="red"
-            fontWeight="bold"
-            w="100%"
-            onClick={closeModal}
-            mr={3}
-          >
-            {t("common.cancel")}
-          </Button>
-          <Button
-            fontSize="md"
-            colorScheme="teal"
-            fontWeight="bold"
-            w="100%"
-            isLoading={form.isSubmitting}
-            onClick={() => form.handleSubmit()}
-          >
-            {t("common.submit")}
-          </Button>
+          <Flex justifyContent="flex-end">
+            <Button
+              fontSize="md"
+              colorScheme="teal"
+              fontWeight="bold"
+              size="lg"
+              mr={3}
+              isLoading={form.isSubmitting}
+              onClick={() => form.handleSubmit()}
+            >
+              {t("common.submit")}
+            </Button>
+            <Button
+              fontSize="md"
+              colorScheme="red"
+              fontWeight="bold"
+              size="lg"
+              onClick={closeModal}
+            >
+              {t("common.cancel")}
+            </Button>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>
