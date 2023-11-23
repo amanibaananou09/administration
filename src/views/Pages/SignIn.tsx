@@ -10,6 +10,8 @@ import {
   Input,
   Text,
   useColorModeValue,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { login } from "common/api/auth-api";
 import { getStations } from "common/api/station-api";
@@ -21,6 +23,7 @@ import { useESSContext } from "store/ESSContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 import { useTranslation } from "react-i18next";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignIn = () => {
   const bgForm: string = useColorModeValue("white", "navy.800");
@@ -33,7 +36,7 @@ const SignIn = () => {
   } = useESSContext();
   const { signIn } = useAuth();
   const { t } = useTranslation("dashboard");
-
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -52,7 +55,7 @@ const SignIn = () => {
   ) => {
     event.preventDefault();
     if (!username || !password) {
-      setErrorMessage("Please fill in both username and password fields.");
+      setErrorMessage(t("signIn.messageError"));
       return;
     }
     try {
@@ -74,7 +77,7 @@ const SignIn = () => {
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage("Invalid username or password.");
+      setErrorMessage(t("signIn.messageInvalid"));
     }
   };
 
@@ -177,18 +180,31 @@ const SignIn = () => {
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
               {t("signIn.password")}
             </FormLabel>
-            <Input
-              id="password"
-              variant="auth"
-              fontSize="sm"
-              ms="4px"
-              type="password"
-              placeholder={t("signIn.placeholderPassword")}
-              mb="24px"
-              size="lg"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <InputGroup>
+              <Input
+                id="password"
+                variant="auth"
+                fontSize="sm"
+                ms="4px"
+                type={showPassword ? "text" : "password"}
+                placeholder={t("signIn.placeholderPassword")}
+                mb="24px"
+                size="lg"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <InputRightElement width="3.2rem">
+                <Button
+                  h="115%"
+                  variant="ghost"
+                  onClick={() => setShowPassword(!showPassword)}
+                  color="gray.500"
+                  marginTop="15%"
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
             <Button
               fontSize="10px"
               variant="dark"

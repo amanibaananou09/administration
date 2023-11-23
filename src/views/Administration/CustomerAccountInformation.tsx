@@ -100,7 +100,7 @@ const CustomerAccountInformation = () => {
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
         <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
           <CardHeader p="6px 0px 22px 0px">
-            <Text fontSize="xl" color={textColor} fontWeight="bold">
+            <Text fontSize="3xl"  color="teal.500" fontWeight="bold">
               {t("customerAccountInformation.header")}
             </Text>
           </CardHeader>
@@ -151,7 +151,7 @@ const CustomerAccountInformation = () => {
                 <Text
                   fontSize="xl"
                   color="gray.700"
-                  textAlign="center"
+                  textAlign="left"
                   fontWeight="bold"
                 >
                   {t("customerAccountInformation.attachedUsersTitle")}
@@ -176,21 +176,23 @@ const CustomerAccountInformation = () => {
                     </Text>
                   )}
                 </Box>
+                <Flex justifyContent="flex-end"> 
                 <Button
                   colorScheme="teal"
                   size="md"
-                  width="100%"
+                  width="30%"
                   minHeight="35px"
                   onClick={() => openUserModal()}
                 >
                   {t("customerAccountInformation.addUserButton")}
                 </Button>
+                </Flex>
               </Flex>
               <Flex direction="column" flex={1} alignContent="stretch">
                 <Text
                   fontSize="xl"
                   color="gray.700"
-                  textAlign="center"
+                  textAlign="left"
                   fontWeight="bold"
                 >
                   {t("customerAccountInformation.attachedStationsTitle")}
@@ -217,15 +219,17 @@ const CustomerAccountInformation = () => {
                     </Text>
                   )}
                 </Box>
+                <Flex justifyContent="flex-end"> 
                 <Button
                   colorScheme="teal"
                   size="md"
-                  width="100%"
+                  width="30%"
                   minHeight="35px"
                   onClick={() => openStationModal()}
                 >
                   {t("customerAccountInformation.addStationButton")}
                 </Button>
+                </Flex>
               </Flex>
             </Flex>
           </CardBody>

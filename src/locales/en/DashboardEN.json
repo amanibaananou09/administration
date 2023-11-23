@@ -109,6 +109,8 @@
     "password": " Password",
     "login": "LOGIN",
     "placeholderUsername": "Type your username",
-    "placeholderPassword": "Type your password"
+    "placeholderPassword": "Type your password",
+    "messageError": "Please fill in both Username and Password fields.",
+    "messageInvalid": "Invalid username or password."
   }
 }

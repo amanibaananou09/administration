@@ -14,12 +14,13 @@ import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { StationConfiguratorProps } from "common/react-props";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "@chakra-ui/react";
 
 const StationConfigurator = (props: StationConfiguratorProps) => {
   const { user } = useAuth();
   const { selectedStation, selectStation } = useESSContext();
   const { t } = useTranslation("dashboard");
-
+  const [loading, setLoading] = useState(true);
   const [stations, setStations] = useState<Station[]>([]);
 
   let bgButton: string = useColorModeValue(
@@ -38,6 +39,7 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
     const getAllStations = async () => {
       const retrievedStations: Station[] = await getStations(user!!);
       setStations(retrievedStations);
+      setLoading(false);
     };
 
     getAllStations();
@@ -45,7 +47,9 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
 
   return (
     <>
-      {stations.length > 0 ? (
+         {loading ? ( 
+        <Spinner size="xl" color="blue.500" />
+      ) :stations.length > 0 ? (
         <Drawer
           isOpen={props.isOpen}
           onClose={props.onClose}

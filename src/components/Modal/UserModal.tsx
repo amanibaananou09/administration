@@ -13,14 +13,17 @@ import {
   ModalOverlay,
   SimpleGrid,
   useDisclosure,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
 import { UserModalProps, UserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
-import { forwardRef, Ref, useImperativeHandle } from "react";
+import { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface FormValues extends GeneralUser {
   phone: string;
@@ -28,8 +31,8 @@ interface FormValues extends GeneralUser {
 
 const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { t } = useTranslation('administration');
-
+  const { t } = useTranslation("administration");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
       username: "",
@@ -69,7 +72,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>Create New User</ModalHeader>
+        <ModalHeader fontSize="2xl" color="teal.500">{t("addUserModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form>
@@ -83,7 +86,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  First Name
+                  {t("userInformation.firstNameLabel")}
                 </FormLabel>
                 <Input
                   id="firstName"
@@ -91,7 +94,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                   value={form.values.firstName}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="First name"
+                  placeholder={t("userInformation.firstNameLabel")}
                 />
                 <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
               </FormControl>
@@ -104,7 +107,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Last Name
+                  {t("userInformation.lastNameLabel")}
                 </FormLabel>
                 <Input
                   id="lastName"
@@ -112,7 +115,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                   value={form.values.lastName}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="Last name"
+                  placeholder={t("userInformation.lastNameLabel")}
                 />
                 <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
               </FormControl>
@@ -125,7 +128,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  User Name
+                  {t("userInformation.userNameLabel")}
                 </FormLabel>
                 <Input
                   id="username"
@@ -133,7 +136,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                   value={form.values.username}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="User Name"
+                  placeholder={t("userInformation.userNameLabel")}
                 />
                 <FormErrorMessage>{form.errors.username}</FormErrorMessage>
               </FormControl>
@@ -144,7 +147,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Email
+                  {t("userInformation.emailLabel")}
                 </FormLabel>
                 <Input
                   id="email"
@@ -152,7 +155,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                   value={form.values.email}
                   onChange={form.handleChange}
                   type="text"
-                  placeholder="Email"
+                  placeholder={t("userInformation.emailLabel")}
                 />
                 <FormErrorMessage>{form.errors.email}</FormErrorMessage>
               </FormControl>
@@ -165,16 +168,29 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Password
+                  {t("common.password")}
                 </FormLabel>
-                <Input
-                  id="password"
-                  name="password"
-                  value={form.values.password}
-                  onChange={form.handleChange}
-                  type="password"
-                  placeholder="Password"
-                />
+                <InputGroup>
+                  <Input
+                    id="password"
+                    name="password"
+                    value={form.values.password}
+                    onChange={form.handleChange}
+                    type={showPassword ? "text" : "password"}
+                    placeholder={t("common.password")}
+                    pr="4.5rem"
+                  />
+                  <InputRightElement width="3.2rem">
+                    <Button
+                      h="100%"
+                      variant="ghost"
+                      onClick={() => setShowPassword(!showPassword)}
+                      color="gray.500"
+                    >
+                      {showPassword ? <FaEye /> : <FaEyeSlash />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
               <FormControl
@@ -184,7 +200,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  Phone
+                  {t("userInformation.phoneLabel")}
                 </FormLabel>
                 <Input
                   id="phone"
@@ -197,7 +213,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                     form.setFieldValue("phone", onlyNumbers);
                   }}
                   type="phone"
-                  placeholder="phone"
+                  placeholder={t("userInformation.phoneLabel")}
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
               </FormControl>
@@ -207,23 +223,23 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
         <ModalFooter>
           <Button
             fontSize="md"
+            colorScheme="red"
+            fontWeight="bold"
+            w="100%"
+            onClick={closeModal}
+            mr={3}
+          >
+            {t("common.cancel")}
+          </Button>
+          <Button
+            fontSize="md"
             colorScheme="teal"
             fontWeight="bold"
             w="100%"
             isLoading={form.isSubmitting}
             onClick={() => form.handleSubmit()}
-            mr={3}
           >
-            Submit
-          </Button>
-          <Button
-            fontSize="md"
-            colorScheme="red"
-            fontWeight="bold"
-            w="100%"
-            onClick={closeModal}
-          >
-            Cancel
+            {t("common.submit")}
           </Button>
         </ModalFooter>
       </ModalContent>
