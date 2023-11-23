@@ -25,6 +25,9 @@ import { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React from "react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const AddUserModal = (
   props: AddUserModalProps,
@@ -32,8 +35,12 @@ const AddUserModal = (
 ) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
-  const { t } = useTranslation("administration");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const { t } = useTranslation("administration");
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(
+    null,
+  );
 
   const form = useFormik<Partial<MasterUser>>({
     initialValues: {
@@ -46,10 +53,13 @@ const AddUserModal = (
     },
     validationSchema: adduserFormValidationSchema,
     onSubmit: async (values: Partial<MasterUser>) => {
-      await addUser(values as MasterUser, id);
+      // Concatenate the selected country code with the entered phone number
+      const phoneNumber = selectedCountryCode
+        ? `+${selectedCountryCode}${values.phone}`
+        : values.phone;
+      await addUser({ ...values, phone: phoneNumber } as MasterUser, id);
       form.setSubmitting(false);
       onClose();
-
       props.onSubmit();
     },
   });
@@ -75,7 +85,7 @@ const AddUserModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader fontSize="2xl" color="teal.500">{t("addUserModal.header")}</ModalHeader>
+        <ModalHeader>{t("addUserModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form>
@@ -138,21 +148,16 @@ const AddUserModal = (
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("userInformation.phoneLabel")}
                 </FormLabel>
-                <Input
+                <PhoneInput
                   id="phone"
                   name="phone"
                   value={form.values.phone}
-                  onChange={(e) => {
-                    const onlyNumbers = e.target.value
-                      .replace(/[^0-9]/g, "")
-                      .slice(0, 8);
-                    form.setFieldValue("phone", onlyNumbers);
-                  }}
-                  type="text"
+                  onChange={(value) => form.setFieldValue("phone", value)}
                   placeholder={t("userInformation.phoneLabel")}
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
               </FormControl>
+
               <FormControl
                 isInvalid={!!form.errors.email && !!form.touched.email}
                 mb="20px"

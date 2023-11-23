@@ -10,7 +10,8 @@ export const userFormValidationSchema = Yup.object().shape({
     .required("Last Name is required"),
 
   username: Yup.string()
-    .min(4, "User Name must be at least 4 characters")
+    .min(4, "Username must be at least 4 characters")
+    .matches(/^[a-z]+$/, "Username must contain only lowercase letters")
     .required("Username is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -22,9 +23,7 @@ export const userFormValidationSchema = Yup.object().shape({
     )
     .required("Password is required"),
 
-  phone: Yup.string()
-    .matches(/^\d{8,}$/, "Phone must be at least 8 digits")
-    .required("Phone is required"),
+  phone: Yup.string().required("Phone is required"),
 });
 
 export const adduserFormValidationSchema = Yup.object().shape({
@@ -35,11 +34,10 @@ export const adduserFormValidationSchema = Yup.object().shape({
   lastName: Yup.string()
     .min(4, "Last Name must be at least 4 characters")
     .required("Last Name is required"),
-  phone: Yup.string()
-    .matches(/^\d{8,}$/, "Phone must be at least 8 digits")
-    .required("Phone is required"),
+  phone: Yup.string().required("Phone is required"),
   username: Yup.string()
-    .min(4, "User Name must be at least 4 characters")
+    .min(4, "Username must be at least 4 characters")
+    .matches(/^[a-z]+$/, "Username must contain only lowercase letters")
     .required("Username is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -61,12 +59,14 @@ export const addStationFormValidationSchema = Yup.object().shape({
     .required("Address is required"),
   controllerPts: Yup.object().shape({
     ptsId: Yup.string()
-      .min(24, "ptsId must be at least 4 characters")
+      .min(24, "ptsId must be at least 24 characters")
       .required("ptsId is required"),
     userController: Yup.object().shape({
       username: Yup.string()
-        .min(4, "User Name must be at least 4 characters")
+        .min(4, "Username must be at least 4 characters")
+        .matches(/^[a-z]+$/, "Username must contain only lowercase letters")
         .required("Username is required"),
+
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .matches(

@@ -5,7 +5,7 @@
     "status": "Statut",
     "error": "est obligatoire",
     "errorLength": "doit contenir au moins 4 caractères",
-    "errorPhone": "doit être un nombre à 8 chiffres exactement",
+    "errorPhone": "Le numéro de téléphone doit c au moins 6 number",
     "erroremail": "doit être une adresse e-mail valide",
     "errorPassword": "doit comporter au moins 6 caractères",
     "errorNumeric": "doit contenir au moins un caractère spécial et un chiffre",
