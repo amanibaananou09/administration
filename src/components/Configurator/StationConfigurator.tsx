@@ -48,7 +48,20 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
   return (
     <>
          {loading ? ( 
-        <Spinner size="xl" color="blue.500" />
+         <Drawer
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          placement={"right"}
+          finalFocusRef={settingsRef}
+          blockScrollOnMount={false}
+        >
+          <DrawerContent bg={bgDrawer}>
+            <DrawerHeader pt="24px" px="24px">
+              <DrawerCloseButton />
+              <Spinner size="xl" color="blue.500" />
+            </DrawerHeader>
+          </DrawerContent>
+        </Drawer>
       ) :stations.length > 0 ? (
         <Drawer
           isOpen={props.isOpen}

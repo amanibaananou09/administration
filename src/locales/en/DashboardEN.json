@@ -27,7 +27,8 @@
     "previous": "Previous",
     "next": "Next",
     "period": "Period",
-    "waterHeight": "Water Height"
+    "waterHeight": "Water Height",
+    "export": "Export"
   },
   "routes": {
     "dashboard": "Dashboard",

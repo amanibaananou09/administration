@@ -161,7 +161,7 @@ const Transactions = () => {
             leftIcon={<DownloadIcon />}
             onClick={exportAllToExcel}
           >
-            Export
+            {t("common.export")}
           </Button>
         </CardHeader>
 

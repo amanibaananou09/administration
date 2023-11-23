@@ -27,7 +27,8 @@
     "previous": "Précédent",
     "next": "Suivant",
     "period": "Période",
-    "waterHeight": "Hauteur de l'eau"
+    "waterHeight": "Hauteur de l'eau",
+    "export": "Exporter"
   },
   "routes": {
     "dashboard": "Tableau de bord",
