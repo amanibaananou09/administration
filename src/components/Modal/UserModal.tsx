@@ -16,7 +16,7 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import { GeneralUser } from "common/AdminModel";
+import { GeneralUser, MasterUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
 import { UserModalProps, UserModalRefType } from "common/react-props";
@@ -24,6 +24,9 @@ import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React from "react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface FormValues extends GeneralUser {
   phone: string;
@@ -33,6 +36,9 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation("administration");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(
+    null,
+  );
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
       username: "",
@@ -44,7 +50,10 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
     },
     validationSchema: userFormValidationSchema,
     onSubmit: async (values: Partial<FormValues>) => {
-      await addUser(values as GeneralUser);
+      const phoneNumber = selectedCountryCode
+        ? `+${selectedCountryCode}${values.phone}`
+        : values.phone;
+      await addUser({ ...values, phone: phoneNumber } as FormValues);
       form.setSubmitting(false);
       onClose();
       props.onSubmit();
@@ -202,17 +211,11 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("userInformation.phoneLabel")}
                 </FormLabel>
-                <Input
+                <PhoneInput
                   id="phone"
                   name="phone"
                   value={form.values.phone}
-                  onChange={(e) => {
-                    const onlyNumbers = e.target.value
-                      .replace(/[^0-9]/g, "")
-                      .slice(0, 8);
-                    form.setFieldValue("phone", onlyNumbers);
-                  }}
-                  type="phone"
+                  onChange={(value) => form.setFieldValue("phone", value)}
                   placeholder={t("userInformation.phoneLabel")}
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
