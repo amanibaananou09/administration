@@ -10,6 +10,7 @@ import CardHeader from "components/Card/CardHeader";
 import AddStationModal from "components/Modal/AdministrationModal/AddStationModal";
 import AddUserModal from "components/Modal/AdministrationModal/AddUserModal";
 import { Fragment, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { formatDate } from "utils/utils";
 import {
@@ -18,7 +19,6 @@ import {
   getCustomerAccountInformation,
 } from "../../common/api/station-api";
 import { Station, User } from "../../common/model";
-import { useTranslation } from "react-i18next";
 
 const CustomerAccountInformation = () => {
   const { id } = useParams<RouteParams>();
@@ -101,7 +101,7 @@ const CustomerAccountInformation = () => {
         <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
           <CardHeader p="6px 0px 22px 0px">
             <Text fontSize="xl" color={textColor} fontWeight="bold">
-            {t("customerAccountInformation.header")}
+              {t("customerAccountInformation.header")}
             </Text>
           </CardHeader>
           <CardBody>
@@ -110,16 +110,16 @@ const CustomerAccountInformation = () => {
                 <Flex width="100%" gap="10%">
                   <Box>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("common.name")} :
+                      {t("common.name")} :
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("common.status")} :
+                      {t("common.status")} :
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
                       {t("customerAccountInformation.dateStatusLabel")} :
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("common.description")} :
+                      {t("common.description")} :
                     </Text>
                   </Box>
                   <Box>
@@ -141,18 +141,20 @@ const CustomerAccountInformation = () => {
                   </Box>
                 </Flex>
               ) : (
-                <Text color="gray.500">{t("customerAccountInformation.noAccountsAvailable")}.</Text>
+                <Text color="gray.500">
+                  {t("customerAccountInformation.noAccountsAvailable")}.
+                </Text>
               )}
             </Box>
             <Flex gap={4}>
-              <Flex direction="column" flex={1}>
+              <Flex direction="column" flex={1} alignContent="stretch">
                 <Text
                   fontSize="xl"
                   color="gray.700"
                   textAlign="center"
                   fontWeight="bold"
                 >
-                 {t("customerAccountInformation.attachedUsersTitle")} 
+                  {t("customerAccountInformation.attachedUsersTitle")}
                 </Text>
                 <Box
                   backgroundColor="gray.200"
@@ -170,7 +172,7 @@ const CustomerAccountInformation = () => {
                   ))}
                   {userAccounts.length == 0 && (
                     <Text fontSize="md" color="gray.700">
-                       {t("customerAccountInformation.noUserAttached")}
+                      {t("customerAccountInformation.noUserAttached")}
                     </Text>
                   )}
                 </Box>
@@ -178,19 +180,20 @@ const CustomerAccountInformation = () => {
                   colorScheme="teal"
                   size="md"
                   width="100%"
+                  minHeight="35px"
                   onClick={() => openUserModal()}
                 >
                   {t("customerAccountInformation.addUserButton")}
                 </Button>
               </Flex>
-              <Flex direction="column" flex={1}>
+              <Flex direction="column" flex={1} alignContent="stretch">
                 <Text
                   fontSize="xl"
                   color="gray.700"
                   textAlign="center"
                   fontWeight="bold"
                 >
-                  {t("customerAccountInformation.attachedStationsTitle")} 
+                  {t("customerAccountInformation.attachedStationsTitle")}
                 </Text>
                 <Box
                   backgroundColor="gray.200"
@@ -218,6 +221,7 @@ const CustomerAccountInformation = () => {
                   colorScheme="teal"
                   size="md"
                   width="100%"
+                  minHeight="35px"
                   onClick={() => openStationModal()}
                 >
                   {t("customerAccountInformation.addStationButton")}
