@@ -11,7 +11,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
+import {  ProfileIcon, SupportIcon } from "components/Icons/Icons";
 import ItemContent from "components/Menu/ItemContent";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import { useHistory } from "react-router-dom";
@@ -169,8 +169,8 @@ const {
         routes={routes}
         {...props}
       />
-      {!isAdminMode && (<SettingsIcon
-        cursor="pointe r"
+      {!isAdminMode && (<SupportIcon
+        cursor="pointer"
         ms={{ base: "16px", xl: "0px" }}
         me="16px"
         onClick={() => setShowStationConfigurator(true)}

@@ -13,15 +13,18 @@ import {
   ModalOverlay,
   SimpleGrid,
   useDisclosure,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { MasterUser, RouteParams } from "common/AdminModel";
 import { addUser } from "common/api/customerAccount-api";
 import { adduserFormValidationSchema } from "common/form-validation";
 import { AddUserModalProps, AddUserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
-import { forwardRef, Ref, useImperativeHandle } from "react";
+import { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AddUserModal = (
   props: AddUserModalProps,
@@ -29,7 +32,9 @@ const AddUserModal = (
 ) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
-  const { t } = useTranslation('administration');
+  const { t } = useTranslation("administration");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const form = useFormik<Partial<MasterUser>>({
     initialValues: {
       username: "",
@@ -70,7 +75,7 @@ const AddUserModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>{t("addUserModal.header")}</ModalHeader>
+        <ModalHeader fontSize="2xl" color="teal.500">{t("addUserModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form>
@@ -80,7 +85,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("userInformation.firstNameLabel")}
+                  {t("userInformation.firstNameLabel")}
                 </FormLabel>
                 <Input
                   id="firstName"
@@ -97,7 +102,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("userInformation.lastNameLabel")}
+                  {t("userInformation.lastNameLabel")}
                 </FormLabel>
                 <Input
                   id="lastName"
@@ -114,7 +119,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("userInformation.userNameLabel")}
+                  {t("userInformation.userNameLabel")}
                 </FormLabel>
                 <Input
                   id="username"
@@ -131,7 +136,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("userInformation.phoneLabel")}
+                  {t("userInformation.phoneLabel")}
                 </FormLabel>
                 <Input
                   id="phone"
@@ -153,7 +158,7 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("userInformation.emailLabel")}
+                  {t("userInformation.emailLabel")}
                 </FormLabel>
                 <Input
                   id="email"
@@ -170,16 +175,28 @@ const AddUserModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("common.password")}
+                  {t("common.password")}
                 </FormLabel>
-                <Input
-                  id="password"
-                  name="password"
-                  value={form.values.password}
-                  onChange={form.handleChange}
-                  type="password"
-                  placeholder={t("common.password")}
-                />
+                <InputGroup>
+                  <Input
+                    id="password"
+                    name="password"
+                    value={form.values.password}
+                    onChange={form.handleChange}
+                    type={showPassword ? "text" : "password"}
+                    placeholder={t("common.password")}
+                  />
+                  <InputRightElement width="3.1rem">
+                    <Button
+                      h="100%"
+                      variant="ghost"
+                      onClick={() => setShowPassword(!showPassword)}
+                      color="gray.500"
+                    >
+                      {showPassword ? <FaEye /> : <FaEyeSlash />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
             </SimpleGrid>
@@ -188,23 +205,23 @@ const AddUserModal = (
         <ModalFooter>
           <Button
             fontSize="md"
+            colorScheme="red"
+            fontWeight="bold"
+            w="100%"
+            onClick={closeModal}
+            mr={3}
+          >
+            {t("common.cancel")}
+          </Button>
+          <Button
+            fontSize="md"
             colorScheme="teal"
             fontWeight="bold"
             w="100%"
             isLoading={form.isSubmitting}
             onClick={() => form.handleSubmit()}
-            mr={3}
           >
             {t("common.submit")}
-          </Button>
-          <Button
-            fontSize="md"
-            colorScheme="red"
-            fontWeight="bold"
-            w="100%"
-            onClick={closeModal}
-          >
-            {t("common.cancel")}
           </Button>
         </ModalFooter>
       </ModalContent>

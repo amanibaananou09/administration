@@ -14,12 +14,15 @@ import {
   Select,
   SimpleGrid,
   useDisclosure,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import { AddStation, RouteParams } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
 import { getListOfCountry } from "common/api/reference-data-api";
 import { addStationFormValidationSchema } from "common/form-validation";
 import { country } from "common/model";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   AddStationModalProps,
   AddStationModalRefType,
@@ -42,7 +45,8 @@ const AddStationModal = (
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams<RouteParams>();
   const [country, setCountry] = useState<country[]>([]);
-  const { t } = useTranslation('administration');
+  const { t } = useTranslation("administration");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const form = useFormik<AddStation>({
     initialValues: {
@@ -105,7 +109,7 @@ const AddStationModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>{t("addStationModal.header")}</ModalHeader>
+        <ModalHeader fontSize="2xl" color="teal.500">{t("addStationModal.header")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form onSubmit={form.handleSubmit}>
@@ -115,7 +119,7 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("common.name")}
+                  {t("common.name")}
                 </FormLabel>
                 <Input
                   id="name"
@@ -132,7 +136,7 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("common.address")}
+                  {t("common.address")}
                 </FormLabel>
                 <Input
                   id="address"
@@ -179,7 +183,7 @@ const AddStationModal = (
                   name="countryId"
                   value={form.values.countryId}
                   onChange={form.handleChange}
-                  placeholder= {t("addStationModal.selectCountry")}
+                  placeholder={t("addStationModal.selectCountry")}
                 >
                   {country.map((countryData) => (
                     <option key={countryData.id} value={countryData.id}>
@@ -197,7 +201,7 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("userInformation.userNameLabel")}
+                  {t("userInformation.userNameLabel")}
                 </FormLabel>
                 <Input
                   id="username"
@@ -221,18 +225,31 @@ const AddStationModal = (
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("common.password")}
+                  {t("common.password")}
                 </FormLabel>
-                <Input
-                  id="password"
-                  name="controllerPts.userController.password"
-                  value={
-                    form.values.controllerPts?.userController?.password || ""
-                  }
-                  onChange={form.handleChange}
-                  type="text"
-                  placeholder={t("common.password")}
-                />
+                <InputGroup>
+                  <Input
+                    id="password"
+                    name="controllerPts.userController.password"
+                    value={
+                      form.values.controllerPts?.userController?.password || ""
+                    }
+                    onChange={form.handleChange}
+                    type={showPassword ? "text" : "password"}
+                    placeholder={t("common.password")}
+                    pr="4.5rem"
+                  />
+                  <InputRightElement width="3.1rem">
+                    <Button
+                      h="100%"
+                      variant="ghost"
+                      onClick={() => setShowPassword(!showPassword)}
+                      color="gray.500"
+                    >
+                      {showPassword ? <FaEye /> : <FaEyeSlash />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>
                   {form.errors.controllerPts?.userController?.password}
                 </FormErrorMessage>
@@ -243,23 +260,23 @@ const AddStationModal = (
         <ModalFooter>
           <Button
             fontSize="md"
+            colorScheme="red"
+            fontWeight="bold"
+            w="100%"
+            onClick={closeModal}
+            mr={3}
+          >
+            {t("common.cancel")}
+          </Button>
+          <Button
+            fontSize="md"
             colorScheme="teal"
             fontWeight="bold"
             w="100%"
             isLoading={form.isSubmitting}
             onClick={() => form.handleSubmit()}
-            mr={3}
           >
             {t("common.submit")}
-          </Button>
-          <Button
-            fontSize="md"
-            colorScheme="red"
-            fontWeight="bold"
-            w="100%"
-            onClick={closeModal}
-          >
-            {t("common.cancel")}
           </Button>
         </ModalFooter>
       </ModalContent>

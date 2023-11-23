@@ -29,14 +29,13 @@
     "isLoading": "Vous ne possédez pas de compte client"
   },
   "customerAccountModal": {
-    "header": "Créer un nouveau compte client",
-    "selectStatus": "Sélectionner un statut"
+    "header": "Créer un nouveau compte client"
   },
   "customerAccountInformation": {
     "header": "Informations sur le compte client",
     "dateStatusLabel": "Date de changement de statut",
-    "attachedUsersTitle": "Utilisateurs attachée",
-    "attachedStationsTitle": "Stations attachée",
+    "attachedUsersTitle": "Utilisateurs attachés",
+    "attachedStationsTitle": "Stations attachées",
     "noAccountsAvailable": "Aucun compte disponible.",
     "addUserButton": "Ajouter un utilisateur",
     "addStationButton": "Ajouter une station",

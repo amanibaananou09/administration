@@ -29,9 +29,7 @@
     "isLoading": "You don't have a customer account"
   },
   "customerAccountModal": {
-    "header": "Create New Customer Account",
-    "selectStatus": "Select Status"
-  },
+    "header": "Create New Customer Account"  },
   "customerAccountInformation": {
     "header": "Customer Account Information",
     "dateStatusLabel": "Date Status Change",

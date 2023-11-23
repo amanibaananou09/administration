@@ -14,6 +14,8 @@ import {
   ModalOverlay,
   Select,
   useDisclosure,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import { createCustomerAccount } from "common/api/customerAccount-api";
@@ -24,6 +26,7 @@ import {
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const CustomerAccountModal = (
   { onSubmit }: CustomerAccountModalProps,
@@ -43,7 +46,8 @@ const CustomerAccountModal = (
       phone: "",
     },
   });
-  const { t } = useTranslation('administration');
+  const { t } = useTranslation("administration");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   useImperativeHandle(ref, () => ({
     open(account?: CustomerAccount) {
@@ -130,8 +134,7 @@ const CustomerAccountModal = (
       const hasNumericDigit = /\d/.test(value);
 
       if (!hasSpecialCharacter || !hasNumericDigit) {
-        error =
-        t("common.errorNumeric");
+        error = t("common.errorNumeric");
       }
     }
 
@@ -148,7 +151,9 @@ const CustomerAccountModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader>{t("customerAccountModal.header")}</ModalHeader>
+        <ModalHeader fontWeight="bold" fontSize="25px" color="teal.500">
+          {t("customerAccountModal.header")}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <Formik initialValues={account} onSubmit={submitHandler}>
@@ -179,10 +184,16 @@ const CustomerAccountModal = (
                             }
                             mb="24px"
                           >
-                            <FormLabel htmlFor="name">{t("common.name")}</FormLabel>
-                            <Input {...field} id="name" placeholder={t("common.name")} />
+                            <FormLabel htmlFor="name">
+                              {t("common.name")}
+                            </FormLabel>
+                            <Input
+                              {...field}
+                              id="name"
+                              placeholder={t("common.name")}
+                            />
                             <FormErrorMessage>
-                            {t("common.name")} {form.errors.name}
+                              {t("common.name")} {form.errors.name}
                             </FormErrorMessage>
                           </FormControl>
                         )}
@@ -216,7 +227,7 @@ const CustomerAccountModal = (
                             mb="24px"
                           >
                             <FormLabel htmlFor="description">
-                            {t("common.description")}
+                              {t("common.description")}
                             </FormLabel>
                             <Input
                               {...field}
@@ -224,7 +235,8 @@ const CustomerAccountModal = (
                               placeholder={t("common.description")}
                             />
                             <FormErrorMessage>
-                            {t("common.description")} {form.errors.description}
+                              {t("common.description")}{" "}
+                              {form.errors.description}
                             </FormErrorMessage>
                           </FormControl>
                         )}
@@ -253,17 +265,19 @@ const CustomerAccountModal = (
                             }
                             mb="40px"
                           >
-                            <FormLabel htmlFor="status">{t("common.status")}</FormLabel>
-                            <Select
-                              {...field}
-                              id="status"
-                              placeholder={t("customerAccountModal.selectStatus")}
-                            >
-                              <option value="ENABLED">{t("common.enabled")}</option>
-                              <option value="DISABLED">{t("common.disabled")}</option>
+                            <FormLabel htmlFor="status">
+                              {t("common.status")}
+                            </FormLabel>
+                            <Select {...field} id="status">
+                              <option value="ENABLED">
+                                {t("common.enabled")}
+                              </option>
+                              <option value="DISABLED">
+                                {t("common.disabled")}
+                              </option>
                             </Select>
                             <FormErrorMessage>
-                            {t("common.status")} {form.errors.status}
+                              {t("common.status")} {form.errors.status}
                             </FormErrorMessage>
                           </FormControl>
                         )}
@@ -272,13 +286,15 @@ const CustomerAccountModal = (
                   </Flex>
 
                   <Box>
-                    <Flex mb="4">
+                    <Flex mb="7" justifyContent="center">
                       <FormLabel
+                        textAlign="center"
                         htmlFor="masterUser"
                         fontWeight="semibold"
                         textDecoration="underline"
                         textDecorationColor="teal"
-                        fontSize="20px"
+                        fontSize="25px"
+                        color="teal.500"
                       >
                         {t("customerAccounts.masterUser")}
                       </FormLabel>
@@ -312,15 +328,16 @@ const CustomerAccountModal = (
                               mb="24px"
                             >
                               <FormLabel htmlFor="username">
-                              {t("userInformation.userNameLabel")}
+                                {t("userInformation.userNameLabel")}
                               </FormLabel>
                               <Input
                                 {...field}
                                 id="username"
-                                placeholder= {t("userInformation.userNameLabel")}
+                                placeholder={t("userInformation.userNameLabel")}
                               />
                               <FormErrorMessage>
-                              {t("userInformation.userNameLabel")} {form.errors.masterUser?.username}
+                                {t("userInformation.userNameLabel")}{" "}
+                                {form.errors.masterUser?.username}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -350,14 +367,18 @@ const CustomerAccountModal = (
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="email"> {t("userInformation.emailLabel")}</FormLabel>
+                              <FormLabel htmlFor="email">
+                                {" "}
+                                {t("userInformation.emailLabel")}
+                              </FormLabel>
                               <Input
                                 {...field}
                                 id="email"
                                 placeholder={t("userInformation.emailLabel")}
                               />
                               <FormErrorMessage>
-                              {t("userInformation.emailLabel")} {form.errors.masterUser?.email}
+                                {t("userInformation.emailLabel")}{" "}
+                                {form.errors.masterUser?.email}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -391,15 +412,18 @@ const CustomerAccountModal = (
                               mb="24px"
                             >
                               <FormLabel htmlFor="firstName">
-                              {t("userInformation.firstNameLabel")}
+                                {t("userInformation.firstNameLabel")}
                               </FormLabel>
                               <Input
                                 {...field}
                                 id="firstName"
-                                placeholder={t("userInformation.firstNameLabel")}
+                                placeholder={t(
+                                  "userInformation.firstNameLabel",
+                                )}
                               />
                               <FormErrorMessage>
-                              {t("userInformation.firstNameLabel")} {form.errors.masterUser?.firstName}
+                                {t("userInformation.firstNameLabel")}{" "}
+                                {form.errors.masterUser?.firstName}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -432,15 +456,16 @@ const CustomerAccountModal = (
                               mb="24px"
                             >
                               <FormLabel htmlFor="lastName">
-                              {t("userInformation.lastNameLabel")}
+                                {t("userInformation.lastNameLabel")}
                               </FormLabel>
                               <Input
                                 {...field}
                                 id="lastName"
-                                placeholder= {t("userInformation.lastNameLabel")}
+                                placeholder={t("userInformation.lastNameLabel")}
                               />
                               <FormErrorMessage>
-                              {t("userInformation.lastNameLabel")} {form.errors.masterUser?.lastName}
+                                {t("userInformation.lastNameLabel")}{" "}
+                                {form.errors.masterUser?.lastName}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -473,15 +498,33 @@ const CustomerAccountModal = (
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="password"> {t("common.password")}</FormLabel>
-                              <Input
-                                {...field}
-                                type="password"
-                                id="password"
-                                placeholder= {t("common.password")}
-                              />
+                              <FormLabel htmlFor="password">
+                                {" "}
+                                {t("common.password")}
+                              </FormLabel>
+                              <InputGroup>
+                                <Input
+                                  {...field}
+                                  type={showPassword ? "text" : "password"}
+                                  id="password"
+                                  placeholder={t("common.password")}
+                                />
+                                <InputRightElement width="3.2rem">
+                                  <Button
+                                    h="100%"
+                                    variant="ghost"
+                                    onClick={() =>
+                                      setShowPassword(!showPassword)
+                                    }
+                                    color="gray.500"
+                                  >
+                                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                  </Button>
+                                </InputRightElement>
+                              </InputGroup>
                               <FormErrorMessage>
-                              {t("common.password")} {form.errors.masterUser?.password}
+                                {t("common.password")}{" "}
+                                {form.errors.masterUser?.password}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -514,7 +557,10 @@ const CustomerAccountModal = (
                               }
                               mb="24px"
                             >
-                              <FormLabel htmlFor="Phone"> {t("userInformation.phoneLabel")}</FormLabel>
+                              <FormLabel htmlFor="Phone">
+                                {" "}
+                                {t("userInformation.phoneLabel")}
+                              </FormLabel>
                               <Input
                                 {...field}
                                 id="phone"
@@ -522,7 +568,8 @@ const CustomerAccountModal = (
                                 type="number"
                               />
                               <FormErrorMessage>
-                              {t("userInformation.phoneLabel")} {form.errors.masterUser?.phone}
+                                {t("userInformation.phoneLabel")}{" "}
+                                {form.errors.masterUser?.phone}
                               </FormErrorMessage>
                             </FormControl>
                           )}
@@ -530,7 +577,17 @@ const CustomerAccountModal = (
                       </Box>
                     </Flex>
                   </Box>
-                  <Flex justifyContent="center">
+                  <Flex>
+                    <Button
+                      fontSize="15px"
+                      fontWeight="bold"
+                      colorScheme="red"
+                      w="50%"
+                      mr={3}
+                      onClick={onClose} 
+                    >
+                      {t("common.cancel")}
+                    </Button>
                     <Button
                       fontSize="15px"
                       colorScheme="teal"
