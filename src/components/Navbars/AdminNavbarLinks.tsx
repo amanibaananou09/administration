@@ -169,7 +169,7 @@ const {
         routes={routes}
         {...props}
       />
-      <SettingsIcon
+      {!isAdminMode && (<SettingsIcon
         cursor="pointe r"
         ms={{ base: "16px", xl: "0px" }}
         me="16px"
@@ -177,7 +177,7 @@ const {
         color={navbarIcon}
         w="18px"
         h="18px"
-      />
+      />  )}
       {!isAdminMode && (
       <Menu>
         <MenuButton>
