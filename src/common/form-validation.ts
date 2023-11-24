@@ -11,7 +11,6 @@ export const userFormValidationSchema = Yup.object().shape({
 
   username: Yup.string()
     .min(4, "Username must be at least 4 characters")
-    .matches(/^[a-z]+$/, "Username must contain only lowercase letters")
     .required("Username is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -64,15 +63,10 @@ export const addStationFormValidationSchema = Yup.object().shape({
     userController: Yup.object().shape({
       username: Yup.string()
         .min(4, "Username must be at least 4 characters")
-        .matches(/^[a-z]+$/, "Username must contain only lowercase letters")
         .required("Username is required"),
 
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
-        .matches(
-          /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).*$/,
-          "Password must contain at least one special character",
-        )
         .required("Password is required"),
     }),
   }),
