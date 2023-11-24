@@ -18,7 +18,6 @@ import { useEffect, useRef } from "react";
 import { getListOfCustomerAccount } from "common/api/customerAccount-api";
 import { useTranslation } from "react-i18next";
 
-
 import { CustomAccountModalRefType } from "common/react-props";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -34,7 +33,7 @@ const CustomerAccountManagement = () => {
     data: customerAccounts,
   } = useHttp(getListOfCustomerAccount);
 
-  const { t } = useTranslation('administration');
+  const { t } = useTranslation("administration");
   const textColor = useColorModeValue("gray.700", "white");
   const columnTitleTextColor = useColorModeValue("black", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -48,26 +47,48 @@ const CustomerAccountManagement = () => {
 
   const submitModalHandler = async () => {
     try {
-      await fetchCustomerAccounts();
-
-      toast({
-        title: t('customerAccounts.accountAddedTitle'),
-        description: t('customerAccounts.accountAddedDescription'),
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      const response = await fetchCustomerAccounts();
+    
+      if (response.status === undefined) {
+        throw new Error(`La réponse ne contient pas de statut HTTP valide.`);
+      }
+    
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
+    
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        console.log("Réponse de l'API :", data);
+        console.log("Statut de la réponse :", data.status);
+        if (data && data.status === 'SUCCESS') { 
+          toast({
+            title: t('customerAccounts.accountAddedTitle'),
+            description: t('customerAccounts.accountAddedDescription'),
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: t('customerAccounts.errorTitle'),
+            description: t('customerAccounts.errorDescription'),
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+    
+      } else {
+        console.error('La réponse n\'est pas au format JSON');
+      }
+    
     } catch (error) {
-      console.error("Erreur inattendue :", error);
-      toast({
-        title:  t('customerAccounts.errorTitle'),
-        description: t('customerAccounts.errorDescription'),
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      console.error('Erreur inattendue :', error);
     }
   };
+  
 
   useEffect(() => {
     fetchCustomerAccounts();
@@ -87,7 +108,7 @@ const CustomerAccountManagement = () => {
                 size="md"
                 onClick={() => openAccountModal()}
               >
-                 {t('customerAccounts.addAccountButton')}
+                {t("customerAccounts.addAccountButton")}
               </Button>
             </Flex>
           </CardHeader>
@@ -127,7 +148,7 @@ const CustomerAccountManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                     {t("common.status")}
+                    {t("common.status")}
                   </Th>
                 </Tr>
               </Thead>
