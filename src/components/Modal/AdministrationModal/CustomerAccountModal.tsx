@@ -24,9 +24,12 @@ import {
   CustomerAccountModalProps,
 } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React from "react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const CustomerAccountModal = (
   { onSubmit }: CustomerAccountModalProps,
@@ -57,7 +60,7 @@ const CustomerAccountModal = (
         setAccount({
           name: "",
           description: "",
-          status: "",
+          status: "ENABLED",
           masterUser: {
             username: "",
             email: "",
@@ -75,13 +78,6 @@ const CustomerAccountModal = (
     let error: string | undefined;
     if (!value) {
       error = t("common.error");
-    }
-    return error;
-  };
-  const isNotNullAndMinLength = (value: string) => {
-    let error: string | undefined;
-    if (!value) {
-      error = t("common.error");
     } else if (value.length < 4) {
       error = t("common.errorLength");
     }
@@ -89,16 +85,12 @@ const CustomerAccountModal = (
   };
 
   const isValidPhoneNumber = (value: string) => {
-    let error: string | undefined;
-
-    // Check if the value is a number with exactly 8 digits
-    const isValid = /^\d{8}$/.test(value);
-
-    if (!isValid) {
-      error = t("common.errorPhone");
+    // Check if the phone number is present
+    if (!value) {
+      return t("common.error");
     }
 
-    return error;
+    return undefined;
   };
 
   const isValidEmail = (value: string) => {
@@ -162,7 +154,7 @@ const CustomerAccountModal = (
                 <Flex direction="column">
                   <Flex mb="24px">
                     <Box flex="1" mr="4">
-                      <Field name="name" validate={isNotNullAndMinLength}>
+                      <Field name="name" validate={isNotNull}>
                         {({
                           field,
                           form,
@@ -200,10 +192,7 @@ const CustomerAccountModal = (
                       </Field>
                     </Box>
                     <Box flex="1" mx="4">
-                      <Field
-                        name="description"
-                        validate={isNotNullAndMinLength}
-                      >
+                      <Field name="description" validate={isNotNull}>
                         {({
                           field,
                           form,
@@ -301,10 +290,7 @@ const CustomerAccountModal = (
                     </Flex>
                     <Flex mb="24px">
                       <Box flex="1" mr="4">
-                        <Field
-                          name="masterUser.username"
-                          validate={isNotNullAndMinLength}
-                        >
+                        <Field name="masterUser.username" validate={isNotNull}>
                           {({
                             field,
                             form,
@@ -385,10 +371,7 @@ const CustomerAccountModal = (
                         </Field>
                       </Box>
                       <Box flex="1" ml="4">
-                        <Field
-                          name="masterUser.firstName"
-                          validate={isNotNullAndMinLength}
-                        >
+                        <Field name="masterUser.firstName" validate={isNotNull}>
                           {({
                             field,
                             form,
@@ -560,14 +543,25 @@ const CustomerAccountModal = (
                               mb="24px"
                             >
                               <FormLabel htmlFor="Phone">
-                                {" "}
                                 {t("userInformation.phoneLabel")}
                               </FormLabel>
-                              <Input
+                              <PhoneInput
                                 {...field}
                                 id="phone"
+                                name="phone"
                                 placeholder={t("userInformation.phoneLabel")}
-                                type="number"
+                                value={field.value}
+                                onChange={(value) => {
+                                  const fakeEvent = {
+                                    target: {
+                                      value,
+                                      name: field.name,
+                                    },
+                                  };
+                                  field.onChange(
+                                    fakeEvent as React.ChangeEvent<any>,
+                                  );
+                                }}
                               />
                               <FormErrorMessage>
                                 {t("userInformation.phoneLabel")}{" "}
