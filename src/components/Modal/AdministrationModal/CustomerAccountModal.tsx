@@ -168,6 +168,7 @@ const CustomerAccountModal = (
                           form: {
                             errors: { name: string };
                             touched: { name: boolean };
+                            setFieldValue: (field: string, value: any) => void; 
                           };
                         }) => (
                           <FormControl
@@ -183,6 +184,10 @@ const CustomerAccountModal = (
                               {...field}
                               id="name"
                               placeholder={t("common.name")}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                form.setFieldValue('masterUser.username', e.target.value);
+                              }}
                             />
                             <FormErrorMessage>
                               {t("common.name")} {form.errors.name}
@@ -447,8 +452,6 @@ const CustomerAccountModal = (
                                 placeholder={t("userInformation.lastNameLabel")}
                               />
                               <FormErrorMessage>
-                                {t("userInformation.lastNameLabel")}{" "}
-                                {form.errors.masterUser?.lastName}
                                 {t("userInformation.lastNameLabel")}{" "}
                                 {form.errors.masterUser?.lastName}
                               </FormErrorMessage>

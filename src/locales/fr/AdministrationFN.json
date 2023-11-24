@@ -39,8 +39,8 @@
     "noAccountsAvailable": "Aucun compte disponible.",
     "addUserButton": "Ajouter un utilisateur",
     "addStationButton": "Ajouter une station",
-    "noUserAttached": "Aucune utilisateur attachée",
-    "noStationAttached": "Aucune station attachée"
+    "noUserAttached": "Aucune utilisateur attachés",
+    "noStationAttached": "Aucune station attachées"
   },
   "userInformation": {
     "header": "Informations sur l'utilisateur",
