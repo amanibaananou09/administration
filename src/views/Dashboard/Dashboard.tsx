@@ -50,7 +50,6 @@ export default function Dashboard() {
           startDate={fromDate}
           endDate={toDate}
         />
-        <br />
         <PumpSales
           periode={selectedFilter}
           startDate={fromDate}

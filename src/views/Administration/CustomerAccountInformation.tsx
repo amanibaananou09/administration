@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Account, RouteParams } from "common/AdminModel";
 import {
   AddStationModalRefType,
@@ -19,19 +19,35 @@ import {
   getCustomerAccountInformation,
 } from "../../common/api/station-api";
 import { Station, User } from "../../common/model";
+import UserInformation from "./UserInformation";
+import StationInformation from "./StationInformation";
 
 const CustomerAccountInformation = () => {
   const { id } = useParams<RouteParams>();
   const addUserModalRef = useRef<AddUserModalRefType>(null);
   const addStationModalRef = useRef<AddStationModalRefType>(null);
-  const { t } = useTranslation('administration');
+  const { t } = useTranslation("administration");
 
   const [account, setAccount] = useState<Account>();
   const [stationAccounts, setStationAccounts] = useState<Station[]>([]);
   const [userAccounts, setUserAccounts] = useState<User[]>([]);
 
-  const textColor = useColorModeValue("gray.700", "white");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
+  const openUserInformationModal = (user: User) => {
+    setSelectedUser(user);
+  };
+  const closeUserInformationModal = () => {
+    setSelectedUser(null);
+  };
+  const [selectedStation, setSelectedStation] = useState<Station | null>(null);
+
+  const openStationInformationModal = (station: Station) => {
+    setSelectedStation(station);
+  };
+  const closeStationInformationModal = () => {
+    setSelectedStation(null);
+  };
   const openUserModal = () => {
     addUserModalRef.current?.open();
   };
@@ -166,7 +182,13 @@ const CustomerAccountInformation = () => {
                 >
                   {userAccounts.map((user, index) => (
                     <Fragment key={index}>
-                      <Text fontSize="md" color="gray.700">
+                      <Text
+                        fontSize="md"
+                        color="teal.500"
+                        textDecoration="underline"
+                        cursor="pointer"
+                        onClick={() => openUserInformationModal(user)}
+                      >
                         {user.username}
                       </Text>
                     </Fragment>
@@ -208,7 +230,13 @@ const CustomerAccountInformation = () => {
                   {stationAccounts.length > 0 &&
                     stationAccounts.map((station, index) => (
                       <Fragment key={index}>
-                        <Text fontSize="md" color="gray.700">
+                        <Text
+                          fontSize="md"
+                          color="teal.500"
+                          textDecoration="underline"
+                          cursor="pointer"
+                          onClick={() => openStationInformationModal(station)}
+                        >
                           {station.name}
                         </Text>
                       </Fragment>
@@ -243,6 +271,18 @@ const CustomerAccountInformation = () => {
         ref={addStationModalRef}
         onSubmit={submitAddStationModalHandler}
       />
+      {selectedUser && (
+        <UserInformation
+          user={selectedUser}
+          onClose={closeUserInformationModal}
+        />
+      )}
+      {selectedStation && (
+        <StationInformation
+          station={selectedStation}
+          onClose={closeStationInformationModal}
+        />
+      )}
     </>
   );
 };

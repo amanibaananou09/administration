@@ -8,10 +8,10 @@ export const login = async (username: string, password: string) => {
 };
 
 export const createUser = async (user: User) => {
-  const { family_name, given_name, username, email, role } = user;
+  const { lastName, firstName, username, email, role } = user;
   const response = await api.post("/createUser", {
-    family_name,
-    given_name,
+    lastName: lastName,
+    firstName: firstName,
     username,
     email,
     role,

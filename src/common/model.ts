@@ -93,8 +93,8 @@ export interface RouteConfig {
 
 export interface User {
   id?: string;
-  given_name?: string;
-  family_name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   username: string;
   role?: string;
