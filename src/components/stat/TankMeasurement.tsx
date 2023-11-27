@@ -61,7 +61,7 @@ export const TankMeasurement = ({
               >
                 {t("common.productVolume")}:
               </Text>
-              {tankMeasurement.productVolume}L
+              {tankMeasurement.productVolume} {""} L
             </Text>
           </Flex>
           <Flex alignItems="center">
@@ -75,7 +75,8 @@ export const TankMeasurement = ({
               >
                 {t("tankMeasurement.watervolume")}:
               </Text>
-              {tankMeasurement.waterVolume}L
+              {tankMeasurement.waterVolume}
+              {""} L
             </Text>
           </Flex>
           <Flex alignItems="center">
@@ -89,7 +90,8 @@ export const TankMeasurement = ({
               >
                 {t("common.temperature")}:
               </Text>
-              {tankMeasurement.temperature}°C
+              {tankMeasurement.temperature}
+              {""} °C
             </Text>
           </Flex>
         </Flex>

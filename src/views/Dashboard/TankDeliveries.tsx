@@ -12,8 +12,11 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { getAllTankDelivery } from "common/api/configuration-api";
-import { TankDelivery } from "common/model";
+import {
+  getAllTankDelivery,
+  getallTransactionPump,
+} from "common/api/configuration-api";
+import { TankDelivery, Transaction } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -23,6 +26,8 @@ import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { useTranslation } from "react-i18next";
 import FilterDelivery from "../../components/filter/FilterDelivery";
+import * as XLSX from "xlsx";
+import { DownloadIcon } from "@chakra-ui/icons";
 
 const TankDeliveries = () => {
   const textColor: string = useColorModeValue("gray.700", "white");
@@ -41,6 +46,46 @@ const TankDeliveries = () => {
   );
   const { t } = useTranslation("dashboard");
 
+  const exportAllToExcel = async () => {
+    if (!selectedStation || !totalPages) {
+      return;
+    }
+
+    let allDelivery: TankDelivery[] = [];
+
+    try {
+      // Fetch delivery from all pages
+      for (let page = 0; page < totalPages; page++) {
+        const result = await getAllTankDelivery(
+          page,
+          selectedStation,
+          selectedFilterDelivery,
+          tank,
+          startDate,
+          endDate,
+        );
+        const { content } = result;
+        allDelivery = allDelivery.concat(content);
+      }
+
+      // Convert transactions to Excel and export
+      const data = allDelivery.map((tankDelivery) => ({
+        Tank: tankDelivery.tank,
+        "Product Volume": tankDelivery.productVolume,
+        "Fuel Grade": tankDelivery.fuelGradeName,
+        "Product Height": tankDelivery.productHeight,
+        "Water Height": tankDelivery.waterHeight,
+        Temperature: tankDelivery.temperature,
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Deliveries");
+      XLSX.writeFile(wb, "all_deliveries.xlsx");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     const allTankDelivery = async () => {
       if (!selectedStation) {
@@ -93,10 +138,22 @@ const TankDeliveries = () => {
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
-        <CardHeader p="6px 0px 22px 0px">
+        <CardHeader
+          p="6px 0px 22px 0px"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Text fontSize="xl" color={textColor} fontWeight="bold">
             {t("tankDeliveries.header")}
           </Text>
+          <Button
+            colorScheme="blue"
+            leftIcon={<DownloadIcon />}
+            onClick={exportAllToExcel}
+          >
+            {t("common.export")}
+          </Button>
         </CardHeader>
         <CardBody>
           <FilterDelivery
@@ -125,7 +182,7 @@ const TankDeliveries = () => {
                   color="gray.400"
                   textAlign="center"
                 >
-                   {t("common.productVolume")}
+                  {t("common.productVolume")}
                 </Th>
                 <Th
                   borderColor={borderColor}
