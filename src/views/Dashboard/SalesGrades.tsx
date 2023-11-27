@@ -41,9 +41,10 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
     <Flex flexDirection="column" justifyContent="space-between">
       <Text
         as="span"
-        fontSize="2xl"
-        fontWeight="bold"
-        color="blue.700"
+        fontSize="3xl"
+        fontWeight="blod"
+        color="white"
+        fontFamily="monospace"
         display="inline"
         onClick={() => setIsContentVisible(!isContentVisible)}
       >
@@ -75,7 +76,8 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
                 display="inline"
                 fontSize="xl"
               >
-                {t("salesGrades.totalSalesVolume")}: {grade.totalSalesParVolume} Litre
+                {t("salesGrades.totalSalesVolume")}: {grade.totalSalesParVolume}{" "}
+                Litre
               </Text>
               <Text
                 as="span"

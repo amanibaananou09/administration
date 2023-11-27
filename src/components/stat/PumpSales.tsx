@@ -42,20 +42,34 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
     <>
       <Flex flexDirection="column" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="normal" display="inline">
-          <Text as="span" fontWeight="bold" color="blue.700">
-          {t("pumpSales.totalSales")} :
+          <Text
+            as="span"
+            fontSize="3xl"
+            fontWeight="blod"
+            color="white"
+            fontFamily="monospace"
+          >
+            {t("pumpSales.totalSales")} :
           </Text>{" "}
-          {salesPumps.reduce((total, pump) => total + pump.allSales, 0)}{" "}
-          {selectedStation?.country?.currency?.code}
+          <Text
+            as="span"
+            fontSize="40px"
+            fontWeight="blod"
+            color="greenyellow"
+            fontFamily="monospace"
+          >
+            {salesPumps.reduce((total, pump) => pump.allSales, 0)}{" "}
+            {selectedStation?.country?.currency?.code}
+          </Text>
         </Text>
-
         <br />
         <Flex display="flex" alignItems="center" justifyContent="space-between">
           <Text
             as="span"
-            fontSize="2xl"
-            fontWeight="bold"
-            color="blue.700"
+            fontSize="3xl"
+            fontWeight="blod"
+            color="white"
+            fontFamily="monospace"
             display="inline"
             onClick={() => setIsContentVisible(!isContentVisible)}
           >
