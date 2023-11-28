@@ -119,7 +119,7 @@ export interface Decode {
 }
 
 export interface fuelGrade {
-  idConf: number;
+  idConf:  string | null;
   name: string;
   price: number;
   expansionCoefficient: string;

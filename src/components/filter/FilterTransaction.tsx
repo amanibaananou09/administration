@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 interface FilterTransactionProps {
   selectedFilterTransactions: string;
   onFilterChange: (filterType: string) => void;
-  onChange: (value: number | null) => void;
+  onChange: (value: string | null) => void;
   onSearch: (fromDate: string, toDate: string) => void;
 }
 
@@ -29,8 +29,8 @@ function FilterTransaction(props: FilterTransactionProps) {
     onChange,
     onSearch,
   } = props;
-  const [selectedPump, setSelectedPump] = useState<number | null>(null);
-  const [selectedfuel, setSelectedfuel] = useState<number | null>(null);
+  const [selectedPump, setSelectedPump] = useState<string | null>("");
+  const [selectedfuel, setSelectedfuel] = useState<string | null>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const { user } = useAuth();
@@ -78,11 +78,25 @@ function FilterTransaction(props: FilterTransactionProps) {
       onFilterChange(filterType);
     }
   };
-  const handleCheckboxChange = (value: number | null) => {
+  const handleCheckboxChange = (value: string | null) => {
     setSelectedPump(value);
     setSelectedfuel(value);
     onChange(value);
   };
+  useEffect(() => {
+    if (selectedFilterTransactions !== "pump") {
+      setSelectedPump("");
+      onChange(null);
+    }
+    if (selectedFilterTransactions !== "fuelGrade") {
+      setSelectedfuel("");
+      onChange(null);
+    }
+    if (selectedFilterTransactions !== "period") {
+      setStartDate("");
+      setEndDate("");
+    }
+  }, [selectedFilterTransactions, onChange]);
 
   return (
     <Flex alignItems="center" p="5">
@@ -131,10 +145,10 @@ function FilterTransaction(props: FilterTransactionProps) {
             <Checkbox
               p="2"
               key={pump.id}
-              isChecked={selectedPump === Number(pump.id)}
+              isChecked={selectedPump === pump.id}
               onChange={() =>
                 handleCheckboxChange(
-                  selectedPump === Number(pump.id) ? null : Number(pump.id),
+                  selectedPump === pump.id ? null : pump.id,
                 )
               }
             >
@@ -149,12 +163,12 @@ function FilterTransaction(props: FilterTransactionProps) {
             <Checkbox
               p="2"
               key={fuel.idConf}
-              isChecked={selectedfuel === Number(fuel.idConf)}
+              isChecked={selectedfuel === fuel.idConf}
               onChange={() =>
                 handleCheckboxChange(
-                  selectedfuel === Number(fuel.idConf)
+                  selectedfuel === fuel.idConf
                     ? null
-                    : Number(fuel.idConf),
+                    : fuel.idConf,
                 )
               }
             >

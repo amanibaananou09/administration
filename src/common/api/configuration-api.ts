@@ -52,8 +52,8 @@ export const getallTransactionPump = async (
   currentPage: number,
   station: Station,
   filterType: string,
-  pumpId: number,
-  fuelGrade: number,
+  pumpId: string,
+  fuelGrade: string,
   startDate: string,
   endDate: string,
 ) => {
@@ -68,7 +68,7 @@ export const getAllTankDelivery = async (
   currentPage: number,
   station: Station,
   filterType: string,
-  tank: number,
+  tank: string,
   startDate: string,
   endDate: string,
 ) => {

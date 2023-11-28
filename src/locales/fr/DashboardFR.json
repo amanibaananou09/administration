@@ -73,10 +73,12 @@
   "transactions": {
     "header": "Transactions",
     "price": "Prix",
-    "volumeGreater": "Transactions avec volume supérieur à 100"
+    "volumeGreater": "Transactions avec volume supérieur à 100",
+    "noTransactions": "Aucune transactions trouvée."
   },
   "tankDeliveries": {
-    "header": "Livraison des réservoirs"
+    "header": "Livraison des réservoirs",
+    "noTankDelivery": "Aucune livraison de réservoir trouvée."
   },
   "profile": {
     "header": "Détaille de profil",

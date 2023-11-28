@@ -13,6 +13,9 @@ import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartButton from "../ChartMenu/TankChartButton";
 import { useTranslation } from "react-i18next";
+import {
+  Box,
+} from "@chakra-ui/react";
 
 export const TankLevelChart = ({
   periode,
@@ -109,14 +112,15 @@ export const TankLevelChart = ({
   ];
 
   return (
-    <div>
-      <TankChartButton
-        tanks={tanks}
-        selectedTank={selectedTank}
-        onChange={(tank) => setSelectedTank(tank)}
-      />
-      {alignedChartData.tankLevelData.length > 0 &&
-        alignedChartData.tankMeasurementData.length > 0 && (
+    <Box>
+    <TankChartButton
+      tanks={tanks}
+      selectedTank={selectedTank}
+      onChange={(tank) => setSelectedTank(tank)}
+    />
+    {alignedChartData.tankLevelData.length > 0 &&
+      alignedChartData.tankMeasurementData.length > 0 && (
+        <Box>
           <ReactApexChart
             options={chartOptions}
             series={chartSeries}
@@ -124,8 +128,9 @@ export const TankLevelChart = ({
             width="100%"
             height="500px"
           />
-        )}
-    </div>
+        </Box>
+      )}
+  </Box>
   );
 };
 

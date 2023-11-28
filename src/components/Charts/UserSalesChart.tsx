@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+
 const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
   const { selectedStation } = useESSContext();
-
   const { user } = useAuth();
   const [data, setData] = useState<{
     labels: string[];
@@ -19,91 +19,69 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
     }[];
   }>({
     labels: [],
-    datasets: [
-      {
-        name: "Gasoil",
-        data: [],
-      },
-      {
-        name: "Super Sans Plomb",
-        data: [],
-      },
-      {
-        name: "Gasoil Sans Soufre",
-        data: [],
-      },
-    ],
+    datasets: [],
   });
   const textColor = useColorModeValue("gray.700", "white");
-
+  function getRandomColor(): string {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
   useEffect(() => {
     const fetchData = async () => {
-      const dataSet1: number[] = [];
-      const dataSet2: number[] = [];
-      const dataSet3: number[] = [];
-      const uniqueUserIds = new Set<number>();
-      if (!user) {
-        return;
-      }
-      if (selectedStation) {
-        const res = await getAllStatVent(
-          selectedStation,
-          periode,
-          startDate,
-          endDate,
-        );
+      if (!user || !selectedStation) return;
 
-        try {
-          if (Array.isArray(res)) {
-            for (const val of res) {
-              if (val.fuelGradeName === "Gasoil") {
-                dataSet1.push(val.sumVolume);
-              } else if (val.fuelGradeName === "Super Sans Plomb") {
-                dataSet2.push(val.sumVolume);
-              } else if (val.fuelGradeName === "Gasoil Sans Soufre") {
-                dataSet3.push(val.sumVolume);
-              }
-              if (val.userId) {
-                uniqueUserIds.add(val.userId);
-              }
+      try {
+        const res = await getAllStatVent(selectedStation, periode, startDate, endDate);
+        if (Array.isArray(res)) {
+          const uniqueUserIds = new Set<number>();
+          const datasets: {
+            name: string;
+            data: number[];
+            backgroundColor?: string;
+            borderWidth?: number;
+          }[] = [];
+
+          res.forEach((val) => {
+            const datasetIndex = datasets.findIndex((dataset) => dataset.name === val.fuelGradeName);
+
+            if (datasetIndex === -1) {
+              datasets.push({
+                name: val.fuelGradeName,
+                data: [val.sumVolume],
+                backgroundColor: getRandomColor(), 
+                borderWidth: 1,
+              });
+            } else {
+              datasets[datasetIndex].data.push(val.sumVolume);
             }
-          } else {
-            console.error("res is not an array:", res);
-          }
+
+            if (val.userId) {
+              uniqueUserIds.add(val.userId);
+            }
+          });
 
           const labelSet = [...uniqueUserIds].map((userId) => `ID ${userId}`);
           setData({
             labels: labelSet,
-            datasets: [
-              {
-                name: "Gasoil",
-                data: dataSet1,
-                backgroundColor: "rgba(32,178,170,0.6)",
-                borderWidth: 1,
-              },
-              {
-                name: "Super Sans Plomb",
-                data: dataSet2,
-                borderWidth: 1,
-                backgroundColor: "rgba(53, 162, 235, 0.5)",
-              },
-              {
-                name: "Gasoil Sans Soufre",
-                data: dataSet3,
-                borderWidth: 1,
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
-              },
-            ],
+            datasets,
           });
-        } catch (error) {
-          console.error("Error fetching data:", error);
+        } else {
+          console.error("res is not an array:", res);
         }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [selectedStation, periode, startDate, endDate]);
+  }, [selectedStation, periode, startDate, endDate, user]);
 
+  // Options for the chart
   const UserSalesBarChartOptions = {
     chart: {
       stacked: true,

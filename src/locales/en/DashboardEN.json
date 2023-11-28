@@ -73,10 +73,12 @@
   "transactions": {
     "header": "Transactions",
     "price": "Price",
-    "volumeGreater": "Transactions with Volume greater than 100"
+    "volumeGreater": "Transactions with Volume greater than 100",
+    "noTransactions": "No transactions found."
   },
   "tankDeliveries": {
-    "header": "Tank Delivery"
+    "header": "Tank Delivery",
+    "noTankDelivery": "No tank deliveries found."
   },
   "profile": {
     "header": " Profile Information",

@@ -140,7 +140,7 @@ const Profile = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Card p="16px" my={{ sm: "24px", xl: "0px" }} width="150%">
+        <Card p="16px"  my={{ base: "24px", xl: "0px" }} width="100%">
           <CardHeader p="12px 5px" mb="12px">
             <Text
               fontSize="3xl"
