@@ -76,8 +76,8 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
                 display="inline"
                 fontSize="xl"
               >
-                {t("salesGrades.totalSalesVolume")}: {grade.totalSalesParVolume}{" "}
-                Litre
+                {t("salesGrades.totalSalesVolume")}:{" "}
+                {grade.totalSalesParVolume.toFixed(2)} Litre Litre
               </Text>
               <Text
                 as="span"

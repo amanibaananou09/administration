@@ -77,16 +77,16 @@ export const ReportSalesChart = ({
                 pump === "all" &&
                 fuelGrade === "all"
               ) {
-                return item.sum;
+                return item.sum.toFixed(2);
               } else if (
                 (chartType === "amount" &&
                   pump !== "all" &&
                   fuelGrade !== "all") ||
                 chartType === "volume"
               ) {
-                return item.sumF;
+                return item.sumF.toFixed(2);
               } else {
-                return item.sum;
+                return item.sum.toFixed(2);
               }
             }),
             borderWidth: 1,
