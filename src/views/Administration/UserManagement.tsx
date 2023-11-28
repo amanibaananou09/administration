@@ -23,20 +23,18 @@ import CardHeader from "components/Card/CardHeader";
 import UserModal from "components/Modal/UserModal";
 import UserTableRow from "components/Tables/UserTableRow";
 import useHttp from "hooks/use-http";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 const UserManagement = () => {
-  const { makeRequest: fetchUsers, isLoading, data: users } = useHttp(listUser);
+  const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
+    GeneralUser[]
+  >(listUser);
   const userModalRef = useRef<UserModalRefType>(null);
-  const { t } = useTranslation('administration');
+  const { t } = useTranslation("administration");
 
   const textColor = useColorModeValue("gray.700", "white");
   const columnTitleTextColor = useColorModeValue("black", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const openUserModal = () => {
     userModalRef.current?.open();
@@ -49,7 +47,7 @@ const UserManagement = () => {
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
-              {t("userManagement.globalUsers.header")}  
+                {t("userManagement.globalUsers.header")}
               </Text>
               <Button
                 colorScheme="teal"
@@ -72,7 +70,7 @@ const UserManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                   {t("userManagement.globalUsers.userNameColumn")}
+                    {t("userManagement.globalUsers.userNameColumn")}
                   </Th>
                   <Th
                     borderColor={borderColor}
@@ -111,13 +109,15 @@ const UserManagement = () => {
               </Thead>
               <Tbody>
                 {!isLoading &&
-                  users.map((user: GeneralUser, index: number, arr: []) => (
-                    <UserTableRow
-                      user={user}
-                      isLast={index === arr.length - 1 ? true : false}
-                      key={index}
-                    />
-                  ))}
+                  users?.map(
+                    (user: GeneralUser, index: number, arr: GeneralUser[]) => (
+                      <UserTableRow
+                        user={user}
+                        isLast={index === arr.length - 1 ? true : false}
+                        key={index}
+                      />
+                    ),
+                  )}
               </Tbody>
             </Table>
             {isLoading && (
