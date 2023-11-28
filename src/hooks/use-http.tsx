@@ -1,16 +1,13 @@
 import { AxiosError } from "axios";
-import { useCallback, useState } from "react";
-import { useAuth } from "store/AuthContext";
+import { useCallback, useEffect, useState } from "react";
 
-const useHttp = (
-  requestFn: (arg: any) => Promise<any>,
-  defaultLoadingState: boolean = true,
+const useHttp = <T,>(
+  requestFn: (arg?: any) => Promise<T>,
+  start: boolean = true,
 ) => {
-  const { user } = useAuth();
-
-  const [isLoading, setIsLoading] = useState(defaultLoadingState);
-  const [data, setData] = useState<any>();
-  const [error, setError] = useState<AxiosError | null>();
+  const [isLoading, setIsLoading] = useState(start);
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const makeRequest = useCallback(
     async (requestData?: any) => {
@@ -24,22 +21,19 @@ const useHttp = (
         return responseData;
       } catch (error) {
         console.error(error);
-        if (error instanceof AxiosError) {
-          setError(error);
-        }
+        setError((error as AxiosError).message);
       } finally {
         setIsLoading(false);
       }
     },
-    [user, requestFn],
+    [requestFn],
   );
 
-  return {
-    makeRequest,
-    data,
-    isLoading,
-    error,
-  };
+  useEffect(() => {
+    if (start) makeRequest();
+  }, [start, makeRequest]);
+
+  return { data, isLoading, makeRequest, error };
 };
 
 export default useHttp;

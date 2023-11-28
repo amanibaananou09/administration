@@ -11,11 +11,10 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-  useToast,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
-import { useEffect, useRef } from "react";
 import { getListOfCustomerAccount } from "common/api/customerAccount-api";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import { CustomAccountModalRefType } from "common/react-props";
@@ -28,10 +27,10 @@ import useHttp from "hooks/use-http";
 
 const CustomerAccountManagement = () => {
   const {
-    makeRequest: fetchCustomerAccounts,
-    isLoading,
     data: customerAccounts,
-  } = useHttp(getListOfCustomerAccount);
+    isLoading,
+    makeRequest: fetchCustomerAccounts,
+  } = useHttp<CustomerAccount[]>(getListOfCustomerAccount);
 
   const { t } = useTranslation("administration");
   const textColor = useColorModeValue("gray.700", "white");
@@ -39,56 +38,14 @@ const CustomerAccountManagement = () => {
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   const accountModalRef = useRef<CustomAccountModalRefType>(null);
-  const toast = useToast();
 
   const openAccountModal = (account?: CustomerAccount) => {
     accountModalRef.current?.open(account);
   };
 
   const submitModalHandler = async () => {
-    try {
-      const response = await fetchCustomerAccounts();
-    
-      if (response.status === undefined) {
-        throw new Error(`La réponse ne contient pas de statut HTTP valide.`);
-      }
-    
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP : ${response.status}`);
-      }
-    
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        const data = await response.json();
-        console.log("Réponse de l'API :", data);
-        console.log("Statut de la réponse :", data.status);
-        if (data && data.status === 'SUCCESS') { 
-          toast({
-            title: t('customerAccounts.accountAddedTitle'),
-            description: t('customerAccounts.accountAddedDescription'),
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-          });
-        } else {
-          toast({
-            title: t('customerAccounts.errorTitle'),
-            description: t('customerAccounts.errorDescription'),
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-          });
-        }
-    
-      } else {
-        console.error('La réponse n\'est pas au format JSON');
-      }
-    
-    } catch (error) {
-      console.error('Erreur inattendue :', error);
-    }
+    await fetchCustomerAccounts();
   };
-  
 
   useEffect(() => {
     fetchCustomerAccounts();
@@ -153,7 +110,9 @@ const CustomerAccountManagement = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {!isLoading && customerAccounts.length > 0 ? (
+                {!isLoading &&
+                customerAccounts &&
+                customerAccounts.length > 0 ? (
                   customerAccounts.map(
                     (account: CustomerAccount, index: number) => (
                       <CustomerAccountTableRow
