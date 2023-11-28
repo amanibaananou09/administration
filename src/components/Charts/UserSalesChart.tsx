@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
+import { formatNumber } from "../../utils/utils";
 
 const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
   const { selectedStation } = useESSContext();
@@ -22,6 +23,7 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
     datasets: [],
   });
   const textColor = useColorModeValue("gray.700", "white");
+
   function getRandomColor(): string {
     const letters = "0123456789ABCDEF";
     let color = "#";
@@ -30,13 +32,18 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
     }
     return color;
   }
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (!user || !selectedStation) return;
 
       try {
-        const res = await getAllStatVent(selectedStation, periode, startDate, endDate);
+        const res = await getAllStatVent(
+          selectedStation,
+          periode,
+          startDate,
+          endDate,
+        );
         if (Array.isArray(res)) {
           const uniqueUserIds = new Set<number>();
           const datasets: {
@@ -47,13 +54,15 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
           }[] = [];
 
           res.forEach((val) => {
-            const datasetIndex = datasets.findIndex((dataset) => dataset.name === val.fuelGradeName);
+            const datasetIndex = datasets.findIndex(
+              (dataset) => dataset.name === val.fuelGradeName,
+            );
 
             if (datasetIndex === -1) {
               datasets.push({
                 name: val.fuelGradeName,
-                data: [val.sumVolume],
-                backgroundColor: getRandomColor(), 
+                data: [formatNumber(val.sumVolume, 2)],
+                backgroundColor: getRandomColor(),
                 borderWidth: 1,
               });
             } else {

@@ -1,5 +1,6 @@
 import { Decode, User } from "common/model";
 import jwt_decode from "jwt-decode";
+import { number } from "yup";
 
 export const decodeToken = (token: string | null): User | null => {
   if (!token) {
@@ -45,6 +46,13 @@ export const formatDate = (dateTimeStart: string): string => {
     minute: "2-digit",
     hour12: false,
   });
+};
+
+export const formatNumber = (number: number, decimalPlaces = 2): number => {
+  if (!isFinite(number)) {
+    throw new TypeError("Invalid number");
+  }
+  return parseFloat(Number(number).toFixed(decimalPlaces));
 };
 
 export const getColorForTankLevel = (level: number): string => {

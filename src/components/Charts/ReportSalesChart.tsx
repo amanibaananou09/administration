@@ -10,6 +10,7 @@ import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import ReactApexChart from "react-apexcharts";
 import { useESSContext } from "store/ESSContext";
 import { useTranslation } from "react-i18next";
+import { formatNumber } from "../../utils/utils";
 
 export const ReportSalesChart = ({
   periode,
@@ -84,9 +85,9 @@ export const ReportSalesChart = ({
                   fuelGrade !== "all") ||
                 chartType === "volume"
               ) {
-                return item.sumF.toFixed(2);
+                return [formatNumber(item.sumF, 2)];
               } else {
-                return item.sum.toFixed(2);
+                return [formatNumber(item.sum, 2)];
               }
             }),
             borderWidth: 1,
