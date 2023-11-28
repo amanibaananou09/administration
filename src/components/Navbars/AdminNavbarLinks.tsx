@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { BellIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -12,16 +11,17 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ProfileIcon, SupportIcon } from "components/Icons/Icons";
+import StationConfigurator from "components/Configurator/StationConfigurator";
+import { ProfileIcon } from "components/Icons/Icons";
+import LanguageSelector from "components/LanguageSelector";
 import ItemContent from "components/Menu/ItemContent";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { administrationRoutes, dashboardRoutes } from "router/routes";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import LanguageSelector from "components/LanguageSelector";
-import { useTranslation } from "react-i18next";
-import StationConfigurator from "components/Configurator/StationConfigurator";
 
 import WebSocketService from "components/Notification/WebSocketService";
 import avatar1 from "../../assets/img/avatars/avatar1.png";

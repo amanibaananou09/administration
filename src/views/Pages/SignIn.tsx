@@ -8,22 +8,22 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Text,
-  useColorModeValue,
   InputGroup,
   InputRightElement,
+  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { login } from "common/api/auth-api";
 import { getStations } from "common/api/station-api";
 import { User } from "common/model";
 import LanguageSelector from "components/LanguageSelector";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
-import { useTranslation } from "react-i18next";
-import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 
 const SignIn = () => {
   const bgForm: string = useColorModeValue("white", "navy.800");
@@ -119,7 +119,7 @@ const SignIn = () => {
       <Flex
         justifyContent="flex-end"
         alignItems="flex"
-        mt="15px"
+        marginTop="15px"
         marginRight="10"
       >
         <LanguageSelector />
