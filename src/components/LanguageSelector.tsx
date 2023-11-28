@@ -1,18 +1,15 @@
 import {
-  Box,
   Flex,
   Image,
-  Text,
-  VStack,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
-  MenuItemOption,
+  MenuList,
+  Text,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import flagFr from "../components/fr.png";
 import flagEn from "../components/en.png";
+import flagFr from "../components/fr.png";
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
@@ -30,16 +27,14 @@ const LanguageSelector = () => {
   return (
     <Menu>
       <MenuButton>
-        <Flex alignItems="center">
-          <Image
-            src={
-              languageOptions.find((option) => option.value === i18n.language)
-                ?.flag
-            }
-            boxSize="30px"
-            marginRight="5px"
-          />
-        </Flex>
+        <Image
+          src={
+            languageOptions.find((option) => option.value === i18n.language)
+              ?.flag
+          }
+          boxSize="20px"
+          borderRadius="5px"
+        />
       </MenuButton>
       <MenuList>
         {languageOptions.map((option) => (

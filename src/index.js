@@ -3,18 +3,17 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
+import NotificationPopupContainer from "components/Notification/NotificationPopupContainer";
 import AuthLayout from "layouts/Auth";
 import MainLayout from "layouts/Main";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import MainRoute from "router/Route/MainRoute";
 import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
+import { TranslationProvider } from "store/TranslationContext";
 import theme from "theme/theme";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import WebSocketService from "components/Notification/WebSocketService";
-import NotificationPopupContainer from "components/Notification/NotificationPopupContainer";
 const container = document.getElementById("root");
-import { TranslationProvider } from "components/TranslationContext";
 
 const root = createRoot(container);
 
