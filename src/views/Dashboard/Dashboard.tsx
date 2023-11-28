@@ -34,10 +34,13 @@ export default function Dashboard() {
   };
 
   return (
-    <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 2, md: 2, xl: 1 }} spacing="24px" mb="20">
-        <TankMeasurementSection />
-      </SimpleGrid>
+    <Flex
+      flexDirection="column"
+      pt={{ base: "120px", md: "75px" }}
+      px={{ base: "1vw", md: "1vw", lg: "1vw" }}
+    >
+      <TankMeasurementSection />
+
       <FilterPeriod
         selectedFilter={selectedFilter}
         onFilterChange={handleFilterChange}
@@ -56,11 +59,15 @@ export default function Dashboard() {
           endDate={toDate}
         />
       </Flex>
-      <Flex flexDirection="row" pt={{ base: "120px", md: "75px" }}>
+      <Flex
+        flexDirection={{ base: "column", md: "row" }}
+        pt={{ base: "120px", md: "75px" }}
+        mx={{ base: "1vw", md: "0" }}
+      >
         <Card
           minH="125px"
-          m="5"
-          width="900px"
+          m={{ base: "5px", md: "5", lg: "1px" }}
+          width={{ base: "100%", md: "90%", lg: "45%" }}
           bg={
             colorMode === "dark"
               ? "navy.800"
@@ -85,7 +92,11 @@ export default function Dashboard() {
             />
           </Box>
         </Card>
-        <Card minH="125px" m="5" width="700px">
+        <Card
+          minH="125px"
+          m={{ base: "5px", md: "5", lg: "10px" }}
+          width={{ base: "100%", md: "90%", lg: "45%" }}
+        >
           <Flex direction="column">
             <Text color={textColor} fontSize="lg" fontWeight="bold">
               {t("dashboard.usersSales")}
@@ -100,26 +111,28 @@ export default function Dashboard() {
           </Box>
         </Card>
       </Flex>
-      <Card minH="125px" m="5" width="1650px">
-        <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
-          <Text
-            color={textColor}
-            fontSize="lg"
-            fontWeight="bold"
-            mb="30px"
-            marginLeft="0%"
-          >
-            {t("dashboard.tankLevel")}
-          </Text>
-        </Flex>
-        <Box minH="300px">
-          <TankLevelChart
-            periode={selectedFilter}
-            startDate={fromDate}
-            endDate={toDate}
-          />
-        </Box>
-      </Card>
+      <Flex>
+        <Card minH="125px" m="5" width={{ base: "100%", md: "90%" }}>
+          <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
+            <Text
+              color={textColor}
+              fontSize="lg"
+              fontWeight="bold"
+              mb="30px"
+              marginLeft="0%"
+            >
+              {t("dashboard.tankLevel")}
+            </Text>
+          </Flex>
+          <Box minH="300px">
+            <TankLevelChart
+              periode={selectedFilter}
+              startDate={fromDate}
+              endDate={toDate}
+            />
+          </Box>
+        </Card>
+      </Flex>
     </Flex>
   );
 }

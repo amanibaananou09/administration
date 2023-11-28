@@ -37,7 +37,7 @@ const TankDeliveries = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const { selectedStation } = useESSContext();
-  const [tank, setTank] = useState<number>(0);
+  const [tank, setTank] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
 
@@ -117,7 +117,7 @@ const TankDeliveries = () => {
     startDate,
     endDate,
   ]);
-  console.log("delivery", tank);
+
   const handlePageChange = (newPage: number): void => {
     setCurrentPage(newPage);
   };
@@ -125,15 +125,15 @@ const TankDeliveries = () => {
     setSelectedFilterDelivery(filterType);
   };
 
-  const handleChange = (value: number | null) => {
+  const handleChange = (value: string | null) => {
     if (selectedFilterDelivery === "tank") {
-      setTank(value || 0);
+      setTank(value || "");
     }
   };
   const handleSearchFilters = (startDate: string, endDate: string) => {
     setStartDate(startDate);
     setEndDate(endDate);
-    setTank(0);
+    setTank("");
   };
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -162,6 +162,11 @@ const TankDeliveries = () => {
             onChange={handleChange}
             onSearch={handleSearchFilters}
           />
+              {tankDelivery && tankDelivery.length === 0 ? (
+          <Text color={textColor} mt={4} textAlign="center" fontSize="xl">
+            {t("tankDeliveries.noTankDelivery")}
+          </Text>
+        ) : (
           <Table
             variant="simple"
             color={textColor}
@@ -231,7 +236,7 @@ const TankDeliveries = () => {
                 })}
             </Tbody>
           </Table>
-
+ )}
           {!tankDelivery && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />

@@ -23,7 +23,7 @@ import { useESSContext } from "store/ESSContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 import { useTranslation } from "react-i18next";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 
 const SignIn = () => {
   const bgForm: string = useColorModeValue("white", "navy.800");
@@ -40,6 +40,7 @@ const SignIn = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const getDefaultStation = async (user: User): Promise<any> => {
     const stations = await getStations(user);
@@ -60,7 +61,7 @@ const SignIn = () => {
     }
     try {
       const { access_token } = await login(username, password);
-
+      setIsLoading(true);
       const user = decodeToken(access_token);
 
       if (user?.customerAccountId) {
@@ -78,9 +79,16 @@ const SignIn = () => {
     } catch (error) {
       console.error(error);
       setErrorMessage(t("signIn.messageInvalid"));
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSubmit((event as unknown) as React.MouseEvent<HTMLButtonElement>);
+    }
+  };
   return (
     <Flex
       direction="column"
@@ -176,6 +184,7 @@ const SignIn = () => {
               size="lg"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
               {t("signIn.password")}
@@ -192,6 +201,7 @@ const SignIn = () => {
                 size="lg"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
               <InputRightElement width="3.2rem">
                 <Button
@@ -213,8 +223,9 @@ const SignIn = () => {
               h="45"
               mb="24px"
               onClick={handleSubmit}
+              disabled={isLoading}
             >
-              {t("signIn.login")}
+              {isLoading ? <FaSpinner /> : t("signIn.login")}
             </Button>
             {errorMessage && (
               <Alert status="error" mb={4}>

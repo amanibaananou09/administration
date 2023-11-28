@@ -18,13 +18,13 @@ import { useTranslation } from "react-i18next";
 interface FilterDeliveryProps {
   selectedFilterDelivery: string;
   onFilterChange: (filterType: string) => void;
-  onChange: (value: number | null) => void;
+  onChange: (value: string | null) => void;
   onSearch: (fromDate: string, toDate: string) => void;
 }
 
 function FilterDelivery(props: FilterDeliveryProps) {
   const { onFilterChange, selectedFilterDelivery, onChange, onSearch } = props;
-  const [selectedTank, setSelectedTank] = useState<number | null>(null);
+  const [selectedTank, setSelectedTank] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const { user } = useAuth();
@@ -66,10 +66,21 @@ function FilterDelivery(props: FilterDeliveryProps) {
       onFilterChange(filterType);
     }
   };
-  const handleCheckboxChange = (value: number | null) => {
+  const handleCheckboxChange = (value: string | null) => {
     setSelectedTank(value);
     onChange(value);
   };
+  useEffect(() => {
+    if (selectedFilterDelivery !== "tank") {
+      setSelectedTank(null);
+      onChange(null);
+    }
+    if (selectedFilterDelivery !== "period") {
+      setStartDate("");
+      setEndDate("");
+    }
+  }, [selectedFilterDelivery, onChange]);
+
   return (
     <Flex alignItems="center" p="5">
       <Box>
@@ -96,12 +107,10 @@ function FilterDelivery(props: FilterDeliveryProps) {
             <Checkbox
               p="2"
               key={tank.idConf}
-              isChecked={selectedTank === Number(tank.idConf)}
+              isChecked={selectedTank === tank.idConf}
               onChange={() =>
                 handleCheckboxChange(
-                  selectedTank === Number(tank.idConf)
-                    ? null
-                    : Number(tank.idConf),
+                  selectedTank === tank.idConf ? null : tank.idConf,
                 )
               }
             >
@@ -114,7 +123,7 @@ function FilterDelivery(props: FilterDeliveryProps) {
         <>
           <Box p="3">
             <Heading as="h1" fontSize="lg">
-            {t("common.from")}  :
+              {t("common.from")} :
             </Heading>
           </Box>
           <Box p="3">
@@ -128,7 +137,7 @@ function FilterDelivery(props: FilterDeliveryProps) {
           </Box>
           <Box p="3">
             <Heading as="h1" fontSize="lg">
-            {t("common.to")} :
+              {t("common.to")} :
             </Heading>
           </Box>
           <Box>
@@ -143,7 +152,7 @@ function FilterDelivery(props: FilterDeliveryProps) {
           </Box>
           <Box p="3">
             <Button onClick={searchFilters} colorScheme="telegram" size="md">
-            {t("common.search")}
+              {t("common.search")}
             </Button>
           </Box>
         </>

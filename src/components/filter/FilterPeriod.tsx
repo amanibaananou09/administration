@@ -6,6 +6,7 @@ import {
   Input,
   Stack,
   Heading,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
@@ -16,10 +17,12 @@ interface FilterPeriodProps {
 }
 
 function FilterPeriod(props: FilterPeriodProps) {
-  const [fromDate, setFromDate] =  useState<string>("");
-  const [toDate, setToDate] =  useState<string>("");
+  const [fromDate, setFromDate] = useState<string>("");
+  const [toDate, setToDate] = useState<string>("");
   const { selectedFilter, onFilterChange, onSearch } = props;
   const { t } = useTranslation("dashboard");
+
+  const buttonSize = useBreakpointValue({ base: "sm", md: "md",lg: "lg" });
 
   const handleFromDateChange = (date: string) => setFromDate(date);
   const handleToDateChange = (date: string) => setToDate(date);
@@ -28,51 +31,60 @@ function FilterPeriod(props: FilterPeriodProps) {
   };
 
   return (
-    <Box p={1}>
-      <Stack direction="row" spacing={4} align="center">
-        <Box>
-          <Button
-            colorScheme={selectedFilter === "today" ? "blue" : "gray"}
-            onClick={() => onFilterChange("today")}
-          >
-             {t("common.today")}
-          </Button>
-        </Box>
-        <Box>
-          <Button
-            colorScheme={selectedFilter === "yesterday" ? "blue" : "gray"}
-            onClick={() => onFilterChange("yesterday")}
-          >
-            {t("common.yesterday")}
-          </Button>
-        </Box>
-        <Box>
-          <Button
-            colorScheme={selectedFilter === "weekly" ? "blue" : "gray"}
-            onClick={() => onFilterChange("weekly")}
-          >
-            {t("common.weekly")}
-          </Button>
-        </Box>
-        <Box>
-          <Button
-            colorScheme={selectedFilter === "monthly" ? "blue" : "gray"}
-            onClick={() => onFilterChange("monthly")}
-          >
-            {t("common.monthly")}
-          </Button>
-        </Box>
-        <Box>
-          <Button
-            colorScheme={selectedFilter === "yearly" ? "blue" : "gray"}
-            onClick={() => onFilterChange("yearly")}
-          >
-            {t("common.yearly")}
-          </Button>
-        </Box>
+    <Box p={3}>
+      <Box
+        flex="1"
+        display="flex"
+        flexDirection={{ base: "column", md: "row" }}
+        gap={3}
+      >
+        <Button
+          colorScheme={selectedFilter === "today" ? "blue" : "gray"}
+          onClick={() => onFilterChange("today")}
+          size={buttonSize}
+          flex="1"
+        >
+          {t("common.today")}
+        </Button>
+
+        <Button
+          colorScheme={selectedFilter === "yesterday" ? "blue" : "gray"}
+          onClick={() => onFilterChange("yesterday")}
+          size={buttonSize}
+          flex="1"
+        >
+          {t("common.yesterday")}
+        </Button>
+
+        <Button
+          colorScheme={selectedFilter === "weekly" ? "blue" : "gray"}
+          onClick={() => onFilterChange("weekly")}
+          size={buttonSize}
+          flex="1"
+        >
+          {t("common.weekly")}
+        </Button>
+
+        <Button
+          colorScheme={selectedFilter === "monthly" ? "blue" : "gray"}
+          onClick={() => onFilterChange("monthly")}
+          size={buttonSize}
+          flex="1"
+        >
+          {t("common.monthly")}
+        </Button>
+
+        <Button
+          colorScheme={selectedFilter === "yearly" ? "blue" : "gray"}
+          onClick={() => onFilterChange("yearly")}
+          size={buttonSize}
+          flex="1"
+        >
+          {t("common.yearly")}
+        </Button>
         <Box>
           <Heading as="h1" fontSize="lg">
-          {t("common.from")} :
+            {t("common.from")} :
           </Heading>
         </Box>
         <Box>
@@ -81,12 +93,13 @@ function FilterPeriod(props: FilterPeriodProps) {
               type="datetime-local"
               value={fromDate}
               onChange={(e) => handleFromDateChange(e.target.value)}
+              bg="white"
             />
           </FormControl>
         </Box>
         <Box>
           <Heading as="h1" fontSize="lg">
-          {t("common.to")} :
+            {t("common.to")} :
           </Heading>
         </Box>
         <Box>
@@ -96,15 +109,20 @@ function FilterPeriod(props: FilterPeriodProps) {
               lang="en"
               value={toDate}
               onChange={(e) => handleToDateChange(e.target.value)}
+              bg="white"
             />
           </FormControl>
         </Box>
         <Box>
-          <Button onClick={searchFilters} colorScheme="telegram" size="md">
-          {t("common.search")}
+          <Button
+            onClick={searchFilters}
+            colorScheme="telegram"
+            size={buttonSize}
+          >
+            {t("common.search")}
           </Button>
         </Box>
-      </Stack>
+      </Box>
     </Box>
   );
 }

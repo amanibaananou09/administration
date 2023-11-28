@@ -32,8 +32,8 @@ const Transactions = () => {
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [transactions, setTransactions] = useState<Transaction[]>();
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [pumpId, setPumpId] = useState<number>(0);
-  const [fuelGradeName, setFuelGradeName] = useState<number>(0);
+  const [pumpId, setPumpId] = useState<string>("");
+  const [fuelGradeName, setFuelGradeName] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -128,20 +128,20 @@ const Transactions = () => {
     setSelectedFilterTransactions(filterType);
   };
 
-  const handleChange = (value: number | null) => {
+  const handleChange = (value: string | null) => {
     if (selectedFilterTransactions === "pump") {
-      setPumpId(value || 0);
-      setFuelGradeName(0);
+      setPumpId(value || "");
+      setFuelGradeName("");
     } else if (selectedFilterTransactions === "fuelGrade") {
-      setPumpId(0);
-      setFuelGradeName(value || 0);
+      setPumpId("");
+      setFuelGradeName(value || "");
     }
   };
   const handleSearchFilters = (startDate: string, endDate: string) => {
     setStartDate(startDate);
     setEndDate(endDate);
-    setFuelGradeName(0);
-    setPumpId(0);
+    setFuelGradeName("");
+    setPumpId("");
   };
 
   return (
@@ -172,75 +172,81 @@ const Transactions = () => {
             onChange={handleChange}
             onSearch={handleSearchFilters}
           />
-          <Table
-            variant="simple"
-            color={textColor}
-            size="sm"
-            textAlign="center"
-          >
-            <Thead>
-              <Tr color="gray.400">
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.pump")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.fuelGrades")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.volume")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("transactions.price")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.amount")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.dateTimeStart")}
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {transactions &&
-                transactions.map((row, key) => {
-                  return (
-                    <TransactionTableRow
-                      pump={row.pump}
-                      fuelGrade={row.fuelGradeName}
-                      volume={row.volume}
-                      price={row.price}
-                      amount={row.amount}
-                      dateTimeStart={row.dateTimeStart}
-                      key={key}
-                    />
-                  );
-                })}
-            </Tbody>
-          </Table>
+          {transactions && transactions.length === 0 ? (
+            <Text color={textColor} mt={4} textAlign="center" fontSize="xl">
+              {t("transactions.noTransactions")}
+            </Text>
+          ) : (
+            <Table
+              variant="simple"
+              color={textColor}
+              size="sm"
+              textAlign="center"
+            >
+              <Thead>
+                <Tr color="gray.400">
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.pump")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.fuelGrades")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.volume")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("transactions.price")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.amount")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.dateTimeStart")}
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {transactions &&
+                  transactions.map((row, key) => {
+                    return (
+                      <TransactionTableRow
+                        pump={row.pump}
+                        fuelGrade={row.fuelGradeName}
+                        volume={row.volume}
+                        price={row.price}
+                        amount={row.amount}
+                        dateTimeStart={row.dateTimeStart}
+                        key={key}
+                      />
+                    );
+                  })}
+              </Tbody>
+            </Table>
+          )}
           {!transactions && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />
