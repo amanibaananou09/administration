@@ -51,44 +51,50 @@ export const TankMeasurement = ({
           height="150px"
         >
           <Flex alignItems="center">
-            <Text fontSize="xl" fontWeight="semibold" color={textColor}>
+            <Text fontSize="sm" fontWeight="semibold" color={textColor}>
               <Text
                 as="span"
                 textAlign="center"
                 color="gray.600"
                 fontWeight="normal"
+                display="inline"
+                fontSize="sm"
                 p="0"
               >
-                {t("common.productVolume")}:
+                {t("common.productVolume")}:{" "}
               </Text>
               {tankMeasurement.productVolume} {""} L
             </Text>
           </Flex>
           <Flex alignItems="center">
-            <Text fontSize="xl" fontWeight="semibold" color={textColor}>
+            <Text fontSize="sm" fontWeight="semibold" color={textColor}>
               <Text
                 as="span"
                 textAlign="center"
                 color="gray.600"
                 fontWeight="normal"
+                display="inline"
+                fontSize="sm"
                 p="0"
               >
-                {t("tankMeasurement.watervolume")}:
+                {t("tankMeasurement.watervolume")}:{" "}
               </Text>
               {tankMeasurement.waterVolume}
               {""} L
             </Text>
           </Flex>
           <Flex alignItems="center">
-            <Text fontSize="xl" fontWeight="semibold" color={textColor}>
+            <Text fontSize="sm" fontWeight="semibold" color={textColor}>
               <Text
                 as="span"
                 textAlign="center"
                 color="gray.600"
                 fontWeight="normal"
+                display="inline"
+                fontSize="sm"
                 p="0"
               >
-                {t("common.temperature")}:
+                {t("common.temperature")}:{" "}
               </Text>
               {tankMeasurement.temperature}
               {""} °C

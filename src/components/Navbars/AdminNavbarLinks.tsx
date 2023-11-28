@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { BellIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
+  Image,
   Menu,
   MenuButton,
   MenuItem,
@@ -22,11 +23,9 @@ import LanguageSelector from "components/LanguageSelector";
 import { useTranslation } from "react-i18next";
 import StationConfigurator from "components/Configurator/StationConfigurator";
 
-import NotificationPopup from "components/Notification/NotificationPopup";
 import WebSocketService from "components/Notification/WebSocketService";
 import avatar1 from "../../assets/img/avatars/avatar1.png";
-import avatar2 from "../../assets/img/avatars/avatar2.png";
-import avatar3 from "../../assets/img/avatars/avatar3.png";
+import fuel from "../../assets/img/station.png";
 
 interface Notification {
   notification: string;
@@ -94,24 +93,24 @@ const HeaderLinks = (props: any) => {
     >
       <Menu>
         <MenuButton>
-          <Flex alignItems="center" me="16px">
+          <Flex alignItems="center" me="10px">
             <Box>
               <Text
                 fontSize="md"
                 fontWeight="bold"
                 color={navbarIcon}
-                me="16px"
+                me="10px"
               >
                 {isSignedIn ? user!!.name : "Unknown Name"}
               </Text>
             </Box>
             <Box>
-              <ProfileIcon color={navbarIcon} w="22px" h="22px" me="0px" />
+              <ProfileIcon color={navbarIcon} w="33px" h="33px" me="0px" />
             </Box>
           </Flex>
         </MenuButton>
         <MenuList
-          p="16px 8px"
+          p="10px 8px"
           bg={menuBg}
           border="1px solid"
           borderColor={useColorModeValue("gray.200", "gray.700")}
@@ -120,23 +119,23 @@ const HeaderLinks = (props: any) => {
         >
           <MenuItem borderRadius="8px">
             <Flex alignItems="center">
-              <Box mr="12px">
+              <Box mr="10px">
                 <img
                   src={avatar1}
                   alt="Avatar"
-                  style={{ borderRadius: "50%", width: "32px", height: "32px" }}
+                  style={{ borderRadius: "50%", width: "33px", height: "33px" }}
                 />
               </Box>
               <Box>
-                <Text color="gray.400" fontSize="md" mr="12px">
+                <Text color="gray.400" fontSize="md" mr="10px">
                   <Text
                     as="span"
                     fontSize="md"
                     color="black"
                     fontWeight="bold"
-                    mr="12px"
+                    mr="10px"
                   >
-                     {t("navbarLinks.userLogin")}:
+                    {t("navbarLinks.userLogin")}:
                   </Text>
                   {isSignedIn ? user!!.username : "Unknown User Name"}
                 </Text>
@@ -168,73 +167,85 @@ const HeaderLinks = (props: any) => {
           </MenuItem>
         </MenuList>
       </Menu>
-      <SidebarResponsive
-        hamburgerColor={"white"}
-        colorMode={colorMode}
-        secondary={props.secondary}
-        routes={routes}
-        {...props}
-      />
-      {!isAdminMode && (<SupportIcon
-        cursor="pointer"
-        ms={{ base: "16px", xl: "0px" }}
-        me="16px"
-        onClick={() => setShowStationConfigurator(true)}
-        color={navbarIcon}
-        w="18px"
-        h="18px"
-      />  )}
+
       {!isAdminMode && (
-      <Menu>
-        <MenuButton>
-          <BellIcon color={navbarIcon} w="18px" h="18px" />
-          {notifications.length > 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                top: '30%',
-                right: '4%',
-                transform: 'translate(50%, -50%)',
-                backgroundColor: 'red',
-                color: 'white',
-                borderRadius: '45%',
-                padding: '4px 8px',
-              }}
-            >
-              {notifications.length}
-            </span>
-          )}
-        </MenuButton>
-        <MenuList p="16px 8px" bg={menuBg}>
-          <Flex flexDirection="column">
-            {notifications.map((notification, index) => (
-              <MenuItem
-                key={index}
-                borderRadius="8px"
-                mb="10px"
-                onClick={() => handleNotificationClick(index)}
-              >
-                <ItemContent
-                  time={notification.timestamp.toLocaleString()} // Display the received time
-                  info={notification.notification}
-                  boldInfo=""
-                  aName="Kara"
-
-                />
-              </MenuItem>
-            ))}
-          </Flex>
-        </MenuList>
-      </Menu>
+        <Flex alignItems="center" position="relative">
+          <Menu>
+            <MenuButton>
+              <BellIcon color={navbarIcon} w="25px" h="25px" />
+              {notifications.length > 0 && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "30%",
+                    right: "4%",
+                    transform: "translate(60%, -70%)",
+                    backgroundColor: "red",
+                    color: "white",
+                    borderRadius: "50%",
+                    padding: "0px 7px",
+                    fontSize: "11px",
+                  }}
+                >
+                  {notifications.length > 9 ? "9+" : notifications.length}
+                </span>
+              )}
+            </MenuButton>
+            <MenuList p="16px 8px" bg={menuBg}>
+              <Flex flexDirection="column">
+                {notifications.map((notification, index) => (
+                  <MenuItem
+                    key={index}
+                    borderRadius="8px"
+                    mb="10px"
+                    onClick={() => handleNotificationClick(index)}
+                  >
+                    <ItemContent
+                      time={notification.timestamp.toLocaleString()}
+                      info={notification.notification}
+                      boldInfo=""
+                      aName="Kara"
+                    />
+                  </MenuItem>
+                ))}
+              </Flex>
+            </MenuList>
+          </Menu>
+        </Flex>
       )}
-      <LanguageSelector />
-      {showStationConfigurator && (
-    <StationConfigurator
-      isOpen={showStationConfigurator}
-      onClose={() => setShowStationConfigurator(false)}
-    />
-  )}
+      {!isAdminMode && (
+        <Image
+          src={fuel}
+          cursor="pointer"
+          style={{
+            filter: "brightness(0) invert(1)",
+            height: "32px",
+            width: "32px",
+          }}
+          ml="16px"
+          onClick={() => setShowStationConfigurator(true)}
+        />
+      )}
+      <Flex style={{ marginLeft: "16px" }}>
+        <SidebarResponsive
+          hamburgerColor={"white"}
+          colorMode={colorMode}
+          secondary={props.secondary}
+          routes={routes}
+          {...props}
+          mr="16px"
+        />
+      </Flex>
 
+      <Flex style={{ marginLeft: "16px" }}>
+        <LanguageSelector />
+      </Flex>
+      {showStationConfigurator && (
+        <StationConfigurator
+          isOpen={showStationConfigurator}
+          onClose={() => setShowStationConfigurator(false)}
+        />
+      )}
     </Flex>
   );
 };
