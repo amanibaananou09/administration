@@ -1,5 +1,7 @@
-import { Select } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, VStack, Menu, MenuButton, MenuList, MenuItem, MenuItemOption } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
+import flagFr from "../components/fr.png";
+import flagEn from "../components/en.png";
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
@@ -8,16 +10,38 @@ const LanguageSelector = () => {
     i18n.changeLanguage(lang);
   };
 
+  const languageOptions = [
+    { value: "fr", label: "Français", flag: flagFr },
+    { value: "en", label: "English", flag: flagEn },
+    // Add more languages as needed
+  ];
+
   return (
-  
-      <Select
-        onChange={(e) => changeLanguage(e.target.value)}
-        defaultValue={i18n.language}  marginLeft="20px" backgroundColor= "white" width= "130px" border="1px solid #ccc" borderRadius= "5px" padding="8px" 
-      >
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-      </Select>
-    
+    <Menu>
+      <MenuButton>
+        <Flex alignItems="center" bg="white">
+          <Image src={languageOptions.find((option) => option.value === i18n.language)?.flag} boxSize="30px" marginRight="5px" />
+          <Text>{languageOptions.find((option) => option.value === i18n.language)?.label}</Text>
+        </Flex>
+      </MenuButton>
+      <MenuList>
+        {languageOptions.map((option) => (
+          <MenuItem key={option.value} onClick={() => changeLanguage(option.value)}>
+            <Flex alignItems="center" justify="space-between" w="100%">
+              <Flex alignItems="center">
+                <Image src={option.flag} boxSize="30px" borderRadius="5px" marginRight="5px" />
+                <Text>{option.label}</Text>
+              </Flex>
+              {option.value === i18n.language && (
+                <Text color="blue.500" fontWeight="bold">
+                  ✓
+                </Text>
+              )}
+            </Flex>
+          </MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
   );
 };
 
