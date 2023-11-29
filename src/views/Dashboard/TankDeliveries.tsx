@@ -12,11 +12,8 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {
-  getAllTankDelivery,
-  getallTransactionPump,
-} from "common/api/configuration-api";
-import { TankDelivery, Transaction } from "common/model";
+import { getAllTankDelivery } from "common/api/configuration-api";
+import { TankDelivery } from "common/model";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -162,81 +159,81 @@ const TankDeliveries = () => {
             onChange={handleChange}
             onSearch={handleSearchFilters}
           />
-              {tankDelivery && tankDelivery.length === 0 ? (
-          <Text color={textColor} mt={4} textAlign="center" fontSize="xl">
-            {t("tankDeliveries.noTankDelivery")}
-          </Text>
-        ) : (
-          <Table
-            variant="simple"
-            color={textColor}
-            size="sm"
-            textAlign="center"
-          >
-            <Thead>
-              <Tr color="gray.400">
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.tank")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.productVolume")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.fuelGrades")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.productHeight")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.waterHeight")}
-                </Th>
-                <Th
-                  borderColor={borderColor}
-                  color="gray.400"
-                  textAlign="center"
-                >
-                  {t("common.temperature")}
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {tankDelivery &&
-                tankDelivery.map((row: TankDelivery, key: number) => {
-                  return (
-                    <TankDeliveryRow
-                      tank={row.tank}
-                      fuelGradeName={row.fuelGradeName}
-                      productHeight={row.productHeight}
-                      waterHeight={row.waterHeight}
-                      temperature={row.temperature}
-                      productVolume={row.productVolume}
-                      key={key}
-                    />
-                  );
-                })}
-            </Tbody>
-          </Table>
- )}
+          {tankDelivery && tankDelivery.length === 0 ? (
+            <Text color={textColor} mt={4} textAlign="center" fontSize="xl">
+              {t("tankDeliveries.noTankDelivery")}
+            </Text>
+          ) : (
+            <Table
+              variant="simple"
+              color={textColor}
+              size="sm"
+              textAlign="center"
+            >
+              <Thead>
+                <Tr color="gray.400">
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.tank")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.productVolume")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.fuelGrades")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.productHeight")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.waterHeight")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color="gray.400"
+                    textAlign="center"
+                  >
+                    {t("common.temperature")}
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {tankDelivery &&
+                  tankDelivery.map((row: TankDelivery, key: number) => {
+                    return (
+                      <TankDeliveryRow
+                        tank={row.tank}
+                        fuelGradeName={row.fuelGradeName}
+                        productHeight={row.productHeight}
+                        waterHeight={row.waterHeight}
+                        temperature={row.temperature}
+                        productVolume={row.productVolume}
+                        key={key}
+                      />
+                    );
+                  })}
+              </Tbody>
+            </Table>
+          )}
           {!tankDelivery && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />

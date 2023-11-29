@@ -61,7 +61,7 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
             if (datasetIndex === -1) {
               datasets.push({
                 name: val.fuelGradeName,
-                data: [formatNumber(val.sumVolume, 2)],
+                data: [Number(formatNumber(val.sumVolume))],
                 backgroundColor: getRandomColor(),
                 borderWidth: 1,
               });

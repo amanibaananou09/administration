@@ -48,11 +48,8 @@ export const formatDate = (dateTimeStart: string): string => {
   });
 };
 
-export const formatNumber = (number: number, decimalPlaces = 2): number => {
-  if (!isFinite(number)) {
-    throw new TypeError("Invalid number");
-  }
-  return parseFloat(Number(number).toFixed(decimalPlaces));
+export const formatNumber = (value: number) => {
+  return value.toFixed(2);
 };
 
 export const getColorForTankLevel = (level: number): string => {
