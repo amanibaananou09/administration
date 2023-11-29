@@ -21,7 +21,9 @@ export const userFormValidationSchema = Yup.object().shape({
       "Password must contain at least one special character",
     )
     .required("Password is required"),
-
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Confirm Password is required"),
   phone: Yup.string().required("Phone is required"),
 });
 
@@ -47,6 +49,9 @@ export const adduserFormValidationSchema = Yup.object().shape({
       "Password must contain at least one special character",
     )
     .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Confirm Password is required"),
 });
 
 export const addStationFormValidationSchema = Yup.object().shape({
@@ -68,6 +73,9 @@ export const addStationFormValidationSchema = Yup.object().shape({
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password")], "Passwords must match")
+        .required("Confirm Password is required"),
     }),
   }),
   countryId: Yup.number()

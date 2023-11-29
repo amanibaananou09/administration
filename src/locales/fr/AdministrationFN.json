@@ -16,7 +16,8 @@
     "cancel": "Annuler",
     "loading": "Chargement...",
     "address": "Adresse",
-    "country": "Pays"
+    "country": "Pays",
+    "confirmPassword": "Confirmez le mot de passe"
   },
   "customerAccounts": {
     "header": "Comptes clients",

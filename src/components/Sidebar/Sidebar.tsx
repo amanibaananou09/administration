@@ -208,8 +208,8 @@ const Sidebar = (props: SidebarProps) => {
   );
 
   return (
-    <Box ref={mainPanel}>
-      <Box display={{ sm: "none", xl: "block" }} position="fixed">
+    <Box ref={mainPanel} >
+      <Box display={{ base: "none", xl: "block" }} position="fixed">
         <Box
           bg={sidebarBg}
           transition={variantChange}
@@ -227,6 +227,7 @@ const Sidebar = (props: SidebarProps) => {
           m={sidebarMargins}
           filter="drop-shadow(0px 5px 14px rgba(0, 0, 0, 0.05))"
           borderRadius={sidebarRadius}
+          display={{ base: "none", xl: "block" }}
         >
           <Scrollbars
             autoHide
