@@ -58,7 +58,7 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
             color="greenyellow"
             fontFamily="monospace"
           >
-            {salesPumps.reduce((total, pump) => pump.allSales, 0)}{" "}
+            {salesPumps.reduce((total, pump) => pump.allSales, 0).toLocaleString()}{" "}
             {selectedStation?.country?.currency?.code}
           </Text>
         </Text>
@@ -107,9 +107,9 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
                     color="blue.600"
                     display="inline"
                   >
-                    {t("pumpSales.total")} :
+                    {t("pumpSales.total")} : {" "}
                   </Text>
-                  {salesPump.pumpSales}
+                  {salesPump.pumpSales.toLocaleString()} {" "}
                   <Text
                     as="span"
                     fontWeight="bold"

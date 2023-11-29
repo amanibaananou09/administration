@@ -7,7 +7,7 @@ import {
   Button,
   Text,
   Heading,
-  Input,
+  Input,Stack
 } from "@chakra-ui/react";
 import { getAllPump, getAllFuelGrades } from "common/api/configuration-api";
 import { useESSContext } from "store/ESSContext";
@@ -83,61 +83,54 @@ function FilterTransaction(props: FilterTransactionProps) {
     setSelectedfuel(value);
     onChange(value);
   };
-  useEffect(() => {
-    if (selectedFilterTransactions !== "pump") {
-      setSelectedPump("");
-      onChange(null);
-    }
-    if (selectedFilterTransactions !== "fuelGrade") {
-      setSelectedfuel("");
-      onChange(null);
-    }
-    if (selectedFilterTransactions !== "period") {
-      setStartDate("");
-      setEndDate("");
-    }
-  }, [selectedFilterTransactions, onChange]);
-
   return (
-    <Flex alignItems="center" p="5">
-      <Box>
+    <Flex direction={{ base: "column", lg: "row"  }} alignItems="center" p="5">
+    <Stack
+      direction={{ base: "column", lg: "row" }}
+      spacing={{ base: "0", lg: "4" }}
+      mb={{ base: "0", lg: "4" }}
+    >
         <Button
           colorScheme={selectedFilterTransactions === "pump" ? "blue" : "gray"}
           onClick={() => handleFilterChange("pump")}
+          mb={{ base: "2", lg: "0" }}
         >
           {t("common.pump")}
         </Button>
-      </Box>
-      <Box ml={4}>
+      
+     
         <Button
           colorScheme={
             selectedFilterTransactions === "fuelGrade" ? "blue" : "gray"
           }
           onClick={() => handleFilterChange("fuelGrade")}
+          mb={{ base: "2", lg: "0" }}
         >
           {t("common.fuelGrades")}
         </Button>
-      </Box>
-      <Box ml={4}>
+      
+      
         <Button
           colorScheme={
             selectedFilterTransactions === "volume" ? "blue" : "gray"
           }
           onClick={() => handleFilterChange("volume")}
+          mb={{ base: "2", lg: "0" }}
         >
           {t("common.volume")}
         </Button>
-      </Box>
-      <Box ml={4}>
+     
+     
         <Button
           colorScheme={
             selectedFilterTransactions === "period" ? "blue" : "gray"
           }
           onClick={() => handleFilterChange("period")}
+          mb={{ base: "2", lg: "0" }}
         >
           {t("common.period")}
         </Button>
-      </Box>
+        </Stack>
 
       {selectedFilterTransactions === "pump" && (
         <FormControl p="3">

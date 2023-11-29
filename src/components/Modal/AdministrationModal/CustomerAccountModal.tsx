@@ -515,6 +515,7 @@ const CustomerAccountModal = (
                                 {form.errors.masterUser?.password}
                               </FormErrorMessage>
                             </FormControl>
+                            
                           )}
                         </Field>
                       </Box>

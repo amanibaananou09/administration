@@ -13,7 +13,7 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
+  useColorModeValue,Box
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
@@ -102,7 +102,6 @@ const Transactions = () => {
           endDate,
         );
         const { content, totalPages } = result;
-
         setTransactions(content);
         setTotalPages(totalPages);
       } catch (error) {
@@ -119,7 +118,7 @@ const Transactions = () => {
     startDate,
     endDate,
   ]);
-
+  console.log("transaction", pumpId )
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -172,6 +171,7 @@ const Transactions = () => {
             onChange={handleChange}
             onSearch={handleSearchFilters}
           />
+          <Box overflowX={{ base: "auto", md: "hidden" }}>
           {transactions && transactions.length === 0 ? (
             <Text color={textColor} mt={4} textAlign="center" fontSize="xl">
               {t("transactions.noTransactions")}
@@ -247,6 +247,7 @@ const Transactions = () => {
               </Tbody>
             </Table>
           )}
+          </Box>
           {!transactions && (
             <Stack width="100%" margin="20px 0px">
               <Skeleton height="50px" borderRadius="10px" />

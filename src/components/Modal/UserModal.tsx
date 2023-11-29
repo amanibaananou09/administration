@@ -31,6 +31,7 @@ import "react-phone-number-input/style.css";
 
 interface FormValues extends GeneralUser {
   phone: string;
+  confirmPassword: string;
 }
 
 const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
@@ -205,6 +206,28 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 </InputGroup>
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
+              <FormControl
+                isInvalid={
+                  !!form.errors.confirmPassword &&
+                  !!form.touched.confirmPassword
+                }
+              >
+                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
+                {t("common.confirmPassword")}  
+                </FormLabel>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={form.values.confirmPassword}
+                  onChange={form.handleChange}
+                  type="password"
+                  placeholder= {t("common.confirmPassword")} 
+                />
+                <FormErrorMessage>
+                  {form.errors.confirmPassword}
+                </FormErrorMessage>
+              </FormControl>
+
               <FormControl
                 isInvalid={
                   form.errors.phone && form.touched.phone ? true : undefined

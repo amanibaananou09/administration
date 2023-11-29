@@ -77,7 +77,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
                 fontSize="xl"
               >
                 {t("salesGrades.totalSalesVolume")}:{" "}
-                {grade.totalSalesParVolume.toFixed(2)} Litre Litre
+                {grade.totalSalesParVolume.toFixed(2)} Litres{" "}
               </Text>
               <Text
                 as="span"
@@ -86,7 +86,8 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
                 p="3"
                 fontSize="sm"
               >
-                {t("salesGrades.totalSalesAmount")}: {grade.totalSalesParAmount}{" "}
+                {t("salesGrades.totalSalesAmount")}:{" "}
+                {grade.totalSalesParAmount.toLocaleString()}{" "}
                 <Text
                   as="span"
                   fontWeight="bold"

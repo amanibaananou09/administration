@@ -16,7 +16,8 @@
     "cancel": "Cancel",
     "loading": "Loading...",
     "address": "Address",
-    "country": "Country"
+    "country": "Country",
+    "confirmPassword": "Confirm Password"
   },
   "customerAccounts": {
     "header": "Customer Accounts",

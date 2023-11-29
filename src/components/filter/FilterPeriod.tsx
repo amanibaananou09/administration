@@ -31,9 +31,9 @@ function FilterPeriod(props: FilterPeriodProps) {
   };
 
   return (
-    <Box p={3}>
+    <Box p={1}>
       <Box
-        flex="1"
+        flex="0"
         display="flex"
         flexDirection={{ base: "column", md: "row" }}
         gap={3}
@@ -42,7 +42,7 @@ function FilterPeriod(props: FilterPeriodProps) {
           colorScheme={selectedFilter === "today" ? "blue" : "gray"}
           onClick={() => onFilterChange("today")}
           size={buttonSize}
-          flex="1"
+          flex="2"
         >
           {t("common.today")}
         </Button>
@@ -51,7 +51,7 @@ function FilterPeriod(props: FilterPeriodProps) {
           colorScheme={selectedFilter === "yesterday" ? "blue" : "gray"}
           onClick={() => onFilterChange("yesterday")}
           size={buttonSize}
-          flex="1"
+          flex="2"
         >
           {t("common.yesterday")}
         </Button>

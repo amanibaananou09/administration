@@ -44,7 +44,7 @@ export const SalesByGrades = ({
         {pumpGrades.map((pumpGrade, index) => (
           <Flex key={index}>
             <Text fontWeight="normal" mb={2}>
-              {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount}{" "}
+              {pumpGrade.fuelGrade} : {pumpGrade.totalSalesParAmount.toLocaleString()}{" "}
               <Text as="span" fontWeight="bold" color="blue.600" display="inline">
                 {selectedStation?.country?.currency?.code}
               </Text>
