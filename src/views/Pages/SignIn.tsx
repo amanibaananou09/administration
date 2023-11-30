@@ -107,7 +107,7 @@ const SignIn = () => {
         bgRepeat="no-repeat"
         overflow="hidden"
         zIndex="-1"
-        top="0"
+        top="6"
         bgImage={BgSignUp}
         bgSize="cover"
         mx={{ md: "auto" }}

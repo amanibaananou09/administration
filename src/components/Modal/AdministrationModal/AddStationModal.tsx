@@ -76,7 +76,11 @@ const AddStationModal = (
       }
     },
   });
-
+  useEffect(() => {
+    if (isOpen) {
+      form.resetForm();
+    }
+  }, [isOpen]);
   useEffect(() => {
     const getListCountry = async () => {
       try {

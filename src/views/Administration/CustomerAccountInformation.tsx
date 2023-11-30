@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { Account, RouteParams } from "common/AdminModel";
 import {
   AddStationModalRefType,
@@ -28,11 +28,13 @@ const CustomerAccountInformation = () => {
   const addStationModalRef = useRef<AddStationModalRefType>(null);
   const { t } = useTranslation("administration");
 
+  const [isLoading, setIsLoading] = useState(true);
   const [account, setAccount] = useState<Account>();
   const [stationAccounts, setStationAccounts] = useState<Station[]>([]);
   const [userAccounts, setUserAccounts] = useState<User[]>([]);
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedStation, setSelectedStation] = useState<Station | null>(null);
 
   const openUserInformationModal = (user: User) => {
     setSelectedUser(user);
@@ -40,7 +42,6 @@ const CustomerAccountInformation = () => {
   const closeUserInformationModal = () => {
     setSelectedUser(null);
   };
-  const [selectedStation, setSelectedStation] = useState<Station | null>(null);
 
   const openStationInformationModal = (station: Station) => {
     setSelectedStation(station);
@@ -55,43 +56,26 @@ const CustomerAccountInformation = () => {
   const openStationModal = () => {
     addStationModalRef.current?.open();
   };
-
   useEffect(() => {
-    const allStationByAccount = async () => {
+    const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const result = await allStationByCustomerAccount(id);
-        setStationAccounts(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    allStationByAccount();
-  }, [id]);
-
-  useEffect(() => {
-    const allUserByAccount = async () => {
-      try {
-        const result = await allUserByCustomerAccount(id);
-        setUserAccounts(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    allUserByAccount();
-  }, [id]);
-
-  useEffect(() => {
-    const allAccounts = async () => {
-      try {
-        const customerAccount = await getCustomerAccountInformation(id);
-
+        const [customerAccount, stations, users] = await Promise.all([
+          getCustomerAccountInformation(id),
+          allStationByCustomerAccount(id),
+          allUserByCustomerAccount(id),
+        ]);
         setAccount(customerAccount);
+        setStationAccounts(stations);
+        setUserAccounts(users);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    allAccounts();
+    fetchData();
   }, [id]);
 
   const submitAddUserModalHandler = async () => {
@@ -122,7 +106,13 @@ const CustomerAccountInformation = () => {
           </CardHeader>
           <CardBody>
             <Box backgroundColor="gray.200" p={6} borderRadius="16px" mb="50px">
-              {account ? (
+              {isLoading ? (
+                <Flex justify="left" height="30px">
+                  <Text ml={4} fontSize="xl">
+                    {t("common.loading")}
+                  </Text>
+                </Flex>
+              ) : account ? (
                 <Flex width="100%" gap="10%">
                   <Box>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
@@ -157,9 +147,11 @@ const CustomerAccountInformation = () => {
                   </Box>
                 </Flex>
               ) : (
-                <Text color="gray.500">
-                  {t("customerAccountInformation.noAccountsAvailable")}.
-                </Text>
+                isLoading && (
+                  <Text color="gray.500">
+                    {t("customerAccountInformation.noAccountsAvailable")}.
+                  </Text>
+                )
               )}
             </Box>
             <Flex gap={4}>
@@ -180,23 +172,33 @@ const CustomerAccountInformation = () => {
                   height="100%"
                   width="100%"
                 >
-                  {userAccounts.map((user, index) => (
-                    <Fragment key={index}>
-                      <Text
-                        fontSize="md"
-                        color="teal.500"
-                        textDecoration="underline"
-                        cursor="pointer"
-                        onClick={() => openUserInformationModal(user)}
-                      >
-                        {user.username}
+                  {isLoading ? (
+                    <Flex justify="left" height="30px">
+                      <Text ml={4} fontSize="xl">
+                        {t("common.loading")}
                       </Text>
-                    </Fragment>
-                  ))}
-                  {userAccounts.length == 0 && (
-                    <Text fontSize="md" color="gray.700">
-                      {t("customerAccountInformation.noUserAttached")}
-                    </Text>
+                    </Flex>
+                  ) : (
+                    <>
+                      {userAccounts.map((user, index) => (
+                        <Fragment key={index}>
+                          <Text
+                            fontSize="md"
+                            color="teal.500"
+                            textDecoration="underline"
+                            cursor="pointer"
+                            onClick={() => openUserInformationModal(user)}
+                          >
+                            {user.username}
+                          </Text>
+                        </Fragment>
+                      ))}
+                      {userAccounts.length == 0 && (
+                        <Text fontSize="md" color="gray.700">
+                          {t("customerAccountInformation.noUserAttached")}
+                        </Text>
+                      )}
+                    </>
                   )}
                 </Box>
                 <Flex justifyContent="flex-end">
@@ -227,25 +229,37 @@ const CustomerAccountInformation = () => {
                   height="100%"
                   width="100%"
                 >
-                  {stationAccounts.length > 0 &&
-                    stationAccounts.map((station, index) => (
-                      <Fragment key={index}>
-                        <Text
-                          fontSize="md"
-                          color="teal.500"
-                          textDecoration="underline"
-                          cursor="pointer"
-                          onClick={() => openStationInformationModal(station)}
-                        >
-                          {station.name}
-                        </Text>
-                      </Fragment>
-                    ))}
+                  {isLoading ? (
+                    <Flex justify="left" height="30px">
+                      <Text ml={4} fontSize="xl">
+                        {t("common.loading")}
+                      </Text>
+                    </Flex>
+                  ) : (
+                    <>
+                      {stationAccounts.length > 0 &&
+                        stationAccounts.map((station, index) => (
+                          <Fragment key={index}>
+                            <Text
+                              fontSize="md"
+                              color="teal.500"
+                              textDecoration="underline"
+                              cursor="pointer"
+                              onClick={() =>
+                                openStationInformationModal(station)
+                              }
+                            >
+                              {station.name}
+                            </Text>
+                          </Fragment>
+                        ))}
 
-                  {stationAccounts.length == 0 && (
-                    <Text fontSize="md" color="gray.700">
-                      {t("customerAccountInformation.noStationAttached")}
-                    </Text>
+                      {stationAccounts.length == 0 && (
+                        <Text fontSize="md" color="gray.700">
+                          {t("customerAccountInformation.noStationAttached")}
+                        </Text>
+                      )}
+                    </>
                   )}
                 </Box>
                 <Flex justifyContent="flex-end">

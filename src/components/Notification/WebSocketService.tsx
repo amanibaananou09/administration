@@ -4,8 +4,11 @@ const WebSocketService = (
   onNotificationReceived: (notification: string) => void,
 ): Client => {
   let stompClient: Client | null = null;
+  let isConnecting = false;
 
   const connect = () => {
+    if (isConnecting) return; // To prevent multiple connection attempts simultaneously
+    isConnecting = true;
     const socket = new WebSocket("ws://localhost:8083/api/websocket-endpoint");
     stompClient = webstomp.over(socket);
 
@@ -13,12 +16,14 @@ const WebSocketService = (
       {},
       () => {
         console.log("WebSocket connected");
+        isConnecting = false;
         stompClient?.subscribe("/topic/alerts", (message: Frame) => {
           const notification: string = message.body || "";
           onNotificationReceived(notification);
         });
       },
       (error: any) => {
+        isConnecting = false;
         console.error("WebSocket connection error:", error);
         setTimeout(connect, 2000); // Reconnect every 2 seconds (adjust as needed)
       },
@@ -26,18 +31,18 @@ const WebSocketService = (
   };
 
   const reconnect = () => {
-    if (stompClient) {
-      stompClient.disconnect(() => {
-        console.log("Disconnected. Attempting to reconnect...");
-        connect();
-      });
-    } else {
-      connect();
+    if (!stompClient || stompClient.connected || isConnecting) {
+      return;
     }
+
+    stompClient.disconnect(() => {
+      console.log("Disconnected. Attempting to reconnect...");
+      connect();
+    });
   };
 
   const setupConnection = () => {
-    if (!stompClient) {
+    if (!stompClient || !stompClient.connected || isConnecting) {
       connect();
     }
 

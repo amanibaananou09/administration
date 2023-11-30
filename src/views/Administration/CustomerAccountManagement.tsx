@@ -132,8 +132,8 @@ const CustomerAccountManagement = () => {
                         mt={4}
                       >
                         {!isLoading
-                          ? "You don't have a customer account."
-                          : "Loading..."}
+                          ? t("customerAccounts.isLoading")
+                          : t("common.loading")}
                       </Text>
                     </Td>
                   </Tr>
