@@ -1,9 +1,12 @@
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,21 +16,16 @@ import {
   ModalOverlay,
   SimpleGrid,
   useDisclosure,
-  InputGroup,
-  InputRightElement,
-  Flex,
 } from "@chakra-ui/react";
-import { GeneralUser, MasterUser } from "common/AdminModel";
+import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
 import { UserModalProps, UserModalRefType } from "common/react-props";
+import { PhoneInput } from "components/Input/PhoneInput";
 import { useFormik } from "formik";
 import { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import React from "react";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 
 interface FormValues extends GeneralUser {
   phone: string;
@@ -38,9 +36,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation("administration");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(
-    null,
-  );
+
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
       username: "",
@@ -48,14 +44,12 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
       lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
       phone: "",
     },
     validationSchema: userFormValidationSchema,
     onSubmit: async (values: Partial<FormValues>) => {
-      const phoneNumber = selectedCountryCode
-        ? `+${selectedCountryCode}${values.phone}`
-        : values.phone;
-      await addUser({ ...values, phone: phoneNumber } as FormValues);
+      await addUser({ ...values } as FormValues);
       form.setSubmitting(false);
       onClose();
       props.onSubmit();
@@ -91,11 +85,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
           <form>
             <SimpleGrid columns={2} spacing={5}>
               <FormControl
-                isInvalid={
-                  form.errors.firstName && form.touched.firstName
-                    ? true
-                    : undefined
-                }
+                isInvalid={!!form.errors.firstName && !!form.touched.firstName}
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -112,11 +102,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={
-                  form.errors.lastName && form.touched.lastName
-                    ? true
-                    : undefined
-                }
+                isInvalid={!!form.errors.lastName && !!form.touched.lastName}
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -133,11 +119,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={
-                  form.errors.username && form.touched.username
-                    ? true
-                    : undefined
-                }
+                isInvalid={!!form.errors.username && !!form.touched.username}
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -154,9 +136,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.username}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={
-                  form.errors.email && form.touched.email ? true : undefined
-                }
+                isInvalid={!!form.errors.email && !!form.touched.email}
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -173,11 +153,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 <FormErrorMessage>{form.errors.email}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={
-                  form.errors.password && form.touched.password
-                    ? true
-                    : undefined
-                }
+                isInvalid={!!form.errors.password && !!form.touched.password}
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -213,7 +189,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                 }
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                {t("common.confirmPassword")}  
+                  {t("common.confirmPassword")}
                 </FormLabel>
                 <Input
                   id="confirmPassword"
@@ -221,7 +197,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                   value={form.values.confirmPassword}
                   onChange={form.handleChange}
                   type="password"
-                  placeholder= {t("common.confirmPassword")} 
+                  placeholder={t("common.confirmPassword")}
                 />
                 <FormErrorMessage>
                   {form.errors.confirmPassword}
@@ -229,9 +205,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
               </FormControl>
 
               <FormControl
-                isInvalid={
-                  form.errors.phone && form.touched.phone ? true : undefined
-                }
+                isInvalid={!!form.errors.phone && !!form.touched.phone}
                 mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
@@ -241,7 +215,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
                   id="phone"
                   name="phone"
                   value={form.values.phone}
-                  onChange={(value) => form.setFieldValue("phone", value)}
+                  onChange={form.handleChange}
                   placeholder={t("userInformation.phoneLabel")}
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>

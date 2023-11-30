@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  SimpleGrid,
   Text,
   useColorMode,
   useColorModeValue,
@@ -10,12 +9,12 @@ import Card from "components/Card/Card"; // Update the path to the Card componen
 import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
 import TankLevelChart from "components/Charts/TankLevelChart";
 import UserSalesChart from "components/Charts/UserSalesChart"; // Update the path to the Chart component
-import FilterPeriod from "components/filter/FilterPeriod";
-import PumpSales from "components/stat/PumpSales";
-import TankMeasurementSection from "components/stat/TankMeasurementSection";
+import FilterPeriod from "components/Filter/FilterPeriod";
+import PumpSales from "components/Statistics/PumpSales";
+import TankMeasurementSection from "components/Statistics/TankMeasurementSection";
 import { useState } from "react";
-import SalesGrades from "./SalesGrades";
 import { useTranslation } from "react-i18next";
+import SalesGrades from "./SalesGrades";
 
 export default function Dashboard() {
   const { colorMode } = useColorMode();

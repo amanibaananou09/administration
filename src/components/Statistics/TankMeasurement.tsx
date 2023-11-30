@@ -8,9 +8,9 @@ import {
 } from "@chakra-ui/react";
 import { TankMeasurementRowProps } from "common/react-props";
 import Card from "components/Card/Card";
-import LastTankDeliveryTooltip from "components/stat/LastTankDeliveryTooltip";
-import { getColorForTankLevel } from "utils/utils";
+import LastTankDeliveryTooltip from "components/Statistics/LastTankDeliveryTooltip";
 import { useTranslation } from "react-i18next";
+import { getColorForTankLevel } from "utils/utils";
 
 export const TankMeasurement = ({
   tankMeasurement,

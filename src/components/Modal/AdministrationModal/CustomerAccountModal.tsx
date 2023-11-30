@@ -6,6 +6,8 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,8 +16,6 @@ import {
   ModalOverlay,
   Select,
   useDisclosure,
-  InputGroup,
-  InputRightElement,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import { createCustomerAccount } from "common/api/customerAccount-api";
@@ -24,10 +24,9 @@ import {
   CustomerAccountModalProps,
 } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import React from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 

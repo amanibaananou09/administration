@@ -24,7 +24,9 @@ export const userFormValidationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Confirm Password is required"),
-  phone: Yup.string().required("Phone is required"),
+  phone: Yup.string()
+    .required("Phone is required")
+    .min(10, "Phone must be at least 10 digits"),
 });
 
 export const adduserFormValidationSchema = Yup.object().shape({
