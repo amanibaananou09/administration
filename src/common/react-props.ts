@@ -26,6 +26,9 @@ export interface TransactionTableRowProps {
   volume: number;
   price: number;
   amount: number;
+  tag: string;
+  totalVolume: number;
+  totalAmount: number;
   dateTimeStart: string;
 }
 
@@ -36,11 +39,11 @@ export interface ConfiguratorProps {
   isChecked: boolean;
   onSwitch: (isChecked: boolean) => void;
 }
+
 export interface StationConfiguratorProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 
 export interface FixedPluginProps {
   secondary: boolean;
@@ -123,11 +126,13 @@ export interface AuthNavbarProps {
 
 export interface RenderTrackProps {
   style: React.CSSProperties;
+
   [key: string]: any;
 }
 
 export interface RenderThumbProps {
   style: React.CSSProperties;
+
   [key: string]: any;
 }
 
