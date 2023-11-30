@@ -6,6 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import NotificationPopupContainer from "components/Notification/NotificationPopupContainer";
 import AuthLayout from "layouts/Auth";
 import MainLayout from "layouts/Main";
+import "react-international-phone/style.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainRoute from "router/Route/MainRoute";

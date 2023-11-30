@@ -7,9 +7,9 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
+import flagEn from "assets/img/en.png";
+import flagFr from "assets/img/fr.png";
 import { useTranslation } from "react-i18next";
-import flagEn from "../components/en.png";
-import flagFr from "../components/fr.png";
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
