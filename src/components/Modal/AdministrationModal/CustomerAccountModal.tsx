@@ -51,6 +51,17 @@ const CustomerAccountModal = (
   });
   const { t } = useTranslation("administration");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  const isValidConfirmPassword = (value: string, values: CustomerAccount) => {
+    let error: string | undefined;
+
+    if (value !== values.masterUser.password) {
+      error = t("common.errorConfirmPassword");
+    }
+
+    return error;
+  };
 
   useImperativeHandle(ref, () => ({
     open(account?: CustomerAccount) {
@@ -168,7 +179,7 @@ const CustomerAccountModal = (
                           form: {
                             errors: { name: string };
                             touched: { name: boolean };
-                            setFieldValue: (field: string, value: any) => void; 
+                            setFieldValue: (field: string, value: any) => void;
                           };
                         }) => (
                           <FormControl
@@ -186,7 +197,10 @@ const CustomerAccountModal = (
                               placeholder={t("common.name")}
                               onChange={(e) => {
                                 field.onChange(e);
-                                form.setFieldValue('masterUser.username', e.target.value);
+                                form.setFieldValue(
+                                  "masterUser.username",
+                                  e.target.value,
+                                );
                               }}
                             />
                             <FormErrorMessage>
@@ -334,7 +348,7 @@ const CustomerAccountModal = (
                           )}
                         </Field>
                       </Box>
-                      <Box flex="1" mx="4">
+                      <Box flex="1" mr="4">
                         <Field name="masterUser.email" validate={isValidEmail}>
                           {({
                             field,
@@ -375,7 +389,7 @@ const CustomerAccountModal = (
                           )}
                         </Field>
                       </Box>
-                      <Box flex="1" ml="4">
+                      <Box flex="1" mr="4">
                         <Field name="masterUser.firstName" validate={isNotNull}>
                           {({
                             field,
@@ -417,8 +431,6 @@ const CustomerAccountModal = (
                           )}
                         </Field>
                       </Box>
-                    </Flex>
-                    <Flex mb="24px">
                       <Box flex="1" mr="4">
                         <Field name="masterUser.lastName" validate={isNotNull}>
                           {({
@@ -459,6 +471,8 @@ const CustomerAccountModal = (
                           )}
                         </Field>
                       </Box>
+                    </Flex>
+                    <Flex mb="24px">
                       <Box flex="1" mx="4">
                         <Field
                           name="masterUser.password"
@@ -515,10 +529,63 @@ const CustomerAccountModal = (
                                 {form.errors.masterUser?.password}
                               </FormErrorMessage>
                             </FormControl>
-                            
                           )}
                         </Field>
                       </Box>
+                      <Box flex="1" ml="4">
+                        <Field
+                          name="masterUser.confirmPassword"
+                          validate={(value: string) =>
+                            isValidConfirmPassword(value, props.values)
+                          }
+                        >
+                          {({
+                            field,
+                            form,
+                          }: {
+                            field: {
+                              name: string;
+                              value: string;
+                              onChange: (e: React.ChangeEvent<any>) => void;
+                              onBlur: () => void;
+                            };
+                            form: {
+                              errors: {
+                                masterUser: { confirmPassword: string };
+                              };
+                              touched: {
+                                masterUser: { confirmPassword: boolean };
+                              };
+                            };
+                          }) => (
+                            <FormControl
+                              isInvalid={
+                                !!form.errors.masterUser?.confirmPassword &&
+                                !!form.touched.masterUser?.confirmPassword
+                              }
+                              mb="24px"
+                            >
+                              <FormLabel htmlFor="confirmPassword">
+                                {t("common.confirmPassword")}
+                              </FormLabel>
+                              <Input
+                                {...field}
+                                type="password"
+                                id="confirmPassword"
+                                placeholder={t("common.confirmPassword")}
+                                onChange={(e) => {
+                                  field.onChange(e);
+                                  setConfirmPassword(e.target.value);
+                                }}
+                              />
+                              <FormErrorMessage>
+                                {form.errors.masterUser?.confirmPassword}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
+                      </Box>
+
                       <Box flex="1" ml="4">
                         <Field
                           name="masterUser.phone"

@@ -127,7 +127,7 @@ const Transactions = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
+console.log("transaction",transactions)
   const handleFilterChange = (filterType: string) => {
     setSelectedFilterTransactions(filterType);
   };

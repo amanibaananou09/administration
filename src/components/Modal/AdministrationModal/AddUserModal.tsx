@@ -14,20 +14,25 @@ import {
   SimpleGrid,
   useDisclosure,
   InputRightElement,
-  InputGroup,Flex
+  InputGroup,
+  Flex,
 } from "@chakra-ui/react";
 import { MasterUser, RouteParams } from "common/AdminModel";
 import { addUser } from "common/api/customerAccount-api";
 import { adduserFormValidationSchema } from "common/form-validation";
 import { AddUserModalProps, AddUserModalRefType } from "common/react-props";
 import { useFormik } from "formik";
-import { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import { forwardRef, Ref, useImperativeHandle, useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import React from "react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+
+interface FormValues extends MasterUser {
+  confirmPassword: string;
+}
 
 const AddUserModal = (
   props: AddUserModalProps,
@@ -42,7 +47,7 @@ const AddUserModal = (
     null,
   );
 
-  const form = useFormik<Partial<MasterUser>>({
+  const form = useFormik<Partial<FormValues>>({
     initialValues: {
       username: "",
       firstName: "",
@@ -52,17 +57,23 @@ const AddUserModal = (
       password: "",
     },
     validationSchema: adduserFormValidationSchema,
-    onSubmit: async (values: Partial<MasterUser>) => {
+    onSubmit: async (values: Partial<FormValues>) => {
       // Concatenate the selected country code with the entered phone number
       const phoneNumber = selectedCountryCode
         ? `+${selectedCountryCode}${values.phone}`
         : values.phone;
-      await addUser({ ...values, phone: phoneNumber } as MasterUser, id);
+      await addUser({ ...values, phone: phoneNumber } as FormValues, id);
       form.setSubmitting(false);
       onClose();
       props.onSubmit();
     },
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      form.resetForm();
+    }
+  }, [isOpen]);
 
   useImperativeHandle(ref, () => ({
     open() {
@@ -85,7 +96,9 @@ const AddUserModal = (
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader color="teal.500" fontSize="25px" >{t("addUserModal.header")}</ModalHeader>
+        <ModalHeader color="teal.500" fontSize="25px">
+          {t("addUserModal.header")}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody mb="24px">
           <form>
@@ -157,24 +170,6 @@ const AddUserModal = (
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
               </FormControl>
-
-              <FormControl
-                isInvalid={!!form.errors.email && !!form.touched.email}
-                mb="20px"
-              >
-                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-                  {t("userInformation.emailLabel")}
-                </FormLabel>
-                <Input
-                  id="email"
-                  name="email"
-                  value={form.values.email}
-                  onChange={form.handleChange}
-                  type="text"
-                  placeholder={t("userInformation.emailLabel")}
-                />
-                <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-              </FormControl>
               <FormControl
                 isInvalid={!!form.errors.password && !!form.touched.password}
                 mb="20px"
@@ -203,6 +198,47 @@ const AddUserModal = (
                   </InputRightElement>
                 </InputGroup>
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+              </FormControl>
+              <FormControl
+                isInvalid={
+                  !!form.errors.confirmPassword &&
+                  !!form.touched.confirmPassword
+                }
+                mb="20px"
+              >
+                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
+                  {t("common.confirmPassword")}
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={form.values.confirmPassword || ""}
+                    onChange={form.handleChange}
+                    type="password"
+                    placeholder={t("common.confirmPassword")}
+                  />
+                </InputGroup>
+                <FormErrorMessage>
+                  {form.errors.confirmPassword}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl
+                isInvalid={!!form.errors.email && !!form.touched.email}
+                mb="20px"
+              >
+                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
+                  {t("userInformation.emailLabel")}
+                </FormLabel>
+                <Input
+                  id="email"
+                  name="email"
+                  value={form.values.email}
+                  onChange={form.handleChange}
+                  type="text"
+                  placeholder={t("userInformation.emailLabel")}
+                />
+                <FormErrorMessage>{form.errors.email}</FormErrorMessage>
               </FormControl>
             </SimpleGrid>
           </form>

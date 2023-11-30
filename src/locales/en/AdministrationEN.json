@@ -9,6 +9,7 @@
     "erroremail": "must be a valid email address",
     "errorPassword": "must be at least 6 characters",
     "errorNumeric": "must contain at least one special character and one numeric digit",
+    "errorConfirmPassword": "Passwords must match",
     "enabled": "ENABLED",
     "disabled": "DISABLED",
     "password": "Password",
