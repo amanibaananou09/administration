@@ -49,7 +49,7 @@ export const formatDate = (dateTimeStart: string): string => {
 };
 
 export const formatNumber = (value: number) => {
-  return value.toFixed(2);
+  return parseFloat(value.toFixed(2));
 };
 
 export const getColorForTankLevel = (level: number): string => {

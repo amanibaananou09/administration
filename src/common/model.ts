@@ -42,6 +42,7 @@ export interface Transaction {
   fuelGradeName: string;
   volume: number;
   price: number;
+  tag: string;
   amount: number;
   totalVolume: number;
   totalAmount: number;
@@ -119,7 +120,7 @@ export interface Decode {
 }
 
 export interface fuelGrade {
-  idConf:  string | null;
+  idConf: string | null;
   name: string;
   price: number;
   expansionCoefficient: string;

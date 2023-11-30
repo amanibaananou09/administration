@@ -13,7 +13,8 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,Box
+  useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
@@ -26,6 +27,7 @@ import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import TransactionTableRow from "components/Tables/TransactionTableRow";
 import FilterTransaction from "components/filter/FilterTransaction";
+import { formatNumber } from "utils/utils";
 
 const Transactions = () => {
   const textColor = useColorModeValue("gray.700", "white");
@@ -71,9 +73,12 @@ const Transactions = () => {
       const data = allTransactions.map((transaction) => ({
         Pump: transaction.pump,
         "Fuel Grade": transaction.fuelGradeName,
-        Volume: transaction.volume,
         Price: transaction.price,
+        Volume: transaction.volume,
+        "Index Current Volume": transaction.totalVolume,
+        Tag: transaction.tag,
         Amount: transaction.amount,
+        "Index Current Amount": transaction.totalAmount,
         "Date Time Start": transaction.dateTimeStart,
       }));
 
@@ -118,7 +123,7 @@ const Transactions = () => {
     startDate,
     endDate,
   ]);
-  console.log("transaction", pumpId )
+  console.log("transaction", pumpId);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -172,81 +177,105 @@ const Transactions = () => {
             onSearch={handleSearchFilters}
           />
           <Box overflowX={{ base: "auto", md: "hidden" }}>
-          {transactions && transactions.length === 0 ? (
-            <Text color={textColor} mt={4} textAlign="center" fontSize="xl">
-              {t("transactions.noTransactions")}
-            </Text>
-          ) : (
-            <Table
-              variant="simple"
-              color={textColor}
-              size="sm"
-              textAlign="center"
-            >
-              <Thead>
-                <Tr color="gray.400">
-                  <Th
-                    borderColor={borderColor}
-                    color="gray.400"
-                    textAlign="center"
-                  >
-                    {t("common.pump")}
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color="gray.400"
-                    textAlign="center"
-                  >
-                    {t("common.fuelGrades")}
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color="gray.400"
-                    textAlign="center"
-                  >
-                    {t("common.volume")}
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color="gray.400"
-                    textAlign="center"
-                  >
-                    {t("transactions.price")}
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color="gray.400"
-                    textAlign="center"
-                  >
-                    {t("common.amount")}
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color="gray.400"
-                    textAlign="center"
-                  >
-                    {t("common.dateTimeStart")}
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {transactions &&
-                  transactions.map((row, key) => {
-                    return (
-                      <TransactionTableRow
-                        pump={row.pump}
-                        fuelGrade={row.fuelGradeName}
-                        volume={row.volume}
-                        price={row.price}
-                        amount={row.amount}
-                        dateTimeStart={row.dateTimeStart}
-                        key={key}
-                      />
-                    );
-                  })}
-              </Tbody>
-            </Table>
-          )}
+            {transactions && transactions.length === 0 ? (
+              <Text color={textColor} mt={4} textAlign="center" fontSize="2xl">
+                {t("transactions.noTransactions")}
+              </Text>
+            ) : (
+              <Table
+                variant="simple"
+                color={textColor}
+                size="lg"
+                textAlign="center"
+              >
+                <Thead>
+                  <Tr color="teal.700">
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("common.pump")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("common.fuelGrades")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("transactions.price")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("common.volume")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("transactions.totalVolume")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("transactions.tag")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("common.amount")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("transactions.totalAmount")}
+                    </Th>
+                    <Th
+                      borderColor={borderColor}
+                      color="teal.700"
+                      textAlign="center"
+                    >
+                      {t("common.dateTimeStart")}
+                    </Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {transactions &&
+                    transactions.map((row, key) => {
+                      return (
+                        <TransactionTableRow
+                          pump={row.pump}
+                          fuelGrade={row.fuelGradeName}
+                          price={row.price}
+                          volume={formatNumber(row.volume)}
+                          totalVolume={formatNumber(row.totalVolume)}
+                          tag={row.tag}
+                          amount={row.amount}
+                          totalAmount={row.totalAmount}
+                          dateTimeStart={row.dateTimeStart}
+                          key={key}
+                        />
+                      );
+                    })}
+                </Tbody>
+              </Table>
+            )}
           </Box>
           {!transactions && (
             <Stack width="100%" margin="20px 0px">

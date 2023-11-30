@@ -160,56 +160,56 @@ const TankDeliveries = () => {
             onSearch={handleSearchFilters}
           />
           {tankDelivery && tankDelivery.length === 0 ? (
-            <Text color={textColor} mt={4} textAlign="center" fontSize="xl">
+            <Text color={textColor} mt={4} textAlign="center" fontSize="2xl">
               {t("tankDeliveries.noTankDelivery")}
             </Text>
           ) : (
             <Table
               variant="simple"
               color={textColor}
-              size="sm"
+              size="lg"
               textAlign="center"
             >
               <Thead>
-                <Tr color="gray.400">
+                <Tr color="teal.700">
                   <Th
                     borderColor={borderColor}
-                    color="gray.400"
+                    color="teal.700"
                     textAlign="center"
                   >
                     {t("common.tank")}
                   </Th>
                   <Th
                     borderColor={borderColor}
-                    color="gray.400"
+                    color="teal.700"
                     textAlign="center"
                   >
                     {t("common.productVolume")}
                   </Th>
                   <Th
                     borderColor={borderColor}
-                    color="gray.400"
+                    color="teal.700"
                     textAlign="center"
                   >
                     {t("common.fuelGrades")}
                   </Th>
                   <Th
                     borderColor={borderColor}
-                    color="gray.400"
+                    color="teal.700"
                     textAlign="center"
                   >
                     {t("common.productHeight")}
                   </Th>
                   <Th
                     borderColor={borderColor}
-                    color="gray.400"
+                    color="teal.700"
                     textAlign="center"
                   >
                     {t("common.waterHeight")}
                   </Th>
                   <Th
                     borderColor={borderColor}
-                    color="gray.400"
+                    color="teal.700"
                     textAlign="center"
                   >
                     {t("common.temperature")}

@@ -6,8 +6,11 @@ const TransactionTableRow = ({
   pump,
   fuelGrade,
   volume,
+  totalVolume,
   price,
+  tag,
   amount,
+  totalAmount,
   dateTimeStart,
 }: TransactionTableRowProps) => {
   const textColor = useColorModeValue("gray.500", "white");
@@ -42,17 +45,6 @@ const TransactionTableRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {volume}
-        </Text>
-      </Td>
-      <Td borderColor={borderColor}>
-        <Text
-          fontSize="sm"
-          align="center"
-          color={textColor}
-          fontWeight="bold"
-          pb=".5rem"
-        >
           {price}
         </Text>
       </Td>
@@ -64,7 +56,51 @@ const TransactionTableRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
+          {volume}
+        </Text>
+      </Td>
+      <Td borderColor={borderColor}>
+        <Text
+          fontSize="sm"
+          align="center"
+          color={textColor}
+          fontWeight="bold"
+          pb=".5rem"
+        >
+          {totalVolume}
+        </Text>
+      </Td>
+      <Td borderColor={borderColor}>
+        <Text
+          fontSize="sm"
+          align="center"
+          color={textColor}
+          fontWeight="bold"
+          pb=".5rem"
+        >
+          {tag}
+        </Text>
+      </Td>
+      <Td borderColor={borderColor}>
+        <Text
+          fontSize="sm"
+          align="center"
+          color={textColor}
+          fontWeight="bold"
+          pb=".5rem"
+        >
           {amount}
+        </Text>
+      </Td>
+      <Td borderColor={borderColor}>
+        <Text
+          fontSize="sm"
+          align="center"
+          color={textColor}
+          fontWeight="bold"
+          pb=".5rem"
+        >
+          {totalAmount}
         </Text>
       </Td>
       <Td borderColor={borderColor}>

@@ -73,6 +73,9 @@
   "transactions": {
     "header": "Transactions",
     "price": "Price",
+    "totalVolume": "Index Current Volume",
+    "totalAmount": "Index Current Amount",
+    "tag": "Tag",
     "volumeGreater": "Transactions with Volume greater than 100",
     "noTransactions": "No transactions found."
   },
