@@ -1,20 +1,27 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Flex, Stat, StatLabel, Text } from "@chakra-ui/react";
 import { getAllSalesByGrades } from "common/api/statistique-api";
+import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { PeriodeProps } from "common/react-props";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSubscription } from "react-stomp-hooks";
 import { Grades } from "../../common/model";
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
-import { useTranslation } from "react-i18next";
 
 export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
+  const [refresh, setRefresh] = useState<boolean>(false);
   const [grades, setGrades] = useState<Grades[]>([]);
   const { user } = useAuth();
 
   const { selectedStation } = useESSContext();
   const { t } = useTranslation("dashboard");
+
+  useSubscription(REFRESHER_TOPIC, () => {
+    setRefresh((prev) => !prev);
+  });
 
   useEffect(() => {
     const allStatGrades = async () => {
@@ -34,7 +41,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
       }
     };
     allStatGrades();
-  }, [selectedStation, user, periode, startDate, endDate]);
+  }, [selectedStation, user, periode, startDate, endDate, refresh]);
   const [isContentVisible, setIsContentVisible] = useState(true);
 
   return (

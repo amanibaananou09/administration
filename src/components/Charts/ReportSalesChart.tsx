@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 
-import { Flex, Text, Box, Stack } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import { getChartByFuelPumpPeriod } from "common/api/chart-api";
+import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { createReportSalesChartOptions } from "common/chartOptions";
 import { ChartData, Filter } from "common/model";
 import { PeriodeProps } from "common/react-props";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import ReactApexChart from "react-apexcharts";
-import { useESSContext } from "store/ESSContext";
 import { useTranslation } from "react-i18next";
+import { useSubscription } from "react-stomp-hooks";
+import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
 export const ReportSalesChart = ({
@@ -17,6 +19,7 @@ export const ReportSalesChart = ({
   startDate,
   endDate,
 }: PeriodeProps) => {
+  const [refresh, setRefresh] = useState<boolean>(false);
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
   const { t } = useTranslation("dashboard");
@@ -100,10 +103,14 @@ export const ReportSalesChart = ({
     }
   };
 
+  useSubscription(REFRESHER_TOPIC, () => {
+    setRefresh((prev) => !prev);
+  });
+
   useEffect(() => {
     // Fetch data when filter or periode changes
     updateChartData();
-  }, [filter, selectedStation, user, periode, startDate, endDate]);
+  }, [filter, selectedStation, user, periode, startDate, endDate, refresh]);
 
   return (
     <>

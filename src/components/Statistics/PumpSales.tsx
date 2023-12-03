@@ -2,21 +2,28 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Circle, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 
 import { getAllSalesByPump } from "common/api/statistique-api";
+import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { SalesPump } from "common/model";
 import { PeriodeProps } from "common/react-props";
 import Card from "components/Card/Card";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSubscription } from "react-stomp-hooks";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
-import { useTranslation } from "react-i18next";
 
 export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
+  const [refresh, setRefresh] = useState<boolean>(false);
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
   const { t } = useTranslation("dashboard");
+
+  useSubscription(REFRESHER_TOPIC, () => {
+    setRefresh((prev) => !prev);
+  });
 
   useEffect(() => {
     const fetchSalesByPump = async () => {
@@ -36,7 +43,7 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
       }
     };
     fetchSalesByPump();
-  }, [selectedStation, user, periode, startDate, endDate]);
+  }, [selectedStation, user, periode, startDate, endDate, refresh]);
   const [isContentVisible, setIsContentVisible] = useState(true);
   return (
     <>
@@ -58,7 +65,9 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
             color="greenyellow"
             fontFamily="monospace"
           >
-            {salesPumps.reduce((total, pump) => pump.allSales, 0).toLocaleString()}{" "}
+            {salesPumps
+              .reduce((total, pump) => pump.allSales, 0)
+              .toLocaleString()}{" "}
             {selectedStation?.country?.currency?.code}
           </Text>
         </Text>
@@ -107,9 +116,9 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
                     color="blue.600"
                     display="inline"
                   >
-                    {t("pumpSales.total")} : {" "}
+                    {t("pumpSales.total")} :{" "}
                   </Text>
-                  {salesPump.pumpSales.toLocaleString()} {" "}
+                  {salesPump.pumpSales.toLocaleString()}{" "}
                   <Text
                     as="span"
                     fontWeight="bold"

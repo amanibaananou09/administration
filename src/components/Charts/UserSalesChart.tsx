@@ -1,13 +1,16 @@
 import { useColorModeValue } from "@chakra-ui/react";
 import { getAllStatVent } from "common/api/chart-api";
+import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { PeriodeProps } from "common/react-props";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { useSubscription } from "react-stomp-hooks";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
 const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
+  const [refresh, setRefresh] = useState<boolean>(false);
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
   const [data, setData] = useState<{
@@ -32,6 +35,10 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
     }
     return color;
   }
+
+  useSubscription(REFRESHER_TOPIC, () => {
+    setRefresh((prev) => !prev);
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,7 +95,7 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
     };
 
     fetchData();
-  }, [selectedStation, periode, startDate, endDate, user]);
+  }, [selectedStation, periode, startDate, endDate, user, refresh]);
 
   // Options for the chart
   const UserSalesBarChartOptions = {

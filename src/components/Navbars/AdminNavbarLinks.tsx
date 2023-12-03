@@ -11,19 +11,20 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { ALERTS_TOPIC } from "common/api/WebSocketTopics";
 import StationConfigurator from "components/Configurator/StationConfigurator";
 import { ProfileIcon } from "components/Icons/Icons";
 import LanguageSelector from "components/LanguageSelector";
 import ItemContent from "components/Menu/ItemContent";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
+import { useSubscription } from "react-stomp-hooks";
 import { administrationRoutes, dashboardRoutes } from "router/routes";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 
-import WebSocketService from "components/Notification/WebSocketService";
 import avatar1 from "../../assets/img/avatars/avatar1.png";
 import fuel from "../../assets/img/station.png";
 
@@ -61,19 +62,14 @@ const HeaderLinks = (props: any) => {
 
   const menuBg = useColorModeValue("white", "navy.800");
 
-  useEffect(() => {
-    const stompClient = WebSocketService((notification) => {
-      const timestamp = new Date(); // Create a timestamp when the notification is received
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        { notification, timestamp },
-      ]);
-    });
-
-    return () => {
-      stompClient.disconnect();
-    };
-  }, []);
+  useSubscription(ALERTS_TOPIC, (message) => {
+    const notification: string = message.body || "";
+    const timestamp = new Date(); // Create a timestamp when the notification is received
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      { notification, timestamp },
+    ]);
+  });
 
   const handleNotificationClick = (index: number) => {
     // Mark the notification as read and remove it from the list
