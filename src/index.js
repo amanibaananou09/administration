@@ -7,6 +7,7 @@ import NotificationPopupContainer from "components/Notification/NotificationPopu
 import AuthLayout from "layouts/Auth";
 import MainLayout from "layouts/Main";
 import "react-international-phone/style.css";
+import { StompSessionProvider } from "react-stomp-hooks";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainRoute from "router/Route/MainRoute";
@@ -19,22 +20,24 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
-  <ESSContextProvider>
-    <TranslationProvider>
-      <AuthContextProvider>
-        <ChakraProvider theme={theme} resetCss={false} position="relative">
-          <HashRouter>
-            <NotificationPopupContainer />
-            <Switch>
-              <Route path={`/auth`} component={AuthLayout} />
-              <Route path={`/dashboard`} component={MainLayout} />
-              <Route path={`/administration`} component={MainLayout} />
-              <MainRoute />
-              <ToastContainer />
-            </Switch>
-          </HashRouter>
-        </ChakraProvider>
-      </AuthContextProvider>
-    </TranslationProvider>
-  </ESSContextProvider>,
+  <StompSessionProvider url={"ws://localhost:8083/api/websocket-endpoint"}>
+    <ESSContextProvider>
+      <TranslationProvider>
+        <AuthContextProvider>
+          <ChakraProvider theme={theme} resetCss={false} position="relative">
+            <HashRouter>
+              <NotificationPopupContainer />
+              <Switch>
+                <Route path={`/auth`} component={AuthLayout} />
+                <Route path={`/dashboard`} component={MainLayout} />
+                <Route path={`/administration`} component={MainLayout} />
+                <MainRoute />
+                <ToastContainer />
+              </Switch>
+            </HashRouter>
+          </ChakraProvider>
+        </AuthContextProvider>
+      </TranslationProvider>
+    </ESSContextProvider>
+  </StompSessionProvider>,
 );

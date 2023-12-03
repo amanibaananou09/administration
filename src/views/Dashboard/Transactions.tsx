@@ -123,11 +123,11 @@ const Transactions = () => {
     startDate,
     endDate,
   ]);
-  console.log("transaction", pumpId);
+  
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-console.log("transaction",transactions)
+
   const handleFilterChange = (filterType: string) => {
     setSelectedFilterTransactions(filterType);
   };

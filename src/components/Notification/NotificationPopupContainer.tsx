@@ -1,25 +1,20 @@
-import React, { useEffect, useState } from "react";
-import NotificationPopup from "./NotificationPopup";
-import WebSocketService from "./WebSocketService";
-import { ToastContainer } from "react-toastify";
+import { ALERTS_TOPIC } from "common/api/WebSocketTopics";
+import { useState } from "react";
+import { useSubscription } from "react-stomp-hooks";
 import { useESSContext } from "store/ESSContext";
+import NotificationPopup from "./NotificationPopup";
 
-const NotificationPopupContainer: React.FC = () => {
+const NotificationPopupContainer = () => {
   const [notifications, setNotifications] = useState<string[]>([]);
   const { isAdminMode } = useESSContext();
-  useEffect(() => {
-    const stompClient = WebSocketService((notification) => {
-      console.log("Notification received:", notification);
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        notification,
-      ]);
-    });
 
-    return () => {
-      stompClient.disconnect();
-    };
-  }, []);
+  useSubscription(ALERTS_TOPIC, (message) => {
+    const notification: string = message.body || "";
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      notification,
+    ]);
+  });
 
   return (
     <div>
