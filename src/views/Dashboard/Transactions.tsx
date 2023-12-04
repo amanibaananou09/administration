@@ -13,7 +13,7 @@ import {
   Text,
   Th,
   Thead,
-  Tr,
+  Tr
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
@@ -36,6 +36,8 @@ const Transactions = () => {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [currentVolume, setCurrentVolume] = useState<string>("");
+
   const { selectedStation } = useESSContext();
   const [
     selectedFilterTransactions,
@@ -56,9 +58,9 @@ const Transactions = () => {
         const result = await getallTransactionPump(
           page,
           selectedStation,
-          selectedFilterTransactions,
           pumpId,
           fuelGradeName,
+          currentVolume,
           startDate,
           endDate,
         );
@@ -97,9 +99,9 @@ const Transactions = () => {
         const result = await getallTransactionPump(
           currentPage,
           selectedStation,
-          selectedFilterTransactions,
           pumpId,
           fuelGradeName,
+          currentVolume,
           startDate,
           endDate,
         );
@@ -116,11 +118,11 @@ const Transactions = () => {
     selectedStation,
     pumpId,
     fuelGradeName,
-    selectedFilterTransactions,
+    currentVolume,
     startDate,
     endDate,
   ]);
-
+  
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -132,17 +134,14 @@ const Transactions = () => {
   const handleChange = (value: string | null) => {
     if (selectedFilterTransactions === "pump") {
       setPumpId(value || "");
-      setFuelGradeName("");
     } else if (selectedFilterTransactions === "fuelGrade") {
-      setPumpId("");
       setFuelGradeName(value || "");
-    }
+    }else if (selectedFilterTransactions === "volume") {
+      setCurrentVolume(value || "");}
   };
   const handleSearchFilters = (startDate: string, endDate: string) => {
     setStartDate(startDate);
     setEndDate(endDate);
-    setFuelGradeName("");
-    setPumpId("");
   };
 
   //styles

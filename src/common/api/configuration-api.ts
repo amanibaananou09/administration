@@ -51,14 +51,14 @@ export const getAllPumpByNozzel = async (
 export const getallTransactionPump = async (
   currentPage: number,
   station: Station,
-  filterType: string,
   pumpId: string,
   fuelGrade: string,
+  volume: string,
   startDate: string,
   endDate: string,
 ) => {
   const response = await api.get(
-    `${API_URL}/transaction/${station.controllerPts.id}?filterType=${filterType}&pumpId=${pumpId}&fuelGrade=${fuelGrade}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
+    `${API_URL}/transaction/${station.controllerPts.id}?pumpId=${pumpId}&fuelGrade=${fuelGrade}&volume=${volume}&startDate=${startDate}&endDate=${endDate}&page=${currentPage}`,
   );
 
   return response.data;

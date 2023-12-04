@@ -28,7 +28,8 @@
     "next": "Suivant",
     "period": "Période",
     "waterHeight": "Hauteur de l'eau",
-    "export": "Exporter"
+    "export": "Exporter",
+    "litres" : "Litres"
   },
   "routes": {
     "dashboard": "Tableau de bord",

@@ -7,7 +7,8 @@ import {
   Button,
   Text,
   Heading,
-  Input,Stack
+  Input,
+  Stack,
 } from "@chakra-ui/react";
 import { getAllPump, getAllFuelGrades } from "common/api/configuration-api";
 import { useESSContext } from "store/ESSContext";
@@ -29,13 +30,24 @@ function FilterTransaction(props: FilterTransactionProps) {
     onChange,
     onSearch,
   } = props;
-  const [selectedPump, setSelectedPump] = useState<string | null>("");
-  const [selectedfuel, setSelectedfuel] = useState<string | null>("");
+  const [selectedFilters, setSelectedFilters] = useState<{
+    pump: string | null;
+    fuelGrade: string | null;
+  }>({
+    pump: null,
+    fuelGrade: null,
+  });
+
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
   const { t } = useTranslation("dashboard");
+  const [volumeValue, setVolumeValue] = useState<number | string>("");
+
+  const handleFilterChange = (filterType: string) => {
+    onFilterChange(filterType);
+  };
 
   const handleStartDateChange = (date: string) => setStartDate(date);
   const handleEndDateChange = (date: string) => setEndDate(date);
@@ -69,68 +81,87 @@ function FilterTransaction(props: FilterTransactionProps) {
     fetchConfig();
   }, [selectedStation]);
 
-  const handleFilterChange = (filterType: string) => {
-    if (filterType === "pump") {
-      onFilterChange(filterType);
-    } else if (filterType === "fuelGrade") {
-      onFilterChange(filterType);
-    } else {
-      onFilterChange(filterType);
-    }
-  };
-  const handleCheckboxChange = (value: string | null) => {
-    setSelectedPump(value);
-    setSelectedfuel(value);
+  const handlePumpCheckboxChange = (value: string | null) => {
+    setSelectedFilters({ ...selectedFilters, pump: value });
     onChange(value);
   };
+
+  const handleFuelCheckboxChange = (value: string | null) => {
+    setSelectedFilters({ ...selectedFilters, fuelGrade: value });
+    onChange(value);
+  };
+
+  const incrementVolume = () => {
+    let newValue;
+    if (!isNaN(Number(volumeValue))) {
+      newValue = Number(volumeValue) + 1;
+    } else {
+      newValue = 1;
+    }
+    setVolumeValue(newValue);
+    onChange(newValue.toString());
+  };
+
+  const decrementVolume = () => {
+    let newValue;
+    if (!isNaN(Number(volumeValue)) && Number(volumeValue) > 0) {
+      newValue = Number(volumeValue) - 1;
+    } else {
+      newValue = 0;
+    }
+    setVolumeValue(newValue);
+    onChange(newValue.toString());
+  };
   return (
-    <Flex direction={{ base: "column", lg: "row"  }} alignItems="center" p="5">
-    <Stack
-      direction={{ base: "column", lg: "row" }}
-      spacing={{ base: "0", lg: "4" }}
-      mb={{ base: "0", lg: "4" }}
-    >
+    <Flex direction={{ base: "column", lg: "row" }} alignItems="center" p="5">
+      <Stack
+        direction={{ base: "column", lg: "row" }}
+        spacing={{ base: "0", lg: "4" }}
+        mb={{ base: "0", lg: "4" }}
+      >
         <Button
-          colorScheme={selectedFilterTransactions === "pump" ? "blue" : "gray"}
+          colorScheme={selectedFilters.pump !== null ? "blue" : "gray"}
           onClick={() => handleFilterChange("pump")}
           mb={{ base: "2", lg: "0" }}
         >
           {t("common.pump")}
         </Button>
-      
-     
+
         <Button
-          colorScheme={
-            selectedFilterTransactions === "fuelGrade" ? "blue" : "gray"
-          }
+          colorScheme={selectedFilters.fuelGrade !== null ? "blue" : "gray"}
           onClick={() => handleFilterChange("fuelGrade")}
           mb={{ base: "2", lg: "0" }}
         >
           {t("common.fuelGrades")}
         </Button>
-      
-      
+
         <Button
           colorScheme={
-            selectedFilterTransactions === "volume" ? "blue" : "gray"
+            selectedFilterTransactions === "volume" ||
+            (selectedFilterTransactions !== "volume" && volumeValue !== "")
+              ? "blue"
+              : "gray"
           }
           onClick={() => handleFilterChange("volume")}
           mb={{ base: "2", lg: "0" }}
         >
           {t("common.volume")}
         </Button>
-     
-     
+
         <Button
           colorScheme={
-            selectedFilterTransactions === "period" ? "blue" : "gray"
+            selectedFilterTransactions === "period" ||
+            (selectedFilterTransactions !== "period" &&
+              (startDate !== "" || endDate !== ""))
+              ? "blue"
+              : "gray"
           }
           onClick={() => handleFilterChange("period")}
           mb={{ base: "2", lg: "0" }}
         >
           {t("common.period")}
         </Button>
-        </Stack>
+      </Stack>
 
       {selectedFilterTransactions === "pump" && (
         <FormControl p="3">
@@ -138,12 +169,12 @@ function FilterTransaction(props: FilterTransactionProps) {
             <Checkbox
               p="2"
               key={pump.id}
-              isChecked={selectedPump === pump.id}
-              onChange={() =>
-                handleCheckboxChange(
-                  selectedPump === pump.id ? null : pump.id,
-                )
-              }
+              isChecked={selectedFilters.pump === pump.id}
+              onChange={() => {
+                handlePumpCheckboxChange(
+                  selectedFilters.pump === pump.id ? null : pump.id,
+                );
+              }}
             >
               {t("common.pump")} {pump.id}
             </Checkbox>
@@ -156,14 +187,14 @@ function FilterTransaction(props: FilterTransactionProps) {
             <Checkbox
               p="2"
               key={fuel.idConf}
-              isChecked={selectedfuel === fuel.idConf}
-              onChange={() =>
-                handleCheckboxChange(
-                  selectedfuel === fuel.idConf
+              isChecked={selectedFilters.fuelGrade === fuel.idConf}
+              onChange={() => {
+                handleFuelCheckboxChange(
+                  selectedFilters.fuelGrade === fuel.idConf
                     ? null
                     : fuel.idConf,
-                )
-              }
+                );
+              }}
             >
               {fuel.name}
             </Checkbox>
@@ -172,23 +203,35 @@ function FilterTransaction(props: FilterTransactionProps) {
       )}
 
       {selectedFilterTransactions === "volume" && (
-        <FormControl>
-          <Text
-            fontSize="lg"
-            fontWeight="bold"
-            color="blue.500"
-            textAlign="center"
-          >
-            {t("transactions.volumeGreater")}
-          </Text>
-        </FormControl>
+
+         <Flex align="center" p="5">
+          <Text p="3" fontSize="lg" fontWeight="bold" color="blue.500"> {t("transactions.volumeGreater") } :</Text>
+         <Button onClick={decrementVolume} mr="3"  >
+           -
+         </Button>
+         <Input
+           type="number"
+           fontSize="m"
+           fontWeight="bold"
+           textAlign="center"
+           value={volumeValue}
+           onChange={(e) => {
+             const newValue = e.target.value;
+             setVolumeValue(newValue);
+             onChange(newValue.toString());
+           }}
+           mr="3"
+           w="90px"
+         />
+         <Button onClick={incrementVolume}>+</Button>
+       </Flex>
       )}
 
       {selectedFilterTransactions === "period" && (
         <>
           <Box p="3">
             <Heading as="h1" fontSize="lg">
-            {t("common.from")} :
+              {t("common.from")} :
             </Heading>
           </Box>
           <Box p="3">
@@ -202,14 +245,13 @@ function FilterTransaction(props: FilterTransactionProps) {
           </Box>
           <Box p="3">
             <Heading as="h1" fontSize="lg">
-            {t("common.to")} :
+              {t("common.to")} :
             </Heading>
           </Box>
           <Box>
             <FormControl>
               <Input
                 type="datetime-local"
-                lang="en"
                 value={endDate}
                 onChange={(e) => handleEndDateChange(e.target.value)}
               />
@@ -217,7 +259,7 @@ function FilterTransaction(props: FilterTransactionProps) {
           </Box>
           <Box p="3">
             <Button onClick={searchFilters} colorScheme="telegram" size="md">
-            {t("common.search")}
+              {t("common.search")}
             </Button>
           </Box>
         </>

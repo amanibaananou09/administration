@@ -36,6 +36,20 @@ export default function Dashboard() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (stickyRef.current) {
+        setIsSticky(window.pageYOffset > stickyRef.current.offsetTop);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   //styles
   const textColor = "gray.700";
   const stickyStyles: React.CSSProperties = {
@@ -50,7 +64,7 @@ export default function Dashboard() {
     padding: isSticky ? "5px" : "0",
     boxShadow: isSticky ? "0px 7px 23px rgba(0, 0, 0, 0.05)" : "none",
   };
-
+  
   return (
     <Flex
       flexDirection="column"
