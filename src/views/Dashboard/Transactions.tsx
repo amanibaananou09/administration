@@ -74,11 +74,10 @@ const Transactions = () => {
         "Fuel Grade": transaction.fuelGradeName,
         Price: transaction.price,
         Volume: transaction.volume,
-        "Index Current Volume": transaction.totalVolume,
-        Tag: transaction.tag,
+        "Index Volume": transaction.totalVolume,
         Amount: transaction.amount,
-        "Index Current Amount": transaction.totalAmount,
-        "Date Time Start": transaction.dateTimeStart,
+        "Index Amount": transaction.totalAmount,
+        "Date Time": transaction.dateTimeStart,
       }));
 
       const ws = XLSX.utils.json_to_sheet(data);
@@ -136,8 +135,9 @@ const Transactions = () => {
       setPumpId(value || "");
     } else if (selectedFilterTransactions === "fuelGrade") {
       setFuelGradeName(value || "");
-    }else if (selectedFilterTransactions === "volume") {
-      setCurrentVolume(value || "");}
+    } else if (selectedFilterTransactions === "volume") {
+      setCurrentVolume(value || "");
+    }
   };
   const handleSearchFilters = (startDate: string, endDate: string) => {
     setStartDate(startDate);
@@ -225,13 +225,13 @@ const Transactions = () => {
                     >
                       {t("transactions.totalVolume")}
                     </Th>
-                    <Th
+                    {/*      <Th
                       borderColor={borderColor}
                       color="teal.700"
                       textAlign="center"
                     >
                       {t("transactions.tag")}
-                    </Th>
+                    </Th>*/}
                     <Th
                       borderColor={borderColor}
                       color="teal.700"
@@ -265,7 +265,7 @@ const Transactions = () => {
                           price={row.price}
                           volume={formatNumber(row.volume)}
                           totalVolume={formatNumber(row.totalVolume)}
-                          tag={row.tag}
+                          //tag={row.tag}
                           amount={row.amount}
                           totalAmount={row.totalAmount}
                           dateTimeStart={row.dateTimeStart}
