@@ -1,4 +1,4 @@
-import { Badge, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { Badge, Td, Text, Tr } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import { useHistory } from "react-router-dom";
 
@@ -8,14 +8,15 @@ export interface UserTableRowProps {
 }
 
 const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
-  const textColor = useColorModeValue("gray.500", "white");
-  const bgStatus = useColorModeValue("red.400", "navy.900");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
   const history = useHistory();
 
   const handleNameClick = () => {
     history.push(`/administration/users/${user.id}`);
   };
+
+  //styles
+  const textColor = "gray.500";
+  const borderColor = "gray.200";
 
   return (
     <Tr>
@@ -68,7 +69,7 @@ const UserTableRow = ({ user, isLast }: UserTableRowProps) => {
         textAlign="center"
       >
         <Badge
-          bg={user.actif ? "green.400" : bgStatus}
+          bg={user.actif ? "green.400" : "red.400"}
           color={user.actif ? "white" : "white"}
           fontSize="16px"
           p="3px 10px"

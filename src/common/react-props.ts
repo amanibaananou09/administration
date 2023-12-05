@@ -140,7 +140,6 @@ export interface SidebarProps {
   logo: any;
   routes?: any;
   sidebarVariant?: string;
-  colorMode?: string;
   hamburgerColor?: string;
   secondary?: any;
 }

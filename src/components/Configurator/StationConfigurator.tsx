@@ -1,20 +1,19 @@
 import {
   Button,
-  Text,
   Drawer,
   DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
-  useColorModeValue,
+  Spinner,
+  Text,
 } from "@chakra-ui/react";
 import { getStations } from "common/api/station-api";
 import { Station } from "common/model";
-import { useEffect, useState, useRef } from "react";
+import { StationConfiguratorProps } from "common/react-props";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
-import { StationConfiguratorProps } from "common/react-props";
-import { useTranslation } from "react-i18next";
-import { Spinner } from "@chakra-ui/react";
 
 const StationConfigurator = (props: StationConfiguratorProps) => {
   const { user } = useAuth();
@@ -22,18 +21,7 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
   const { t } = useTranslation("dashboard");
   const [loading, setLoading] = useState(true);
   const [stations, setStations] = useState<Station[]>([]);
-
-  let bgButton: string = useColorModeValue(
-    "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)",
-    "white",
-  );
-  let colorButton: string = useColorModeValue("white", "gray.700");
-
-  const secondaryButtonBg: string = useColorModeValue("white", "transparent");
-  const secondaryButtonBorder: string = useColorModeValue("gray.700", "white");
-  const secondaryButtonColor: string = useColorModeValue("gray.700", "white");
   const settingsRef = useRef<HTMLDivElement>(null);
-  const bgDrawer = useColorModeValue("white", "navy.800");
 
   useEffect(() => {
     const getAllStations = async () => {
@@ -45,10 +33,13 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
     getAllStations();
   }, []);
 
+  //styles
+  const bgDrawer = "white";
+
   return (
     <>
-         {loading ? ( 
-         <Drawer
+      {loading ? (
+        <Drawer
           isOpen={props.isOpen}
           onClose={props.onClose}
           placement={"right"}
@@ -62,7 +53,7 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
             </DrawerHeader>
           </DrawerContent>
         </Drawer>
-      ) :stations.length > 0 ? (
+      ) : stations.length > 0 ? (
         <Drawer
           isOpen={props.isOpen}
           onClose={props.onClose}
@@ -74,7 +65,7 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
             <DrawerHeader pt="24px" px="24px">
               <DrawerCloseButton />
               <Text fontSize="md" fontWeight="bold" my="16px">
-               {t("stationConfigurator.selectStation")}:
+                {t("stationConfigurator.selectStation")}:
               </Text>
               {selectedStation &&
                 stations.map((station: Station, key: number) => {
@@ -83,8 +74,8 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
                       key={key}
                       w="100%"
                       mb="16px"
-                      bg={bgButton}
-                      color={colorButton}
+                      bg="linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
+                      color="white"
                       fontSize="xs"
                       variant="no-effects"
                       px="30px"
@@ -96,10 +87,10 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
                     <Button
                       key={key}
                       w="100%"
-                      bg={secondaryButtonBg}
+                      bg="white"
                       border="1px solid"
-                      borderColor={secondaryButtonBorder}
-                      color={secondaryButtonColor}
+                      borderColor="gray.700"
+                      color="gray.700"
                       fontSize="xs"
                       variant="no-effects"
                       px="20px"
@@ -125,7 +116,7 @@ const StationConfigurator = (props: StationConfiguratorProps) => {
             <DrawerHeader pt="24px" px="24px">
               <DrawerCloseButton />
               <Text fontSize="md" fontWeight="bold" my="16px">
-              {t("stationConfigurator.text")}
+                {t("stationConfigurator.text")}
               </Text>
             </DrawerHeader>
           </DrawerContent>

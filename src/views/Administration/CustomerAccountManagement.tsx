@@ -10,7 +10,6 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import { getListOfCustomerAccount } from "common/api/customerAccount-api";
@@ -33,9 +32,6 @@ const CustomerAccountManagement = () => {
   } = useHttp<CustomerAccount[]>(getListOfCustomerAccount);
 
   const { t } = useTranslation("administration");
-  const textColor = useColorModeValue("gray.700", "white");
-  const columnTitleTextColor = useColorModeValue("black", "white");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   const accountModalRef = useRef<CustomAccountModalRefType>(null);
 
@@ -50,6 +46,11 @@ const CustomerAccountManagement = () => {
   useEffect(() => {
     fetchCustomerAccounts();
   }, []);
+
+  //styles
+  const textColor = "gray.700";
+  const columnTitleTextColor = "black";
+  const borderColor = "gray.200";
 
   return (
     <>

@@ -11,7 +11,6 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { getAllTankDelivery } from "common/api/configuration-api";
 import { TankDelivery } from "common/model";
@@ -27,8 +26,6 @@ import * as XLSX from "xlsx";
 import FilterDelivery from "../../components/Filter/FilterDelivery";
 
 const TankDeliveries = () => {
-  const textColor: string = useColorModeValue("gray.700", "white");
-  const borderColor: string = useColorModeValue("gray.200", "gray.600");
   const [tankDelivery, setTankDelivery] = useState<TankDelivery[]>();
   const { user } = useAuth();
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -132,6 +129,11 @@ const TankDeliveries = () => {
     setEndDate(endDate);
     setTank("");
   };
+
+  //styles
+  const textColor = "gray.700";
+  const borderColor = "gray.200";
+
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">

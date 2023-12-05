@@ -1,18 +1,11 @@
-import React, { useState, useRef } from "react";
-import {
-  Avatar,
-  Flex,
-  Grid,
-  Text,
-  useColorModeValue,
-  Box,
-} from "@chakra-ui/react";
+import { Avatar, Box, Flex, Grid, Text } from "@chakra-ui/react";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import { useAuth } from "store/AuthContext";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCamera } from "react-icons/fa";
+import { useAuth } from "store/AuthContext";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -26,11 +19,6 @@ const Profile = () => {
   const userLastName = user?.lastName || " ";
   const userName = user?.name || " ";
   const userPhone = user?.phone || " ";
-
-  const textColor = useColorModeValue("gray.700", "white");
-  const bgProfile = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
-  const borderProfileColor = useColorModeValue("white", "transparent");
-  const emailColor = useColorModeValue("gray.400", "gray.300");
 
   const handleMouseEnter = () => {
     setShowCameraIcon(true);
@@ -73,6 +61,9 @@ const Profile = () => {
     }
   };
 
+  //styles
+  const textColor = "gray.700";
+
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px", lg: "100px" }}>
       <Flex
@@ -83,8 +74,8 @@ const Profile = () => {
         backdropFilter="blur(21px)"
         boxShadow="0px 2px 5.5px rgba(0, 0, 0, 0.02)"
         border="1.5px solid"
-        borderColor={borderProfileColor}
-        bg={bgProfile}
+        borderColor="white"
+        bg="hsla(0,0%,100%,.8)"
         p="24px"
         borderRadius="20px"
         onClick={handleAvatarClick}
@@ -125,7 +116,7 @@ const Profile = () => {
             </Text>
             <Text
               fontSize={{ sm: "md", md: "lg" }}
-              color={emailColor}
+              color="gray.400"
               fontWeight="semibold"
             >
               {userEmail}
@@ -140,7 +131,7 @@ const Profile = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Card p="16px"  my={{ base: "24px", xl: "0px" }} width="100%">
+        <Card p="16px" my={{ base: "24px", xl: "0px" }} width="100%">
           <CardHeader p="12px 5px" mb="12px">
             <Text
               fontSize="3xl"

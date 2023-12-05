@@ -8,8 +8,6 @@ import {
   MenuItem,
   MenuList,
   Text,
-  useColorMode,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { ALERTS_TOPIC } from "common/api/WebSocketTopics";
 import StationConfigurator from "components/Configurator/StationConfigurator";
@@ -44,7 +42,6 @@ const HeaderLinks = (props: any) => {
     ...rest
   } = props;
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { colorMode } = useColorMode();
   const history = useHistory();
   const { signOut, user, isSignedIn } = useAuth();
   const { isAdminMode } = useESSContext();
@@ -54,13 +51,6 @@ const HeaderLinks = (props: any) => {
     showStationConfigurator,
     setShowStationConfigurator,
   ] = useState<boolean>(false);
-
-  const navbarIcon =
-    fixed && scrolled
-      ? useColorModeValue("gray.700", "gray.200")
-      : useColorModeValue("white", "gray.200");
-
-  const menuBg = useColorModeValue("white", "navy.800");
 
   useSubscription(ALERTS_TOPIC, (message) => {
     const notification: string = message.body || "";
@@ -79,6 +69,9 @@ const HeaderLinks = (props: any) => {
       return updatedNotifications;
     });
   };
+
+  //styles
+  const navbarIcon = fixed && scrolled ? "gray.700" : "white";
 
   return (
     <Flex
@@ -107,9 +100,9 @@ const HeaderLinks = (props: any) => {
         </MenuButton>
         <MenuList
           p="10px 8px"
-          bg={menuBg}
+          bg="white"
           border="1px solid"
-          borderColor={useColorModeValue("gray.200", "gray.700")}
+          borderColor="gray.200"
           borderRadius="8px"
           minWidth="200px"
         >
@@ -144,7 +137,7 @@ const HeaderLinks = (props: any) => {
           {!isAdminMode && (
             <MenuItem
               borderRadius="8px"
-              _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
+              _hover={{ bg: "gray.100" }}
               onClick={() => {
                 history.push("/admin/profile");
               }}
@@ -157,7 +150,7 @@ const HeaderLinks = (props: any) => {
             onClick={() => {
               signOut();
             }}
-            _hover={{ bg: useColorModeValue("gray.100", "gray.600") }}
+            _hover={{ bg: "gray.100" }}
           >
             {t("navbarLinks.signOut")}
           </MenuItem>
@@ -187,7 +180,7 @@ const HeaderLinks = (props: any) => {
                 </span>
               )}
             </MenuButton>
-            <MenuList p="16px 8px" bg={menuBg}>
+            <MenuList p="16px 8px" bg="white">
               <Flex flexDirection="column">
                 {notifications.map((notification, index) => (
                   <MenuItem
@@ -224,8 +217,7 @@ const HeaderLinks = (props: any) => {
       )}
       <Flex style={{ marginLeft: "16px" }}>
         <SidebarResponsive
-          hamburgerColor={"white"}
-          colorMode={colorMode}
+          hamburgerColor="white"
           secondary={props.secondary}
           routes={routes}
           {...props}

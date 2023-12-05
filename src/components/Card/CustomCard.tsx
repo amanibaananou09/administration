@@ -1,4 +1,4 @@
-import { Avatar, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { CustomCardProps } from "common/react-props";
 
 const CustomCard = ({
@@ -7,10 +7,6 @@ const CustomCard = ({
   description,
   onClick,
 }: CustomCardProps) => {
-  const textColor = useColorModeValue("gray.700", "white");
-  const emailColor = useColorModeValue("gray.400", "gray.300");
-  const bgProfile = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
-
   return (
     <Flex
       direction={{ sm: "column", md: "row" }}
@@ -20,7 +16,7 @@ const CustomCard = ({
       backdropFilter="blur(21px)"
       boxShadow="0px 2px 5.5px rgba(0, 0, 0, 0.02)"
       border="1.5px solid"
-      bg={bgProfile}
+      bg="hsla(0,0%,100%,.8)"
       p="24px"
       ml="380px"
       borderRadius="20px"
@@ -46,7 +42,7 @@ const CustomCard = ({
         <Flex direction="column" maxWidth="100%" my={{ sm: "14px" }}>
           <Text
             fontSize={{ sm: "lg", lg: "xl" }}
-            color={textColor}
+            color="gray.700"
             fontWeight="bold"
             ms={{ sm: "8px", md: "0px" }}
           >
@@ -55,7 +51,7 @@ const CustomCard = ({
           {description && (
             <Text
               fontSize={{ sm: "lg", lg: "xl" }}
-              color={emailColor}
+              color="gray.400"
               fontWeight="semibold"
               ms={{ sm: "8px", md: "0px" }}
             >

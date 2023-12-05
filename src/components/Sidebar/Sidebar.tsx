@@ -11,13 +11,11 @@ import {
   Icon,
   Stack,
   Text,
-  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { SidebarProps } from "common/react-props";
 import IconBox from "components/Icons/IconBox";
 import {
-  renderThumbDark,
   renderThumbLight,
   renderTrack,
   renderView,
@@ -42,11 +40,13 @@ const Sidebar = (props: SidebarProps) => {
   };
 
   const createLinks = (routes: any) => {
-    let activeBg = useColorModeValue("white", "navy.700");
-    let inactiveBg = useColorModeValue("white", "navy.700");
-    let activeColor = useColorModeValue("gray.700", "white");
-    let inactiveColor = useColorModeValue("gray.400", "gray.400");
+    //styles
+    let activeBg = "white";
+    let inactiveBg = "white";
+    let activeColor = "gray.700";
+    let inactiveColor = "gray.400";
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
+
     const { isAdminMode } = useESSContext();
     const routesArray = Object.values(routes);
 
@@ -197,9 +197,6 @@ const Sidebar = (props: SidebarProps) => {
 
   var links = <>{createLinks(routes)}</>;
 
-  let sidebarBg = useColorModeValue("white", "navy.800");
-  let sidebarRadius = "20px";
-  let sidebarMargins = "0px";
   var brand = (
     <Box pt={"25px"} mb="12px">
       {logo}
@@ -208,10 +205,10 @@ const Sidebar = (props: SidebarProps) => {
   );
 
   return (
-    <Box ref={mainPanel} >
+    <Box ref={mainPanel}>
       <Box display={{ base: "none", xl: "block" }} position="fixed">
         <Box
-          bg={sidebarBg}
+          bg="white"
           transition={variantChange}
           w="260px"
           maxW="260px"
@@ -224,18 +221,15 @@ const Sidebar = (props: SidebarProps) => {
           h="calc(100vh - 32px)"
           ps="20px"
           pe="20px"
-          m={sidebarMargins}
+          m="0px"
           filter="drop-shadow(0px 5px 14px rgba(0, 0, 0, 0.05))"
-          borderRadius={sidebarRadius}
+          borderRadius="20px"
           display={{ base: "none", xl: "block" }}
         >
           <Scrollbars
             autoHide
             renderTrackVertical={renderTrack}
-            renderThumbVertical={useColorModeValue(
-              renderThumbLight,
-              renderThumbDark,
-            )}
+            renderThumbVertical={renderThumbLight}
             renderView={renderView}
           >
             <Box>{brand}</Box>
@@ -252,21 +246,20 @@ const Sidebar = (props: SidebarProps) => {
 
 export const SidebarResponsive: FC<SidebarProps> = (props) => {
   let location = useLocation();
-  const { logo, routes, colorMode, hamburgerColor, ...rest } = props;
+  const { logo, routes, hamburgerColor, ...rest } = props;
   const [state, setState] = React.useState<{ [key: string]: boolean }>({});
   const mainPanel = React.useRef<HTMLDivElement>(null);
   const activeRoute = (routeName: string) => {
     return location.pathname === routeName ? "active" : "";
   };
-  let activeBg = useColorModeValue("white", "navy.700");
-  let inactiveBg = useColorModeValue("white", "navy.700");
-  let activeColor = useColorModeValue("gray.700", "white");
-  let inactiveColor = useColorModeValue("gray.400", "white");
-  let sidebarActiveShadow = useColorModeValue(
-    "0px 7px 11px rgba(0, 0, 0, 0.04)",
-    "none",
-  );
-  let sidebarBackgroundColor = useColorModeValue("white", "navy.800");
+
+  //styles
+  let activeBg = "white";
+  let inactiveBg = "white";
+  let activeColor = "gray.700";
+  let inactiveColor = "gray.400";
+  let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
+  let sidebarBackgroundColor = "white";
 
   const createLinks = (routes: any) => {
     const routesArray = Object.values(routes);

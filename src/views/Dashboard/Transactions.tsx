@@ -14,7 +14,6 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
@@ -30,8 +29,6 @@ import { formatNumber } from "utils/utils";
 import * as XLSX from "xlsx";
 
 const Transactions = () => {
-  const textColor = useColorModeValue("gray.700", "white");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
   const [transactions, setTransactions] = useState<Transaction[]>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pumpId, setPumpId] = useState<string>("");
@@ -123,7 +120,7 @@ const Transactions = () => {
     startDate,
     endDate,
   ]);
-  
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -147,6 +144,10 @@ const Transactions = () => {
     setFuelGradeName("");
     setPumpId("");
   };
+
+  //styles
+  const textColor = "gray.700";
+  const borderColor = "gray.200";
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>

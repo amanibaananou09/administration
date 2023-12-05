@@ -1,10 +1,4 @@
-import {
-  Box,
-  Flex,
-  Text,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import Card from "components/Card/Card"; // Update the path to the Card component
 import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
 import TankLevelChart from "components/Charts/TankLevelChart";
@@ -17,8 +11,6 @@ import { useTranslation } from "react-i18next";
 import SalesGrades from "./SalesGrades";
 
 export default function Dashboard() {
-  const { colorMode } = useColorMode();
-  const textColor = useColorModeValue("gray.700", "white");
   const [filter, setFilter] = useState<Filter>({
     period: "today",
   });
@@ -27,6 +19,9 @@ export default function Dashboard() {
   const handleFilterChange = (filter: Filter) => {
     setFilter(filter);
   };
+
+  //styles
+  const textColor = "gray.700";
 
   return (
     <Flex
@@ -60,11 +55,7 @@ export default function Dashboard() {
           minH="125px"
           m={{ base: "5px", md: "5", lg: "1px" }}
           width={{ base: "100%", md: "90%", lg: "45%" }}
-          bg={
-            colorMode === "dark"
-              ? "navy.800"
-              : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
-          }
+          bg="linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
         >
           <Flex
             direction="column"

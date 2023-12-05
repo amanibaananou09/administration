@@ -1,4 +1,3 @@
-import { useColorModeValue } from "@chakra-ui/react";
 import { getAllStatVent } from "common/api/chart-api";
 import { Filter } from "components/Filter/DashBoardFilter";
 import useRefresher from "hooks/use-refresher";
@@ -24,7 +23,6 @@ const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
     labels: [],
     datasets: [],
   });
-  const textColor = useColorModeValue("gray.700", "white");
 
   function getRandomColor(): string {
     const letters = "0123456789ABCDEF";
@@ -102,7 +100,7 @@ const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
     },
     stroke: {
       width: 1,
-      colors: [textColor],
+      colors: ["gray.700"],
     },
     plotOptions: {
       bar: {
@@ -113,7 +111,7 @@ const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
       categories: data.labels,
       labels: {
         style: {
-          colors: textColor,
+          colors: "gray.700",
           fontSize: "12px",
         },
       },

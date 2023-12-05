@@ -1,21 +1,20 @@
-import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
+import { GeneralUser, RouteParams, userScope } from "common/AdminModel";
+import { functionScope, userInformation } from "common/api/general-user-api";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import { useEffect, useState } from "react";
-import { functionScope, userInformation } from "common/api/general-user-api";
-import { GeneralUser, RouteParams, userScope } from "common/AdminModel";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 const UserDetails = () => {
   const { id } = useParams<RouteParams>();
   const [userInfo, setUserInfo] = useState<GeneralUser | null>(null);
   const [userScope, setUserScope] = useState<userScope | null>(null);
 
-  const textColor = useColorModeValue("gray.700", "white");
-  const { t } = useTranslation('administration');
+  const { t } = useTranslation("administration");
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -50,8 +49,8 @@ const UserDetails = () => {
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
         <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
           <CardHeader p="6px 0px 22px 0px">
-            <Text fontSize="xl" color={textColor} fontWeight="bold">
-            {t("userInformation.header")}
+            <Text fontSize="xl" color="gray.700" fontWeight="bold">
+              {t("userInformation.header")}
             </Text>
           </CardHeader>
           <CardBody>
@@ -60,19 +59,19 @@ const UserDetails = () => {
                 <Flex width="100%" gap="10%">
                   <Box>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("userInformation.userNameLabel")} :{" "}
+                      {t("userInformation.userNameLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("userInformation.firstNameLabel")} :{" "}
+                      {t("userInformation.firstNameLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("userInformation.lastNameLabel")} :{" "}
+                      {t("userInformation.lastNameLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("userInformation.phoneLabel")} :{" "}
+                      {t("userInformation.phoneLabel")} :{" "}
                     </Text>
                     <Text fontSize="md" color="gray.900" fontWeight="bold">
-                    {t("userInformation.emailLabel")} :{" "}
+                      {t("userInformation.emailLabel")} :{" "}
                     </Text>
                   </Box>
                   <Box>
@@ -108,7 +107,7 @@ const UserDetails = () => {
                   textAlign="left"
                   fontWeight="bold"
                 >
-                 {t("userInformation.functionsScopeLabel")}
+                  {t("userInformation.functionsScopeLabel")}
                 </Text>
                 <Box
                   backgroundColor="gray.200"
@@ -144,15 +143,15 @@ const UserDetails = () => {
                     ))
                   ) : (
                     <Text fontSize="md" color="gray.700">
-                     {t("userInformation.noCustomerAccountAvailable")}.
+                      {t("userInformation.noCustomerAccountAvailable")}.
                     </Text>
                   )}
                 </Box>
               </Flex>
-          </Flex>
-        </CardBody>
-      </Card>
-    </Flex>
+            </Flex>
+          </CardBody>
+        </Card>
+      </Flex>
     </>
   );
 };

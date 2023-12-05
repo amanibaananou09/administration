@@ -6,7 +6,6 @@ import {
   Flex,
   Interpolation,
   Link,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { AdminNavbarProps } from "common/react-props";
 import { useEffect, useState } from "react";
@@ -34,14 +33,8 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   } = props;
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
-  let mainText =
-    fixed && scrolled
-      ? useColorModeValue("gray.700", "gray.200")
-      : useColorModeValue("white", "gray.200");
-  let secondaryText =
-    fixed && scrolled
-      ? useColorModeValue("gray.700", "gray.200")
-      : useColorModeValue("white", "gray.200");
+  let mainText = fixed && scrolled ? "gray.700" : "white";
+  let secondaryText = fixed && scrolled ? "gray.700" : "white";
   let navbarPosition = "absolute";
   let navbarFilter = "none";
   let navbarBackdrop = "none";
@@ -53,19 +46,11 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   if (props.fixed === true)
     if (scrolled === true) {
       navbarPosition = "fixed";
-      navbarShadow = useColorModeValue(
-        "0px 7px 23px rgba(0, 0, 0, 0.05)",
-        "none",
-      );
-      navbarBg = useColorModeValue(
-        "linear-gradient(112.83deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.8) 110.84%)",
-        "linear-gradient(112.83deg, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0) 110.84%)",
-      );
-      navbarBorder = useColorModeValue("#FFFFFF", "rgba(255, 255, 255, 0.31)");
-      navbarFilter = useColorModeValue(
-        "none",
-        "drop-shadow(0px 7px 23px rgba(0, 0, 0, 0.05))",
-      );
+      navbarShadow = "0px 7px 23px rgba(0, 0, 0, 0.05)";
+      navbarBg =
+        "linear-gradient(112.83deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.8) 110.84%)";
+      navbarBorder = "#FFFFFF";
+      navbarFilter = "none";
     }
   if (props.secondary) {
     navbarBackdrop = "none";
