@@ -2,28 +2,23 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Circle, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 
 import { getAllSalesByPump } from "common/api/statistique-api";
-import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { SalesPump } from "common/model";
 import Card from "components/Card/Card";
 import { Filter } from "components/Filter/DashBoardFilter";
+import useRefresher from "hooks/use-refresher";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "react-stomp-hooks";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
 
 export const PumpSales = ({ period, fromDate, toDate }: Filter) => {
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const { refresh } = useRefresher();
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
   const { t } = useTranslation("dashboard");
-
-  useSubscription(REFRESHER_TOPIC, () => {
-    setRefresh((prev) => !prev);
-  });
 
   useEffect(() => {
     const fetchSalesByPump = async () => {

@@ -3,19 +3,18 @@ import { useAuth } from "store/AuthContext";
 
 import { Box, Stack, Text } from "@chakra-ui/react";
 import { getChartByFuelPumpPeriod } from "common/api/chart-api";
-import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { createReportSalesChartOptions } from "common/chartOptions";
 import { ChartData, ChartFilter } from "common/model";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
 import { Filter } from "components/Filter/DashBoardFilter";
+import useRefresher from "hooks/use-refresher";
 import ReactApexChart from "react-apexcharts";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "react-stomp-hooks";
 import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
 export const ReportSalesChart = ({ period, fromDate, toDate }: Filter) => {
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const { refresh } = useRefresher();
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
   const { t } = useTranslation("dashboard");
@@ -98,10 +97,6 @@ export const ReportSalesChart = ({ period, fromDate, toDate }: Filter) => {
       console.error("Error fetching data:", error);
     }
   };
-
-  useSubscription(REFRESHER_TOPIC, () => {
-    setRefresh((prev) => !prev);
-  });
 
   useEffect(() => {
     // Fetch data when filter or periode changes

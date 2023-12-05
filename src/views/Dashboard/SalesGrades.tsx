@@ -1,11 +1,10 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Flex, Stat, StatLabel, Text } from "@chakra-ui/react";
 import { getAllSalesByGrades } from "common/api/statistique-api";
-import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { Filter } from "components/Filter/DashBoardFilter";
+import useRefresher from "hooks/use-refresher";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSubscription } from "react-stomp-hooks";
 import { Grades } from "../../common/model";
 import Card from "../../components/Card/Card"; // Update the path to the Card component
 import { useAuth } from "../../store/AuthContext";
@@ -13,7 +12,7 @@ import { useESSContext } from "../../store/ESSContext";
 
 export const SalesGrades = (filter: Filter) => {
   const { period, fromDate, toDate } = filter;
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const { refresh } = useRefresher();
   const [grades, setGrades] = useState<Grades[]>([]);
   const [isContentVisible, setIsContentVisible] = useState(true);
 
@@ -21,10 +20,6 @@ export const SalesGrades = (filter: Filter) => {
 
   const { selectedStation } = useESSContext();
   const { t } = useTranslation("dashboard");
-
-  useSubscription(REFRESHER_TOPIC, () => {
-    setRefresh((prev) => !prev);
-  });
 
   useEffect(() => {
     const allStatGrades = async () => {

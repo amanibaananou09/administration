@@ -1,16 +1,15 @@
 import { useColorModeValue } from "@chakra-ui/react";
 import { getAllStatVent } from "common/api/chart-api";
-import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { Filter } from "components/Filter/DashBoardFilter";
+import useRefresher from "hooks/use-refresher";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import { useSubscription } from "react-stomp-hooks";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
 const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const { refresh } = useRefresher();
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
   const [data, setData] = useState<{
@@ -35,10 +34,6 @@ const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
     }
     return color;
   }
-
-  useSubscription(REFRESHER_TOPIC, () => {
-    setRefresh((prev) => !prev);
-  });
 
   useEffect(() => {
     const fetchData = async () => {
