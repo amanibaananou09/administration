@@ -1,18 +1,21 @@
-import { Filter, Station } from "common/model";
+import { ChartFilter, Station } from "common/model";
+
 import api from "./axios";
 
 const API_URL = "/data";
 
 export const getChartByFuelPumpPeriod = async (
   station: Station,
-  filter: Filter,
-  periode: string,
-  startDate: string,
-  endDate: string,
+  filter: ChartFilter,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
-  const response = await api.get(
-    `${API_URL}/sales/${station.controllerPts.id}?chartType=${filter.chartType}&fuel=${filter.fuelGrade}&pump=${filter.pump}&periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
-  );
+  let url = `${API_URL}/sales/${station.controllerPts.id}?chartType=${filter.chartType}&fuel=${filter.fuelGrade}&pump=${filter.pump}&`;
+
+  url = addFilterParams(url, period, startDate, endDate);
+
+  const response = await api.get(url);
 
   return response.data;
 };
@@ -32,13 +35,15 @@ export const getChartByFuelTankPeriod = async (
 
 export const getAllStatVent = async (
   station: Station,
-  periode: string,
-  startDate: string,
-  endDate: string,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
-  const response = await api.get(
-    `${API_URL}/salesByUser/${station.controllerPts.id}?periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
-  );
+  let url = `${API_URL}/salesByUser/${station.controllerPts.id}?`;
+
+  url = addFilterParams(url, period, startDate, endDate);
+
+  const response = await api.get(url);
 
   return response.data;
 };
@@ -53,14 +58,17 @@ export const getAllTankByIdc = async (station: Station) => {
 
 export const getTankMeasurementByPeriod = async (
   station: Station,
-  tank: string |number,
-  periode: string,
-  startDate: string,
-  endDate: string,
+  tank: string | number,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
-  const response = await api.get(
-    `${API_URL}/tankMeasurementByPeriod/${station.controllerPts.id}?tank=${tank}&periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
-  );
+  debugger;
+  let url = `${API_URL}/tankMeasurementByPeriod/${station.controllerPts.id}?tank=${tank}&`;
+
+  url = addFilterParams(url, period, startDate, endDate);
+
+  const response = await api.get(url);
 
   return response.data;
 };
@@ -68,13 +76,39 @@ export const getTankMeasurementByPeriod = async (
 export const getTankLevelByPeriod = async (
   station: Station,
   tank: string | number,
-  periode: string,
-  startDate: string,
-  endDate: string,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
-  const response = await api.get(
-    `${API_URL}/tankLevelByPeriod/${station.controllerPts.id}?tank=${tank}&periode=${periode}&startDate=${startDate}&endDate=${endDate}`,
-  );
+  let url = `${API_URL}/tankLevelByPeriod/${station.controllerPts.id}?tank=${tank}&`;
+
+  url = addFilterParams(url, period, startDate, endDate);
+
+  const response = await api.get(url);
 
   return response.data;
 };
+
+export const addFilterParams = (
+  url: string,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
+) => {
+  let newUrl = url;
+
+  if (period) {
+    newUrl += `periode=${period}`;
+  }
+
+  if (startDate) {
+    newUrl += `&startDate=${startDate}`;
+  }
+
+  if (endDate) {
+    newUrl += `&endDate=${endDate}`;
+  }
+
+  return newUrl;
+};
+

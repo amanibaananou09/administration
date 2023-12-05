@@ -62,7 +62,7 @@ export interface Tank {
   idConf: string;
 }
 
-export interface Filter {
+export interface ChartFilter {
   fuelGrade: string;
   pump: string;
   chartType: string;

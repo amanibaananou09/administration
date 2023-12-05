@@ -1,28 +1,23 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { getAllSalesByPumpAndGrades } from "common/api/statistique-api";
-import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { SalesPumpGrades } from "common/model";
 import { SalesPumpGradesRowProps } from "common/react-props";
+import useRefresher from "hooks/use-refresher";
 import { useEffect, useState } from "react";
-import { useSubscription } from "react-stomp-hooks";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import Card from "../Card/Card";
 
 export const SalesByGrades = ({
   pumpId,
-  periode,
+  period,
   startDate,
   endDate,
 }: SalesPumpGradesRowProps) => {
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const { refresh } = useRefresher();
   const [pumpGrades, setPumpGrades] = useState<SalesPumpGrades[]>([]);
   const { user } = useAuth();
   const { selectedStation } = useESSContext();
-
-  useSubscription(REFRESHER_TOPIC, () => {
-    setRefresh((prev) => !prev);
-  });
 
   useEffect(() => {
     const getAllLastTankDelivery = async () => {
@@ -33,7 +28,7 @@ export const SalesByGrades = ({
         const result = await getAllSalesByPumpAndGrades(
           pumpId,
           selectedStation,
-          periode,
+          period,
           startDate,
           endDate,
         );
@@ -43,7 +38,7 @@ export const SalesByGrades = ({
       }
     };
     getAllLastTankDelivery();
-  }, [selectedStation, pumpId, periode, startDate, endDate, refresh]);
+  }, [selectedStation, pumpId, period, startDate, endDate, refresh]);
   return (
     <Flex flexDirection="column" justifyContent="space-between">
       <Card minH="125px" m="5" width="300px">

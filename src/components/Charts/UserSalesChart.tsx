@@ -1,16 +1,15 @@
 import { useColorModeValue } from "@chakra-ui/react";
 import { getAllStatVent } from "common/api/chart-api";
-import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
-import { PeriodeProps } from "common/react-props";
+import { Filter } from "components/Filter/DashBoardFilter";
+import useRefresher from "hooks/use-refresher";
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import { useSubscription } from "react-stomp-hooks";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
-const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
-  const [refresh, setRefresh] = useState<boolean>(false);
+const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
+  const { refresh } = useRefresher();
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
   const [data, setData] = useState<{
@@ -36,10 +35,6 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
     return color;
   }
 
-  useSubscription(REFRESHER_TOPIC, () => {
-    setRefresh((prev) => !prev);
-  });
-
   useEffect(() => {
     const fetchData = async () => {
       if (!user || !selectedStation) return;
@@ -47,9 +42,9 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
       try {
         const res = await getAllStatVent(
           selectedStation,
-          periode,
-          startDate,
-          endDate,
+          period,
+          fromDate,
+          toDate,
         );
         if (Array.isArray(res)) {
           const uniqueUserIds = new Set<number>();
@@ -95,7 +90,7 @@ const UserSalesChart = ({ periode, startDate, endDate }: PeriodeProps) => {
     };
 
     fetchData();
-  }, [selectedStation, periode, startDate, endDate, user, refresh]);
+  }, [selectedStation, period, fromDate, toDate, user, refresh]);
 
   // Options for the chart
   const UserSalesBarChartOptions = {
