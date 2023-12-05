@@ -84,7 +84,7 @@ export const SalesGrades = (filter: Filter) => {
                 {Number(grade.totalSalesParVolume).toLocaleString("fr-FR", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })}
+                })}{" "}
                 {t("common.litres")}{" "}
               </Text>
               <Text

@@ -77,7 +77,7 @@
     "totalVolume": "Indice du Volume",
     "totalAmount": "Indice du Montant",
     "tag": "Tag",
-    "volumeGreater": "Transactions avec volume",
+    "volumeGreater": "Filtres les transactions avec volume supérieur à ",
     "noTransactions": "Aucune transactions trouvée."
   },
   "tankDeliveries": {

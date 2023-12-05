@@ -56,7 +56,7 @@ export default function Dashboard() {
     width: isSticky ? "80%" : "auto",
     position: isSticky ? "fixed" : "static",
     top: isSticky ? "2%" : "auto",
-    left: isSticky ? "57%" : "auto",
+    left: isSticky ? "59%" : "auto",
     transform: isSticky ? "translateX(-50%)" : "none",
     borderRadius: "16px",
     zIndex: isSticky ? 1000 : "auto",

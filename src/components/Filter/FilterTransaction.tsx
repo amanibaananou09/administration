@@ -203,37 +203,35 @@ function FilterTransaction(props: FilterTransactionProps) {
       )}
 
       {selectedFilterTransactions === "volume" && (
-        <Flex align="center" p="5">
-          <Text p="3" fontSize="lg" fontWeight="bold" color="blue.500">
-            {" "}
-            {t("transactions.volumeGreater")} :
-          </Text>
-          <Button onClick={decrementVolume} mr="3">
-            -
-          </Button>
-          <Input
-            type="number"
-            fontSize="m"
-            fontWeight="bold"
-            textAlign="center"
-            value={volumeValue}
-            onChange={(e) => {
-              const newValue = e.target.value;
-              setVolumeValue(newValue);
-              onChange(newValue.toString());
-            }}
-            mr="3"
-            w="90px"
-          />
-          <Button onClick={incrementVolume}>+</Button>
-        </Flex>
+
+         <Flex align="center" p="5">
+          <Text p="3" fontSize="l" fontWeight="bold" color="blue.500"> {t("transactions.volumeGreater") } :</Text>
+         <Button onClick={decrementVolume} mr="3"  >
+           -
+         </Button>
+         <Input
+           type="number"
+           fontSize="m"
+           fontWeight="bold"
+           textAlign="center"
+           value={volumeValue}
+           onChange={(e) => {
+             const newValue = e.target.value;
+             setVolumeValue(newValue);
+             onChange(newValue.toString());
+           }}
+           mr="3"
+           w="90px"
+         />
+         <Button onClick={incrementVolume}>+</Button>
+       </Flex>
       )}
 
       {selectedFilterTransactions === "period" && (
         <>
           <Box p="3">
-            <Heading as="h1" fontSize="lg">
-              {t("common.from")} :
+            <Heading as="h1" fontSize="m">
+              {t("common.from")}:
             </Heading>
           </Box>
           <Box p="3">
@@ -246,8 +244,8 @@ function FilterTransaction(props: FilterTransactionProps) {
             </FormControl>
           </Box>
           <Box p="3">
-            <Heading as="h1" fontSize="lg">
-              {t("common.to")} :
+            <Heading as="h1" fontSize="m">
+              {t("common.to")}:
             </Heading>
           </Box>
           <Box>

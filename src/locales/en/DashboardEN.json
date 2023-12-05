@@ -77,7 +77,7 @@
     "totalVolume": "Index Volume",
     "totalAmount": "Index Amount",
     "tag": "Tag",
-    "volumeGreater": "Transactions with Volume",
+    "volumeGreater": "Filters transactions with volume greater than ",
     "noTransactions": "No transactions found."
   },
   "tankDeliveries": {
