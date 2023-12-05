@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import {
   getAllTankByIdc,
   getTankLevelByPeriod,
@@ -5,23 +6,16 @@ import {
 } from "common/api/chart-api";
 import { tankLevelChartConfig } from "common/chartOptions";
 import { Tank, tankLevelData, tankMeasurementData } from "common/model";
-import { PeriodeProps } from "common/react-props";
+import { Filter } from "components/Filter/DashBoardFilter";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { useTranslation } from "react-i18next";
 import { formatDate } from "utils/utils";
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartButton from "../ChartMenu/TankChartButton";
-import { useTranslation } from "react-i18next";
-import {
-  Box,
-} from "@chakra-ui/react";
 
-export const TankLevelChart = ({
-  periode,
-  startDate,
-  endDate,
-}: PeriodeProps) => {
+export const TankLevelChart = ({ period, fromDate, toDate }: Filter) => {
   const [chartData, setChartData] = useState({
     tankMeasurementData: [] as tankMeasurementData[],
     tankLevelData: [] as tankLevelData[],
@@ -59,12 +53,13 @@ export const TankLevelChart = ({
     }
     const fetchData = async () => {
       try {
+        debugger;
         const measurementData = await getTankMeasurementByPeriod(
           selectedStation,
           selectedTank,
-          periode,
-          startDate,
-          endDate,
+          period,
+          fromDate,
+          toDate,
         );
         setChartData((prevData) => ({
           ...prevData,
@@ -74,9 +69,9 @@ export const TankLevelChart = ({
         const levelData = await getTankLevelByPeriod(
           selectedStation,
           selectedTank,
-          periode,
-          startDate,
-          endDate,
+          period,
+          fromDate,
+          toDate,
         );
         setChartData((prevData) => ({
           ...prevData,
@@ -87,7 +82,7 @@ export const TankLevelChart = ({
       }
     };
     fetchData();
-  }, [periode, selectedStation, user, selectedTank, startDate, endDate]);
+  }, [period, selectedStation, user, selectedTank, fromDate, toDate]);
 
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);
@@ -113,24 +108,24 @@ export const TankLevelChart = ({
 
   return (
     <Box>
-    <TankChartButton
-      tanks={tanks}
-      selectedTank={selectedTank}
-      onChange={(tank) => setSelectedTank(tank)}
-    />
-    {alignedChartData.tankLevelData.length > 0 &&
-      alignedChartData.tankMeasurementData.length > 0 && (
-        <Box>
-          <ReactApexChart
-            options={chartOptions}
-            series={chartSeries}
-            type="line"
-            width="100%"
-            height="500px"
-          />
-        </Box>
-      )}
-  </Box>
+      <TankChartButton
+        tanks={tanks}
+        selectedTank={selectedTank}
+        onChange={(tank) => setSelectedTank(tank)}
+      />
+      {alignedChartData.tankLevelData.length > 0 &&
+        alignedChartData.tankMeasurementData.length > 0 && (
+          <Box>
+            <ReactApexChart
+              options={chartOptions}
+              series={chartSeries}
+              type="line"
+              width="100%"
+              height="500px"
+            />
+          </Box>
+        )}
+    </Box>
   );
 };
 

@@ -2,7 +2,7 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Flex, Stat, StatLabel, Text } from "@chakra-ui/react";
 import { getAllSalesByGrades } from "common/api/statistique-api";
 import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
-import { PeriodeProps } from "common/react-props";
+import { Filter } from "components/Filter/DashBoardFilter";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSubscription } from "react-stomp-hooks";
@@ -11,9 +11,12 @@ import Card from "../../components/Card/Card"; // Update the path to the Card co
 import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 
-export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
+export const SalesGrades = (filter: Filter) => {
+  const { period, fromDate, toDate } = filter;
   const [refresh, setRefresh] = useState<boolean>(false);
   const [grades, setGrades] = useState<Grades[]>([]);
+  const [isContentVisible, setIsContentVisible] = useState(true);
+
   const { user } = useAuth();
 
   const { selectedStation } = useESSContext();
@@ -31,9 +34,9 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
       try {
         const result = await getAllSalesByGrades(
           selectedStation,
-          periode,
-          startDate,
-          endDate,
+          period,
+          fromDate,
+          toDate,
         );
         setGrades(result);
       } catch (error) {
@@ -41,8 +44,7 @@ export const SalesGrades = ({ periode, startDate, endDate }: PeriodeProps) => {
       }
     };
     allStatGrades();
-  }, [selectedStation, user, periode, startDate, endDate, refresh]);
-  const [isContentVisible, setIsContentVisible] = useState(true);
+  }, [selectedStation, user, period, fromDate, toDate, refresh]);
 
   return (
     <Flex flexDirection="column" justifyContent="space-between">

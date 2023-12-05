@@ -11,7 +11,7 @@ import Card from "../Card/Card";
 
 export const SalesByGrades = ({
   pumpId,
-  periode,
+  period,
   startDate,
   endDate,
 }: SalesPumpGradesRowProps) => {
@@ -33,7 +33,7 @@ export const SalesByGrades = ({
         const result = await getAllSalesByPumpAndGrades(
           pumpId,
           selectedStation,
-          periode,
+          period,
           startDate,
           endDate,
         );
@@ -43,7 +43,7 @@ export const SalesByGrades = ({
       }
     };
     getAllLastTankDelivery();
-  }, [selectedStation, pumpId, periode, startDate, endDate, refresh]);
+  }, [selectedStation, pumpId, period, startDate, endDate, refresh]);
   return (
     <Flex flexDirection="column" justifyContent="space-between">
       <Card minH="125px" m="5" width="300px">

@@ -4,8 +4,8 @@ import { Circle, Flex, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import { getAllSalesByPump } from "common/api/statistique-api";
 import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { SalesPump } from "common/model";
-import { PeriodeProps } from "common/react-props";
 import Card from "components/Card/Card";
+import { Filter } from "components/Filter/DashBoardFilter";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSubscription } from "react-stomp-hooks";
@@ -14,7 +14,7 @@ import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
 
-export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
+export const PumpSales = ({ period, fromDate, toDate }: Filter) => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
@@ -33,9 +33,9 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
       try {
         const result = await getAllSalesByPump(
           selectedStation,
-          periode,
-          startDate,
-          endDate,
+          period,
+          fromDate,
+          toDate,
         );
         setSalesPumps(result);
       } catch (error) {
@@ -43,7 +43,7 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
       }
     };
     fetchSalesByPump();
-  }, [selectedStation, user, periode, startDate, endDate, refresh]);
+  }, [selectedStation, user, period, fromDate, toDate, refresh]);
   const [isContentVisible, setIsContentVisible] = useState(true);
   return (
     <>
@@ -133,9 +133,9 @@ export const PumpSales = ({ periode, startDate, endDate }: PeriodeProps) => {
               <Text as="span" fontWeight="bold" color="blue.600">
                 <SalesByGrades
                   pumpId={salesPump.pumpId}
-                  periode={periode}
-                  startDate={startDate}
-                  endDate={endDate}
+                  period={period}
+                  startDate={fromDate}
+                  endDate={toDate}
                 />
               </Text>
             </Card>

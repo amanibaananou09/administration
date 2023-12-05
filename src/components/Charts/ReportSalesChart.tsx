@@ -5,20 +5,16 @@ import { Box, Stack, Text } from "@chakra-ui/react";
 import { getChartByFuelPumpPeriod } from "common/api/chart-api";
 import { REFRESHER_TOPIC } from "common/api/WebSocketTopics";
 import { createReportSalesChartOptions } from "common/chartOptions";
-import { ChartData, Filter } from "common/model";
-import { PeriodeProps } from "common/react-props";
+import { ChartData, ChartFilter } from "common/model";
 import ReportSalesChartMenu from "components/ChartMenu/ReportSalesChartMenu";
+import { Filter } from "components/Filter/DashBoardFilter";
 import ReactApexChart from "react-apexcharts";
 import { useTranslation } from "react-i18next";
 import { useSubscription } from "react-stomp-hooks";
 import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
-export const ReportSalesChart = ({
-  periode,
-  startDate,
-  endDate,
-}: PeriodeProps) => {
+export const ReportSalesChart = ({ period, fromDate, toDate }: Filter) => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
@@ -34,13 +30,13 @@ export const ReportSalesChart = ({
     ],
   });
 
-  const [filter, setFilter] = useState<Filter>({
+  const [filter, setFilter] = useState<ChartFilter>({
     fuelGrade: "all",
     pump: "all",
     chartType: "amount",
   });
 
-  const handleMenuChange = (newFilter: Filter) => {
+  const handleMenuChange = (newFilter: ChartFilter) => {
     setFilter({ ...newFilter });
   };
 
@@ -53,9 +49,9 @@ export const ReportSalesChart = ({
       const data = await getChartByFuelPumpPeriod(
         selectedStation,
         filter,
-        periode,
-        startDate,
-        endDate,
+        period,
+        fromDate,
+        toDate,
       );
 
       const filteredData: ChartData = {
@@ -110,7 +106,7 @@ export const ReportSalesChart = ({
   useEffect(() => {
     // Fetch data when filter or periode changes
     updateChartData();
-  }, [filter, selectedStation, user, periode, startDate, endDate, refresh]);
+  }, [filter, selectedStation, user, period, fromDate, toDate, refresh]);
 
   return (
     <>

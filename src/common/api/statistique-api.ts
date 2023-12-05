@@ -19,26 +19,30 @@ export const getLastTankDelivery = async (station: Station, tank: number) => {
 
 export const getAllSalesByGrades = async (
   station: Station,
-  periode: string,
-  startDate: string,
-  endDate: string,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
-  const response = await api.get(
-    `${API_URL}/sales/fuelName/${station.controllerPts.id}?typePeriod=${periode}&startDate=${startDate}&endDate=${endDate}`,
-  );
+  let url = `${API_URL}/sales/fuelName/${station.controllerPts.id}?`;
+
+  url = addFilterParams(url, period, startDate, endDate);
+
+  const response = await api.get(url);
 
   return response.data;
 };
 
 export const getAllSalesByPump = async (
   station: Station,
-  periode: string,
-  startDate: string,
-  endDate: string,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
-  const response = await api.get(
-    `${API_URL}/sales/${station.controllerPts.id}?typePeriod=${periode}&startDate=${startDate}&endDate=${endDate}`,
-  );
+  let url = `${API_URL}/sales/${station.controllerPts.id}?`;
+
+  url = addFilterParams(url, period, startDate, endDate);
+
+  const response = await api.get(url);
 
   return response.data;
 };
@@ -46,13 +50,38 @@ export const getAllSalesByPump = async (
 export const getAllSalesByPumpAndGrades = async (
   pumpId: number,
   station: Station,
-  periode: string,
-  startDate: string,
-  endDate: string
+  period?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
-  const response = await api.get(
-    `${API_URL}/salesByGrades/${station.controllerPts.id}/${pumpId}?typePeriod=${periode}&startDate=${startDate}&endDate=${endDate}`,
-  );
+  let url = `${API_URL}/salesByGrades/${station.controllerPts.id}/${pumpId}?`;
+
+  url = addFilterParams(url, period, startDate, endDate);
+
+  const response = await api.get(url);
 
   return response.data;
+};
+
+export const addFilterParams = (
+  url: string,
+  period?: string,
+  startDate?: string,
+  endDate?: string,
+) => {
+  let newUrl = url;
+
+  if (period) {
+    newUrl += `typePeriod=${period}`;
+  }
+
+  if (startDate) {
+    newUrl += `&startDate=${startDate}`;
+  }
+
+  if (endDate) {
+    newUrl += `&endDate=${endDate}`;
+  }
+
+  return newUrl;
 };

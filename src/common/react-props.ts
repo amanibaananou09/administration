@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { CustomerAccount } from "./AdminModel";
-import { Filter, Station, TankMeasurement, User } from "./model";
+import { ChartFilter, Station, TankMeasurement, User } from "./model";
 
 export interface CustomCardProps {
   title: string;
@@ -10,8 +10,8 @@ export interface CustomCardProps {
 }
 
 export interface ReportSalesChartMenuProps {
-  filter: Filter;
-  onChange: (newFilter: Filter) => void;
+  filter: ChartFilter;
+  onChange: (newFilter: ChartFilter) => void;
 }
 
 export interface TankChartMenuProps {
@@ -91,9 +91,9 @@ export interface UserModalRefType {
 
 export interface SalesPumpGradesRowProps {
   pumpId: number;
-  periode: string;
-  startDate: string;
-  endDate: string;
+  period?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface LastTankRowProps {

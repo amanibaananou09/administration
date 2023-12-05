@@ -9,7 +9,7 @@ import Card from "components/Card/Card"; // Update the path to the Card componen
 import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
 import TankLevelChart from "components/Charts/TankLevelChart";
 import UserSalesChart from "components/Charts/UserSalesChart"; // Update the path to the Chart component
-import FilterPeriod from "components/Filter/FilterPeriod";
+import DashBoardFilter, { Filter } from "components/Filter/DashBoardFilter";
 import PumpSales from "components/Statistics/PumpSales";
 import TankMeasurementSection from "components/Statistics/TankMeasurementSection";
 import { useState } from "react";
@@ -19,17 +19,13 @@ import SalesGrades from "./SalesGrades";
 export default function Dashboard() {
   const { colorMode } = useColorMode();
   const textColor = useColorModeValue("gray.700", "white");
-  const [selectedFilter, setSelectedFilter] = useState<string>("today");
-  const [fromDate, setFromDate] = useState<string>("");
-  const [toDate, setToDate] = useState<string>("");
+  const [filter, setFilter] = useState<Filter>({
+    period: "today",
+  });
   const { t } = useTranslation("dashboard");
-  const handleSearchFilters = (fromDate: string, toDate: string) => {
-    setFromDate(fromDate);
-    setToDate(toDate);
-    setSelectedFilter("");
-  };
-  const handleFilterChange = (filter: string) => {
-    setSelectedFilter(filter);
+
+  const handleFilterChange = (filter: Filter) => {
+    setFilter(filter);
   };
 
   return (
@@ -40,22 +36,19 @@ export default function Dashboard() {
     >
       <TankMeasurementSection />
 
-      <FilterPeriod
-        selectedFilter={selectedFilter}
-        onFilterChange={handleFilterChange}
-        onSearch={handleSearchFilters}
-      />
+      <DashBoardFilter onFilterChange={handleFilterChange} />
+
       <br />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
         <SalesGrades
-          periode={selectedFilter}
-          startDate={fromDate}
-          endDate={toDate}
+          period={filter?.period}
+          fromDate={filter?.fromDate}
+          toDate={filter?.toDate}
         />
         <PumpSales
-          periode={selectedFilter}
-          startDate={fromDate}
-          endDate={toDate}
+          period={filter?.period}
+          fromDate={filter?.fromDate}
+          toDate={filter?.toDate}
         />
       </Flex>
       <Flex
@@ -85,9 +78,9 @@ export default function Dashboard() {
           </Flex>
           <Box minH="300px">
             <ReportSalesChart
-              periode={selectedFilter}
-              startDate={fromDate}
-              endDate={toDate}
+              period={filter?.period}
+              fromDate={filter?.fromDate}
+              toDate={filter?.toDate}
             />
           </Box>
         </Card>
@@ -103,9 +96,9 @@ export default function Dashboard() {
           </Flex>
           <Box minH="300px">
             <UserSalesChart
-              periode={selectedFilter}
-              startDate={fromDate}
-              endDate={toDate}
+              period={filter?.period}
+              fromDate={filter?.fromDate}
+              toDate={filter?.toDate}
             />
           </Box>
         </Card>
@@ -125,9 +118,9 @@ export default function Dashboard() {
           </Flex>
           <Box minH="300px">
             <TankLevelChart
-              periode={selectedFilter}
-              startDate={fromDate}
-              endDate={toDate}
+              period={filter?.period}
+              fromDate={filter?.fromDate}
+              toDate={filter?.toDate}
             />
           </Box>
         </Card>

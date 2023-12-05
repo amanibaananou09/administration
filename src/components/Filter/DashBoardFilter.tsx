@@ -1,33 +1,42 @@
-import React, { useState } from "react";
 import {
   Box,
   Button,
   FormControl,
-  Input,
-  Stack,
   Heading,
+  Input,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface FilterPeriodProps {
-  selectedFilter: string;
-  onFilterChange: (filter: string) => void;
-  onSearch: (fromDate: string, toDate: string) => void;
+  onFilterChange: (filter: Filter) => void;
 }
 
-function FilterPeriod(props: FilterPeriodProps) {
-  const [fromDate, setFromDate] = useState<string>("");
-  const [toDate, setToDate] = useState<string>("");
-  const { selectedFilter, onFilterChange, onSearch } = props;
+export type Filter = {
+  fromDate?: string;
+  toDate?: string;
+  period?: string;
+};
+
+const DashBoardFilter = ({ onFilterChange }: FilterPeriodProps) => {
+  const [period, setPeriod] = useState<string>("today");
+  const fromDateInputRef = useRef<HTMLInputElement>(null);
+  const toDateInputRef = useRef<HTMLInputElement>(null);
+
   const { t } = useTranslation("dashboard");
 
-  const buttonSize = useBreakpointValue({ base: "sm", md: "md",lg: "lg" });
+  const buttonSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
 
-  const handleFromDateChange = (date: string) => setFromDate(date);
-  const handleToDateChange = (date: string) => setToDate(date);
-  const searchFilters = () => {
-    onSearch(fromDate, toDate);
+  const handlePeriodChange = (period: string) => {
+    setPeriod(period);
+    onFilterChange({ period });
+  };
+
+  const searchHandler = () => {
+    const fromDate = fromDateInputRef.current?.value;
+    const toDate = toDateInputRef.current?.value;
+    onFilterChange({ fromDate, toDate });
   };
 
   return (
@@ -39,8 +48,8 @@ function FilterPeriod(props: FilterPeriodProps) {
         gap={3}
       >
         <Button
-          colorScheme={selectedFilter === "today" ? "blue" : "gray"}
-          onClick={() => onFilterChange("today")}
+          colorScheme={period === "today" ? "blue" : "gray"}
+          onClick={() => handlePeriodChange("today")}
           size={buttonSize}
           flex="2"
         >
@@ -48,8 +57,8 @@ function FilterPeriod(props: FilterPeriodProps) {
         </Button>
 
         <Button
-          colorScheme={selectedFilter === "yesterday" ? "blue" : "gray"}
-          onClick={() => onFilterChange("yesterday")}
+          colorScheme={period === "yesterday" ? "blue" : "gray"}
+          onClick={() => handlePeriodChange("yesterday")}
           size={buttonSize}
           flex="2"
         >
@@ -57,8 +66,8 @@ function FilterPeriod(props: FilterPeriodProps) {
         </Button>
 
         <Button
-          colorScheme={selectedFilter === "weekly" ? "blue" : "gray"}
-          onClick={() => onFilterChange("weekly")}
+          colorScheme={period === "weekly" ? "blue" : "gray"}
+          onClick={() => handlePeriodChange("weekly")}
           size={buttonSize}
           flex="1"
         >
@@ -66,8 +75,8 @@ function FilterPeriod(props: FilterPeriodProps) {
         </Button>
 
         <Button
-          colorScheme={selectedFilter === "monthly" ? "blue" : "gray"}
-          onClick={() => onFilterChange("monthly")}
+          colorScheme={period === "monthly" ? "blue" : "gray"}
+          onClick={() => handlePeriodChange("monthly")}
           size={buttonSize}
           flex="1"
         >
@@ -75,8 +84,8 @@ function FilterPeriod(props: FilterPeriodProps) {
         </Button>
 
         <Button
-          colorScheme={selectedFilter === "yearly" ? "blue" : "gray"}
-          onClick={() => onFilterChange("yearly")}
+          colorScheme={period === "yearly" ? "blue" : "gray"}
+          onClick={() => handlePeriodChange("yearly")}
           size={buttonSize}
           flex="1"
         >
@@ -89,12 +98,7 @@ function FilterPeriod(props: FilterPeriodProps) {
         </Box>
         <Box>
           <FormControl>
-            <Input
-              type="datetime-local"
-              value={fromDate}
-              onChange={(e) => handleFromDateChange(e.target.value)}
-              bg="white"
-            />
+            <Input type="datetime-local" ref={fromDateInputRef} bg="white" />
           </FormControl>
         </Box>
         <Box>
@@ -107,15 +111,14 @@ function FilterPeriod(props: FilterPeriodProps) {
             <Input
               type="datetime-local"
               lang="en"
-              value={toDate}
-              onChange={(e) => handleToDateChange(e.target.value)}
+              ref={toDateInputRef}
               bg="white"
             />
           </FormControl>
         </Box>
         <Box>
           <Button
-            onClick={searchFilters}
+            onClick={searchHandler}
             colorScheme="telegram"
             size={buttonSize}
           >
@@ -125,6 +128,6 @@ function FilterPeriod(props: FilterPeriodProps) {
       </Box>
     </Box>
   );
-}
+};
 
-export default FilterPeriod;
+export default DashBoardFilter;

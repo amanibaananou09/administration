@@ -18,7 +18,7 @@ i18n
         dashboard: require("./locales/fr/DashboardFR.json"),
       },
     },
-    lng: localStorage.getItem("i18nextLng"),
+    lng: localStorage.getItem("i18nextLng") || "fr",
     debug: true,
     fallbackLng: "en",
     interpolation: {
