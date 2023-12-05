@@ -11,7 +11,6 @@ import {
   InputGroup,
   InputRightElement,
   Text,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { login } from "common/api/auth-api";
 import { getStations } from "common/api/station-api";
@@ -26,9 +25,6 @@ import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 
 const SignIn = () => {
-  const bgForm: string = useColorModeValue("white", "navy.800");
-  const textColor: string = useColorModeValue("gray.700", "white");
-
   const {
     selectStation,
     selectAdminMode,
@@ -154,15 +150,12 @@ const SignIn = () => {
           borderRadius="15px"
           p="40px"
           mx={{ base: "100px" }}
-          bg={bgForm}
-          boxShadow={useColorModeValue(
-            "0px 5px 14px rgba(0, 0, 0, 0.05)",
-            "unset",
-          )}
+          bg="white"
+          boxShadow="0px 5px 14px rgba(0, 0, 0, 0.05)"
         >
           <Text
             fontSize="xl"
-            color={textColor}
+            color="gray.700"
             fontWeight="bold"
             textAlign="center"
             mb="22px"

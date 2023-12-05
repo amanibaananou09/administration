@@ -1,4 +1,4 @@
-import { Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Td, Text, Tr } from "@chakra-ui/react";
 import { TransactionTableRowProps } from "common/react-props";
 import { formatDate } from "utils/utils";
 
@@ -13,10 +13,11 @@ const TransactionTableRow = ({
   totalAmount,
   dateTimeStart,
 }: TransactionTableRowProps) => {
-  const textColor = useColorModeValue("gray.500", "white");
-  const titleColor = useColorModeValue("gray.700", "white");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
   const formattedDateTimeStart = formatDate(dateTimeStart);
+
+  //styles
+  const textColor = "gray.500";
+  const borderColor = "gray.200";
 
   return (
     <Tr>
@@ -107,7 +108,7 @@ const TransactionTableRow = ({
         <Text
           fontSize="sm"
           align="center"
-          color={titleColor}
+          color="gray.700"
           fontWeight="bold"
           pb=".5rem"
         >

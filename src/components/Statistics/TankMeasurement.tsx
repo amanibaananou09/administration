@@ -1,11 +1,4 @@
-import {
-  Box,
-  Circle,
-  Flex,
-  Stat,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Circle, Flex, Stat, Text } from "@chakra-ui/react";
 import { TankMeasurementRowProps } from "common/react-props";
 import Card from "components/Card/Card";
 import LastTankDeliveryTooltip from "components/Statistics/LastTankDeliveryTooltip";
@@ -15,12 +8,14 @@ import { getColorForTankLevel } from "utils/utils";
 export const TankMeasurement = ({
   tankMeasurement,
 }: TankMeasurementRowProps) => {
-  const textColor = useColorModeValue("gray.700", "white");
+  const tankLevel = tankMeasurement.percentage;
+  const { t } = useTranslation("dashboard");
+
+  //styles
+  const textColor = "gray.700";
   const boxHeight = `${tankMeasurement.percentage}%`;
   const circleColor = tankMeasurement.percentage <= 20 ? "red" : "green";
-  const tankLevel = tankMeasurement.percentage;
   const boxColor = getColorForTankLevel(tankLevel);
-  const { t } = useTranslation("dashboard");
 
   return (
     <Card minH="125px" m="5" width="500px">

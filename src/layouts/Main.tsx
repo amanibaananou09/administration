@@ -1,11 +1,5 @@
 // Chakra imports
-import {
-  Box,
-  Flex,
-  Portal,
-  useColorMode,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, Portal, useDisclosure } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer";
 
@@ -30,7 +24,6 @@ import useRoutes from "hooks/use-routes";
 import MainRoute from "router/Route/MainRoute";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "../store/ESSContext";
-import StationConfigurator from "components/Configurator/StationConfigurator";
 
 const Main = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
@@ -43,7 +36,6 @@ const Main = (props: { [x: string]: any }) => {
   const { ...rest } = props;
   // states and functions
   const [fixed, setFixed] = useState(false);
-  const { colorMode } = useColorMode();
   // functions for changing the states from components
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
@@ -69,8 +61,8 @@ const Main = (props: { [x: string]: any }) => {
         minH="450vh"
         w="100%"
         position="absolute"
-        bgImage={colorMode === "light" ? layoutBg : "none"}
-        bg={colorMode === "light" ? layoutBg : "navy.900"}
+        bgImage={layoutBg}
+        bg={layoutBg}
         bgSize="cover"
         top="0"
       />

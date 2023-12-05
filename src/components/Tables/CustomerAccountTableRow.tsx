@@ -1,4 +1,4 @@
-import { Badge, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { Badge, Td, Text, Tr } from "@chakra-ui/react";
 import { CustomerAccountTableRowProps } from "common/react-props";
 import { useHistory } from "react-router-dom";
 
@@ -6,10 +6,6 @@ const CustomerAccountTableRow = ({
   customerAccount,
   isLastRow,
 }: CustomerAccountTableRowProps) => {
-  const textColor = useColorModeValue("gray.500", "white");
-  const bgStatus = useColorModeValue("gray.400", "navy.900");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-
   const { id, name, description, status, masterUser } = customerAccount;
 
   const history = useHistory();
@@ -21,6 +17,10 @@ const CustomerAccountTableRow = ({
   const handleNameClick = () => {
     history.push(`/administration/customer-accounts/${id}`);
   };
+
+  //styles
+  const textColor = "gray.500";
+  const borderColor = "gray.200";
 
   return (
     <Tr>

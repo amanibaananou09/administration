@@ -9,7 +9,6 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { GeneralUser } from "common/AdminModel";
@@ -32,13 +31,14 @@ const UserManagement = () => {
   const userModalRef = useRef<UserModalRefType>(null);
   const { t } = useTranslation("administration");
 
-  const textColor = useColorModeValue("gray.700", "white");
-  const columnTitleTextColor = useColorModeValue("black", "white");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-
   const openUserModal = () => {
     userModalRef.current?.open();
   };
+
+  //styles
+  const textColor = "gray.700";
+  const columnTitleTextColor = "black";
+  const borderColor = "gray.200";
 
   return (
     <>

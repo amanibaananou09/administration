@@ -1,4 +1,4 @@
-import { Flex, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Td, Text, Tr } from "@chakra-ui/react";
 import { TankDeliveryRowProps } from "common/react-props";
 
 const TankDeliveryRow = ({
@@ -9,23 +9,24 @@ const TankDeliveryRow = ({
   temperature,
   productVolume,
 }: TankDeliveryRowProps) => {
-  const textColor = useColorModeValue("gray.500", "white");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
+  //styles
+  const textColor = "gray.500";
+  const borderColor = "gray.200";
 
   return (
     <Tr>
       <Td borderColor={borderColor}>
-          <Flex direction="column">
-            <Text
-              fontSize="sm"
-              align="center"
-              color={textColor}
-              fontWeight="bold"
-              pb=".5rem"
-            >
-              {tank}
-            </Text>
-          </Flex>
+        <Flex direction="column">
+          <Text
+            fontSize="sm"
+            align="center"
+            color={textColor}
+            fontWeight="bold"
+            pb=".5rem"
+          >
+            {tank}
+          </Text>
+        </Flex>
       </Td>
       <Td borderColor={borderColor}>
         <Text
