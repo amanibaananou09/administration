@@ -14,7 +14,6 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 // Custom components
 import { faGasPump } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import bgAdmin from "assets/img/admin-background.png";
 import { Layout } from "common/enums";
 import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
@@ -44,7 +43,7 @@ const Main = (props: { [x: string]: any }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
 
-  const layoutBg = isAdminMode ? "gray" : bgAdmin;
+  const layoutBg = isAdminMode ? "gray" : "blue.600";
 
   if (isLoading) {
     return (
@@ -70,7 +69,7 @@ const Main = (props: { [x: string]: any }) => {
       <MainPanel
         w={{
           base: "100%",
-          xl: "calc(100% - 275px)",
+          xl: "calc(100% - 275px)"
         }}
       >
         <Portal>

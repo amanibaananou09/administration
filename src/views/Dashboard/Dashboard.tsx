@@ -6,7 +6,7 @@ import UserSalesChart from "components/Charts/UserSalesChart"; // Update the pat
 import DashBoardFilter, { Filter } from "components/Filter/DashBoardFilter";
 import PumpSales from "components/Statistics/PumpSales";
 import TankMeasurementSection from "components/Statistics/TankMeasurementSection";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SalesGrades from "./SalesGrades";
 
@@ -14,15 +14,57 @@ export default function Dashboard() {
   const [filter, setFilter] = useState<Filter>({
     period: "today",
   });
+
+  const [isSticky, setIsSticky] = useState(false);
+  const stickyRef = useRef<HTMLDivElement>(null);
+
   const { t } = useTranslation("dashboard");
 
   const handleFilterChange = (filter: Filter) => {
     setFilter(filter);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (stickyRef.current) {
+        setIsSticky(window.pageYOffset > stickyRef.current.offsetTop);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (stickyRef.current) {
+        setIsSticky(window.pageYOffset > stickyRef.current.offsetTop);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   //styles
   const textColor = "gray.700";
-
+  const stickyStyles: React.CSSProperties = {
+    width: isSticky ? "80%" : "auto",
+    position: isSticky ? "fixed" : "static",
+    top: isSticky ? "2%" : "auto",
+    left: isSticky ? "59%" : "auto",
+    transform: isSticky ? "translateX(-50%)" : "none",
+    borderRadius: "16px",
+    zIndex: isSticky ? 1000 : "auto",
+    backgroundColor: isSticky ? "rgba(255, 255, 255, 0.5)" : "transparent",
+    padding: isSticky ? "5px" : "0",
+    boxShadow: isSticky ? "0px 7px 23px rgba(0, 0, 0, 0.05)" : "none",
+  };
+  
   return (
     <Flex
       flexDirection="column"
@@ -30,8 +72,9 @@ export default function Dashboard() {
       px={{ base: "1vw", md: "1vw", lg: "1vw" }}
     >
       <TankMeasurementSection />
-
-      <DashBoardFilter onFilterChange={handleFilterChange} />
+      <div ref={stickyRef} style={stickyStyles}>
+        <DashBoardFilter onFilterChange={handleFilterChange} />
+      </div>
 
       <br />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>

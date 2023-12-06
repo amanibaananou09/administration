@@ -13,7 +13,7 @@ import {
   Text,
   Th,
   Thead,
-  Tr,
+  Tr
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
@@ -36,6 +36,8 @@ const Transactions = () => {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [currentVolume, setCurrentVolume] = useState<string>("");
+
   const { selectedStation } = useESSContext();
   const [
     selectedFilterTransactions,
@@ -56,9 +58,9 @@ const Transactions = () => {
         const result = await getallTransactionPump(
           page,
           selectedStation,
-          selectedFilterTransactions,
           pumpId,
           fuelGradeName,
+          currentVolume,
           startDate,
           endDate,
         );
@@ -72,11 +74,10 @@ const Transactions = () => {
         "Fuel Grade": transaction.fuelGradeName,
         Price: transaction.price,
         Volume: transaction.volume,
-        "Index Current Volume": transaction.totalVolume,
-        Tag: transaction.tag,
+        "Index Volume": transaction.totalVolume,
         Amount: transaction.amount,
-        "Index Current Amount": transaction.totalAmount,
-        "Date Time Start": transaction.dateTimeStart,
+        "Index Amount": transaction.totalAmount,
+        "Date Time": transaction.dateTimeStart,
       }));
 
       const ws = XLSX.utils.json_to_sheet(data);
@@ -97,9 +98,9 @@ const Transactions = () => {
         const result = await getallTransactionPump(
           currentPage,
           selectedStation,
-          selectedFilterTransactions,
           pumpId,
           fuelGradeName,
+          currentVolume,
           startDate,
           endDate,
         );
@@ -116,11 +117,11 @@ const Transactions = () => {
     selectedStation,
     pumpId,
     fuelGradeName,
-    selectedFilterTransactions,
+    currentVolume,
     startDate,
     endDate,
   ]);
-
+  
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -132,17 +133,15 @@ const Transactions = () => {
   const handleChange = (value: string | null) => {
     if (selectedFilterTransactions === "pump") {
       setPumpId(value || "");
-      setFuelGradeName("");
     } else if (selectedFilterTransactions === "fuelGrade") {
-      setPumpId("");
       setFuelGradeName(value || "");
+    } else if (selectedFilterTransactions === "volume") {
+      setCurrentVolume(value || "");
     }
   };
   const handleSearchFilters = (startDate: string, endDate: string) => {
     setStartDate(startDate);
     setEndDate(endDate);
-    setFuelGradeName("");
-    setPumpId("");
   };
 
   //styles
@@ -226,13 +225,13 @@ const Transactions = () => {
                     >
                       {t("transactions.totalVolume")}
                     </Th>
-                    <Th
+                    {/*      <Th
                       borderColor={borderColor}
                       color="teal.700"
                       textAlign="center"
                     >
                       {t("transactions.tag")}
-                    </Th>
+                    </Th>*/}
                     <Th
                       borderColor={borderColor}
                       color="teal.700"
@@ -266,7 +265,7 @@ const Transactions = () => {
                           price={row.price}
                           volume={formatNumber(row.volume)}
                           totalVolume={formatNumber(row.totalVolume)}
-                          tag={row.tag}
+                          //tag={row.tag}
                           amount={row.amount}
                           totalAmount={row.totalAmount}
                           dateTimeStart={row.dateTimeStart}

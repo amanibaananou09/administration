@@ -81,7 +81,11 @@ export const SalesGrades = (filter: Filter) => {
                 fontSize="xl"
               >
                 {t("salesGrades.totalSalesVolume")}:{" "}
-                {grade.totalSalesParVolume.toFixed(2)} Litres{" "}
+                {Number(grade.totalSalesParVolume).toLocaleString("fr-FR", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                {t("common.litres")}{" "}
               </Text>
               <Text
                 as="span"

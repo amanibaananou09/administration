@@ -26,7 +26,7 @@ export interface TransactionTableRowProps {
   volume: number;
   price: number;
   amount: number;
-  tag: string;
+  //tag: string;
   totalVolume: number;
   totalAmount: number;
   dateTimeStart: string;

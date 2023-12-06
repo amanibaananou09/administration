@@ -15,6 +15,7 @@ import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
 import { TranslationProvider } from "store/TranslationContext";
 import theme from "theme/theme";
+
 const container = document.getElementById("root");
 
 const root = createRoot(container);

@@ -23,12 +23,13 @@
     "temperature": "Temperature",
     "volume": "Volume",
     "amount": "Amount",
-    "dateTimeStart": "Date Time Start",
+    "dateTimeStart": "Date Time",
     "previous": "Previous",
     "next": "Next",
     "period": "Period",
     "waterHeight": "Water Height",
-    "export": "Export"
+    "export": "Export",
+    "litres": "Liters"
   },
   "routes": {
     "dashboard": "Dashboard",
@@ -73,10 +74,10 @@
   "transactions": {
     "header": "Transactions",
     "price": "Price",
-    "totalVolume": "Index Current Volume",
-    "totalAmount": "Index Current Amount",
+    "totalVolume": "Index Volume",
+    "totalAmount": "Index Amount",
     "tag": "Tag",
-    "volumeGreater": "Transactions with Volume greater than 100",
+    "volumeGreater": "Filters transactions with volume greater than ",
     "noTransactions": "No transactions found."
   },
   "tankDeliveries": {

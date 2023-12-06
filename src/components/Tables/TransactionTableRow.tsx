@@ -8,7 +8,7 @@ const TransactionTableRow = ({
   volume,
   totalVolume,
   price,
-  tag,
+  //tag,
   amount,
   totalAmount,
   dateTimeStart,
@@ -71,7 +71,7 @@ const TransactionTableRow = ({
           {totalVolume}
         </Text>
       </Td>
-      <Td borderColor={borderColor}>
+      {/*<Td borderColor={borderColor}>
         <Text
           fontSize="sm"
           align="center"
@@ -81,7 +81,7 @@ const TransactionTableRow = ({
         >
           {tag}
         </Text>
-      </Td>
+      </Td>*/}
       <Td borderColor={borderColor}>
         <Text
           fontSize="sm"
