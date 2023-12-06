@@ -99,8 +99,7 @@ const DashBoardFilter = ({ onFilterChange }: FilterPeriodProps) => {
     setToDate(toDate);
 
     onFilterChange({
-      fromDate,
-      toDate,
+      period,
     });
 
     setPeriod(period);
