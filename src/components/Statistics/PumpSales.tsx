@@ -13,7 +13,7 @@ import { useESSContext } from "store/ESSContext";
 import pump from "../../assets/img/pump.png";
 import SalesByGrades from "./SalesPump";
 
-export const PumpSales = ({ period, fromDate, toDate }: Filter) => {
+export const PumpSales = ({ fromDate, toDate }: Filter) => {
   const { refresh } = useRefresher();
   const [salesPumps, setSalesPumps] = useState<SalesPump[]>([]);
   const { user } = useAuth();
@@ -28,7 +28,6 @@ export const PumpSales = ({ period, fromDate, toDate }: Filter) => {
       try {
         const result = await getAllSalesByPump(
           selectedStation,
-          period,
           fromDate,
           toDate,
         );
@@ -38,7 +37,7 @@ export const PumpSales = ({ period, fromDate, toDate }: Filter) => {
       }
     };
     fetchSalesByPump();
-  }, [selectedStation, user, period, fromDate, toDate, refresh]);
+  }, [selectedStation, user, fromDate, toDate, refresh]);
   const [isContentVisible, setIsContentVisible] = useState(true);
   return (
     <>
@@ -128,7 +127,6 @@ export const PumpSales = ({ period, fromDate, toDate }: Filter) => {
               <Text as="span" fontWeight="bold" color="blue.600">
                 <SalesByGrades
                   pumpId={salesPump.pumpId}
-                  period={period}
                   startDate={fromDate}
                   endDate={toDate}
                 />

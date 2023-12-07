@@ -1,4 +1,5 @@
 import { Station } from "common/model";
+import { addFilterParams } from "./api-utils";
 import api from "./axios";
 
 const API_URL = "/stat";
@@ -19,13 +20,12 @@ export const getLastTankDelivery = async (station: Station, tank: number) => {
 
 export const getAllSalesByGrades = async (
   station: Station,
-  period?: string,
   startDate?: string,
   endDate?: string,
 ) => {
   let url = `${API_URL}/sales/fuelName/${station.controllerPts.id}?`;
 
-  url = addFilterParams(url, period, startDate, endDate);
+  url = addFilterParams(url, startDate, endDate);
 
   const response = await api.get(url);
 
@@ -34,13 +34,12 @@ export const getAllSalesByGrades = async (
 
 export const getAllSalesByPump = async (
   station: Station,
-  period?: string,
   startDate?: string,
   endDate?: string,
 ) => {
   let url = `${API_URL}/sales/${station.controllerPts.id}?`;
 
-  url = addFilterParams(url, period, startDate, endDate);
+  url = addFilterParams(url, startDate, endDate);
 
   const response = await api.get(url);
 
@@ -50,38 +49,14 @@ export const getAllSalesByPump = async (
 export const getAllSalesByPumpAndGrades = async (
   pumpId: number,
   station: Station,
-  period?: string,
   startDate?: string,
   endDate?: string,
 ) => {
   let url = `${API_URL}/salesByGrades/${station.controllerPts.id}/${pumpId}?`;
 
-  url = addFilterParams(url, period, startDate, endDate);
+  url = addFilterParams(url, startDate, endDate);
 
   const response = await api.get(url);
 
   return response.data;
-};
-
-export const addFilterParams = (
-  url: string,
-  period?: string,
-  startDate?: string,
-  endDate?: string,
-) => {
-  let newUrl = url;
-
-  if (period) {
-    newUrl += `typePeriod=${period}`;
-  }
-
-  if (startDate) {
-    newUrl += `&startDate=${startDate}`;
-  }
-
-  if (endDate) {
-    newUrl += `&endDate=${endDate}`;
-  }
-
-  return newUrl;
 };

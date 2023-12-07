@@ -7,7 +7,7 @@ import { useAuth } from "store/AuthContext";
 import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
-const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
+const UserSalesChart = ({ fromDate, toDate }: Filter) => {
   const { refresh } = useRefresher();
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
@@ -38,12 +38,7 @@ const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
       if (!user || !selectedStation) return;
 
       try {
-        const res = await getAllStatVent(
-          selectedStation,
-          period,
-          fromDate,
-          toDate,
-        );
+        const res = await getAllStatVent(selectedStation, fromDate, toDate);
         if (Array.isArray(res)) {
           const uniqueUserIds = new Set<number>();
           const datasets: {
@@ -88,7 +83,7 @@ const UserSalesChart = ({ period, fromDate, toDate }: Filter) => {
     };
 
     fetchData();
-  }, [selectedStation, period, fromDate, toDate, user, refresh]);
+  }, [selectedStation, fromDate, toDate, user, refresh]);
 
   // Options for the chart
   const UserSalesBarChartOptions = {

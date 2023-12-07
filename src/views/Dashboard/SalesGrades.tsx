@@ -11,7 +11,7 @@ import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 
 export const SalesGrades = (filter: Filter) => {
-  const { period, fromDate, toDate } = filter;
+  const { fromDate, toDate } = filter;
   const { refresh } = useRefresher();
   const [grades, setGrades] = useState<Grades[]>([]);
   const [isContentVisible, setIsContentVisible] = useState(true);
@@ -29,7 +29,6 @@ export const SalesGrades = (filter: Filter) => {
       try {
         const result = await getAllSalesByGrades(
           selectedStation,
-          period,
           fromDate,
           toDate,
         );
@@ -39,7 +38,7 @@ export const SalesGrades = (filter: Filter) => {
       }
     };
     allStatGrades();
-  }, [selectedStation, user, period, fromDate, toDate, refresh]);
+  }, [selectedStation, user, fromDate, toDate, refresh]);
 
   return (
     <Flex flexDirection="column" justifyContent="space-between">

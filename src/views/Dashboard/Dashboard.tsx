@@ -6,13 +6,15 @@ import UserSalesChart from "components/Charts/UserSalesChart"; // Update the pat
 import DashBoardFilter, { Filter } from "components/Filter/DashBoardFilter";
 import PumpSales from "components/Statistics/PumpSales";
 import TankMeasurementSection from "components/Statistics/TankMeasurementSection";
+import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SalesGrades from "./SalesGrades";
 
 export default function Dashboard() {
   const [filter, setFilter] = useState<Filter>({
-    period: "today",
+    fromDate: moment().hour(0).minute(0).format("YYYY-MM-DDTHH:mm"),
+    toDate: moment().hour(23).minute(59).format("YYYY-MM-DDTHH:mm"),
   });
 
   const [isSticky, setIsSticky] = useState(false);
@@ -64,7 +66,7 @@ export default function Dashboard() {
     padding: isSticky ? "5px" : "0",
     boxShadow: isSticky ? "0px 7px 23px rgba(0, 0, 0, 0.05)" : "none",
   };
-  
+
   return (
     <Flex
       flexDirection="column"
@@ -78,16 +80,8 @@ export default function Dashboard() {
 
       <br />
       <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-        <SalesGrades
-          period={filter?.period}
-          fromDate={filter?.fromDate}
-          toDate={filter?.toDate}
-        />
-        <PumpSales
-          period={filter?.period}
-          fromDate={filter?.fromDate}
-          toDate={filter?.toDate}
-        />
+        <SalesGrades fromDate={filter?.fromDate} toDate={filter?.toDate} />
+        <PumpSales fromDate={filter?.fromDate} toDate={filter?.toDate} />
       </Flex>
       <Flex
         flexDirection={{ base: "column", md: "row" }}
@@ -112,7 +106,6 @@ export default function Dashboard() {
           </Flex>
           <Box minH="300px">
             <ReportSalesChart
-              period={filter?.period}
               fromDate={filter?.fromDate}
               toDate={filter?.toDate}
             />
@@ -130,7 +123,6 @@ export default function Dashboard() {
           </Flex>
           <Box minH="300px">
             <UserSalesChart
-              period={filter?.period}
               fromDate={filter?.fromDate}
               toDate={filter?.toDate}
             />
@@ -152,7 +144,6 @@ export default function Dashboard() {
           </Flex>
           <Box minH="300px">
             <TankLevelChart
-              period={filter?.period}
               fromDate={filter?.fromDate}
               toDate={filter?.toDate}
             />
