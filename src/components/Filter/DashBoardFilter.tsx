@@ -62,7 +62,7 @@ const DashBoardFilter = ({ onFilterChange }: FilterPeriodProps) => {
 
   return (
     <Box p={1}>
-      <Flex flexDirection="row" alignItems="baseline" gap="3">
+      <Flex alignItems="baseline" flexWrap="wrap" gap="3">
         <Button
           colorScheme={period === "today" ? "blue" : "gray"}
           onClick={() => handlePeriodChange("today")}

@@ -41,7 +41,7 @@ export const PumpSales = ({ fromDate, toDate }: Filter) => {
   const [isContentVisible, setIsContentVisible] = useState(true);
   return (
     <>
-      <Flex flexDirection="column" justifyContent="space-between">
+      <Flex flexDirection="column" justifyContent="space-between" mt="30px">
         <Text fontSize="2xl" fontWeight="normal" display="inline">
           <Text
             as="span"
@@ -86,15 +86,18 @@ export const PumpSales = ({ fromDate, toDate }: Filter) => {
         <br />
       </Flex>
       {isContentVisible && (
-        <Flex
-          flexDirection={{ sm: "column", md: "row" }}
-          flexWrap={{ sm: "nowrap", md: "wrap" }}
-          gap="5"
+        <Grid
+          templateColumns={{
+            sm: "repeat(1, 1fr)",
+            md: "repeat(3, 1fr)",
+            lg: "repeat(4, 1fr)",
+          }}
+          gap={6}
         >
           {salesPumps
             .sort((p1, p2) => p1.pumpId - p2.pumpId)
             .map((salesPump, index) => (
-              <Card key={index} minH="100px" width={{ sm: "100%", md: "30%" }}>
+              <Card key={index}>
                 <Flex
                   display="flex"
                   alignItems="center"
@@ -130,16 +133,14 @@ export const PumpSales = ({ fromDate, toDate }: Filter) => {
                   </Text>
                   <Image src={pump} height="75%" width="15%" />
                 </Flex>
-                <Text as="span" fontWeight="bold" color="blue.600">
-                  <SalesByGrades
-                    pumpId={salesPump.pumpId}
-                    startDate={fromDate}
-                    endDate={toDate}
-                  />
-                </Text>
+                <SalesByGrades
+                  pumpId={salesPump.pumpId}
+                  startDate={fromDate}
+                  endDate={toDate}
+                />
               </Card>
             ))}
-        </Flex>
+        </Grid>
       )}
     </>
   );

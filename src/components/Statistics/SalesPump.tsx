@@ -39,19 +39,14 @@ export const SalesByGrades = ({
   }, [selectedStation, pumpId, startDate, endDate, refresh]);
   return (
     <Flex flexDirection="column" justifyContent="space-between">
-      <Card minH="125px" m="5" width="300px">
+      <Card m="5">
         <Box borderBottom="2px solid #e5e5e5" my={2} />
         {pumpGrades.map((pumpGrade, index) => (
           <Flex key={index}>
-            <Text fontWeight="normal" mb={2}>
+            <Text fontWeight="normal" color="blue.600" mb={2}>
               {pumpGrade.fuelGrade} :{" "}
               {pumpGrade.totalSalesParAmount.toLocaleString()}{" "}
-              <Text
-                as="span"
-                fontWeight="bold"
-                color="blue.600"
-                display="inline"
-              >
+              <Text as="span" fontWeight="bold" display="inline">
                 {selectedStation?.country?.currency?.code}
               </Text>
             </Text>
