@@ -32,18 +32,6 @@ export default function Dashboard() {
         setIsSticky(window.pageYOffset > stickyRef.current.offsetTop);
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (stickyRef.current) {
-        setIsSticky(window.pageYOffset > stickyRef.current.offsetTop);
-      }
-    };
 
     window.addEventListener("scroll", handleScroll);
 
@@ -82,7 +70,7 @@ export default function Dashboard() {
         <SalesGrades fromDate={filter?.fromDate} toDate={filter?.toDate} />
         <PumpSales fromDate={filter?.fromDate} toDate={filter?.toDate} />
       </Flex>
-      <Flex flexDirection={{ base: "column", md: "row" }} gap="3" mt="30px">
+      <Flex flexDirection={{ base: "column", lg: "row" }} gap="3" mt="30px">
         <Card
           bg="linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
           position="relative"

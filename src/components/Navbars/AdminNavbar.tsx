@@ -78,7 +78,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
       backdropFilter={navbarBackdrop}
       borderWidth="1.5px"
       borderStyle="solid"
-      boxSizing= "border-box"
+      boxSizing="border-box"
       transitionDelay="0s, 0s, 0s, 0s"
       transitionDuration=" 0.25s, 0.25s, 0.25s, 0s"
       transition-property="box-shadow, background-color, filter, border"
@@ -113,7 +113,11 @@ const AdminNavbar = (props: AdminNavbarProps) => {
         }}
         alignItems={{ xl: "center" }}
       >
-        <Box mb={{ sm: "8px", md: "0px" }}>
+        <Box
+          mb={{ sm: "8px", md: "0px" }}
+          visibility={{ sm: "hidden", md: "visible" }}
+          height={{ sm: "0px", md: "auto" }}
+        >
           <Breadcrumb>
             <BreadcrumbItem color={mainText}>
               <BreadcrumbLink href="#" color={secondaryText}>

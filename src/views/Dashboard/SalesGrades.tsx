@@ -1,5 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { Flex, Stat, StatLabel, Text } from "@chakra-ui/react";
+import { Flex, Grid, Stat, StatLabel, Text } from "@chakra-ui/react";
 import { getAllSalesByGrades } from "common/api/statistique-api";
 import { Filter } from "components/Filter/DashBoardFilter";
 import useRefresher from "hooks/use-refresher";
@@ -56,9 +56,15 @@ export const SalesGrades = (filter: Filter) => {
         {isContentVisible ? <TriangleUpIcon /> : <TriangleDownIcon />}
       </Text>
       {isContentVisible && (
-        <Flex flexWrap="wrap">
+        <Grid
+          templateColumns={{
+            sm: "repeat(1, 1fr)",
+            lg: "repeat(2, 1fr)",
+          }}
+          gap={6}
+        >
           {grades.map((grade, index) => (
-            <Card key={index} minH="125px" m="5" width="500px">
+            <Card key={index}>
               <Stat me="auto">
                 <Flex justify="center" align="center">
                   <StatLabel
@@ -108,7 +114,7 @@ export const SalesGrades = (filter: Filter) => {
               </Text>
             </Card>
           ))}
-        </Flex>
+        </Grid>
       )}
     </Flex>
   );

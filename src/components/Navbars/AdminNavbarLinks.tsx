@@ -78,7 +78,7 @@ const HeaderLinks = (props: any) => {
       pe={{ sm: "0px", md: "16px" }}
       w={{ sm: "100%", md: "auto" }}
       alignItems="center"
-      flexDirection="row"
+      justifyContent="space-around"
     >
       <Menu>
         <MenuButton>
@@ -215,7 +215,12 @@ const HeaderLinks = (props: any) => {
           onClick={() => setShowStationConfigurator(true)}
         />
       )}
-      <Flex style={{ marginLeft: "16px" }}>
+
+      <Flex ml="16px">
+        <LanguageSelector />
+      </Flex>
+
+      <Flex ml="16px">
         <SidebarResponsive
           hamburgerColor="white"
           secondary={props.secondary}
@@ -225,9 +230,6 @@ const HeaderLinks = (props: any) => {
         />
       </Flex>
 
-      <Flex style={{ marginLeft: "16px" }}>
-        <LanguageSelector />
-      </Flex>
       {showStationConfigurator && (
         <StationConfigurator
           isOpen={showStationConfigurator}
