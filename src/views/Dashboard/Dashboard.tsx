@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import Card from "components/Card/Card"; // Update the path to the Card component
 import ReportSalesChart from "components/Charts/ReportSalesChart"; // Update the path to the Chart component
 import TankLevelChart from "components/Charts/TankLevelChart";
@@ -78,76 +78,49 @@ export default function Dashboard() {
         <DashBoardFilter onFilterChange={handleFilterChange} />
       </div>
 
-      <br />
-      <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
+      <Flex flexDirection="column" mt={{ base: "120px", md: "75px" }}>
         <SalesGrades fromDate={filter?.fromDate} toDate={filter?.toDate} />
         <PumpSales fromDate={filter?.fromDate} toDate={filter?.toDate} />
       </Flex>
-      <Flex
-        flexDirection={{ base: "column", md: "row" }}
-        pt={{ base: "120px", md: "75px" }}
-        mx={{ base: "1vw", md: "0" }}
-      >
+      <Flex flexDirection={{ base: "column", md: "row" }} gap="3" mt="30px">
         <Card
-          minH="125px"
-          m={{ base: "5px", md: "5", lg: "1px" }}
-          width={{ base: "100%", md: "90%", lg: "45%" }}
           bg="linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
+          position="relative"
         >
-          <Flex
-            direction="column"
-            mb="-32px"
-            p="28px 0px 0px 22px"
-            marginLeft="30%"
-          >
-            <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
-              {t("dashboard.sales")}
-            </Text>
-          </Flex>
-          <Box minH="300px">
-            <ReportSalesChart
-              fromDate={filter?.fromDate}
-              toDate={filter?.toDate}
-            />
-          </Box>
+          <Text color="#fff" fontSize="lg" fontWeight="bold" textAlign="center">
+            {t("dashboard.sales")}
+          </Text>
+
+          <ReportSalesChart
+            fromDate={filter?.fromDate}
+            toDate={filter?.toDate}
+          />
         </Card>
-        <Card
-          minH="125px"
-          m={{ base: "5px", md: "5", lg: "10px" }}
-          width={{ base: "100%", md: "90%", lg: "45%" }}
-        >
-          <Flex direction="column">
-            <Text color={textColor} fontSize="lg" fontWeight="bold">
-              {t("dashboard.usersSales")}
-            </Text>
-          </Flex>
-          <Box minH="300px">
-            <UserSalesChart
-              fromDate={filter?.fromDate}
-              toDate={filter?.toDate}
-            />
-          </Box>
+        <Card>
+          <Text
+            color={textColor}
+            fontSize="lg"
+            fontWeight="bold"
+            textAlign="center"
+          >
+            {t("dashboard.usersSales")}
+          </Text>
+
+          <UserSalesChart fromDate={filter?.fromDate} toDate={filter?.toDate} />
         </Card>
       </Flex>
-      <Flex>
-        <Card minH="125px" m="5" width={{ base: "100%", md: "90%" }}>
-          <Flex direction="column" mb="-33px" p="28px 0px 0px 22px">
-            <Text
-              color={textColor}
-              fontSize="lg"
-              fontWeight="bold"
-              mb="30px"
-              marginLeft="0%"
-            >
-              {t("dashboard.tankLevel")}
-            </Text>
-          </Flex>
-          <Box minH="300px">
-            <TankLevelChart
-              fromDate={filter?.fromDate}
-              toDate={filter?.toDate}
-            />
-          </Box>
+      <Flex mt="30px">
+        <Card my="5">
+          <Text
+            color={textColor}
+            fontSize="lg"
+            fontWeight="bold"
+            textAlign="center"
+          >
+            {t("dashboard.tankLevel")}
+          </Text>
+
+          <TankLevelChart fromDate={filter?.fromDate} toDate={filter?.toDate} />
         </Card>
       </Flex>
     </Flex>

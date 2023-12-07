@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import {
   getAllTankByIdc,
   getTankLevelByPeriod,
@@ -104,25 +104,34 @@ export const TankLevelChart = ({ fromDate, toDate }: Filter) => {
   ];
 
   return (
-    <Box>
-      <TankChartButton
-        tanks={tanks}
-        selectedTank={selectedTank}
-        onChange={(tank) => setSelectedTank(tank)}
-      />
-      {alignedChartData.tankLevelData.length > 0 &&
-        alignedChartData.tankMeasurementData.length > 0 && (
-          <Box>
-            <ReactApexChart
-              options={chartOptions}
-              series={chartSeries}
-              type="line"
-              width="100%"
-              height="500px"
-            />
-          </Box>
-        )}
-    </Box>
+    <>
+      {tanks.length === 0 && (
+        <Text textAlign="center" py="10px">
+          {t("tankLevelChart.nodata")}
+        </Text>
+      )}
+      {tanks.length > 0 && (
+        <Box>
+          <TankChartButton
+            tanks={tanks}
+            selectedTank={selectedTank}
+            onChange={(tank) => setSelectedTank(tank)}
+          />
+          {alignedChartData.tankLevelData.length > 0 &&
+            alignedChartData.tankMeasurementData.length > 0 && (
+              <Box>
+                <ReactApexChart
+                  options={chartOptions}
+                  series={chartSeries}
+                  type="line"
+                  width="100%"
+                  height="500px"
+                />
+              </Box>
+            )}
+        </Box>
+      )}
+    </>
   );
 };
 

@@ -49,12 +49,12 @@ export const SalesGrades = (filter: Filter) => {
         color="white"
         fontFamily="monospace"
         display="inline"
+        mb="15px"
         onClick={() => setIsContentVisible(!isContentVisible)}
       >
         {t("common.fuelGrades")} :{" "}
         {isContentVisible ? <TriangleUpIcon /> : <TriangleDownIcon />}
       </Text>
-      <br />
       {isContentVisible && (
         <Flex flexWrap="wrap">
           {grades.map((grade, index) => (
