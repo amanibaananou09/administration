@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "store/AuthContext";
 
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Flex, Stack, Text } from "@chakra-ui/react";
 import { getChartByFuelPumpPeriod } from "common/api/chart-api";
 import { createReportSalesChartOptions } from "common/chartOptions";
 import { ChartData, ChartFilter } from "common/model";
@@ -110,20 +110,23 @@ export const ReportSalesChart = ({ fromDate, toDate }: Filter) => {
         options={createReportSalesChartOptions(chartData.labels)}
         series={chartData.datasets}
         type="bar"
-        width="100%"
-        height="150%"
       />
 
-      <Box
-        p="2"
+      <Flex
         bg="blue.500"
+        alignSelf="center"
         width="80%"
+        p="2"
         mt="4"
-        m="0 auto"
         borderRadius="lg"
         boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
       >
-        <Stack direction="row" spacing="10" justify="center" color="white">
+        <Stack
+          direction="row"
+          justifyContent="space-around"
+          width="100%"
+          color="white"
+        >
           <Text fontSize="lg">
             {t("common.type")}:{" "}
             {filter.chartType === "amount"
@@ -141,7 +144,7 @@ export const ReportSalesChart = ({ fromDate, toDate }: Filter) => {
             {filter.pump === "all" ? t("common.all") : filter.pump}
           </Text>
         </Stack>
-      </Box>
+      </Flex>
     </>
   );
 };

@@ -1,10 +1,10 @@
 import {
   Box,
   Button,
-  FormControl,
-  Heading,
+  Flex,
   Input,
-  useBreakpointValue
+  Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { useState } from "react";
@@ -62,7 +62,7 @@ const DashBoardFilter = ({ onFilterChange }: FilterPeriodProps) => {
 
   return (
     <Box p={1}>
-      <Box display="flex" flexDirection={{ base: "row" }} gap={3}>
+      <Flex flexDirection="row" alignItems="baseline" gap="3">
         <Button
           colorScheme={period === "today" ? "blue" : "gray"}
           onClick={() => handlePeriodChange("today")}
@@ -112,49 +112,54 @@ const DashBoardFilter = ({ onFilterChange }: FilterPeriodProps) => {
         >
           {truncateText(t("common.yearly"), truncatedButtonTextLimit)}
         </Button>
-        <Box gridColumn={{ base: "1 / -1", md: "auto" }} textAlign="center">
-          <Heading as="h1" fontSize={{ base: "sm", md: "lg" }}>
-            {t("common.from")} :
-          </Heading>
-        </Box>
+
+        <Text
+          as="h1"
+          fontSize={{ sm: "sm", md: "lg" }}
+          fontWeight="bold"
+          textAlign="center"
+        >
+          {t("common.from")} :
+        </Text>
+
         <Box>
-          <FormControl>
-            <Input
-              type="datetime-local"
-              value={fromDate}
-              onChange={(e) => handleFromDateChange(e.target.value)}
-              bg="white"
-              size={useBreakpointValue({ base: "xs", md: "md" })}
-            />
-          </FormControl>
+          <Input
+            type="datetime-local"
+            value={fromDate}
+            onChange={(e) => handleFromDateChange(e.target.value)}
+            bg="white"
+            size={useBreakpointValue({ base: "xs", md: "md" })}
+          />
         </Box>
-        <Box gridColumn={{ base: "1 / -1", md: "auto" }} textAlign="center">
-          <Heading as="h1" fontSize="lg">
-            {t("common.to")} :
-          </Heading>
-        </Box>
+
+        <Text
+          as="h1"
+          fontSize={{ sm: "sm", md: "lg" }}
+          fontWeight="bold"
+          textAlign="center"
+        >
+          {t("common.to")} :
+        </Text>
+
         <Box>
-          <FormControl>
-            <Input
-              type="datetime-local"
-              lang="en"
-              value={toDate}
-              onChange={(e) => handleToDateChange(e.target.value)}
-              bg="white"
-              size={useBreakpointValue({ base: "xs", md: "md" })}
-            />
-          </FormControl>
+          <Input
+            type="datetime-local"
+            lang="en"
+            value={toDate}
+            onChange={(e) => handleToDateChange(e.target.value)}
+            bg="white"
+            size={useBreakpointValue({ base: "xs", md: "md" })}
+          />
         </Box>
-        <Box>
-          <Button
-            onClick={searchHandler}
-            colorScheme="telegram"
-            size={buttonSize}
-          >
-            {t("common.search")}
-          </Button>
-        </Box>
-      </Box>
+
+        <Button
+          onClick={searchHandler}
+          colorScheme="telegram"
+          size={buttonSize}
+        >
+          {t("common.search")}
+        </Button>
+      </Flex>
     </Box>
   );
 };

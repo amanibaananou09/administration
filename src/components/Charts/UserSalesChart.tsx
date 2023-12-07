@@ -130,8 +130,6 @@ const UserSalesChart = ({ fromDate, toDate }: Filter) => {
       options={UserSalesBarChartOptions}
       series={data.datasets}
       type="bar"
-      width="100%"
-      height="150%"
     />
   );
 };

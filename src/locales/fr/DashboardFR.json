@@ -49,7 +49,8 @@
   },
   "tankLevelChart": {
     "changedVolume": "Volume changé",
-    "tankVolume": "Volume du réservoir"
+    "tankVolume": "Volume du réservoir",
+    "nodata": "Pas de données à afficher..."
   },
   "pumpSales": {
     "totalSales": "Total des ventes",

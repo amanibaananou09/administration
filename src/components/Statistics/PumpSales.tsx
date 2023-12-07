@@ -86,53 +86,59 @@ export const PumpSales = ({ fromDate, toDate }: Filter) => {
         <br />
       </Flex>
       {isContentVisible && (
-        <Flex flexWrap="wrap">
-          {salesPumps.map((salesPump, index) => (
-            <Card key={index} minH="100px" m="5" width="400px">
-              <Flex
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Circle size="25px" bg="yellow.600" color="white">
-                  {salesPump.pumpId}
-                </Circle>
-                <Text
-                  as="span"
-                  color="blue.600"
-                  fontWeight="normal"
-                  p="3"
-                  fontSize="lg"
+        <Flex
+          flexDirection={{ sm: "column", md: "row" }}
+          flexWrap={{ sm: "nowrap", md: "wrap" }}
+          gap="5"
+        >
+          {salesPumps
+            .sort((p1, p2) => p1.pumpId - p2.pumpId)
+            .map((salesPump, index) => (
+              <Card key={index} minH="100px" width={{ sm: "100%", md: "30%" }}>
+                <Flex
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
                 >
+                  <Circle size="25px" bg="yellow.600" color="white">
+                    {salesPump.pumpId}
+                  </Circle>
                   <Text
                     as="span"
-                    fontWeight="bold"
                     color="blue.600"
-                    display="inline"
+                    fontWeight="normal"
+                    p="3"
+                    fontSize="lg"
                   >
-                    {t("pumpSales.total")} :{" "}
+                    <Text
+                      as="span"
+                      fontWeight="bold"
+                      color="blue.600"
+                      display="inline"
+                    >
+                      {t("pumpSales.total")} :{" "}
+                    </Text>
+                    {salesPump.pumpSales.toLocaleString()}{" "}
+                    <Text
+                      as="span"
+                      fontWeight="bold"
+                      color="blue.600"
+                      display="inline"
+                    >
+                      {selectedStation?.country?.currency?.code}
+                    </Text>
                   </Text>
-                  {salesPump.pumpSales.toLocaleString()}{" "}
-                  <Text
-                    as="span"
-                    fontWeight="bold"
-                    color="blue.600"
-                    display="inline"
-                  >
-                    {selectedStation?.country?.currency?.code}
-                  </Text>
+                  <Image src={pump} height="75%" width="15%" />
+                </Flex>
+                <Text as="span" fontWeight="bold" color="blue.600">
+                  <SalesByGrades
+                    pumpId={salesPump.pumpId}
+                    startDate={fromDate}
+                    endDate={toDate}
+                  />
                 </Text>
-                <Image src={pump} height="75%" width="15%" />
-              </Flex>
-              <Text as="span" fontWeight="bold" color="blue.600">
-                <SalesByGrades
-                  pumpId={salesPump.pumpId}
-                  startDate={fromDate}
-                  endDate={toDate}
-                />
-              </Text>
-            </Card>
-          ))}
+              </Card>
+            ))}
         </Flex>
       )}
     </>

@@ -49,7 +49,8 @@
   },
   "tankLevelChart": {
     "changedVolume": "Changed Volume",
-    "tankVolume": "Tank Volume"
+    "tankVolume": "Tank Volume",
+    "nodata": "No data to display for this chart..."
   },
   "pumpSales": {
     "totalSales": "Total Sales",
