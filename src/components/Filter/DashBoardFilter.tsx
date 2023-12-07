@@ -6,8 +6,10 @@ import {
   Input,
   useBreakpointValue
 } from "@chakra-ui/react";
+import moment from "moment";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { createPeriod, truncateText } from "utils/utils";
 
 interface FilterPeriodProps {
   onFilterChange: (filter: Filter) => void;
@@ -16,20 +18,37 @@ interface FilterPeriodProps {
 export type Filter = {
   fromDate?: string;
   toDate?: string;
-  period?: string;
 };
 
 const DashBoardFilter = ({ onFilterChange }: FilterPeriodProps) => {
-  const [fromDate, setFromDate] = useState<string>(
-    `${new Date().toISOString().substring(0, 10)}T00:00`,
-  );
   const [toDate, setToDate] = useState<string>(
-    `${new Date().toISOString().substring(0, 10)}T23:59`,
+    moment().hour(0).minute(0).format("YYYY-MM-DDTHH:mm"),
+  );
+  const [fromDate, setFromDate] = useState<string>(
+    moment().hour(23).minute(59).format("YYYY-MM-DDTHH:mm"),
   );
   const [period, setPeriod] = useState<string>("today");
 
   const { t } = useTranslation("dashboard");
 
+  const handleFromDateChange = (date: string) => setFromDate(date);
+  const handleToDateChange = (date: string) => setToDate(date);
+
+  const handlePeriodChange = (period: string) => {
+    const { fromDate, toDate } = createPeriod(period);
+
+    setFromDate(fromDate);
+    setToDate(toDate);
+
+    onFilterChange({ fromDate, toDate });
+    setPeriod(period);
+  };
+
+  const searchHandler = () => {
+    onFilterChange({ fromDate, toDate });
+  };
+
+  //styles
   const buttonSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   const buttonFontSize = useBreakpointValue({
     base: "sm",
@@ -40,82 +59,6 @@ const DashBoardFilter = ({ onFilterChange }: FilterPeriodProps) => {
   const buttonTextLimit = useBreakpointValue({ base: 3, md: 4, lg: 8, xl: 12 });
   const defaultButtonTextLimit = 10;
   const truncatedButtonTextLimit = buttonTextLimit || defaultButtonTextLimit;
-
-  const handleFromDateChange = (date: string) => setFromDate(date);
-  const handleToDateChange = (date: string) => setToDate(date);
-
-  const handlePeriodChange = (period: string) => {
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    let fromDate: string = "";
-    let toDate: string = "";
-
-    switch (period) {
-      case "today":
-        fromDate = `${today.toISOString().substring(0, 10)}T00:00`;
-        toDate = `${today.toISOString().substring(0, 10)}T23:59`;
-
-        break;
-      case "yesterday":
-        fromDate = `${yesterday.toISOString().substring(0, 10)}T00:00`;
-        toDate = `${yesterday.toISOString().substring(0, 10)}T23:59`;
-
-        break;
-      case "weekly":
-        const startOfWeek = new Date(today);
-        const currentDay = today.getDay();
-        const diff = currentDay === 0 ? 6 : currentDay - 0;
-        startOfWeek.setDate(startOfWeek.getDate() - diff);
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
-        fromDate = `${startOfWeek.toISOString().substring(0, 10)}T00:00`;
-        toDate = `${endOfWeek.toISOString().substring(0, 10)}T23:59`;
-
-        break;
-      case "monthly":
-        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 2);
-        const endOfMonth = new Date(
-          today.getFullYear(),
-          today.getMonth() + 1,
-          1,
-        );
-        fromDate = `${startOfMonth.toISOString().substring(0, 10)}T00:00`;
-        toDate = `${endOfMonth.toISOString().substring(0, 10)}T23:59`;
-
-        break;
-      case "yearly":
-        const startOfYear = new Date(today.getFullYear(), 0, 2);
-        const endOfYear = new Date(today.getFullYear(), 11, 31, 23, 59, 59);
-        fromDate = `${startOfYear.toISOString().substring(0, 10)}T00:00`;
-        toDate = `${endOfYear.toISOString().substring(0, 10)}T23:59`;
-
-      default:
-        break;
-    }
-
-    setFromDate(fromDate);
-    setToDate(toDate);
-
-    onFilterChange({
-      period,
-    });
-
-    setPeriod(period);
-  };
-
-  const searchHandler = () => {
-    onFilterChange({ fromDate, toDate });
-  };
-
-  const truncateText = (text: string, limit: number) => {
-    if (text.length <= limit) {
-      return text;
-    } else {
-      return text.slice(0, limit) + "...";
-    }
-  };
 
   return (
     <Box p={1}>

@@ -1,6 +1,6 @@
 import { Decode, User } from "common/model";
 import jwt_decode from "jwt-decode";
-import { number } from "yup";
+import moment, { Moment } from "moment";
 
 export const decodeToken = (token: string | null): User | null => {
   if (!token) {
@@ -63,5 +63,55 @@ export const getColorForTankLevel = (level: number): string => {
     return "#EA8B17";
   } else {
     return "#E02200";
+  }
+};
+
+export const createPeriod = (period: string) => {
+  let fromDate: Moment = moment();
+  let toDate: Moment = moment();
+
+  switch (period) {
+    case "today":
+      fromDate = moment();
+      toDate = moment();
+
+      break;
+    case "yesterday":
+      fromDate = moment().subtract(1, "day");
+      toDate = moment().subtract(1, "day");
+
+      break;
+    case "weekly":
+      fromDate = moment().startOf("week");
+      toDate = moment().endOf("week");
+
+      break;
+    case "monthly":
+      fromDate = moment().startOf("month");
+      toDate = moment().endOf("month");
+
+      break;
+    case "yearly":
+      fromDate = moment().startOf("year");
+      toDate = moment().endOf("year");
+
+    default:
+      break;
+  }
+
+  let formattedFromDate = fromDate.hour(0).minute(0).format("YYYY-MM-DDTHH:mm");
+  let formattedToDate = toDate.hour(23).minute(59).format("YYYY-MM-DDTHH:mm");
+
+  return {
+    fromDate: formattedFromDate,
+    toDate: formattedToDate,
+  };
+};
+
+export const truncateText = (text: string, limit: number) => {
+  if (text.length <= limit) {
+    return text;
+  } else {
+    return text.slice(0, limit) + "...";
   }
 };

@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useESSContext } from "store/ESSContext";
 import { formatNumber } from "../../utils/utils";
 
-export const ReportSalesChart = ({ period, fromDate, toDate }: Filter) => {
+export const ReportSalesChart = ({ fromDate, toDate }: Filter) => {
   const { refresh } = useRefresher();
   const { selectedStation } = useESSContext();
   const { user } = useAuth();
@@ -48,7 +48,6 @@ export const ReportSalesChart = ({ period, fromDate, toDate }: Filter) => {
       const data = await getChartByFuelPumpPeriod(
         selectedStation,
         filter,
-        period,
         fromDate,
         toDate,
       );
@@ -101,7 +100,7 @@ export const ReportSalesChart = ({ period, fromDate, toDate }: Filter) => {
   useEffect(() => {
     // Fetch data when filter or periode changes
     updateChartData();
-  }, [filter, selectedStation, user, period, fromDate, toDate, refresh]);
+  }, [filter, selectedStation, user, fromDate, toDate, refresh]);
 
   return (
     <>

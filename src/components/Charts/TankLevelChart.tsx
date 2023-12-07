@@ -15,7 +15,7 @@ import { useAuth } from "../../store/AuthContext";
 import { useESSContext } from "../../store/ESSContext";
 import TankChartButton from "../ChartMenu/TankChartButton";
 
-export const TankLevelChart = ({ period, fromDate, toDate }: Filter) => {
+export const TankLevelChart = ({ fromDate, toDate }: Filter) => {
   const [chartData, setChartData] = useState({
     tankMeasurementData: [] as tankMeasurementData[],
     tankLevelData: [] as tankLevelData[],
@@ -53,11 +53,9 @@ export const TankLevelChart = ({ period, fromDate, toDate }: Filter) => {
     }
     const fetchData = async () => {
       try {
-        debugger;
         const measurementData = await getTankMeasurementByPeriod(
           selectedStation,
           selectedTank,
-          period,
           fromDate,
           toDate,
         );
@@ -69,7 +67,6 @@ export const TankLevelChart = ({ period, fromDate, toDate }: Filter) => {
         const levelData = await getTankLevelByPeriod(
           selectedStation,
           selectedTank,
-          period,
           fromDate,
           toDate,
         );
@@ -82,7 +79,7 @@ export const TankLevelChart = ({ period, fromDate, toDate }: Filter) => {
       }
     };
     fetchData();
-  }, [period, selectedStation, user, selectedTank, fromDate, toDate]);
+  }, [selectedStation, user, selectedTank, fromDate, toDate]);
 
   // Ensure the data points are aligned
   const alignedChartData = alignDataPoints(chartData);
