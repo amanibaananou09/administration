@@ -1,7 +1,10 @@
 {
   "common": {
-    "name": "Nom",
-    "description": "Description",
+    "name": "Nom de compte",
+    "creator": "Créateur",
+    "compteParent": "Compte Parent",
+    "droits": "Droits De Distributeur",
+    "stations": "Stations",
     "status": "Statut",
     "error": "est obligatoire",
     "errorLength": "doit contenir au moins 4 caractères",
@@ -12,13 +15,19 @@
     "errorConfirmPassword": "Les mots de passe ne correspondent pas",
     "enabled": "ENABLED (ACTIVÉ)",
     "disabled": "DISABLED (DÉSACTIVÉ)",
+    "true": "vrai",
+    "false": "faux",
     "password": "Mot de passe",
     "submit": "Créer",
     "cancel": "Annuler",
     "loading": "Chargement...",
     "address": "Adresse",
     "country": "Pays",
-    "confirmPassword": "Confirmez le mot de passe"
+    "confirmPassword": "Confirmez le mot de passe",
+    "selectAccount": "Sélectionner un compte parent",
+    "selectDroits": "Ajoutez vos droits de revendeur",
+    "reseller": "Revendeur",
+    "delete": "Supprimer"
   },
   "customerAccounts": {
     "header": "Comptes clients",

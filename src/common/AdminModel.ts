@@ -1,9 +1,16 @@
 export interface CustomerAccount {
   id?: number | string;
   name: string;
-  description: string;
-  status: string;
+  creatorUserId?: string;
+  parentId: string;
+  parentName?: string;
+  resaleRight: string;
+  stations?: number;
+  stationsCount?: number;
+  status?: string;
+  actif?: string;
   masterUser: MasterUser;
+  creatorUser?: GeneralUser;
 }
 
 export interface MasterUser {
@@ -14,18 +21,19 @@ export interface MasterUser {
   phone?: string;
   password: string;
   role?: string;
+  customerAccountId?: string;
 }
 
 export interface GeneralUser {
-  id: number | string;
-  actif: boolean;
-  dateStatusChange: string;
+  id?: number | string;
+  actif?: boolean;
+  dateStatusChange?: string;
   username: string;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  role: string;
+  role?: string;
   phone: string;
 }
 

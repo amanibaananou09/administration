@@ -1,76 +1,114 @@
 import { Badge, Td, Text, Tr } from "@chakra-ui/react";
 import { CustomerAccountTableRowProps } from "common/react-props";
 import { useHistory } from "react-router-dom";
+import { GeneralUser } from "../../common/AdminModel";
+import { useTranslation } from "react-i18next";
 
 const CustomerAccountTableRow = ({
+  index,
   customerAccount,
   isLastRow,
-}: CustomerAccountTableRowProps) => {
-  const { id, name, description, status, masterUser } = customerAccount;
+}: CustomerAccountTableRowProps & { index: number }) => {
+  const {
+    name,
+    creatorUser,
+    parentName,
+    resaleRight,
+    stationsCount,
+    status,
+  } = customerAccount;
 
-  const history = useHistory();
-
-  const getStatusColor = (status: string) => {
-    return status === "ENABLED" ? "green.400" : "red.400";
-  };
-
-  const handleNameClick = () => {
-    history.push(`/administration/customer-accounts/${id}`);
+  const { t } = useTranslation("administration");
+  const handleClick = () => {
+    console.log("Clicked!");
   };
 
   //styles
-  const textColor = "gray.500";
   const borderColor = "gray.200";
-
+  const columnWidth = "100px";
   return (
     <Tr>
       <Td
-        pl="0px"
+        width={columnWidth}
         borderColor={borderColor}
         borderBottom={isLastRow ? "none" : undefined}
         textAlign="center"
       >
-        <Text
-          as="span"
-          textDecoration="underline"
-          cursor="pointer"
-          onClick={handleNameClick}
-        >
-          {name}
+        {index + 1}
+      </Td>
+      <Td
+        width={columnWidth}
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
+        {name}
+      </Td>
+      <Td
+        width={columnWidth}
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
+        {name}
+      </Td>
+      <Td
+        width={columnWidth}
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
+        <Text fontSize="md" fontWeight="normal">
+          {parentName}
         </Text>
       </Td>
       <Td
+        width={columnWidth}
         borderColor={borderColor}
         borderBottom={isLastRow ? "none" : undefined}
         textAlign="center"
       >
-        <Text fontSize="md" color={textColor} fontWeight="bold">
-          {description}
-        </Text>
+        {resaleRight ? t("common.reseller") : "-"}
       </Td>
       <Td
+        width={columnWidth}
         borderColor={borderColor}
         borderBottom={isLastRow ? "none" : undefined}
         textAlign="center"
       >
-        <Text fontSize="md" color={textColor} fontWeight="bold">
-          {masterUser.username}
+        <div onClick={handleClick} style={{ cursor: "pointer" }}>
+          {status === "ENABLED" ? (
+            <Text fontSize="md" color="green.400" fontWeight="bold">
+              ✓
+            </Text>
+          ) : (
+            <Text fontSize="md" color="red.400" fontWeight="bold">
+              X
+            </Text>
+          )}
+        </div>
+      </Td>
+
+      <Td
+        width={columnWidth}
+        borderColor={borderColor}
+        borderBottom={isLastRow ? "none" : undefined}
+        textAlign="center"
+      >
+        <Text fontSize="md" fontWeight="normal">
+          {stationsCount}
         </Text>
       </Td>
+
       <Td
+        width={columnWidth}
         borderColor={borderColor}
         borderBottom={isLastRow ? "none" : undefined}
         textAlign="center"
       >
-        <Badge
-          bg={getStatusColor(status)}
-          color="white"
-          fontSize="16px"
-          p="3px 10px"
-          borderRadius="8px"
-        >
-          {status}
-        </Badge>
+        <Text fontSize="md" color="red.400" fontWeight="bold">
+          X
+        </Text>
       </Td>
     </Tr>
   );
