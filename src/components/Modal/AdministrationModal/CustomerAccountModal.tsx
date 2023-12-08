@@ -18,13 +18,22 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
-import { createCustomerAccount } from "common/api/customerAccount-api";
+import {
+  createCustomerAccount,
+  getListOfCustomerAccount,
+} from "common/api/customerAccount-api";
 import {
   CustomAccountModalRefType,
   CustomerAccountModalProps,
 } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import React, {
+  forwardRef,
+  Ref,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import PhoneInput from "react-phone-number-input";
@@ -35,9 +44,16 @@ const CustomerAccountModal = (
   ref: Ref<CustomAccountModalRefType>,
 ) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [accounts, setAccounts] = useState<CustomerAccount[]>([]);
+
+  const { t } = useTranslation("administration");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
   const [account, setAccount] = useState<CustomerAccount>({
     name: "",
-    description: "",
+    resaleRight: "",
+    parentId: "",
     status: "",
     masterUser: {
       username: "",
@@ -48,28 +64,17 @@ const CustomerAccountModal = (
       phone: "",
     },
   });
-  const { t } = useTranslation("administration");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-
-  const isValidConfirmPassword = (value: string, values: CustomerAccount) => {
-    let error: string | undefined;
-
-    if (value !== values.masterUser.password) {
-      error = t("common.errorConfirmPassword");
-    }
-
-    return error;
-  };
 
   useImperativeHandle(ref, () => ({
     open(account?: CustomerAccount) {
+      console.log("Modal Opened");
       if (account) {
         setAccount(account);
       } else {
         setAccount({
           name: "",
-          description: "",
+          resaleRight: "",
+          parentId: "",
           status: "ENABLED",
           masterUser: {
             username: "",
@@ -84,6 +89,28 @@ const CustomerAccountModal = (
       onOpen();
     },
   }));
+
+  useEffect(() => {
+    const getListOfAccounts = async () => {
+      const result = await getListOfCustomerAccount();
+      setAccounts(result);
+    };
+
+    if (isOpen) {
+      getListOfAccounts();
+    }
+  }, [isOpen]);
+
+  const submitHandler = async (
+    values: CustomerAccount,
+    { setSubmitting }: FormikHelpers<CustomerAccount>,
+  ) => {
+    await createCustomerAccount(values);
+    onClose();
+    onSubmit();
+    setSubmitting(false);
+  };
+
   const isNotNull = (value: string) => {
     let error: string | undefined;
     if (!value) {
@@ -91,6 +118,16 @@ const CustomerAccountModal = (
     } else if (value.length < 4) {
       error = t("common.errorLength");
     }
+    return error;
+  };
+
+  const isValidConfirmPassword = (value: string, values: CustomerAccount) => {
+    let error: string | undefined;
+
+    if (value !== values.masterUser.password) {
+      error = t("common.errorConfirmPassword");
+    }
+
     return error;
   };
 
@@ -103,25 +140,6 @@ const CustomerAccountModal = (
     return undefined;
   };
 
-  const isValidEmail = (value: string) => {
-    let error: string | undefined;
-    // Check if the value contains the "@" symbol
-    if (!/@/.test(value)) {
-      error = t("common.erroremail");
-    }
-
-    return error;
-  };
-
-  const submitHandler = async (
-    values: CustomerAccount,
-    { setSubmitting }: FormikHelpers<CustomerAccount>,
-  ) => {
-    await createCustomerAccount(values);
-    onClose();
-    onSubmit();
-    setSubmitting(false);
-  };
   const isValidPassword = (value: string) => {
     let error: string | undefined;
 
@@ -143,13 +161,23 @@ const CustomerAccountModal = (
     return error;
   };
 
+  const isValidEmail = (value: string) => {
+    let error: string | undefined;
+    // Check if the value contains the "@" symbol
+    if (!/@/.test(value)) {
+      error = t("common.erroremail");
+    }
+
+    return error;
+  };
+
   return (
     <Modal
       motionPreset="slideInBottom"
       blockScrollOnMount={true}
       isOpen={isOpen}
       onClose={onClose}
-      size="3xl"
+      size="2xl"
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
@@ -162,9 +190,54 @@ const CustomerAccountModal = (
             {(props) => (
               <Form>
                 <Flex direction="column">
-                  <Flex mb="24px">
+                  <Box flex="1" mr="4">
+                    <Field name="name" validate={isNotNull}>
+                      {({
+                        field,
+                        form,
+                      }: {
+                        field: {
+                          name: string;
+                          value: string;
+                          onChange: (e: React.ChangeEvent<any>) => void;
+                          onBlur: () => void;
+                        };
+                        form: {
+                          errors: { name: string };
+                          touched: { name: boolean };
+                          setFieldValue: (field: string, value: any) => void;
+                        };
+                      }) => (
+                        <FormControl
+                          isInvalid={!!form.errors.name && !!form.touched.name}
+                          mb="24px"
+                        >
+                          <FormLabel htmlFor="name">
+                            {t("common.name")}
+                          </FormLabel>
+                          <Input
+                            {...field}
+                            id="name"
+                            placeholder={t("common.name")}
+                            width="200px"
+                            onChange={(e) => {
+                              field.onChange(e);
+                              form.setFieldValue(
+                                "masterUser.username",
+                                e.target.value,
+                              );
+                            }}
+                          />
+                          <FormErrorMessage>
+                            {t("common.name")} {form.errors.name}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                  </Box>
+                  <Flex flex="1" mr="4">
                     <Box flex="1" mr="4">
-                      <Field name="name" validate={isNotNull}>
+                      <Field name="compteParent" validate={isNotNull}>
                         {({
                           field,
                           form,
@@ -176,41 +249,47 @@ const CustomerAccountModal = (
                             onBlur: () => void;
                           };
                           form: {
-                            errors: { name: string };
-                            touched: { name: boolean };
-                            setFieldValue: (field: string, value: any) => void;
+                            errors: { compteParent: string };
+                            touched: { compteParent: boolean };
                           };
                         }) => (
                           <FormControl
                             isInvalid={
-                              !!form.errors.name && !!form.touched.name
+                              !!form.errors.compteParent &&
+                              !!form.touched.compteParent
                             }
                             mb="24px"
                           >
-                            <FormLabel htmlFor="name">
-                              {t("common.name")}
+                            <FormLabel htmlFor="Compte Parent">
+                              {t("common.compteParent")}
                             </FormLabel>
-                            <Input
-                              {...field}
-                              id="name"
-                              placeholder={t("common.name")}
-                              onChange={(e) => {
-                                field.onChange(e);
-                                form.setFieldValue(
-                                  "masterUser.username",
-                                  e.target.value,
-                                );
-                              }}
-                            />
+                            <Select
+                              id="parentId"
+                              name="parentId"
+                              value={field.value}
+                              onChange={field.onChange}
+                              placeholder={t("common.selectAccount")}
+                            >
+                              {accounts.map((accountData) => (
+                                <option
+                                  key={accountData.id}
+                                  value={accountData.id}
+                                >
+                                  {accountData.name}
+                                </option>
+                              ))}
+                            </Select>
+
                             <FormErrorMessage>
-                              {t("common.name")} {form.errors.name}
+                              {form.errors.compteParent}
                             </FormErrorMessage>
                           </FormControl>
                         )}
                       </Field>
                     </Box>
-                    <Box flex="1" mx="4">
-                      <Field name="description" validate={isNotNull}>
+
+                    <Box flex="1" mr="4">
+                      <Field name="droits" validate={isNotNull}>
                         {({
                           field,
                           form,
@@ -222,76 +301,36 @@ const CustomerAccountModal = (
                             onBlur: () => void;
                           };
                           form: {
-                            errors: { description: string };
-                            touched: { description: boolean };
+                            errors: { droits: string };
+                            touched: { droits: boolean };
                           };
                         }) => (
                           <FormControl
                             isInvalid={
-                              !!form.errors.description &&
-                              !!form.touched.description
+                              !!form.errors.droits && !!form.touched.droits
                             }
                             mb="24px"
                           >
-                            <FormLabel htmlFor="description">
-                              {t("common.description")}
+                            <FormLabel htmlFor="droits">
+                              {t("common.droits")}
                             </FormLabel>
-                            <Input
+                            <Select
                               {...field}
-                              id="description"
-                              placeholder={t("common.description")}
-                            />
-                            <FormErrorMessage>
-                              {t("common.description")}{" "}
-                              {form.errors.description}
-                            </FormErrorMessage>
-                          </FormControl>
-                        )}
-                      </Field>
-                    </Box>
-                    <Box flex="1" ml="4">
-                      <Field name="status" validate={isNotNull}>
-                        {({
-                          field,
-                          form,
-                        }: {
-                          field: {
-                            name: string;
-                            value: string;
-                            onChange: (e: React.ChangeEvent<any>) => void;
-                            onBlur: () => void;
-                          };
-                          form: {
-                            errors: { status: boolean };
-                            touched: { status: boolean };
-                          };
-                        }) => (
-                          <FormControl
-                            isInvalid={
-                              !!form.errors.status && !!form.touched.status
-                            }
-                            mb="40px"
-                          >
-                            <FormLabel htmlFor="status">
-                              {t("common.status")}
-                            </FormLabel>
-                            <Select {...field} id="status">
-                              <option value="ENABLED">
-                                {t("common.enabled")}
-                              </option>
-                              <option value="DISABLED">
-                                {t("common.disabled")}
-                              </option>
+                              id="droits"
+                              placeholder={t("common.selectDroits")}
+                            >
+                              <option value="true">{t("common.true")}</option>
+                              <option value="false">{t("common.false")}</option>
                             </Select>
                             <FormErrorMessage>
-                              {t("common.status")} {form.errors.status}
+                              {t("common.droits")}
+                              {form.errors.droits}
                             </FormErrorMessage>
                           </FormControl>
                         )}
                       </Field>
                     </Box>
                   </Flex>
-
                   <Box>
                     <Flex mb="7" justifyContent="left">
                       <FormLabel
@@ -388,6 +427,8 @@ const CustomerAccountModal = (
                           )}
                         </Field>
                       </Box>
+                    </Flex>
+                    <Flex mb="24px">
                       <Box flex="1" mr="4">
                         <Field name="masterUser.firstName" validate={isNotNull}>
                           {({
@@ -463,129 +504,14 @@ const CustomerAccountModal = (
                                 placeholder={t("userInformation.lastNameLabel")}
                               />
                               <FormErrorMessage>
-                                {t("userInformation.lastNameLabel")}{" "}
+                                {t("userInformation.lastNameLabel")}
                                 {form.errors.masterUser?.lastName}
                               </FormErrorMessage>
                             </FormControl>
                           )}
                         </Field>
                       </Box>
-                    </Flex>
-                    <Flex mb="24px">
-                      <Box flex="1" mx="4">
-                        <Field
-                          name="masterUser.password"
-                          validate={isValidPassword}
-                        >
-                          {({
-                            field,
-                            form,
-                          }: {
-                            field: {
-                              name: string;
-                              value: string;
-                              onChange: (e: React.ChangeEvent<any>) => void;
-                              onBlur: () => void;
-                            };
-                            form: {
-                              errors: { masterUser: { password: string } };
-                              touched: { masterUser: { password: boolean } };
-                            };
-                          }) => (
-                            <FormControl
-                              isInvalid={
-                                !!form.errors.masterUser?.password &&
-                                !!form.touched.masterUser?.password
-                              }
-                              mb="24px"
-                            >
-                              <FormLabel htmlFor="password">
-                                {" "}
-                                {t("common.password")}
-                              </FormLabel>
-                              <InputGroup>
-                                <Input
-                                  {...field}
-                                  type={showPassword ? "text" : "password"}
-                                  id="password"
-                                  placeholder={t("common.password")}
-                                />
-                                <InputRightElement width="3.2rem">
-                                  <Button
-                                    h="100%"
-                                    variant="ghost"
-                                    onClick={() =>
-                                      setShowPassword(!showPassword)
-                                    }
-                                    color="gray.500"
-                                  >
-                                    {showPassword ? <FaEye /> : <FaEyeSlash />}
-                                  </Button>
-                                </InputRightElement>
-                              </InputGroup>
-                              <FormErrorMessage>
-                                {t("common.password")}{" "}
-                                {form.errors.masterUser?.password}
-                              </FormErrorMessage>
-                            </FormControl>
-                          )}
-                        </Field>
-                      </Box>
-                      <Box flex="1" ml="4">
-                        <Field
-                          name="masterUser.confirmPassword"
-                          validate={(value: string) =>
-                            isValidConfirmPassword(value, props.values)
-                          }
-                        >
-                          {({
-                            field,
-                            form,
-                          }: {
-                            field: {
-                              name: string;
-                              value: string;
-                              onChange: (e: React.ChangeEvent<any>) => void;
-                              onBlur: () => void;
-                            };
-                            form: {
-                              errors: {
-                                masterUser: { confirmPassword: string };
-                              };
-                              touched: {
-                                masterUser: { confirmPassword: boolean };
-                              };
-                            };
-                          }) => (
-                            <FormControl
-                              isInvalid={
-                                !!form.errors.masterUser?.confirmPassword &&
-                                !!form.touched.masterUser?.confirmPassword
-                              }
-                              mb="24px"
-                            >
-                              <FormLabel htmlFor="confirmPassword">
-                                {t("common.confirmPassword")}
-                              </FormLabel>
-                              <Input
-                                {...field}
-                                type="password"
-                                id="confirmPassword"
-                                placeholder={t("common.confirmPassword")}
-                                onChange={(e) => {
-                                  field.onChange(e);
-                                  setConfirmPassword(e.target.value);
-                                }}
-                              />
-                              <FormErrorMessage>
-                                {form.errors.masterUser?.confirmPassword}
-                              </FormErrorMessage>
-                            </FormControl>
-                          )}
-                        </Field>
-                      </Box>
-
-                      <Box flex="1" ml="4">
+                      <Box flex="1" mr="4">
                         <Field
                           name="masterUser.phone"
                           validate={isValidPhoneNumber}
@@ -642,6 +568,119 @@ const CustomerAccountModal = (
                         </Field>
                       </Box>
                     </Flex>
+                    <Flex mb="24px">
+                      <Box flex="1" mr="4">
+                        <Field
+                          name="masterUser.password"
+                          validate={isValidPassword}
+                        >
+                          {({
+                            field,
+                            form,
+                          }: {
+                            field: {
+                              name: string;
+                              value: string;
+                              onChange: (e: React.ChangeEvent<any>) => void;
+                              onBlur: () => void;
+                            };
+                            form: {
+                              errors: { masterUser: { password: string } };
+                              touched: { masterUser: { password: boolean } };
+                            };
+                          }) => (
+                            <FormControl
+                              isInvalid={
+                                !!form.errors.masterUser?.password &&
+                                !!form.touched.masterUser?.password
+                              }
+                              mb="24px"
+                            >
+                              <FormLabel htmlFor="password">
+                                {t("common.password")}
+                              </FormLabel>
+                              <InputGroup>
+                                <Input
+                                  {...field}
+                                  type={showPassword ? "text" : "password"}
+                                  id="password"
+                                  placeholder={t("common.password")}
+                                />
+                                <InputRightElement width="3.2rem">
+                                  <Button
+                                    h="100%"
+                                    variant="ghost"
+                                    onClick={() =>
+                                      setShowPassword(!showPassword)
+                                    }
+                                    color="gray.500"
+                                  >
+                                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                  </Button>
+                                </InputRightElement>
+                              </InputGroup>
+                              <FormErrorMessage>
+                                {t("common.password")}
+                                {form.errors.masterUser?.password}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
+                      </Box>
+                      <Box flex="1" mr="4">
+                        <Field
+                          name="masterUser.confirmPassword"
+                          validate={(value: string) =>
+                            isValidConfirmPassword(value, props.values)
+                          }
+                        >
+                          {({
+                            field,
+                            form,
+                          }: {
+                            field: {
+                              name: string;
+                              value: string;
+                              onChange: (e: React.ChangeEvent<any>) => void;
+                              onBlur: () => void;
+                            };
+                            form: {
+                              errors: {
+                                masterUser: { confirmPassword: string };
+                              };
+                              touched: {
+                                masterUser: { confirmPassword: boolean };
+                              };
+                            };
+                          }) => (
+                            <FormControl
+                              isInvalid={
+                                !!form.errors.masterUser?.confirmPassword &&
+                                !!form.touched.masterUser?.confirmPassword
+                              }
+                              mb="24px"
+                            >
+                              <FormLabel htmlFor="confirmPassword">
+                                {t("common.confirmPassword")}
+                              </FormLabel>
+                              <Input
+                                {...field}
+                                type="password"
+                                id="confirmPassword"
+                                placeholder={t("common.confirmPassword")}
+                                onChange={(e) => {
+                                  field.onChange(e);
+                                  setConfirmPassword(e.target.value);
+                                }}
+                              />
+                              <FormErrorMessage>
+                                {form.errors.masterUser?.confirmPassword}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
+                      </Box>
+                    </Flex>
                   </Box>
                   <Flex justifyContent="flex-end">
                     <Button
@@ -652,9 +691,11 @@ const CustomerAccountModal = (
                       mr={3}
                       isLoading={props.isSubmitting}
                       type="submit"
+                      onClick={() => submitHandler(props.values, props)}
                     >
                       {t("common.submit")}
                     </Button>
+
                     <Button
                       fontSize="md"
                       fontWeight="bold"

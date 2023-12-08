@@ -4,7 +4,7 @@ import api from "./axios";
 const API_URL = "/customerAccount";
 
 export const getListOfCustomerAccount = async () => {
-  const response = await api.get(`${API_URL}?actif`);
+  const response = await api.get(`${API_URL}`);
 
   return response.data;
 };
@@ -12,9 +12,14 @@ export const getListOfCustomerAccount = async () => {
 export const createCustomerAccount = async (
   account: CustomerAccount,
 ): Promise<CustomerAccount> => {
-  const response = await api.post(`${API_URL}/add`, account);
-
-  return response.data;
+  try {
+    const response = await api.post(`${API_URL}/add`, account);
+    console.log("API Response:", response.data); // Log the response
+    return response.data;
+  } catch (error) {
+    console.error("Error in createCustomerAccount:", error);
+    throw error;
+  }
 };
 
 export const addUser = async (

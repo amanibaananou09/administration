@@ -1,7 +1,10 @@
 {
   "common": {
-    "name": "Name",
-    "description": "Description",
+    "name": "Account name",
+    "creator": "Creator",
+    "compteParent": "Parent Account",
+    "droits": "Distributor Rights",
+    "stations": "Stations",
     "status": "Status",
     "error": "is required",
     "errorLength": "must be at least 4 characters",
@@ -12,13 +15,19 @@
     "errorConfirmPassword": "Passwords must match",
     "enabled": "ENABLED",
     "disabled": "DISABLED",
+    "true": "true",
+    "false": "false",
     "password": "Password",
     "submit": "Submit",
     "cancel": "Cancel",
     "loading": "Loading...",
     "address": "Address",
     "country": "Country",
-    "confirmPassword": "Confirm Password"
+    "confirmPassword": "Confirm Password",
+    "selectAccount": "Select a parent account",
+    "selectDroits": "Add your reseller rights",
+    "reseller": "Reseller",
+    "delete": "Delete"
   },
   "customerAccounts": {
     "header": "Customer Accounts",

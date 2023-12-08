@@ -76,37 +76,85 @@ const CustomerAccountManagement = () => {
               <Thead>
                 <Tr my=".8rem" pl="0px" color="gray.400">
                   <Th
-                    pl="0px"
                     borderColor={borderColor}
                     color={columnTitleTextColor}
-                    fontSize="md"
+                    fontSize="ms"
                     textAlign="center"
                   >
-                    {t("common.name")}
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      #
+                    </Text>
                   </Th>
                   <Th
                     borderColor={borderColor}
                     color={columnTitleTextColor}
-                    fontSize="md"
+                    fontSize="ms"
                     textAlign="center"
                   >
-                    {t("common.description")}
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.name")}
+                    </Text>
                   </Th>
                   <Th
                     borderColor={borderColor}
                     color={columnTitleTextColor}
-                    fontSize="md"
+                    fontSize="ms"
                     textAlign="center"
                   >
-                    {t("customerAccounts.masterUser")}
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.creator")}
+                    </Text>
                   </Th>
                   <Th
                     borderColor={borderColor}
                     color={columnTitleTextColor}
-                    fontSize="md"
+                    fontSize="ms"
                     textAlign="center"
                   >
-                    {t("common.status")}
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.compteParent")}
+                    </Text>
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="ms"
+                    textAlign="center"
+                  >
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.droits")}
+                    </Text>
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="ms"
+                    textAlign="center"
+                  >
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.status")}
+                    </Text>
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="ms"
+                    textAlign="center"
+                  >
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.stations")}
+                    </Text>
+                  </Th>
+
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="ms"
+                    textAlign="center"
+                  >
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.delete")}
+                    </Text>
                   </Th>
                 </Tr>
               </Thead>
@@ -119,6 +167,7 @@ const CustomerAccountManagement = () => {
                       <CustomerAccountTableRow
                         customerAccount={account}
                         isLastRow={index === customerAccounts.length - 1}
+                        index={index}
                         key={index}
                       />
                     ),
@@ -130,6 +179,7 @@ const CustomerAccountManagement = () => {
                         fontSize="xl"
                         fontWeight="bold"
                         color="gray.600"
+                        textAlign="center"
                         mt={4}
                       >
                         {!isLoading
