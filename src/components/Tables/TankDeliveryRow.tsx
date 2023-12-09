@@ -36,7 +36,7 @@ const TankDeliveryRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {productVolume}
+          {productVolume.toLocaleString()}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
@@ -59,7 +59,7 @@ const TankDeliveryRow = ({
             color={textColor}
             fontWeight="bold"
           >
-            {productHeight}
+            {productHeight.toLocaleString()}
           </Text>
         </Flex>
       </Td>
@@ -71,7 +71,7 @@ const TankDeliveryRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {waterHeight}
+          {waterHeight.toLocaleString()}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
@@ -82,7 +82,7 @@ const TankDeliveryRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {temperature}
+          {temperature.toLocaleString()}
         </Text>
       </Td>
     </Tr>

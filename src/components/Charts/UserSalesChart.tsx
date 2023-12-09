@@ -56,7 +56,7 @@ const UserSalesChart = ({ fromDate, toDate }: Filter) => {
             if (datasetIndex === -1) {
               datasets.push({
                 name: val.fuelGradeName,
-                data: [Number(formatNumber(val.sumVolume))],
+                data: [val.sumVolume],
                 backgroundColor: getRandomColor(),
                 borderWidth: 1,
               });
@@ -70,6 +70,8 @@ const UserSalesChart = ({ fromDate, toDate }: Filter) => {
           });
 
           const labelSet = [...uniqueUserIds].map((userId) => `ID ${userId}`);
+          const formattedSumVolumes = res.map((val) => val.sumVolume.toLocaleString("en-US"));
+
           setData({
             labels: labelSet,
             datasets,
@@ -105,6 +107,13 @@ const UserSalesChart = ({ fromDate, toDate }: Filter) => {
     xaxis: {
       categories: data.labels,
       labels: {
+        formatter: function (value: any) {
+          const formattedValue = Number(value)
+            .toLocaleString("en-US")
+            .replace(/,/g, " ");
+          return formattedValue;
+        },
+
         style: {
           colors: "gray.700",
           fontSize: "12px",
@@ -116,9 +125,17 @@ const UserSalesChart = ({ fromDate, toDate }: Filter) => {
     },
     yaxis: {
       show: false,
+      labels: {
+        formatter: function (value: number) {
+          const formattedValue = value.toLocaleString("en-US").replace(/,/g, " ");
+          return formattedValue;
+        },}
     },
     dataLabels: {
       enabled: true,
+      formatter: function (val: any) {
+        return Number(val).toLocaleString("en-US").replace(/,/g, " ");
+      },
     },
     grid: {
       show: false,

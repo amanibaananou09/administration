@@ -1,71 +1,82 @@
-export const createReportSalesChartOptions = (labels: string[]): object => {
-  return {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-      legend: {
-        show: true,
-      },
-    },
-    tooltip: {
-      theme: "dark",
-    },
-    dataLabels: {
-      enabled: true,
-    },
-    stroke: {
-      curve: "smooth",
-    },
-    xaxis: {
-      categories: labels,
-      labels: {
-        style: {
-          colors: "#fff",
-          fontSize: "12px",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#fff",
-          fontSize: "12px",
-        },
-      },
-      responsive: true,
-      maxTicksLimit: 5,
-      beginAtZero: true,
+export const createReportSalesChartOptions = (labels: string[]): object => {return {
+  chart: {
+    toolbar: {
+      show: false,
     },
     legend: {
-      show: true,
-      position: "bottom",
-    },
-    grid: {
-      strokeDashArray: 5,
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shade: "light",
-        type: "vertical",
-        shadeIntensity: 0.5,
-        inverseColors: true,
-        opacityFrom: 0.8,
-        opacityTo: 0,
-        stops: [],
+      position: "top",
+      horizontalAlign: "center",
+      fontSize: "14px",
+      fontWeight: 400,
+      fontFamily: "inherit",
+      colors: ["#f7f7f7"],
+      markers: {
+        width: 8,
+        height: 8,
       },
-
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 10,
-        dataLabels: {
-          position: "top",
-        },
+      itemMargin: {
+        horizontal: 15,
+        vertical: 8,
       },
     },
-  };
+  },
+  tooltip: {
+    theme: "dark",
+  },
+  dataLabels: {
+    enabled: true,
+    formatter: function (val: any) {
+      return Number(val).toLocaleString("en-US").replace(/,/g, " ");
+    },
+    style: {
+      colors: ['#fff'],
+    },
+  },
+  stroke: {
+    curve: "smooth",
+  },
+  xaxis: {
+    categories: labels,
+    labels: {
+      style: {
+        colors: "#fff",
+        fontSize: "12px",
+      },
+    },
+  },
+  yaxis: {
+    labels: {
+      formatter: function (value: number) {
+        const formattedValue = value.toLocaleString("en-US").replace(/,/g, " ");
+        return formattedValue;
+      },
+      style: {
+        colors: "#fff",
+        fontSize: "14px",
+      },
+    },
+    responsive: true,
+    maxTicksLimit: 10,
+    beginAtZero: true,
+  },
+  legend: {
+    show: true,
+    position: "bottom",
+  },
+  grid: {
+    strokeDashArray: 5,
+  },
+  fill: {
+    opacity: 1,
+  },
+  plotOptions: {
+    bar: {
+      dataLabels: {
+        position: "top",
+      },
+    },
+  },
+};
 };
 
 export const tankLevelChartConfig: any = {
