@@ -46,7 +46,7 @@ const TransactionTableRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {price}
+          {price.toLocaleString()}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
@@ -57,7 +57,7 @@ const TransactionTableRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {volume}
+          {volume.toLocaleString()}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
@@ -68,7 +68,7 @@ const TransactionTableRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {totalVolume}
+          {totalVolume.toLocaleString()}
         </Text>
       </Td>
       {/*<Td borderColor={borderColor}>
@@ -90,7 +90,7 @@ const TransactionTableRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {amount}
+          {amount.toLocaleString()}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
@@ -101,7 +101,7 @@ const TransactionTableRow = ({
           fontWeight="bold"
           pb=".5rem"
         >
-          {totalAmount}
+          {totalAmount.toLocaleString()}
         </Text>
       </Td>
       <Td borderColor={borderColor}>
