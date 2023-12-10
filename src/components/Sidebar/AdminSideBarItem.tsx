@@ -1,0 +1,128 @@
+import {
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Flex,
+  Input,
+  Select,
+  Text,
+} from "@chakra-ui/react";
+import { AdminSideBarItemProps } from "common/react-props";
+import IconBox from "components/Icons/IconBox";
+import { useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
+
+const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
+  const history = useHistory();
+  const searchType = useRef<HTMLSelectElement>(null);
+  const searchText = useRef<HTMLInputElement>(null);
+
+  const handleSearch = (): void => {
+    let search = "";
+
+    if (searchType.current?.value && searchText.current?.value) {
+      search = `${searchType.current?.value}=${searchText.current?.value}`;
+    }
+
+    history.replace({
+      pathname: route.layout + route.path,
+      search,
+    });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      handleSearch();
+    }
+  }, [isOpen]);
+
+  return (
+    <AccordionItem>
+      <h2>
+        <AccordionButton>
+          <Flex flex="1">
+            <IconBox
+              bg="gray"
+              color="white"
+              h="30px"
+              w="30px"
+              me="12px"
+              transition="0.2s linear"
+            >
+              {route.icon}
+            </IconBox>
+            <Text color="gray.600" my="auto" fontSize="sm">
+              {route.name}
+            </Text>
+          </Flex>
+          <AccordionIcon />
+        </AccordionButton>
+      </h2>
+      <AccordionPanel py={5}>
+        <Box
+          position="relative"
+          border="2px"
+          borderColor="gray.100"
+          borderRadius="10px"
+          px="10px"
+          py="15px"
+          mb="20px"
+        >
+          <Text
+            position="absolute"
+            top="-10px"
+            backgroundColor="white"
+            fontWeight="bold"
+            fontSize="sm"
+          >
+            Actions
+          </Text>
+          <Flex justifyContent="center">
+            <Button size="md">Créer nouveau</Button>
+          </Flex>
+        </Box>
+        <Box
+          position="relative"
+          border="2px"
+          borderColor="gray.100"
+          borderRadius="10px"
+          p="10px"
+        >
+          <Text
+            position="absolute"
+            top="-10px"
+            backgroundColor="white"
+            fontWeight="bold"
+            fontSize="sm"
+          >
+            Rechercher
+          </Text>
+          <Flex flexDirection="column" justifyContent="center" m="10px" gap="3">
+            <Flex gap="3">
+              <Flex flexDirection="column" width="50%">
+                <Text>Filtre:</Text>
+                <Select placeholder="Type" ref={searchType}>
+                  <option value="name">Nom</option>
+                  <option value="creator">Créateur</option>
+                  <option value="parent">Compte parent</option>
+                </Select>
+              </Flex>
+              <Flex flexDirection="column" width="50%">
+                <Text>Texte:</Text>
+                <Input type="text" ref={searchText} />
+              </Flex>
+            </Flex>
+            <Button size="md" onClick={handleSearch}>
+              Rechercher
+            </Button>
+          </Flex>
+        </Box>
+      </AccordionPanel>
+    </AccordionItem>
+  );
+};
+
+export default AdminSideBarItem;

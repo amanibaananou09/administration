@@ -23,13 +23,18 @@ import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
 import useHttp from "hooks/use-http";
+import useQuery from "hooks/use-query";
 
 const CustomerAccountManagement = () => {
   const {
     data: customerAccounts,
     isLoading,
     makeRequest: fetchCustomerAccounts,
-  } = useHttp<CustomerAccount[]>(getListOfCustomerAccount);
+  } = useHttp<CustomerAccount[]>(getListOfCustomerAccount, false);
+
+  const query = useQuery();
+
+  console.log(query);
 
   const { t } = useTranslation("administration");
 
@@ -45,7 +50,7 @@ const CustomerAccountManagement = () => {
 
   useEffect(() => {
     fetchCustomerAccounts();
-  }, []);
+  }, [query]);
 
   //styles
   const textColor = "gray.700";

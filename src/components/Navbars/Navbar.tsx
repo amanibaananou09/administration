@@ -9,9 +9,9 @@ import {
 } from "@chakra-ui/react";
 import { AdminNavbarProps } from "common/react-props";
 import { useEffect, useState } from "react";
-import AdminNavbarLinks from "./AdminNavbarLinks";
+import NavBarLinks from "./NavbarLinks";
 
-const AdminNavbar = (props: AdminNavbarProps) => {
+const Navbar = (props: AdminNavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
       }}
       pt="8px"
       top="18px"
-      w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 315px)" }}
+      w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 275px)" }}
     >
       <Flex
         w="100%"
@@ -152,7 +152,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
           </Link>
         </Box>
         <Box ms="auto" w={{ sm: "100%", md: "unset" }}>
-          <AdminNavbarLinks
+          <NavBarLinks
             onOpen={props.onOpen}
             logoText={props.logoText}
             secondary={props.secondary}
@@ -165,4 +165,4 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   );
 };
 
-export default AdminNavbar;
+export default Navbar;
