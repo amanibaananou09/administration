@@ -5,10 +5,9 @@ import Footer from "components/Footer/Footer";
 
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar";
-import Sidebar from "components/Sidebar/Sidebar";
 import { useState } from "react";
 import { Switch } from "react-router-dom";
-import { administrationRoutes, dashboardRoutes } from "../router/routes";
+import { administrationRoutes } from "../router/routes";
 // Custom Chakra theme
 import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 // Custom components
@@ -18,17 +17,17 @@ import { Layout } from "common/enums";
 import MainPanel from "components/Layout/MainPanel";
 import PanelContainer from "components/Layout/PanelContainer";
 import PanelContent from "components/Layout/PanelContent";
+import AdminSideBar from "components/Sidebar/AdminSideBar";
 import SidebarLogo from "components/Sidebar/SidebarLogo";
 import useRoutes from "hooks/use-routes";
 import MainRoute from "router/Route/MainRoute";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "../store/ESSContext";
 
-const Main = (props: { [x: string]: any }) => {
+const Admin = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
-  const { isAdminMode, isLoading } = useESSContext();
-  const routes = isAdminMode ? administrationRoutes() : dashboardRoutes();
-  const layout = isAdminMode ? Layout.ADMIN : Layout.DASHBOARD;
+  const { isLoading } = useESSContext();
+  const routes = administrationRoutes();
 
   const { getActiveRoute, getActiveNavbar, getRoutesForLayout } = useRoutes();
 
@@ -42,8 +41,6 @@ const Main = (props: { [x: string]: any }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
-
-  const layoutBg = isAdminMode ? "gray" : "blue.600";
 
   if (isLoading) {
     return (
@@ -60,16 +57,18 @@ const Main = (props: { [x: string]: any }) => {
         minH="450vh"
         w="100%"
         position="absolute"
-        bgImage={layoutBg}
-        bg={layoutBg}
+        bgImage="gray"
+        bg="gray"
         bgSize="cover"
         top="0"
       />
-      <Sidebar routes={routes} logo={<SidebarLogo />} {...rest} />
+
+      <AdminSideBar routes={routes} logo={<SidebarLogo />} {...rest} />
+
       <MainPanel
         w={{
           base: "100%",
-          xl: "calc(100% - 275px)"
+          xl: "calc(100% - 315px)",
         }}
       >
         <Portal>
@@ -86,7 +85,7 @@ const Main = (props: { [x: string]: any }) => {
           <PanelContent>
             <PanelContainer>
               <Switch>
-                {getRoutesForLayout(routes, layout)}
+                {getRoutesForLayout(routes, Layout.ADMIN)}
                 <MainRoute />
               </Switch>
             </PanelContainer>
@@ -116,4 +115,4 @@ const Main = (props: { [x: string]: any }) => {
   );
 };
 
-export default Main;
+export default Admin;

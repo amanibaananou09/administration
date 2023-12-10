@@ -4,8 +4,9 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
 import NotificationPopupContainer from "components/Notification/NotificationPopupContainer";
+import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
-import MainLayout from "layouts/Main";
+import DashboardLayout from "layouts/Dashboard";
 import "react-international-phone/style.css";
 import { StompSessionProvider } from "react-stomp-hooks";
 import { ToastContainer } from "react-toastify";
@@ -30,8 +31,8 @@ root.render(
               <NotificationPopupContainer />
               <Switch>
                 <Route path={`/auth`} component={AuthLayout} />
-                <Route path={`/dashboard`} component={MainLayout} />
-                <Route path={`/administration`} component={MainLayout} />
+                <Route path={`/dashboard`} component={DashboardLayout} />
+                <Route path={`/administration`} component={AdminLayout} />
                 <MainRoute />
                 <ToastContainer />
               </Switch>

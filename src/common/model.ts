@@ -83,6 +83,7 @@ export interface RouteConfig {
   name: string;
   publicRoute?: boolean;
   privateRoute?: boolean;
+  hideInNavbar?: boolean;
   redirect?: boolean;
   category?: string;
   state?: string;
@@ -90,6 +91,11 @@ export interface RouteConfig {
   icon?: string | JSX.Element;
   secondaryNavbar?: boolean;
   collapse?: boolean;
+  component: () => JSX.Element;
+  sideBarIemComponent?: React.ComponentType<{
+    route: RouteConfig;
+    isOpen: boolean;
+  }>;
 }
 
 export interface User {

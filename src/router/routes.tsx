@@ -3,20 +3,20 @@ import Dashboard from "views/Dashboard/Dashboard";
 import Profile from "views/Dashboard/Profile";
 import SignIn from "views/Pages/SignIn";
 
+import { RouteConfig } from "common/model";
 import {
   DocumentIcon,
   HomeIcon,
   PersonIcon,
-  SupportIcon,
   WalletIcon,
 } from "components/Icons/Icons";
+import AdminSideBarItem from "components/Sidebar/AdminSideBarItem";
+import { useTranslation } from "react-i18next";
 import UserDetails from "views/Administration/UserDetails";
 import UserManagement from "views/Administration/UserManagement";
 import TankDeliveries from "views/Dashboard/TankDeliveries";
 import Transactions from "views/Dashboard/Transactions";
-import CustomerAccountInformation from "../views/Administration/CustomerAccountInformation";
 import CustomerAccountManagement from "../views/Administration/CustomerAccountManagement";
-import { useTranslation } from "react-i18next";
 
 export const dashboardRoutes = () => {
   const { t } = useTranslation("dashboard");
@@ -65,18 +65,9 @@ export const dashboardRoutes = () => {
   ];
 };
 
-export const administrationRoutes = () => {
+export const administrationRoutes = (): RouteConfig[] => {
   const { t } = useTranslation("administration");
   return [
-    {
-      path: "/customer-accounts/:id",
-      name: t("routes.informationAccounts"),
-      icon: <HomeIcon color="inherit" />,
-      component: CustomerAccountInformation,
-      layout: "/administration",
-      privateRoute: true,
-      hideInNavbar: true,
-    },
     {
       path: "/customer-accounts",
       name: t("routes.manageAccounts"),
@@ -84,9 +75,10 @@ export const administrationRoutes = () => {
       component: CustomerAccountManagement,
       layout: "/administration",
       privateRoute: true,
+      sideBarIemComponent: AdminSideBarItem,
     },
     {
-      path: "/users/:id",
+      path: "/users/:id/details",
       name: t("routes.userDetails"),
       icon: <HomeIcon color="inherit" />,
       component: UserDetails,
@@ -101,6 +93,7 @@ export const administrationRoutes = () => {
       component: UserManagement,
       layout: "/administration",
       privateRoute: true,
+      sideBarIemComponent: AdminSideBarItem,
     },
   ];
 };

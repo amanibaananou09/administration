@@ -1,5 +1,4 @@
 import {
-  Button,
   Flex,
   Skeleton,
   Stack,
@@ -13,31 +12,32 @@ import {
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import { getListOfCustomerAccount } from "common/api/customerAccount-api";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { CustomAccountModalRefType } from "common/react-props";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
 import useHttp from "hooks/use-http";
+import useQuery from "hooks/use-query";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
   const {
     data: customerAccounts,
     isLoading,
     makeRequest: fetchCustomerAccounts,
-  } = useHttp<CustomerAccount[]>(getListOfCustomerAccount);
+  } = useHttp<CustomerAccount[]>(getListOfCustomerAccount, false);
+
+  let { path } = useRouteMatch();
+
+  const query = useQuery();
+
+  console.log(query);
 
   const { t } = useTranslation("administration");
-
-  const accountModalRef = useRef<CustomAccountModalRefType>(null);
-
-  const openAccountModal = (account?: CustomerAccount) => {
-    accountModalRef.current?.open(account);
-  };
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
@@ -61,13 +61,6 @@ const CustomerAccountManagement = () => {
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("customerAccounts.header")}
               </Text>
-              <Button
-                colorScheme="teal"
-                size="md"
-                onClick={() => openAccountModal()}
-              >
-                {t("customerAccounts.addAccountButton")}
-              </Button>
             </Flex>
           </CardHeader>
 
@@ -203,14 +196,17 @@ const CustomerAccountManagement = () => {
           </CardBody>
         </Card>
       </Flex>
-      <CustomerAccountModal
-        onSubmit={submitModalHandler}
-        ref={accountModalRef}
-        account={null}
-        onClose={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
+      <Switch>
+        <Route path={`${path}/new`}>
+          <CustomerAccountModal
+            onSubmit={submitModalHandler}
+            account={null}
+            onClose={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
+        </Route>
+      </Switch>
     </>
   );
 };

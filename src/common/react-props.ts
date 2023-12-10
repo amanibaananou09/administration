@@ -1,6 +1,12 @@
 import { ReactNode } from "react";
 import { CustomerAccount } from "./AdminModel";
-import { ChartFilter, Station, TankMeasurement, User } from "./model";
+import {
+  ChartFilter,
+  RouteConfig,
+  Station,
+  TankMeasurement,
+  User,
+} from "./model";
 
 export interface CustomCardProps {
   title: string;
@@ -69,10 +75,6 @@ export interface AddStationModalRefType {
   open: () => void;
 }
 
-export interface CustomAccountModalRefType {
-  open: (account?: CustomerAccount) => void;
-}
-
 export interface StationModalRefType {
   open: (station: Station) => void;
   close: () => void;
@@ -83,10 +85,6 @@ export interface CustomerAccountModalProps {
   account: CustomerAccount | null;
   onClose: () => void;
   ref?: React.Ref<any>;
-}
-
-export interface UserModalRefType {
-  open: () => void;
 }
 
 export interface SalesPumpGradesRowProps {
@@ -210,4 +208,9 @@ export interface AddUserModalProps {
 
 export interface AddUserModalRefType {
   open: () => void;
+}
+
+export interface AdminSideBarItemProps {
+  route: RouteConfig;
+  isOpen: boolean;
 }
