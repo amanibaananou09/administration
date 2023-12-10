@@ -67,28 +67,6 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
           border="2px"
           borderColor="gray.100"
           borderRadius="10px"
-          px="10px"
-          py="15px"
-          mb="20px"
-        >
-          <Text
-            position="absolute"
-            top="-10px"
-            backgroundColor="white"
-            fontWeight="bold"
-            fontSize="sm"
-          >
-            Actions
-          </Text>
-          <Flex justifyContent="center">
-            <Button size="md">Créer nouveau</Button>
-          </Flex>
-        </Box>
-        <Box
-          position="relative"
-          border="2px"
-          borderColor="gray.100"
-          borderRadius="10px"
           p="10px"
         >
           <Text
