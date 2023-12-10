@@ -1,6 +1,8 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
   Accordion,
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Drawer,
@@ -53,7 +55,12 @@ const AdminSideBar = (props: SidebarProps) => {
           />
         );
       } else {
-        return <Text>{route.name}: No SideBar Item description...</Text>;
+        return (
+          <Alert status="error">
+            <AlertIcon />
+            {route.name}: No SideBar Item description
+          </Alert>
+        );
       }
     });
 
