@@ -29,6 +29,16 @@
     "reseller": "Revendeur",
     "delete": "Supprimer"
   },
+  "sideBarItem": {
+    "search": "Rechercher",
+    "filterTextLabel": "Texte",
+    "filterType": {
+      "label": "Filtre",
+      "name": "Nom",
+      "creator": "Créateur",
+      "parent": "Compte parent"
+    }
+  },
   "customerAccounts": {
     "header": "Comptes clients",
     "addAccountButton": "Ajouter un compte client",

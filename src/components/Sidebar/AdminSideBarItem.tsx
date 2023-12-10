@@ -13,9 +13,11 @@ import {
 import { AdminSideBarItemProps } from "common/react-props";
 import IconBox from "components/Icons/IconBox";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
 const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
+  const { t } = useTranslation("administration");
   const history = useHistory();
   const searchType = useRef<HTMLSelectElement>(null);
   const searchText = useRef<HTMLInputElement>(null);
@@ -76,25 +78,31 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
             fontWeight="bold"
             fontSize="sm"
           >
-            Rechercher
+            {t("sideBarItem.search")}
           </Text>
           <Flex flexDirection="column" justifyContent="center" m="10px" gap="3">
             <Flex gap="3">
               <Flex flexDirection="column" width="50%">
-                <Text>Filtre:</Text>
+                <Text>{t("sideBarItem.filterType.label")}:</Text>
                 <Select placeholder="Type" ref={searchType}>
-                  <option value="name">Nom</option>
-                  <option value="creator">Créateur</option>
-                  <option value="parent">Compte parent</option>
+                  <option value="name">
+                    {t("sideBarItem.filterType.name")}
+                  </option>
+                  <option value="creator">
+                    {t("sideBarItem.filterType.creator")}
+                  </option>
+                  <option value="parent">
+                    {t("sideBarItem.filterType.parent")}
+                  </option>
                 </Select>
               </Flex>
               <Flex flexDirection="column" width="50%">
-                <Text>Texte:</Text>
+                <Text>{t("sideBarItem.filterTextLabel")}:</Text>
                 <Input type="text" ref={searchText} />
               </Flex>
             </Flex>
             <Button size="md" onClick={handleSearch}>
-              Rechercher
+              {t("sideBarItem.search")}
             </Button>
           </Flex>
         </Box>

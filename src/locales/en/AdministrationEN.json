@@ -29,6 +29,16 @@
     "reseller": "Reseller",
     "delete": "Delete"
   },
+  "sideBarItem": {
+    "search": "Search",
+    "filterTextLabel": "Text",
+    "filterType": {
+      "label": "Filter",
+      "name": "Name",
+      "creator": "Creator",
+      "parent": "Parent account"
+    }
+  },
   "customerAccounts": {
     "header": "Customer Accounts",
     "addAccountButton": "Add Customer Account",
