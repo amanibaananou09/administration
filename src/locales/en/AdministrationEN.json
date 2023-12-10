@@ -31,6 +31,7 @@
   },
   "sideBarItem": {
     "search": "Search",
+    "addnew": "Create new",
     "filterTextLabel": "Text",
     "filterType": {
       "label": "Filter",

@@ -20,22 +20,34 @@ import {
 import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { userFormValidationSchema } from "common/form-validation";
-import { UserModalProps, UserModalRefType } from "common/react-props";
+import { UserModalProps } from "common/react-props";
 import { PhoneInput } from "components/Input/PhoneInput";
 import { useFormik } from "formik";
-import { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 interface FormValues extends GeneralUser {
   phone: string;
   confirmPassword: string;
 }
 
-const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
+const UserModal = (props: UserModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation("administration");
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  useEffect(() => {
+    onOpen();
+  }, []);
+
+  const closeModalHandler = () => {
+    form.resetForm();
+    onClose();
+    history.replace("/administration/users");
+  };
 
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
@@ -51,28 +63,17 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
     onSubmit: async (values: Partial<FormValues>) => {
       await addUser({ ...values } as FormValues);
       form.setSubmitting(false);
-      onClose();
+      closeModalHandler();
       props.onSubmit();
     },
   });
-
-  useImperativeHandle(ref, () => ({
-    open() {
-      onOpen();
-    },
-  }));
-
-  const closeModal = () => {
-    form.resetForm();
-    onClose();
-  };
 
   return (
     <Modal
       motionPreset="slideInBottom"
       blockScrollOnMount={true}
       isOpen={isOpen}
-      onClose={closeModal}
+      onClose={closeModalHandler}
       size="2xl"
     >
       <ModalOverlay backdropFilter="blur(10px)" />
@@ -241,7 +242,7 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
               colorScheme="red"
               fontWeight="bold"
               size="lg"
-              onClick={closeModal}
+              onClick={closeModalHandler}
             >
               {t("common.cancel")}
             </Button>
@@ -252,4 +253,4 @@ const UserModal = (props: UserModalProps, ref: Ref<UserModalRefType>) => {
   );
 };
 
-export default forwardRef(UserModal);
+export default UserModal;

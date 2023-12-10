@@ -75,10 +75,6 @@ export interface AddStationModalRefType {
   open: () => void;
 }
 
-export interface CustomAccountModalRefType {
-  open: (account?: CustomerAccount) => void;
-}
-
 export interface StationModalRefType {
   open: (station: Station) => void;
   close: () => void;
@@ -89,10 +85,6 @@ export interface CustomerAccountModalProps {
   account: CustomerAccount | null;
   onClose: () => void;
   ref?: React.Ref<any>;
-}
-
-export interface UserModalRefType {
-  open: () => void;
 }
 
 export interface SalesPumpGradesRowProps {

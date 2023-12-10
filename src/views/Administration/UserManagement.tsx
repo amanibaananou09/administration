@@ -1,5 +1,4 @@
 import {
-  Button,
   Flex,
   Skeleton,
   Stack,
@@ -13,7 +12,6 @@ import {
 
 import { GeneralUser } from "common/AdminModel";
 import { listUser } from "common/api/general-user-api";
-import { UserModalRefType } from "common/react-props";
 import { useTranslation } from "react-i18next";
 
 import Card from "components/Card/Card";
@@ -22,18 +20,14 @@ import CardHeader from "components/Card/CardHeader";
 import UserModal from "components/Modal/UserModal";
 import UserTableRow from "components/Tables/UserTableRow";
 import useHttp from "hooks/use-http";
-import { useRef } from "react";
+import { Route, useRouteMatch } from "react-router-dom";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
     GeneralUser[]
   >(listUser);
-  const userModalRef = useRef<UserModalRefType>(null);
   const { t } = useTranslation("administration");
-
-  const openUserModal = () => {
-    userModalRef.current?.open();
-  };
+  let { path } = useRouteMatch();
 
   //styles
   const textColor = "gray.700";
@@ -49,13 +43,6 @@ const UserManagement = () => {
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("userManagement.globalUsers.header")}
               </Text>
-              <Button
-                colorScheme="teal"
-                variant="solid"
-                onClick={() => openUserModal()}
-              >
-                {t("userManagement.globalUsers.addNewUserButton")}
-              </Button>
             </Flex>
           </CardHeader>
 
@@ -132,7 +119,9 @@ const UserManagement = () => {
           </CardBody>
         </Card>
       </Flex>
-      <UserModal ref={userModalRef} onSubmit={fetchUsers} />
+      <Route path={`${path}/new`}>
+        <UserModal onSubmit={fetchUsers} />
+      </Route>
     </>
   );
 };

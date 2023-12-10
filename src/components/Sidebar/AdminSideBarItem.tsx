@@ -83,7 +83,12 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
             Actions
           </Text>
           <Flex justifyContent="center">
-            <Button size="md">Créer nouveau</Button>
+            <Button
+              size="md"
+              onClick={() => history.push(`${route.layout + route.path}/new`)}
+            >
+              {t("sideBarItem.addnew")}
+            </Button>
           </Flex>
         </Box>
         <Box

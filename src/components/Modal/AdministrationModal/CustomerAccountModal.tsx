@@ -15,38 +15,28 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import {
   createCustomerAccount,
-  getListOfCustomerAccount,
+  getListOfCustomerAccount
 } from "common/api/customerAccount-api";
-import {
-  CustomAccountModalRefType,
-  CustomerAccountModalProps,
-} from "common/react-props";
+import { CustomerAccountModalProps } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import React, {
-  forwardRef,
-  Ref,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { useHistory } from "react-router-dom";
 
-const CustomerAccountModal = (
-  { onSubmit }: CustomerAccountModalProps,
-  ref: Ref<CustomAccountModalRefType>,
-) => {
+const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [accounts, setAccounts] = useState<CustomerAccount[]>([]);
 
   const { t } = useTranslation("administration");
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
@@ -65,30 +55,9 @@ const CustomerAccountModal = (
     },
   });
 
-  useImperativeHandle(ref, () => ({
-    open(account?: CustomerAccount) {
-      console.log("Modal Opened");
-      if (account) {
-        setAccount(account);
-      } else {
-        setAccount({
-          name: "",
-          resaleRight: "",
-          parentId: "",
-          status: "ENABLED",
-          masterUser: {
-            username: "",
-            email: "",
-            firstName: "",
-            lastName: "",
-            password: "",
-            phone: "",
-          },
-        });
-      }
-      onOpen();
-    },
-  }));
+  useEffect(() => {
+    onOpen();
+  }, []);
 
   useEffect(() => {
     const getListOfAccounts = async () => {
@@ -106,9 +75,14 @@ const CustomerAccountModal = (
     { setSubmitting }: FormikHelpers<CustomerAccount>,
   ) => {
     await createCustomerAccount(values);
-    onClose();
+    closeModalHandler();
     onSubmit();
     setSubmitting(false);
+  };
+
+  const closeModalHandler = () => {
+    onClose();
+    history.replace("/administration/customer-accounts");
   };
 
   const isNotNull = (value: string) => {
@@ -176,7 +150,7 @@ const CustomerAccountModal = (
       motionPreset="slideInBottom"
       blockScrollOnMount={true}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={closeModalHandler}
       size="2xl"
     >
       <ModalOverlay backdropFilter="blur(10px)" />
@@ -701,7 +675,7 @@ const CustomerAccountModal = (
                       fontWeight="bold"
                       colorScheme="red"
                       size="lg"
-                      onClick={onClose}
+                      onClick={closeModalHandler}
                     >
                       {t("common.cancel")}
                     </Button>
@@ -716,4 +690,4 @@ const CustomerAccountModal = (
   );
 };
 
-export default forwardRef(CustomerAccountModal);
+export default CustomerAccountModal;

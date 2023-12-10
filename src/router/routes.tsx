@@ -16,7 +16,6 @@ import UserDetails from "views/Administration/UserDetails";
 import UserManagement from "views/Administration/UserManagement";
 import TankDeliveries from "views/Dashboard/TankDeliveries";
 import Transactions from "views/Dashboard/Transactions";
-import CustomerAccountInformation from "../views/Administration/CustomerAccountInformation";
 import CustomerAccountManagement from "../views/Administration/CustomerAccountManagement";
 
 export const dashboardRoutes = () => {
@@ -70,15 +69,6 @@ export const administrationRoutes = (): RouteConfig[] => {
   const { t } = useTranslation("administration");
   return [
     {
-      path: "/customer-accounts/:id",
-      name: t("routes.informationAccounts"),
-      icon: <HomeIcon color="inherit" />,
-      component: CustomerAccountInformation,
-      layout: "/administration",
-      privateRoute: true,
-      hideInNavbar: true,
-    },
-    {
       path: "/customer-accounts",
       name: t("routes.manageAccounts"),
       icon: <HomeIcon color="inherit" />,
@@ -88,7 +78,7 @@ export const administrationRoutes = (): RouteConfig[] => {
       sideBarIemComponent: AdminSideBarItem,
     },
     {
-      path: "/users/:id",
+      path: "/users/:id/details",
       name: t("routes.userDetails"),
       icon: <HomeIcon color="inherit" />,
       component: UserDetails,
