@@ -21,7 +21,6 @@ export interface MasterUser {
   phone?: string;
   password: string;
   role?: string;
-  customerAccountId?: string;
 }
 
 export interface GeneralUser {

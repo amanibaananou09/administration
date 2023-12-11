@@ -9,6 +9,21 @@ export const getListOfCustomerAccount = async () => {
   return response.data;
 };
 
+export const activateCustomerAccount = async (
+  id: number | string | undefined,
+) => {
+  const response = await api.put(`${API_URL}/activate/${id}`);
+
+  return response.data;
+};
+
+export const deactivateCustomerAccount = async (
+  id: number | string | undefined,
+) => {
+  const response = await api.put(`${API_URL}/deactivate/${id}`);
+  return response.data;
+};
+
 export const createCustomerAccount = async (
   account: CustomerAccount,
 ): Promise<CustomerAccount> => {

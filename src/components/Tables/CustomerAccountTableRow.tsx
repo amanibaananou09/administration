@@ -3,6 +3,10 @@ import { CustomerAccountTableRowProps } from "common/react-props";
 import { useHistory } from "react-router-dom";
 import { GeneralUser } from "../../common/AdminModel";
 import { useTranslation } from "react-i18next";
+import {
+  activateCustomerAccount,
+  deactivateCustomerAccount,
+} from "../../common/api/customerAccount-api";
 
 const CustomerAccountTableRow = ({
   index,
@@ -10,17 +14,32 @@ const CustomerAccountTableRow = ({
   isLastRow,
 }: CustomerAccountTableRowProps & { index: number }) => {
   const {
+    id,
     name,
     creatorUser,
     parentName,
     resaleRight,
     stationsCount,
     status,
+    actif,
   } = customerAccount;
 
   const { t } = useTranslation("administration");
-  const handleClick = () => {
-    console.log("Clicked!");
+
+  const handleClick = async () => {
+    try {
+      if (actif) {
+        // If currently active, deactivate
+        await deactivateCustomerAccount(id);
+      } else {
+        // If currently inactive, activate
+        await activateCustomerAccount(id);
+      }
+
+      console.log("Clicked!");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   //styles
@@ -77,7 +96,7 @@ const CustomerAccountTableRow = ({
         textAlign="center"
       >
         <div onClick={handleClick} style={{ cursor: "pointer" }}>
-          {status === "ENABLED" ? (
+          {actif ? (
             <Text fontSize="md" color="green.400" fontWeight="bold">
               ✓
             </Text>
