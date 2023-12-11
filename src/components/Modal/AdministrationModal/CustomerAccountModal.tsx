@@ -15,12 +15,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import {
   createCustomerAccount,
-  getListOfCustomerAccount
+  getListOfCustomerAccount,
 } from "common/api/customerAccount-api";
 import { CustomerAccountModalProps } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
@@ -44,7 +44,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
     name: "",
     resaleRight: "",
     parentId: "",
-    status: "",
+    status: "ENABLED",
     masterUser: {
       username: "",
       email: "",
@@ -290,7 +290,8 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                             </FormLabel>
                             <Select
                               {...field}
-                              id="droits"
+                              id="resaleRight"
+                              name="resaleRight"
                               placeholder={t("common.selectDroits")}
                             >
                               <option value="true">{t("common.true")}</option>
