@@ -18,7 +18,7 @@ import TankDeliveries from "views/Dashboard/TankDeliveries";
 import Transactions from "views/Dashboard/Transactions";
 import CustomerAccountManagement from "../views/Administration/CustomerAccountManagement";
 
-export const dashboardRoutes = () => {
+export const dashboardRoutes = (): RouteConfig[] => {
   const { t } = useTranslation("dashboard");
   return [
     {
@@ -27,7 +27,6 @@ export const dashboardRoutes = () => {
       icon: <HomeIcon color="inherit" />,
       component: Dashboard,
       layout: "/dashboard",
-      privateRoute: true,
     },
     {
       path: "/transaction",
@@ -35,7 +34,6 @@ export const dashboardRoutes = () => {
       icon: <WalletIcon color="inherit" />,
       component: Transactions,
       layout: "/dashboard",
-      privateRoute: true,
     },
     {
       path: "/tank-delivery",
@@ -43,7 +41,6 @@ export const dashboardRoutes = () => {
       icon: <WalletIcon color="inherit" />,
       component: TankDeliveries,
       layout: "/dashboard",
-      privateRoute: true,
     },
     {
       path: "/profile",
@@ -52,7 +49,6 @@ export const dashboardRoutes = () => {
       secondaryNavbar: true,
       component: Profile,
       layout: "/dashboard",
-      privateRoute: true,
     },
   ];
 };
@@ -66,7 +62,6 @@ export const administrationRoutes = (): RouteConfig[] => {
       icon: <HomeIcon color="inherit" />,
       component: CustomerAccountManagement,
       layout: "/administration",
-      privateRoute: true,
       sideBarItemComponent: AdminSideBarItem,
     },
     {
@@ -75,7 +70,6 @@ export const administrationRoutes = (): RouteConfig[] => {
       icon: <HomeIcon color="inherit" />,
       component: UserDetails,
       layout: "/administration",
-      privateRoute: true,
       hideInNavbar: true,
     },
     {
@@ -84,7 +78,6 @@ export const administrationRoutes = (): RouteConfig[] => {
       icon: <PersonIcon color="inherit" />,
       component: UserManagement,
       layout: "/administration",
-      privateRoute: true,
       sideBarItemComponent: AdminSideBarItem,
     },
   ];
@@ -99,7 +92,6 @@ export const authRoutes = (): RouteConfig[] => {
       icon: <DocumentIcon color="inherit" />,
       component: SignIn,
       layout: "/auth",
-      publicRoute: true,
     },
   ];
 };

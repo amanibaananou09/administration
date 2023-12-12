@@ -29,7 +29,7 @@ const DashboardLayout = (props: { [x: string]: any }) => {
   const { isLoading } = useESSContext();
   const routes = dashboardRoutes();
 
-  const { getActiveRoute, getActiveNavbar, getRoutesForLayout } = useRoutes();
+  const { getActiveRoute, getActiveNavbar, getReactRoutes } = useRoutes();
 
   const { ...rest } = props;
   // states and functions
@@ -80,7 +80,7 @@ const DashboardLayout = (props: { [x: string]: any }) => {
         <PanelContent>
           <PanelContainer>
             <Switch>
-              {getRoutesForLayout(routes, Layout.DASHBOARD)}
+              {getReactRoutes(routes, Layout.DASHBOARD)}
               <MainRoute />
             </Switch>
           </PanelContainer>

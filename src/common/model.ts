@@ -81,8 +81,6 @@ export interface RouteConfig {
   layout: string;
   path: string;
   name: string;
-  publicRoute?: boolean;
-  privateRoute?: boolean;
   hideInNavbar?: boolean;
   redirect?: boolean;
   category?: string;

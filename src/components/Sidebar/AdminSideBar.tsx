@@ -43,7 +43,7 @@ const AdminSideBar = (props: SidebarProps) => {
   };
 
   const links = routes
-    .filter((route) => !(route.publicRoute || route.hideInNavbar))
+    .filter((route) => !route.hideInNavbar)
     .map((route, index) => {
       const SideBarItem = route.sideBarItemComponent;
       if (SideBarItem) {
