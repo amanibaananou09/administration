@@ -29,7 +29,7 @@ const AdminLayout = (props: { [x: string]: any }) => {
   const { isLoading } = useESSContext();
   const routes = administrationRoutes();
 
-  const { getActiveRoute, getActiveNavbar, getRoutesForLayout } = useRoutes();
+  const { getActiveRoute, getActiveNavbar, getReactRoutes } = useRoutes();
 
   const { ...rest } = props;
   // states and functions
@@ -80,7 +80,7 @@ const AdminLayout = (props: { [x: string]: any }) => {
         <PanelContent>
           <PanelContainer>
             <Switch>
-              {getRoutesForLayout(routes, Layout.ADMIN)}
+              {getReactRoutes(routes, Layout.ADMIN)}
               <MainRoute />
             </Switch>
           </PanelContainer>

@@ -1,10 +1,12 @@
+import { Layout } from "common/enums";
 import { RouteConfig } from "common/model";
 import { Route } from "react-router-dom";
-import PrivateRoute from "router/Route/PrivateRoute";
 import { useAuth } from "store/AuthContext";
+import { useESSContext } from "store/ESSContext";
 
 const useRoutes = () => {
   const { isSignedIn } = useAuth();
+  const { isAdminMode } = useESSContext();
 
   const getActiveRoute = (routes: RouteConfig[]): string => {
     let activeRoute = "Default Brand Text";
@@ -50,19 +52,13 @@ const useRoutes = () => {
     }
     return activeNavbar;
   };
-  const getRoutesForLayout = (routes: RouteConfig[], layout: String): any => {
-    const activeRoutes = routes.map((prop: any, key: any) => {
-      if (prop.privateRoute && isSignedIn && prop.layout === layout) {
-        return (
-          <PrivateRoute
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      }
-
-      if (prop.publicRoute && !isSignedIn && prop.layout === layout) {
+  const getReactRoutes = (routes: RouteConfig[], layout: Layout): any => {
+    const activeRoutes = routes.map((prop: RouteConfig, key: any) => {
+      if (
+        (layout === Layout.AUTH && !isSignedIn) ||
+        (layout === Layout.DASHBOARD && isSignedIn && !isAdminMode) ||
+        (layout === Layout.ADMIN && isSignedIn && isAdminMode)
+      ) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -78,7 +74,7 @@ const useRoutes = () => {
     return activeRoutes.filter((route: JSX.Element | null) => route != null);
   };
 
-  return { getActiveRoute, getActiveNavbar, getRoutesForLayout };
+  return { getActiveRoute, getActiveNavbar, getReactRoutes };
 };
 
 export default useRoutes;

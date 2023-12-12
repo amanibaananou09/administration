@@ -11,7 +11,7 @@ import MainRoute from "../router/Route/MainRoute";
 import { authRoutes } from "../router/routes";
 
 const AuthLayout = () => {
-  const { getRoutesForLayout, getActiveNavbar } = useRoutes();
+  const { getReactRoutes, getActiveNavbar } = useRoutes();
   const wrapper = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,7 +33,7 @@ const AuthLayout = () => {
       <Box w="100%">
         <Box ref={wrapper} w="100%">
           <Switch>
-            {getRoutesForLayout(routes, Layout.AUTH)}
+            {getReactRoutes(routes, Layout.AUTH)}
             <MainRoute />
           </Switch>
         </Box>
