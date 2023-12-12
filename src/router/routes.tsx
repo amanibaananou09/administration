@@ -54,14 +54,6 @@ export const dashboardRoutes = () => {
       layout: "/dashboard",
       privateRoute: true,
     },
-    {
-      path: "/signin",
-      name: t("routes.signIn"),
-      icon: <DocumentIcon color="inherit" />,
-      component: SignIn,
-      layout: "/auth",
-      publicRoute: true,
-    },
   ];
 };
 
@@ -75,7 +67,7 @@ export const administrationRoutes = (): RouteConfig[] => {
       component: CustomerAccountManagement,
       layout: "/administration",
       privateRoute: true,
-      sideBarIemComponent: AdminSideBarItem,
+      sideBarItemComponent: AdminSideBarItem,
     },
     {
       path: "/users/:id/details",
@@ -93,7 +85,21 @@ export const administrationRoutes = (): RouteConfig[] => {
       component: UserManagement,
       layout: "/administration",
       privateRoute: true,
-      sideBarIemComponent: AdminSideBarItem,
+      sideBarItemComponent: AdminSideBarItem,
+    },
+  ];
+};
+
+export const authRoutes = (): RouteConfig[] => {
+  const { t } = useTranslation("dashboard");
+  return [
+    {
+      path: "/signin",
+      name: t("routes.signIn"),
+      icon: <DocumentIcon color="inherit" />,
+      component: SignIn,
+      layout: "/auth",
+      publicRoute: true,
     },
   ];
 };

@@ -51,19 +51,8 @@ const useRoutes = () => {
     return activeNavbar;
   };
   const getRoutesForLayout = (routes: RouteConfig[], layout: String): any => {
-    return routes.map((prop: any, key: any) => {
-      if (prop.collapse) {
-        return getRoutesForLayout(prop.views, layout);
-      }
-      if (prop.category === "account") {
-        return getRoutesForLayout(prop.views, layout);
-      }
-
-      if (isSignedIn && prop.publicRoute) {
-        return null;
-      }
-
-      if (prop.privateRoute && prop.layout === layout) {
+    const activeRoutes = routes.map((prop: any, key: any) => {
+      if (prop.privateRoute && isSignedIn && prop.layout === layout) {
         return (
           <PrivateRoute
             path={prop.layout + prop.path}
@@ -73,7 +62,7 @@ const useRoutes = () => {
         );
       }
 
-      if (prop.layout === layout) {
+      if (prop.publicRoute && !isSignedIn && prop.layout === layout) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -81,10 +70,12 @@ const useRoutes = () => {
             key={key}
           />
         );
-      } else {
-        return null;
       }
+
+      return null;
     });
+
+    return activeRoutes.filter((route: JSX.Element | null) => route != null);
   };
 
   return { getActiveRoute, getActiveNavbar, getRoutesForLayout };

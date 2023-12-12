@@ -12,6 +12,7 @@ import { StompSessionProvider } from "react-stomp-hooks";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainRoute from "router/Route/MainRoute";
+import PrivateRoute from "router/Route/PrivateRoute";
 import { AuthContextProvider } from "store/AuthContext";
 import { ESSContextProvider } from "store/ESSContext";
 import { TranslationProvider } from "store/TranslationContext";
@@ -31,8 +32,11 @@ root.render(
               <NotificationPopupContainer />
               <Switch>
                 <Route path={`/auth`} component={AuthLayout} />
-                <Route path={`/dashboard`} component={DashboardLayout} />
-                <Route path={`/administration`} component={AdminLayout} />
+                <PrivateRoute path={`/dashboard`} component={DashboardLayout} />
+                <PrivateRoute
+                  path={`/administration`}
+                  component={AdminLayout}
+                />
                 <MainRoute />
                 <ToastContainer />
               </Switch>
