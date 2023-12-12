@@ -2,11 +2,9 @@ import { Layout } from "common/enums";
 import { RouteConfig } from "common/model";
 import { Route } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import { useESSContext } from "store/ESSContext";
 
 const useRoutes = () => {
   const { isSignedIn } = useAuth();
-  const { isAdminMode } = useESSContext();
 
   const getActiveRoute = (routes: RouteConfig[]): string => {
     let activeRoute = "Default Brand Text";
@@ -56,8 +54,7 @@ const useRoutes = () => {
     const activeRoutes = routes.map((prop: RouteConfig, key: any) => {
       if (
         (layout === Layout.AUTH && !isSignedIn) ||
-        (layout === Layout.DASHBOARD && isSignedIn && !isAdminMode) ||
-        (layout === Layout.ADMIN && isSignedIn && isAdminMode)
+        (layout === Layout.ADMIN && isSignedIn)
       ) {
         return (
           <Route

@@ -20,16 +20,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { useAuth } from "store/AuthContext";
-import { useESSContext } from "store/ESSContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 
 const SignIn = () => {
-  const {
-    selectStation,
-    selectAdminMode,
-    selectDashboardMode,
-  } = useESSContext();
   const { signIn } = useAuth();
   const { t } = useTranslation("dashboard");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -59,19 +53,7 @@ const SignIn = () => {
       const { access_token } = await login(username, password);
       setIsLoading(true);
       const user = decodeToken(access_token);
-
-      if (user?.customerAccountId) {
-        selectDashboardMode();
-        const defaultStation = await getDefaultStation(user!!);
-        signIn(user!!);
-
-        if (defaultStation) {
-          selectStation(defaultStation);
-        }
-      } else {
-        selectAdminMode();
-        signIn(user!!);
-      }
+      signIn(user!!);
     } catch (error) {
       console.error(error);
       setErrorMessage(t("signIn.messageInvalid"));

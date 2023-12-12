@@ -6,7 +6,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import NotificationPopupContainer from "components/Notification/NotificationPopupContainer";
 import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
-import DashboardLayout from "layouts/Dashboard";
 import "react-international-phone/style.css";
 import { StompSessionProvider } from "react-stomp-hooks";
 import { ToastContainer } from "react-toastify";
@@ -32,7 +31,6 @@ root.render(
               <NotificationPopupContainer />
               <Switch>
                 <Route path={`/auth`} component={AuthLayout} />
-                <PrivateRoute path={`/dashboard`} component={DashboardLayout} />
                 <PrivateRoute
                   path={`/administration`}
                   component={AdminLayout}

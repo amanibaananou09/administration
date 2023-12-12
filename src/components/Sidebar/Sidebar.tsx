@@ -26,7 +26,6 @@ import React, { FC, Fragment } from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import { useESSContext } from "store/ESSContext";
 
 const Sidebar = (props: SidebarProps) => {
   const { isSignedIn } = useAuth();
@@ -47,7 +46,6 @@ const Sidebar = (props: SidebarProps) => {
     let inactiveColor = "gray.400";
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
 
-    const { isAdminMode } = useESSContext();
     const routesArray = Object.values(routes);
 
     return routesArray.map((prop: any, key: number) => {
@@ -124,7 +122,7 @@ const Sidebar = (props: SidebarProps) => {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg={isAdminMode ? "gray" : "blue.500"}
+                    bg="gray"
                     color="white"
                     h="30px"
                     w="30px"
@@ -173,7 +171,7 @@ const Sidebar = (props: SidebarProps) => {
                 ) : (
                   <IconBox
                     bg={inactiveBg}
-                    color={isAdminMode ? "gray" : "blue.500"}
+                    color="gray"
                     h="30px"
                     w="30px"
                     me="12px"
