@@ -92,7 +92,7 @@ export interface RouteConfig {
   secondaryNavbar?: boolean;
   collapse?: boolean;
   component: () => JSX.Element;
-  sideBarIemComponent?: React.ComponentType<{
+  sideBarItemComponent?: React.ComponentType<{
     route: RouteConfig;
     isOpen: boolean;
   }>;

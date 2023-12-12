@@ -24,7 +24,7 @@ import MainRoute from "router/Route/MainRoute";
 import { useAuth } from "store/AuthContext";
 import { useESSContext } from "../store/ESSContext";
 
-const Admin = (props: { [x: string]: any }) => {
+const AdminLayout = (props: { [x: string]: any }) => {
   const { isSignedIn } = useAuth();
   const { isLoading } = useESSContext();
   const routes = administrationRoutes();
@@ -34,10 +34,6 @@ const Admin = (props: { [x: string]: any }) => {
   const { ...rest } = props;
   // states and functions
   const [fixed, setFixed] = useState(false);
-  // functions for changing the states from components
-  const getRoute = () => {
-    return window.location.pathname !== "/admin/full-screen-maps";
-  };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
@@ -81,16 +77,14 @@ const Admin = (props: { [x: string]: any }) => {
             {...rest}
           />
         </Portal>
-        {getRoute() ? (
-          <PanelContent>
-            <PanelContainer>
-              <Switch>
-                {getRoutesForLayout(routes, Layout.ADMIN)}
-                <MainRoute />
-              </Switch>
-            </PanelContainer>
-          </PanelContent>
-        ) : null}
+        <PanelContent>
+          <PanelContainer>
+            <Switch>
+              {getRoutesForLayout(routes, Layout.ADMIN)}
+              <MainRoute />
+            </Switch>
+          </PanelContainer>
+        </PanelContent>
         <Footer />
         <Portal>
           <FixedPlugin
@@ -115,4 +109,4 @@ const Admin = (props: { [x: string]: any }) => {
   );
 };
 
-export default Admin;
+export default AdminLayout;

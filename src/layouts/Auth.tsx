@@ -8,14 +8,14 @@ import useRoutes from "hooks/use-routes";
 import { useEffect, useRef } from "react";
 import { Switch } from "react-router-dom";
 import MainRoute from "../router/Route/MainRoute";
-import { administrationRoutes, dashboardRoutes } from "../router/routes";
+import { authRoutes } from "../router/routes";
 
-const Pages = () => {
+const AuthLayout = () => {
   const { getRoutesForLayout, getActiveNavbar } = useRoutes();
   const wrapper = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
 
-  const routes = [...dashboardRoutes(), ...administrationRoutes()];
+  const routes = authRoutes();
 
   useEffect(() => {
     document.body.style.overflow = "unset";
@@ -45,4 +45,4 @@ const Pages = () => {
   );
 };
 
-export default Pages;
+export default AuthLayout;
