@@ -42,7 +42,7 @@ const HeaderLinks = (props: any) => {
   ] = useState<boolean>(false);
 
   //styles
-  const navbarIcon = fixed && scrolled ? "gray.700" : "white";
+  const navbarIcon = "gray.700";
 
   return (
     <Flex

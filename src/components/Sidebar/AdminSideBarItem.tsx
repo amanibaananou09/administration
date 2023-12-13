@@ -47,7 +47,7 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
         <AccordionButton>
           <Flex flex="1">
             <IconBox
-              bg="gray"
+              bg="gray.700"
               color="white"
               h="30px"
               w="30px"
@@ -56,14 +56,14 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
             >
               {route.icon}
             </IconBox>
-            <Text color="gray.600" my="auto" fontSize="sm">
+            <Text color="gray.700" my="auto" fontSize="sm" fontWeight="bold">
               {route.name}
             </Text>
           </Flex>
           <AccordionIcon />
         </AccordionButton>
       </h2>
-      <AccordionPanel py={5}>
+      <AccordionPanel py={5} boxShadow="inset 0px 0px 3px 1px #0000005d">
         <Box
           position="relative"
           border="2px"
@@ -85,6 +85,9 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
           <Flex justifyContent="center">
             <Button
               size="md"
+              color="white"
+              bg="gray.700"
+              _hover={{ bg: "gray.600" }}
               onClick={() => history.push(`${route.layout + route.path}/new`)}
             >
               {t("sideBarItem.addnew")}
@@ -128,7 +131,13 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
                 <Input type="text" ref={searchText} />
               </Flex>
             </Flex>
-            <Button size="md" onClick={handleSearch}>
+            <Button
+              size="md"
+              color="white"
+              bg="gray.700"
+              _hover={{ bg: "gray.600" }}
+              onClick={handleSearch}
+            >
               {t("sideBarItem.search")}
             </Button>
           </Flex>
