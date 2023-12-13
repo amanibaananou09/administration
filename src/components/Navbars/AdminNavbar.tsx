@@ -33,12 +33,12 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   } = props;
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
-  let mainText = fixed && scrolled ? "gray.700" : "white";
-  let secondaryText = fixed && scrolled ? "gray.700" : "white";
+  let mainText = "gray.700";
+  let secondaryText = "gray.700";
   let navbarPosition = "absolute";
   let navbarFilter = "none";
   let navbarBackdrop = "none";
-  let navbarShadow = "none";
+  let navbarShadow = "0px 7px 23px rgba(0, 0, 0, 0.05)";
   let navbarBg = "none";
   let navbarBorder = "transparent";
   let secondaryMargin = "0px";
@@ -46,7 +46,6 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   if (props.fixed === true)
     if (scrolled === true) {
       navbarPosition = "fixed";
-      navbarShadow = "0px 7px 23px rgba(0, 0, 0, 0.05)";
       navbarBg =
         "linear-gradient(112.83deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.8) 110.84%)";
       navbarBorder = "#FFFFFF";

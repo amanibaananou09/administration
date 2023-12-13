@@ -54,7 +54,7 @@ const AdminLayout = (props: { [x: string]: any }) => {
         w="100%"
         position="absolute"
         bgImage="gray"
-        bg="gray"
+        bg="#f1f4f6"
         bgSize="cover"
         top="0"
       />
