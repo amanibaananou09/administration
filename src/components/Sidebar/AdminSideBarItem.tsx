@@ -15,6 +15,7 @@ import IconBox from "components/Icons/IconBox";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
+import { findByFilter } from "../../common/api/customerAccount-api";
 
 const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
   const { t } = useTranslation("administration");
@@ -22,11 +23,20 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
   const searchType = useRef<HTMLSelectElement>(null);
   const searchText = useRef<HTMLInputElement>(null);
 
-  const handleSearch = (): void => {
+  const handleSearch = async (): Promise<void> => {
     let search = "";
 
     if (searchType.current?.value && searchText.current?.value) {
-      search = `${searchType.current?.value}=${searchText.current?.value}`;
+      const { value: type } = searchType.current;
+      const { value: text } = searchText.current;
+
+      // Call the findByFilter function
+      const filteredData = await findByFilter(type, text);
+
+      // Do something with the filtered data, e.g., update state, navigate, etc.
+      console.log(filteredData);
+
+      search = `?${type}=${text}`;
     }
 
     history.replace({

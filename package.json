@@ -45,6 +45,7 @@
     "react-international-phone": "^4.0.4",
     "react-jvectormap": "0.0.16",
     "react-phone-number-input": "^3.3.7",
+    "react-query": "^3.39.3",
     "react-router-dom": "5.2.0",
     "react-scripts": "5.0.0",
     "react-select": "^5.8.0",

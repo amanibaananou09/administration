@@ -8,7 +8,11 @@ export const getListOfCustomerAccount = async () => {
 
   return response.data;
 };
+export const listOfCreator = async (id: string) => {
+  const response = await api.get(`${API_URL}/${id}/creator`);
 
+  return response.data;
+};
 export const activateCustomerAccount = async (
   id: number | string | undefined,
 ) => {
@@ -27,14 +31,8 @@ export const deactivateCustomerAccount = async (
 export const createCustomerAccount = async (
   account: CustomerAccount,
 ): Promise<CustomerAccount> => {
-  try {
-    const response = await api.post(`${API_URL}/add`, account);
-    console.log("API Response:", response.data); // Log the response
-    return response.data;
-  } catch (error) {
-    console.error("Error in createCustomerAccount:", error);
-    throw error;
-  }
+  const response = await api.post(`${API_URL}/add`, account);
+  return response.data;
 };
 
 export const addUser = async (
@@ -50,4 +48,11 @@ export const addStation = async (
   id: number | string,
 ): Promise<void> => {
   await api.post(`${API_URL}/${id}/station/add`, station);
+};
+
+export const findByFilter = async (type: string, text: string) => {
+  const url = `${API_URL}/filter?${type}=${text}`;
+
+  const response = await api.get(url);
+  return response.data;
 };

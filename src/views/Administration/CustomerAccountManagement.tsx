@@ -21,7 +21,6 @@ import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
 import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
 import useHttp from "hooks/use-http";
-import useQuery from "hooks/use-query";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
@@ -33,9 +32,10 @@ const CustomerAccountManagement = () => {
 
   let { path } = useRouteMatch();
 
-  const query = useQuery();
-
-  console.log(query);
+  //styles
+  const textColor = "gray.700";
+  const columnTitleTextColor = "black";
+  const borderColor = "gray.200";
 
   const { t } = useTranslation("administration");
 
@@ -46,11 +46,6 @@ const CustomerAccountManagement = () => {
   useEffect(() => {
     fetchCustomerAccounts();
   }, []);
-
-  //styles
-  const textColor = "gray.700";
-  const columnTitleTextColor = "black";
-  const borderColor = "gray.200";
 
   return (
     <>

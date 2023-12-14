@@ -4,11 +4,14 @@ import api from "./axios";
 const API_URL = "/customerAccount";
 
 export const getStationForUser = async (username: string, user: User) => {
-  const response = await api.get(`${API_URL}/${user.customerAccountId}/station?userLogin=${username}`, {
-    headers: {
-      Authorization: "Bearer " + user.token,
+  const response = await api.get(
+    `${API_URL}/${user.customerAccountId}/station?userLogin=${username}`,
+    {
+      headers: {
+        Authorization: "Bearer " + user.token,
+      },
     },
-  });
+  );
 
   return response.data;
 };
@@ -51,12 +54,12 @@ export const deleteStation = async (station: Station) => {
   return response.data;
 };
 
-export const allStationByCustomerAccount = async (id: string ) => {
+export const allStationByCustomerAccount = async (id: string) => {
   const response = await api.get(`${API_URL}/${id}/station`);
 
   return response.data;
 };
-export const allUserByCustomerAccount = async (id: string ) => {
+export const allUserByCustomerAccount = async (id: string) => {
   const response = await api.get(`${API_URL}/${id}/user`);
 
   return response.data;
@@ -66,3 +69,4 @@ export const getCustomerAccountInformation = async (id: string) => {
 
   return response.data;
 };
+

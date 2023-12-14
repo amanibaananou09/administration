@@ -2,6 +2,7 @@
   "common": {
     "name": "Nom de compte",
     "creator": "Créateur",
+    "creatorAccount": "Compte Créateur",
     "compteParent": "Compte Parent",
     "droits": "Droits De Distributeur",
     "stations": "Stations",
@@ -27,7 +28,10 @@
     "selectAccount": "Sélectionner un compte parent",
     "selectDroits": "Ajoutez vos droits de revendeur",
     "reseller": "Revendeur",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "canChangePassword": "Peut changer le mot de passe : ",
+    "canSendSMS": "Peut envoyer des SMS : ",
+    "isActive": "Activé : "
   },
   "sideBarItem": {
     "search": "Rechercher",
@@ -75,7 +79,8 @@
     "functionsScopeLabel": "Portée des fonctions",
     "noDataAvailable": "Aucune donnée disponible.",
     "customerAccountsLabel": "Comptes clients",
-    "noCustomerAccountAvailable": "Aucun compte client disponible."
+    "noCustomerAccountAvailable": "Aucun compte client disponible.",
+    "mask": "Masque d'hôte"
   },
   "userManagement": {
     "globalUsers": {
@@ -86,7 +91,10 @@
       "emailColumn": "Email",
       "phoneColumn": "Téléphone",
       "statusColumn": "Statut",
-      "noUserAvailable": "Aucun utilisateur disponible."
+      "noUserAvailable": "Aucun utilisateur disponible.",
+      "accountCreator": "Créateur de compte",
+      "account": "Compte",
+      "lastVisit": "Derniere Visite"
     }
   },
   "routes": {

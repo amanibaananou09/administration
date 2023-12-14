@@ -25,7 +25,7 @@ export interface MasterUser {
 
 export interface GeneralUser {
   id?: number | string;
-  actif?: boolean;
+  actif?: string;
   dateStatusChange?: string;
   username: string;
   firstName: string;
@@ -34,6 +34,11 @@ export interface GeneralUser {
   password: string;
   role?: string;
   phone: string;
+  changePassword?: string;
+  sendSms?: string;
+  subnetMask?: string;
+  customerAccountId?: string;
+  creatorAccountId?: string;
 }
 
 export interface userScope {
