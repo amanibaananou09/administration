@@ -49,7 +49,17 @@ const UserManagement = () => {
           <CardBody>
             <Table variant="simple" color={textColor}>
               <Thead>
-                <Tr my=".8rem" pl="0px">
+                <Tr my=".8rem" pl="0px" color="gray.400">
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="ms"
+                    textAlign="center"
+                  >
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      #
+                    </Text>
+                  </Th>
                   <Th
                     pl="0px"
                     borderColor={borderColor}
@@ -60,12 +70,21 @@ const UserManagement = () => {
                     {t("userManagement.globalUsers.userNameColumn")}
                   </Th>
                   <Th
+                    pl="0px"
                     borderColor={borderColor}
                     color={columnTitleTextColor}
                     fontSize="md"
                     textAlign="center"
                   >
-                    {t("userManagement.globalUsers.nameColumn")}
+                    {t("userManagement.globalUsers.accountCreator")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="md"
+                    textAlign="center"
+                  >
+                    {t("userManagement.globalUsers.account")}
                   </Th>
 
                   <Th
@@ -74,15 +93,7 @@ const UserManagement = () => {
                     fontSize="md"
                     textAlign="center"
                   >
-                    Phone
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="md"
-                    textAlign="center"
-                  >
-                    {t("userManagement.globalUsers.emailColumn")}
+                    {t("userManagement.globalUsers.lastVisit")}
                   </Th>
                   <Th
                     borderColor={borderColor}
@@ -91,6 +102,16 @@ const UserManagement = () => {
                     textAlign="center"
                   >
                     {t("userManagement.globalUsers.statusColumn")}
+                  </Th>
+                  <Th
+                    borderColor={borderColor}
+                    color={columnTitleTextColor}
+                    fontSize="ms"
+                    textAlign="center"
+                  >
+                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
+                      {t("common.delete")}
+                    </Text>
                   </Th>
                 </Tr>
               </Thead>
@@ -101,6 +122,7 @@ const UserManagement = () => {
                       <UserTableRow
                         user={user}
                         isLast={index === arr.length - 1 ? true : false}
+                        index={index}
                         key={index}
                       />
                     ),

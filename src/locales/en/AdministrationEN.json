@@ -2,6 +2,7 @@
   "common": {
     "name": "Account name",
     "creator": "Creator",
+    "creatorAccount": "Creator Account",
     "compteParent": "Parent Account",
     "droits": "Distributor Rights",
     "stations": "Stations",
@@ -27,7 +28,10 @@
     "selectAccount": "Select a parent account",
     "selectDroits": "Add your reseller rights",
     "reseller": "Reseller",
-    "delete": "Delete"
+    "delete": "Delete",
+    "canChangePassword": "Can change password : ",
+    "canSendSMS": "Can send SMS : ",
+    "isActive": "Enabled : "
   },
   "sideBarItem": {
     "search": "Search",
@@ -75,7 +79,8 @@
     "functionsScopeLabel": "Functions Scope",
     "noDataAvailable": "No data available.",
     "customerAccountsLabel": "Customer Accounts",
-    "noCustomerAccountAvailable": "No customer account available."
+    "noCustomerAccountAvailable": "No customer account available.",
+    "mask": "Host Mask"
   },
   "userManagement": {
     "globalUsers": {
@@ -86,7 +91,10 @@
       "emailColumn": "Email",
       "phoneColumn": "Phone",
       "statusColumn": "Status",
-      "noUserAvailable": "No user available."
+      "noUserAvailable": "No user available.",
+      "accountCreator": "Account Creator",
+      "account": "Account",
+      "lastVisit": "Last Visit"
     }
   },
   "routes": {

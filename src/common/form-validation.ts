@@ -1,14 +1,6 @@
 import * as Yup from "yup";
 
 export const userFormValidationSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(4, "First Name must be at least 4 characters")
-    .required("First Name is required"),
-
-  lastName: Yup.string()
-    .min(4, "Last Name must be at least 4 characters")
-    .required("Last Name is required"),
-
   username: Yup.string()
     .min(4, "Username must be at least 4 characters")
     .required("Username is required"),

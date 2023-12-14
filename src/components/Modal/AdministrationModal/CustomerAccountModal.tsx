@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -232,7 +233,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                               !!form.errors.compteParent &&
                               !!form.touched.compteParent
                             }
-                            mb="24px"
+                            mb="10px"
                           >
                             <FormLabel htmlFor="Compte Parent">
                               {t("common.compteParent")}
@@ -275,6 +276,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                             onBlur: () => void;
                           };
                           form: {
+                            setFieldValue: (field: string, value: any) => void;
                             errors: { droits: string };
                             touched: { droits: boolean };
                           };
@@ -285,18 +287,26 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                             }
                             mb="24px"
                           >
-                            <FormLabel htmlFor="droits">
-                              {t("common.droits")}
-                            </FormLabel>
-                            <Select
-                              {...field}
-                              id="resaleRight"
-                              name="resaleRight"
-                              placeholder={t("common.selectDroits")}
-                            >
-                              <option value="true">{t("common.true")}</option>
-                              <option value="false">{t("common.false")}</option>
-                            </Select>
+                            <br />
+
+                            <Flex alignItems="center">
+                              <FormLabel htmlFor="droits">
+                                {t("common.droits")}
+                              </FormLabel>
+                              <Checkbox
+                                id="resaleRight"
+                                name="resaleRight"
+                                isChecked={field.value === "true"} // Initialize as false, set to true if value is "true"
+                                onChange={(e) => {
+                                  const newValue = e.target.checked
+                                    ? "true"
+                                    : "false"; // Convert boolean to string
+                                  field.onChange(e);
+                                  form.setFieldValue("droits", newValue);
+                                }}
+                              />
+                            </Flex>
+
                             <FormErrorMessage>
                               {t("common.droits")}
                               {form.errors.droits}

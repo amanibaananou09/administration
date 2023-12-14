@@ -28,3 +28,13 @@ export const functionScope = async (
   );
   return response.data;
 };
+export const activateUser = async (id: number | string | undefined) => {
+  const response = await api.post(`${API_URL}/activate/${id}`);
+
+  return response.data;
+};
+
+export const deactivateUser = async (id: number | string | undefined) => {
+  const response = await api.post(`${API_URL}/deactivate/${id}`);
+  return response.data;
+};
