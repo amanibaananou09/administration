@@ -7,14 +7,17 @@ const UITable = <T,>({
   data,
   columns,
   emptyListMessage,
+  headerStyles,
+  rowStyles,
 }: UITableProps<T>): JSX.Element => {
   //styles
-  const textColor = "gray.700";
+  const defaultTextColor = "black";
 
   return (
-    <Table variant="simple" color={textColor}>
-      <UITableHeader columns={columns} />
+    <Table variant="simple" color={defaultTextColor}>
+      <UITableHeader styles={headerStyles} columns={columns} />
       <UITableRows
+        styles={rowStyles}
         data={data}
         columns={columns}
         emptyListMessage={emptyListMessage}

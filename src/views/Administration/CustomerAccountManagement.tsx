@@ -82,15 +82,14 @@ const CustomerAccountManagement = () => {
       key: "status",
       render: (item: CustomerAccount) => (
         <div onClick={() => handleClick(item)} style={{ cursor: "pointer" }}>
-          {item.actif ? (
-            <Text fontSize="md" color="green.400" fontWeight="bold">
-              ✓
-            </Text>
-          ) : (
-            <Text fontSize="md" color="red.400" fontWeight="bold">
-              X
-            </Text>
-          )}
+          <Text
+            fontSize="md"
+            color={item.actif ? "green.400" : "red.400"}
+            fontWeight="bold"
+            textAlign="center"
+          >
+            {item.actif ? "✓" : "X"}
+          </Text>
         </div>
       ),
     },
@@ -102,7 +101,12 @@ const CustomerAccountManagement = () => {
       header: t("common.delete"),
       key: "actif",
       render: (item: CustomerAccount) => (
-        <Text fontSize="md" color="red.400" fontWeight="bold">
+        <Text
+          fontSize="md"
+          color="red.400"
+          fontWeight="bold"
+          textAlign="center"
+        >
           X
         </Text>
       ),
@@ -124,6 +128,10 @@ const CustomerAccountManagement = () => {
           <CardBody>
             {!isLoading && customerAccounts && (
               <UITable
+                headerStyles={{
+                  fontSize: "md",
+                  textColor: "gray.700",
+                }}
                 data={customerAccounts}
                 columns={columns}
                 emptyListMessage={t("customerAccounts.listEmpty")}

@@ -1,3 +1,5 @@
+import { StyleProps } from "@chakra-ui/system";
+
 export type UIColumnDefinitionType<T> = {
   header: string;
   key: keyof T;
@@ -6,16 +8,20 @@ export type UIColumnDefinitionType<T> = {
 
 export type UITableHeaderProps<T> = {
   columns: Array<UIColumnDefinitionType<T>>;
+  styles?: StyleProps;
 };
 
 export type UITableRowsProps<T> = {
   data: Array<T>;
   columns: Array<UIColumnDefinitionType<T>>;
   emptyListMessage: string;
+  styles?: StyleProps;
 };
 
 export type UITableProps<T> = {
   data: Array<T>;
   columns: Array<UIColumnDefinitionType<T>>;
   emptyListMessage: string;
+  headerStyles?: StyleProps;
+  rowStyles?: StyleProps;
 };

@@ -1,22 +1,37 @@
 import { Tbody, Td, Text, Tr } from "@chakra-ui/react";
+import React from "react";
 import { UIColumnDefinitionType, UITableRowsProps } from "./Types";
 
 const UITableRows = <T,>({
   data,
   columns,
   emptyListMessage,
+  styles,
 }: UITableRowsProps<T>) => {
   //styles
   const borderColor = "gray.200";
-  const columnWidth = "100px";
+  // const columnWidth = "100px";
 
   const getContent = (row: T, column: UIColumnDefinitionType<T>) => {
     if (column.render) {
-      return column.render(row);
+      const result = column.render(row);
+      return React.isValidElement(result) ? (
+        result
+      ) : (
+        <Text textAlign="center" {...styles}>
+          {result}
+        </Text>
+      );
     }
 
     //@ts-ignore
-    return row[column.key] as ReactI18NextChildren;
+    const value = row[column.key] as ReactI18NextChildren;
+
+    return (
+      <Text textAlign="center" {...styles}>
+        {value}
+      </Text>
+    );
   };
 
   let rows;
@@ -45,10 +60,9 @@ const UITableRows = <T,>({
             return (
               <Td
                 key={colIndex}
-                width={columnWidth}
+                //width={columnWidth}
                 borderColor={borderColor}
                 borderBottom={index === data.length - 1 ? "none" : undefined}
-                textAlign="center"
               >
                 {getContent(row, column)}
               </Td>
