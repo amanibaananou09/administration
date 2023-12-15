@@ -1,5 +1,5 @@
 export interface CustomerAccount {
-  id?: number | string;
+  id?: number;
   name: string;
   creatorUserId?: string;
   parentId: string;
@@ -8,7 +8,7 @@ export interface CustomerAccount {
   stations?: number;
   stationsCount?: number;
   status?: string;
-  actif?: string;
+  actif?: boolean;
   masterUser: MasterUser;
   creatorUser?: GeneralUser;
 }
@@ -24,8 +24,8 @@ export interface MasterUser {
 }
 
 export interface GeneralUser {
-  id?: number | string;
-  actif?: string;
+  id?: number;
+  actif?: boolean;
   dateStatusChange?: string;
   username: string;
   firstName: string;
@@ -37,8 +37,9 @@ export interface GeneralUser {
   changePassword?: string;
   sendSms?: string;
   subnetMask?: string;
-  customerAccountId?: string;
-  creatorAccountId?: string;
+  customerAccountId?: string | undefined;
+  creatorAccountId?: string | undefined;
+  lastVisit?: string;
 }
 
 export interface userScope {

@@ -3,9 +3,10 @@ import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
   deactivateCustomerAccount,
+  findByFilter,
   getListOfCustomerAccount,
 } from "common/api/customerAccount-api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import Card from "components/Card/Card";
@@ -16,6 +17,7 @@ import { UIColumnDefinitionType } from "components/Table/Types";
 import UITable from "components/Table/UITable";
 import useHttp from "hooks/use-http";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import useQuery from "hooks/use-query";
 
 const CustomerAccountManagement = () => {
   const {
@@ -23,9 +25,18 @@ const CustomerAccountManagement = () => {
     isLoading,
     makeRequest: fetchCustomerAccounts,
   } = useHttp<CustomerAccount[]>(getListOfCustomerAccount, false);
+  const [actif, setActif] = useState(false);
+
+  const [filteredAccounts, setFilteredAccounts] = useState([]);
+  let filterType = "";
+  let filterValue = "";
 
   const { t } = useTranslation("administration");
   let { path } = useRouteMatch();
+  const query = useQuery();
+  const name = query.get("name");
+  const creator = query.get("creator");
+  const parent = query.get("parent");
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
@@ -33,13 +44,16 @@ const CustomerAccountManagement = () => {
 
   const handleClick = async (item: CustomerAccount) => {
     try {
-      if (item.actif) {
+      if (item.actif && item.id !== undefined) {
         // If currently active, deactivate
         await deactivateCustomerAccount(item.id);
-      } else {
+        item.actif = false;
+      } else if (item.id !== undefined) {
         // If currently inactive, activate
         await activateCustomerAccount(item.id);
+        item.actif = true;
       }
+      setActif(!actif);
 
       console.log("Clicked!");
     } catch (error) {
@@ -50,6 +64,37 @@ const CustomerAccountManagement = () => {
   useEffect(() => {
     fetchCustomerAccounts();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Assuming you have choice, name, creator, and parent from query parameters
+        if (name) {
+          filterType = "name";
+          filterValue = name;
+        } else if (creator) {
+          filterType = "creator";
+          filterValue = creator;
+        } else if (parent) {
+          filterType = "parent";
+          filterValue = parent;
+        } else if (!name && !creator && !parent) {
+          filterType = "";
+          filterValue = "";
+        } else {
+          console.error("No valid query parameter found.");
+          return;
+        }
+
+        const filteredAccounts = await findByFilter(filterType, filterValue);
+        setFilteredAccounts(filteredAccounts);
+      } catch (error) {
+        console.error("Error fetching filtered accounts:", error);
+      }
+    };
+
+    fetchData();
+  }, [name, creator, parent]);
 
   //styles
   const textColor = "gray.700";
@@ -76,6 +121,8 @@ const CustomerAccountManagement = () => {
     {
       header: t("common.droits"),
       key: "resaleRight",
+      render: (item: CustomerAccount) =>
+        item.resaleRight ? t("common.reseller") : "-",
     },
     {
       header: t("common.status"),
@@ -132,7 +179,11 @@ const CustomerAccountManagement = () => {
                   fontSize: "md",
                   textColor: "gray.700",
                 }}
-                data={customerAccounts}
+                data={
+                  filteredAccounts.length === 0
+                    ? customerAccounts
+                    : filteredAccounts
+                }
                 columns={columns}
                 emptyListMessage={t("customerAccounts.listEmpty")}
               />

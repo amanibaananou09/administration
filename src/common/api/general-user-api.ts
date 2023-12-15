@@ -28,13 +28,19 @@ export const functionScope = async (
   );
   return response.data;
 };
-export const activateUser = async (id: number | string | undefined) => {
+export const activateUser = async (id: number) => {
   const response = await api.post(`${API_URL}/activate/${id}`);
 
   return response.data;
 };
 
-export const deactivateUser = async (id: number | string | undefined) => {
+export const deactivateUser = async (id: number) => {
   const response = await api.post(`${API_URL}/deactivate/${id}`);
+  return response.data;
+};
+export const findUserByFilter = async (type: string, text: string | null) => {
+  const url = `${API_URL}/filter?${type}=${text}`;
+
+  const response = await api.get(url);
   return response.data;
 };

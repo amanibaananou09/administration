@@ -13,17 +13,13 @@ export const listOfCreator = async (id: string) => {
 
   return response.data;
 };
-export const activateCustomerAccount = async (
-  id: number | string | undefined,
-) => {
+export const activateCustomerAccount = async (id: number) => {
   const response = await api.put(`${API_URL}/activate/${id}`);
 
   return response.data;
 };
 
-export const deactivateCustomerAccount = async (
-  id: number | string | undefined,
-) => {
+export const deactivateCustomerAccount = async (id: number) => {
   const response = await api.put(`${API_URL}/deactivate/${id}`);
   return response.data;
 };
@@ -50,7 +46,7 @@ export const addStation = async (
   await api.post(`${API_URL}/${id}/station/add`, station);
 };
 
-export const findByFilter = async (type: string, text: string) => {
+export const findByFilter = async (type: string, text: string | null) => {
   const url = `${API_URL}/filter?${type}=${text}`;
 
   const response = await api.get(url);
