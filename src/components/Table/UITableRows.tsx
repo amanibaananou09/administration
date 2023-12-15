@@ -1,16 +1,16 @@
 import { Tbody, Td, Text, Tr } from "@chakra-ui/react";
 import { UIColumnDefinitionType, UITableRowsProps } from "./Types";
 
-const UITableRows = <T, K extends keyof T>({
+const UITableRows = <T,>({
   data,
   columns,
   emptyListMessage,
-}: UITableRowsProps<T, K>) => {
+}: UITableRowsProps<T>) => {
   //styles
   const borderColor = "gray.200";
   const columnWidth = "100px";
 
-  const getContent = (row: T, column: UIColumnDefinitionType<T, K>) => {
+  const getContent = (row: T, column: UIColumnDefinitionType<T>) => {
     if (column.render) {
       return column.render(row);
     }

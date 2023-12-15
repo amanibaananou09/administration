@@ -3,11 +3,11 @@ import { UITableProps } from "./Types";
 import UITableHeader from "./UITableHeader";
 import UITableRows from "./UITableRows";
 
-const UITable = <T, K extends keyof T>({
+const UITable = <T,>({
   data,
   columns,
   emptyListMessage,
-}: UITableProps<T, K>): JSX.Element => {
+}: UITableProps<T>): JSX.Element => {
   //styles
   const textColor = "gray.700";
 
