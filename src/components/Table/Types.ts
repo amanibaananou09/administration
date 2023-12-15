@@ -1,21 +1,21 @@
-export type UIColumnDefinitionType<T, K extends keyof T> = {
+export type UIColumnDefinitionType<T> = {
   header: string;
-  key: K;
+  key: keyof T;
   render?: (item: T) => string | number | React.ReactNode;
 };
 
-export type UITableHeaderProps<T, K extends keyof T> = {
-  columns: Array<UIColumnDefinitionType<T, K>>;
+export type UITableHeaderProps<T> = {
+  columns: Array<UIColumnDefinitionType<T>>;
 };
 
-export type UITableRowsProps<T, K extends keyof T> = {
+export type UITableRowsProps<T> = {
   data: Array<T>;
-  columns: Array<UIColumnDefinitionType<T, K>>;
+  columns: Array<UIColumnDefinitionType<T>>;
   emptyListMessage: string;
 };
 
-export type UITableProps<T, K extends keyof T> = {
+export type UITableProps<T> = {
   data: Array<T>;
-  columns: Array<UIColumnDefinitionType<T, K>>;
+  columns: Array<UIColumnDefinitionType<T>>;
   emptyListMessage: string;
 };

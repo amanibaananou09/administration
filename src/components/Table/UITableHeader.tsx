@@ -1,9 +1,7 @@
 import { Text, Th, Thead, Tr } from "@chakra-ui/react";
 import { UITableHeaderProps } from "./Types";
 
-const UITableHeader = <T, K extends keyof T>({
-  columns,
-}: UITableHeaderProps<T, K>) => {
+const UITableHeader = <T,>({ columns }: UITableHeaderProps<T>) => {
   //styles
   const textColor = "gray.700";
   const columnTitleTextColor = "black";

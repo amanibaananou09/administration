@@ -24,8 +24,6 @@ const CustomerAccountManagement = () => {
     makeRequest: fetchCustomerAccounts,
   } = useHttp<CustomerAccount[]>(getListOfCustomerAccount, false);
 
-  console.log(customerAccounts);
-
   const { t } = useTranslation("administration");
   let { path } = useRouteMatch();
 
@@ -56,10 +54,7 @@ const CustomerAccountManagement = () => {
   //styles
   const textColor = "gray.700";
 
-  const columns: UIColumnDefinitionType<
-    CustomerAccount,
-    keyof CustomerAccount
-  >[] = [
+  const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
       header: "#",
       key: "id",
