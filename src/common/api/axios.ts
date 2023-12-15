@@ -8,7 +8,7 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
   (config) => {
-    const user = decodeToken(localStorage.getItem("auth"));
+    const user = decodeToken(localStorage.getItem("auth-admin"));
     if (user) {
       config.headers.Authorization = "Bearer " + user.token;
     }

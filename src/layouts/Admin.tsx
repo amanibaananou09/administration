@@ -50,7 +50,6 @@ const AdminLayout = (props: { [x: string]: any }) => {
   return (
     <Box>
       <Box
-        minH="450vh"
         w="100%"
         position="absolute"
         bgImage="gray"

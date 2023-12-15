@@ -52,7 +52,7 @@
     "errorTitle": "Erreur",
     "errorDescription": "Une erreur s'est produite lors de l'ajout du compte client.",
     "masterUser": "Utilisateur principal",
-    "isLoading": "Vous ne possédez pas de compte client"
+    "listEmpty": "Vous ne possédez pas de compte client"
   },
   "customerAccountModal": {
     "header": "Créer un nouveau compte client"

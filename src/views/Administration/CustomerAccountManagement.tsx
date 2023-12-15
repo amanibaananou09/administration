@@ -1,17 +1,10 @@
-import {
-  Flex,
-  Skeleton,
-  Stack,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
-import { getListOfCustomerAccount } from "common/api/customerAccount-api";
+import {
+  activateCustomerAccount,
+  deactivateCustomerAccount,
+  getListOfCustomerAccount,
+} from "common/api/customerAccount-api";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +12,8 @@ import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
-import CustomerAccountTableRow from "components/Tables/CustomerAccountTableRow";
+import { UIColumnDefinitionType } from "components/Table/Types";
+import UITable from "components/Table/UITable";
 import useHttp from "hooks/use-http";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 
@@ -30,22 +24,95 @@ const CustomerAccountManagement = () => {
     makeRequest: fetchCustomerAccounts,
   } = useHttp<CustomerAccount[]>(getListOfCustomerAccount, false);
 
-  let { path } = useRouteMatch();
-
-  //styles
-  const textColor = "gray.700";
-  const columnTitleTextColor = "black";
-  const borderColor = "gray.200";
+  console.log(customerAccounts);
 
   const { t } = useTranslation("administration");
+  let { path } = useRouteMatch();
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
   };
 
+  const handleClick = async (item: CustomerAccount) => {
+    try {
+      if (item.actif) {
+        // If currently active, deactivate
+        await deactivateCustomerAccount(item.id);
+      } else {
+        // If currently inactive, activate
+        await activateCustomerAccount(item.id);
+      }
+
+      console.log("Clicked!");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
     fetchCustomerAccounts();
   }, []);
+
+  //styles
+  const textColor = "gray.700";
+
+  const columns: UIColumnDefinitionType<
+    CustomerAccount,
+    keyof CustomerAccount
+  >[] = [
+    {
+      header: "#",
+      key: "id",
+    },
+    {
+      header: t("common.name"),
+      key: "name",
+    },
+    {
+      header: t("common.creator"),
+      key: "creatorUser",
+      render: (item: CustomerAccount) => item.name,
+    },
+    {
+      header: t("common.compteParent"),
+      key: "parentName",
+      render: (item: CustomerAccount) => item.parentName,
+    },
+    {
+      header: t("common.droits"),
+      key: "resaleRight",
+    },
+    {
+      header: t("common.status"),
+      key: "status",
+      render: (item: CustomerAccount) => (
+        <div onClick={() => handleClick(item)} style={{ cursor: "pointer" }}>
+          {item.actif ? (
+            <Text fontSize="md" color="green.400" fontWeight="bold">
+              ✓
+            </Text>
+          ) : (
+            <Text fontSize="md" color="red.400" fontWeight="bold">
+              X
+            </Text>
+          )}
+        </div>
+      ),
+    },
+    {
+      header: t("common.stations"),
+      key: "stationsCount",
+    },
+    {
+      header: t("common.delete"),
+      key: "actif",
+      render: (item: CustomerAccount) => (
+        <Text fontSize="md" color="red.400" fontWeight="bold">
+          X
+        </Text>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -60,125 +127,14 @@ const CustomerAccountManagement = () => {
           </CardHeader>
 
           <CardBody>
-            <Table variant="simple" color={textColor}>
-              <Thead>
-                <Tr my=".8rem" pl="0px" color="gray.400">
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      #
-                    </Text>
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      {t("common.name")}
-                    </Text>
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      {t("common.creator")}
-                    </Text>
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      {t("common.compteParent")}
-                    </Text>
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      {t("common.droits")}
-                    </Text>
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      {t("common.status")}
-                    </Text>
-                  </Th>
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      {t("common.stations")}
-                    </Text>
-                  </Th>
+            {!isLoading && customerAccounts && (
+              <UITable
+                data={customerAccounts}
+                columns={columns}
+                emptyListMessage={t("customerAccounts.listEmpty")}
+              />
+            )}
 
-                  <Th
-                    borderColor={borderColor}
-                    color={columnTitleTextColor}
-                    fontSize="ms"
-                    textAlign="center"
-                  >
-                    <Text fontSize="ms" fontWeight="blod" color={textColor}>
-                      {t("common.delete")}
-                    </Text>
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {!isLoading &&
-                customerAccounts &&
-                customerAccounts.length > 0 ? (
-                  customerAccounts.map(
-                    (account: CustomerAccount, index: number) => (
-                      <CustomerAccountTableRow
-                        customerAccount={account}
-                        isLastRow={index === customerAccounts.length - 1}
-                        index={index}
-                        key={index}
-                      />
-                    ),
-                  )
-                ) : (
-                  <Tr>
-                    <Td colSpan={4} textAlign="center">
-                      <Text
-                        fontSize="xl"
-                        fontWeight="bold"
-                        color="gray.600"
-                        textAlign="center"
-                        mt={4}
-                      >
-                        {!isLoading
-                          ? t("customerAccounts.isLoading")
-                          : t("common.loading")}
-                      </Text>
-                    </Td>
-                  </Tr>
-                )}
-              </Tbody>
-            </Table>
             {isLoading && (
               <Stack width="100%" margin="20px 0px">
                 <Skeleton height="50px" borderRadius="10px" />
