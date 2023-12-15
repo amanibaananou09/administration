@@ -144,7 +144,7 @@ const UserModal = (props: UserModalProps) => {
       confirmPassword: "",
       changePassword: "",
       sendSms: "",
-      actif: "",
+      actif: false,
       creatorAccountId: "",
       customerAccountId: "",
     },

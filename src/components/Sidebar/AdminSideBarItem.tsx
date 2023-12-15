@@ -30,12 +30,6 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
       const { value: type } = searchType.current;
       const { value: text } = searchText.current;
 
-      // Call the findByFilter function
-      const filteredData = await findByFilter(type, text);
-
-      // Do something with the filtered data, e.g., update state, navigate, etc.
-      console.log(filteredData);
-
       search = `?${type}=${text}`;
     }
 
