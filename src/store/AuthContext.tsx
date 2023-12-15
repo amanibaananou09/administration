@@ -17,7 +17,7 @@ let firstLoad = true;
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(
-    decodeToken(localStorage.getItem("auth")) || null,
+    decodeToken(localStorage.getItem("auth-admin")) || null,
   );
   const isSignedIn = !!user;
 
@@ -53,9 +53,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
 
     if (user && user.token) {
-      localStorage.setItem("auth", user.token);
+      localStorage.setItem("auth-admin", user.token);
     } else {
-      localStorage.removeItem("auth");
+      localStorage.removeItem("auth-admin");
     }
 
     return () => {

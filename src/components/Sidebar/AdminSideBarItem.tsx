@@ -52,7 +52,9 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
   }, [isOpen]);
 
   return (
-    <AccordionItem>
+    <AccordionItem
+      onClick={() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" })}
+    >
       <h2>
         <AccordionButton>
           <Flex flex="1">

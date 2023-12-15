@@ -52,7 +52,7 @@
     "errorTitle": "Error",
     "errorDescription": "An error occurred while adding the customer account.",
     "masterUser": "Master User",
-    "isLoading": "You don't have a customer account"
+    "listEmpty": "You don't have a customer account"
   },
   "customerAccountModal": {
     "header": "Create New Customer Account"
