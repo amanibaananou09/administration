@@ -1,22 +1,16 @@
 import { Text, Th, Thead, Tr } from "@chakra-ui/react";
 import { UITableHeaderProps } from "./Types";
 
-const UITableHeader = <T,>({ columns }: UITableHeaderProps<T>) => {
-  //styles
-  const textColor = "gray.700";
-  const columnTitleTextColor = "black";
-  const borderColor = "gray.200";
-
+const UITableHeader = <T,>({ columns, styles }: UITableHeaderProps<T>) => {
   const headers = columns.map((column, index) => {
     return (
-      <Th
-        borderColor={borderColor}
-        color={columnTitleTextColor}
-        fontSize="ms"
-        textAlign="center"
-        key={index}
-      >
-        <Text fontSize="ms" fontWeight="blod" color={textColor}>
+      <Th borderColor="gray.200" key={index}>
+        <Text
+          textColor="black"
+          textAlign="center"
+          fontWeight="bold"
+          {...styles}
+        >
           {column.header}
         </Text>
       </Th>
