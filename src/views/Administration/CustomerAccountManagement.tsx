@@ -3,8 +3,7 @@ import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
   deactivateCustomerAccount,
-  findByFilter,
-  getListOfCustomerAccount,
+  getCustomerAccounts,
 } from "common/api/customerAccount-api";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,27 +15,20 @@ import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerA
 import { UIColumnDefinitionType } from "components/Table/Types";
 import UITable from "components/Table/UITable";
 import useHttp from "hooks/use-http";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
 import useQuery from "hooks/use-query";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
   const {
     data: customerAccounts,
     isLoading,
     makeRequest: fetchCustomerAccounts,
-  } = useHttp<CustomerAccount[]>(getListOfCustomerAccount, false);
+  } = useHttp<CustomerAccount[]>(getCustomerAccounts, false);
   const [actif, setActif] = useState(false);
-
-  const [filteredAccounts, setFilteredAccounts] = useState([]);
-  let filterType = "";
-  let filterValue = "";
 
   const { t } = useTranslation("administration");
   let { path } = useRouteMatch();
   const query = useQuery();
-  const name = query.get("name");
-  const creator = query.get("creator");
-  const parent = query.get("parent");
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
@@ -62,39 +54,16 @@ const CustomerAccountManagement = () => {
   };
 
   useEffect(() => {
-    fetchCustomerAccounts();
-  }, []);
+    const name = query.get("name");
+    const creator = query.get("creator");
+    const parent = query.get("parent");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Assuming you have choice, name, creator, and parent from query parameters
-        if (name) {
-          filterType = "name";
-          filterValue = name;
-        } else if (creator) {
-          filterType = "creator";
-          filterValue = creator;
-        } else if (parent) {
-          filterType = "parent";
-          filterValue = parent;
-        } else if (!name && !creator && !parent) {
-          filterType = "";
-          filterValue = "";
-        } else {
-          console.error("No valid query parameter found.");
-          return;
-        }
-
-        const filteredAccounts = await findByFilter(filterType, filterValue);
-        setFilteredAccounts(filteredAccounts);
-      } catch (error) {
-        console.error("Error fetching filtered accounts:", error);
-      }
-    };
-
-    fetchData();
-  }, [name, creator, parent]);
+    fetchCustomerAccounts({
+      name,
+      creator,
+      parent,
+    });
+  }, [query]);
 
   //styles
   const textColor = "gray.700";
@@ -179,11 +148,7 @@ const CustomerAccountManagement = () => {
                   fontSize: "md",
                   textColor: "gray.700",
                 }}
-                data={
-                  filteredAccounts.length === 0
-                    ? customerAccounts
-                    : filteredAccounts
-                }
+                data={customerAccounts}
                 columns={columns}
                 emptyListMessage={t("customerAccounts.listEmpty")}
               />

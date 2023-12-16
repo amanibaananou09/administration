@@ -15,7 +15,6 @@ import IconBox from "components/Icons/IconBox";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { findByFilter } from "../../common/api/customerAccount-api";
 
 const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
   const { t } = useTranslation("administration");
@@ -30,7 +29,7 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
       const { value: type } = searchType.current;
       const { value: text } = searchText.current;
 
-      search = `?${type}=${text}`;
+      search = `${type}=${text}`;
     }
 
     history.replace({

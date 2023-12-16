@@ -1,7 +1,7 @@
 import {
+  Box,
   Button,
   Checkbox,
-  Text,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -16,25 +16,25 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
-  useDisclosure,
-  Box,
   Select,
+  SimpleGrid,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { CustomerAccount, GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { UserModalProps } from "common/react-props";
 import { PhoneInput } from "components/Input/PhoneInput";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 
-import { useAuth } from "../../store/AuthContext";
-import { getCustomerAccountInformation } from "../../common/api/station-api";
-import { getListOfCustomerAccount } from "../../common/api/customerAccount-api";
 import { userFormValidationSchema } from "common/form-validation";
+import { getCustomerAccounts } from "../../common/api/customerAccount-api";
+import { getCustomerAccountInformation } from "../../common/api/station-api";
+import { useAuth } from "../../store/AuthContext";
 
 interface FormValues extends GeneralUser {
   phone: string;
@@ -85,7 +85,7 @@ const UserModal = (props: UserModalProps) => {
 
   useEffect(() => {
     const getListOfAccounts = async () => {
-      const result = await getListOfCustomerAccount();
+      const result = await getCustomerAccounts();
       setAccounts(result);
 
       // Get information for the current user's customer account
