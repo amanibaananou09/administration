@@ -21,7 +21,7 @@ import {
 import { CustomerAccount } from "common/AdminModel";
 import {
   createCustomerAccount,
-  getListOfCustomerAccount,
+  getCustomerAccounts,
 } from "common/api/customerAccount-api";
 import { CustomerAccountModalProps } from "common/react-props";
 import { Field, Form, Formik, FormikHelpers } from "formik";
@@ -62,7 +62,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
 
   useEffect(() => {
     const getListOfAccounts = async () => {
-      const result = await getListOfCustomerAccount();
+      const result = await getCustomerAccounts();
       setAccounts(result);
     };
 

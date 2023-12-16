@@ -3,8 +3,38 @@ import api from "./axios";
 
 const API_URL = "/customerAccount";
 
-export const getListOfCustomerAccount = async () => {
-  const response = await api.get(`${API_URL}`);
+type customerAccountSearchCreteria = {
+  name?: string;
+  creator?: string;
+  parent?: string;
+};
+
+export const getCustomerAccounts = async (
+  creteria: customerAccountSearchCreteria = {},
+) => {
+  let url = `${API_URL}`;
+
+  const { name, creator, parent } = creteria;
+
+  const searchParams = new URLSearchParams();
+
+  if (name || parent || creator) {
+    url += "/filter?";
+  }
+
+  if (name) {
+    searchParams.append("name", name);
+  }
+
+  if (creator) {
+    searchParams.append("creator", creator);
+  }
+
+  if (parent) {
+    searchParams.append("parent", parent);
+  }
+
+  const response = await api.get(url + searchParams.toString());
 
   return response.data;
 };
@@ -44,11 +74,4 @@ export const addStation = async (
   id: number | string,
 ): Promise<void> => {
   await api.post(`${API_URL}/${id}/station/add`, station);
-};
-
-export const findByFilter = async (type: string, text: string | null) => {
-  const url = `${API_URL}/filter?${type}=${text}`;
-
-  const response = await api.get(url);
-  return response.data;
 };
