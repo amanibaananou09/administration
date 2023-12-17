@@ -388,7 +388,6 @@ const UserModal = (props: UserModalProps) => {
               mr={3}
               isLoading={form.isSubmitting}
               onClick={() => {
-                console.log("Form Values:", form.values);
                 handleSubmit(form.values);
               }}
             >

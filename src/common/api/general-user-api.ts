@@ -3,8 +3,38 @@ import api from "./axios";
 
 const API_URL = "/user";
 
-export const listUser = async (): Promise<GeneralUser[]> => {
-  const response = await api.get(API_URL);
+type userSearchCreteria = {
+  name?: string;
+  creator?: string;
+  parent?: string;
+};
+
+export const getUsers = async (
+  creteria: userSearchCreteria = {},
+): Promise<GeneralUser[]> => {
+  let url = `${API_URL}`;
+
+  const { name, creator, parent } = creteria;
+
+  const searchParams = new URLSearchParams();
+
+  if (name || parent || creator) {
+    url += "/filter?";
+  }
+
+  if (name) {
+    searchParams.append("name", name);
+  }
+
+  if (creator) {
+    searchParams.append("creator", creator);
+  }
+
+  if (parent) {
+    searchParams.append("parent", parent);
+  }
+
+  const response = await api.get(url + searchParams.toString());
   return response.data;
 };
 
@@ -36,11 +66,5 @@ export const activateUser = async (id: number) => {
 
 export const deactivateUser = async (id: number) => {
   const response = await api.post(`${API_URL}/deactivate/${id}`);
-  return response.data;
-};
-export const findUserByFilter = async (type: string, text: string | null) => {
-  const url = `${API_URL}/filter?${type}=${text}`;
-
-  const response = await api.get(url);
   return response.data;
 };

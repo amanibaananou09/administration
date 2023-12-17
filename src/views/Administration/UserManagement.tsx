@@ -4,8 +4,7 @@ import { GeneralUser } from "common/AdminModel";
 import {
   activateUser,
   deactivateUser,
-  listUser,
-  findUserByFilter,
+  getUsers,
 } from "common/api/general-user-api";
 import { useTranslation } from "react-i18next";
 
@@ -13,90 +12,53 @@ import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import UserModal from "components/Modal/UserModal";
+import Status from "components/Sidebar/Status";
 import useHttp from "hooks/use-http";
-import { Route, useRouteMatch } from "react-router-dom";
-import useQuery from "../../hooks/use-query";
 import { useEffect, useState } from "react";
+import { Route, useRouteMatch } from "react-router-dom";
+import { getCustomerAccountInformation } from "../../common/api/station-api";
 import { UIColumnDefinitionType } from "../../components/Table/Types";
 import UITable from "../../components/Table/UITable";
-import { getCustomerAccountInformation } from "../../common/api/station-api";
+import useQuery from "../../hooks/use-query";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
     GeneralUser[]
-  >(listUser);
+  >(getUsers, false);
   const { t } = useTranslation("administration");
   let { path } = useRouteMatch();
 
-  //styles
-  const textColor = "gray.700";
-
-  const [actif, setActif] = useState(false);
-
-  const [filteredAccounts, setFilteredAccounts] = useState([]);
-  let filterType = "";
-  let filterValue = "";
-
   const query = useQuery();
-  const name = query.get("name") || "";
-  const creator = query.get("creator") || "";
-  const parent = query.get("parent") || "";
+  const name = query.get("name");
+  const creator = query.get("creator");
+  const parent = query.get("parent");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Assuming you have choice, name, creator, and parent from query parameters
-        if (name) {
-          filterType = "name";
-          filterValue = name;
-        } else if (creator) {
-          filterType = "creator";
-          filterValue = creator;
-        } else if (parent) {
-          filterType = "parent";
-          filterValue = parent;
-        } else if (!name && !creator && !parent) {
-          filterType = "";
-          filterValue = "";
-        } else {
-          console.error("No valid query parameter found.");
-          return;
-        }
-
-        const filteredAccounts = await findUserByFilter(
-          filterType,
-          filterValue,
-        );
-        setFilteredAccounts(filteredAccounts);
-      } catch (error) {
-        console.error("Error fetching filtered accounts:", error);
-      }
-    };
-
-    fetchData();
-  }, [name, creator, parent]);
-
-  console.log("users", users);
-  console.log("filteredAccounts", filteredAccounts);
+    fetchUsers({
+      name,
+      creator,
+      parent,
+    });
+  }, [query]);
 
   const handleClick = async (item: GeneralUser) => {
-    try {
-      if (item.actif && item.id !== undefined) {
-        // If currently active, deactivate
-        await deactivateUser(item.id);
-        setActif(false);
-      } else if (item.id !== undefined) {
-        // If currently inactive, activate
-        await activateUser(item.id);
-        setActif(true);
-      }
-      setActif(!actif);
-
-      console.log("Clicked!");
-    } catch (error) {
-      console.error("Error:", error);
+    if (item.actif && item.id !== undefined) {
+      // If currently active, deactivate
+      await deactivateUser(item.id);
+    } else if (item.id !== undefined) {
+      // If currently inactive, activate
+      await activateUser(item.id);
     }
+
+    await fetchUsers({
+      name,
+      creator,
+      parent,
+    });
   };
+
+  //styles
+  const textColor = "gray.700";
 
   const columns: UIColumnDefinitionType<GeneralUser>[] = [
     {
@@ -132,7 +94,7 @@ const UserManagement = () => {
           fetchAccountName();
         }, [item.creatorAccountId]);
 
-        return <>{accountName}</>;
+        return <Text textAlign="center">{accountName}</Text>;
       },
     },
 
@@ -161,7 +123,7 @@ const UserManagement = () => {
           fetchAccountName();
         }, [item.customerAccountId]);
 
-        return <>{creatorName}</>;
+        return <Text textAlign="center">{creatorName}</Text>;
       },
     },
     {
@@ -173,26 +135,14 @@ const UserManagement = () => {
       key: "actif",
       render: (item: GeneralUser) => (
         <div onClick={() => handleClick(item)} style={{ cursor: "pointer" }}>
-          {item.actif ? (
-            <Text fontSize="md" color="green.400" fontWeight="bold">
-              ✓
-            </Text>
-          ) : (
-            <Text fontSize="md" color="red.400" fontWeight="bold">
-              X
-            </Text>
-          )}
+          <Status value={item.actif!!} />
         </div>
       ),
     },
     {
       header: t("common.delete"),
       key: "actif",
-      render: (item: GeneralUser) => (
-        <Text fontSize="md" color="red.400" fontWeight="bold">
-          X
-        </Text>
-      ),
+      render: (item: GeneralUser) => <Status value={false} />,
     },
   ];
 
@@ -211,7 +161,7 @@ const UserManagement = () => {
           <CardBody>
             {!isLoading && users && (
               <UITable
-                data={filteredAccounts.length === 0 ? users : filteredAccounts}
+                data={users}
                 columns={columns}
                 emptyListMessage={t("customerAccounts.listEmpty")}
               />
