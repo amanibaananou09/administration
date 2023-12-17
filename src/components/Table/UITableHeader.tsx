@@ -6,9 +6,10 @@ const UITableHeader = <T,>({ columns, styles }: UITableHeaderProps<T>) => {
     return (
       <Th borderColor="gray.200" key={index}>
         <Text
-          textColor="black"
+          textColor="gray.700"
           textAlign="center"
           fontWeight="bold"
+          fontSize="md"
           {...styles}
         >
           {column.header}

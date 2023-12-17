@@ -31,7 +31,11 @@
     "delete": "Supprimer",
     "canChangePassword": "Peut changer le mot de passe : ",
     "canSendSMS": "Peut envoyer des SMS : ",
-    "isActive": "Activé : "
+    "isActive": "Activé : ",
+    "confirmationDialog": {
+      "confirm": "Valider",
+      "cancel": "Annuler"
+    }
   },
   "sideBarItem": {
     "search": "Rechercher",
@@ -52,7 +56,12 @@
     "errorTitle": "Erreur",
     "errorDescription": "Une erreur s'est produite lors de l'ajout du compte client.",
     "masterUser": "Utilisateur principal",
-    "listEmpty": "Vous ne possédez pas de compte client"
+    "listEmpty": "Vous ne possédez pas de compte client",
+    "updateStatusDialog": {
+      "title": "Mise à jour du statut",
+      "desativationMessage": "Etes-vous sur de vouloir désactiver ce compte ?",
+      "activationMessage": "Etes-vous sur de vouloir activer ce compte ?"
+    }
   },
   "customerAccountModal": {
     "header": "Créer un nouveau compte client"

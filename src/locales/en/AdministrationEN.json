@@ -31,7 +31,11 @@
     "delete": "Delete",
     "canChangePassword": "Can change password : ",
     "canSendSMS": "Can send SMS : ",
-    "isActive": "Enabled : "
+    "isActive": "Enabled : ",
+    "confirmationDialog": {
+      "confirm": "Submit",
+      "cancel": "Cancel"
+    }
   },
   "sideBarItem": {
     "search": "Search",
@@ -52,7 +56,12 @@
     "errorTitle": "Error",
     "errorDescription": "An error occurred while adding the customer account.",
     "masterUser": "Master User",
-    "listEmpty": "You don't have a customer account"
+    "listEmpty": "You don't have a customer account",
+    "updateStatusDialog": {
+      "title": "Update Status",
+      "desativationMessage": "Are you sure, you want to desactivate this account ?",
+      "activationMessage": "Are you sure, you want to activate this account ?"
+    }
   },
   "customerAccountModal": {
     "header": "Create New Customer Account"

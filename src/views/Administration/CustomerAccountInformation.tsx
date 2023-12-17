@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Account, RouteParams } from "common/AdminModel";
 import {
   AddStationModalRefType,
@@ -7,8 +7,8 @@ import {
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import AddStationModal from "components/Modal/AdministrationModal/AddStationModal";
-import AddUserModal from "components/Modal/AdministrationModal/AddUserModal";
+import AddStationModal from "components/Modal/AddStationModal";
+import AddUserModal from "components/Modal/AddUserModal";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -19,8 +19,8 @@ import {
   getCustomerAccountInformation,
 } from "../../common/api/station-api";
 import { Station, User } from "../../common/model";
-import UserInformation from "./UserInformation";
 import StationInformation from "./StationInformation";
+import UserInformation from "./UserInformation";
 
 const CustomerAccountInformation = () => {
   const { id } = useParams<RouteParams>();

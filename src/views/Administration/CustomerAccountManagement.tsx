@@ -5,13 +5,17 @@ import {
   deactivateCustomerAccount,
   getCustomerAccounts,
 } from "common/api/customerAccount-api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import CustomerAccountModal from "components/Modal/AdministrationModal/CustomerAccountModal";
+import ConfirmationDialog, {
+  ConfirmationDialogRefType,
+} from "components/Dialog/ConfirmationDialog";
+import CustomerAccountModal from "components/Modal/CustomerAccountModal";
+import Status from "components/Sidebar/Status";
 import { UIColumnDefinitionType } from "components/Table/Types";
 import UITable from "components/Table/UITable";
 import useHttp from "hooks/use-http";
@@ -24,40 +28,47 @@ const CustomerAccountManagement = () => {
     isLoading,
     makeRequest: fetchCustomerAccounts,
   } = useHttp<CustomerAccount[]>(getCustomerAccounts, false);
-  const [actif, setActif] = useState(false);
+
+  const [selectedAccount, setSelectedAccount] = useState<CustomerAccount>();
 
   const { t } = useTranslation("administration");
   let { path } = useRouteMatch();
   const query = useQuery();
+  const name = query.get("name");
+  const creator = query.get("creator");
+  const parent = query.get("parent");
+
+  const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
   };
 
-  const handleClick = async (item: CustomerAccount) => {
-    try {
+  const updateStatusHandler = async () => {
+    if (selectedAccount) {
+      let item = selectedAccount;
       if (item.actif && item.id !== undefined) {
         // If currently active, deactivate
         await deactivateCustomerAccount(item.id);
-        item.actif = false;
       } else if (item.id !== undefined) {
         // If currently inactive, activate
         await activateCustomerAccount(item.id);
-        item.actif = true;
       }
-      setActif(!actif);
 
-      console.log("Clicked!");
-    } catch (error) {
-      console.error("Error:", error);
+      await fetchCustomerAccounts({
+        name,
+        creator,
+        parent,
+      });
     }
   };
 
-  useEffect(() => {
-    const name = query.get("name");
-    const creator = query.get("creator");
-    const parent = query.get("parent");
+  const openConfirmationDialog = (customerAccount: CustomerAccount) => {
+    setSelectedAccount(customerAccount);
+    confirmationDialogRef.current?.open();
+  };
 
+  useEffect(() => {
     fetchCustomerAccounts({
       name,
       creator,
@@ -97,15 +108,11 @@ const CustomerAccountManagement = () => {
       header: t("common.status"),
       key: "status",
       render: (item: CustomerAccount) => (
-        <div onClick={() => handleClick(item)} style={{ cursor: "pointer" }}>
-          <Text
-            fontSize="md"
-            color={item.actif ? "green.400" : "red.400"}
-            fontWeight="bold"
-            textAlign="center"
-          >
-            {item.actif ? "✓" : "X"}
-          </Text>
+        <div
+          onClick={() => openConfirmationDialog(item)}
+          style={{ cursor: "pointer" }}
+        >
+          <Status value={item.actif!!} />
         </div>
       ),
     },
@@ -116,16 +123,7 @@ const CustomerAccountManagement = () => {
     {
       header: t("common.delete"),
       key: "actif",
-      render: (item: CustomerAccount) => (
-        <Text
-          fontSize="md"
-          color="red.400"
-          fontWeight="bold"
-          textAlign="center"
-        >
-          X
-        </Text>
-      ),
+      render: (item: CustomerAccount) => <Status value={false} />,
     },
   ];
 
@@ -144,11 +142,7 @@ const CustomerAccountManagement = () => {
           <CardBody>
             {!isLoading && customerAccounts && (
               <UITable
-                headerStyles={{
-                  fontSize: "md",
-                  textColor: "gray.700",
-                }}
-                data={customerAccounts}
+                data={customerAccounts.sort((c1, c2) => c1.id!! - c2.id!!)}
                 columns={columns}
                 emptyListMessage={t("customerAccounts.listEmpty")}
               />
@@ -177,7 +171,19 @@ const CustomerAccountManagement = () => {
           />
         </Route>
       </Switch>
+      <ConfirmationDialog
+        title={t("customerAccounts.updateStatusDialog.title")}
+        message={
+          selectedAccount && selectedAccount.actif
+            ? t("customerAccounts.updateStatusDialog.desativationMessage")
+            : t("customerAccounts.updateStatusDialog.activationMessage")
+        }
+        onConfirm={updateStatusHandler}
+        ref={confirmationDialogRef}
+      />
     </>
   );
 };
+
+
 export default CustomerAccountManagement;
