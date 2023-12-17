@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Checkbox,
   Flex,
@@ -22,61 +21,59 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { CustomerAccount, GeneralUser } from "common/AdminModel";
+import { getCustomerAccounts } from "common/api/customerAccount-api";
 import { addUser } from "common/api/general-user-api";
+import { getCustomerAccountInformation } from "common/api/station-api";
+import { userFormValidationSchema } from "common/form-validation";
 import { UserModalProps } from "common/react-props";
 import { PhoneInput } from "components/Input/PhoneInput";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
-
-import { userFormValidationSchema } from "common/form-validation";
-import { getCustomerAccounts } from "../../common/api/customerAccount-api";
-import { getCustomerAccountInformation } from "../../common/api/station-api";
-import { useAuth } from "../../store/AuthContext";
+import { useHistory } from "react-router";
+import { useAuth } from "store/AuthContext";
 
 interface FormValues extends GeneralUser {
   phone: string;
   confirmPassword: string;
 }
 
-interface CheckboxValues {
-  changePassword: boolean;
-  sendSms: boolean;
-  actif: boolean;
-}
-
 const UserModal = (props: UserModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useAuth();
   const { t } = useTranslation("administration");
   const history = useHistory();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [changePassword, setChangePassword] = useState(false);
-  const [sendSms, setSendSms] = useState(false);
-  const [actif, setActif] = useState(false);
   const [accounts, setAccounts] = useState<CustomerAccount[]>([]);
   const [accountName, setAccountName] = useState("");
-  const token = useAuth();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const handleCheckboxChange = (checkboxName: keyof CheckboxValues) => {
-    switch (checkboxName) {
-      case "changePassword":
-        setChangePassword(!changePassword);
-        break;
-      case "sendSms":
-        setSendSms(!sendSms);
-        break;
-      case "actif":
-        setActif(!actif);
-        break;
-      default:
-        break;
-    }
-    form.setFieldValue(
-      checkboxName as keyof FormValues,
-      !form.values[checkboxName] as boolean,
-    );
+  const form = useFormik<Partial<FormValues>>({
+    initialValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phone: "",
+      changePassword: false,
+      sendSms: false,
+      creatorAccountId: user?.customerAccountId,
+      subnetMask: "",
+    },
+    validationSchema: userFormValidationSchema,
+    onSubmit: async (values: Partial<FormValues>) => {
+      console.log(values);
+      await addUser({ ...values } as FormValues);
+      form.setSubmitting(false);
+      onClose();
+      props.onSubmit();
+    },
+  });
+
+  const closeModalHandler = () => {
+    form.resetForm();
+    onClose();
+    history.replace("/administration/users");
   };
 
   useEffect(() => {
@@ -85,12 +82,11 @@ const UserModal = (props: UserModalProps) => {
 
   useEffect(() => {
     const getListOfAccounts = async () => {
-      const result = await getCustomerAccounts();
-      setAccounts(result);
-
+      const customerAccounts: CustomerAccount[] = await getCustomerAccounts();
+      setAccounts(customerAccounts);
       // Get information for the current user's customer account
-      const currentUserAccountId = token.user?.customerAccountId;
-      if (currentUserAccountId) {
+      if (user && user.customerAccountId) {
+        const currentUserAccountId = user.customerAccountId;
         try {
           const accountInformation = await getCustomerAccountInformation(
             currentUserAccountId,
@@ -98,10 +94,7 @@ const UserModal = (props: UserModalProps) => {
           if (accountInformation) {
             // Use the information as needed, for example:
             setAccountName(accountInformation.name);
-            form.setFieldValue(
-              "customerAccountId",
-              accountInformation.id || "",
-            );
+            form.setFieldValue("customerAccountId", accountInformation.id);
           } else {
             console.error("Customer account information is null");
           }
@@ -114,49 +107,12 @@ const UserModal = (props: UserModalProps) => {
     if (isOpen) {
       getListOfAccounts();
     }
-  }, [isOpen, token.user]);
-
-  const closeModalHandler = () => {
-    form.resetForm();
-    onClose();
-    history.replace("/administration/users");
-  };
-
-  const handleSubmit = async (values: Partial<FormValues>) => {
-    try {
-      await addUser(values as FormValues);
-
-      form.setSubmitting(false);
-      closeModalHandler();
-
-      props.onSubmit();
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
-
-  const form = useFormik<Partial<FormValues>>({
-    initialValues: {
-      username: "",
-      email: "",
-      password: "",
-      phone: "",
-      confirmPassword: "",
-      changePassword: "",
-      sendSms: "",
-      actif: false,
-      creatorAccountId: "",
-      customerAccountId: "",
-    },
-    validationSchema: userFormValidationSchema,
-    onSubmit: async (values: Partial<FormValues>) => {
-      await handleSubmit(values);
-    },
-  });
+  }, [isOpen, user]);
 
   return (
     <Modal
       motionPreset="slideInBottom"
+      closeOnOverlayClick={false}
       blockScrollOnMount={true}
       isOpen={isOpen}
       onClose={closeModalHandler}
@@ -173,7 +129,7 @@ const UserModal = (props: UserModalProps) => {
             <SimpleGrid columns={2} spacing={5}>
               <FormControl
                 isInvalid={!!form.errors.username && !!form.touched.username}
-                mb="0px"
+                mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("userInformation.userNameLabel")}
@@ -183,15 +139,14 @@ const UserModal = (props: UserModalProps) => {
                   name="username"
                   value={form.values.username}
                   onChange={form.handleChange}
-                  type="Text"
+                  type="text"
                   placeholder={t("userInformation.userNameLabel")}
                 />
                 <FormErrorMessage>{form.errors.username}</FormErrorMessage>
               </FormControl>
-
               <FormControl
                 isInvalid={!!form.errors.email && !!form.touched.email}
-                mb="0px"
+                mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("userInformation.emailLabel")}
@@ -201,22 +156,16 @@ const UserModal = (props: UserModalProps) => {
                   name="email"
                   value={form.values.email}
                   onChange={form.handleChange}
-                  type="Text"
+                  type="text"
                   placeholder={t("userInformation.emailLabel")}
                 />
-
                 <FormErrorMessage>{form.errors.email}</FormErrorMessage>
               </FormControl>
               <FormControl
                 isInvalid={!!form.errors.password && !!form.touched.password}
-                mb="0px"
+                mb="20px"
               >
-                <FormLabel
-                  ms="4px"
-                  fontSize="sm"
-                  fontWeight="bold"
-                  width="150px"
-                >
+                <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("common.password")}
                 </FormLabel>
                 <InputGroup>
@@ -225,7 +174,7 @@ const UserModal = (props: UserModalProps) => {
                     name="password"
                     value={form.values.password}
                     onChange={form.handleChange}
-                    type={showPassword ? "Text" : "password"}
+                    type={showPassword ? "text" : "password"}
                     placeholder={t("common.password")}
                     pr="4.5rem"
                   />
@@ -240,7 +189,6 @@ const UserModal = (props: UserModalProps) => {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-
                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
               </FormControl>
               <FormControl
@@ -248,6 +196,7 @@ const UserModal = (props: UserModalProps) => {
                   !!form.errors.confirmPassword &&
                   !!form.touched.confirmPassword
                 }
+                mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("common.confirmPassword")}
@@ -260,17 +209,17 @@ const UserModal = (props: UserModalProps) => {
                   type="password"
                   placeholder={t("common.confirmPassword")}
                 />
-
                 <FormErrorMessage>
                   {form.errors.confirmPassword}
                 </FormErrorMessage>
               </FormControl>
+
               <FormControl
                 isInvalid={
                   !!form.errors.creatorAccountId &&
                   !!form.touched.creatorAccountId
                 }
-                mb="0px"
+                mb="20px"
               >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("common.creatorAccount")}
@@ -293,36 +242,42 @@ const UserModal = (props: UserModalProps) => {
                   {form.errors.creatorAccountId}
                 </FormErrorMessage>
               </FormControl>
-              <FormControl mb="0px">
+
+              <FormControl mb="20px">
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("userManagement.globalUsers.account")}
                 </FormLabel>
                 <Input
                   id="customerAccountId"
-                  name="customerAccountId"
                   color="gray.500"
                   value={accountName}
-                  onChange={form.handleChange}
-                  type="Text"
+                  type="text"
                   isReadOnly
                   bg="gray.200"
                   placeholder={t("userManagement.globalUsers.account")}
                 />
               </FormControl>
 
-              <FormControl mb="0px">
+              <FormControl
+                isInvalid={
+                  !!form.errors.subnetMask && !!form.touched.subnetMask
+                }
+                mb="20px"
+              >
                 <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
                   {t("userInformation.mask")}
                 </FormLabel>
                 <Input
-                  id="mask"
-                  name="mask"
+                  id="subnetMask"
+                  name="subnetMask"
                   value={form.values.subnetMask}
                   onChange={form.handleChange}
                   type="Text"
                   placeholder={t("userInformation.mask")}
                 />
+                <FormErrorMessage>{form.errors.subnetMask}</FormErrorMessage>
               </FormControl>
+
               <FormControl
                 isInvalid={!!form.errors.phone && !!form.touched.phone}
                 mb="20px"
@@ -340,7 +295,6 @@ const UserModal = (props: UserModalProps) => {
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
               </FormControl>
             </SimpleGrid>
-            <Box mb={10} />
             <SimpleGrid columns={2} spacing={5}>
               <Flex width="100%" flexDirection="column" gap="10%">
                 <Flex justifyContent="space-between" alignItems="center">
@@ -349,28 +303,35 @@ const UserModal = (props: UserModalProps) => {
                   </Text>
 
                   <Checkbox
-                    value="changePassword"
-                    onChange={() => handleCheckboxChange("changePassword")}
+                    id="changePassword"
+                    name="changePassword"
+                    onChange={(e) =>
+                      form.setFieldValue("changePassword", e.target.checked)
+                    }
                   />
                 </Flex>
                 <Flex justifyContent="space-between" alignItems="center">
                   <Text fontSize="sm" fontWeight="bold">
                     {t("common.canSendSMS")}
                   </Text>
-
                   <Checkbox
-                    value="sendSms"
-                    onChange={() => handleCheckboxChange("sendSms")}
+                    id="sendSms"
+                    name="sendSms"
+                    onChange={(e) =>
+                      form.setFieldValue("sendSms", e.target.checked)
+                    }
                   />
                 </Flex>
                 <Flex justifyContent="space-between" alignItems="center">
                   <Text fontSize="sm" fontWeight="bold">
                     {t("common.isActive")}
                   </Text>
-
                   <Checkbox
-                    value="actif"
-                    onChange={() => handleCheckboxChange("actif")}
+                    id="actif"
+                    name="actif"
+                    onChange={(e) =>
+                      form.setFieldValue("actif", e.target.checked)
+                    }
                   />
                 </Flex>
               </Flex>
@@ -380,20 +341,16 @@ const UserModal = (props: UserModalProps) => {
         <ModalFooter>
           <Flex justifyContent="flex-end">
             <Button
-              type="button"
               fontSize="md"
               colorScheme="teal"
               fontWeight="bold"
               size="lg"
               mr={3}
               isLoading={form.isSubmitting}
-              onClick={() => {
-                handleSubmit(form.values);
-              }}
+              onClick={() => form.handleSubmit()}
             >
               {t("common.submit")}
             </Button>
-
             <Button
               fontSize="md"
               colorScheme="red"

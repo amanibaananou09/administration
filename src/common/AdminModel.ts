@@ -34,11 +34,11 @@ export interface GeneralUser {
   password: string;
   role?: string;
   phone: string;
-  changePassword?: string;
-  sendSms?: string;
+  changePassword?: boolean;
+  sendSms?: boolean;
   subnetMask?: string;
-  customerAccountId?: string | undefined;
-  creatorAccountId?: string | undefined;
+  customerAccountId?: string;
+  creatorAccountId?: string;
   lastVisit?: string;
 }
 

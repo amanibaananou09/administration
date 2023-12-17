@@ -102,7 +102,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
       }}
       pt="8px"
       top="18px"
-      w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 315px)" }}
+      w={{ sm: "calc(100vw - 30px)", xl: "calc(100vw - 75px - 300px)" }}
     >
       <Flex
         w="100%"
