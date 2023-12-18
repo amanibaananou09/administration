@@ -12,7 +12,6 @@ import {
 import { CustomerAccount, GeneralUser } from "common/AdminModel";
 import { getCustomerAccounts } from "common/api/customerAccount-api";
 import { getCustomerAccountInformation } from "common/api/station-api";
-import { userFormValidationSchema } from "common/form-validation";
 import { UserModalProps } from "common/react-props";
 import { PhoneInput } from "components/Input/PhoneInput";
 import { useFormik } from "formik";
@@ -22,6 +21,8 @@ import { useHistory } from "react-router";
 import { useAuth } from "store/AuthContext";
 import UIInputFormControl from "./UIInputFormControl";
 import UIModal from "./UIModal";
+import { addUser } from "common/api/general-user-api";
+import useFormValidation from "hooks/use-form-validation";
 
 interface FormValues extends GeneralUser {
   phone: string;
@@ -31,6 +32,7 @@ interface FormValues extends GeneralUser {
 const UserModal = (props: UserModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
+  const { userFormValidationSchema } = useFormValidation();
   const { t } = useTranslation("administration");
   const history = useHistory();
   const [accounts, setAccounts] = useState<CustomerAccount[]>([]);
@@ -50,11 +52,10 @@ const UserModal = (props: UserModalProps) => {
     },
     validationSchema: userFormValidationSchema,
     onSubmit: async (values: Partial<FormValues>) => {
-      console.log(values);
-      /*await addUser({ ...values } as FormValues);
+      await addUser({ ...values } as FormValues);
       form.setSubmitting(false);
       onClose();
-      props.onSubmit();*/
+      props.onSubmit();
     },
   });
 

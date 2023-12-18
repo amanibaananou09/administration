@@ -1,33 +1,5 @@
 import * as Yup from "yup";
 
-export const userFormValidationSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(4, "Username must be at least 4 characters")
-    .required("Username is required"),
-
-  email: Yup.string().email("Invalid email").required("Email is required"),
-
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .matches(
-      /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).*$/,
-      "Password must contain at least one special character",
-    )
-    .required("Password is required"),
-
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
-    .required("Confirm Password is required"),
-
-  phone: Yup.string()
-    .required("Phone is required")
-    .min(10, "Phone must be at least 10 digits"),
-
-  creatorAccountId: Yup.string().required("Creator Account is required"),
-
-  subnetMask: Yup.string().required("Subnet Mask is required"),
-});
-
 export const adduserFormValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(4, "First Name must be at least 4 characters")

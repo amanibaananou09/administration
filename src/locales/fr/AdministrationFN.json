@@ -133,7 +133,7 @@
       "required": "Le nom d'utilisateur est requis"
     },
     "email": {
-      "email": "E-mail invalide",
+      "invalid": "E-mail invalide",
       "required": "L'e-mail est requis"
     },
     "password": {
@@ -141,8 +141,12 @@
       "matches": "Le mot de passe doit contenir au moins un caractère spécial",
       "required": "Le mot de passe est requis"
     },
+    "confirmPassword": {
+      "match": "Le mot de passe est sa confirmation ne sont pas identiques",
+      "required": "La confirmation du mot de passe est requis"
+    },
     "phone": {
-      "matches": "Le téléphone doit comporter au moins 8 chiffres",
+      "min": "Le téléphone doit comporter au moins 8 chiffres",
       "required": "Le téléphone est requis"
     },
     "name": {
@@ -160,6 +164,12 @@
     "countryId": {
       "required": "Le pays est requis",
       "country-id-check": "Le pays est requis"
+    },
+    "creatorAccountId": {
+      "required": "Le compte createur est requis"
+    },
+    "subnetMask": {
+      "required": "Subnetmask est requis"
     }
   }
 }
