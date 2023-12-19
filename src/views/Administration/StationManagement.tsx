@@ -1,35 +1,34 @@
 import {
+  Alert,
+  AlertIcon,
   Flex,
   Skeleton,
   Stack,
   Text,
-  Alert,
-  AlertIcon,
 } from "@chakra-ui/react";
 
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
-import Card from "components/Card/Card";
-import CardBody from "components/Card/CardBody";
-import CardHeader from "components/Card/CardHeader";
-import StationModal from "components/Modal/StationModal";
-import useHttp from "hooks/use-http";
-import { Route, useRouteMatch } from "react-router-dom";
 import {
   activateStation,
   deactivateStation,
-  getCustomerAccountInformation,
   listStation,
 } from "common/api/station-api";
-import { useEffect, useRef, useState } from "react";
-import { useAuth } from "store/AuthContext";
-import { UIColumnDefinitionType } from "components/Table/Types";
-import Status from "components/Sidebar/Status";
-import UITable from "components/Table/UITable";
+import Card from "components/Card/Card";
+import CardBody from "components/Card/CardBody";
+import CardHeader from "components/Card/CardHeader";
 import ConfirmationDialog, {
   ConfirmationDialogRefType,
 } from "components/Dialog/ConfirmationDialog";
+import StationModal from "components/Modal/StationModal";
+import Status from "components/Sidebar/Status";
+import { UIColumnDefinitionType } from "components/UI/Table/Types";
+import UITable from "components/UI/Table/UITable";
+import useHttp from "hooks/use-http";
+import { useEffect, useRef, useState } from "react";
+import { Route, useRouteMatch } from "react-router-dom";
+import { useAuth } from "store/AuthContext";
 
 const StationManagement = () => {
   const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
