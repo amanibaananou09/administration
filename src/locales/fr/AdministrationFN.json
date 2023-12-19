@@ -29,6 +29,7 @@
     "selectDroits": "Ajoutez vos droits de revendeur",
     "reseller": "Revendeur",
     "delete": "Supprimer",
+    "phone": "Téléphone",
     "canChangePassword": "Peut changer le mot de passe : ",
     "canSendSMS": "Peut envoyer des SMS : ",
     "isActive": "Activé : ",
@@ -110,7 +111,8 @@
     "informationAccounts": "Comptes d'information",
     "manageAccounts": "Gérer les comptes",
     "userDetails": "Détails sur l'utilisateur",
-    "manageUsers": "Gestion des utilisateurs"
+    "manageUsers": "Gestion des utilisateurs",
+    "manageStations": "Gestion des stations"
   },
   "addUserModal": {
     "header": "Créer un nouvel utilisateur"
@@ -165,6 +167,10 @@
       "required": "Le pays est requis",
       "country-id-check": "Le pays est requis"
     },
+    "controllerPtsId": {
+      "matches": "L'ID du contrôleur doit contenir exactement 24 chiffres",
+      "required": "ID contrôleur est requis"
+    },
     "parentId": {
       "required": "Le compte parent est requis"
     },
@@ -173,6 +179,54 @@
     },
     "subnetMask": {
       "required": "Subnetmask est requis"
+    },
+    "controllerType": {
+      "required": "Type de contrôleur est requis"
+    },
+    "creatorAccount": {
+      "required": "Compte créateur est requis"
+    },
+    "customerAccountId": {
+      "required": "Compte Parent est requis"
+    },
+    "modeAffectation": {
+      "required": "Mode d'affectation est requis"
+    },
+    "cordonneesGps": {
+      "required": "Coordonnées GPS est requis"
     }
+
+  },
+  "stationManagement": {
+    "header": "Stations",
+    "compte": "Compte Parent",
+    "nameStation": "Nom de la station",
+    "typeController": "Type de contrôleur",
+    "deactivation": "Statut",
+    "controllerId": "ID contrôleur",
+    "connection": "Dernière connexion",
+    "created": "Créé le ",
+    "isLoading": "Vous ne possédez pas de station",
+    "stationActivated": "La station {{stationName}} a été activée avec succès.",
+    "stationDeactivated": "La station {{stationName}} a été désactivée avec succès.",
+    "updateStatusDialog": {
+      "title": "Mise à jour du statut",
+      "desativationMessage": "Etes-vous sur de vouloir désactiver cette station ?",
+      "activationMessage": "Etes-vous sur de vouloir activer cette station ?"
+    }
+  },
+  "stationModal": {
+    "name": "Nom de la station",
+    "labelname": "Nouvel station",
+    "dateTime": "Date de création",
+    "selectCreator": "Sélectionnez un créateur",
+    "selectControllerType": "Sélectionnez un type de contrôleur",
+    "labelAffectation": "Mode d'affectation",
+    "selectModeAffectation": "Sélectionnez le mode d'affectation",
+    "manuel": "Manuel",
+    "automatique": "Automatique",
+    "cordonneesGps": "Coordonnées GPS",
+    "cordonneesGpsPlaceholder": "Coordonnées GPS",
+    "selectAccount": "Sélectionnez un compte"
   }
 }

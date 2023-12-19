@@ -1,4 +1,4 @@
-import { AddStation, CustomerAccount, MasterUser } from "common/AdminModel";
+import { addStations, CustomerAccount, MasterUser } from "common/AdminModel";
 import api from "./axios";
 
 const API_URL = "/customerAccount";
@@ -70,8 +70,8 @@ export const addUser = async (
 };
 
 export const addStation = async (
-  station: AddStation,
-  id: number | string,
+  station: addStations,
+  id: string | undefined,
 ): Promise<void> => {
   await api.post(`${API_URL}/${id}/station/add`, station);
 };

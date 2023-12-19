@@ -26,29 +26,3 @@ export const adduserFormValidationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Confirm Password is required"),
 });
-
-export const addStationFormValidationSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(4, "Name must be at least 4 characters")
-    .required("Name is required"),
-  address: Yup.string()
-    .min(4, "Address must be at least 4 characters")
-    .required("Address is required"),
-  controllerPts: Yup.object().shape({
-    ptsId: Yup.string()
-      .min(24, "ptsId must be at least 24 characters")
-      .required("ptsId is required"),
-    userController: Yup.object().shape({
-      username: Yup.string()
-        .min(4, "Username must be at least 4 characters")
-        .required("Username is required"),
-
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("Password is required"),
-    }),
-  }),
-  countryId: Yup.number()
-    .required("Country is required")
-    .test("country-id-check", "Country is required", (value) => value > 0),
-});

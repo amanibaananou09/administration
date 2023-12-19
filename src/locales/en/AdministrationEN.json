@@ -29,6 +29,7 @@
     "selectDroits": "Add your reseller rights",
     "reseller": "Reseller",
     "delete": "Delete",
+    "phone": "Phone",
     "canChangePassword": "Can change password : ",
     "canSendSMS": "Can send SMS : ",
     "isActive": "Enabled : ",
@@ -110,7 +111,8 @@
     "informationAccounts": "Information Accounts",
     "manageAccounts": "Manage Accounts",
     "userDetails": "User Details",
-    "manageUsers": "Manage Users"
+    "manageUsers": "Manage Users",
+    "manageStations": "Manage Stations"
   },
   "addUserModal": {
     "header": "Create New User"
@@ -165,6 +167,10 @@
       "required": "Country is required",
       "country-id-check": "Country is required"
     },
+    "controllerPtsId": {
+      "matches": "Controller ID must contain exactly 24 numbers",
+      "required": "controller ID is required"
+    },
     "parentId": {
       "required": "Parent Account is required"
     },
@@ -173,6 +179,53 @@
     },
     "subnetMask": {
       "required": "Subnetmask is required"
+    },
+    "controllerType": {
+      "required": "Type of controller est requis"
+    },
+    "creatorAccount": {
+      "required": "Compte creator est requis"
+    },
+    "customerAccountId": {
+      "required": "Parent Account est requis"
+    },
+    "modeAffectation": {
+      "required": "Assignment mode est requis"
+    },
+    "cordonneesGps": {
+      "required": "GPS coordinates est requis"
     }
+  },
+  "stationManagement": {
+    "header": "Stations",
+    "compte": "Parent Account",
+    "nameStation": "Station name",
+    "typeController": "Type of controller",
+    "deactivation": "Status",
+    "controllerId": "controller ID",
+    "connection": "Last connection",
+    "created": "created the",
+    "isLoading": "You don't have a station",
+    "stationActivated": "Station{{stationName}} has been successfully activated.",
+    "stationDeactivated": "Station {{stationName}} has been successfully deactivated.",
+    "updateStatusDialog": {
+      "title": "Update statut",
+      "desativationMessage": "Are you sure you want to deactivate this station? ?",
+      "activationMessage": "Are you sure you want to activate this station ?"
+    }
+  },
+  "stationModal": {
+    "name": "Station name",
+    "labelname": "New station",
+    "dateTime": "Creation date",
+    "selectCreator": "Select a creator",
+    "selectControllerType": "Select a controller Type",
+    "labelAffectation": "Assignment mode",
+    "selectModeAffectation": "Select the assignment mode",
+    "manuel": "Manuel",
+    "automatique": "Automatic",
+    "cordonneesGps": "GPS coordinates",
+    "cordonneesGpsPlaceholder": "coordinates",
+    "selectAccount": "Select a Account"
   }
 }

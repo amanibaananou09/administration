@@ -8,7 +8,9 @@ import { useTranslation } from "react-i18next";
 import UserDetails from "views/Administration/UserDetails";
 import UserManagement from "views/Administration/UserManagement";
 import CustomerAccountManagement from "../views/Administration/CustomerAccountManagement";
-
+import StationManagement from "views/Administration/StationManagement";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGasPump } from "@fortawesome/free-solid-svg-icons";
 export const administrationRoutes = (): RouteConfig[] => {
   const { t } = useTranslation("administration");
   return [
@@ -33,6 +35,14 @@ export const administrationRoutes = (): RouteConfig[] => {
       name: t("routes.manageUsers"),
       icon: <PersonIcon color="inherit" />,
       component: UserManagement,
+      layout: "/administration",
+      sideBarItemComponent: AdminSideBarItem,
+    },
+    {
+      path: "/stations",
+      name: t("routes.manageStations"),
+      icon: <FontAwesomeIcon icon={faGasPump} color="inherit" />,
+      component: StationManagement,
       layout: "/administration",
       sideBarItemComponent: AdminSideBarItem,
     },
