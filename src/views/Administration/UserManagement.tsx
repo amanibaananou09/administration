@@ -1,6 +1,6 @@
 import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 
-import { CustomerAccount, GeneralUser } from "common/AdminModel";
+import { GeneralUser } from "common/AdminModel";
 import {
   activateUser,
   deactivateUser,
@@ -14,11 +14,10 @@ import CardHeader from "components/Card/CardHeader";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
 import useHttp from "hooks/use-http";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
-import { getCustomerAccountInformation } from "../../common/api/station-api";
-import { UIColumnDefinitionType } from "../../components/Table/Types";
-import UITable from "../../components/Table/UITable";
+import { UIColumnDefinitionType } from "../../components/UI/Table/Types";
+import UITable from "../../components/UI/Table/UITable";
 import useQuery from "../../hooks/use-query";
 
 const UserManagement = () => {

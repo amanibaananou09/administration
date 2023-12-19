@@ -4,7 +4,6 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Select,
   SimpleGrid,
   Text,
   useDisclosure,
@@ -13,6 +12,7 @@ import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { UserModalProps } from "common/react-props";
 import { PhoneInput } from "components/Input/PhoneInput";
+import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import { useFormik } from "formik";
 import useCustomerAccounts from "hooks/use-customer-accounts";
 import useFormValidation from "hooks/use-form-validation";
@@ -20,8 +20,8 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { useAuth } from "store/AuthContext";
-import UIInputFormControl from "./UIInputFormControl";
-import UIModal from "./UIModal";
+import UIInputFormControl from "../UI/Form/UIInputFormControl";
+import UIModal from "../UI/Modal/UIModal";
 
 interface FormValues extends GeneralUser {
   confirmPassword: string;
@@ -76,7 +76,7 @@ const UserModal = (props: UserModalProps) => {
       isSubmitting={form.isSubmitting}
     >
       <form>
-        <SimpleGrid columns={2} spacing={5}>
+        <SimpleGrid columns={2} spacingX={5}>
           <UIInputFormControl
             isInvalid={!!form.errors.username && !!form.touched.username}
             label={t("userInformation.userNameLabel")}
@@ -118,58 +118,40 @@ const UserModal = (props: UserModalProps) => {
             showPasswordBtn={false}
           />
 
-          <FormControl
+          <UISelectFormControl
             isInvalid={
               !!form.errors.creatorAccountId && !!form.touched.creatorAccountId
             }
-            mb="20px"
+            label={t("common.creatorAccount")}
+            fieldName="creatorAccountId"
+            value={form.values.creatorAccountId}
+            onChange={form.handleChange}
+            errorMessage={form.errors.creatorAccountId}
           >
-            <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-              {t("common.creatorAccount")}
-            </FormLabel>
-            <Select
-              id="creatorAccountId"
-              name="creatorAccountId"
-              value={form.values.creatorAccountId}
-              onChange={form.handleChange}
-              placeholder={t("common.creatorAccount")}
-            >
-              {customerAccounts.map((accountData) => (
-                <option key={accountData.id} value={accountData.id}>
-                  {accountData.name}
-                </option>
-              ))}
-            </Select>
+            {customerAccounts.map((accountData) => (
+              <option key={accountData.id} value={accountData.id}>
+                {accountData.name}
+              </option>
+            ))}
+          </UISelectFormControl>
 
-            <FormErrorMessage>{form.errors.creatorAccountId}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl
+          <UISelectFormControl
             isInvalid={
               !!form.errors.customerAccountId &&
               !!form.touched.customerAccountId
             }
-            mb="20px"
+            label={t("common.compteParent")}
+            fieldName="customerAccountId"
+            value={form.values.customerAccountId}
+            onChange={form.handleChange}
+            errorMessage={form.errors.customerAccountId}
           >
-            <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-              {t("common.compteParent")}
-            </FormLabel>
-            <Select
-              id="customerAccountId"
-              name="customerAccountId"
-              value={form.values.customerAccountId}
-              onChange={form.handleChange}
-              placeholder={t("common.compteParent")}
-            >
-              {customerAccounts.map((accountData) => (
-                <option key={accountData.id} value={accountData.id}>
-                  {accountData.name}
-                </option>
-              ))}
-            </Select>
-
-            <FormErrorMessage>{form.errors.customerAccountId}</FormErrorMessage>
-          </FormControl>
+            {customerAccounts.map((accountData) => (
+              <option key={accountData.id} value={accountData.id}>
+                {accountData.name}
+              </option>
+            ))}
+          </UISelectFormControl>
 
           <UIInputFormControl
             isInvalid={!!form.errors.subnetMask && !!form.touched.subnetMask}
@@ -197,45 +179,41 @@ const UserModal = (props: UserModalProps) => {
             <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
           </FormControl>
         </SimpleGrid>
-        <SimpleGrid columns={2} spacing={5}>
-          <Flex width="100%" flexDirection="column" gap="10%">
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text fontSize="sm" fontWeight="bold">
-                {t("common.canChangePassword")}
-              </Text>
+        <Flex width="50%" flexDirection="column" gap="10%">
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="sm" fontWeight="bold">
+              {t("common.canChangePassword")}
+            </Text>
 
-              <Checkbox
-                id="changePassword"
-                name="changePassword"
-                onChange={(e) =>
-                  form.setFieldValue("changePassword", e.target.checked)
-                }
-              />
-            </Flex>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text fontSize="sm" fontWeight="bold">
-                {t("common.canSendSMS")}
-              </Text>
-              <Checkbox
-                id="sendSms"
-                name="sendSms"
-                onChange={(e) =>
-                  form.setFieldValue("sendSms", e.target.checked)
-                }
-              />
-            </Flex>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text fontSize="sm" fontWeight="bold">
-                {t("common.isActive")}
-              </Text>
-              <Checkbox
-                id="actif"
-                name="actif"
-                onChange={(e) => form.setFieldValue("actif", e.target.checked)}
-              />
-            </Flex>
+            <Checkbox
+              id="changePassword"
+              name="changePassword"
+              onChange={(e) =>
+                form.setFieldValue("changePassword", e.target.checked)
+              }
+            />
           </Flex>
-        </SimpleGrid>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="sm" fontWeight="bold">
+              {t("common.canSendSMS")}
+            </Text>
+            <Checkbox
+              id="sendSms"
+              name="sendSms"
+              onChange={(e) => form.setFieldValue("sendSms", e.target.checked)}
+            />
+          </Flex>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="sm" fontWeight="bold">
+              {t("common.isActive")}
+            </Text>
+            <Checkbox
+              id="actif"
+              name="actif"
+              onChange={(e) => form.setFieldValue("actif", e.target.checked)}
+            />
+          </Flex>
+        </Flex>
       </form>
     </UIModal>
   );

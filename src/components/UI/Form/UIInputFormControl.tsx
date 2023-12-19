@@ -34,7 +34,7 @@ const UIInputFormControl = ({
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <FormControl isInvalid={isInvalid} mb="20px">
+    <FormControl isInvalid={isInvalid} mb="15px">
       <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
         {label}
       </FormLabel>
