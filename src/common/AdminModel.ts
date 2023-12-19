@@ -1,9 +1,10 @@
 export interface CustomerAccount {
   id?: number;
   name: string;
-  creatorUserId?: string;
+  creatorAccountId?: string;
   parentId: string;
   parentName?: string;
+  creatorCustomerAccountName?: string;
   resaleRight: string;
   stations?: number;
   stationsCount?: number;
@@ -40,6 +41,8 @@ export interface GeneralUser {
   customerAccountId?: string;
   creatorAccountId?: string;
   lastVisit?: string;
+  creatorCustomerAccountName?: string;
+  customerAccountName?: string;
 }
 
 export interface userScope {

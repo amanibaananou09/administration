@@ -91,12 +91,12 @@ const CustomerAccountManagement = () => {
     },
     {
       header: t("common.creator"),
-      key: "creatorUser",
-      render: (item: CustomerAccount) => item.name,
+      key: "creatorAccountId",
+      render: (item: CustomerAccount) => item.creatorCustomerAccountName,
     },
     {
       header: t("common.compteParent"),
-      key: "parentName",
+      key: "parentId",
       render: (item: CustomerAccount) => item.parentName,
     },
     {

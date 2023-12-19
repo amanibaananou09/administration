@@ -102,7 +102,7 @@
       "statusColumn": "Statut",
       "noUserAvailable": "Aucun utilisateur disponible.",
       "accountCreator": "Créateur de compte",
-      "account": "Compte",
+      "account": "Compte Parent",
       "lastVisit": "Derniere Visite"
     }
   },

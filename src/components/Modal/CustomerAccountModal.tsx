@@ -45,6 +45,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
     name: "",
     resaleRight: "",
     parentId: "",
+    creatorAccountId: "",
     status: "ENABLED",
     masterUser: {
       username: "",
@@ -212,7 +213,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                   </Box>
                   <Flex flex="1" mr="4">
                     <Box flex="1" mr="4">
-                      <Field name="compteParent" validate={isNotNull}>
+                      <Field name="parentId" validate={isNotNull}>
                         {({
                           field,
                           form,
@@ -224,14 +225,13 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                             onBlur: () => void;
                           };
                           form: {
-                            errors: { compteParent: string };
-                            touched: { compteParent: boolean };
+                            errors: { parentId: string };
+                            touched: { parentId: boolean };
                           };
                         }) => (
                           <FormControl
                             isInvalid={
-                              !!form.errors.compteParent &&
-                              !!form.touched.compteParent
+                              !!form.errors.parentId && !!form.touched.parentId
                             }
                             mb="10px"
                           >
@@ -256,7 +256,58 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                             </Select>
 
                             <FormErrorMessage>
-                              {form.errors.compteParent}
+                              {form.errors.parentId}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </Box>
+                    <Box flex="1" mr="4">
+                      <Field name="creatorAccountId" validate={isNotNull}>
+                        {({
+                          field,
+                          form,
+                        }: {
+                          field: {
+                            name: string;
+                            value: string;
+                            onChange: (e: React.ChangeEvent<any>) => void;
+                            onBlur: () => void;
+                          };
+                          form: {
+                            errors: { creatorAccountId: string };
+                            touched: { creatorAccountId: boolean };
+                          };
+                        }) => (
+                          <FormControl
+                            isInvalid={
+                              !!form.errors.creatorAccountId &&
+                              !!form.touched.creatorAccountId
+                            }
+                            mb="10px"
+                          >
+                            <FormLabel htmlFor="Compte Parent">
+                              {t("common.creator")}
+                            </FormLabel>
+                            <Select
+                              id="creatorAccountId"
+                              name="creatorAccountId"
+                              value={field.value}
+                              onChange={field.onChange}
+                              placeholder={t("common.selectAccount")}
+                            >
+                              {accounts.map((accountData) => (
+                                <option
+                                  key={accountData.id}
+                                  value={accountData.id}
+                                >
+                                  {accountData.name}
+                                </option>
+                              ))}
+                            </Select>
+
+                            <FormErrorMessage>
+                              {form.errors.creatorAccountId}
                             </FormErrorMessage>
                           </FormControl>
                         )}
