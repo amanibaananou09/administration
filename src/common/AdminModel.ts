@@ -1,3 +1,4 @@
+import {country} from 'common/model';
 export interface CustomerAccount {
   id?: number;
   name: string;
@@ -61,22 +62,49 @@ export interface Account {
 
 export interface ControllerPts {
   ptsId: string;
+  phone?: string;
+  controllerType?: string;
   userController: UserController;
 }
 
 export interface UserController {
+  [x: string]: string;
   username: string;
   password: string;
 }
 
-export interface AddStation {
+export interface RouteParams {
+  id: string;
+}
+
+export interface GeneralStations {
+  id?: string;
+  name: string;
+  address: string;
+  creatorCustomerAccountName:string;
+  customerAccountName: string;
+  creatorAccountId: string;
+  account: string;
+  controllerType: string;
+  actif: boolean;
+  controllerPts: ControllerPts;
+  phone: string;
+  connection: string;
+  dateStatusChange: string;
+  password: string;
+  countryId: number;
+  customerAccountId: string;
+  cordonneesGps: string;
+  country: country ;
+}
+
+export interface addStations {
   name: string;
   address: string;
   controllerPts: ControllerPts;
   countryId: number;
   customerAccountId: number;
-}
-
-export interface RouteParams {
-  id: string;
+  creatorAccountId: string;
+  modeAffectation: string;
+  cordonneesGps: string;
 }

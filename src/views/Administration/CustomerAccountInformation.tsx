@@ -7,7 +7,6 @@ import {
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import AddStationModal from "components/Modal/AddStationModal";
 import AddUserModal from "components/Modal/AddUserModal";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -281,10 +280,7 @@ const CustomerAccountInformation = () => {
         ref={addUserModalRef}
         onSubmit={submitAddUserModalHandler}
       />
-      <AddStationModal
-        ref={addStationModalRef}
-        onSubmit={submitAddStationModalHandler}
-      />
+
       {selectedUser && (
         <UserInformation
           user={selectedUser}

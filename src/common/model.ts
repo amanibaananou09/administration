@@ -13,6 +13,8 @@ export interface country {
   code: string;
   currency: currency;
   currencyId?: number;
+  phoneCode?: string;
+  phonePrefix?: string;
 }
 
 export interface currency {

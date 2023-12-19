@@ -1,3 +1,4 @@
+import { GeneralStations } from "common/AdminModel";
 import { Station, User } from "common/model";
 import api from "./axios";
 
@@ -70,3 +71,23 @@ export const getCustomerAccountInformation = async (id: string) => {
   return response.data;
 };
 
+export const listStation = async (customerAccountId: string): Promise<GeneralStations[]> => {
+  const response = await api.get(`${API_URL}/${customerAccountId}/station`);
+  return response.data;
+};
+
+export const listOfCreator = async (id: string | undefined) => {
+  const response = await api.get(`${API_URL}/${id}/creator`);
+  return response.data;
+};
+
+export const activateStation = async (customerAccountId:string| undefined,id: string | undefined) => {
+  const response = await api.put(`${API_URL}/${customerAccountId}/station/activate/${id}`);
+
+  return response.data;
+};
+
+export const deactivateStation = async (customerAccountId:string| undefined,id: string | undefined) => {
+  const response = await api.put(`${API_URL}/${customerAccountId}/station/deactivate/${id}`);
+  return response.data;
+};

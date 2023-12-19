@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { CustomerAccount } from "./AdminModel";
+import { CustomerAccount, GeneralStations } from "./AdminModel";
 import {
   ChartFilter,
   RouteConfig,
@@ -69,6 +69,8 @@ export interface CustomerAccountTableRowProps {
 
 export interface AddStationModalProps {
   onSubmit: () => void;
+  fetchStations: (requestData?: any) => Promise<GeneralStations[] | undefined>;
+
 }
 
 export interface AddStationModalRefType {
