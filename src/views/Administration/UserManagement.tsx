@@ -1,6 +1,6 @@
 import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 
-import { GeneralUser } from "common/AdminModel";
+import { CustomerAccount, GeneralUser } from "common/AdminModel";
 import {
   activateUser,
   deactivateUser,
@@ -72,59 +72,13 @@ const UserManagement = () => {
     {
       header: t("userManagement.globalUsers.accountCreator"),
       key: "creatorAccountId",
-      render: (item: GeneralUser) => {
-        const [accountName, setAccountName] = useState<string | null>(null);
-
-        useEffect(() => {
-          const fetchAccountName = async () => {
-            try {
-              if (item.creatorAccountId) {
-                const accountInfo = await getCustomerAccountInformation(
-                  item.creatorAccountId,
-                );
-                setAccountName(accountInfo?.name || null);
-              } else {
-                setAccountName(null);
-              }
-            } catch (error) {
-              console.error("Error fetching account information:", error);
-            }
-          };
-
-          fetchAccountName();
-        }, [item.creatorAccountId]);
-
-        return <Text textAlign="center">{accountName}</Text>;
-      },
+      render: (item: GeneralUser) => item.creatorCustomerAccountName,
     },
 
     {
       header: t("userManagement.globalUsers.account"),
       key: "customerAccountId",
-      render: (item: GeneralUser) => {
-        const [creatorName, setCreatorName] = useState<string | null>(null);
-
-        useEffect(() => {
-          const fetchAccountName = async () => {
-            try {
-              if (item.customerAccountId) {
-                const creatorInfo = await getCustomerAccountInformation(
-                  item.customerAccountId,
-                );
-                setCreatorName(creatorInfo?.name || "");
-              } else {
-                setCreatorName(null);
-              }
-            } catch (error) {
-              console.error("Error fetching account information:", error);
-            }
-          };
-
-          fetchAccountName();
-        }, [item.customerAccountId]);
-
-        return <Text textAlign="center">{creatorName}</Text>;
-      },
+      render: (item: GeneralUser) => item.customerAccountName,
     },
     {
       header: t("userManagement.globalUsers.lastVisit"),

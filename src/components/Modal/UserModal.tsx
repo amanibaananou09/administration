@@ -175,13 +175,32 @@ const UserModal = (props: UserModalProps) => {
             <FormErrorMessage>{form.errors.creatorAccountId}</FormErrorMessage>
           </FormControl>
 
-          <UIInputFormControl
-            label={t("userManagement.globalUsers.account")}
-            fieldName="customerAccountId"
-            value={accountName}
-            type="text"
-            isReadOnly
-          />
+          <FormControl
+            isInvalid={
+              !!form.errors.customerAccountId &&
+              !!form.touched.customerAccountId
+            }
+            mb="20px"
+          >
+            <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
+              {t("common.compteParent")}
+            </FormLabel>
+            <Select
+              id="customerAccountId"
+              name="customerAccountId"
+              value={form.values.customerAccountId}
+              onChange={form.handleChange}
+              placeholder={t("common.compteParent")}
+            >
+              {accounts.map((accountData) => (
+                <option key={accountData.id} value={accountData.id}>
+                  {accountData.name}
+                </option>
+              ))}
+            </Select>
+
+            <FormErrorMessage>{form.errors.customerAccountId}</FormErrorMessage>
+          </FormControl>
 
           <UIInputFormControl
             isInvalid={!!form.errors.subnetMask && !!form.touched.subnetMask}

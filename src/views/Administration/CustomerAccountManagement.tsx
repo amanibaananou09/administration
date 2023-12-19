@@ -21,6 +21,7 @@ import UITable from "components/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { getCustomerAccountInformation } from "../../common/api/station-api";
 
 const CustomerAccountManagement = () => {
   const {
@@ -90,12 +91,12 @@ const CustomerAccountManagement = () => {
     },
     {
       header: t("common.creator"),
-      key: "creatorUser",
-      render: (item: CustomerAccount) => item.name,
+      key: "creatorAccountId",
+      render: (item: CustomerAccount) => item.creatorCustomerAccountName,
     },
     {
       header: t("common.compteParent"),
-      key: "parentName",
+      key: "parentId",
       render: (item: CustomerAccount) => item.parentName,
     },
     {
@@ -184,6 +185,5 @@ const CustomerAccountManagement = () => {
     </>
   );
 };
-
 
 export default CustomerAccountManagement;
