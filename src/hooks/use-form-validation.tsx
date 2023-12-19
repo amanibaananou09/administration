@@ -40,7 +40,9 @@ const useFormValidation = () => {
     .required(t("validation.phone.required"))
     .min(10, t("validation.phone.min"));
 
-  const parentId = Yup.string().required(t("validation.parentId.required"));
+  const parentAccount = Yup.string().required(
+    t("validation.parentId.required"),
+  );
 
   const creatorAccountId = Yup.string().required(
     t("validation.creatorAccountId.required"),
@@ -55,13 +57,13 @@ const useFormValidation = () => {
     confirmPassword,
     phone,
     creatorAccountId,
-    customerAccountId: parentId,
+    customerAccountId: parentAccount,
     subnetMask,
   });
 
   const customerAccountValidationSchema = Yup.object().shape({
     name,
-    parentId,
+    parentId: parentAccount,
     creatorAccountId,
     confirmPassword: Yup.string()
       .oneOf(

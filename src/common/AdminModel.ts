@@ -2,7 +2,7 @@ export interface CustomerAccount {
   id?: number;
   name: string;
   creatorAccountId?: string;
-  parentId: string;
+  parentId?: string;
   parentName?: string;
   creatorCustomerAccountName?: string;
   resaleRight: boolean;
