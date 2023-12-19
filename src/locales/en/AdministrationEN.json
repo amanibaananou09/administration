@@ -120,6 +120,10 @@
     "selectCountry": "Select country"
   },
   "validation": {
+    "name": {
+      "min": "Name must be at least 4 characters",
+      "required": "Name is required"
+    },
     "firstName": {
       "min": "First Name must be at least 4 characters",
       "required": "First Name is required"
@@ -149,10 +153,6 @@
       "min": "Phone must be at least 8 digits",
       "required": "Phone is required"
     },
-    "name": {
-      "min": "Name must be at least 4 characters",
-      "required": "Name is required"
-    },
     "address": {
       "min": "Address must be at least 4 characters",
       "required": "Address is required"
@@ -164,6 +164,9 @@
     "countryId": {
       "required": "Country is required",
       "country-id-check": "Country is required"
+    },
+    "parentId": {
+      "required": "Parent Account is required"
     },
     "creatorAccountId": {
       "required": "Creator Account is required"

@@ -5,7 +5,7 @@ export interface CustomerAccount {
   parentId: string;
   parentName?: string;
   creatorCustomerAccountName?: string;
-  resaleRight: string;
+  resaleRight: boolean;
   stations?: number;
   stationsCount?: number;
   status?: string;

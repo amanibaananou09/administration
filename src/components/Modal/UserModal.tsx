@@ -9,23 +9,21 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { CustomerAccount, GeneralUser } from "common/AdminModel";
-import { getCustomerAccounts } from "common/api/customerAccount-api";
-import { getCustomerAccountInformation } from "common/api/station-api";
+import { GeneralUser } from "common/AdminModel";
+import { addUser } from "common/api/general-user-api";
 import { UserModalProps } from "common/react-props";
 import { PhoneInput } from "components/Input/PhoneInput";
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import useCustomerAccounts from "hooks/use-customer-accounts";
+import useFormValidation from "hooks/use-form-validation";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { useAuth } from "store/AuthContext";
 import UIInputFormControl from "./UIInputFormControl";
 import UIModal from "./UIModal";
-import { addUser } from "common/api/general-user-api";
-import useFormValidation from "hooks/use-form-validation";
 
 interface FormValues extends GeneralUser {
-  phone: string;
   confirmPassword: string;
 }
 
@@ -33,10 +31,9 @@ const UserModal = (props: UserModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
   const { userFormValidationSchema } = useFormValidation();
+  const { customerAccounts } = useCustomerAccounts();
   const { t } = useTranslation("administration");
   const history = useHistory();
-  const [accounts, setAccounts] = useState<CustomerAccount[]>([]);
-  const [accountName, setAccountName] = useState("");
 
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
@@ -48,6 +45,7 @@ const UserModal = (props: UserModalProps) => {
       changePassword: false,
       sendSms: false,
       creatorAccountId: user?.customerAccountId,
+      customerAccountId: user?.customerAccountId,
       subnetMask: "",
     },
     validationSchema: userFormValidationSchema,
@@ -68,35 +66,6 @@ const UserModal = (props: UserModalProps) => {
   useEffect(() => {
     onOpen();
   }, []);
-
-  useEffect(() => {
-    const getListOfAccounts = async () => {
-      const customerAccounts: CustomerAccount[] = await getCustomerAccounts();
-      setAccounts(customerAccounts);
-      // Get information for the current user's customer account
-      if (user && user.customerAccountId) {
-        const currentUserAccountId = user.customerAccountId;
-        try {
-          const accountInformation = await getCustomerAccountInformation(
-            currentUserAccountId,
-          );
-          if (accountInformation) {
-            // Use the information as needed, for example:
-            setAccountName(accountInformation.name);
-            form.setFieldValue("customerAccountId", accountInformation.id);
-          } else {
-            console.error("Customer account information is null");
-          }
-        } catch (error) {
-          console.error("Error fetching customer account information:", error);
-        }
-      }
-    };
-
-    if (isOpen) {
-      getListOfAccounts();
-    }
-  }, [isOpen, user]);
 
   return (
     <UIModal
@@ -165,7 +134,7 @@ const UserModal = (props: UserModalProps) => {
               onChange={form.handleChange}
               placeholder={t("common.creatorAccount")}
             >
-              {accounts.map((accountData) => (
+              {customerAccounts.map((accountData) => (
                 <option key={accountData.id} value={accountData.id}>
                   {accountData.name}
                 </option>
@@ -192,7 +161,7 @@ const UserModal = (props: UserModalProps) => {
               onChange={form.handleChange}
               placeholder={t("common.compteParent")}
             >
-              {accounts.map((accountData) => (
+              {customerAccounts.map((accountData) => (
                 <option key={accountData.id} value={accountData.id}>
                   {accountData.name}
                 </option>
