@@ -67,6 +67,14 @@ const UserManagement = () => {
     setSelectedUser(user);
     confirmationDialogRef.current?.open();
   };
+  const getIndex = () => {
+    let count = 0; 
+  
+    return () => {
+      return count++; 
+    };
+  };
+  const getIndexValue = getIndex();
   //styles
   const textColor = "gray.700";
 
@@ -74,6 +82,10 @@ const UserManagement = () => {
     {
       header: "#",
       key: "id",
+      render: (item: GeneralUser) => {
+        const rowIndex = getIndexValue(); 
+        return <Text>{rowIndex + 1}</Text>;
+      },
     },
     {
       header: t("userManagement.globalUsers.userNameColumn"),

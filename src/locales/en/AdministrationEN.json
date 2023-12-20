@@ -166,6 +166,7 @@
     },
     "countryId": {
       "required": "Country is required",
+      "positive": "Please select a country",
       "country-id-check": "Country is required"
     },
     "controllerPtsId": {
@@ -182,19 +183,19 @@
       "required": "Subnetmask is required"
     },
     "controllerType": {
-      "required": "Type of controller est requis"
+      "required": "Type of controller is requis"
     },
     "creatorAccount": {
-      "required": "Compte creator est requis"
+      "required": "Compte creator is requis"
     },
     "customerAccountId": {
-      "required": "Parent Account est requis"
+      "required": "Parent Account is requis"
     },
     "modeAffectation": {
-      "required": "Assignment mode est requis"
+      "required": "Assignment mode is requis"
     },
     "cordonneesGps": {
-      "required": "GPS coordinates est requis"
+      "required": "GPS coordinates is requis"
     }
   },
   "stationManagement": {

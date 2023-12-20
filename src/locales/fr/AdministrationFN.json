@@ -166,6 +166,7 @@
     },
     "countryId": {
       "required": "Le pays est requis",
+      "positive": "Veuillez sélectionner un pays",
       "country-id-check": "Le pays est requis"
     },
     "controllerPtsId": {

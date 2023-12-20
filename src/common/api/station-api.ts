@@ -3,6 +3,12 @@ import { Station, User } from "common/model";
 import api from "./axios";
 
 const API_URL = "/customerAccount";
+type StationSearchCriteria = {
+  customerAccountId: string,
+  name?: string;
+  creator?: string;
+  parent?: string;
+};
 
 export const getStationForUser = async (username: string, user: User) => {
   const response = await api.get(
@@ -70,9 +76,39 @@ export const getCustomerAccountInformation = async (id: string) => {
 
   return response.data;
 };
+export const listStation = async (
+  stationSearchCriteria: StationSearchCriteria= {
+    customerAccountId: ""
+  }, 
+): Promise<GeneralStations[]> => {
+  let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station`;
 
-export const listStation = async (customerAccountId: string): Promise<GeneralStations[]> => {
-  const response = await api.get(`${API_URL}/${customerAccountId}/station`);
+  const { name, creator, parent } = stationSearchCriteria;
+
+  const searchParams = new URLSearchParams();
+
+  if (name || parent || creator) {
+    url += "/filter?";
+  }
+
+  if (name) {
+    searchParams.append("name", name);
+  }
+
+  if (creator) {
+    searchParams.append("creator", creator);
+  }
+
+  if (parent) {
+    searchParams.append("parent", parent);
+  }
+
+  if (stationSearchCriteria.customerAccountId && !name && !creator && !parent) {
+    const response = await api.get(url);
+    return response.data;
+  }
+  const response = await api.get(url + searchParams.toString());
+
   return response.data;
 };
 
@@ -81,13 +117,23 @@ export const listOfCreator = async (id: string | undefined) => {
   return response.data;
 };
 
-export const activateStation = async (customerAccountId:string| undefined,id: string | undefined) => {
-  const response = await api.put(`${API_URL}/${customerAccountId}/station/activate/${id}`);
+export const activateStation = async (
+  customerAccountId: string | undefined,
+  id: string | undefined,
+) => {
+  const response = await api.put(
+    `${API_URL}/${customerAccountId}/station/activate/${id}`,
+  );
 
   return response.data;
 };
 
-export const deactivateStation = async (customerAccountId:string| undefined,id: string | undefined) => {
-  const response = await api.put(`${API_URL}/${customerAccountId}/station/deactivate/${id}`);
+export const deactivateStation = async (
+  customerAccountId: string | undefined,
+  id: string | undefined,
+) => {
+  const response = await api.put(
+    `${API_URL}/${customerAccountId}/station/deactivate/${id}`,
+  );
   return response.data;
 };

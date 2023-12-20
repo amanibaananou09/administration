@@ -29,6 +29,7 @@ import useHttp from "hooks/use-http";
 import { useEffect, useRef, useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
+import useQuery from "hooks/use-query";
 
 const StationManagement = () => {
   const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
@@ -42,19 +43,40 @@ const StationManagement = () => {
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
   const [selectedStation, setSelectedStation] = useState<GeneralStations>();
 
+  const query = useQuery();
+  const name = query.get("name");
+  const creator = query.get("creator");
+  const parent = query.get("parent");
+  const submitModalHandler = async () => {
+    const searchCriteria = {
+      customerAccountId: currentUserAccountId,
+      name,
+      creator,
+      parent,
+    };
+    await fetchStations(searchCriteria);
+  };
   const openConfirmationDialog = (station: GeneralStations) => {
     setSelectedStation(station);
     confirmationDialogRef.current?.open();
   };
   //styles
   const textColor = "gray.700";
-  useEffect(() => {
-    fetchStations(currentUserAccountId);
-  }, [fetchStations, currentUserAccountId]);
 
-  const onSubmit = () => {
-    fetchStations(currentUserAccountId);
-  };
+  useEffect(() => {
+    const noSearchParams = !name && !creator && !parent;
+  
+    const searchCriteria = {
+      customerAccountId: currentUserAccountId,
+      name,
+      creator,
+      parent,
+    };
+  
+    fetchStations(searchCriteria);
+  }, [query, name, creator, parent, currentUserAccountId]);
+  
+
   const handleClick = async () => {
     if (selectedStation) {
       let item = selectedStation;
@@ -72,17 +94,37 @@ const StationManagement = () => {
           item.name,
         );
       }
-      await fetchStations(currentUserAccountId);
+      const searchCriteria = {
+        customerAccountId: currentUserAccountId,
+        name,
+        creator,
+        parent,
+      };
+
+      await fetchStations(searchCriteria);
       setAlertMessage(message);
       setTimeout(() => {
         setAlertMessage("");
       }, 2000);
     }
   };
+  const getIndex = () => {
+    let count = 0;
+
+    return () => {
+      return count++;
+    };
+  };
+  const getIndexValue = getIndex();
+
   const columns: UIColumnDefinitionType<GeneralStations>[] = [
     {
       header: "#",
       key: "id",
+      render: (item: GeneralStations) => {
+        const rowIndex = getIndexValue();
+        return <Text>{rowIndex + 1}</Text>;
+      },
     },
     {
       header: t("stationModal.name"),
@@ -114,7 +156,9 @@ const StationManagement = () => {
       header: t("stationManagement.typeController"),
       key: "controllerType",
       render: (item: GeneralStations) => (
-        <Text textAlign="center">{item.controllerPts?.controllerType || " "}</Text>
+        <Text textAlign="center">
+          {item.controllerPts?.controllerType || " "}
+        </Text>
       ),
     },
     {
@@ -212,7 +256,7 @@ const StationManagement = () => {
         </Card>
       </Flex>
       <Route path={`${path}/new`}>
-        <StationModal onSubmit={onSubmit} fetchStations={fetchStations} />
+        <StationModal onSubmit={submitModalHandler} />
       </Route>
       <ConfirmationDialog
         title={t("stationManagement.updateStatusDialog.title")}
