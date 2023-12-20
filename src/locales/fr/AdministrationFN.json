@@ -104,7 +104,8 @@
       "noUserAvailable": "Aucun utilisateur disponible.",
       "accountCreator": "Créateur de compte",
       "account": "Compte Parent",
-      "lastVisit": "Derniere Visite"
+      "lastVisit": "Derniere Visite",
+      "listEmpty": "Vous n'avez pas d'utilisateur"
     }
   },
   "routes": {
@@ -195,7 +196,6 @@
     "cordonneesGps": {
       "required": "Coordonnées GPS est requis"
     }
-
   },
   "stationManagement": {
     "header": "Stations",

@@ -104,7 +104,8 @@
       "noUserAvailable": "No user available.",
       "accountCreator": "Account Creator",
       "account": "Parent Account",
-      "lastVisit": "Last Visit"
+      "lastVisit": "Last Visit",
+      "listEmpty": "You don't have a user"
     }
   },
   "routes": {
