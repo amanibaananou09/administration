@@ -78,11 +78,23 @@ const CustomerAccountManagement = () => {
 
   //styles
   const textColor = "gray.700";
+  const getIndex = () => {
+    let count = 0; 
+  
+    return () => {
+      return count++; 
+    };
+  };
+  const getIndexValue = getIndex();
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
       header: "#",
       key: "id",
+      render: (item: CustomerAccount) => {
+        const rowIndex = getIndexValue(); 
+        return <Text textAlign="center">{rowIndex + 1}</Text>;
+      },
     },
     {
       header: t("common.name"),

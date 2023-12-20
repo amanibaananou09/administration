@@ -110,6 +110,7 @@ export interface User {
   phone: string;
   name: string;
   customerAccountId: string;
+  creatorAccountId?:string;
 }
 
 export interface Decode {

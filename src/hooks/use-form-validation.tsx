@@ -47,9 +47,25 @@ const useFormValidation = () => {
   const creatorAccountId = Yup.string().required(
     t("validation.creatorAccountId.required"),
   );
-
+  const address = Yup.string()
+    .min(4, t("validation.address.min"))
+    .required(t("validation.address.required"));
+  const ptsId = Yup.string()
+    .matches(/^[a-zA-Z0-9]{24}$/, t("validation.controllerPtsId.matches"))
+    .required(t("validation.controllerPtsId.required"));
+  const countryId = Yup.number()
+    .required(t("validation.countryId.required"))
+    .positive(t("validation.countryId.positive"));
   const subnetMask = Yup.string().required(t("validation.subnetMask.required"));
-
+  const modeAffectation = Yup.string().required(
+    t("validation.modeAffectation.required"),
+  );
+  const controllerType = Yup.string().required(
+    t("validation.controllerType.required"),
+  );
+  const cordonneesGps = Yup.string().required(
+    t("validation.cordonneesGps.required"),
+  );
   const userFormValidationSchema = Yup.object().shape({
     username,
     email,
@@ -78,10 +94,28 @@ const useFormValidation = () => {
       password,
     }),
   });
-
+  const stationFormValidationSchema = Yup.object().shape({
+    name,
+    address,
+    controllerPts: Yup.object().shape({
+      ptsId,
+      phone,
+      controllerType,
+      userController: Yup.object().shape({
+        username,
+        password,
+      }),
+    }),
+    creatorAccountId,
+    countryId,
+    customerAccountId: parentAccount,
+    modeAffectation,
+    cordonneesGps,
+  });
   return {
     userFormValidationSchema,
     customerAccountValidationSchema,
+    stationFormValidationSchema,
   };
 };
 

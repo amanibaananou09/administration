@@ -69,7 +69,6 @@ export interface CustomerAccountTableRowProps {
 
 export interface AddStationModalProps {
   onSubmit: () => void;
-  fetchStations: (requestData?: any) => Promise<GeneralStations[] | undefined>;
 
 }
 
