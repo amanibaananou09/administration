@@ -16,11 +16,11 @@ import ConfirmationDialog, {
 } from "components/Dialog/ConfirmationDialog";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
-import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { UIColumnDefinitionType } from "components/UI/Table/Types";
 
 const CustomerAccountManagement = () => {
   const {

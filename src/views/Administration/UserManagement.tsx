@@ -14,11 +14,14 @@ import CardHeader from "components/Card/CardHeader";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
 import useHttp from "hooks/use-http";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { UIColumnDefinitionType } from "../../components/UI/Table/Types";
 import UITable from "../../components/UI/Table/UITable";
 import useQuery from "../../hooks/use-query";
+import ConfirmationDialog, {
+  ConfirmationDialogRefType,
+} from "components/Dialog/ConfirmationDialog";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
@@ -26,6 +29,8 @@ const UserManagement = () => {
   >(getUsers, false);
   const { t } = useTranslation("administration");
   let { path } = useRouteMatch();
+  const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
+  const [selectedUser, setSelectedUser] = useState<GeneralUser>();
 
   const query = useQuery();
   const name = query.get("name");
@@ -40,22 +45,28 @@ const UserManagement = () => {
     });
   }, [query]);
 
-  const handleClick = async (item: GeneralUser) => {
-    if (item.actif && item.id !== undefined) {
-      // If currently active, deactivate
-      await deactivateUser(item.id);
-    } else if (item.id !== undefined) {
-      // If currently inactive, activate
-      await activateUser(item.id);
+  const updateStatusHandler = async () => {
+    if (selectedUser) {
+      let item = selectedUser;
+      if (item.actif && item.id !== undefined) {
+        // If currently active, deactivate
+        await deactivateUser(item.id);
+      } else if (item.id !== undefined) {
+        // If currently inactive, activate
+        await activateUser(item.id);
+      }
+
+      await fetchUsers({
+        name,
+        creator,
+        parent,
+      });
     }
-
-    await fetchUsers({
-      name,
-      creator,
-      parent,
-    });
   };
-
+  const openConfirmationDialog = (user: GeneralUser) => {
+    setSelectedUser(user);
+    confirmationDialogRef.current?.open();
+  };
   //styles
   const textColor = "gray.700";
 
@@ -87,7 +98,10 @@ const UserManagement = () => {
       header: t("userManagement.globalUsers.statusColumn"),
       key: "actif",
       render: (item: GeneralUser) => (
-        <div onClick={() => handleClick(item)} style={{ cursor: "pointer" }}>
+        <div
+          onClick={() => openConfirmationDialog(item)}
+          style={{ cursor: "pointer" }}
+        >
           <Status value={item.actif!!} />
         </div>
       ),
@@ -116,7 +130,7 @@ const UserManagement = () => {
               <UITable
                 data={users}
                 columns={columns}
-                emptyListMessage={t("customerAccounts.listEmpty")}
+                emptyListMessage={t("userManagement.globalUsers.listEmpty")}
               />
             )}
             {isLoading && (
@@ -134,6 +148,16 @@ const UserManagement = () => {
       <Route path={`${path}/new`}>
         <UserModal onSubmit={fetchUsers} />
       </Route>
+      <ConfirmationDialog
+        title={t("customerAccounts.updateStatusDialog.title")}
+        message={
+          selectedUser && selectedUser.actif
+            ? t("customerAccounts.updateStatusDialog.desativationMessage")
+            : t("customerAccounts.updateStatusDialog.activationMessage")
+        }
+        onConfirm={updateStatusHandler}
+        ref={confirmationDialogRef}
+      />
     </>
   );
 };
