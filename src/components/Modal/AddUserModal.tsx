@@ -1,9 +1,12 @@
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,22 +16,23 @@ import {
   ModalOverlay,
   SimpleGrid,
   useDisclosure,
-  InputRightElement,
-  InputGroup,
-  Flex,
 } from "@chakra-ui/react";
 import { MasterUser, RouteParams } from "common/AdminModel";
 import { addUser } from "common/api/customerAccount-api";
 import { adduserFormValidationSchema } from "common/form-validation";
 import { AddUserModalProps, AddUserModalRefType } from "common/react-props";
+import { PhoneInput } from "components/Input/PhoneInput";
 import { useFormik } from "formik";
-import { forwardRef, Ref, useImperativeHandle, useState,useEffect } from "react";
-import { useParams } from "react-router-dom";
+import {
+  Ref,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import React from "react";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+import { useParams } from "react-router-dom";
 
 interface FormValues extends MasterUser {
   confirmPassword: string;
@@ -165,7 +169,8 @@ const AddUserModal = (
                   id="phone"
                   name="phone"
                   value={form.values.phone}
-                  onChange={(value) => form.setFieldValue("phone", value)}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
                   placeholder={t("userInformation.phoneLabel")}
                 />
                 <FormErrorMessage>{form.errors.phone}</FormErrorMessage>

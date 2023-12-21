@@ -1,9 +1,6 @@
 import {
   Checkbox,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   SimpleGrid,
   Text,
   useDisclosure,
@@ -11,7 +8,7 @@ import {
 import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { UserModalProps } from "common/react-props";
-import { PhoneInput } from "components/Input/PhoneInput";
+import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import { useFormik } from "formik";
 import useCustomerAccounts from "hooks/use-customer-accounts";
@@ -78,55 +75,36 @@ const UserModal = (props: UserModalProps) => {
       <form>
         <SimpleGrid columns={2} spacingX={5}>
           <UIInputFormControl
-            isInvalid={!!form.errors.username && !!form.touched.username}
+            formik={form}
             label={t("userInformation.userNameLabel")}
             fieldName="username"
-            value={form.values.username}
-            onChange={form.handleChange}
-            errorMessage={form.errors.username}
           />
 
           <UIInputFormControl
-            isInvalid={!!form.errors.email && !!form.touched.email}
+            formik={form}
             label={t("userInformation.emailLabel")}
             fieldName="email"
-            value={form.values.email}
-            onChange={form.handleChange}
-            errorMessage={form.errors.email}
           />
 
           <UIInputFormControl
-            isInvalid={!!form.errors.password && !!form.touched.password}
+            formik={form}
             label={t("common.password")}
             fieldName="password"
             type="password"
-            value={form.values.password}
-            onChange={form.handleChange}
-            errorMessage={form.errors.password}
           />
 
           <UIInputFormControl
-            isInvalid={
-              !!form.errors.confirmPassword && !!form.touched.confirmPassword
-            }
+            formik={form}
             label={t("common.confirmPassword")}
             fieldName="confirmPassword"
             type="password"
-            value={form.values.confirmPassword}
-            onChange={form.handleChange}
-            errorMessage={form.errors.confirmPassword}
             showPasswordBtn={false}
           />
 
           <UISelectFormControl
-            isInvalid={
-              !!form.errors.creatorAccountId && !!form.touched.creatorAccountId
-            }
+            formik={form}
             label={t("common.creatorAccount")}
             fieldName="creatorAccountId"
-            value={form.values.creatorAccountId}
-            onChange={form.handleChange}
-            errorMessage={form.errors.creatorAccountId}
           >
             {customerAccounts.map((accountData) => (
               <option key={accountData.id} value={accountData.id}>
@@ -136,15 +114,9 @@ const UserModal = (props: UserModalProps) => {
           </UISelectFormControl>
 
           <UISelectFormControl
-            isInvalid={
-              !!form.errors.customerAccountId &&
-              !!form.touched.customerAccountId
-            }
+            formik={form}
             label={t("common.compteParent")}
             fieldName="customerAccountId"
-            value={form.values.customerAccountId}
-            onChange={form.handleChange}
-            errorMessage={form.errors.customerAccountId}
           >
             {customerAccounts.map((accountData) => (
               <option key={accountData.id} value={accountData.id}>
@@ -154,30 +126,16 @@ const UserModal = (props: UserModalProps) => {
           </UISelectFormControl>
 
           <UIInputFormControl
-            isInvalid={!!form.errors.subnetMask && !!form.touched.subnetMask}
+            formik={form}
             label={t("userInformation.mask")}
             fieldName="subnetMask"
-            value={form.values.subnetMask}
-            onChange={form.handleChange}
-            errorMessage={form.errors.subnetMask}
           />
 
-          <FormControl
-            isInvalid={!!form.errors.phone && !!form.touched.phone}
-            mb="20px"
-          >
-            <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-              {t("userInformation.phoneLabel")}
-            </FormLabel>
-            <PhoneInput
-              id="phone"
-              name="phone"
-              value={form.values.phone}
-              onChange={form.handleChange}
-              placeholder={t("userInformation.phoneLabel")}
-            />
-            <FormErrorMessage>{form.errors.phone}</FormErrorMessage>
-          </FormControl>
+          <UIPhoneInputFormControl
+            formik={form}
+            label={t("userInformation.phoneLabel")}
+            fieldName="phone"
+          />
         </SimpleGrid>
         <Flex width="50%" flexDirection="column" gap="10%">
           <Flex justifyContent="space-between" alignItems="center">

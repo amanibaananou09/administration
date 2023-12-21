@@ -204,6 +204,7 @@
     "nameStation": "Nom de la station",
     "typeController": "Type de contrôleur",
     "deactivation": "Statut",
+    "controller": "Controller",
     "controllerId": "ID contrôleur",
     "connection": "Dernière connexion",
     "created": "Créé le ",
