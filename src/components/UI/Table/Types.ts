@@ -2,7 +2,7 @@ import { StyleProps } from "@chakra-ui/system";
 
 export type UIColumnDefinitionType<T> = {
   header: string;
-  key: keyof T;
+  key: keyof T | "#";
   render?: (item: T) => string | number | React.ReactNode;
 };
 

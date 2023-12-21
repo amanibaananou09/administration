@@ -26,10 +26,10 @@ import Status from "components/Sidebar/Status";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
+import useQuery from "hooks/use-query";
 import { useEffect, useRef, useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import useQuery from "hooks/use-query";
 
 const StationManagement = () => {
   const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
@@ -65,17 +65,16 @@ const StationManagement = () => {
 
   useEffect(() => {
     const noSearchParams = !name && !creator && !parent;
-  
+
     const searchCriteria = {
       customerAccountId: currentUserAccountId,
       name,
       creator,
       parent,
     };
-  
+
     fetchStations(searchCriteria);
   }, [query, name, creator, parent, currentUserAccountId]);
-  
 
   const handleClick = async () => {
     if (selectedStation) {
@@ -108,23 +107,11 @@ const StationManagement = () => {
       }, 2000);
     }
   };
-  const getIndex = () => {
-    let count = 0;
-
-    return () => {
-      return count++;
-    };
-  };
-  const getIndexValue = getIndex();
 
   const columns: UIColumnDefinitionType<GeneralStations>[] = [
     {
       header: "#",
-      key: "id",
-      render: (item: GeneralStations) => {
-        const rowIndex = getIndexValue();
-        return <Text>{rowIndex + 1}</Text>;
-      },
+      key: "#",
     },
     {
       header: t("stationModal.name"),
@@ -133,17 +120,17 @@ const StationManagement = () => {
     {
       header: t("common.creatorAccount"),
       key: "creatorAccountId",
-      render: (item: GeneralStations) => item.creatorCustomerAccountName,
+      render: (item) => item.creatorCustomerAccountName,
     },
     {
       header: t("stationManagement.compte"),
       key: "customerAccountId",
-      render: (item: GeneralStations) => item.customerAccountName,
+      render: (item) => item.customerAccountName,
     },
     {
       header: t("stationManagement.deactivation"),
       key: "actif",
-      render: (item: GeneralStations) => (
+      render: (item) => (
         <div
           onClick={() => openConfirmationDialog(item)}
           style={{ cursor: "pointer" }}
@@ -155,7 +142,7 @@ const StationManagement = () => {
     {
       header: t("stationManagement.typeController"),
       key: "controllerType",
-      render: (item: GeneralStations) => (
+      render: (item) => (
         <Text textAlign="center">
           {item.controllerPts?.controllerType || " "}
         </Text>
@@ -164,21 +151,21 @@ const StationManagement = () => {
     {
       header: t("stationManagement.controllerId"),
       key: "controllerPts",
-      render: (item: GeneralStations) => (
+      render: (item) => (
         <Text textAlign="center">{item.controllerPts?.ptsId || " "}</Text>
       ),
     },
     {
       header: t("common.phone"),
       key: "controllerPts",
-      render: (item: GeneralStations) => (
+      render: (item) => (
         <Text textAlign="center">{item.controllerPts?.phone || " "}</Text>
       ),
     },
     {
       header: t("stationManagement.created"),
       key: "dateStatusChange",
-      render: (item: GeneralStations) => (
+      render: (item) => (
         <Text textAlign="center">
           {new Date(item.dateStatusChange).toLocaleString()}
         </Text>
@@ -195,7 +182,7 @@ const StationManagement = () => {
     {
       header: t("common.country"),
       key: "country",
-      render: (item: GeneralStations) => (
+      render: (item) => (
         <Text textAlign="center">{item.country?.name || " "}</Text>
       ),
     },

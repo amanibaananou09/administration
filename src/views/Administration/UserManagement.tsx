@@ -11,6 +11,9 @@ import { useTranslation } from "react-i18next";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
+import ConfirmationDialog, {
+  ConfirmationDialogRefType,
+} from "components/Dialog/ConfirmationDialog";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
 import useHttp from "hooks/use-http";
@@ -19,9 +22,6 @@ import { Route, useRouteMatch } from "react-router-dom";
 import { UIColumnDefinitionType } from "../../components/UI/Table/Types";
 import UITable from "../../components/UI/Table/UITable";
 import useQuery from "../../hooks/use-query";
-import ConfirmationDialog, {
-  ConfirmationDialogRefType,
-} from "components/Dialog/ConfirmationDialog";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
@@ -67,25 +67,14 @@ const UserManagement = () => {
     setSelectedUser(user);
     confirmationDialogRef.current?.open();
   };
-  const getIndex = () => {
-    let count = 0; 
-  
-    return () => {
-      return count++; 
-    };
-  };
-  const getIndexValue = getIndex();
+
   //styles
   const textColor = "gray.700";
 
   const columns: UIColumnDefinitionType<GeneralUser>[] = [
     {
       header: "#",
-      key: "id",
-      render: (item: GeneralUser) => {
-        const rowIndex = getIndexValue(); 
-        return <Text>{rowIndex + 1}</Text>;
-      },
+      key: "#",
     },
     {
       header: t("userManagement.globalUsers.userNameColumn"),
@@ -94,13 +83,13 @@ const UserManagement = () => {
     {
       header: t("userManagement.globalUsers.accountCreator"),
       key: "creatorAccountId",
-      render: (item: GeneralUser) => item.creatorCustomerAccountName,
+      render: (item) => item.creatorCustomerAccountName,
     },
 
     {
       header: t("userManagement.globalUsers.account"),
       key: "customerAccountId",
-      render: (item: GeneralUser) => item.customerAccountName,
+      render: (item) => item.customerAccountName,
     },
     {
       header: t("userManagement.globalUsers.lastVisit"),
@@ -109,7 +98,7 @@ const UserManagement = () => {
     {
       header: t("userManagement.globalUsers.statusColumn"),
       key: "actif",
-      render: (item: GeneralUser) => (
+      render: (item) => (
         <div
           onClick={() => openConfirmationDialog(item)}
           style={{ cursor: "pointer" }}
@@ -121,7 +110,7 @@ const UserManagement = () => {
     {
       header: t("common.delete"),
       key: "actif",
-      render: (item: GeneralUser) => <Status value={false} />,
+      render: (item) => <Status value={false} />,
     },
   ];
 

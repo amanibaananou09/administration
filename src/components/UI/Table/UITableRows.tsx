@@ -8,30 +8,29 @@ const UITableRows = <T,>({
   emptyListMessage,
   styles,
 }: UITableRowsProps<T>) => {
-  //styles
-  const borderColor = "gray.200";
-  // const columnWidth = "100px";
-
-  const getContent = (row: T, column: UIColumnDefinitionType<T>) => {
+  const getContent = (
+    row: T,
+    rowIndex: number,
+    column: UIColumnDefinitionType<T>,
+  ) => {
     if (column.render) {
-      const result = column.render(row);
-      return React.isValidElement(result) ? (
-        result
-      ) : (
-        <Text textAlign="center" {...styles}>
-          {result}
-        </Text>
-      );
+      const renderContent = column.render(row);
+
+      if (React.isValidElement(renderContent)) {
+        return renderContent;
+      } else {
+        return <Text {...styles}>{renderContent}</Text>;
+      }
+    }
+
+    if (column.key === "#") {
+      return <Text {...styles}>{rowIndex + 1}</Text>;
     }
 
     //@ts-ignore
     const value = row[column.key] as ReactI18NextChildren;
 
-    return (
-      <Text textAlign="center" {...styles}>
-        {value}
-      </Text>
-    );
+    return <Text {...styles}>{value}</Text>;
   };
 
   let rows;
@@ -39,7 +38,7 @@ const UITableRows = <T,>({
   if (data.length === 0) {
     rows = (
       <Tr>
-        <Td colSpan={columns.length} textAlign="center">
+        <Td colSpan={columns.length}>
           <Text
             fontSize="xl"
             fontWeight="bold"
@@ -53,18 +52,18 @@ const UITableRows = <T,>({
       </Tr>
     );
   } else {
-    rows = data.map((row, index) => {
+    rows = data.map((row, rowIndex) => {
       return (
-        <Tr key={index}>
+        <Tr key={rowIndex}>
           {columns.map((column, colIndex) => {
             return (
               <Td
                 key={colIndex}
-                //width={columnWidth}
-                borderColor={borderColor}
-                borderBottom={index === data.length - 1 ? "none" : undefined}
+                borderColor="gray.200"
+                borderBottom={rowIndex === data.length - 1 ? "none" : undefined}
+                textAlign="center"
               >
-                {getContent(row, column)}
+                {getContent(row, rowIndex, column)}
               </Td>
             );
           })}
