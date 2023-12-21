@@ -1,26 +1,20 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  SimpleGrid,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { SimpleGrid, Text, useDisclosure } from "@chakra-ui/react";
 import { addStations } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
-import useFormValidation from "hooks/use-form-validation";
+import { getListOfCountry } from "common/api/reference-data-api";
+import { listOfCreator } from "common/api/station-api";
+import { country } from "common/model";
 import { AddStationModalProps } from "common/react-props";
-import { PhoneInput } from "components/Input/PhoneInput";
+import UIInputFormControl from "components/UI/Form/UIInputFormControl";
+import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
+import UISelectFormControl from "components/UI/Form/UISelectFormControl";
+import UIModal from "components/UI/Modal/UIModal";
 import { useFormik } from "formik";
+import useFormValidation from "hooks/use-form-validation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import { country } from "common/model";
-import { listOfCreator } from "common/api/station-api";
-import { getListOfCountry } from "common/api/reference-data-api";
-import UIModal from "components/UI/Modal/UIModal";
-import UIInputFormControl from "components/UI/Form/UIInputFormControl";
-import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 
 const StationModal = (props: AddStationModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,13 +55,13 @@ const StationModal = (props: AddStationModalProps) => {
       },
       countryId: 0,
       customerAccountId: user?.customerAccountId,
-      creatorAccountId: user?.creatorAccountId,
+      creatorAccountId: user?.customerAccountId,
       modeAffectation: "",
       cordonneesGps: "",
     },
     validationSchema: stationFormValidationSchema,
     onSubmit: async (values: addStations) => {
-      await addStation({ ...values }, user?.customerAccountId);
+      await addStation(values, user?.customerAccountId);
       form.setSubmitting(false);
       closeModalHandler();
       props.onSubmit();
@@ -89,17 +83,6 @@ const StationModal = (props: AddStationModalProps) => {
       fetchCreatorsList();
     }
   }, [isOpen]);
-  const handleControllerIdChange = (event: {
-    target: { value: string | any[] };
-  }) => {
-    const newValue = event.target.value.slice(0, 24);
-    form.handleChange({
-      target: {
-        name: "controllerPts.ptsId",
-        value: newValue,
-      },
-    });
-  };
 
   const closeModalHandler = () => {
     form.resetForm();
@@ -120,30 +103,21 @@ const StationModal = (props: AddStationModalProps) => {
       isSubmitting={form.isSubmitting}
     >
       <form>
-        <SimpleGrid columns={3} spacingX={8}>
+        <UIInputFormControl
+          formik={form}
+          label={t("stationModal.name")}
+          fieldName="name"
+        />
+        <SimpleGrid columns={2} spacingX={5}>
           <UIInputFormControl
-            isInvalid={!!form.errors.name && !!form.touched.name}
-            label={t("stationModal.name")}
-            fieldName="name"
-            value={form.values.name}
-            onChange={form.handleChange}
-            errorMessage={form.errors.name}
-          />
-          <UIInputFormControl
-            isInvalid={!!form.errors.address && !!form.touched.address}
+            formik={form}
             label={t("common.address")}
             fieldName="address"
-            value={form.values.address}
-            onChange={form.handleChange}
-            errorMessage={form.errors.address}
           />
           <UISelectFormControl
-            isInvalid={!!form.errors.countryId && !!form.touched.countryId}
+            formik={form}
             label={t("common.country")}
             fieldName="countryId"
-            value={form.values.countryId}
-            onChange={form.handleChange}
-            errorMessage={form.errors.countryId}
           >
             {country.map((countryData) => (
               <option key={countryData.id} value={countryData.id}>
@@ -152,14 +126,9 @@ const StationModal = (props: AddStationModalProps) => {
             ))}
           </UISelectFormControl>
           <UISelectFormControl
-            isInvalid={
-              !!form.errors.creatorAccountId && !!form.touched.creatorAccountId
-            }
+            formik={form}
             label={t("common.creatorAccount")}
             fieldName="creatorAccountId"
-            value={form.values.creatorAccountId}
-            onChange={form.handleChange}
-            errorMessage={form.errors.creatorAccountId}
           >
             {creatorsList.map((creator) => (
               <option key={creator.id} value={creator.id}>
@@ -168,15 +137,9 @@ const StationModal = (props: AddStationModalProps) => {
             ))}
           </UISelectFormControl>
           <UISelectFormControl
-            isInvalid={
-              !!form.errors.customerAccountId &&
-              !!form.touched.customerAccountId
-            }
+            formik={form}
             label={t("stationManagement.compte")}
             fieldName="customerAccountId"
-            value={form.values.customerAccountId}
-            onChange={form.handleChange}
-            errorMessage={form.errors.customerAccountId}
           >
             {compteList.map((compte) => (
               <option key={compte.id} value={compte.id}>
@@ -184,95 +147,53 @@ const StationModal = (props: AddStationModalProps) => {
               </option>
             ))}
           </UISelectFormControl>
+        </SimpleGrid>
 
+        <Text textColor="teal.500" fontWeight="bold" fontSize="xl" mb="20px">
+          {t("stationManagement.controller")}
+        </Text>
+
+        <SimpleGrid columns={2} spacingX={5}>
           <UIInputFormControl
-            isInvalid={
-              !!form.errors.controllerPts?.ptsId &&
-              !!form.touched.controllerPts?.ptsId
-            }
+            formik={form}
             label={t("stationManagement.controllerId")}
             fieldName="controllerPts.ptsId"
-            value={form.values.controllerPts?.ptsId || ""}
-            onChange={handleControllerIdChange}
-            errorMessage={form.errors.controllerPts?.ptsId}
           />
           <UISelectFormControl
-            isInvalid={
-              !!form.errors.controllerPts?.controllerType &&
-              !!form.touched.controllerPts?.controllerType
-            }
+            formik={form}
             label={t("stationManagement.typeController")}
             fieldName="controllerPts.controllerType"
-            value={form.values.controllerPts?.controllerType}
-            onChange={form.handleChange}
-            errorMessage={form.errors.controllerPts?.controllerType}
           >
             <option value="PTS2">PTS2</option>
           </UISelectFormControl>
-          <FormControl
-            isInvalid={
-              !!form.errors.controllerPts?.phone &&
-              !!form.touched.controllerPts?.phone
-            }
-            mb="20px"
-          >
-            <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-              {t("userInformation.phoneLabel")}
-            </FormLabel>
-            <PhoneInput
-              id="controllerPts.phone"
-              name="controllerPts.phone"
-              value={form.values.controllerPts?.phone}
-              onChange={form.handleChange}
-              placeholder={t("userInformation.phoneLabel")}
-            />
-            <FormErrorMessage>
-              {" "}
-              {form.errors.controllerPts?.phone}
-            </FormErrorMessage>
-          </FormControl>
+
           <UIInputFormControl
-            isInvalid={
-              !!form.errors.controllerPts?.userController?.username &&
-              !!form.touched.controllerPts?.userController?.username
-            }
+            formik={form}
             label={t("userInformation.userNameLabel")}
             fieldName="controllerPts.userController.username"
-            value={form.values.controllerPts?.userController?.username || ""}
-            onChange={form.handleChange}
-            errorMessage={form.errors.controllerPts?.userController?.username}
           />
           <UIInputFormControl
-            isInvalid={
-              !!form.errors.controllerPts?.userController?.password &&
-              !!form.touched.controllerPts?.userController?.password
-            }
+            formik={form}
             label={t("common.password")}
             fieldName="controllerPts.userController.password"
             type="password"
-            value={form.values.controllerPts?.userController?.password || ""}
-            onChange={form.handleChange}
-            errorMessage={form.errors.controllerPts?.userController?.password}
           />
+
+          <UIPhoneInputFormControl
+            formik={form}
+            label={t("userInformation.phoneLabel")}
+            fieldName="controllerPts.phone"
+          />
+
           <UIInputFormControl
-            isInvalid={
-              !!form.errors.cordonneesGps && !!form.touched.cordonneesGps
-            }
+            formik={form}
             label={t("stationModal.cordonneesGps")}
             fieldName="cordonneesGps"
-            value={form.values.cordonneesGps}
-            onChange={form.handleChange}
-            errorMessage={form.errors.cordonneesGps}
           />
           <UISelectFormControl
-            isInvalid={
-              !!form.errors.modeAffectation && !!form.touched.modeAffectation
-            }
+            formik={form}
             label={t("stationModal.labelAffectation")}
             fieldName="modeAffectation"
-            value={form.values.modeAffectation}
-            onChange={form.handleChange}
-            errorMessage={form.errors.modeAffectation}
           >
             <option value="MANUEL">{t("stationModal.manuel")}</option>
             <option value="AUTOMATIQUE">{t("stationModal.automatique")}</option>

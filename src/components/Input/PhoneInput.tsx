@@ -3,11 +3,12 @@ import { ChangeEvent } from "react";
 
 import { CountrySelector, usePhoneInput } from "react-international-phone";
 
-interface ChakraPhoneProps {
+interface PhoneInputProps {
   id: string;
   name: string;
   value: string | undefined;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onBlur?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder: string | undefined;
 }
 
@@ -16,8 +17,9 @@ export const PhoneInput = ({
   name,
   value,
   onChange,
+  onBlur,
   placeholder,
-}: ChakraPhoneProps) => {
+}: PhoneInputProps) => {
   const phoneInput = usePhoneInput({
     defaultCountry: "tn",
     value,
@@ -50,6 +52,7 @@ export const PhoneInput = ({
         type="tel"
         value={phoneInput.phone}
         onChange={handleChange}
+        onBlur={onBlur}
         ref={phoneInput.inputRef}
       />
     </InputGroup>

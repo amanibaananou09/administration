@@ -79,6 +79,8 @@ const useFormValidation = () => {
 
   const customerAccountValidationSchema = Yup.object().shape({
     name,
+    parentId: parentAccount,
+    creatorAccountId,
     confirmPassword: Yup.string()
       .oneOf(
         [Yup.ref("masterUser.password")],

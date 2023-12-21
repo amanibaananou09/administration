@@ -5,36 +5,38 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import { FormikProps, getIn } from "formik";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 type UIInputFormControlProps = {
+  formik: FormikProps<any>;
   fieldName: string;
   label: string;
   type?: string;
-  isInvalid?: boolean;
-  value: string | number | undefined;
-  onChange?: (e: React.ChangeEvent<any>) => void;
-  errorMessage?: string | undefined;
   showPasswordBtn?: boolean;
   isReadOnly?: boolean;
 };
 
 const UIInputFormControl = ({
+  formik,
   fieldName,
   label,
   type = "text",
-  isInvalid,
-  value,
-  onChange,
-  errorMessage,
   showPasswordBtn = true,
   isReadOnly = false,
 }: UIInputFormControlProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const invalid =
+    getIn(formik.errors, fieldName) && getIn(formik.touched, fieldName);
+  const val = getIn(formik.values, fieldName);
+  const changeHandler = formik.handleChange;
+  const blurHandler = formik.handleBlur;
+  const error = getIn(formik.errors, fieldName) as string;
+
   return (
-    <FormControl isInvalid={isInvalid} mb="15px">
+    <FormControl isInvalid={invalid} mb="15px">
       <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
         {label}
       </FormLabel>
@@ -42,8 +44,9 @@ const UIInputFormControl = ({
         <Input
           id={fieldName}
           name={fieldName}
-          value={value}
-          onChange={onChange}
+          value={val}
+          onChange={changeHandler}
+          onBlur={blurHandler}
           type={type}
           placeholder={label}
           isReadOnly={isReadOnly}
@@ -57,8 +60,9 @@ const UIInputFormControl = ({
           <Input
             id={fieldName}
             name={fieldName}
-            value={value}
-            onChange={onChange}
+            value={val}
+            onChange={changeHandler}
+            onBlur={blurHandler}
             type={showPassword ? "text" : "password"}
             placeholder={label}
             pr="4.5rem"
@@ -77,7 +81,7 @@ const UIInputFormControl = ({
           </InputRightElement>
         </InputGroup>
       )}
-      <FormErrorMessage>{errorMessage}</FormErrorMessage>
+      <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
   );
 };
