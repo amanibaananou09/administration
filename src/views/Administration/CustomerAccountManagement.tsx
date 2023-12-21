@@ -16,11 +16,11 @@ import ConfirmationDialog, {
 } from "components/Dialog/ConfirmationDialog";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
+import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import { UIColumnDefinitionType } from "components/UI/Table/Types";
 
 const CustomerAccountManagement = () => {
   const {
@@ -78,23 +78,11 @@ const CustomerAccountManagement = () => {
 
   //styles
   const textColor = "gray.700";
-  const getIndex = () => {
-    let count = 0; 
-  
-    return () => {
-      return count++; 
-    };
-  };
-  const getIndexValue = getIndex();
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
       header: "#",
-      key: "id",
-      render: (item: CustomerAccount) => {
-        const rowIndex = getIndexValue(); 
-        return <Text textAlign="center">{rowIndex + 1}</Text>;
-      },
+      key: "#",
     },
     {
       header: t("common.name"),

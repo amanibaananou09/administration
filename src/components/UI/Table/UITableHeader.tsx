@@ -20,7 +20,7 @@ const UITableHeader = <T,>({ columns, styles }: UITableHeaderProps<T>) => {
 
   return (
     <Thead>
-      <Tr my=".8rem" pl="0px" color="gray.400">
+      <Tr my=".8rem" pl="0px">
         {headers}
       </Tr>
     </Thead>
