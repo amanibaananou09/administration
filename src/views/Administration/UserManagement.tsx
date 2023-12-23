@@ -65,7 +65,12 @@ const UserManagement = () => {
   };
   const openConfirmationDialog = (user: GeneralUser) => {
     setSelectedUser(user);
-    confirmationDialogRef.current?.open();
+    const message =
+      user && user.actif
+        ? t("customerAccounts.updateStatusDialog.desativationMessage")
+        : t("customerAccounts.updateStatusDialog.activationMessage");
+    const title = t("customerAccounts.updateStatusDialog.title");
+    confirmationDialogRef.current?.open(title, message);
   };
 
   //styles
@@ -82,14 +87,12 @@ const UserManagement = () => {
     },
     {
       header: t("userManagement.globalUsers.accountCreator"),
-      key: "creatorAccountId",
-      render: (item) => item.creatorCustomerAccountName,
+      key: "creatorCustomerAccountName",
     },
 
     {
       header: t("userManagement.globalUsers.account"),
-      key: "customerAccountId",
-      render: (item) => item.customerAccountName,
+      key: "customerAccountName",
     },
     {
       header: t("userManagement.globalUsers.lastVisit"),
@@ -97,7 +100,6 @@ const UserManagement = () => {
     },
     {
       header: t("userManagement.globalUsers.statusColumn"),
-      key: "actif",
       render: (item) => (
         <div
           onClick={() => openConfirmationDialog(item)}
@@ -109,7 +111,6 @@ const UserManagement = () => {
     },
     {
       header: t("common.delete"),
-      key: "actif",
       render: (item) => <Status value={false} />,
     },
   ];
@@ -150,12 +151,6 @@ const UserManagement = () => {
         <UserModal onSubmit={fetchUsers} />
       </Route>
       <ConfirmationDialog
-        title={t("customerAccounts.updateStatusDialog.title")}
-        message={
-          selectedUser && selectedUser.actif
-            ? t("customerAccounts.updateStatusDialog.desativationMessage")
-            : t("customerAccounts.updateStatusDialog.activationMessage")
-        }
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />

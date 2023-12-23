@@ -1,4 +1,5 @@
-import { Tbody, Td, Text, Tr } from "@chakra-ui/react";
+import { Alert, AlertIcon, Tbody, Td, Text, Tr } from "@chakra-ui/react";
+import { getIn } from "formik";
 import React from "react";
 import { UIColumnDefinitionType, UITableRowsProps } from "./Types";
 
@@ -13,6 +14,15 @@ const UITableRows = <T,>({
     rowIndex: number,
     column: UIColumnDefinitionType<T>,
   ) => {
+    if (!column.key && !column.render) {
+      return (
+        <Alert status="error">
+          <AlertIcon />
+          No 'key' or 'render' propertie is configured
+        </Alert>
+      );
+    }
+
     if (column.render) {
       const renderContent = column.render(row);
 
@@ -27,8 +37,7 @@ const UITableRows = <T,>({
       return <Text {...styles}>{rowIndex + 1}</Text>;
     }
 
-    //@ts-ignore
-    const value = row[column.key] as ReactI18NextChildren;
+    const value = getIn(row, column.key as string);
 
     return <Text {...styles}>{value}</Text>;
   };
