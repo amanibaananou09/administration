@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 
 const Configurator = (props: ConfiguratorProps) => {
   const [switched, setSwitched] = useState<boolean>(props.isChecked);
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation();
 
   const settingsRef = useRef<HTMLDivElement>(null);
 

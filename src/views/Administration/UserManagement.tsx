@@ -27,7 +27,7 @@ const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
     GeneralUser[]
   >(getUsers, false);
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   let { path } = useRouteMatch();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
   const [selectedUser, setSelectedUser] = useState<GeneralUser>();

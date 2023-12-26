@@ -35,7 +35,7 @@ const HeaderLinks = (props: any) => {
   } = props;
   const { signOut, user, isSignedIn } = useAuth();
   const routes = administrationRoutes();
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation();
   const [
     showStationConfigurator,
     setShowStationConfigurator,

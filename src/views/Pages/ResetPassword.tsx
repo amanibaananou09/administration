@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { resetPassword } from "common/api/forgot-password-api";
 import {
-  Box,
-  Grid,
-  Input,
-  Button,
-  Text,
   Alert,
+  AlertDescription,
   AlertIcon,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  Input,
   InputGroup,
   InputRightElement,
-  Flex,
-  AlertDescription,
-  FormControl,
+  Text,
 } from "@chakra-ui/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import BgSignUp from "../../assets/img/BgSignUp.png";
+import { resetPassword } from "common/api/forgot-password-api";
 import LanguageSelector from "components/LanguageSelector";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
+import BgSignUp from "../../assets/img/BgSignUp.png";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState<string>("");
@@ -28,7 +27,7 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
   const [resetSuccess, setResetSuccess] = useState<boolean>(false);
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation();
 
   const urlParams = new URLSearchParams(window.location.search);
   const resetToken = urlParams.get("resetToken");

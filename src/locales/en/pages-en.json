@@ -1,42 +1,46 @@
 {
-  "common": {
-    "name": "Account name",
-    "creator": "Creator",
-    "creatorAccount": "Creator Account",
-    "compteParent": "Parent Account",
-    "droits": "Distributor Rights",
-    "stations": "Stations",
-    "status": "Status",
-    "error": "is required",
-    "errorLength": "must be at least 4 characters",
-    "errorPhone": "Phone number must be at least 6 digits",
-    "erroremail": "must be a valid email address",
-    "errorPassword": "must be at least 6 characters",
-    "errorNumeric": "must contain at least one special character and one numeric digit",
-    "errorConfirmPassword": "Passwords must match",
-    "enabled": "ENABLED",
-    "disabled": "DISABLED",
-    "true": "true",
-    "false": "false",
-    "password": "Password",
-    "submit": "Submit",
-    "cancel": "Cancel",
-    "loading": "Loading...",
-    "address": "Address",
-    "country": "Country",
-    "confirmPassword": "Confirm Password",
-    "selectAccount": "Select a parent account",
-    "selectDroits": "Add your reseller rights",
-    "reseller": "Reseller",
-    "delete": "Delete",
-    "phone": "Phone",
-    "canChangePassword": "Can change password : ",
-    "canSendSMS": "Can send SMS : ",
-    "isActive": "Enabled : ",
-    "confirmationDialog": {
-      "confirm": "Submit",
-      "cancel": "Cancel"
-    }
+  "signIn": {
+    "header": "Fuel Stations Management",
+    "text": "Please login to connect",
+    "useName": "User  Name",
+    "password": " Password",
+    "login": "LOGIN",
+    "placeholderUsername": "Type your username",
+    "placeholderPassword": "Type your password",
+    "messageError": "Please fill in both Username and Password fields.",
+    "messageInvalid": "Invalid username or password.",
+    "forgotPassword": "Forgot password?"
+  },
+  "ForgotPassword":{
+    "errorVide":"Please enter your email.",
+    "errorInvalid": "Invalid email. Please try again.",
+    "text": "Find your account",
+    "description":"Please enter your email to search your account.",
+    "placeholderEmail":" Enter your e-mail",
+    "search": "Search",
+    "ignore": "Ignore",
+    "AlertDescription": "Please check your inbox (e-mail) for password reset instructions."
+  },
+  "resetPassword": {
+    "error": "Passwords do not match.",
+    "errorInvalid": "Please fill in all fields.",
+    "text": "Choose new password",
+    "placeholderPassword": "New password",
+    "placeholderConfirmPassword": "Confirm password",
+    "continue": "Continue",
+    "alertSuccess": "Password successfully reset !"
+  },
+  "navbarLinks": {
+    "userLogin": "User Login",
+    "myProfile": "My Profile",
+    "signOut": "Sign Out"
+  },
+  "configurator": {
+    "Configurator": "Configurator",
+    "text": "See your dashboard options",
+    "navbarFixed": "Navbar Fixed",
+    "Dark_Light": "Dark/Light",
+    "toggle": " Toggle"
   },
   "sideBarItem": {
     "search": "Search",
@@ -108,95 +112,12 @@
       "listEmpty": "You don't have a user"
     }
   },
-  "routes": {
-    "informationAccounts": "Information Accounts",
-    "manageAccounts": "Manage Accounts",
-    "userDetails": "User Details",
-    "manageUsers": "Manage Users",
-    "manageStations": "Manage Stations"
-  },
   "addUserModal": {
     "header": "Create New User"
   },
   "addStationModal": {
     "header": "Create New Station",
     "selectCountry": "Select country"
-  },
-  "validation": {
-    "name": {
-      "min": "Name must be at least 4 characters",
-      "required": "Name is required"
-    },
-    "firstName": {
-      "min": "First Name must be at least 4 characters",
-      "required": "First Name is required"
-    },
-    "lastName": {
-      "min": "Last Name must be at least 4 characters",
-      "required": "Last Name is required"
-    },
-    "username": {
-      "min": "User Name must be at least 4 characters",
-      "required": "Username is required"
-    },
-    "email": {
-      "invalid": "Invalid email",
-      "required": "Email is required"
-    },
-    "password": {
-      "min": "Password must be at least 6 characters",
-      "matches": "Password must contain at least one special character",
-      "required": "Password is required"
-    },
-    "confirmPassword": {
-      "match": "Passwords must match",
-      "required": "Confirm Password is required"
-    },
-    "phone": {
-      "min": "Phone must be at least 8 digits",
-      "required": "Phone is required"
-    },
-    "address": {
-      "min": "Address must be at least 4 characters",
-      "required": "Address is required"
-    },
-    "ptsId": {
-      "min": "ptsId must be at least 4 characters",
-      "required": "ptsId is required"
-    },
-    "countryId": {
-      "required": "Country is required",
-      "positive": "Please select a country",
-      "country-id-check": "Country is required"
-    },
-    "controllerPtsId": {
-      "matches": "Controller ID must contain exactly 24 numbers",
-      "required": "controller ID is required"
-    },
-    "parentId": {
-      "required": "Parent Account is required"
-    },
-    "creatorAccountId": {
-      "required": "Creator Account is required"
-    },
-    "subnetMask": {
-      "required": "Subnetmask is required"
-    },
-    "controllerType": {
-      "required": "Type of controller is required"
-    },
-    "creatorAccount": {
-      "required": "Compte creator is required"
-    },
-    "customerAccountId": {
-      "required": "Parent Account is required"
-    },
-    "modeAffectation": {
-      "required": "Assignment mode is required"
-    },
-    "cordonneesGps": {
-      "required": "GPS coordinates is required"
-    }
   },
   "stationManagement": {
     "header": "Stations",

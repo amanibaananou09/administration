@@ -25,7 +25,7 @@ const CustomerAccountInformation = () => {
   const { id } = useParams<RouteParams>();
   const addUserModalRef = useRef<AddUserModalRefType>(null);
   const addStationModalRef = useRef<AddStationModalRefType>(null);
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(true);
   const [account, setAccount] = useState<Account>();

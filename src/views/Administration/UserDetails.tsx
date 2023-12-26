@@ -14,7 +14,7 @@ const UserDetails = () => {
   const [userInfo, setUserInfo] = useState<GeneralUser | null>(null);
   const [userScope, setUserScope] = useState<userScope | null>(null);
 
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchUserDetail = async () => {

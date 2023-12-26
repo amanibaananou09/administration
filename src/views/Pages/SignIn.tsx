@@ -14,8 +14,6 @@ import {
   Link as ChakraLink,
 } from "@chakra-ui/react";
 import { login } from "common/api/auth-api";
-import { getStations } from "common/api/station-api";
-import { User } from "common/model";
 import LanguageSelector from "components/LanguageSelector";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,7 +25,7 @@ import { useHistory } from "react-router-dom";
 
 const SignIn = () => {
   const { signIn } = useAuth();
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -36,15 +34,6 @@ const SignIn = () => {
   const history = useHistory();
   const handleForgotPasswordClick = () => {
     history.push("/auth/Forgot-Password");
-  };
-
-  const getDefaultStation = async (user: User): Promise<any> => {
-    const stations = await getStations(user);
-    if (stations.length > 0) {
-      return stations[0];
-    }
-
-    return null;
   };
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (

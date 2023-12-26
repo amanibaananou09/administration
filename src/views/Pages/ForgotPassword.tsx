@@ -1,31 +1,28 @@
-import * as React from "react";
 import {
-  Box,
-  Grid,
-  Input,
-  Button,
-  Heading,
-  VStack,
-  Text,
   Alert,
+  AlertDescription,
   AlertIcon,
+  Box,
+  Button,
   Flex,
   FormControl,
-  AlertDescription,
+  Input,
+  Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { forgotPassword } from "common/api/forgot-password-api";
-import BgSignUp from "../../assets/img/BgSignUp.png";
 import LanguageSelector from "components/LanguageSelector";
+import * as React from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
+import BgSignUp from "../../assets/img/BgSignUp.png";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [resetSuccess, setResetSuccess] = useState<boolean>(false);
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation();
   const history = useHistory();
 
   const handleMail = async (e: any) => {

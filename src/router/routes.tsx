@@ -3,18 +3,18 @@ import SignIn from "views/Pages/SignIn";
 import ForgotPassword from "views/Pages/ForgotPassword";
 import ResetPassword from "views/Pages/ResetPassword";
 
+import { faGasPump } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RouteConfig } from "common/model";
 import { DocumentIcon, HomeIcon, PersonIcon } from "components/Icons/Icons";
 import AdminSideBarItem from "components/Sidebar/AdminSideBarItem";
 import { useTranslation } from "react-i18next";
+import StationManagement from "views/Administration/StationManagement";
 import UserDetails from "views/Administration/UserDetails";
 import UserManagement from "views/Administration/UserManagement";
 import CustomerAccountManagement from "../views/Administration/CustomerAccountManagement";
-import StationManagement from "views/Administration/StationManagement";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGasPump } from "@fortawesome/free-solid-svg-icons";
 export const administrationRoutes = (): RouteConfig[] => {
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   return [
     {
       path: "/customer-accounts",
@@ -52,7 +52,7 @@ export const administrationRoutes = (): RouteConfig[] => {
 };
 
 export const authRoutes = (): RouteConfig[] => {
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation();
   return [
     {
       path: "/signin",
