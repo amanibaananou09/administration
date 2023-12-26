@@ -32,7 +32,7 @@ import { Route, useRouteMatch } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
 
 const StationManagement = () => {
-  const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
+  const { data: stations, isLoading, makeRequest: fetchStations , error} = useHttp<
     GeneralStations[]
   >(listStation, false);
   const { t } = useTranslation("administration");

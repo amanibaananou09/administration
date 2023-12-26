@@ -183,19 +183,19 @@
       "required": "Subnetmask is required"
     },
     "controllerType": {
-      "required": "Type of controller is requis"
+      "required": "Type of controller is required"
     },
     "creatorAccount": {
-      "required": "Compte creator is requis"
+      "required": "Compte creator is required"
     },
     "customerAccountId": {
-      "required": "Parent Account is requis"
+      "required": "Parent Account is required"
     },
     "modeAffectation": {
-      "required": "Assignment mode is requis"
+      "required": "Assignment mode is required"
     },
     "cordonneesGps": {
-      "required": "GPS coordinates is requis"
+      "required": "GPS coordinates is required"
     }
   },
   "stationManagement": {
@@ -213,7 +213,7 @@
     "stationDeactivated": "Station {{stationName}} has been successfully deactivated.",
     "updateStatusDialog": {
       "title": "Update statut",
-      "desativationMessage": "Are you sure you want to deactivate this station? ?",
+      "desativationMessage": "Are you sure you want to deactivate this station ?",
       "activationMessage": "Are you sure you want to activate this station ?"
     }
   },

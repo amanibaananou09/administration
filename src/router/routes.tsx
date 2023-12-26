@@ -1,5 +1,7 @@
 // import
 import SignIn from "views/Pages/SignIn";
+import ForgotPassword from "views/Pages/ForgotPassword";
+import ResetPassword from "views/Pages/ResetPassword";
 
 import { RouteConfig } from "common/model";
 import { DocumentIcon, HomeIcon, PersonIcon } from "components/Icons/Icons";
@@ -58,6 +60,22 @@ export const authRoutes = (): RouteConfig[] => {
       icon: <DocumentIcon color="inherit" />,
       component: SignIn,
       layout: "/auth",
+    },
+    {
+      path: "/Forgot-Password",
+      name: t("routes.signIn"),
+      icon: <DocumentIcon color="inherit" />,
+      component: ForgotPassword,
+      layout: "/auth",
+      hideInNavbar: true,
+    },
+    {
+      path: "/reset-password",
+      name: t("routes.signIn"),
+      icon: <DocumentIcon color="inherit" />,
+      component: ResetPassword,
+      layout: "/auth",
+      hideInNavbar: true,
     },
   ];
 };
