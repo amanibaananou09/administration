@@ -58,14 +58,18 @@ const StationManagement = () => {
   };
   const openConfirmationDialog = (station: GeneralStations) => {
     setSelectedStation(station);
-    confirmationDialogRef.current?.open();
+
+    const title = t("stationManagement.updateStatusDialog.title");
+    const message = station.actif
+      ? t("stationManagement.updateStatusDialog.desativationMessage")
+      : t("stationManagement.updateStatusDialog.activationMessage");
+
+    confirmationDialogRef.current?.open(title, message);
   };
   //styles
   const textColor = "gray.700";
 
   useEffect(() => {
-    const noSearchParams = !name && !creator && !parent;
-
     const searchCriteria = {
       customerAccountId: currentUserAccountId,
       name,
@@ -119,17 +123,14 @@ const StationManagement = () => {
     },
     {
       header: t("common.creatorAccount"),
-      key: "creatorAccountId",
-      render: (item) => item.creatorCustomerAccountName,
+      key: "creatorCustomerAccountName",
     },
     {
       header: t("stationManagement.compte"),
-      key: "customerAccountId",
-      render: (item) => item.customerAccountName,
+      key: "customerAccountName",
     },
     {
       header: t("stationManagement.deactivation"),
-      key: "actif",
       render: (item) => (
         <div
           onClick={() => openConfirmationDialog(item)}
@@ -141,30 +142,18 @@ const StationManagement = () => {
     },
     {
       header: t("stationManagement.typeController"),
-      key: "controllerType",
-      render: (item) => (
-        <Text textAlign="center">
-          {item.controllerPts?.controllerType || " "}
-        </Text>
-      ),
+      key: "controllerPts.controllerType",
     },
     {
       header: t("stationManagement.controllerId"),
-      key: "controllerPts",
-      render: (item) => (
-        <Text textAlign="center">{item.controllerPts?.ptsId || " "}</Text>
-      ),
+      key: "controllerPts.ptsId",
     },
     {
       header: t("common.phone"),
-      key: "controllerPts",
-      render: (item) => (
-        <Text textAlign="center">{item.controllerPts?.phone || " "}</Text>
-      ),
+      key: "controllerPts.phone",
     },
     {
       header: t("stationManagement.created"),
-      key: "dateStatusChange",
       render: (item) => (
         <Text textAlign="center">
           {new Date(item.dateStatusChange).toLocaleString()}
@@ -181,10 +170,7 @@ const StationManagement = () => {
     },
     {
       header: t("common.country"),
-      key: "country",
-      render: (item) => (
-        <Text textAlign="center">{item.country?.name || " "}</Text>
-      ),
+      key: "country.name",
     },
   ];
   return (
@@ -245,16 +231,7 @@ const StationManagement = () => {
       <Route path={`${path}/new`}>
         <StationModal onSubmit={submitModalHandler} />
       </Route>
-      <ConfirmationDialog
-        title={t("stationManagement.updateStatusDialog.title")}
-        message={
-          selectedStation && selectedStation.actif
-            ? t("stationManagement.updateStatusDialog.desativationMessage")
-            : t("stationManagement.updateStatusDialog.activationMessage")
-        }
-        onConfirm={handleClick}
-        ref={confirmationDialogRef}
-      />
+      <ConfirmationDialog onConfirm={handleClick} ref={confirmationDialogRef} />
     </>
   );
 };

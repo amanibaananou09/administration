@@ -8,16 +8,20 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { Ref, forwardRef, useImperativeHandle, useRef } from "react";
+import React, {
+  Ref,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 
 export interface ConfirmationDialogRefType {
-  open: () => void;
+  open: (title: string, message: string) => void;
 }
 
 interface ConfirmationDialogProps {
-  title: string;
-  message: string;
   cancelBtn?: string;
   submitBtn?: string;
   onConfirm: () => void;
@@ -25,15 +29,19 @@ interface ConfirmationDialogProps {
 }
 
 const ConfirmationDialog = (
-  { onConfirm, title, message, cancelBtn, submitBtn }: ConfirmationDialogProps,
+  { cancelBtn, submitBtn, onConfirm }: ConfirmationDialogProps,
   ref: Ref<ConfirmationDialogRefType>,
 ) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [title, setTitle] = useState<string>();
+  const [message, setMessage] = useState<string>();
   const cancelRef = useRef<any>(null);
   const { t } = useTranslation();
 
   useImperativeHandle(ref, () => ({
-    open() {
+    open(title, message) {
+      setTitle(title);
+      setMessage(message);
       onOpen();
     },
   }));

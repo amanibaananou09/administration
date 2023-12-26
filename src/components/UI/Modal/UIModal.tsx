@@ -51,23 +51,23 @@ const UIModal = ({
           <Flex justifyContent="flex-end">
             <Button
               fontSize="md"
-              colorScheme="teal"
+              colorScheme="red"
               fontWeight="bold"
               size="lg"
               mr={3}
+              onClick={onClose}
+            >
+              {t("common.cancel")}
+            </Button>
+            <Button
+              fontSize="md"
+              colorScheme="teal"
+              fontWeight="bold"
+              size="lg"
               isLoading={isSubmitting}
               onClick={onSubmit}
             >
               {t("common.submit")}
-            </Button>
-            <Button
-              fontSize="md"
-              colorScheme="red"
-              fontWeight="bold"
-              size="lg"
-              onClick={onClose}
-            >
-              {t("common.cancel")}
             </Button>
           </Flex>
         </ModalFooter>

@@ -65,7 +65,11 @@ const CustomerAccountManagement = () => {
 
   const openConfirmationDialog = (customerAccount: CustomerAccount) => {
     setSelectedAccount(customerAccount);
-    confirmationDialogRef.current?.open();
+    const title = t("customerAccounts.updateStatusDialog.title");
+    const message = customerAccount.actif
+      ? t("customerAccounts.updateStatusDialog.desativationMessage")
+      : t("customerAccounts.updateStatusDialog.activationMessage");
+    confirmationDialogRef.current?.open(title, message);
   };
 
   useEffect(() => {
@@ -90,23 +94,19 @@ const CustomerAccountManagement = () => {
     },
     {
       header: t("common.creator"),
-      key: "creatorAccountId",
-      render: (item: CustomerAccount) => item.creatorCustomerAccountName,
+      key: "creatorCustomerAccountName",
     },
     {
       header: t("common.compteParent"),
-      key: "parentId",
-      render: (item: CustomerAccount) => item.parentName,
+      key: "parentName",
     },
     {
       header: t("common.droits"),
-      key: "resaleRight",
       render: (item: CustomerAccount) =>
         item.resaleRight ? t("common.reseller") : "-",
     },
     {
       header: t("common.status"),
-      key: "status",
       render: (item: CustomerAccount) => (
         <div
           onClick={() => openConfirmationDialog(item)}
@@ -122,7 +122,6 @@ const CustomerAccountManagement = () => {
     },
     {
       header: t("common.delete"),
-      key: "actif",
       render: (item: CustomerAccount) => <Status value={false} />,
     },
   ];
@@ -172,12 +171,6 @@ const CustomerAccountManagement = () => {
         </Route>
       </Switch>
       <ConfirmationDialog
-        title={t("customerAccounts.updateStatusDialog.title")}
-        message={
-          selectedAccount && selectedAccount.actif
-            ? t("customerAccounts.updateStatusDialog.desativationMessage")
-            : t("customerAccounts.updateStatusDialog.activationMessage")
-        }
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />
