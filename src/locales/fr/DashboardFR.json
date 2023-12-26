@@ -119,6 +119,26 @@
     "placeholderUsername": "Entrez votre nom d'utilisateur",
     "placeholderPassword": "Entrez votre mot de passe",
     "messageError": "Remplir les champs Nom d'utilisateur et Mot de passe.",
-    "messageInvalid": "Nom d'utilisateur ou mot de passe incorrect."
+    "messageInvalid": "Nom d'utilisateur ou mot de passe incorrect.",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "ForgotPassword": {
+    "errorVide": "Veuillez entrer votre adresse e-mail.",
+    "errorInvalid": "Incorrect e-mail . Veuillez réessayer.",
+    "text": "Trouvez votre compte",
+    "description": "Veuillez entrer votre e-mail pour rechercher votre compte.",
+    "placeholderEmail": " Entrez votre e-mail",
+    "search": "Rechercher",
+    "ignore": "Ignorer",
+    "AlertDescription": "Veuillez vérifier votre boîte de réception (e-mail) pour les instructions de réinitialisation du mot de passe."
+  },
+  "resetPassword": {
+    "error": "Les mots de passe ne correspondent pas.",
+    "errorInvalid": "Veuillez remplir tous les champs.",
+    "text": "Choisissez un nouveau mot de passe",
+    "placeholderPassword": "Nouveau mot de passe",
+    "placeholderConfirmPassword": "Confirmer le mot de passe",
+    "continue": "Continuer",
+    "alertSuccess": "Mot de passe réinitialisé avec succès ! "
   }
 }

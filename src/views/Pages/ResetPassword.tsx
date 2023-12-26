@@ -1,77 +1,73 @@
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { resetPassword } from "common/api/forgot-password-api";
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
   Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
+  Grid,
   Input,
+  Button,
+  Text,
+  Alert,
+  AlertIcon,
   InputGroup,
   InputRightElement,
-  Text,
-  Link as ChakraLink,
+  Flex,
+  AlertDescription,
+  FormControl,
 } from "@chakra-ui/react";
-import { login } from "common/api/auth-api";
-import { getStations } from "common/api/station-api";
-import { User } from "common/model";
-import LanguageSelector from "components/LanguageSelector";
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
-import { useAuth } from "store/AuthContext";
-import { decodeToken } from "utils/utils";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import BgSignUp from "../../assets/img/BgSignUp.png";
-import { useHistory } from "react-router-dom";
+import LanguageSelector from "components/LanguageSelector";
+import { useTranslation } from "react-i18next";
 
-const SignIn = () => {
-  const { signIn } = useAuth();
-  const { t } = useTranslation("dashboard");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
+const ResetPassword = () => {
   const [password, setPassword] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
-  const handleForgotPasswordClick = () => {
-    history.push("/auth/Forgot-Password");
-  };
+  const [resetSuccess, setResetSuccess] = useState<boolean>(false);
+  const { t } = useTranslation("dashboard");
 
-  const getDefaultStation = async (user: User): Promise<any> => {
-    const stations = await getStations(user);
-    if (stations.length > 0) {
-      return stations[0];
+  const urlParams = new URLSearchParams(window.location.search);
+  const resetToken = urlParams.get("resetToken");
+
+  const handleResetPassword = async (e: any) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError(t("resetPassword.error"));
+      return;
     }
-
-    return null;
-  };
-
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (
-    event,
-  ) => {
-    event.preventDefault();
-    if (!username || !password) {
-      setErrorMessage(t("signIn.messageError"));
+    if (!password || !confirmPassword) {
+      setError(t("resetPassword.errorInvalid"));
       return;
     }
     setIsLoading(true);
+
     try {
-      const { access_token } = await login(username, password);
-      setIsLoading(true);
-      const user = decodeToken(access_token);
-      signIn(user!!);
+      await resetPassword(password, resetToken);
+      setError("");
+      setResetSuccess(true);
+      setTimeout(() => {
+        history.push("/auth/SignIn");
+        window.history.replaceState(null, "", window.location.pathname);
+      }, 5000);
     } catch (error) {
       console.error(error);
-      setErrorMessage(t("signIn.messageInvalid"));
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      handleSubmit((event as unknown) as React.MouseEvent<HTMLButtonElement>);
+      handleResetPassword(
+        (event as unknown) as React.MouseEvent<HTMLButtonElement>,
+      );
     }
   };
   return (
@@ -127,9 +123,7 @@ const SignIn = () => {
           mt="10px"
           mb="26px"
           w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
-        >
-          {/*  Use these awesome forms to login.*/}
-        </Text>
+        ></Text>
       </Flex>
       <Flex alignItems="center" justifyContent="center" mb="60px" mt="20px">
         <Flex
@@ -149,28 +143,9 @@ const SignIn = () => {
             textAlign="center"
             mb="22px"
           >
-            {t("signIn.text")}
+            {t("resetPassword.text")}
           </Text>
           <FormControl>
-            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              {t("signIn.useName")}
-            </FormLabel>
-            <Input
-              id="username"
-              variant="auth"
-              fontSize="sm"
-              ms="4px"
-              type="text"
-              placeholder={t("signIn.placeholderUsername")}
-              mb="24px"
-              size="lg"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
-            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              {t("signIn.password")}
-            </FormLabel>
             <InputGroup>
               <Input
                 id="password"
@@ -178,7 +153,7 @@ const SignIn = () => {
                 fontSize="sm"
                 ms="4px"
                 type={showPassword ? "text" : "password"}
-                placeholder={t("signIn.placeholderPassword")}
+                placeholder={t("resetPassword.placeholderPassword")}
                 mb="24px"
                 size="lg"
                 value={password}
@@ -189,7 +164,7 @@ const SignIn = () => {
                 <Button
                   h="115%"
                   variant="ghost"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={handleTogglePassword}
                   color="gray.500"
                   marginTop="15%"
                 >
@@ -197,28 +172,44 @@ const SignIn = () => {
                 </Button>
               </InputRightElement>
             </InputGroup>
-              <ChakraLink color="blue.400" fontSize="sm" onClick={handleForgotPasswordClick}>
-               {t("signIn.forgotPassword")}
-              </ChakraLink>
+            <Input
+              id="password"
+              variant="auth"
+              fontSize="sm"
+              ms="4px"
+              type="password"
+              placeholder={t("resetPassword.placeholderConfirmPassword")}
+              mb="24px"
+              size="lg"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
             <Flex p={5}>
               <Button
-                fontSize="10px"
-                variant="dark"
+                fontSize="15px"
                 fontWeight="bold"
-                w="100%"
-                h="45"
-                mb="24px"
-                onClick={handleSubmit}
-                disabled={isLoading}
+                width="100%"
+                height="45px"
+                colorScheme="blue"
+                isLoading={isLoading}
+                onClick={handleResetPassword}
               >
-                {isLoading ? <FaSpinner /> : t("signIn.login")}
-              </Button>{" "}
+                {t("resetPassword.continue")}
+              </Button>
             </Flex>
-
-            {errorMessage && (
+            {error && (
               <Alert status="error" mb={4}>
                 <AlertIcon />
-                <AlertDescription>{errorMessage}</AlertDescription>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            {resetSuccess && (
+              <Alert status="success" mb={4}>
+                <AlertIcon />
+                <AlertDescription>
+                  {t("resetPassword.alertSuccess")}
+                </AlertDescription>
               </Alert>
             )}
           </FormControl>
@@ -228,4 +219,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ResetPassword;
