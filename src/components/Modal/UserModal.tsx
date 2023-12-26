@@ -29,7 +29,7 @@ const UserModal = (props: UserModalProps) => {
   const { user } = useAuth();
   const { userFormValidationSchema } = useFormValidation();
   const { customerAccounts } = useCustomerAccounts();
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   const history = useHistory();
 
   const form = useFormik<Partial<FormValues>>({

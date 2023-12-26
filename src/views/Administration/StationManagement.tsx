@@ -35,7 +35,7 @@ const StationManagement = () => {
   const { data: stations, isLoading, makeRequest: fetchStations , error} = useHttp<
     GeneralStations[]
   >(listStation, false);
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   let { path } = useRouteMatch();
   const { user } = useAuth();
   const currentUserAccountId = user?.customerAccountId;

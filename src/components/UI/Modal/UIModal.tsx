@@ -29,7 +29,7 @@ const UIModal = ({
   isSubmitting,
   children,
 }: UIModalProps) => {
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
 
   return (
     <Modal

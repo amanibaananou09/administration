@@ -1,0 +1,76 @@
+{
+  "name": {
+    "min": "Name must be at least 4 characters",
+    "required": "Name is required"
+  },
+  "firstName": {
+    "min": "First Name must be at least 4 characters",
+    "required": "First Name is required"
+  },
+  "lastName": {
+    "min": "Last Name must be at least 4 characters",
+    "required": "Last Name is required"
+  },
+  "username": {
+    "min": "User Name must be at least 4 characters",
+    "required": "Username is required"
+  },
+  "email": {
+    "invalid": "Invalid email",
+    "required": "Email is required"
+  },
+  "password": {
+    "min": "Password must be at least 6 characters",
+    "matches": "Password must contain at least one special character",
+    "required": "Password is required"
+  },
+  "confirmPassword": {
+    "match": "Passwords must match",
+    "required": "Confirm Password is required"
+  },
+  "phone": {
+    "min": "Phone must be at least 8 digits",
+    "required": "Phone is required"
+  },
+  "address": {
+    "min": "Address must be at least 4 characters",
+    "required": "Address is required"
+  },
+  "ptsId": {
+    "min": "ptsId must be at least 4 characters",
+    "required": "ptsId is required"
+  },
+  "countryId": {
+    "required": "Country is required",
+    "positive": "Please select a country",
+    "country-id-check": "Country is required"
+  },
+  "controllerPtsId": {
+    "matches": "Controller ID must contain exactly 24 numbers",
+    "required": "controller ID is required"
+  },
+  "parentId": {
+    "required": "Parent Account is required"
+  },
+  "creatorAccountId": {
+    "required": "Creator Account is required"
+  },
+  "subnetMask": {
+    "required": "Subnetmask is required"
+  },
+  "controllerType": {
+    "required": "Type of controller is required"
+  },
+  "creatorAccount": {
+    "required": "Compte creator is required"
+  },
+  "customerAccountId": {
+    "required": "Parent Account is required"
+  },
+  "modeAffectation": {
+    "required": "Assignment mode is required"
+  },
+  "cordonneesGps": {
+    "required": "GPS coordinates is required"
+  }
+}

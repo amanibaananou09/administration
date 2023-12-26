@@ -15,7 +15,7 @@ import { useAuth } from "store/AuthContext";
 
 const StationConfigurator = (props: StationConfiguratorProps) => {
   const { user } = useAuth();
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [stations, setStations] = useState<Station[]>([]);
   const settingsRef = useRef<HTMLDivElement>(null);

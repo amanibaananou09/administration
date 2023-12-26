@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
 const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   const history = useHistory();
   const searchType = useRef<HTMLSelectElement>(null);
   const searchText = useRef<HTMLInputElement>(null);

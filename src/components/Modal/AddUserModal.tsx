@@ -46,7 +46,7 @@ const AddUserModal = (
   const { id } = useParams<RouteParams>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(
     null,
   );

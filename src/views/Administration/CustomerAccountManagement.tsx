@@ -31,7 +31,7 @@ const CustomerAccountManagement = () => {
 
   const [selectedAccount, setSelectedAccount] = useState<CustomerAccount>();
 
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   let { path } = useRouteMatch();
   const query = useQuery();
   const name = query.get("name");

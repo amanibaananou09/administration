@@ -27,7 +27,7 @@ interface FormValues extends CustomerAccount {
 const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   const history = useHistory();
   const { customerAccounts } = useCustomerAccounts();
   const { customerAccountValidationSchema } = useFormValidation();

@@ -1,42 +1,46 @@
 {
-  "common": {
-    "name": "Nom de compte",
-    "creator": "Créateur",
-    "creatorAccount": "Compte Créateur",
-    "compteParent": "Compte Parent",
-    "droits": "Droits De Distributeur",
-    "stations": "Stations",
-    "status": "Statut",
-    "error": "est obligatoire",
-    "errorLength": "doit contenir au moins 4 caractères",
-    "errorPhone": "Le numéro de téléphone doit c au moins 6 number",
-    "erroremail": "doit être une adresse e-mail valide",
-    "errorPassword": "doit comporter au moins 6 caractères",
-    "errorNumeric": "doit contenir au moins un caractère spécial et un chiffre",
-    "errorConfirmPassword": "Les mots de passe ne correspondent pas",
-    "enabled": "ENABLED (ACTIVÉ)",
-    "disabled": "DISABLED (DÉSACTIVÉ)",
-    "true": "vrai",
-    "false": "faux",
-    "password": "Mot de passe",
-    "submit": "Créer",
-    "cancel": "Annuler",
-    "loading": "Chargement...",
-    "address": "Adresse",
-    "country": "Pays",
-    "confirmPassword": "Confirmez le mot de passe",
-    "selectAccount": "Sélectionner un compte parent",
-    "selectDroits": "Ajoutez vos droits de revendeur",
-    "reseller": "Revendeur",
-    "delete": "Supprimer",
-    "phone": "Téléphone",
-    "canChangePassword": "Peut changer le mot de passe : ",
-    "canSendSMS": "Peut envoyer des SMS : ",
-    "isActive": "Activé : ",
-    "confirmationDialog": {
-      "confirm": "Valider",
-      "cancel": "Annuler"
-    }
+  "signIn": {
+    "header": "Gestion des stations-service",
+    "text": "Connectez-vous pour continuer",
+    "useName": "Nom d'utilisateur",
+    "password": " Mot de passe",
+    "login": "CONNEXION",
+    "placeholderUsername": "Entrez votre nom d'utilisateur",
+    "placeholderPassword": "Entrez votre mot de passe",
+    "messageError": "Remplir les champs Nom d'utilisateur et Mot de passe.",
+    "messageInvalid": "Nom d'utilisateur ou mot de passe incorrect.",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "ForgotPassword": {
+    "errorVide": "Veuillez entrer votre adresse e-mail.",
+    "errorInvalid": "Incorrect e-mail . Veuillez réessayer.",
+    "text": "Trouvez votre compte",
+    "description": "Veuillez entrer votre e-mail pour rechercher votre compte.",
+    "placeholderEmail": " Entrez votre e-mail",
+    "search": "Rechercher",
+    "ignore": "Ignorer",
+    "AlertDescription": "Veuillez vérifier votre boîte de réception (e-mail) pour les instructions de réinitialisation du mot de passe."
+  },
+  "resetPassword": {
+    "error": "Les mots de passe ne correspondent pas.",
+    "errorInvalid": "Veuillez remplir tous les champs.",
+    "text": "Choisissez un nouveau mot de passe",
+    "placeholderPassword": "Nouveau mot de passe",
+    "placeholderConfirmPassword": "Confirmer le mot de passe",
+    "continue": "Continuer",
+    "alertSuccess": "Mot de passe réinitialisé avec succès ! "
+  },
+  "navbarLinks": {
+    "userLogin": "Nom d'utilisateur",
+    "myProfile": "Mon profil",
+    "signOut": "Déconnexion"
+  },
+  "configurator": {
+    "Configurator": "Configurateur",
+    "text": "Voir les options du tableau de bord",
+    "navbarFixed": "Barre de navigation",
+    "Dark_Light": "Foncé/clair",
+    "toggle": " Bascule"
   },
   "sideBarItem": {
     "search": "Rechercher",
@@ -108,95 +112,12 @@
       "listEmpty": "Vous n'avez pas d'utilisateur"
     }
   },
-  "routes": {
-    "informationAccounts": "Comptes d'information",
-    "manageAccounts": "Gérer les comptes",
-    "userDetails": "Détails sur l'utilisateur",
-    "manageUsers": "Gestion des utilisateurs",
-    "manageStations": "Gestion des stations"
-  },
   "addUserModal": {
     "header": "Créer un nouvel utilisateur"
   },
   "addStationModal": {
     "header": "Créer une nouvelle station",
     "selectCountry": "Sélectionner un pays"
-  },
-  "validation": {
-    "name": {
-      "min": "Le nom doit comporter au moins 4 caractères",
-      "required": "Le nom est requis"
-    },
-    "firstName": {
-      "min": "Le prénom doit comporter au moins 4 caractères",
-      "required": "Le prénom est requis"
-    },
-    "lastName": {
-      "min": "Le nom doit comporter au moins 4 caractères",
-      "required": "Le nom est requis"
-    },
-    "username": {
-      "min": "Le nom d'utilisateur doit comporter au moins 4 caractères",
-      "required": "Le nom d'utilisateur est requis"
-    },
-    "email": {
-      "invalid": "E-mail invalide",
-      "required": "L'e-mail est requis"
-    },
-    "password": {
-      "min": "Le mot de passe doit comporter au moins 6 caractères",
-      "matches": "Le mot de passe doit contenir au moins un caractère spécial",
-      "required": "Le mot de passe est requis"
-    },
-    "confirmPassword": {
-      "match": "Le mot de passe est sa confirmation ne sont pas identiques",
-      "required": "La confirmation du mot de passe est requis"
-    },
-    "phone": {
-      "min": "Le téléphone doit comporter au moins 8 chiffres",
-      "required": "Le téléphone est requis"
-    },
-    "address": {
-      "min": "L'adresse doit comporter au moins 4 caractères",
-      "required": "L'adresse est requise"
-    },
-    "ptsId": {
-      "min": "ptsId doit comporter au moins 4 caractères",
-      "required": "ptsId est requis"
-    },
-    "countryId": {
-      "required": "Le pays est requis",
-      "positive": "Veuillez sélectionner un pays",
-      "country-id-check": "Le pays est requis"
-    },
-    "controllerPtsId": {
-      "matches": "L'ID du contrôleur doit contenir exactement 24 chiffres",
-      "required": "ID contrôleur est requis"
-    },
-    "parentId": {
-      "required": "Le compte parent est requis"
-    },
-    "creatorAccountId": {
-      "required": "Le compte createur est requis"
-    },
-    "subnetMask": {
-      "required": "Subnetmask est requis"
-    },
-    "controllerType": {
-      "required": "Type de contrôleur est requis"
-    },
-    "creatorAccount": {
-      "required": "Compte créateur est requis"
-    },
-    "customerAccountId": {
-      "required": "Compte Parent est requis"
-    },
-    "modeAffectation": {
-      "required": "Mode d'affectation est requis"
-    },
-    "cordonneesGps": {
-      "required": "Coordonnées GPS est requis"
-    }
   },
   "stationManagement": {
     "header": "Stations",

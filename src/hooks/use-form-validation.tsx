@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
 const useFormValidation = () => {
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
 
   const username = Yup.string()
     .min(4, t("validation.username.min"))

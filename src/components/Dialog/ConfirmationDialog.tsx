@@ -30,7 +30,7 @@ const ConfirmationDialog = (
 ) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<any>(null);
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
 
   useImperativeHandle(ref, () => ({
     open() {

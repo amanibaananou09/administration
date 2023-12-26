@@ -18,7 +18,7 @@ import { useAuth } from "store/AuthContext";
 
 const StationModal = (props: AddStationModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { t } = useTranslation("administration");
+  const { t } = useTranslation();
   const history = useHistory();
   const [country, setCountry] = useState<country[]>([]);
   const [creatorsList, setCreatorsList] = useState<any[]>([]);
