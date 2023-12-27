@@ -2,7 +2,11 @@ import { User } from "common/model";
 import api from "./axios";
 
 export const login = async (username: string, password: string) => {
-  const response = await api.post("/login", { username, password });
+  const response = await api.post("/login", {
+    username,
+    password,
+    admin: true,
+  });
 
   return response.data;
 };

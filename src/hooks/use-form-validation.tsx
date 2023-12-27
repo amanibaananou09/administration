@@ -114,10 +114,17 @@ const useFormValidation = () => {
     modeAffectation,
     cordonneesGps,
   });
+
+  const signInFormValidationSchema = Yup.object().shape({
+    username: Yup.string().required(t("validation.username.required")),
+    password: Yup.string().required(t("validation.password.required")),
+  });
+
   return {
     userFormValidationSchema,
     customerAccountValidationSchema,
     stationFormValidationSchema,
+    signInFormValidationSchema,
   };
 };
 
