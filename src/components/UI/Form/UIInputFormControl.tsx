@@ -5,6 +5,7 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import { ResponsiveValue, StyleProps } from "@chakra-ui/system";
 import { FormikProps, getIn } from "formik";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -14,8 +15,14 @@ type UIInputFormControlProps = {
   fieldName: string;
   label: string;
   type?: string;
+  placeholder?: string;
   showPasswordBtn?: boolean;
   isReadOnly?: boolean;
+  variant?: ResponsiveValue<
+    "outline" | (string & {}) | "filled" | "flushed" | "unstyled"
+  >;
+  size?: ResponsiveValue<(string & {}) | "sm" | "md" | "lg" | "xs">;
+  styles?: StyleProps;
 };
 
 const UIInputFormControl = ({
@@ -23,8 +30,12 @@ const UIInputFormControl = ({
   fieldName,
   label,
   type = "text",
+  placeholder,
   showPasswordBtn = true,
   isReadOnly = false,
+  variant,
+  size,
+  styles,
 }: UIInputFormControlProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -48,10 +59,13 @@ const UIInputFormControl = ({
           onChange={changeHandler}
           onBlur={blurHandler}
           type={type}
-          placeholder={label}
+          placeholder={placeholder ? placeholder : label}
           isReadOnly={isReadOnly}
+          variant={variant}
           color={isReadOnly ? "gray.500" : ""}
           bg={isReadOnly ? "gray.200" : ""}
+          size={size}
+          {...styles}
         />
       )}
 
@@ -64,10 +78,13 @@ const UIInputFormControl = ({
             onChange={changeHandler}
             onBlur={blurHandler}
             type={showPassword ? "text" : "password"}
-            placeholder={label}
+            placeholder={placeholder ? placeholder : label}
             pr="4.5rem"
+            variant={variant}
             color={isReadOnly ? "gray.500" : ""}
             bg={isReadOnly ? "gray.200" : ""}
+            size={size}
+            {...styles}
           />
           <InputRightElement width="3.2rem">
             <Button

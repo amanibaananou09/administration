@@ -4,65 +4,65 @@ import {
   AlertIcon,
   Box,
   Button,
+  Link as ChakraLink,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   InputGroup,
   InputRightElement,
   Text,
-  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { login } from "common/api/auth-api";
 import LanguageSelector from "components/LanguageSelector";
-import React, { useState } from "react";
+import { useFormik } from "formik";
+import useFormValidation from "hooks/use-form-validation";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
-import { useHistory } from "react-router-dom";
+
+type SubmitFormValues = {
+  username: string;
+  password: string;
+};
 
 const SignIn = () => {
   const { signIn } = useAuth();
   const { t } = useTranslation();
+  const { signInFormValidationSchema } = useFormValidation();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
+
+  const form = useFormik<SubmitFormValues>({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: signInFormValidationSchema,
+    onSubmit: async (values) => {
+      const { username, password } = values;
+
+      try {
+        const { access_token } = await login(username, password);
+        const user = decodeToken(access_token);
+        signIn(user!!);
+      } catch (error) {
+        console.error(error);
+        setErrorMessage(t("signIn.messageInvalid"));
+      }
+    },
+  });
+
   const handleForgotPasswordClick = () => {
     history.push("/auth/Forgot-Password");
   };
 
-  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (
-    event,
-  ) => {
-    event.preventDefault();
-    if (!username || !password) {
-      setErrorMessage(t("signIn.messageError"));
-      return;
-    }
-    setIsLoading(true);
-    try {
-      const { access_token } = await login(username, password);
-      setIsLoading(true);
-      const user = decodeToken(access_token);
-      signIn(user!!);
-    } catch (error) {
-      console.error(error);
-      setErrorMessage(t("signIn.messageInvalid"));
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      handleSubmit((event as unknown) as React.MouseEvent<HTMLButtonElement>);
-    }
-  };
   return (
     <Flex
       direction="column"
@@ -140,52 +140,62 @@ const SignIn = () => {
           >
             {t("signIn.text")}
           </Text>
-          <FormControl>
-            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              {t("signIn.useName")}
-            </FormLabel>
-            <Input
-              id="username"
-              variant="auth"
-              fontSize="sm"
-              ms="4px"
-              type="text"
-              placeholder={t("signIn.placeholderUsername")}
+          <form>
+            <FormControl
+              isInvalid={!!form.errors.username && !!form.touched.username}
               mb="24px"
-              size="lg"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
-            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              {t("signIn.password")}
-            </FormLabel>
-            <InputGroup>
+            >
+              <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                {t("signIn.useName")}
+              </FormLabel>
               <Input
-                id="password"
-                variant="auth"
+                id="username"
+                name="username"
                 fontSize="sm"
                 ms="4px"
-                type={showPassword ? "text" : "password"}
-                placeholder={t("signIn.placeholderPassword")}
-                mb="24px"
+                type="text"
+                placeholder={t("signIn.placeholderUsername")}
                 size="lg"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={handleKeyPress}
+                value={form.values.username}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
               />
-              <InputRightElement width="3.2rem">
-                <Button
-                  h="115%"
-                  variant="ghost"
-                  onClick={() => setShowPassword(!showPassword)}
-                  color="gray.500"
-                  marginTop="15%"
-                >
-                  {showPassword ? <FaEye /> : <FaEyeSlash />}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
+              <FormErrorMessage>{form.errors.username}</FormErrorMessage>
+            </FormControl>
+            <FormControl
+              isInvalid={!!form.errors.password && !!form.touched.password}
+              mb="24px"
+            >
+              <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                {t("signIn.password")}
+              </FormLabel>
+              <InputGroup>
+                <Input
+                  id="password"
+                  name="password"
+                  fontSize="sm"
+                  ms="4px"
+                  type={showPassword ? "text" : "password"}
+                  placeholder={t("signIn.placeholderPassword")}
+                  size="lg"
+                  value={form.values.password}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
+                />
+                <InputRightElement width="3.2rem">
+                  <Button
+                    h="115%"
+                    variant="ghost"
+                    onClick={() => setShowPassword(!showPassword)}
+                    color="gray.500"
+                    marginTop="15%"
+                  >
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+              <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+            </FormControl>
             <ChakraLink
               color="blue.400"
               fontSize="sm"
@@ -193,7 +203,7 @@ const SignIn = () => {
             >
               {t("signIn.forgotPassword")}
             </ChakraLink>
-            <Flex p={5}>
+            <Flex py={5}>
               <Button
                 fontSize="10px"
                 variant="dark"
@@ -201,11 +211,11 @@ const SignIn = () => {
                 w="100%"
                 h="45"
                 mb="24px"
-                onClick={handleSubmit}
-                disabled={isLoading}
+                onClick={() => form.handleSubmit()}
+                isLoading={form.isSubmitting}
               >
-                {isLoading ? <FaSpinner /> : t("signIn.login")}
-              </Button>{" "}
+                {t("signIn.login")}
+              </Button>
             </Flex>
 
             {errorMessage && (
@@ -214,7 +224,7 @@ const SignIn = () => {
                 <AlertDescription>{errorMessage}</AlertDescription>
               </Alert>
             )}
-          </FormControl>
+          </form>
         </Flex>
       </Flex>
     </Flex>
