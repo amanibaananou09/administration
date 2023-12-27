@@ -1,6 +1,6 @@
 {
   "signIn": {
-    "header": "Gestion des stations-service",
+    "header": "STATIONNEX",
     "text": "Connectez-vous pour continuer",
     "useName": "Nom d'utilisateur",
     "password": " Mot de passe",
@@ -9,11 +9,12 @@
     "placeholderPassword": "Entrez votre mot de passe",
     "messageError": "Remplir les champs Nom d'utilisateur et Mot de passe.",
     "messageInvalid": "Nom d'utilisateur ou mot de passe incorrect.",
-    "forgotPassword": "Mot de passe oublié ?"
+    "forgotPassword": "Mot de passe oublié ?",
+    "title": "Administration"
   },
   "ForgotPassword": {
     "errorVide": "Veuillez entrer votre adresse e-mail.",
-    "errorInvalid": "Incorrect e-mail . Veuillez réessayer.",
+    "errorInvalid": "Format d'adresse e-mail invalide. Veuillez utiliser une adresse e-mail valide, par exemple : 'exemple@domaine.com'",
     "text": "Trouvez votre compte",
     "description": "Veuillez entrer votre e-mail pour rechercher votre compte.",
     "placeholderEmail": " Entrez votre e-mail",

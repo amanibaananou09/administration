@@ -106,18 +106,18 @@ const SignIn = () => {
         mt="125px"
         mb="30px"
       >
-        <Text fontSize="4xl" color="white" fontWeight="bold">
+        <Text fontSize="5xl" color="white" fontWeight="bold">
           {t("signIn.header")}
         </Text>
         <Text
-          fontSize="md"
+          fontSize="lg"
           color="white"
           fontWeight="normal"
           mt="10px"
           mb="26px"
           w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
         >
-          {/*  Use these awesome forms to login.*/}
+          {t("signIn.title")}
         </Text>
       </Flex>
       <Flex alignItems="center" justifyContent="center" mb="60px" mt="20px">
@@ -186,9 +186,13 @@ const SignIn = () => {
                 </Button>
               </InputRightElement>
             </InputGroup>
-              <ChakraLink color="blue.400" fontSize="sm" onClick={handleForgotPasswordClick}>
-               {t("signIn.forgotPassword")}
-              </ChakraLink>
+            <ChakraLink
+              color="blue.400"
+              fontSize="sm"
+              onClick={handleForgotPasswordClick}
+            >
+              {t("signIn.forgotPassword")}
+            </ChakraLink>
             <Flex p={5}>
               <Button
                 fontSize="10px"

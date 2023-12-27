@@ -1,6 +1,6 @@
 {
   "signIn": {
-    "header": "Fuel Stations Management",
+    "header": "STATIONNEX ",
     "text": "Please login to connect",
     "useName": "User  Name",
     "password": " Password",
@@ -9,11 +9,12 @@
     "placeholderPassword": "Type your password",
     "messageError": "Please fill in both Username and Password fields.",
     "messageInvalid": "Invalid username or password.",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "title": "Administration"
   },
   "ForgotPassword":{
     "errorVide":"Please enter your email.",
-    "errorInvalid": "Invalid email. Please try again.",
+    "errorInvalid": "Invalid e-mail address format. Please use a valid e-mail address, for example: 'exemple@domaine.com'",
     "text": "Find your account",
     "description":"Please enter your email to search your account.",
     "placeholderEmail":" Enter your e-mail",

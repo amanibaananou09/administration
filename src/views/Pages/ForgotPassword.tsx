@@ -24,22 +24,28 @@ const ForgotPassword = () => {
   const [resetSuccess, setResetSuccess] = useState<boolean>(false);
   const { t } = useTranslation();
   const history = useHistory();
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleMail = async (e: any) => {
     e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email.trim()) {
       setError(t("ForgotPassword.errorVide"));
       return;
     }
-
+    if (!emailRegex.test(email)) {
+      setError(t("ForgotPassword.errorInvalid"));
+      return;
+    }
     setIsLoading(true);
     try {
       await forgotPassword(email);
       setResetSuccess(true);
       setError("");
     } catch (error) {
-      setError(t("ForgotPassword.errorInvalid"));
+      setSuccess(true);
+      setError("");
       setResetSuccess(false);
     } finally {
       setIsLoading(false);
@@ -175,7 +181,7 @@ const ForgotPassword = () => {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            {resetSuccess && (
+            {(resetSuccess || success) && (
               <Alert status="success" mb={4}>
                 <AlertIcon />
                 <AlertDescription>
