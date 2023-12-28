@@ -153,7 +153,7 @@ const StationModal = (props: AddStationModalProps) => {
           {t("stationManagement.controller")}
         </Text>
 
-        <SimpleGrid columns={2} spacingX={5}>
+        <SimpleGrid columns={3} spacingX={5}>
           <UIInputFormControl
             formik={form}
             label={t("stationManagement.controllerId")}

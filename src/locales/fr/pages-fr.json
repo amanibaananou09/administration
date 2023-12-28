@@ -69,7 +69,11 @@
     }
   },
   "customerAccountModal": {
-    "header": "Créer un nouveau compte client"
+    "header": "Créer un nouveau compte client",
+    "paymentMethods": "Modes de paiement",
+    "payment": "Paiement",
+    "actions": "Actions",
+    "add": " Ajouter un mode"
   },
   "customerAccountInformation": {
     "header": "Informations sur le compte client",
@@ -149,7 +153,7 @@
     "manuel": "Manuel",
     "automatique": "Automatique",
     "cordonneesGps": "Coordonnées GPS",
-    "cordonneesGpsPlaceholder": "Coordonnées GPS",
+    "cordonneesGpsPlaceholder": "Format standard: latitude,longitude",
     "selectAccount": "Sélectionnez un compte"
   }
 }
