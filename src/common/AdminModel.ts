@@ -13,8 +13,12 @@ export interface CustomerAccount {
   actif?: boolean;
   masterUser: MasterUser;
   creatorUser?: GeneralUser;
+  paymentMean: PaymentMean[];
 }
-
+export interface PaymentMean {
+  code: string;
+  customerAccountId?: string;
+}
 export interface MasterUser {
   username: string;
   email: string;

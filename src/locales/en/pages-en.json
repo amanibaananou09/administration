@@ -69,7 +69,11 @@
     }
   },
   "customerAccountModal": {
-    "header": "Create New Customer Account"
+    "header": "Create New Customer Account",
+    "paymentMethods": "Payment methods",
+    "payment": "Payment",
+    "actions": "Actions",
+    "add": "Add a methodes"
   },
   "customerAccountInformation": {
     "header": "Customer Account Information",
@@ -149,7 +153,7 @@
     "manuel": "Manuel",
     "automatique": "Automatic",
     "cordonneesGps": "GPS coordinates",
-    "cordonneesGpsPlaceholder": "coordinates",
+    "cordonneesGpsPlaceholder": "Standard format: latitude, longitude",
     "selectAccount": "Select a Account"
   }
 }

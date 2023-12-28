@@ -3,8 +3,13 @@ import {
   Flex,
   SimpleGrid,
   Text,
+  Input,
   useDisclosure,
+  Box,
+  Button,
 } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
+
 import { CustomerAccount } from "common/AdminModel";
 import { createCustomerAccount } from "common/api/customerAccount-api";
 import { CustomerAccountModalProps } from "common/react-props";
@@ -32,7 +37,16 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
   const { customerAccounts } = useCustomerAccounts();
   const { customerAccountValidationSchema } = useFormValidation();
   const { user } = useAuth();
-
+  const addPaymentMeanHandler = () => {
+    const newPaymentMean = {
+      code: "",
+      customerAccountId: user?.customerAccountId ?? "",
+    };
+    form.setValues({
+      ...form.values,
+      paymentMean: [...(form.values.paymentMean ?? []), newPaymentMean],
+    });
+  };
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
       name: "",
@@ -49,6 +63,12 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
         password: "",
         phone: "",
       },
+      paymentMean: [
+        {
+          code: "",
+          customerAccountId: user?.customerAccountId,
+        },
+      ],
     },
     validationSchema: customerAccountValidationSchema,
     onSubmit: async (values: Partial<FormValues>) => {
@@ -62,7 +82,12 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
   useEffect(() => {
     onOpen();
   }, []);
-
+  const removePaymentMeanHandler = (index: number) => {
+    const updatedPaymentMean = (form.values.paymentMean ?? []).filter(
+      (_, i) => i !== index,
+    );
+    form.setFieldValue("paymentMean", updatedPaymentMean);
+  };
   const closeModalHandler = () => {
     onClose();
     history.replace("/administration/customer-accounts");
@@ -124,7 +149,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
           <Text textColor="teal.500" fontWeight="bold" fontSize="xl" mb="20px">
             {t("customerAccounts.masterUser")}
           </Text>
-          <SimpleGrid columns={2} spacingX={5}>
+          <SimpleGrid columns={3} spacingX={5}>
             <UIInputFormControl
               formik={form}
               label={t("userInformation.userNameLabel")}
@@ -170,6 +195,73 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
               fieldName="masterUser.phone"
             />
           </SimpleGrid>
+          <SimpleGrid
+            columns={2}
+            mt={4}
+            width="60%"
+            borderWidth="1px"
+            borderRadius="md"
+            marginLeft="20%"
+          >
+            <Box
+              as="div"
+              gridColumn="span 2"
+              display="flex"
+              justifyContent="space-between"
+              fontWeight="bold"
+            >
+              <Box as="div" fontWeight="bold" p={2}>
+                {t("customerAccountModal.paymentMethods")}
+              </Box>
+              <Box as="div" fontWeight="bold" p={2}>
+                {t("customerAccountModal.actions")}
+              </Box>
+            </Box>
+            <Box as="div" gridColumn="span 2">
+              {form.values.paymentMean?.map((paymentMean, index) => (
+                <Box
+                  as="div"
+                  key={index}
+                  display="flex"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  borderBottom="1px solid #ddd"
+                  py={2}
+                >
+                  <Box as="div" px={2} flex="1">
+                    <Input
+                      type="text"
+                      width="60%"
+                      placeholder={t("customerAccountModal.payment")}
+                      value={paymentMean.code}
+                      onChange={(e) => {
+                        const updatedPaymentMean = [
+                          ...(form.values.paymentMean ?? []),
+                        ];
+                        updatedPaymentMean[index].code = e.target.value;
+                        form.setFieldValue(
+                          `paymentMean[${index}].code`,
+                          e.target.value,
+                        );
+                      }}
+                    />
+                  </Box>
+                  <Box as="div" px={30}>
+                    <DeleteIcon
+                      onClick={() => removePaymentMeanHandler(index)}
+                      cursor="pointer"
+                      color="red.500"
+                    />
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </SimpleGrid>
+        </Flex>
+        <Flex justifyContent="end">
+          <Button onClick={addPaymentMeanHandler} mt={4}>
+            {t("customerAccountModal.add")}
+          </Button>
         </Flex>
       </form>
     </UIModal>
