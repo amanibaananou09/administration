@@ -22,6 +22,7 @@ import { Route, useRouteMatch } from "react-router-dom";
 import { UIColumnDefinitionType } from "../../components/UI/Table/Types";
 import UITable from "../../components/UI/Table/UITable";
 import useQuery from "../../hooks/use-query";
+import {formatDate} from "../../utils/utils";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
@@ -96,7 +97,7 @@ const UserManagement = () => {
     },
     {
       header: t("userManagement.globalUsers.lastVisit"),
-      key: "lastVisit",
+      render: (generalUser) => formatDate(generalUser.lastConnectionDate),
     },
     {
       header: t("userManagement.globalUsers.statusColumn"),
