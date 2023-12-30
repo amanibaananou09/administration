@@ -119,7 +119,7 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
             <Flex gap="3">
               <Flex flexDirection="column" width="50%">
                 <Text>{t("sideBarItem.filterType.label")}:</Text>
-                <Select placeholder="Type" ref={searchType}>
+                <Select placeholder="" ref={searchType}>
                   <option value="name">
                     {t("sideBarItem.filterType.name")}
                   </option>

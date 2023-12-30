@@ -45,7 +45,7 @@ export interface GeneralUser {
   subnetMask?: string;
   customerAccountId?: string;
   creatorAccountId?: string;
-  lastVisit?: string;
+  lastConnectionDate: string;
   creatorCustomerAccountName?: string;
   customerAccountName?: string;
 }
