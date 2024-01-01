@@ -1,14 +1,13 @@
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
+  Box,
+  Button,
   Checkbox,
   Flex,
   SimpleGrid,
   Text,
-  Input,
   useDisclosure,
-  Box,
-  Button,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
 
 import { CustomerAccount } from "common/AdminModel";
 import { createCustomerAccount } from "common/api/customerAccount-api";
@@ -37,16 +36,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
   const { customerAccounts } = useCustomerAccounts();
   const { customerAccountValidationSchema } = useFormValidation();
   const { user } = useAuth();
-  const addPaymentMeanHandler = () => {
-    const newPaymentMean = {
-      code: "",
-      customerAccountId: user?.customerAccountId ?? "",
-    };
-    form.setValues({
-      ...form.values,
-      paymentMean: [...(form.values.paymentMean ?? []), newPaymentMean],
-    });
-  };
+
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
       name: "",
@@ -66,7 +56,6 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
       paymentMean: [
         {
           code: "",
-          customerAccountId: user?.customerAccountId,
         },
       ],
     },
@@ -82,12 +71,24 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
   useEffect(() => {
     onOpen();
   }, []);
+
+  const addPaymentMeanHandler = () => {
+    const newPaymentMean = {
+      code: "",
+    };
+    form.setValues({
+      ...form.values,
+      paymentMean: [...(form.values.paymentMean ?? []), newPaymentMean],
+    });
+  };
+
   const removePaymentMeanHandler = (index: number) => {
     const updatedPaymentMean = (form.values.paymentMean ?? []).filter(
       (_, i) => i !== index,
     );
     form.setFieldValue("paymentMean", updatedPaymentMean);
   };
+
   const closeModalHandler = () => {
     onClose();
     history.replace("/administration/customer-accounts");
@@ -218,7 +219,7 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
               </Box>
             </Box>
             <Box as="div" gridColumn="span 2">
-              {form.values.paymentMean?.map((paymentMean, index) => (
+              {form.values.paymentMean?.map((_, index) => (
                 <Box
                   as="div"
                   key={index}
@@ -229,21 +230,10 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
                   py={2}
                 >
                   <Box as="div" px={2} flex="1">
-                    <Input
-                      type="text"
-                      width="60%"
+                    <UIInputFormControl
+                      formik={form}
+                      fieldName={`paymentMean[${index}].code`}
                       placeholder={t("customerAccountModal.payment")}
-                      value={paymentMean.code}
-                      onChange={(e) => {
-                        const updatedPaymentMean = [
-                          ...(form.values.paymentMean ?? []),
-                        ];
-                        updatedPaymentMean[index].code = e.target.value;
-                        form.setFieldValue(
-                          `paymentMean[${index}].code`,
-                          e.target.value,
-                        );
-                      }}
                     />
                   </Box>
                   <Box as="div" px={30}>

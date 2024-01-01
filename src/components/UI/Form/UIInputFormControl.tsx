@@ -13,7 +13,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 type UIInputFormControlProps = {
   formik: FormikProps<any>;
   fieldName: string;
-  label: string;
+  label?: string;
   type?: string;
   placeholder?: string;
   showPasswordBtn?: boolean;
@@ -48,9 +48,11 @@ const UIInputFormControl = ({
 
   return (
     <FormControl isInvalid={invalid} mb="15px">
-      <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-        {label}
-      </FormLabel>
+      {label && (
+        <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
+          {label}
+        </FormLabel>
+      )}
       {(type !== "password" || (type === "password" && !showPasswordBtn)) && (
         <Input
           id={fieldName}
