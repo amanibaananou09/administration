@@ -110,7 +110,7 @@ const StationDetailsModal = ({
           )}
         </ModalBody>
         <ModalFooter>
-          <Button> close </Button>
+          <Button onClick={onClose}>Close</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

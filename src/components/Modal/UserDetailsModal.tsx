@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Flex,
   Modal,
   ModalBody,
@@ -12,6 +13,7 @@ import {
 import { GeneralUser } from "common/AdminModel";
 import { formatDate } from "utils/utils";
 import { useTranslation } from "react-i18next";
+import { ModalFooter } from "@chakra-ui/modal";
 
 interface UserDetailsModalProps {
   isOpen: boolean;
@@ -43,7 +45,7 @@ const UserDetailsModal = ({
         >
           {t("userDetailsModel.header")}
         </ModalHeader>
-        <ModalCloseButton color="red" />
+        <ModalCloseButton color="white" />
         <ModalBody>
           {userDetails && (
             <Flex justifyContent="space-between" flexWrap="wrap" p="4">
@@ -99,6 +101,9 @@ const UserDetailsModal = ({
             </Flex>
           )}
         </ModalBody>
+        <ModalFooter>
+          <Button onClick={onClose}>Close</Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
