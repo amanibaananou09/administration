@@ -1,7 +1,8 @@
 import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { CustomerAccount } from "common/AdminModel";
+import { CustomerAccount, GeneralUser } from "common/AdminModel";
 import {
   activateCustomerAccount,
+  customerAccountDetails,
   deactivateCustomerAccount,
   getCustomerAccounts,
 } from "common/api/customerAccount-api";
@@ -21,6 +22,7 @@ import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import CustomerAccountDetailsModal from "components/Modal/CustomerAccountDetailsModal";
 
 const CustomerAccountManagement = () => {
   const {
@@ -39,6 +41,11 @@ const CustomerAccountManagement = () => {
   const parent = query.get("parent");
 
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [
+    selectedAccountDetails,
+    setSelectedAccountDetails,
+  ] = useState<CustomerAccount | null>(null);
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
@@ -82,7 +89,22 @@ const CustomerAccountManagement = () => {
 
   //styles
   const textColor = "gray.700";
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
 
+  const handleAccountNameClick = async (item: CustomerAccount) => {
+    if (item.id !== undefined) {
+      try {
+        setIsLoadingDetails(true);
+        const accountDetails = await customerAccountDetails(item.id);
+        setSelectedAccountDetails(accountDetails);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.error("Error fetching user information:", error);
+      } finally {
+        setIsLoadingDetails(false);
+      }
+    }
+  };
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
       header: "#",
@@ -91,6 +113,17 @@ const CustomerAccountManagement = () => {
     {
       header: t("common.name"),
       key: "name",
+      render: (item: CustomerAccount) => (
+        <div
+          style={{
+            cursor: "pointer",
+            textDecoration: "underline",
+          }}
+          onClick={() => handleAccountNameClick(item)}
+        >
+          {item.name}
+        </div>
+      ),
     },
     {
       header: t("common.creator"),
@@ -173,6 +206,11 @@ const CustomerAccountManagement = () => {
       <ConfirmationDialog
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
+      />
+      <CustomerAccountDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        accountDetails={selectedAccountDetails}
       />
     </>
   );

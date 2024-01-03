@@ -1,8 +1,8 @@
 {
   "signIn": "Se connecter",
   "informationAccounts": "Comptes d'information",
-  "manageAccounts": "Gérer les comptes",
+  "manageAccounts": "Comptes",
   "userDetails": "Détails sur l'utilisateur",
-  "manageUsers": "Gestion des utilisateurs",
-  "manageStations": "Gestion des stations"
+  "manageUsers": "Utilisateurs",
+  "manageStations": "Stations"
 }

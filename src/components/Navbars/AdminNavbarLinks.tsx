@@ -97,10 +97,10 @@ const HeaderLinks = (props: any) => {
                   >
                     {t("navbarLinks.userLogin")}:
                   </Text>
-                  {isSignedIn ? user!!.username : "Unknown User Name"}
+                  {isSignedIn ? user!!.username : "-"}
                 </Text>
                 <Text fontSize="sm" color="gray.500">
-                  {isSignedIn && user!!.email ? user!!.email : "Unknown Email"}
+                  {isSignedIn && user!!.email ? user!!.email : "-"}
                 </Text>
               </Box>
             </Flex>

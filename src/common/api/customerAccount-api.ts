@@ -38,8 +38,8 @@ export const getCustomerAccounts = async (
 
   return response.data;
 };
-export const listOfCreator = async (id: string) => {
-  const response = await api.get(`${API_URL}/${id}/creator`);
+export const customerAccountDetails = async (id: number) => {
+  const response = await api.get(`${API_URL}/${id}/info`);
 
   return response.data;
 };

@@ -11,12 +11,12 @@
     "forgotPassword": "Forgot password?",
     "title": "Administration"
   },
-  "ForgotPassword":{
-    "errorVide":"Please enter your email.",
+  "ForgotPassword": {
+    "errorVide": "Please enter your email.",
     "errorInvalid": "Invalid e-mail address format. Please use a valid e-mail address, for example: 'exemple@domaine.com'",
     "text": "Find your account",
-    "description":"Please enter your email to search your account.",
-    "placeholderEmail":" Enter your e-mail",
+    "description": "Please enter your email to search your account.",
+    "placeholderEmail": " Enter your e-mail",
     "search": "Search",
     "ignore": "Ignore",
     "AlertDescription": "Please check your inbox (e-mail) for password reset instructions."
@@ -54,7 +54,7 @@
     }
   },
   "customerAccounts": {
-    "header": "Customer Accounts",
+    "header": "Accounts",
     "addAccountButton": "Add Customer Account",
     "accountAddedTitle": "Customer Account Added",
     "accountAddedDescription": "The customer account has been successfully added.",
@@ -102,16 +102,16 @@
   },
   "userManagement": {
     "globalUsers": {
-      "header": "Global Users",
+      "header": "Users",
       "addNewUserButton": "Add New User",
-      "userNameColumn": "User Name",
+      "userNameColumn": "Name",
       "nameColumn": "Name",
       "emailColumn": "Email",
       "phoneColumn": "Phone",
       "statusColumn": "Status",
       "noUserAvailable": "No user available.",
-      "accountCreator": "Account Creator",
-      "account": "Parent Account",
+      "accountCreator": "Creator",
+      "account": "Account",
       "lastVisit": "Last Visit",
       "listEmpty": "You don't have a user"
     }
@@ -125,8 +125,8 @@
   },
   "stationManagement": {
     "header": "Stations",
-    "compte": "Parent Account",
-    "nameStation": "Station name",
+    "compte": "Account",
+    "name": "Name",
     "typeController": "Type of controller",
     "deactivation": "Status",
     "controller": "Controller",
@@ -155,5 +155,37 @@
     "cordonneesGps": "GPS coordinates",
     "cordonneesGpsPlaceholder": "Standard format: latitude, longitude",
     "selectAccount": "Select a Account"
+  },
+  "stationDetailsModel": {
+    "header": "Station Details",
+    "name": "Name",
+    "creatorAccount": "Creator Account",
+    "customerAccount": "Parent Account",
+    "controllerPts": "Controller PtsId",
+    "controllerType": "Controller Type",
+    "phone": "Phone",
+    "address": "Address",
+    "country": "Country",
+    "gps": "Gps coordinates"
+  },
+  "accountDetailsModel": {
+    "header": "Customer Account Details",
+    "name": "Name",
+    "parent": "Parent account",
+    "creator": "Creator Account",
+    "resale": "Resale Right:",
+    "stations": "Stations",
+    "active": "Active",
+    "masterUser": "Master user"
+  },
+  "userDetailsModel": {
+    "header": "User Details",
+    "username": "Username",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "customerAccount": "Parent Account",
+    "creatorAccount": "Creator Account",
+    "lastConnection": "Last Connection Date"
   }
 }

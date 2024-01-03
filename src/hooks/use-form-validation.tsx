@@ -5,19 +5,19 @@ const useFormValidation = () => {
   const { t } = useTranslation();
 
   const username = Yup.string()
-    .min(4, t("validation.username.min"))
+    .min(3, t("validation.username.min"))
     .required(t("validation.username.required"));
 
   const firstName = Yup.string()
-    .min(4, t("validation.firstName.min"))
+    .min(3, t("validation.firstName.min"))
     .required(t("validation.firstName.required"));
 
   const lastName = Yup.string()
-    .min(4, t("validation.lastName.min"))
+    .min(3, t("validation.lastName.min"))
     .required(t("validation.lastName.required"));
 
   const name = Yup.string()
-    .min(4, t("validation.name.min"))
+    .min(3, t("validation.name.min"))
     .required(t("validation.name.required"));
 
   const email = Yup.string()

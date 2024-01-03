@@ -54,7 +54,7 @@
     }
   },
   "customerAccounts": {
-    "header": "Comptes clients",
+    "header": "Comptes",
     "addAccountButton": "Ajouter un compte client",
     "accountAddedTitle": "Compte client ajouté",
     "accountAddedDescription": "Le compte client a été ajouté avec succès.",
@@ -102,16 +102,16 @@
   },
   "userManagement": {
     "globalUsers": {
-      "header": "Utilisateurs Globaux",
+      "header": "Utilisateurs",
       "addNewUserButton": "Ajouter un nouvel utilisateur",
-      "userNameColumn": "Nom d'utilisateur",
+      "userNameColumn": "Nom",
       "nameColumn": "Nom",
       "emailColumn": "Email",
       "phoneColumn": "Téléphone",
       "statusColumn": "Statut",
       "noUserAvailable": "Aucun utilisateur disponible.",
-      "accountCreator": "Créateur de compte",
-      "account": "Compte Parent",
+      "accountCreator": "Créateur",
+      "account": "Compte",
       "lastVisit": "Derniere Visite",
       "listEmpty": "Vous n'avez pas d'utilisateur"
     }
@@ -125,8 +125,8 @@
   },
   "stationManagement": {
     "header": "Stations",
-    "compte": "Compte Parent",
-    "nameStation": "Nom de la station",
+    "compte": "Compte",
+    "name": "Nom",
     "typeController": "Type de contrôleur",
     "deactivation": "Statut",
     "controller": "Controller",
@@ -155,5 +155,37 @@
     "cordonneesGps": "Coordonnées GPS",
     "cordonneesGpsPlaceholder": "Format standard: latitude,longitude",
     "selectAccount": "Sélectionnez un compte"
+  },
+  "stationDetailsModel": {
+    "header": "Détails du station",
+    "name": "Nom",
+    "creatorAccount": "Compte Créateur",
+    "customerAccount": "Compte parent",
+    "controllerPts": "Controller PtsId",
+    "controllerType": "Type de contrôleur",
+    "phone": "Téléphone",
+    "address": "Address",
+    "country": "Pays",
+    "gps": "Coordonnées GPS"
+  },
+  "accountDetailsModel": {
+    "header": "Détails du compte client",
+    "name": "Nom",
+    "parent": "Compte parent",
+    "creator": "Compte Créateur",
+    "resale": "Droit de revente:",
+    "stations": "Gares",
+    "actif": "Actif",
+    "masterUser": "Utilisateur principal"
+  },
+  "userDetailsModel": {
+    "header": "Détails de l'utilisateur",
+    "username": "Nom d'utilisateur",
+    "name": "Nom",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "customerAccount": "Compte parent",
+    "creatorAccount": "Compte Créateur",
+    "lastConnection": "Date de la dernière connexion"
   }
 }
