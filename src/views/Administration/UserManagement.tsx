@@ -15,16 +15,16 @@ import CardHeader from "components/Card/CardHeader";
 import ConfirmationDialog, {
   ConfirmationDialogRefType,
 } from "components/Dialog/ConfirmationDialog";
+import UserDetailsModal from "components/Modal/UserDetailsModal";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
-import useHttp from "hooks/use-http";
-import { useEffect, useRef, useState } from "react";
-import { Route, useRouteMatch } from "react-router-dom";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
+import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
+import { useEffect, useRef, useState } from "react";
+import { Route, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
-import UserDetailsModal from "components/Modal/UserDetailsModal";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
@@ -105,7 +105,6 @@ const UserManagement = () => {
     },
     {
       header: t("userManagement.globalUsers.userNameColumn"),
-      key: "username",
       render: (item: GeneralUser) => (
         <div
           style={{
@@ -144,7 +143,7 @@ const UserManagement = () => {
     },
     {
       header: t("common.delete"),
-      render: (item) => <Status value={false} />,
+      render: () => <Status value={false} />,
     },
   ];
 

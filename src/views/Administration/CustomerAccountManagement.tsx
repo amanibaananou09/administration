@@ -1,5 +1,5 @@
 import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { CustomerAccount, GeneralUser } from "common/AdminModel";
+import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
   customerAccountDetails,
@@ -15,6 +15,7 @@ import CardHeader from "components/Card/CardHeader";
 import ConfirmationDialog, {
   ConfirmationDialogRefType,
 } from "components/Dialog/ConfirmationDialog";
+import CustomerAccountDetailsModal from "components/Modal/CustomerAccountDetailsModal";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
@@ -22,7 +23,6 @@ import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import CustomerAccountDetailsModal from "components/Modal/CustomerAccountDetailsModal";
 
 const CustomerAccountManagement = () => {
   const {
@@ -155,7 +155,7 @@ const CustomerAccountManagement = () => {
     },
     {
       header: t("common.delete"),
-      render: (item: CustomerAccount) => <Status value={false} />,
+      render: () => <Status value={false} />,
     },
   ];
 
