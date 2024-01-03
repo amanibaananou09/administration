@@ -10,6 +10,7 @@ const UITableHeader = <T,>({ columns, styles }: UITableHeaderProps<T>) => {
           textAlign="center"
           fontWeight="bold"
           fontSize="md"
+          textTransform="capitalize"
           {...styles}
         >
           {column.header}

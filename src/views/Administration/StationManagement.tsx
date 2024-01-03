@@ -30,11 +30,15 @@ import useQuery from "hooks/use-query";
 import { useEffect, useRef, useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
+import StationDetailsModal from "../../components/Modal/StationDetailsModal";
 
 const StationManagement = () => {
-  const { data: stations, isLoading, makeRequest: fetchStations , error} = useHttp<
-    GeneralStations[]
-  >(listStation, false);
+  const {
+    data: stations,
+    isLoading,
+    makeRequest: fetchStations,
+    error,
+  } = useHttp<GeneralStations[]>(listStation, false);
   const { t } = useTranslation();
   let { path } = useRouteMatch();
   const { user } = useAuth();
@@ -42,6 +46,12 @@ const StationManagement = () => {
   const [alertMessage, setAlertMessage] = useState<string>("");
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
   const [selectedStation, setSelectedStation] = useState<GeneralStations>();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [
+    selectedStationDetails,
+    setSelectedStationDetails,
+  ] = useState<GeneralStations | null>(null);
 
   const query = useQuery();
   const name = query.get("name");
@@ -118,11 +128,25 @@ const StationManagement = () => {
       key: "#",
     },
     {
-      header: t("stationModal.name"),
+      header: t("stationManagement.name"),
       key: "name",
+      render: (item: GeneralStations) => (
+        <div
+          style={{
+            cursor: "pointer",
+            textDecoration: "underline",
+          }}
+          onClick={() => {
+            setSelectedStationDetails(item);
+            setIsModalOpen(true);
+          }}
+        >
+          {item.name}
+        </div>
+      ),
     },
     {
-      header: t("common.creatorAccount"),
+      header: t("common.creator"),
       key: "creatorCustomerAccountName",
     },
     {
@@ -232,6 +256,11 @@ const StationManagement = () => {
         <StationModal onSubmit={submitModalHandler} />
       </Route>
       <ConfirmationDialog onConfirm={handleClick} ref={confirmationDialogRef} />
+      <StationDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        stationDetails={selectedStationDetails}
+      />
     </>
   );
 };

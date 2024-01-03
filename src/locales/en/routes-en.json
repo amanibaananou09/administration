@@ -1,8 +1,8 @@
 {
   "signIn": "Sign In",
   "informationAccounts": "Information Accounts",
-  "manageAccounts": "Manage Accounts",
+  "manageAccounts": "Accounts",
   "userDetails": "User Details",
-  "manageUsers": "Manage Users",
-  "manageStations": "Manage Stations"
+  "manageUsers": "Users",
+  "manageStations": "Stations"
 }

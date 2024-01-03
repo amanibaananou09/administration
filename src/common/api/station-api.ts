@@ -4,7 +4,7 @@ import api from "./axios";
 
 const API_URL = "/customerAccount";
 type StationSearchCriteria = {
-  customerAccountId: string,
+  customerAccountId: string;
   name?: string;
   creator?: string;
   parent?: string;
@@ -77,9 +77,9 @@ export const getCustomerAccountInformation = async (id: string) => {
   return response.data;
 };
 export const listStation = async (
-  stationSearchCriteria: StationSearchCriteria= {
-    customerAccountId: ""
-  }, 
+  stationSearchCriteria: StationSearchCriteria = {
+    customerAccountId: "",
+  },
 ): Promise<GeneralStations[]> => {
   let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station`;
 

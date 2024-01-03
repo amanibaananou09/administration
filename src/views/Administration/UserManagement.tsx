@@ -5,6 +5,7 @@ import {
   activateUser,
   deactivateUser,
   getUsers,
+  userInformation,
 } from "common/api/general-user-api";
 import { useTranslation } from "react-i18next";
 
@@ -19,10 +20,11 @@ import Status from "components/Sidebar/Status";
 import useHttp from "hooks/use-http";
 import { useEffect, useRef, useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
-import { UIColumnDefinitionType } from "../../components/UI/Table/Types";
-import UITable from "../../components/UI/Table/UITable";
-import useQuery from "../../hooks/use-query";
-import {formatDate} from "../../utils/utils";
+import { UIColumnDefinitionType } from "components/UI/Table/Types";
+import UITable from "components/UI/Table/UITable";
+import useQuery from "hooks/use-query";
+import { formatDate } from "utils/utils";
+import UserDetailsModal from "components/Modal/UserDetailsModal";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
@@ -32,6 +34,11 @@ const UserManagement = () => {
   let { path } = useRouteMatch();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
   const [selectedUser, setSelectedUser] = useState<GeneralUser>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [
+    selectedUserDetails,
+    setSelectedUserDetails,
+  ] = useState<GeneralUser | null>(null);
 
   const query = useQuery();
   const name = query.get("name");
@@ -76,7 +83,21 @@ const UserManagement = () => {
 
   //styles
   const textColor = "gray.700";
-
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
+  const handleUsernameClick = async (item: GeneralUser) => {
+    if (item.id !== undefined) {
+      try {
+        setIsLoadingDetails(true);
+        const userDetails = await userInformation(item.id);
+        setSelectedUserDetails(userDetails);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.error("Error fetching user information:", error);
+      } finally {
+        setIsLoadingDetails(false);
+      }
+    }
+  };
   const columns: UIColumnDefinitionType<GeneralUser>[] = [
     {
       header: "#",
@@ -85,6 +106,17 @@ const UserManagement = () => {
     {
       header: t("userManagement.globalUsers.userNameColumn"),
       key: "username",
+      render: (item: GeneralUser) => (
+        <div
+          style={{
+            cursor: "pointer",
+            textDecoration: "underline",
+          }}
+          onClick={() => handleUsernameClick(item)}
+        >
+          {item.username}
+        </div>
+      ),
     },
     {
       header: t("userManagement.globalUsers.accountCreator"),
@@ -154,6 +186,11 @@ const UserManagement = () => {
       <ConfirmationDialog
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
+      />
+      <UserDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        userDetails={selectedUserDetails}
       />
     </>
   );
