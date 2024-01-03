@@ -19,12 +19,11 @@ import { useHistory } from "react-router-dom";
 const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const [searchType, setSearchType] = useState<string | undefined>("name");
-  const [searchText, setSearchText] = useState<string | undefined>(undefined);
+  const [searchType, setSearchType] = useState<string>("name");
+  const [searchText, setSearchText] = useState<string>();
 
   const handleSearch = async (): Promise<void> => {
     let search = "";
-    debugger;
     if (searchType && searchText) {
       search = `${searchType}=${searchText}`;
     }
