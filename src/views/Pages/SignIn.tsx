@@ -114,7 +114,6 @@ const SignIn = () => {
           color="white"
           fontWeight="bold"
           mt="10px"
-          mb="26px"
           w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
         >
           {t("signIn.title")}
