@@ -12,24 +12,21 @@ import {
 } from "@chakra-ui/react";
 import { AdminSideBarItemProps } from "common/react-props";
 import IconBox from "components/Icons/IconBox";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
 const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const searchType = useRef<HTMLSelectElement>(null);
-  const searchText = useRef<HTMLInputElement>(null);
+  const [searchType, setSearchType] = useState<string | undefined>("name");
+  const [searchText, setSearchText] = useState<string | undefined>(undefined);
 
   const handleSearch = async (): Promise<void> => {
     let search = "";
-
-    if (searchType.current?.value && searchText.current?.value) {
-      const { value: type } = searchType.current;
-      const { value: text } = searchText.current;
-
-      search = `${type}=${text}`;
+    debugger;
+    if (searchType && searchText) {
+      search = `${searchType}=${searchText}`;
     }
 
     history.replace({
@@ -42,6 +39,12 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
     if (isOpen) {
       handleSearch();
     }
+
+    return () => {
+      //init search params
+      setSearchType("name");
+      setSearchText("");
+    };
   }, [isOpen]);
 
   return (
@@ -119,7 +122,11 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
             <Flex gap="3">
               <Flex flexDirection="column" width="50%">
                 <Text>{t("sideBarItem.filterType.label")}:</Text>
-                <Select placeholder="" ref={searchType}>
+                <Select
+                  placeholder=""
+                  value={searchType}
+                  onChange={(e) => setSearchType(e.target.value)}
+                >
                   <option value="name">
                     {t("sideBarItem.filterType.name")}
                   </option>
@@ -133,7 +140,11 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
               </Flex>
               <Flex flexDirection="column" width="50%">
                 <Text>{t("sideBarItem.filterTextLabel")}:</Text>
-                <Input type="text" ref={searchText} />
+                <Input
+                  type="text"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                />
               </Flex>
             </Flex>
             <Button
