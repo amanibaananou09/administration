@@ -1,27 +1,39 @@
+import { useToast } from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 const useHttp = <T,>(
-  requestFn: (arg?: any) => Promise<T>,
+  requestFn: (...arg: any) => Promise<T>,
   start: boolean = true,
 ) => {
   const [isLoading, setIsLoading] = useState(start);
   const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  const toast = useToast({
+    position: "bottom-left",
+    status: "error",
+    isClosable: true,
+  });
 
   const makeRequest = useCallback(
-    async (requestData?: any) => {
+    async (...args: Parameters<typeof requestFn>): Promise<T> => {
       setIsLoading(true);
-      setError(null);
+      setError(undefined);
 
       try {
-        const responseData = await requestFn(requestData);
+        const responseData = await requestFn(...args);
 
         setData(responseData);
         return responseData;
       } catch (error) {
-        console.error(error);
-        setError((error as AxiosError).message);
+        const err = error as AxiosError<string>;
+        setError(err.response?.data);
+        console.error(err);
+        toast({
+          description: err.response?.data,
+        });
+        throw error;
       } finally {
         setIsLoading(false);
       }

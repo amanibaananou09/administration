@@ -20,7 +20,7 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
   const { t } = useTranslation();
   const history = useHistory();
   const [searchType, setSearchType] = useState<string>("name");
-  const [searchText, setSearchText] = useState<string>();
+  const [searchText, setSearchText] = useState<string>("");
 
   const handleSearch = async (): Promise<void> => {
     let search = "";

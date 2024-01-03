@@ -15,8 +15,9 @@ import { CustomerAccountModalProps } from "common/react-props";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import { useFormik } from "formik";
-import useCustomerAccounts from "hooks/use-customer-accounts";
+import useCreators from "hooks/use-creators";
 import useFormValidation from "hooks/use-form-validation";
+import useHttp from "hooks/use-http";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -33,9 +34,11 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
 
   const { t } = useTranslation();
   const history = useHistory();
-  const { customerAccounts } = useCustomerAccounts();
+  const { creators } = useCreators();
   const { customerAccountValidationSchema } = useFormValidation();
   const { user } = useAuth();
+
+  const { makeRequest: submit } = useHttp(createCustomerAccount, false);
 
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
@@ -61,10 +64,14 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
     },
     validationSchema: customerAccountValidationSchema,
     onSubmit: async (values: Partial<FormValues>) => {
-      await createCustomerAccount(values as CustomerAccount);
-      form.setSubmitting(false);
-      closeModalHandler();
-      onSubmit();
+      try {
+        await submit(values as CustomerAccount);
+        form.setSubmitting(false);
+        closeModalHandler();
+        onSubmit();
+      } catch (error) {
+        console.error("Error while creating a customer account");
+      }
     },
   });
 
@@ -94,6 +101,14 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
     history.replace("/administration/customer-accounts");
   };
 
+  const accountSelectOptions =
+    creators &&
+    creators.map((accountData) => (
+      <option key={accountData.id} value={accountData.id}>
+        {accountData.name}
+      </option>
+    ));
+
   return (
     <UIModal
       title={t("customerAccountModal.header")}
@@ -115,22 +130,14 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
               label={t("common.compteParent")}
               fieldName="parentId"
             >
-              {customerAccounts.map((accountData) => (
-                <option key={accountData.id} value={accountData.id}>
-                  {accountData.name}
-                </option>
-              ))}
+              {accountSelectOptions}
             </UISelectFormControl>
             <UISelectFormControl
               formik={form}
               label={t("common.creator")}
               fieldName="creatorAccountId"
             >
-              {customerAccounts.map((accountData) => (
-                <option key={accountData.id} value={accountData.id}>
-                  {accountData.name}
-                </option>
-              ))}
+              {accountSelectOptions}
             </UISelectFormControl>
 
             <Flex justifyContent="space-between" alignItems="center" mb="15px">

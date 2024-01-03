@@ -34,7 +34,7 @@ export const renderThumbLight = ({ style, ...props }: RenderThumbProps) => {
 
 export const renderView = ({ style, ...props }: RenderThumbProps) => {
   const viewStyle: React.CSSProperties = {
-    marginRight: -22,
+    marginRight: -15,
   };
   return <div style={{ ...style, ...viewStyle }} {...props} />;
 };

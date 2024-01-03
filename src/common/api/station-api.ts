@@ -112,17 +112,17 @@ export const listStation = async (
   return response.data;
 };
 
-export const listOfCreator = async (id: string | undefined) => {
-  const response = await api.get(`${API_URL}/${id}/creator`);
+export const listOfCreator = async (customerAccountId: string | undefined) => {
+  const response = await api.get(`${API_URL}/${customerAccountId}/creator`);
   return response.data;
 };
 
 export const activateStation = async (
   customerAccountId: string | undefined,
-  id: string | undefined,
+  stationdId: string | undefined,
 ) => {
   const response = await api.put(
-    `${API_URL}/${customerAccountId}/station/activate/${id}`,
+    `${API_URL}/${customerAccountId}/station/activate/${stationdId}`,
   );
 
   return response.data;
@@ -130,10 +130,10 @@ export const activateStation = async (
 
 export const deactivateStation = async (
   customerAccountId: string | undefined,
-  id: string | undefined,
+  stationId: string | undefined,
 ) => {
   const response = await api.put(
-    `${API_URL}/${customerAccountId}/station/deactivate/${id}`,
+    `${API_URL}/${customerAccountId}/station/deactivate/${stationId}`,
   );
   return response.data;
 };
