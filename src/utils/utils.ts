@@ -1,3 +1,4 @@
+import { getUserByEmail, getUserByUsername } from "common/api/general-user-api";
 import { Decode, User } from "common/model";
 import jwt_decode from "jwt-decode";
 import moment, { Moment } from "moment";
@@ -113,5 +114,23 @@ export const truncateText = (text: string, limit: number) => {
     return text;
   } else {
     return text.slice(0, limit) + "...";
+  }
+};
+
+export const isUsernameExist = async (username: string) => {
+  try {
+    await getUserByUsername(username);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const isEmailExist = async (email: string) => {
+  try {
+    await getUserByEmail(email);
+    return true;
+  } catch (error) {
+    return false;
   }
 };

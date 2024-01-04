@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { isEmailExist, isUsernameExist } from "utils/utils";
 import * as Yup from "yup";
 
 const useFormValidation = () => {
@@ -7,6 +8,18 @@ const useFormValidation = () => {
   const username = Yup.string()
     .min(3, t("validation.username.min"))
     .required(t("validation.username.required"));
+
+  const usernameAsync = Yup.string().test(
+    "username",
+    t("validation.username.exist"),
+    async (value) => {
+      if (value) {
+        const exist = await isUsernameExist(value);
+        return !exist;
+      }
+      return true;
+    },
+  );
 
   const firstName = Yup.string()
     .min(3, t("validation.firstName.min"))
@@ -22,7 +35,14 @@ const useFormValidation = () => {
 
   const email = Yup.string()
     .email(t("validation.email.invalid"))
-    .required(t("validation.email.required"));
+    .required(t("validation.email.required"))
+    .test("email", t("validation.email.exist"), async (value) => {
+      if (value) {
+        const exist = await isEmailExist(value);
+        return !exist;
+      }
+      return true;
+    });
 
   const password = Yup.string()
     .min(6, t("validation.password.min"))
@@ -67,7 +87,7 @@ const useFormValidation = () => {
     t("validation.cordonneesGps.required"),
   );
   const userFormValidationSchema = Yup.object().shape({
-    username,
+    username: username.concat(usernameAsync),
     email,
     password,
     confirmPassword,
@@ -88,7 +108,7 @@ const useFormValidation = () => {
       )
       .required(t("validation.confirmPassword.required")),
     masterUser: Yup.object({
-      username,
+      username: username.concat(usernameAsync),
       email,
       firstName,
       lastName,

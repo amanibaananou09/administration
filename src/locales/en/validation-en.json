@@ -13,11 +13,13 @@
   },
   "username": {
     "min": "User Name must be at least 4 characters",
-    "required": "Username is required"
+    "required": "Username is required",
+    "exist": "Username already exists"
   },
   "email": {
     "invalid": "Invalid email",
-    "required": "Email is required"
+    "required": "Email is required",
+    "exist": "Email already exists"
   },
   "password": {
     "min": "Password must be at least 6 characters",

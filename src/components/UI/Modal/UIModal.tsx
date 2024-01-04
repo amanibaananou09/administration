@@ -39,6 +39,7 @@ const UIModal = ({
       isOpen={isOpen}
       onClose={onClose}
       size="2xl"
+      isCentered
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
