@@ -1,21 +1,30 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import UIDetailModal from "components/UI/Modal/UIDetailModal";
+import { Ref, forwardRef, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "utils/utils";
 
-interface UserDetailsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  userDetails: GeneralUser | null;
+interface UserDetailsModalProps {}
+
+export interface UserDetailsModalRefType {
+  open: (user: GeneralUser) => void;
 }
 
-const UserDetailsModal = ({
-  isOpen,
-  onClose,
-  userDetails,
-}: UserDetailsModalProps) => {
+const UserDetailsModal = (
+  props: UserDetailsModalProps,
+  ref: Ref<UserDetailsModalRefType>,
+) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [userDetails, setUserDetails] = useState<GeneralUser>();
   const { t } = useTranslation();
+
+  useImperativeHandle(ref, () => ({
+    open(user) {
+      setUserDetails(user);
+      onOpen();
+    },
+  }));
 
   return (
     <UIDetailModal
@@ -80,4 +89,4 @@ const UserDetailsModal = ({
   );
 };
 
-export default UserDetailsModal;
+export default forwardRef(UserDetailsModal);

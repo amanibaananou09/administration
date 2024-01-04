@@ -2,7 +2,6 @@ import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
-  customerAccountDetails,
   deactivateCustomerAccount,
   getCustomerAccounts,
 } from "common/api/customerAccount-api";
@@ -15,7 +14,9 @@ import CardHeader from "components/Card/CardHeader";
 import ConfirmationDialog, {
   ConfirmationDialogRefType,
 } from "components/Dialog/ConfirmationDialog";
-import CustomerAccountDetailsModal from "components/Modal/CustomerAccountDetailsModal";
+import CustomerAccountDetailsModal, {
+  CustomerAccountDetailsModalRefType,
+} from "components/Modal/CustomerAccountDetailsModal";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
@@ -41,11 +42,9 @@ const CustomerAccountManagement = () => {
   const parent = query.get("parent");
 
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [
-    selectedAccountDetails,
-    setSelectedAccountDetails,
-  ] = useState<CustomerAccount | null>(null);
+  const customerAccountDetailModalRef = useRef<CustomerAccountDetailsModalRefType>(
+    null,
+  );
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
@@ -87,24 +86,6 @@ const CustomerAccountManagement = () => {
     });
   }, [query]);
 
-  //styles
-  const textColor = "gray.700";
-  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
-
-  const handleAccountNameClick = async (item: CustomerAccount) => {
-    if (item.id !== undefined) {
-      try {
-        setIsLoadingDetails(true);
-        const accountDetails = await customerAccountDetails(item.id);
-        setSelectedAccountDetails(accountDetails);
-        setIsModalOpen(true);
-      } catch (error) {
-        console.error("Error fetching user information:", error);
-      } finally {
-        setIsLoadingDetails(false);
-      }
-    }
-  };
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
       header: "#",
@@ -119,7 +100,7 @@ const CustomerAccountManagement = () => {
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => handleAccountNameClick(item)}
+          onClick={() => customerAccountDetailModalRef.current?.open(item)}
         >
           {item.name}
         </div>
@@ -158,6 +139,9 @@ const CustomerAccountManagement = () => {
       render: () => <Status value={false} />,
     },
   ];
+
+  //styles
+  const textColor = "gray.700";
 
   return (
     <>
@@ -207,11 +191,7 @@ const CustomerAccountManagement = () => {
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />
-      <CustomerAccountDetailsModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        accountDetails={selectedAccountDetails}
-      />
+      <CustomerAccountDetailsModal ref={customerAccountDetailModalRef} />
     </>
   );
 };

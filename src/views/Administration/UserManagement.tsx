@@ -5,7 +5,6 @@ import {
   activateUser,
   deactivateUser,
   getUsers,
-  userInformation,
 } from "common/api/general-user-api";
 import { useTranslation } from "react-i18next";
 
@@ -15,7 +14,9 @@ import CardHeader from "components/Card/CardHeader";
 import ConfirmationDialog, {
   ConfirmationDialogRefType,
 } from "components/Dialog/ConfirmationDialog";
-import UserDetailsModal from "components/Modal/UserDetailsModal";
+import UserDetailsModal, {
+  UserDetailsModalRefType,
+} from "components/Modal/UserDetailsModal";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
@@ -34,11 +35,8 @@ const UserManagement = () => {
   let { path } = useRouteMatch();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
   const [selectedUser, setSelectedUser] = useState<GeneralUser>();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [
-    selectedUserDetails,
-    setSelectedUserDetails,
-  ] = useState<GeneralUser | null>(null);
+
+  const userDetailModalRef = useRef<UserDetailsModalRefType>(null);
 
   const query = useQuery();
   const name = query.get("name");
@@ -71,6 +69,7 @@ const UserManagement = () => {
       });
     }
   };
+
   const openConfirmationDialog = (user: GeneralUser) => {
     setSelectedUser(user);
     const message =
@@ -81,23 +80,6 @@ const UserManagement = () => {
     confirmationDialogRef.current?.open(title, message);
   };
 
-  //styles
-  const textColor = "gray.700";
-  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
-  const handleUsernameClick = async (item: GeneralUser) => {
-    if (item.id !== undefined) {
-      try {
-        setIsLoadingDetails(true);
-        const userDetails = await userInformation(item.id);
-        setSelectedUserDetails(userDetails);
-        setIsModalOpen(true);
-      } catch (error) {
-        console.error("Error fetching user information:", error);
-      } finally {
-        setIsLoadingDetails(false);
-      }
-    }
-  };
   const columns: UIColumnDefinitionType<GeneralUser>[] = [
     {
       header: "#",
@@ -111,7 +93,7 @@ const UserManagement = () => {
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => handleUsernameClick(item)}
+          onClick={() => userDetailModalRef.current?.open(item)}
         >
           {item.username}
         </div>
@@ -146,6 +128,9 @@ const UserManagement = () => {
       render: () => <Status value={false} />,
     },
   ];
+
+  //styles
+  const textColor = "gray.700";
 
   return (
     <>
@@ -186,11 +171,7 @@ const UserManagement = () => {
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />
-      <UserDetailsModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        userDetails={selectedUserDetails}
-      />
+      <UserDetailsModal ref={userDetailModalRef} />
     </>
   );
 };
