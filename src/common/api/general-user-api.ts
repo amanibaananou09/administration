@@ -68,3 +68,15 @@ export const deactivateUser = async (id: number) => {
   const response = await api.post(`${API_URL}/deactivate/${id}`);
   return response.data;
 };
+
+export const getUserByUsername = async (username: string) => {
+  const response = await api.get(`${API_URL}/username/${username}`);
+
+  return response.data;
+};
+
+export const getUserByEmail = async (email: string) => {
+  const response = await api.get(`${API_URL}/email/${email}`);
+
+  return response.data;
+};

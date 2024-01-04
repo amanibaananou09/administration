@@ -13,11 +13,13 @@
   },
   "username": {
     "min": "Le nom d'utilisateur doit comporter au moins 4 caractères",
-    "required": "Le nom d'utilisateur est requis"
+    "required": "Le nom d'utilisateur est requis",
+    "exist": "Le nom d'utilisateur existe deja"
   },
   "email": {
     "invalid": "E-mail invalide",
-    "required": "L'e-mail est requis"
+    "required": "L'e-mail est requis",
+    "exist": "l'e-mail existe deja"
   },
   "password": {
     "min": "Le mot de passe doit comporter au moins 6 caractères",
