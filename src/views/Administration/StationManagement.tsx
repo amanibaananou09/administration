@@ -23,7 +23,9 @@ import useQuery from "hooks/use-query";
 import { useEffect, useRef, useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import StationDetailsModal from "../../components/Modal/StationDetailsModal";
+import StationDetailsModal, {
+  StationDetailsModalRefType,
+} from "../../components/Modal/StationDetailsModal";
 
 const StationManagement = () => {
   const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
@@ -44,11 +46,7 @@ const StationManagement = () => {
   const [selectedStation, setSelectedStation] = useState<GeneralStations>();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [
-    selectedStationDetails,
-    setSelectedStationDetails,
-  ] = useState<GeneralStations | null>(null);
+  const stationDetailModalRef = useRef<StationDetailsModalRefType>(null);
 
   const currentUserAccountId = user?.customerAccountId;
 
@@ -132,10 +130,7 @@ const StationManagement = () => {
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => {
-            setSelectedStationDetails(item);
-            setIsModalOpen(true);
-          }}
+          onClick={() => stationDetailModalRef.current?.open(item)}
         >
           {item.name}
         </div>
@@ -239,11 +234,7 @@ const StationManagement = () => {
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />
-      <StationDetailsModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        stationDetails={selectedStationDetails}
-      />
+      <StationDetailsModal ref={stationDetailModalRef} />
     </>
   );
 };

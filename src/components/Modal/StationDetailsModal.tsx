@@ -1,20 +1,29 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, useDisclosure } from "@chakra-ui/react";
 import UIDetailModal from "components/UI/Modal/UIDetailModal";
+import { Ref, forwardRef, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GeneralStations } from "../../common/AdminModel";
 
-interface StationDetailsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  stationDetails: GeneralStations | null;
+interface StationDetailsModalProps {}
+
+export interface StationDetailsModalRefType {
+  open: (user: GeneralStations) => void;
 }
 
-const StationDetailsModal = ({
-  isOpen,
-  onClose,
-  stationDetails,
-}: StationDetailsModalProps) => {
+const StationDetailsModal = (
+  {}: StationDetailsModalProps,
+  ref: Ref<StationDetailsModalRefType>,
+) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [stationDetails, setStationDetails] = useState<GeneralStations>();
   const { t } = useTranslation();
+
+  useImperativeHandle(ref, () => ({
+    open(station) {
+      setStationDetails(station);
+      onOpen();
+    },
+  }));
 
   return (
     <UIDetailModal
@@ -88,4 +97,4 @@ const StationDetailsModal = ({
   );
 };
 
-export default StationDetailsModal;
+export default forwardRef(StationDetailsModal);

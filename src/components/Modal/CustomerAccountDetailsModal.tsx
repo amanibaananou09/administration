@@ -1,20 +1,29 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import UIDetailModal from "components/UI/Modal/UIDetailModal";
+import { Ref, forwardRef, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-interface CustomerAccountDetailsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  accountDetails: CustomerAccount | null;
+interface CustomerAccountDetailsModalProps {}
+
+export interface CustomerAccountDetailsModalRefType {
+  open: (customerAccount: CustomerAccount) => void;
 }
 
-const CustomerAccountDetailsModal = ({
-  isOpen,
-  onClose,
-  accountDetails,
-}: CustomerAccountDetailsModalProps) => {
+const CustomerAccountDetailsModal = (
+  {}: CustomerAccountDetailsModalProps,
+  ref: Ref<CustomerAccountDetailsModalRefType>,
+) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [accountDetails, setAccountDetails] = useState<CustomerAccount>();
   const { t } = useTranslation();
+
+  useImperativeHandle(ref, () => ({
+    open(account) {
+      setAccountDetails(account);
+      onOpen();
+    },
+  }));
 
   return (
     <UIDetailModal
@@ -76,4 +85,4 @@ const CustomerAccountDetailsModal = ({
   );
 };
 
-export default CustomerAccountDetailsModal;
+export default forwardRef(CustomerAccountDetailsModal);
