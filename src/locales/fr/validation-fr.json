@@ -1,18 +1,18 @@
 {
   "name": {
-    "min": "Le nom doit comporter au moins 4 caractères",
+    "min": "Le nom doit comporter au moins 3 caractères",
     "required": "Le nom est requis"
   },
   "firstName": {
-    "min": "Le prénom doit comporter au moins 4 caractères",
+    "min": "Le prénom doit comporter au moins 3 caractères",
     "required": "Le prénom est requis"
   },
   "lastName": {
-    "min": "Le nom doit comporter au moins 4 caractères",
+    "min": "Le nom doit comporter au moins 3 caractères",
     "required": "Le nom est requis"
   },
   "username": {
-    "min": "Le nom d'utilisateur doit comporter au moins 4 caractères",
+    "min": "Le nom d'utilisateur doit comporter au moins 3 caractères",
     "required": "Le nom d'utilisateur est requis",
     "exist": "Le nom d'utilisateur existe deja"
   },
@@ -39,7 +39,7 @@
     "required": "L'adresse est requise"
   },
   "ptsId": {
-    "min": "ptsId doit comporter au moins 4 caractères",
+    "min": "ptsId doit comporter au moins 24 caractères",
     "required": "ptsId est requis"
   },
   "countryId": {
@@ -49,7 +49,8 @@
   },
   "controllerPtsId": {
     "matches": "L'ID du contrôleur doit contenir exactement 24 chiffres",
-    "required": "ID contrôleur est requis"
+    "required": "ID contrôleur est requis",
+    "min": "ptsId doit comporter au moins 24 caractères"
   },
   "parentId": {
     "required": "Le compte parent est requis"

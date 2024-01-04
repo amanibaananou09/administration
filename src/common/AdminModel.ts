@@ -1,4 +1,5 @@
 import { country } from "common/model";
+
 export interface CustomerAccount {
   id?: number;
   name: string;
@@ -11,14 +12,16 @@ export interface CustomerAccount {
   stationsCount?: number;
   status?: string;
   actif?: boolean;
-  masterUser: MasterUser;
+  masterUser?: MasterUser;
   creatorUser?: GeneralUser;
-  paymentMean: PaymentMean[];
+  paymentMean?: PaymentMean[];
 }
+
 export interface PaymentMean {
   code: string;
   customerAccountId?: string;
 }
+
 export interface MasterUser {
   username: string;
   email: string;
@@ -73,6 +76,7 @@ export interface ControllerPts {
 
 export interface UserController {
   [x: string]: string;
+
   username: string;
   password: string;
 }
@@ -100,6 +104,7 @@ export interface GeneralStations {
   customerAccountId: string;
   cordonneesGps: string;
   country: country;
+  journal: string;
 }
 
 export interface addStations {

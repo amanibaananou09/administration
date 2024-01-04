@@ -25,7 +25,7 @@ const UIPhoneInputFormControl = ({
   const error = getIn(formik.errors, fieldName) as string;
 
   return (
-    <FormControl isInvalid={invalid} mb="20px">
+    <FormControl isInvalid={invalid} mb="2px">
       <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
         {label}
       </FormLabel>

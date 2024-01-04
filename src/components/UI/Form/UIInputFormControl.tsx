@@ -47,7 +47,7 @@ const UIInputFormControl = ({
   const error = getIn(formik.errors, fieldName) as string;
 
   return (
-    <FormControl isInvalid={invalid} mb="15px">
+    <FormControl isInvalid={invalid} mb="2px">
       {label && (
         <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
           {label}

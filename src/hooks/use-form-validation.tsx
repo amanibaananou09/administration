@@ -71,6 +71,7 @@ const useFormValidation = () => {
     .min(4, t("validation.address.min"))
     .required(t("validation.address.required"));
   const ptsId = Yup.string()
+    .min(24, t("validation.controllerPtsId.min"))
     .matches(/^[a-zA-Z0-9]{24}$/, t("validation.controllerPtsId.matches"))
     .required(t("validation.controllerPtsId.required"));
   const countryId = Yup.number()
@@ -94,7 +95,6 @@ const useFormValidation = () => {
     phone,
     creatorAccountId,
     customerAccountId: parentAccount,
-    subnetMask,
   });
 
   const customerAccountValidationSchema = Yup.object().shape({

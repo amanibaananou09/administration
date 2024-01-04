@@ -1,4 +1,11 @@
-import { Flex, Skeleton, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Flex,
+  Skeleton,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -23,56 +30,42 @@ import useQuery from "hooks/use-query";
 import { useEffect, useRef, useState } from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import StationDetailsModal, {
-  StationDetailsModalRefType,
-} from "../../components/Modal/StationDetailsModal";
+import StationDetailsModal from "../../components/Modal/StationDetailsModal";
 
 const StationManagement = () => {
-  const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
-    GeneralStations[]
-  >(listStation, false);
-  const { makeRequest: desactivate } = useHttp<void>(deactivateStation, false);
-  const { makeRequest: activate } = useHttp<void>(activateStation, false);
-
+  const {
+    data: stations,
+    isLoading,
+    makeRequest: fetchStations,
+    error,
+  } = useHttp<GeneralStations[]>(listStation, false);
   const { t } = useTranslation();
   let { path } = useRouteMatch();
   const { user } = useAuth();
-  const toast = useToast({
-    status: "success",
-    position: "top",
-    isClosable: true,
-  });
-
-  const [selectedStation, setSelectedStation] = useState<GeneralStations>();
-  const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
-
-  const stationDetailModalRef = useRef<StationDetailsModalRefType>(null);
-
   const currentUserAccountId = user?.customerAccountId;
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
+  const [selectedStation, setSelectedStation] = useState<GeneralStations>();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [
+    selectedStationDetails,
+    setSelectedStationDetails,
+  ] = useState<GeneralStations | null>(null);
 
   const query = useQuery();
   const name = query.get("name");
   const creator = query.get("creator");
   const parent = query.get("parent");
-
-  const getStations = async () => {
-    try {
-      const searchCriteria = {
-        customerAccountId: currentUserAccountId,
-        name,
-        creator,
-        parent,
-      };
-      await fetchStations(searchCriteria);
-    } catch (error) {
-      console.error("Error when fetching stations");
-    }
-  };
-
   const submitModalHandler = async () => {
-    await getStations();
+    const searchCriteria = {
+      customerAccountId: currentUserAccountId,
+      name,
+      creator,
+      parent,
+    };
+    await fetchStations(searchCriteria);
   };
-
   const openConfirmationDialog = (station: GeneralStations) => {
     setSelectedStation(station);
 
@@ -83,36 +76,49 @@ const StationManagement = () => {
 
     confirmationDialogRef.current?.open(title, message);
   };
+  //styles
+  const textColor = "gray.700";
 
   useEffect(() => {
-    getStations();
+    const searchCriteria = {
+      customerAccountId: currentUserAccountId,
+      name,
+      creator,
+      parent,
+    };
+
+    fetchStations(searchCriteria);
   }, [query, name, creator, parent, currentUserAccountId]);
 
-  const updateStatusHandler = async () => {
+  const handleClick = async () => {
     if (selectedStation) {
       let item = selectedStation;
       let message = "";
-      try {
-        if (item.actif && item.id !== undefined) {
-          await desactivate(currentUserAccountId, item.id);
-          message = t("stationManagement.stationDeactivated", {
-            stationName: item.name,
-          });
-        } else if (item.id !== undefined) {
-          await activate(currentUserAccountId, item.id);
-          message = t("stationManagement.stationActivated", {
-            stationName: item.name,
-          });
-        }
-
-        await getStations();
-
-        toast({
-          description: message,
-        });
-      } catch (error) {
-        console.error("Error while updating station status");
+      if (item.actif && item.id !== undefined) {
+        await deactivateStation(currentUserAccountId, item.id);
+        message = t("stationManagement.stationDeactivated").replace(
+          "{{stationName}}",
+          item.name,
+        );
+      } else if (item.id !== undefined) {
+        await activateStation(currentUserAccountId, item.id);
+        message = t("stationManagement.stationActivated").replace(
+          "{{stationName}}",
+          item.name,
+        );
       }
+      const searchCriteria = {
+        customerAccountId: currentUserAccountId,
+        name,
+        creator,
+        parent,
+      };
+
+      await fetchStations(searchCriteria);
+      setAlertMessage(message);
+      setTimeout(() => {
+        setAlertMessage("");
+      }, 2000);
     }
   };
 
@@ -124,13 +130,16 @@ const StationManagement = () => {
     {
       header: t("stationManagement.name"),
       key: "name",
-      render: (item) => (
+      render: (item: GeneralStations) => (
         <div
           style={{
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => stationDetailModalRef.current?.open(item)}
+          onClick={() => {
+            setSelectedStationDetails(item);
+            setIsModalOpen(true);
+          }}
         >
           {item.name}
         </div>
@@ -188,13 +197,29 @@ const StationManagement = () => {
       key: "country.name",
     },
   ];
-
-  //styles
-  const textColor = "gray.700";
-
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
+        {alertMessage && (
+          <Alert
+            status="success"
+            variant="subtle"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+            position="absolute"
+            top="10%"
+            left="50%"
+            transform="translate(-50%, -50%)"
+            width={{ base: "50%", sm: "30%", md: "40%", lg: "40%" }}
+            borderRadius="10px"
+            boxShadow="0 8px 16px rgba(0,0,0,0.2)"
+            zIndex={9999}
+          >
+            <AlertIcon mr="3" /> {alertMessage}
+          </Alert>
+        )}
         <Card overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }} pb="0px">
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
@@ -230,11 +255,12 @@ const StationManagement = () => {
       <Route path={`${path}/new`}>
         <StationModal onSubmit={submitModalHandler} />
       </Route>
-      <ConfirmationDialog
-        onConfirm={updateStatusHandler}
-        ref={confirmationDialogRef}
+      <ConfirmationDialog onConfirm={handleClick} ref={confirmationDialogRef} />
+      <StationDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        stationDetails={selectedStationDetails}
       />
-      <StationDetailsModal ref={stationDetailModalRef} />
     </>
   );
 };

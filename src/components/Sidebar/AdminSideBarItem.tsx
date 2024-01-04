@@ -97,7 +97,7 @@ const AdminSideBarItem = ({ route, isOpen }: AdminSideBarItemProps) => {
               _hover={{ bg: "gray.600" }}
               onClick={() => history.push(`${route.layout + route.path}/new`)}
             >
-              {t("sideBarItem.addnew")}
+              {route.addNewLabel}
             </Button>
           </Flex>
         </Box>

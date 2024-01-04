@@ -9,19 +9,21 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 
-type UIDetailModalProps = {
+type UIUpdateModalProps = {
   title: string;
   isOpen: boolean;
   onClose: () => void;
+  onHandleUpdate: () => void;
   children: React.ReactNode;
 };
 
-const UIDetailModal = ({
+const UIUpdateModal = ({
   title,
   isOpen,
   onClose,
+  onHandleUpdate,
   children,
-}: UIDetailModalProps) => {
+}: UIUpdateModalProps) => {
   return (
     <Modal
       motionPreset="slideInBottom"
@@ -48,11 +50,11 @@ const UIDetailModal = ({
         <ModalCloseButton color="white" />
         <ModalBody>{children}</ModalBody>
         <ModalFooter>
-          <Button onClick={onClose}>Close</Button>
+          <Button onClick={onHandleUpdate}>Update</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-export default UIDetailModal;
+export default UIUpdateModal;

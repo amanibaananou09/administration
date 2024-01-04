@@ -87,6 +87,7 @@ export interface RouteConfig {
   redirect?: boolean;
   category?: string;
   state?: string;
+  addNewLabel?: string;
   views?: RouteConfig[];
   icon?: string | JSX.Element;
   secondaryNavbar?: boolean;
@@ -110,7 +111,7 @@ export interface User {
   phone: string;
   name: string;
   customerAccountId: string;
-  creatorAccountId?:string;
+  creatorAccountId?: string;
 }
 
 export interface Decode {

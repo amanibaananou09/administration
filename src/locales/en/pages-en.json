@@ -38,7 +38,7 @@
   "configurator": {
     "Configurator": "Configurator",
     "text": "See your dashboard options",
-    "navbarFixed": "Navbar Fixed",
+    "navbarFixed": "Navbar fixed",
     "Dark_Light": "Dark/Light",
     "toggle": " Toggle"
   },
@@ -51,59 +51,62 @@
       "name": "Name",
       "creator": "Creator",
       "parent": "Parent account"
-    }
+    },
+    "addnewAccount": "Create account",
+    "addnewUsers": "Create user",
+    "addnewStation": "Create station"
   },
   "customerAccounts": {
     "header": "Accounts",
-    "addAccountButton": "Add Customer Account",
-    "accountAddedTitle": "Customer Account Added",
+    "addAccountButton": "Add customer account",
+    "accountAddedTitle": "Customer account added",
     "accountAddedDescription": "The customer account has been successfully added.",
     "errorTitle": "Error",
     "errorDescription": "An error occurred while adding the customer account.",
-    "masterUser": "Master User",
+    "masterUser": "Master user",
     "listEmpty": "You don't have a customer account",
     "updateStatusDialog": {
-      "title": "Update Status",
+      "title": "Update status",
       "desativationMessage": "Are you sure, you want to desactivate this account ?",
       "activationMessage": "Are you sure, you want to activate this account ?"
     }
   },
   "customerAccountModal": {
-    "header": "Create New Customer Account",
+    "header": "Create new customer account",
     "paymentMethods": "Payment methods",
     "payment": "Payment",
     "actions": "Actions",
-    "add": "Add a methodes"
+    "add": "Add"
   },
   "customerAccountInformation": {
-    "header": "Customer Account Information",
-    "dateStatusLabel": "Date Status Change",
-    "attachedUsersTitle": "Attached Users",
-    "attachedStationsTitle": "Attached Stations",
+    "header": "Customer account information",
+    "dateStatusLabel": "Date status change",
+    "attachedUsersTitle": "Attached users",
+    "attachedStationsTitle": "Attached stations",
     "noAccountsAvailable": "No accounts available.",
-    "addUserButton": "Add User",
-    "addStationButton": "Add Station",
-    "noUserAttached": "No user Attached",
-    "noStationAttached": "No Station Attached"
+    "addUserButton": "Add user",
+    "addStationButton": "Add station",
+    "noUserAttached": "No user attached",
+    "noStationAttached": "No station attached"
   },
   "userInformation": {
-    "header": "User Information",
-    "userNameLabel": "User Name",
-    "firstNameLabel": "First Name",
-    "lastNameLabel": "Last Name",
+    "header": "User information",
+    "userNameLabel": "User name",
+    "firstNameLabel": "First name",
+    "lastNameLabel": "Last name",
     "phoneLabel": "Phone",
     "emailLabel": "Email",
     "noUserAvailable": "No user available.",
     "functionsScopeLabel": "Functions Scope",
     "noDataAvailable": "No data available.",
-    "customerAccountsLabel": "Customer Accounts",
+    "customerAccountsLabel": "Customer accounts",
     "noCustomerAccountAvailable": "No customer account available.",
     "mask": "Host Mask"
   },
   "userManagement": {
     "globalUsers": {
       "header": "Users",
-      "addNewUserButton": "Add New User",
+      "addNewUserButton": "Add new user",
       "userNameColumn": "Name",
       "nameColumn": "Name",
       "emailColumn": "Email",
@@ -112,15 +115,15 @@
       "noUserAvailable": "No user available.",
       "accountCreator": "Creator",
       "account": "Account",
-      "lastVisit": "Last Visit",
+      "lastVisit": "Last visit",
       "listEmpty": "You don't have a user"
     }
   },
   "addUserModal": {
-    "header": "Create New User"
+    "header": "Create new user"
   },
   "addStationModal": {
-    "header": "Create New Station",
+    "header": "Create new station",
     "selectCountry": "Select country"
   },
   "stationManagement": {
@@ -128,7 +131,7 @@
     "compte": "Account",
     "name": "Name",
     "typeController": "Type of controller",
-    "deactivation": "Status",
+    "deactivation": "Deactivation",
     "controller": "Controller",
     "controllerId": "Controller ID",
     "connection": "Last connection",
@@ -140,14 +143,16 @@
       "title": "Update statut",
       "desativationMessage": "Are you sure you want to deactivate this station ?",
       "activationMessage": "Are you sure you want to activate this station ?"
-    }
+    },
+    "journal": "Newspaper",
+    "connexion": "Last connection"
   },
   "stationModal": {
     "name": "Station name",
     "labelname": "New station",
     "dateTime": "Creation date",
     "selectCreator": "Select a creator",
-    "selectControllerType": "Select a controller Type",
+    "selectControllerType": "Select a controller type",
     "labelAffectation": "Assignment mode",
     "selectModeAffectation": "Select the assignment mode",
     "manuel": "Manuel",
@@ -157,35 +162,38 @@
     "selectAccount": "Select a Account"
   },
   "stationDetailsModel": {
-    "header": "Station Details",
-    "name": "Name",
-    "creatorAccount": "Creator Account",
-    "customerAccount": "Parent Account",
-    "controllerPts": "Controller PtsId",
-    "controllerType": "Controller Type",
+    "header": "Station details",
+    "name": "Station name",
+    "creatorAccount": "Creator account",
+    "customerAccount": "Parent account",
+    "controllerPts": "Controller ptsId",
+    "controllerType": "Controller type",
+    "controllerUser": "Controller user",
+    "controllerPassword": "Controller password",
     "phone": "Phone",
     "address": "Address",
     "country": "Country",
     "gps": "Gps coordinates"
   },
   "accountDetailsModel": {
-    "header": "Customer Account Details",
-    "name": "Name",
+    "header": "Customer account details",
+    "updateHeader": "Update customer account",
+    "name": "Account name",
     "parent": "Parent account",
-    "creator": "Creator Account",
-    "resale": "Resale Right:",
+    "creator": "Creator account",
+    "resale": "Resale right",
     "stations": "Stations",
     "active": "Active",
     "masterUser": "Master user"
   },
   "userDetailsModel": {
-    "header": "User Details",
+    "header": "User details",
     "username": "Username",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",
-    "customerAccount": "Parent Account",
-    "creatorAccount": "Creator Account",
-    "lastConnection": "Last Connection Date"
+    "customerAccount": "Parent account",
+    "creatorAccount": "Creator account",
+    "lastConnection": "Last connection date"
   }
 }

@@ -16,6 +16,7 @@ type UISelectFormControlProps = {
   onBlur?: (e: React.ChangeEvent<any>) => void;
   errorMessage?: string | undefined;
   children: React.ReactNode;
+  placeholder?: string;
 };
 
 const UISelectFormControl = ({
@@ -23,6 +24,7 @@ const UISelectFormControl = ({
   fieldName,
   label,
   children,
+  placeholder,
 }: UISelectFormControlProps) => {
   const invalid =
     !!getIn(formik.errors, fieldName) && !!getIn(formik.touched, fieldName);
@@ -32,7 +34,7 @@ const UISelectFormControl = ({
   const error = getIn(formik.errors, fieldName) as string;
 
   return (
-    <FormControl isInvalid={invalid} mb="15px">
+    <FormControl isInvalid={invalid} mb="2px">
       <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
         {label}
       </FormLabel>
@@ -42,7 +44,7 @@ const UISelectFormControl = ({
         value={val}
         onChange={changeHandler}
         onBlur={blurHandler}
-        placeholder={label}
+        placeholder={placeholder ? placeholder : label}
       >
         {children}
       </Select>
