@@ -127,7 +127,6 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
             <Text w="50%">{t("common.compteParent")}</Text>
             <UISelectFormControl
               formik={form}
-              label=""
               placeholder={t("common.compteParent")}
               fieldName="parentId"
             >
@@ -138,7 +137,6 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
             <Text w="50%">{t("common.creator")}</Text>
             <UISelectFormControl
               formik={form}
-              label=""
               placeholder={t("common.creator")}
               fieldName="creatorAccountId"
             >
@@ -208,7 +206,6 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
 
             <UIPhoneInputFormControl
               formik={form}
-              label=""
               fieldName="masterUser.phone"
             />
           </Flex>

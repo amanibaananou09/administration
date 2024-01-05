@@ -113,7 +113,6 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
             <Text w="50%">{t("common.country")}</Text>
             <UISelectFormControl
               formik={form}
-              label=""
               placeholder={t("common.country")}
               fieldName="countryId"
             >
@@ -129,7 +128,6 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
             <Text w="50%">{t("common.creator")}</Text>
             <UISelectFormControl
               formik={form}
-              label=""
               placeholder={t("common.creator")}
               fieldName="creatorAccountId"
             >
@@ -141,7 +139,6 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
             <Text w="50%">{t("stationManagement.compte")}</Text>
             <UISelectFormControl
               formik={form}
-              label=""
               placeholder={t("stationManagement.compte")}
               fieldName="customerAccountId"
             >
@@ -159,7 +156,6 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
 
             <UISelectFormControl
               formik={form}
-              label=""
               placeholder={t("stationModal.labelAffectation")}
               fieldName="modeAffectation"
             >
@@ -182,7 +178,6 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
 
             <UISelectFormControl
               formik={form}
-              label=""
               placeholder={t("stationManagement.typeController")}
               fieldName="controllerPts.controllerType"
             >
@@ -213,7 +208,6 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
 
             <UIPhoneInputFormControl
               formik={form}
-              label=""
               fieldName="controllerPts.phone"
             />
           </Flex>

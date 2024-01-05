@@ -9,7 +9,7 @@ import { FormikProps, getIn } from "formik";
 type UIPhoneInputFormControlProps = {
   formik: FormikProps<any>;
   fieldName: string;
-  label: string;
+  label?: string;
 };
 
 const UIPhoneInputFormControl = ({

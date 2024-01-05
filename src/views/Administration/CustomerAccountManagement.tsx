@@ -23,8 +23,7 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
-import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import { FaPencilAlt } from "react-icons/fa";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
   const {
@@ -34,8 +33,6 @@ const CustomerAccountManagement = () => {
   } = useHttp<CustomerAccount[]>(getCustomerAccounts, false);
 
   const [selectedAccount, setSelectedAccount] = useState<CustomerAccount>();
-  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { t } = useTranslation();
   let { path } = useRouteMatch();

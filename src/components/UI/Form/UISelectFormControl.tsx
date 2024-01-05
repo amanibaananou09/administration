@@ -9,7 +9,7 @@ import { FormikProps, getIn } from "formik";
 type UISelectFormControlProps = {
   formik: FormikProps<any>;
   fieldName: string;
-  label: string;
+  label?: string;
   isInvalid?: boolean;
   value?: string | number | undefined;
   onChange?: (e: React.ChangeEvent<any>) => void;
