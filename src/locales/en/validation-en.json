@@ -1,18 +1,18 @@
 {
   "name": {
-    "min": "Name must be at least 4 characters",
+    "min": "Name must be at least 3 characters",
     "required": "Name is required"
   },
   "firstName": {
-    "min": "First Name must be at least 4 characters",
+    "min": "First Name must be at least 3 characters",
     "required": "First Name is required"
   },
   "lastName": {
-    "min": "Last Name must be at least 4 characters",
+    "min": "Last Name must be at least 3 characters",
     "required": "Last Name is required"
   },
   "username": {
-    "min": "User Name must be at least 4 characters",
+    "min": "User Name must be at least 3 characters",
     "required": "Username is required",
     "exist": "Username already exists"
   },
@@ -39,7 +39,7 @@
     "required": "Address is required"
   },
   "ptsId": {
-    "min": "ptsId must be at least 4 characters",
+    "min": "ptsId must be at least 24 characters",
     "required": "ptsId is required"
   },
   "countryId": {
@@ -49,7 +49,8 @@
   },
   "controllerPtsId": {
     "matches": "Controller ID must contain exactly 24 numbers",
-    "required": "controller ID is required"
+    "required": "controller ID is required",
+    "min": "ptsId must be at least 24 characters"
   },
   "parentId": {
     "required": "Parent Account is required"

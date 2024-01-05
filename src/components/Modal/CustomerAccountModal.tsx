@@ -3,8 +3,8 @@ import {
   Box,
   Button,
   Checkbox,
+  Divider,
   Flex,
-  SimpleGrid,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -118,145 +118,127 @@ const CustomerAccountModal = ({ onSubmit }: CustomerAccountModalProps) => {
       isSubmitting={form.isSubmitting}
     >
       <form>
-        <Flex direction="column">
-          <UIInputFormControl
-            formik={form}
-            label={t("common.name")}
-            fieldName="name"
-          />
-          <SimpleGrid columns={2} spacingX={5}>
+        <Flex direction="column" p="2">
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.name")}</Text>
+            <UIInputFormControl formik={form} fieldName="name" />
+          </Flex>
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.compteParent")}</Text>
             <UISelectFormControl
               formik={form}
-              label={t("common.compteParent")}
+              placeholder={t("common.compteParent")}
               fieldName="parentId"
             >
               {accountSelectOptions}
             </UISelectFormControl>
+          </Flex>
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.creator")}</Text>
             <UISelectFormControl
               formik={form}
-              label={t("common.creator")}
+              placeholder={t("common.creator")}
               fieldName="creatorAccountId"
             >
               {accountSelectOptions}
             </UISelectFormControl>
-
-            <Flex justifyContent="space-between" alignItems="center" mb="15px">
-              <Text fontSize="sm" fontWeight="bold">
-                {t("common.droits")}
-              </Text>
-              <Checkbox
-                id="resaleRight"
-                name="resaleRight"
-                onChange={(e) =>
-                  form.setFieldValue("resaleRight", e.target.checked)
-                }
-              />
-            </Flex>
-          </SimpleGrid>
-
-          <Text textColor="teal.500" fontWeight="bold" fontSize="xl" mb="20px">
-            {t("customerAccounts.masterUser")}
-          </Text>
-          <SimpleGrid columns={3} spacingX={5}>
-            <UIInputFormControl
-              formik={form}
-              label={t("userInformation.userNameLabel")}
-              fieldName="masterUser.username"
+          </Flex>
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.droits")}</Text>
+            <Checkbox
+              id="resaleRight"
+              name="resaleRight"
+              onChange={(e) =>
+                form.setFieldValue("resaleRight", e.target.checked)
+              }
             />
+          </Flex>
+          <Divider my={4} />
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.userNameLabel")}</Text>
+            <UIInputFormControl formik={form} fieldName="masterUser.username" />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.emailLabel")}</Text>
+
+            <UIInputFormControl formik={form} fieldName="masterUser.email" />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.firstNameLabel")}</Text>
 
             <UIInputFormControl
               formik={form}
-              label={t("userInformation.emailLabel")}
-              fieldName="masterUser.email"
-            />
-
-            <UIInputFormControl
-              formik={form}
-              label={t("userInformation.firstNameLabel")}
               fieldName="masterUser.firstName"
             />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.lastNameLabel")}</Text>
+
+            <UIInputFormControl formik={form} fieldName="masterUser.lastName" />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.password")}</Text>
 
             <UIInputFormControl
               formik={form}
-              label={t("userInformation.lastNameLabel")}
-              fieldName="masterUser.lastName"
-            />
-
-            <UIInputFormControl
-              formik={form}
-              label={t("common.password")}
               fieldName="masterUser.password"
               type="password"
             />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.confirmPassword")}</Text>
 
             <UIInputFormControl
               formik={form}
-              label={t("common.confirmPassword")}
               fieldName="confirmPassword"
               type="password"
               showPasswordBtn={false}
             />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.phoneLabel")}</Text>
 
             <UIPhoneInputFormControl
               formik={form}
-              label={t("userInformation.phoneLabel")}
               fieldName="masterUser.phone"
             />
-          </SimpleGrid>
-          <SimpleGrid
-            columns={2}
-            mt={4}
-            width="60%"
-            borderWidth="1px"
-            borderRadius="md"
-            marginLeft="20%"
-          >
-            <Box
-              as="div"
-              gridColumn="span 2"
-              display="flex"
-              justifyContent="space-between"
-              fontWeight="bold"
-            >
-              <Box as="div" fontWeight="bold" p={2}>
-                {t("customerAccountModal.paymentMethods")}
-              </Box>
-              <Box as="div" fontWeight="bold" p={2}>
-                {t("customerAccountModal.actions")}
-              </Box>
-            </Box>
-            <Box as="div" gridColumn="span 2">
-              {form.values.paymentMean?.map((_, index) => (
-                <Box
-                  as="div"
-                  key={index}
-                  display="flex"
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  borderBottom="1px solid #ddd"
-                  py={2}
-                >
-                  <Box as="div" px={2} flex="1">
-                    <UIInputFormControl
-                      formik={form}
-                      fieldName={`paymentMean[${index}].code`}
-                      placeholder={t("customerAccountModal.payment")}
-                    />
-                  </Box>
-                  <Box as="div" px={30}>
-                    <DeleteIcon
-                      onClick={() => removePaymentMeanHandler(index)}
-                      cursor="pointer"
-                      color="red.500"
-                    />
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-          </SimpleGrid>
+          </Flex>
         </Flex>
-        <Flex justifyContent="end">
-          <Button onClick={addPaymentMeanHandler} mt={4}>
+        <Divider my={4} />
+        <Flex alignItems="center">
+          <Text w="34%">{t("customerAccountModal.paymentMethods")}</Text>
+          <Box as="div" gridColumn="span 2">
+            {form.values.paymentMean?.map((_, index) => (
+              <Box
+                as="div"
+                key={index}
+                display="flex"
+                justifyContent="flex-start"
+                alignItems="center"
+                py={2}
+              >
+                <UIInputFormControl
+                  formik={form}
+                  fieldName={`paymentMean[${index}].code`}
+                  placeholder={t("customerAccountModal.payment")}
+                />
+                <Box as="div" px={30}>
+                  <DeleteIcon
+                    onClick={() => removePaymentMeanHandler(index)}
+                    cursor="pointer"
+                    color="red.500"
+                  />
+                </Box>
+              </Box>
+            ))}
+          </Box>
+          <Button onClick={addPaymentMeanHandler} ml={6}>
             {t("customerAccountModal.add")}
           </Button>
         </Flex>

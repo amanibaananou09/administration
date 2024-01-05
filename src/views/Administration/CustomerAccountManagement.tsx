@@ -45,7 +45,6 @@ const CustomerAccountManagement = () => {
   const customerAccountDetailModalRef = useRef<CustomerAccountDetailsModalRefType>(
     null,
   );
-
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
   };

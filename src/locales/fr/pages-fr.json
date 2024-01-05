@@ -51,7 +51,10 @@
       "name": "Nom",
       "creator": "Créateur",
       "parent": "Compte parent"
-    }
+    },
+    "addnewAccount": "Créer un compte",
+    "addnewUsers": "Créer un utilisateur",
+    "addnewStation": "Créer une station"
   },
   "customerAccounts": {
     "header": "Comptes",
@@ -73,7 +76,7 @@
     "paymentMethods": "Modes de paiement",
     "payment": "Paiement",
     "actions": "Actions",
-    "add": " Ajouter un mode"
+    "add": " Ajouter"
   },
   "customerAccountInformation": {
     "header": "Informations sur le compte client",
@@ -112,7 +115,7 @@
       "noUserAvailable": "Aucun utilisateur disponible.",
       "accountCreator": "Créateur",
       "account": "Compte",
-      "lastVisit": "Derniere Visite",
+      "lastVisit": "Derniere visite",
       "listEmpty": "Vous n'avez pas d'utilisateur"
     }
   },
@@ -128,7 +131,7 @@
     "compte": "Compte",
     "name": "Nom",
     "typeController": "Type de contrôleur",
-    "deactivation": "Statut",
+    "deactivation": "Désactivation",
     "controller": "Controller",
     "controllerId": "ID contrôleur",
     "connection": "Dernière connexion",
@@ -140,7 +143,9 @@
       "title": "Mise à jour du statut",
       "desativationMessage": "Etes-vous sur de vouloir désactiver cette station ?",
       "activationMessage": "Etes-vous sur de vouloir activer cette station ?"
-    }
+    },
+    "journal": "Journal",
+    "connexion": "Dernière connexion"
   },
   "stationModal": {
     "name": "Nom de la station",
@@ -158,11 +163,13 @@
   },
   "stationDetailsModel": {
     "header": "Détails du station",
-    "name": "Nom",
-    "creatorAccount": "Compte Créateur",
+    "name": "Nom du station",
+    "creatorAccount": "Compte créateur",
     "customerAccount": "Compte parent",
-    "controllerPts": "Controller PtsId",
+    "controllerPts": "PtsId de contrôleur",
     "controllerType": "Type de contrôleur",
+    "controllerUser": "User de contrôleur",
+    "controllerPassword": "Mot de passe de contrôleur",
     "phone": "Téléphone",
     "address": "Address",
     "country": "Pays",
@@ -170,12 +177,13 @@
   },
   "accountDetailsModel": {
     "header": "Détails du compte client",
-    "name": "Nom",
+    "name": "Nom du compte",
+    "updateHeader": "Mettre à jour le compte client",
     "parent": "Compte parent",
     "creator": "Compte Créateur",
-    "resale": "Droit de revente:",
-    "stations": "Gares",
-    "actif": "Actif",
+    "resale": "Droit de revente",
+    "stations": "Stations",
+    "active": "Actif",
     "masterUser": "Utilisateur principal"
   },
   "userDetailsModel": {

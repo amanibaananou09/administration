@@ -1,10 +1,4 @@
-import {
-  Checkbox,
-  Flex,
-  SimpleGrid,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Checkbox, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { UserModalProps } from "common/react-props";
@@ -87,62 +81,69 @@ const UserModal = ({ onSubmit }: UserModalProps) => {
       isSubmitting={form.isSubmitting}
     >
       <form>
-        <SimpleGrid columns={2} spacingX={5}>
-          <UIInputFormControl
-            formik={form}
-            label={t("userInformation.userNameLabel")}
-            fieldName="username"
-          />
+        <Flex direction="column" p="2">
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.userNameLabel")}</Text>
+            <UIInputFormControl formik={form} fieldName="username" />
+          </Flex>
 
-          <UIInputFormControl
-            formik={form}
-            label={t("userInformation.emailLabel")}
-            fieldName="email"
-          />
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.emailLabel")}</Text>
+            <UIInputFormControl formik={form} fieldName="email" />
+          </Flex>
 
-          <UIInputFormControl
-            formik={form}
-            label={t("common.password")}
-            fieldName="password"
-            type="password"
-          />
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.password")}</Text>
+            <UIInputFormControl
+              formik={form}
+              fieldName="password"
+              type="password"
+            />
+          </Flex>
 
-          <UIInputFormControl
-            formik={form}
-            label={t("common.confirmPassword")}
-            fieldName="confirmPassword"
-            type="password"
-            showPasswordBtn={false}
-          />
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.confirmPassword")}</Text>
+            <UIInputFormControl
+              formik={form}
+              fieldName="confirmPassword"
+              type="password"
+              showPasswordBtn={false}
+            />
+          </Flex>
 
-          <UISelectFormControl
-            formik={form}
-            label={t("common.creatorAccount")}
-            fieldName="creatorAccountId"
-          >
-            {accountSelectOptions}
-          </UISelectFormControl>
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.creatorAccount")}</Text>
+            <UISelectFormControl
+              formik={form}
+              label=""
+              fieldName="creatorAccountId"
+            >
+              {accountSelectOptions}
+            </UISelectFormControl>
+          </Flex>
 
-          <UISelectFormControl
-            formik={form}
-            label={t("common.compteParent")}
-            fieldName="customerAccountId"
-          >
-            {accountSelectOptions}
-          </UISelectFormControl>
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.compteParent")}</Text>
+            <UISelectFormControl
+              formik={form}
+              label=""
+              fieldName="customerAccountId"
+            >
+              {accountSelectOptions}
+            </UISelectFormControl>
+          </Flex>
 
-          <UIInputFormControl
-            formik={form}
-            label={t("userInformation.mask")}
-            fieldName="subnetMask"
-          />
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.mask")}</Text>
+            <UIInputFormControl formik={form} fieldName="subnetMask" />
+          </Flex>
 
-          <UIPhoneInputFormControl
-            formik={form}
-            label={t("userInformation.phoneLabel")}
-            fieldName="phone"
-          />
-        </SimpleGrid>
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.phoneLabel")}</Text>
+            <UIPhoneInputFormControl formik={form} label="" fieldName="phone" />
+          </Flex>
+        </Flex>
+        <Divider my={4} />
         <Flex width="50%" flexDirection="column" gap="10%">
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="sm" fontWeight="bold">

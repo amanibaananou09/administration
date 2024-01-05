@@ -1,4 +1,4 @@
-import { SimpleGrid, Text, useDisclosure } from "@chakra-ui/react";
+import { Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { addStations } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
 import { getListOfCountry } from "common/api/reference-data-api";
@@ -98,94 +98,120 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
       isSubmitting={form.isSubmitting}
     >
       <form>
-        <UIInputFormControl
-          formik={form}
-          label={t("stationModal.name")}
-          fieldName="name"
-        />
-        <SimpleGrid columns={2} spacingX={5}>
-          <UIInputFormControl
-            formik={form}
-            label={t("common.address")}
-            fieldName="address"
-          />
-          <UISelectFormControl
-            formik={form}
-            label={t("common.country")}
-            fieldName="countryId"
-          >
-            {country.map((countryData) => (
-              <option key={countryData.id} value={countryData.id}>
-                {countryData.name}
+        <Flex direction="column" p="2">
+          <Flex alignItems="center">
+            <Text w="50%">{t("stationModal.name")}</Text>
+            <UIInputFormControl formik={form} fieldName="name" />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.address")}</Text>
+            <UIInputFormControl formik={form} fieldName="address" />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.country")}</Text>
+            <UISelectFormControl
+              formik={form}
+              placeholder={t("common.country")}
+              fieldName="countryId"
+            >
+              {country.map((countryData) => (
+                <option key={countryData.id} value={countryData.id}>
+                  {countryData.name}
+                </option>
+              ))}
+            </UISelectFormControl>
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.creator")}</Text>
+            <UISelectFormControl
+              formik={form}
+              placeholder={t("common.creator")}
+              fieldName="creatorAccountId"
+            >
+              {accountSelectOptions}
+            </UISelectFormControl>
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("stationManagement.compte")}</Text>
+            <UISelectFormControl
+              formik={form}
+              placeholder={t("stationManagement.compte")}
+              fieldName="customerAccountId"
+            >
+              {accountSelectOptions}
+            </UISelectFormControl>
+          </Flex>
+          <Flex alignItems="center">
+            <Text w="50%">{t("stationModal.cordonneesGps")}</Text>
+
+            <UIInputFormControl formik={form} fieldName="cordonneesGps" />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("stationModal.labelAffectation")}</Text>
+
+            <UISelectFormControl
+              formik={form}
+              placeholder={t("stationModal.labelAffectation")}
+              fieldName="modeAffectation"
+            >
+              <option value="MANUEL">{t("stationModal.manuel")}</option>
+              <option value="AUTOMATIQUE">
+                {t("stationModal.automatique")}
               </option>
-            ))}
-          </UISelectFormControl>
-          <UISelectFormControl
-            formik={form}
-            label={t("common.creatorAccount")}
-            fieldName="creatorAccountId"
-          >
-            {accountSelectOptions}
-          </UISelectFormControl>
-          <UISelectFormControl
-            formik={form}
-            label={t("stationManagement.compte")}
-            fieldName="customerAccountId"
-          >
-            {accountSelectOptions}
-          </UISelectFormControl>
-        </SimpleGrid>
+            </UISelectFormControl>
+          </Flex>
 
-        <Text textColor="teal.500" fontWeight="bold" fontSize="xl" mb="20px">
-          {t("stationManagement.controller")}
-        </Text>
+          <Divider my={4} />
 
-        <SimpleGrid columns={3} spacingX={5}>
-          <UIInputFormControl
-            formik={form}
-            label={t("stationManagement.controllerId")}
-            fieldName="controllerPts.ptsId"
-          />
-          <UISelectFormControl
-            formik={form}
-            label={t("stationManagement.typeController")}
-            fieldName="controllerPts.controllerType"
-          >
-            <option value="PTS2">PTS2</option>
-          </UISelectFormControl>
+          <Flex alignItems="center">
+            <Text w="50%">{t("stationManagement.controllerId")}</Text>
+            <UIInputFormControl formik={form} fieldName="controllerPts.ptsId" />
+          </Flex>
 
-          <UIInputFormControl
-            formik={form}
-            label={t("userInformation.userNameLabel")}
-            fieldName="controllerPts.userController.username"
-          />
-          <UIInputFormControl
-            formik={form}
-            label={t("common.password")}
-            fieldName="controllerPts.userController.password"
-            type="password"
-          />
+          <Flex alignItems="center">
+            <Text w="50%">{t("stationManagement.typeController")}</Text>
 
-          <UIPhoneInputFormControl
-            formik={form}
-            label={t("userInformation.phoneLabel")}
-            fieldName="controllerPts.phone"
-          />
+            <UISelectFormControl
+              formik={form}
+              placeholder={t("stationManagement.typeController")}
+              fieldName="controllerPts.controllerType"
+            >
+              <option value="PTS2">PTS2</option>
+            </UISelectFormControl>
+          </Flex>
 
-          <UIInputFormControl
-            formik={form}
-            label={t("stationModal.cordonneesGps")}
-            fieldName="cordonneesGps"
-          />
-          <UISelectFormControl
-            formik={form}
-            label={t("stationModal.labelAffectation")}
-            fieldName="modeAffectation"
-          >
-            <option value="MANUEL">{t("stationModal.manuel")}</option>
-            <option value="AUTOMATIQUE">{t("stationModal.automatique")}</option>
-          </UISelectFormControl>
-        </SimpleGrid>
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.userNameLabel")}</Text>
+
+            <UIInputFormControl
+              formik={form}
+              fieldName="controllerPts.userController.username"
+            />
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("common.password")}</Text>
+            <UIInputFormControl
+              formik={form}
+              fieldName="controllerPts.userController.password"
+              type="password"
+            />{" "}
+          </Flex>
+
+          <Flex alignItems="center">
+            <Text w="50%">{t("userInformation.phoneLabel")}</Text>
+
+            <UIPhoneInputFormControl
+              formik={form}
+              fieldName="controllerPts.phone"
+            />
+          </Flex>
+        </Flex>
       </form>
     </UIModal>
   );

@@ -28,7 +28,7 @@ const UIDetailModal = ({
       blockScrollOnMount={true}
       isOpen={isOpen}
       onClose={onClose}
-      size="xl"
+      size="2xl"
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent

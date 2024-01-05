@@ -50,7 +50,7 @@ const CustomerAccountDetailsModal = (
               {t("accountDetailsModel.stations")}
             </Text>
             <Text fontWeight="bold" marginBottom="5px">
-              {t("accountDetailsModel.actif")}
+              {t("accountDetailsModel.active")}
             </Text>
             <Text fontWeight="bold" marginBottom="5px">
               {t("accountDetailsModel.masterUser")}

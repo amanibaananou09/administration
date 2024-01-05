@@ -43,7 +43,7 @@ const UIModal = ({
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
-        <ModalHeader fontSize="2xl" color="teal.500">
+        <ModalHeader backgroundColor="teal" fontSize="2xl" color="white">
           {title}
         </ModalHeader>
         <ModalCloseButton />

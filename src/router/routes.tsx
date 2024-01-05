@@ -23,6 +23,7 @@ export const administrationRoutes = (): RouteConfig[] => {
       component: CustomerAccountManagement,
       layout: "/administration",
       sideBarItemComponent: AdminSideBarItem,
+      addNewLabel: t("sideBarItem.addnewAccount"),
     },
     {
       path: "/users",
@@ -31,6 +32,7 @@ export const administrationRoutes = (): RouteConfig[] => {
       component: UserManagement,
       layout: "/administration",
       sideBarItemComponent: AdminSideBarItem,
+      addNewLabel: t("sideBarItem.addnewUsers"),
     },
     {
       path: "/stations",
@@ -39,6 +41,7 @@ export const administrationRoutes = (): RouteConfig[] => {
       component: StationManagement,
       layout: "/administration",
       sideBarItemComponent: AdminSideBarItem,
+      addNewLabel: t("sideBarItem.addnewStation"),
     },
   ];
 };

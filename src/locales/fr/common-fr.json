@@ -1,9 +1,9 @@
 {
-  "name": "Nom",
+  "name": "Nom du compte",
   "creator": "Créateur",
-  "creatorAccount": "Compte Créateur",
-  "compteParent": "Compte Parent",
-  "droits": "Droits De Distributeur",
+  "creatorAccount": "Compte créateur",
+  "compteParent": "Compte parent",
+  "droits": "Droits de distributeur",
   "stations": "Stations",
   "status": "Statut",
   "error": "est obligatoire",
@@ -28,6 +28,7 @@
   "selectDroits": "Ajoutez vos droits de revendeur",
   "reseller": "Revendeur",
   "delete": "Supprimer",
+  "update": "Modifier",
   "phone": "Téléphone",
   "canChangePassword": "Peut changer le mot de passe : ",
   "canSendSMS": "Peut envoyer des SMS : ",
@@ -35,5 +36,7 @@
   "confirmationDialog": {
     "confirm": "Valider",
     "cancel": "Annuler"
-  }
+  },
+  "admin": "Administration",
+  "interface": "Interface de gestion"
 }

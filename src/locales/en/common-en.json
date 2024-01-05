@@ -1,9 +1,9 @@
 {
-  "name": "Name",
+  "name": "Account name",
   "creator": "Creator",
-  "creatorAccount": "Creator Account",
-  "compteParent": "Parent Account",
-  "droits": "Distributor Rights",
+  "creatorAccount": "Creator account",
+  "compteParent": "Parent account",
+  "droits": "Distributor rights",
   "stations": "Stations",
   "status": "Status",
   "error": "is required",
@@ -28,6 +28,7 @@
   "selectDroits": "Add your reseller rights",
   "reseller": "Reseller",
   "delete": "Delete",
+  "update": "Update",
   "phone": "Phone",
   "canChangePassword": "Can change password : ",
   "canSendSMS": "Can send SMS : ",
@@ -35,5 +36,7 @@
   "confirmationDialog": {
     "confirm": "Submit",
     "cancel": "Cancel"
-  }
+  },
+  "admin": "Administration",
+  "interface": "Management interface"
 }
