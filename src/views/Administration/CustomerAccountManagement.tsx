@@ -2,7 +2,6 @@ import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
-  customerAccountDetails,
   deactivateCustomerAccount,
   getCustomerAccounts,
 } from "common/api/customerAccount-api";
@@ -26,7 +25,6 @@ import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { FaPencilAlt } from "react-icons/fa";
-import CustomerAccountUpdate from "../../components/Modal/CustomerAccountUpdate";
 
 const CustomerAccountManagement = () => {
   const {
@@ -50,10 +48,6 @@ const CustomerAccountManagement = () => {
   const customerAccountDetailModalRef = useRef<CustomerAccountDetailsModalRefType>(
     null,
   );
-  const [
-    selectedAccountUpdated,
-    setSelectedAccountUpdated,
-  ] = useState<CustomerAccount | null>(null);
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
   };
@@ -93,21 +87,6 @@ const CustomerAccountManagement = () => {
       parent,
     });
   }, [query]);
-
-  const UpdateAccountClick = async (item: CustomerAccount) => {
-    if (item.id !== undefined) {
-      try {
-        setIsLoadingDetails(true);
-        const accountDetails = await customerAccountDetails(item.id);
-        setSelectedAccountUpdated(accountDetails);
-        setIsModalOpen(true);
-      } catch (error) {
-        console.error("Error fetching user information:", error);
-      } finally {
-        setIsLoadingDetails(false);
-      }
-    }
-  };
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
@@ -160,21 +139,6 @@ const CustomerAccountManagement = () => {
     {
       header: t("common.delete"),
       render: () => <Status value={false} />,
-    },
-    {
-      header: t("common.update"),
-      render: (item: CustomerAccount) => (
-        <div
-          style={{
-            cursor: "pointer",
-          }}
-          onClick={() => UpdateAccountClick(item)}
-        >
-          <Flex justifyContent="center">
-            <FaPencilAlt />
-          </Flex>
-        </div>
-      ),
     },
   ];
 
@@ -230,11 +194,6 @@ const CustomerAccountManagement = () => {
         ref={confirmationDialogRef}
       />
       <CustomerAccountDetailsModal ref={customerAccountDetailModalRef} />
-      <CustomerAccountUpdate
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        accountDetails={selectedAccountUpdated}
-      />
     </>
   );
 };

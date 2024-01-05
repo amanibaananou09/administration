@@ -33,7 +33,7 @@ const UserDetailsModal = (
       onClose={onClose}
     >
       {userDetails && (
-        <Flex justifyContent="space-between" flexWrap="wrap">
+        <Flex justifyContent="space-between" flexWrap="wrap" p="4">
           <div style={{ marginBottom: "10px" }}>
             <Text fontWeight="bold" marginBottom="5px">
               {t("userDetailsModel.username")}

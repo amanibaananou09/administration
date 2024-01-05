@@ -1,11 +1,4 @@
-import {
-  Checkbox,
-  Divider,
-  Flex,
-  SimpleGrid,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Checkbox, Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import { addUser } from "common/api/general-user-api";
 import { UserModalProps } from "common/react-props";

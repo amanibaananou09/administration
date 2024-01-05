@@ -5,7 +5,6 @@ import {
   Checkbox,
   Divider,
   Flex,
-  SimpleGrid,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
