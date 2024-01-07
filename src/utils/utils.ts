@@ -1,6 +1,7 @@
 import { getUserByEmail, getUserByUsername } from "common/api/general-user-api";
 import { Decode, User } from "common/model";
 import jwt_decode from "jwt-decode";
+import { debounce } from "lodash";
 import moment, { Moment } from "moment";
 
 export const decodeToken = (token: string | null): User | null => {
@@ -117,20 +118,18 @@ export const truncateText = (text: string, limit: number) => {
   }
 };
 
-export const isUsernameExist = async (username: string) => {
-  try {
-    await getUserByUsername(username);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
+export const isUsernameExist = debounce(async (username: string) => {
+  return new Promise(async (resolve, reject) => {
+    getUserByUsername(username)
+      .then(() => resolve(true))
+      .catch(() => resolve(false));
+  });
+}, 500);
 
-export const isEmailExist = async (email: string) => {
-  try {
-    await getUserByEmail(email);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
+export const isEmailExist = debounce(async (email: string) => {
+  return new Promise(async (resolve, reject) => {
+    getUserByEmail(email)
+      .then(() => resolve(true))
+      .catch(() => resolve(false));
+  });
+}, 500);
