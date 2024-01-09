@@ -72,6 +72,7 @@
     }
   },
   "customerAccountModal": {
+    "update": "Update customer account",
     "header": "Create new customer account",
     "paymentMethods": "Payment methods",
     "payment": "Payment",

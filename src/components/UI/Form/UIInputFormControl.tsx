@@ -18,11 +18,13 @@ type UIInputFormControlProps = {
   placeholder?: string;
   showPasswordBtn?: boolean;
   isReadOnly?: boolean;
+  isDisabled?: boolean;
   variant?: ResponsiveValue<
     "outline" | (string & {}) | "filled" | "flushed" | "unstyled"
   >;
   size?: ResponsiveValue<(string & {}) | "sm" | "md" | "lg" | "xs">;
   styles?: StyleProps;
+  value?: string;
 };
 
 const UIInputFormControl = ({
@@ -33,9 +35,11 @@ const UIInputFormControl = ({
   placeholder,
   showPasswordBtn = true,
   isReadOnly = false,
+  isDisabled = false,
   variant,
   size,
   styles,
+  value,
 }: UIInputFormControlProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -63,6 +67,7 @@ const UIInputFormControl = ({
           type={type}
           placeholder={placeholder ? placeholder : label}
           isReadOnly={isReadOnly}
+          isDisabled={isDisabled}
           variant={variant}
           color={isReadOnly ? "gray.500" : ""}
           bg={isReadOnly ? "gray.200" : ""}
@@ -84,6 +89,7 @@ const UIInputFormControl = ({
             pr="4.5rem"
             variant={variant}
             color={isReadOnly ? "gray.500" : ""}
+            isDisabled={isDisabled}
             bg={isReadOnly ? "gray.200" : ""}
             size={size}
             {...styles}

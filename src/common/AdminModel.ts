@@ -8,6 +8,7 @@ export interface CustomerAccount {
   parentName?: string;
   creatorCustomerAccountName?: string;
   resaleRight: boolean;
+  dateStatusChange?: string;
   stations?: number;
   stationsCount?: number;
   status?: string;
@@ -23,12 +24,13 @@ export interface PaymentMean {
 }
 
 export interface MasterUser {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
+  id?: number;
+  username?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
   phone?: string;
-  password: string;
+  password?: string;
   role?: string;
 }
 

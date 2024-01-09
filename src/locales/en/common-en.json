@@ -29,6 +29,7 @@
   "reseller": "Reseller",
   "delete": "Delete",
   "update": "Update",
+  "action": "Action",
   "phone": "Phone",
   "canChangePassword": "Can change password : ",
   "canSendSMS": "Can send SMS : ",
