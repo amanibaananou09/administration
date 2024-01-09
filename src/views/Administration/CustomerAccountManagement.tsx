@@ -49,21 +49,9 @@ const CustomerAccountManagement = () => {
   const customerAccountDetailModalRef = useRef<CustomerAccountDetailsModalRefType>(
     null,
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [
-    selectedAccountUpdated,
-    setSelectedAccountUpdated,
-  ] = useState<CustomerAccount | null>(null);
+
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
-  };
-
-  const openUpdateModal = (item: CustomerAccount) => {
-    setIsModalOpen(true);
-    setSelectedAccountUpdated(item);
-
-    // Programmatically navigate to the edit route
-    history.push(`${path}/edit`);
   };
 
   const updateStatusHandler = async () => {
@@ -157,10 +145,18 @@ const CustomerAccountManagement = () => {
           <Box pr={6}>
             <Status value={false} />
           </Box>
-          {/* Render the pencil icon with an onClick event to open the modal */}
           <FaPencilAlt
             style={{ cursor: "pointer" }}
-            onClick={() => openUpdateModal(item)}
+            onClick={() => {
+              const clickedAccount = customerAccounts?.find(
+                (acc) => acc && acc.id === item.id,
+              );
+
+              if (clickedAccount) {
+                setSelectedAccount(clickedAccount);
+                history.push(`${path}/edit/${item.id}`);
+              }
+            }}
           />
         </Flex>
       ),
@@ -208,15 +204,19 @@ const CustomerAccountManagement = () => {
           <CustomerAccountModal
             onSubmit={submitModalHandler}
             account={null}
-            onClose={() => setIsModalOpen(false)}
+            onClose={function (): void {
+              throw new Error("Function not implemented.");
+            }}
             mode="create"
           />
         </Route>
-        <Route path={`${path}/edit`}>
+        <Route path={`${path}/edit/:id`}>
           <CustomerAccountModal
             onSubmit={submitModalHandler}
-            account={selectedAccountUpdated}
-            onClose={() => setIsModalOpen(false)}
+            account={selectedAccount || null}
+            onClose={function (): void {
+              throw new Error("Function not implemented.");
+            }}
             mode="edit"
           />
         </Route>

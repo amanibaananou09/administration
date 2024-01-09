@@ -69,7 +69,7 @@ const CustomerAccountModal = ({
         password: "",
         phone: "",
       },
-      paymentMean: [
+      paymentMeans: [
         {
           code: "",
         },
@@ -150,7 +150,7 @@ const CustomerAccountModal = ({
                 password: userDetails.password || "",
                 phone: userDetails.phone || "",
               },
-              paymentMean: accountDetails.paymentMean || [
+              paymentMeans: accountDetails.paymentMeans || [
                 {
                   code: "",
                 },
@@ -172,12 +172,12 @@ const CustomerAccountModal = ({
     };
     form.setValues({
       ...form.values,
-      paymentMean: [...(form.values.paymentMean ?? []), newPaymentMean],
+      paymentMeans: [...(form.values.paymentMeans ?? []), newPaymentMean],
     });
   };
 
   const removePaymentMeanHandler = (index: number) => {
-    const updatedPaymentMean = (form.values.paymentMean ?? []).filter(
+    const updatedPaymentMean = (form.values.paymentMeans ?? []).filter(
       (_, i) => i !== index,
     );
     form.setFieldValue("paymentMean", updatedPaymentMean);
@@ -216,7 +216,7 @@ const CustomerAccountModal = ({
             <UIInputFormControl
               formik={form}
               fieldName="name"
-              isDisabled={mode === "edit"}
+              isReadOnly={mode === "edit"}
             />
           </Flex>
           <Flex alignItems="center">
@@ -313,7 +313,7 @@ const CustomerAccountModal = ({
         <Flex alignItems="center">
           <Text w="34%">{t("customerAccountModal.paymentMethods")}</Text>
           <Box as="div" gridColumn="span 2">
-            {form.values.paymentMean?.map((_, index) => (
+            {form.values.paymentMeans?.map((_, index) => (
               <Box
                 as="div"
                 key={index}
@@ -326,7 +326,7 @@ const CustomerAccountModal = ({
                   formik={form}
                   fieldName={`paymentMean[${index}].code`}
                   placeholder={t("customerAccountModal.payment")}
-                  isDisabled={mode === "edit"}
+                  isReadOnly={mode === "edit"}
                 />
                 <Box as="div" px={30}>
                   <DeleteIcon

@@ -48,6 +48,8 @@ const UISelectFormControl = ({
         onBlur={blurHandler}
         placeholder={placeholder ? placeholder : label}
         isDisabled={isDisabled}
+        color={isDisabled ? "gray.500" : ""}
+        bg={isDisabled ? "gray.200" : ""}
       >
         {children}
       </Select>
