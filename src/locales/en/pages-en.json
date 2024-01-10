@@ -72,6 +72,7 @@
     }
   },
   "customerAccountModal": {
+    "update": "Update customer account",
     "header": "Create new customer account",
     "paymentMethods": "Payment methods",
     "payment": "Payment",
@@ -184,7 +185,8 @@
     "resale": "Resale right",
     "stations": "Stations",
     "active": "Active",
-    "masterUser": "Master user"
+    "masterUser": "Master user",
+    "paymentMean": "Payment Mean"
   },
   "userDetailsModel": {
     "header": "User details",

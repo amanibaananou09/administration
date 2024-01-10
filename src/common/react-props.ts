@@ -69,7 +69,6 @@ export interface CustomerAccountTableRowProps {
 
 export interface AddStationModalProps {
   onSubmit: () => void;
-
 }
 
 export interface AddStationModalRefType {
@@ -86,6 +85,7 @@ export interface CustomerAccountModalProps {
   account: CustomerAccount | null;
   onClose: () => void;
   ref?: React.Ref<any>;
+  mode: "create" | "edit";
 }
 
 export interface SalesPumpGradesRowProps {

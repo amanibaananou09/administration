@@ -1,4 +1,4 @@
-import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
@@ -24,6 +24,8 @@ import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { FaPencilAlt } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
   const {
@@ -41,10 +43,13 @@ const CustomerAccountManagement = () => {
   const creator = query.get("creator");
   const parent = query.get("parent");
 
+  const history = useHistory();
+
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
   const customerAccountDetailModalRef = useRef<CustomerAccountDetailsModalRefType>(
     null,
   );
+
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
   };
@@ -134,8 +139,27 @@ const CustomerAccountManagement = () => {
       key: "stationsCount",
     },
     {
-      header: t("common.delete"),
-      render: () => <Status value={false} />,
+      header: t("common.action"),
+      render: (item: CustomerAccount) => (
+        <Flex justifyContent="center">
+          <Box pr={6}>
+            <Status value={false} />
+          </Box>
+          <FaPencilAlt
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              const clickedAccount = customerAccounts?.find(
+                (acc) => acc && acc.id === item.id,
+              );
+
+              if (clickedAccount) {
+                setSelectedAccount(clickedAccount);
+                history.push(`${path}/edit/${item.id}`);
+              }
+            }}
+          />
+        </Flex>
+      ),
     },
   ];
 
@@ -157,7 +181,9 @@ const CustomerAccountManagement = () => {
           <CardBody>
             {!isLoading && customerAccounts && (
               <UITable
-                data={customerAccounts.sort((c1, c2) => c1.id!! - c2.id!!)}
+                data={customerAccounts.sort(
+                  (c1, c2) => Number(c1.id!!) - Number(c2.id!!),
+                )}
                 columns={columns}
                 emptyListMessage={t("customerAccounts.listEmpty")}
               />
@@ -183,9 +209,21 @@ const CustomerAccountManagement = () => {
             onClose={function (): void {
               throw new Error("Function not implemented.");
             }}
+            mode="create"
+          />
+        </Route>
+        <Route path={`${path}/edit/:id`}>
+          <CustomerAccountModal
+            onSubmit={submitModalHandler}
+            account={selectedAccount || null}
+            onClose={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+            mode="edit"
           />
         </Route>
       </Switch>
+
       <ConfirmationDialog
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}

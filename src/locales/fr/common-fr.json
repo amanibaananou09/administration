@@ -29,6 +29,7 @@
   "reseller": "Revendeur",
   "delete": "Supprimer",
   "update": "Modifier",
+  "action": "Action",
   "phone": "Téléphone",
   "canChangePassword": "Peut changer le mot de passe : ",
   "canSendSMS": "Peut envoyer des SMS : ",

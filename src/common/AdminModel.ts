@@ -1,20 +1,21 @@
 import { country } from "common/model";
 
 export interface CustomerAccount {
-  id?: number;
+  id?: string;
   name: string;
   creatorAccountId?: string;
   parentId?: string;
   parentName?: string;
   creatorCustomerAccountName?: string;
   resaleRight: boolean;
+  dateStatusChange?: string;
   stations?: number;
   stationsCount?: number;
   status?: string;
   actif?: boolean;
   masterUser?: MasterUser;
   creatorUser?: GeneralUser;
-  paymentMean?: PaymentMean[];
+  paymentMeans?: PaymentMean[];
 }
 
 export interface PaymentMean {
@@ -23,11 +24,12 @@ export interface PaymentMean {
 }
 
 export interface MasterUser {
+  id?: string;
   username: string;
   email: string;
   firstName: string;
   lastName: string;
-  phone?: string;
+  phone: string;
   password: string;
   role?: string;
 }

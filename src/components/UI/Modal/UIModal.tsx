@@ -18,6 +18,7 @@ type UIModalProps = {
   onClose: () => void;
   onSubmit: () => void;
   isSubmitting: boolean;
+  isEditMode?: boolean;
   children: React.ReactNode;
 };
 
@@ -27,6 +28,7 @@ const UIModal = ({
   onClose,
   onSubmit,
   isSubmitting,
+  isEditMode = false,
   children,
 }: UIModalProps) => {
   const { t } = useTranslation();
@@ -68,7 +70,7 @@ const UIModal = ({
               isLoading={isSubmitting}
               onClick={onSubmit}
             >
-              {t("common.submit")}
+              {isEditMode ? t("common.update") : t("common.submit")}
             </Button>
           </Flex>
         </ModalFooter>

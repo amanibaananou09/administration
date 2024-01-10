@@ -17,6 +17,7 @@ type UISelectFormControlProps = {
   errorMessage?: string | undefined;
   children: React.ReactNode;
   placeholder?: string;
+  isDisabled?: boolean;
 };
 
 const UISelectFormControl = ({
@@ -25,6 +26,7 @@ const UISelectFormControl = ({
   label,
   children,
   placeholder,
+  isDisabled,
 }: UISelectFormControlProps) => {
   const invalid =
     !!getIn(formik.errors, fieldName) && !!getIn(formik.touched, fieldName);
@@ -45,6 +47,9 @@ const UISelectFormControl = ({
         onChange={changeHandler}
         onBlur={blurHandler}
         placeholder={placeholder ? placeholder : label}
+        isDisabled={isDisabled}
+        color={isDisabled ? "gray.500" : ""}
+        bg={isDisabled ? "gray.200" : ""}
       >
         {children}
       </Select>

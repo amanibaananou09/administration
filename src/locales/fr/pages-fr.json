@@ -72,6 +72,7 @@
     }
   },
   "customerAccountModal": {
+    "update": "Mettre à jour le compte client",
     "header": "Créer un nouveau compte client",
     "paymentMethods": "Modes de paiement",
     "payment": "Paiement",
@@ -184,7 +185,8 @@
     "resale": "Droit de revente",
     "stations": "Stations",
     "active": "Actif",
-    "masterUser": "Utilisateur principal"
+    "masterUser": "Utilisateur principal",
+    "paymentMean": "Moyenne du paiement"
   },
   "userDetailsModel": {
     "header": "Détails de l'utilisateur",
