@@ -29,18 +29,22 @@ import { useAuth } from "store/AuthContext";
 import UIInputFormControl from "../UI/Form/UIInputFormControl";
 import UIModal from "../UI/Modal/UIModal";
 import { userInformation } from "../../common/api/general-user-api";
+import { useParams } from "react-router-dom";
 
 interface FormValues extends CustomerAccount {
   confirmPassword: string;
 }
 
+type Params = {
+  id: string;
+};
+
 const CustomerAccountModal = ({
   onSubmit,
   mode,
-  account,
 }: CustomerAccountModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { id } = useParams<Params>();
   const { t } = useTranslation();
   const history = useHistory();
   const { creators } = useCreators();
@@ -54,7 +58,7 @@ const CustomerAccountModal = ({
 
   const form = useFormik<Partial<FormValues>>({
     initialValues: {
-      id: 0,
+      id: "",
       name: "",
       resaleRight: false,
       status: "ENABLED",
@@ -84,10 +88,10 @@ const CustomerAccountModal = ({
       try {
         if (mode === "create") {
           await submit(values as CustomerAccount);
-        } else if (mode === "edit" && account?.id) {
+        } else if (mode === "edit" && id) {
           await updateAccount({
             ...(values as CustomerAccount),
-            id: account.id!,
+            id: id!,
           });
         }
 
@@ -96,7 +100,7 @@ const CustomerAccountModal = ({
         form.setValues({
           ...form.values,
           masterUser: {
-            id: 0,
+            id: "",
             username: "",
             email: "",
             firstName: "",
@@ -119,8 +123,8 @@ const CustomerAccountModal = ({
 
     const fetchAccountDetails = async () => {
       try {
-        if (mode === "edit" && account?.id) {
-          const accountDetails = await customerAccountDetails(account.id);
+        if (mode === "edit" && id) {
+          const accountDetails = await customerAccountDetails(id);
 
           // Ensure that account.masterUser is defined before accessing its properties
           if (mode === "edit" && accountDetails.masterUser) {
@@ -128,34 +132,16 @@ const CustomerAccountModal = ({
               accountDetails.masterUser.id,
             );
 
-            form.setValues({
-              name: accountDetails.name || "",
-              resaleRight: accountDetails.resaleRight || false,
-              actif: accountDetails.actif || true,
-              status: accountDetails.status || "ENABLED",
-              creatorUser: accountDetails.creatorUser || undefined,
-              parentId:
-                accountDetails.parentId || user?.customerAccountId || "",
-              creatorAccountId:
-                accountDetails.creatorAccountId ||
-                user?.customerAccountId ||
-                "",
-              dateStatusChange:
-                accountDetails.dateStatusChange || new Date().toISOString(),
+            const updatedValues = {
+              ...form.values,
+              ...accountDetails,
               masterUser: {
-                username: userDetails.username || "",
-                email: userDetails.email || "",
-                firstName: userDetails.firstName || "",
-                lastName: userDetails.lastName || "",
-                password: userDetails.password || "",
-                phone: userDetails.phone || "",
+                ...form.values.masterUser,
+                ...(userDetails || {}),
               },
-              paymentMeans: accountDetails.paymentMeans || [
-                {
-                  code: "",
-                },
-              ],
-            });
+            };
+
+            form.setValues(updatedValues);
           }
         }
       } catch (error) {
@@ -164,7 +150,7 @@ const CustomerAccountModal = ({
     };
 
     fetchAccountDetails();
-  }, [mode, account]);
+  }, [mode, id]);
 
   const addPaymentMeanHandler = () => {
     const newPaymentMean = {
@@ -195,6 +181,15 @@ const CustomerAccountModal = ({
         {accountData.name}
       </option>
     ));
+
+  useEffect(() => {
+    if (mode === "create" && form.values.name) {
+      form.setFieldValue(
+        "masterUser.username",
+        form.values.name.replace(/\s+/g, ""),
+      );
+    }
+  }, [mode, form.values.name]);
 
   return (
     <UIModal
@@ -324,23 +319,27 @@ const CustomerAccountModal = ({
               >
                 <UIInputFormControl
                   formik={form}
-                  fieldName={`paymentMean[${index}].code`}
+                  fieldName={`paymentMeans[${index}].code`}
                   placeholder={t("customerAccountModal.payment")}
                   isReadOnly={mode === "edit"}
                 />
-                <Box as="div" px={30}>
-                  <DeleteIcon
-                    onClick={() => removePaymentMeanHandler(index)}
-                    cursor="pointer"
-                    color="red.500"
-                  />
-                </Box>
+                {mode !== "edit" && (
+                  <Box as="div" px={30}>
+                    <DeleteIcon
+                      onClick={() => removePaymentMeanHandler(index)}
+                      cursor="pointer"
+                      color="red.500"
+                    />
+                  </Box>
+                )}
               </Box>
             ))}
           </Box>
-          <Button onClick={addPaymentMeanHandler} ml={6}>
-            {t("customerAccountModal.add")}
-          </Button>
+          {mode !== "edit" && (
+            <Button onClick={addPaymentMeanHandler} ml={6}>
+              {t("customerAccountModal.add")}
+            </Button>
+          )}
         </Flex>
       </form>
     </UIModal>

@@ -181,7 +181,9 @@ const CustomerAccountManagement = () => {
           <CardBody>
             {!isLoading && customerAccounts && (
               <UITable
-                data={customerAccounts.sort((c1, c2) => c1.id!! - c2.id!!)}
+                data={customerAccounts.sort(
+                  (c1, c2) => Number(c1.id!!) - Number(c2.id!!),
+                )}
                 columns={columns}
                 emptyListMessage={t("customerAccounts.listEmpty")}
               />

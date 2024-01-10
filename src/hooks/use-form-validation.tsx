@@ -74,6 +74,7 @@ const useFormValidation = () => {
     .min(24, t("validation.controllerPtsId.min"))
     .matches(/^[a-zA-Z0-9]{24}$/, t("validation.controllerPtsId.matches"))
     .required(t("validation.controllerPtsId.required"));
+
   const countryId = Yup.number()
     .required(t("validation.countryId.required"))
     .positive(t("validation.countryId.positive"));

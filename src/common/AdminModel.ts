@@ -1,7 +1,7 @@
 import { country } from "common/model";
 
 export interface CustomerAccount {
-  id?: number;
+  id?: string;
   name: string;
   creatorAccountId?: string;
   parentId?: string;
@@ -15,7 +15,7 @@ export interface CustomerAccount {
   actif?: boolean;
   masterUser?: MasterUser;
   creatorUser?: GeneralUser;
-  paymentMean?: PaymentMean[];
+  paymentMeans?: PaymentMean[];
 }
 
 export interface PaymentMean {
@@ -24,13 +24,13 @@ export interface PaymentMean {
 }
 
 export interface MasterUser {
-  id?: number;
-  username?: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  password?: string;
+  id?: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  password: string;
   role?: string;
 }
 

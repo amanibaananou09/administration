@@ -1,4 +1,4 @@
-import { Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import UIDetailModal from "components/UI/Modal/UIDetailModal";
 import { Ref, forwardRef, useImperativeHandle, useState } from "react";
@@ -55,6 +55,11 @@ const CustomerAccountDetailsModal = (
             <Text fontWeight="bold" marginBottom="5px">
               {t("accountDetailsModel.masterUser")}
             </Text>
+            <Divider my={4} />
+
+            <Text fontWeight="bold" marginBottom="5px">
+              {t("accountDetailsModel.paymentMean")}
+            </Text>
           </div>
           <div>
             <Text fontWeight="normal" marginBottom="5px">
@@ -78,6 +83,17 @@ const CustomerAccountDetailsModal = (
             <Text fontWeight="normal">
               {accountDetails.masterUser?.username ?? "-"}
             </Text>
+            <Divider my={4} />
+            {accountDetails?.paymentMeans &&
+            accountDetails.paymentMeans.length > 0 ? (
+              accountDetails.paymentMeans.map((mean, index) => (
+                <Text key={index} fontWeight="normal" marginBottom="5px">
+                  {mean.code}
+                </Text>
+              ))
+            ) : (
+              <Text fontWeight="normal">-</Text>
+            )}
           </div>
         </Flex>
       )}

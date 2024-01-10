@@ -38,18 +38,18 @@ export const getCustomerAccounts = async (
 
   return response.data;
 };
-export const customerAccountDetails = async (id: number) => {
+export const customerAccountDetails = async (id: string | undefined) => {
   const response = await api.get(`${API_URL}/${id}/info`);
 
   return response.data;
 };
-export const activateCustomerAccount = async (id: number) => {
+export const activateCustomerAccount = async (id: number | string) => {
   const response = await api.put(`${API_URL}/activate/${id}`);
 
   return response.data;
 };
 
-export const deactivateCustomerAccount = async (id: number) => {
+export const deactivateCustomerAccount = async (id: number | string) => {
   const response = await api.put(`${API_URL}/deactivate/${id}`);
   return response.data;
 };

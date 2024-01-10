@@ -185,7 +185,8 @@
     "resale": "Droit de revente",
     "stations": "Stations",
     "active": "Actif",
-    "masterUser": "Utilisateur principal"
+    "masterUser": "Utilisateur principal",
+    "paymentMean": "Moyenne du paiement"
   },
   "userDetailsModel": {
     "header": "Détails de l'utilisateur",

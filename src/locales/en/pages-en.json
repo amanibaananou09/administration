@@ -185,7 +185,8 @@
     "resale": "Resale right",
     "stations": "Stations",
     "active": "Active",
-    "masterUser": "Master user"
+    "masterUser": "Master user",
+    "paymentMean": "Payment Mean"
   },
   "userDetailsModel": {
     "header": "User details",
