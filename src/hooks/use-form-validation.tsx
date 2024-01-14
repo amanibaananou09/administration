@@ -9,17 +9,20 @@ const useFormValidation = () => {
     .min(3, t("validation.username.min"))
     .required(t("validation.username.required"));
 
-  const usernameAsync = Yup.string().test(
-    "username",
-    t("validation.username.exist"),
-    async (value) => {
-      if (value) {
-        const exist = await isUsernameExist(value);
-        return !exist;
-      }
-      return true;
-    },
-  );
+  const usernameAsync = Yup.string()
+    .required(t("validation.username.required"))
+    .test(
+      "username",
+      t("validation.username.exist"),
+      async (value, context) => {
+        const values = context.options.context;
+        if (values && value && values.originalUsername !== value) {
+          const exist = await isUsernameExist(value);
+          return !exist;
+        }
+        return true;
+      },
+    );
 
   const firstName = Yup.string()
     .min(3, t("validation.firstName.min"))
@@ -36,8 +39,10 @@ const useFormValidation = () => {
   const email = Yup.string()
     .email(t("validation.email.invalid"))
     .required(t("validation.email.required"))
-    .test("email", t("validation.email.exist"), async (value) => {
-      if (value) {
+    .test("email", t("validation.email.exist"), async (value, context) => {
+      const values = context.options.context;
+
+      if (values && value && values.originalEmail !== value) {
         const exist = await isEmailExist(value);
         return !exist;
       }
@@ -78,16 +83,21 @@ const useFormValidation = () => {
   const countryId = Yup.number()
     .required(t("validation.countryId.required"))
     .positive(t("validation.countryId.positive"));
+
   const subnetMask = Yup.string().required(t("validation.subnetMask.required"));
+
   const modeAffectation = Yup.string().required(
     t("validation.modeAffectation.required"),
   );
+
   const controllerType = Yup.string().required(
     t("validation.controllerType.required"),
   );
+
   const cordonneesGps = Yup.string().required(
     t("validation.cordonneesGps.required"),
   );
+
   const userFormValidationSchema = Yup.object().shape({
     username: username.concat(usernameAsync),
     email,
@@ -102,31 +112,24 @@ const useFormValidation = () => {
     name,
     parentId: parentAccount,
     creatorAccountId,
-    confirmPassword: Yup.string()
-      .oneOf(
-        [Yup.ref("masterUser.password")],
-        t("validation.confirmPassword.match"),
-      )
-      .required(t("validation.confirmPassword.required")),
-    masterUser: Yup.object({
-      username: username.concat(usernameAsync),
-      email,
-      firstName,
-      lastName,
-      phone,
-      password,
-    }),
+    confirmPassword,
+    username: username.concat(usernameAsync),
+    email,
+    firstName,
+    lastName,
+    phone,
+    password,
   });
+
   const editCustomerAccountValidationSchema = Yup.object().shape({
     name,
-    parentId: parentAccount,
-    creatorAccountId,
-    masterUser: Yup.object({
-      firstName,
-      lastName,
-      phone,
-    }),
+    username: username.concat(usernameAsync),
+    email,
+    firstName,
+    lastName,
+    phone,
   });
+
   const stationFormValidationSchema = Yup.object().shape({
     name,
     address,

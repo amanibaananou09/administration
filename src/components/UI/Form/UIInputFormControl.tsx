@@ -4,7 +4,12 @@ import {
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import {
+  Input,
+  InputGroup,
+  InputProps,
+  InputRightElement,
+} from "@chakra-ui/input";
 import { ResponsiveValue, StyleProps } from "@chakra-ui/system";
 import { FormikProps, getIn } from "formik";
 import { useState } from "react";
@@ -17,7 +22,7 @@ type UIInputFormControlProps = {
   type?: string;
   placeholder?: string;
   showPasswordBtn?: boolean;
-  isReadOnly?: boolean;
+  isDisabled?: boolean;
   variant?: ResponsiveValue<
     "outline" | (string & {}) | "filled" | "flushed" | "unstyled"
   >;
@@ -32,7 +37,7 @@ const UIInputFormControl = ({
   type = "text",
   placeholder,
   showPasswordBtn = true,
-  isReadOnly = false,
+  isDisabled = false,
   variant,
   size,
   styles,
@@ -41,10 +46,26 @@ const UIInputFormControl = ({
 
   const invalid =
     getIn(formik.errors, fieldName) && getIn(formik.touched, fieldName);
-  const val = getIn(formik.values, fieldName);
+  const val = getIn(formik.values, fieldName) ?? "";
   const changeHandler = formik.handleChange;
   const blurHandler = formik.handleBlur;
   const error = getIn(formik.errors, fieldName) as string;
+
+  const inputProps: InputProps = {
+    id: fieldName,
+    name: fieldName,
+    value: val,
+    onChange: changeHandler,
+    onBlur: blurHandler,
+    type: type,
+    placeholder: placeholder ?? label,
+    isDisabled: isDisabled,
+    variant: variant,
+    color: isDisabled ? "gray.500" : "",
+    bg: isDisabled ? "gray.200" : "",
+    size: size,
+    ...styles,
+  };
 
   return (
     <FormControl isInvalid={invalid} mb="2px">
@@ -54,39 +75,15 @@ const UIInputFormControl = ({
         </FormLabel>
       )}
       {(type !== "password" || (type === "password" && !showPasswordBtn)) && (
-        <Input
-          id={fieldName}
-          name={fieldName}
-          value={val}
-          onChange={changeHandler}
-          onBlur={blurHandler}
-          type={type}
-          placeholder={placeholder ? placeholder : label}
-          isReadOnly={isReadOnly}
-          variant={variant}
-          color={isReadOnly ? "gray.500" : ""}
-          bg={isReadOnly ? "gray.200" : ""}
-          size={size}
-          {...styles}
-        />
+        <Input {...inputProps} />
       )}
 
       {type === "password" && showPasswordBtn && (
         <InputGroup>
           <Input
-            id={fieldName}
-            name={fieldName}
-            value={val}
-            onChange={changeHandler}
-            onBlur={blurHandler}
+            {...inputProps}
             type={showPassword ? "text" : "password"}
-            placeholder={placeholder ? placeholder : label}
             pr="4.5rem"
-            variant={variant}
-            color={isReadOnly ? "gray.500" : ""}
-            bg={isReadOnly ? "gray.200" : ""}
-            size={size}
-            {...styles}
           />
           <InputRightElement width="3.2rem">
             <Button

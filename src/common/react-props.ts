@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { CustomerAccount, GeneralStations } from "./AdminModel";
+import { CustomerAccount } from "./AdminModel";
+import { Mode } from "./enums";
 import {
   ChartFilter,
   RouteConfig,
@@ -82,10 +83,8 @@ export interface StationModalRefType {
 
 export interface CustomerAccountModalProps {
   onSubmit: () => void;
-  account: CustomerAccount | null;
-  onClose: () => void;
   ref?: React.Ref<any>;
-  mode: "create" | "edit";
+  mode: Mode;
 }
 
 export interface SalesPumpGradesRowProps {

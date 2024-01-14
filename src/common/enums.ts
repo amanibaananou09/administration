@@ -1,6 +1,7 @@
 export enum Mode {
-  DASHBOARD = "Dashboard",
-  ADMIN = "administration",
+  CREATE = "CREATE",
+  EDIT = "EDIT",
+  VIEW = "VIEW",
 }
 
 export enum Layout {

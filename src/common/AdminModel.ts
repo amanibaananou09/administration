@@ -3,22 +3,22 @@ import { country } from "common/model";
 export interface CustomerAccount {
   id?: string;
   name: string;
-  creatorAccountId?: string;
-  parentId?: string;
+  creatorAccountId: string;
+  parentId: string;
   parentName?: string;
   creatorCustomerAccountName?: string;
   resaleRight: boolean;
   dateStatusChange?: string;
   stations?: number;
   stationsCount?: number;
-  status?: string;
+  status: string;
   actif?: boolean;
-  masterUser?: MasterUser;
+  masterUser: MasterUser;
   creatorUser?: GeneralUser;
-  paymentMeans?: PaymentMean[];
+  paymentMethods?: PaymentMethod[];
 }
 
-export interface PaymentMean {
+export interface PaymentMethod {
   code: string;
   customerAccountId?: string;
 }
@@ -30,7 +30,7 @@ export interface MasterUser {
   firstName: string;
   lastName: string;
   phone: string;
-  password: string;
+  password?: string;
   role?: string;
 }
 
@@ -118,4 +118,23 @@ export interface addStations {
   creatorAccountId?: string;
   modeAffectation: string;
   cordonneesGps: string;
+}
+
+export interface CustomerAccountFormValues {
+  id?: string;
+  name: string;
+  parentId: string;
+  creatorAccountId: string;
+  resaleRight: boolean;
+  status: string;
+  username: string;
+  originalUsername: string;
+  email: string;
+  originalEmail: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  password?: string;
+  confirmPassword?: string;
+  paymentMethods?: PaymentMethod[];
 }

@@ -9,13 +9,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { CustomerAccount } from "common/AdminModel";
+import { CustomerAccount, CustomerAccountFormValues } from "common/AdminModel";
 import {
   createCustomerAccount,
-  customerAccountDetails,
+  getCustomerAccountDetails,
   updateAccount,
 } from "common/api/customerAccount-api";
+import { Mode } from "common/enums";
 import { CustomerAccountModalProps } from "common/react-props";
+import { SkeletonForm } from "components/Skeleton/Skeletons";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import { useFormik } from "formik";
@@ -24,16 +26,15 @@ import useFormValidation from "hooks/use-form-validation";
 import useHttp from "hooks/use-http";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
+import {
+  customerAccountInitFormValues,
+  customerAccountToFormValues,
+  formValuesToCustomerAccount,
+} from "utils/form-utils";
 import UIInputFormControl from "../UI/Form/UIInputFormControl";
 import UIModal from "../UI/Modal/UIModal";
-import { userInformation } from "../../common/api/general-user-api";
-import { useParams } from "react-router-dom";
-
-interface FormValues extends CustomerAccount {
-  confirmPassword: string;
-}
 
 type Params = {
   id: string;
@@ -55,62 +56,35 @@ const CustomerAccountModal = ({
   const { user } = useAuth();
 
   const { makeRequest: submit } = useHttp(createCustomerAccount, false);
+  const { makeRequest: fetchDetails, isLoading } = useHttp<CustomerAccount>(
+    getCustomerAccountDetails,
+    false,
+  );
 
-  const form = useFormik<Partial<FormValues>>({
+  const form = useFormik<CustomerAccountFormValues>({
     initialValues: {
-      id: "",
-      name: "",
-      resaleRight: false,
-      status: "ENABLED",
-      confirmPassword: "",
-      parentId: user?.customerAccountId,
-      creatorAccountId: user?.customerAccountId,
-      masterUser: {
-        username: "",
-        email: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-        phone: "",
-      },
-      paymentMeans: [
-        {
-          code: "",
-        },
-      ],
+      ...customerAccountInitFormValues,
+      parentId: user!!.customerAccountId,
+      creatorAccountId: user!!.customerAccountId,
     },
+    enableReinitialize: true,
     validationSchema:
-      mode === "edit"
+      mode === Mode.EDIT
         ? editCustomerAccountValidationSchema
         : customerAccountValidationSchema,
 
-    onSubmit: async (values: Partial<FormValues>) => {
+    onSubmit: async (values: CustomerAccountFormValues) => {
+      const customerAccount = formValuesToCustomerAccount(values);
+
       try {
-        if (mode === "create") {
-          await submit(values as CustomerAccount);
-        } else if (mode === "edit" && id) {
-          await updateAccount({
-            ...(values as CustomerAccount),
-            id: id!,
-          });
+        switch (mode) {
+          case Mode.CREATE:
+            await submit(customerAccount);
+            break;
+          case Mode.EDIT:
+            await updateAccount(customerAccount);
+            break;
         }
-
-        form.setSubmitting(false);
-
-        form.setValues({
-          ...form.values,
-          masterUser: {
-            id: "",
-            username: "",
-            email: "",
-            firstName: "",
-            lastName: "",
-            password: "",
-            phone: "",
-          },
-          confirmPassword: "",
-        });
-
         closeModalHandler();
         onSubmit();
       } catch (error) {
@@ -118,31 +92,17 @@ const CustomerAccountModal = ({
       }
     },
   });
+
   useEffect(() => {
     onOpen();
 
     const fetchAccountDetails = async () => {
       try {
-        if (mode === "edit" && id) {
-          const accountDetails = await customerAccountDetails(id);
-
+        if (mode === Mode.EDIT && id) {
+          const accountDetails = await fetchDetails(+id);
           // Ensure that account.masterUser is defined before accessing its properties
-          if (mode === "edit" && accountDetails.masterUser) {
-            const userDetails = await userInformation(
-              accountDetails.masterUser.id,
-            );
-
-            const updatedValues = {
-              ...form.values,
-              ...accountDetails,
-              masterUser: {
-                ...form.values.masterUser,
-                ...(userDetails || {}),
-              },
-            };
-
-            form.setValues(updatedValues);
-          }
+          const values = customerAccountToFormValues(accountDetails);
+          form.setValues(values);
         }
       } catch (error) {
         console.error("Error while fetching account details:", error);
@@ -152,21 +112,21 @@ const CustomerAccountModal = ({
     fetchAccountDetails();
   }, [mode, id]);
 
-  const addPaymentMeanHandler = () => {
-    const newPaymentMean = {
+  const addPaymentMethodHandler = () => {
+    const newPaymentMethod = {
       code: "",
     };
     form.setValues({
       ...form.values,
-      paymentMeans: [...(form.values.paymentMeans ?? []), newPaymentMean],
+      paymentMethods: [...(form.values.paymentMethods ?? []), newPaymentMethod],
     });
   };
 
-  const removePaymentMeanHandler = (index: number) => {
-    const updatedPaymentMean = (form.values.paymentMeans ?? []).filter(
+  const removePaymentMethodHandler = (index: number) => {
+    const updatedPaymentMethods = (form.values.paymentMethods ?? []).filter(
       (_, i) => i !== index,
     );
-    form.setFieldValue("paymentMean", updatedPaymentMean);
+    form.setFieldValue("paymentMethods", updatedPaymentMethods);
   };
 
   const closeModalHandler = () => {
@@ -183,18 +143,15 @@ const CustomerAccountModal = ({
     ));
 
   useEffect(() => {
-    if (mode === "create" && form.values.name) {
-      form.setFieldValue(
-        "masterUser.username",
-        form.values.name.replace(/\s+/g, ""),
-      );
+    if (mode === Mode.CREATE && form.values.name) {
+      form.setFieldValue("username", form.values.name.replace(/\s+/g, ""));
     }
   }, [mode, form.values.name]);
 
   return (
     <UIModal
       title={
-        mode === "edit"
+        mode === Mode.EDIT
           ? t("customerAccountModal.update")
           : t("customerAccountModal.header")
       }
@@ -202,146 +159,147 @@ const CustomerAccountModal = ({
       onClose={closeModalHandler}
       onSubmit={() => form.handleSubmit()}
       isSubmitting={form.isSubmitting}
-      isEditMode={mode === "edit"}
+      isEditMode={mode === Mode.EDIT}
     >
-      <form>
-        <Flex direction="column" p="2">
-          <Flex alignItems="center">
-            <Text w="50%">{t("common.name")}</Text>
-            <UIInputFormControl
-              formik={form}
-              fieldName="name"
-              isReadOnly={mode === "edit"}
-            />
-          </Flex>
-          <Flex alignItems="center">
-            <Text w="50%">{t("common.compteParent")}</Text>
-            <UISelectFormControl
-              formik={form}
-              placeholder={t("common.compteParent")}
-              fieldName="parentId"
-              isDisabled={mode === "edit"}
-            >
-              {accountSelectOptions}
-            </UISelectFormControl>
-          </Flex>
-          <Flex alignItems="center">
-            <Text w="50%">{t("common.creator")}</Text>
-            <UISelectFormControl
-              formik={form}
-              placeholder={t("common.creator")}
-              fieldName="creatorAccountId"
-              isDisabled={mode === "edit"}
-            >
-              {accountSelectOptions}
-            </UISelectFormControl>
-          </Flex>
-          <Flex alignItems="center">
-            <Text w="50%">{t("common.droits")}</Text>
-            <Checkbox
-              id="resaleRight"
-              name="resaleRight"
-              isChecked={form.values.resaleRight}
-              onChange={(e) =>
-                form.setFieldValue("resaleRight", e.target.checked)
-              }
-            />
+      {!isLoading && (
+        <form>
+          <Flex direction="column" p="2">
+            <Flex alignItems="center">
+              <Text w="50%">{t("common.name")}</Text>
+              <UIInputFormControl
+                formik={form}
+                fieldName="name"
+                isDisabled={mode === Mode.EDIT}
+              />
+            </Flex>
+            <Flex alignItems="center">
+              <Text w="50%">{t("common.compteParent")}</Text>
+              <UISelectFormControl
+                formik={form}
+                placeholder={t("common.compteParent")}
+                fieldName="parentId"
+                isDisabled={mode === Mode.EDIT}
+              >
+                {accountSelectOptions}
+              </UISelectFormControl>
+            </Flex>
+            <Flex alignItems="center">
+              <Text w="50%">{t("common.creator")}</Text>
+              <UISelectFormControl
+                formik={form}
+                placeholder={t("common.creator")}
+                fieldName="creatorAccountId"
+                isDisabled={mode === Mode.EDIT}
+              >
+                {accountSelectOptions}
+              </UISelectFormControl>
+            </Flex>
+            <Flex alignItems="center">
+              <Text w="50%">{t("common.droits")}</Text>
+              <Checkbox
+                id="resaleRight"
+                name="resaleRight"
+                isChecked={form.values.resaleRight}
+                onChange={(e) =>
+                  form.setFieldValue("resaleRight", e.target.checked)
+                }
+              />
+            </Flex>
+            <Divider my={4} />
+            <Flex alignItems="center">
+              <Text w="50%">{t("userInformation.userNameLabel")}</Text>
+              <UIInputFormControl formik={form} fieldName="username" />
+            </Flex>
+
+            <Flex alignItems="center">
+              <Text w="50%">{t("userInformation.emailLabel")}</Text>
+
+              <UIInputFormControl formik={form} fieldName="email" />
+            </Flex>
+
+            <Flex alignItems="center">
+              <Text w="50%">{t("userInformation.firstNameLabel")}</Text>
+
+              <UIInputFormControl formik={form} fieldName="firstName" />
+            </Flex>
+
+            <Flex alignItems="center">
+              <Text w="50%">{t("userInformation.lastNameLabel")}</Text>
+
+              <UIInputFormControl formik={form} fieldName="lastName" />
+            </Flex>
+
+            {mode == Mode.CREATE && (
+              <Flex alignItems="center">
+                <Text w="50%">{t("common.password")}</Text>
+
+                <UIInputFormControl
+                  formik={form}
+                  fieldName="password"
+                  type="password"
+                />
+              </Flex>
+            )}
+
+            {mode == Mode.CREATE && (
+              <Flex alignItems="center">
+                <Text w="50%">{t("common.confirmPassword")}</Text>
+
+                <UIInputFormControl
+                  formik={form}
+                  fieldName="confirmPassword"
+                  type="password"
+                  showPasswordBtn={false}
+                />
+              </Flex>
+            )}
+
+            <Flex alignItems="center">
+              <Text w="50%">{t("userInformation.phoneLabel")}</Text>
+
+              <UIPhoneInputFormControl formik={form} fieldName="phone" />
+            </Flex>
           </Flex>
           <Divider my={4} />
           <Flex alignItems="center">
-            <Text w="50%">{t("userInformation.userNameLabel")}</Text>
-            <UIInputFormControl formik={form} fieldName="masterUser.username" />
+            <Text w="34%">{t("customerAccountModal.paymentMethods")}</Text>
+            <Box as="div" gridColumn="span 2">
+              {form.values.paymentMethods?.map((_, index) => (
+                <Box
+                  as="div"
+                  key={index}
+                  display="flex"
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  py={2}
+                >
+                  <UIInputFormControl
+                    formik={form}
+                    fieldName={`paymentMethods[${index}].code`}
+                    placeholder={t("customerAccountModal.payment")}
+                    isDisabled={mode === Mode.EDIT}
+                  />
+                  {mode === Mode.CREATE && (
+                    <Box as="div" px={30}>
+                      <DeleteIcon
+                        onClick={() => removePaymentMethodHandler(index)}
+                        cursor="pointer"
+                        color="red.500"
+                      />
+                    </Box>
+                  )}
+                </Box>
+              ))}
+            </Box>
+            {mode !== Mode.EDIT && (
+              <Button onClick={addPaymentMethodHandler} ml={6}>
+                {t("customerAccountModal.add")}
+              </Button>
+            )}
           </Flex>
-
-          <Flex alignItems="center">
-            <Text w="50%">{t("userInformation.emailLabel")}</Text>
-
-            <UIInputFormControl formik={form} fieldName="masterUser.email" />
-          </Flex>
-
-          <Flex alignItems="center">
-            <Text w="50%">{t("userInformation.firstNameLabel")}</Text>
-
-            <UIInputFormControl
-              formik={form}
-              fieldName="masterUser.firstName"
-            />
-          </Flex>
-
-          <Flex alignItems="center">
-            <Text w="50%">{t("userInformation.lastNameLabel")}</Text>
-
-            <UIInputFormControl formik={form} fieldName="masterUser.lastName" />
-          </Flex>
-
-          <Flex alignItems="center">
-            <Text w="50%">{t("common.password")}</Text>
-
-            <UIInputFormControl
-              formik={form}
-              fieldName="masterUser.password"
-              type="password"
-            />
-          </Flex>
-
-          <Flex alignItems="center">
-            <Text w="50%">{t("common.confirmPassword")}</Text>
-
-            <UIInputFormControl
-              formik={form}
-              fieldName="confirmPassword"
-              type="password"
-              showPasswordBtn={false}
-            />
-          </Flex>
-
-          <Flex alignItems="center">
-            <Text w="50%">{t("userInformation.phoneLabel")}</Text>
-
-            <UIPhoneInputFormControl
-              formik={form}
-              fieldName="masterUser.phone"
-            />
-          </Flex>
-        </Flex>
-        <Divider my={4} />
-        <Flex alignItems="center">
-          <Text w="34%">{t("customerAccountModal.paymentMethods")}</Text>
-          <Box as="div" gridColumn="span 2">
-            {form.values.paymentMeans?.map((_, index) => (
-              <Box
-                as="div"
-                key={index}
-                display="flex"
-                justifyContent="flex-start"
-                alignItems="center"
-                py={2}
-              >
-                <UIInputFormControl
-                  formik={form}
-                  fieldName={`paymentMeans[${index}].code`}
-                  placeholder={t("customerAccountModal.payment")}
-                  isReadOnly={mode === "edit"}
-                />
-                {mode !== "edit" && (
-                  <Box as="div" px={30}>
-                    <DeleteIcon
-                      onClick={() => removePaymentMeanHandler(index)}
-                      cursor="pointer"
-                      color="red.500"
-                    />
-                  </Box>
-                )}
-              </Box>
-            ))}
-          </Box>
-          {mode !== "edit" && (
-            <Button onClick={addPaymentMeanHandler} ml={6}>
-              {t("customerAccountModal.add")}
-            </Button>
-          )}
-        </Flex>
-      </form>
+        </form>
+      )}
+      {isLoading && <SkeletonForm mode={mode} />}
     </UIModal>
   );
 };

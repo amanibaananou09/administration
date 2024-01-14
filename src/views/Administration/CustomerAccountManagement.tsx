@@ -1,4 +1,4 @@
-import { Box, Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -19,13 +20,13 @@ import CustomerAccountDetailsModal, {
 } from "components/Modal/CustomerAccountDetailsModal";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
+import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
 import { FaPencilAlt } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
   const {
@@ -57,10 +58,10 @@ const CustomerAccountManagement = () => {
   const updateStatusHandler = async () => {
     if (selectedAccount) {
       let item = selectedAccount;
-      if (item.actif && item.id !== undefined) {
+      if (item.actif && item.id) {
         // If currently active, deactivate
         await deactivateCustomerAccount(item.id);
-      } else if (item.id !== undefined) {
+      } else if (item.id) {
         // If currently inactive, activate
         await activateCustomerAccount(item.id);
       }
@@ -189,15 +190,7 @@ const CustomerAccountManagement = () => {
               />
             )}
 
-            {isLoading && (
-              <Stack width="100%" margin="20px 0px">
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-              </Stack>
-            )}
+            {isLoading && <SkeletonTable />}
           </CardBody>
         </Card>
       </Flex>
@@ -205,21 +198,13 @@ const CustomerAccountManagement = () => {
         <Route path={`${path}/new`}>
           <CustomerAccountModal
             onSubmit={submitModalHandler}
-            account={null}
-            onClose={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-            mode="create"
+            mode={Mode.CREATE}
           />
         </Route>
         <Route path={`${path}/edit/:id`}>
           <CustomerAccountModal
             onSubmit={submitModalHandler}
-            account={selectedAccount || null}
-            onClose={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-            mode="edit"
+            mode={Mode.EDIT}
           />
         </Route>
       </Switch>

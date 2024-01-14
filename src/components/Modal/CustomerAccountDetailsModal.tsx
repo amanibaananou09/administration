@@ -84,11 +84,11 @@ const CustomerAccountDetailsModal = (
               {accountDetails.masterUser?.username ?? "-"}
             </Text>
             <Divider my={4} />
-            {accountDetails?.paymentMeans &&
-            accountDetails.paymentMeans.length > 0 ? (
-              accountDetails.paymentMeans.map((mean, index) => (
+            {accountDetails?.paymentMethods &&
+            accountDetails.paymentMethods.length > 0 ? (
+              accountDetails.paymentMethods.map((method, index) => (
                 <Text key={index} fontWeight="normal" marginBottom="5px">
-                  {mean.code}
+                  {method.code}
                 </Text>
               ))
             ) : (
