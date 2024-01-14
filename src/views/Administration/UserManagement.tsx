@@ -1,4 +1,4 @@
-import { Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 
 import { GeneralUser } from "common/AdminModel";
 import {
@@ -19,6 +19,7 @@ import UserDetailsModal, {
 } from "components/Modal/UserDetailsModal";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
+import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
@@ -152,15 +153,8 @@ const UserManagement = () => {
                 emptyListMessage={t("userManagement.globalUsers.listEmpty")}
               />
             )}
-            {isLoading && (
-              <Stack width="100%" margin="20px 0px">
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-                <Skeleton height="50px" borderRadius="10px" />
-              </Stack>
-            )}
+
+            {isLoading && <SkeletonTable />}
           </CardBody>
         </Card>
       </Flex>

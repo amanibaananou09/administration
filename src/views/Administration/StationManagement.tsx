@@ -1,4 +1,4 @@
-import { Flex, Skeleton, Stack, Text, useToast } from "@chakra-ui/react";
+import { Flex, Text, useToast } from "@chakra-ui/react";
 
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ import ConfirmationDialog, {
 } from "components/Dialog/ConfirmationDialog";
 import StationModal from "components/Modal/StationModal";
 import Status from "components/Sidebar/Status";
+import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
@@ -214,15 +215,7 @@ const StationManagement = () => {
                 />
               )}
 
-              {isLoading && (
-                <Stack width="100%" margin="20px 0px">
-                  <Skeleton height="50px" borderRadius="10px" />
-                  <Skeleton height="50px" borderRadius="10px" />
-                  <Skeleton height="50px" borderRadius="10px" />
-                  <Skeleton height="50px" borderRadius="10px" />
-                  <Skeleton height="50px" borderRadius="10px" />
-                </Stack>
-              )}
+              {isLoading && <SkeletonTable />}
             </Flex>
           </CardBody>
         </Card>

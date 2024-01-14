@@ -38,11 +38,15 @@ export const getCustomerAccounts = async (
 
   return response.data;
 };
-export const customerAccountDetails = async (id: string | undefined) => {
-  const response = await api.get(`${API_URL}/${id}/info`);
+
+export const getCustomerAccountDetails = async (customerAccountId: number) => {
+  const response = await api.get<CustomerAccount>(
+    `${API_URL}/${customerAccountId}/info`,
+  );
 
   return response.data;
 };
+
 export const activateCustomerAccount = async (id: number | string) => {
   const response = await api.put(`${API_URL}/activate/${id}`);
 

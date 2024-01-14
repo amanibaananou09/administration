@@ -1,60 +1,56 @@
-import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
+import { Button, Input } from "@chakra-ui/react";
 
 import { CountrySelector, usePhoneInput } from "react-international-phone";
+
+import React, { ChangeEvent } from "react";
 
 interface PhoneInputProps {
   id: string;
   name: string;
   value: string | undefined;
-  onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (phone: string) => void;
   onBlur?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder: string | undefined;
 }
 
-export const PhoneInput = ({
+export const PhoneInput: React.FC<PhoneInputProps> = ({
   id,
   name,
+  placeholder,
   value,
   onChange,
   onBlur,
-  placeholder,
-}: PhoneInputProps) => {
+}) => {
   const phoneInput = usePhoneInput({
-    defaultCountry: "tn",
+    defaultCountry: "us",
     value,
+    onChange: (data) => {
+      onChange(data.phone);
+    },
   });
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    phoneInput.handlePhoneValueChange(e);
-    onChange(e);
-  };
-
   return (
-    <InputGroup>
-      <InputLeftElement>
-        <CountrySelector
-          selectedCountry={phoneInput.country.iso2}
-          onSelect={({ iso2 }) => phoneInput.setCountry(iso2)}
-          renderButtonWrapper={({ children, rootProps }) => (
-            <Button {...rootProps} variant="outline" px="4px">
-              {children}
-            </Button>
-          )}
-        />
-      </InputLeftElement>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <CountrySelector
+        selectedCountry={phoneInput.country.iso2}
+        onSelect={(country) => phoneInput.setCountry(country.iso2)}
+        renderButtonWrapper={({ children, rootProps }) => (
+          <Button {...rootProps} variant="outline" px="4px" mr="8px">
+            {children}
+          </Button>
+        )}
+      />
       <Input
         id={id}
         name={name}
         placeholder={placeholder}
         type="tel"
-        value={phoneInput.phone}
-        onChange={handleChange}
+        color="primary"
+        value={phoneInput.inputValue}
+        onChange={phoneInput.handlePhoneValueChange}
         onBlur={onBlur}
         ref={phoneInput.inputRef}
       />
-    </InputGroup>
+    </div>
   );
 };

@@ -19,8 +19,9 @@ const UIPhoneInputFormControl = ({
 }: UIPhoneInputFormControlProps) => {
   const invalid =
     getIn(formik.errors, fieldName) && getIn(formik.touched, fieldName);
-  const val = getIn(formik.values, fieldName);
-  const changeHandler = formik.handleChange;
+  const val = getIn(formik.values, fieldName) ?? "";
+  const changeHandler = (phone: string) =>
+    formik.setFieldValue(fieldName, phone);
   const blurHandler = formik.handleBlur;
   const error = getIn(formik.errors, fieldName) as string;
 

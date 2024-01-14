@@ -26,11 +26,11 @@ const UISelectFormControl = ({
   label,
   children,
   placeholder,
-  isDisabled,
+  isDisabled = false,
 }: UISelectFormControlProps) => {
   const invalid =
     !!getIn(formik.errors, fieldName) && !!getIn(formik.touched, fieldName);
-  const val = getIn(formik.values, fieldName);
+  const val = getIn(formik.values, fieldName) ?? "";
   const changeHandler = formik.handleChange;
   const blurHandler = formik.handleBlur;
   const error = getIn(formik.errors, fieldName) as string;
@@ -48,8 +48,8 @@ const UISelectFormControl = ({
         onBlur={blurHandler}
         placeholder={placeholder ? placeholder : label}
         isDisabled={isDisabled}
-        color={isDisabled ? "gray.500" : ""}
-        bg={isDisabled ? "gray.200" : ""}
+        color={isDisabled ? "gray.500" : "black"}
+        bg={isDisabled ? "gray.200" : "white"}
       >
         {children}
       </Select>
