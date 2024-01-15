@@ -20,6 +20,7 @@ type UIModalProps = {
   isSubmitting: boolean;
   isEditMode?: boolean;
   children: React.ReactNode;
+  isConsultMode: boolean;
 };
 
 const UIModal = ({
@@ -30,6 +31,7 @@ const UIModal = ({
   isSubmitting,
   isEditMode = false,
   children,
+  isConsultMode,
 }: UIModalProps) => {
   const { t } = useTranslation();
 
@@ -52,26 +54,42 @@ const UIModal = ({
         <ModalBody mb="24px">{children}</ModalBody>
         <ModalFooter>
           <Flex justifyContent="flex-end">
-            <Button
-              fontSize="md"
-              colorScheme="red"
-              fontWeight="bold"
-              size="lg"
-              mr={3}
-              onClick={onClose}
-            >
-              {t("common.cancel")}
-            </Button>
-            <Button
-              fontSize="md"
-              colorScheme="teal"
-              fontWeight="bold"
-              size="lg"
-              isLoading={isSubmitting}
-              onClick={onSubmit}
-            >
-              {isEditMode ? t("common.update") : t("common.submit")}
-            </Button>
+            {!isConsultMode && (
+              <>
+                <Button
+                  fontSize="md"
+                  colorScheme="red"
+                  fontWeight="bold"
+                  size="lg"
+                  mr={3}
+                  onClick={onClose}
+                >
+                  {t("common.cancel")}
+                </Button>
+                <Button
+                  fontSize="md"
+                  colorScheme="teal"
+                  fontWeight="bold"
+                  size="lg"
+                  isLoading={isSubmitting}
+                  onClick={onSubmit}
+                >
+                  {isEditMode ? t("common.update") : t("common.submit")}
+                </Button>
+              </>
+            )}
+            {isConsultMode && (
+              <Button
+                fontSize="md"
+                colorScheme="red"
+                fontWeight="bold"
+                size="lg"
+                mr={3}
+                onClick={onClose}
+              >
+                {t("common.cancel")}
+              </Button>
+            )}
           </Flex>
         </ModalFooter>
       </ModalContent>

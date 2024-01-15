@@ -69,7 +69,7 @@ const CustomerAccountModal = ({
     },
     enableReinitialize: true,
     validationSchema:
-      mode === Mode.EDIT
+      mode === Mode.EDIT || mode === Mode.VIEW
         ? editCustomerAccountValidationSchema
         : customerAccountValidationSchema,
 
@@ -98,7 +98,7 @@ const CustomerAccountModal = ({
 
     const fetchAccountDetails = async () => {
       try {
-        if (mode === Mode.EDIT && id) {
+        if (mode === Mode.EDIT || (mode === Mode.VIEW && id)) {
           const accountDetails = await fetchDetails(+id);
           // Ensure that account.masterUser is defined before accessing its properties
           const values = customerAccountToFormValues(accountDetails);
@@ -153,6 +153,8 @@ const CustomerAccountModal = ({
       title={
         mode === Mode.EDIT
           ? t("customerAccountModal.update")
+          : mode === Mode.VIEW
+          ? t("customerAccountModal.view")
           : t("customerAccountModal.header")
       }
       isOpen={isOpen}
@@ -160,6 +162,7 @@ const CustomerAccountModal = ({
       onSubmit={() => form.handleSubmit()}
       isSubmitting={form.isSubmitting}
       isEditMode={mode === Mode.EDIT}
+      isConsultMode={mode === Mode.VIEW}
     >
       {!isLoading && (
         <form>
@@ -169,7 +172,7 @@ const CustomerAccountModal = ({
               <UIInputFormControl
                 formik={form}
                 fieldName="name"
-                isDisabled={mode === Mode.EDIT}
+                isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
               />
             </Flex>
             <Flex alignItems="center">
@@ -178,7 +181,7 @@ const CustomerAccountModal = ({
                 formik={form}
                 placeholder={t("common.compteParent")}
                 fieldName="parentId"
-                isDisabled={mode === Mode.EDIT}
+                isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
               >
                 {accountSelectOptions}
               </UISelectFormControl>
@@ -189,7 +192,7 @@ const CustomerAccountModal = ({
                 formik={form}
                 placeholder={t("common.creator")}
                 fieldName="creatorAccountId"
-                isDisabled={mode === Mode.EDIT}
+                isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
               >
                 {accountSelectOptions}
               </UISelectFormControl>
@@ -203,30 +206,47 @@ const CustomerAccountModal = ({
                 onChange={(e) =>
                   form.setFieldValue("resaleRight", e.target.checked)
                 }
+                isDisabled={mode === Mode.VIEW}
               />
             </Flex>
             <Divider my={4} />
             <Flex alignItems="center">
               <Text w="50%">{t("userInformation.userNameLabel")}</Text>
-              <UIInputFormControl formik={form} fieldName="username" />
+              <UIInputFormControl
+                formik={form}
+                fieldName="username"
+                isDisabled={mode === Mode.VIEW}
+              />
             </Flex>
 
             <Flex alignItems="center">
               <Text w="50%">{t("userInformation.emailLabel")}</Text>
 
-              <UIInputFormControl formik={form} fieldName="email" />
+              <UIInputFormControl
+                formik={form}
+                fieldName="email"
+                isDisabled={mode === Mode.VIEW}
+              />
             </Flex>
 
             <Flex alignItems="center">
               <Text w="50%">{t("userInformation.firstNameLabel")}</Text>
 
-              <UIInputFormControl formik={form} fieldName="firstName" />
+              <UIInputFormControl
+                formik={form}
+                fieldName="firstName"
+                isDisabled={mode === Mode.VIEW}
+              />
             </Flex>
 
             <Flex alignItems="center">
               <Text w="50%">{t("userInformation.lastNameLabel")}</Text>
 
-              <UIInputFormControl formik={form} fieldName="lastName" />
+              <UIInputFormControl
+                formik={form}
+                fieldName="lastName"
+                isDisabled={mode === Mode.VIEW}
+              />
             </Flex>
 
             {mode == Mode.CREATE && (
@@ -257,7 +277,11 @@ const CustomerAccountModal = ({
             <Flex alignItems="center">
               <Text w="50%">{t("userInformation.phoneLabel")}</Text>
 
-              <UIPhoneInputFormControl formik={form} fieldName="phone" />
+              <UIPhoneInputFormControl
+                formik={form}
+                fieldName="phone"
+                isDisabled={mode === Mode.VIEW}
+              />
             </Flex>
           </Flex>
           <Divider my={4} />
@@ -277,9 +301,9 @@ const CustomerAccountModal = ({
                     formik={form}
                     fieldName={`paymentMethods[${index}].code`}
                     placeholder={t("customerAccountModal.payment")}
-                    isDisabled={mode === Mode.EDIT}
+                    isDisabled={mode === Mode.VIEW}
                   />
-                  {mode === Mode.CREATE && (
+                  {mode !== Mode.VIEW && (
                     <Box as="div" px={30}>
                       <DeleteIcon
                         onClick={() => removePaymentMethodHandler(index)}
@@ -291,7 +315,7 @@ const CustomerAccountModal = ({
                 </Box>
               ))}
             </Box>
-            {mode !== Mode.EDIT && (
+            {mode !== Mode.VIEW && (
               <Button onClick={addPaymentMethodHandler} ml={6}>
                 {t("customerAccountModal.add")}
               </Button>

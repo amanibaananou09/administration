@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { CustomerAccount } from "./AdminModel";
-import { Mode } from "./enums";
+import { CustomerAccount, GeneralStations } from "./AdminModel";
 import {
   ChartFilter,
   RouteConfig,
@@ -8,6 +7,7 @@ import {
   TankMeasurement,
   User,
 } from "./model";
+import { Mode } from "./enums";
 
 export interface CustomCardProps {
   title: string;
@@ -70,6 +70,7 @@ export interface CustomerAccountTableRowProps {
 
 export interface AddStationModalProps {
   onSubmit: () => void;
+  mode: Mode;
 }
 
 export interface AddStationModalRefType {
@@ -195,6 +196,7 @@ export interface TankDeliveryRowProps {
 
 export interface UserModalProps {
   onSubmit: () => void;
+  mode: Mode;
 }
 
 export interface AddUserModalProps {

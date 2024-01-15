@@ -74,6 +74,7 @@
   "customerAccountModal": {
     "update": "Update customer account",
     "header": "Create new customer account",
+    "view": "Customer account details",
     "paymentMethods": "Payment methods",
     "payment": "Payment",
     "actions": "Actions",
@@ -92,7 +93,7 @@
   },
   "userInformation": {
     "header": "User information",
-    "userNameLabel": "User name",
+    "userNameLabel": "Login",
     "firstNameLabel": "First name",
     "lastNameLabel": "Last name",
     "phoneLabel": "Phone",
@@ -121,11 +122,15 @@
     }
   },
   "addUserModal": {
-    "header": "Create new user"
+    "header": "Create new user",
+    "update": "Update user",
+    "view": "User details"
   },
   "addStationModal": {
     "header": "Create new station",
-    "selectCountry": "Select country"
+    "selectCountry": "Select country",
+    "update": "Update station",
+    "view": "Station details"
   },
   "stationManagement": {
     "header": "Stations",
@@ -190,7 +195,7 @@
   },
   "userDetailsModel": {
     "header": "User details",
-    "username": "Username",
+    "username": "Login",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",

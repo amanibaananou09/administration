@@ -11,7 +11,7 @@ export interface country {
   id: number;
   name: string;
   code: string;
-  currency: currency;
+  currency?: currency;
   currencyId?: number;
   phoneCode?: string;
   phonePrefix?: string;

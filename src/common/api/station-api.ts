@@ -1,4 +1,4 @@
-import { GeneralStations } from "common/AdminModel";
+import { GeneralStations, GeneralUser } from "common/AdminModel";
 import { Station, User } from "common/model";
 import api from "./axios";
 
@@ -41,17 +41,14 @@ export const createStation = async (station: Station, user: User) => {
   return response.data;
 };
 
-export const updateStation = async (station: Station, user: User) => {
-  const { name, address, controllerPts, country } = station;
-
-  const response = await api.post(`${API_URL}/update/${station.id}`, {
-    name,
-    address,
-    controllerPts,
-    country,
-    userLogin: user.username,
-  });
-
+export const updateStation = async (
+  customerAccountId: string | undefined,
+  station: GeneralStations,
+) => {
+  const response = await api.put(
+    `${API_URL}/${customerAccountId}/station/update`,
+    station,
+  );
   return response.data;
 };
 
@@ -118,8 +115,8 @@ export const listOfCreator = async (customerAccountId: string | undefined) => {
 };
 
 export const activateStation = async (
-  customerAccountId: string | undefined,
-  stationdId: string | undefined,
+  customerAccountId: string,
+  stationdId: string,
 ) => {
   const response = await api.put(
     `${API_URL}/${customerAccountId}/station/activate/${stationdId}`,
@@ -129,11 +126,18 @@ export const activateStation = async (
 };
 
 export const deactivateStation = async (
-  customerAccountId: string | undefined,
-  stationId: string | undefined,
+  customerAccountId: string,
+  stationId: string,
 ) => {
   const response = await api.put(
     `${API_URL}/${customerAccountId}/station/deactivate/${stationId}`,
   );
+  return response.data;
+};
+export const stationInformation = async (
+  id: number | string,
+  accountId: undefined | string,
+): Promise<GeneralStations> => {
+  const response = await api.get(`${API_URL}/${accountId}/station/${id}/info`);
   return response.data;
 };

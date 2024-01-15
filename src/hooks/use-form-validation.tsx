@@ -100,9 +100,21 @@ const useFormValidation = () => {
 
   const userFormValidationSchema = Yup.object().shape({
     username: username.concat(usernameAsync),
+    firstName,
+    lastName,
     email,
     password,
     confirmPassword,
+    phone,
+    creatorAccountId,
+    customerAccountId: parentAccount,
+  });
+
+  const editUserFormValidationSchema = Yup.object().shape({
+    username: username.concat(usernameAsync),
+    email,
+    firstName,
+    lastName,
     phone,
     creatorAccountId,
     customerAccountId: parentAccount,
@@ -148,6 +160,23 @@ const useFormValidation = () => {
     modeAffectation,
     cordonneesGps,
   });
+  const editStationFormValidationSchema = Yup.object().shape({
+    name,
+    address,
+    controllerPts: Yup.object().shape({
+      ptsId,
+      phone,
+      controllerType,
+      userController: Yup.object().shape({
+        username,
+      }),
+    }),
+    creatorAccountId,
+    countryId,
+    customerAccountId: parentAccount,
+    modeAffectation,
+    cordonneesGps,
+  });
 
   const signInFormValidationSchema = Yup.object().shape({
     username: Yup.string().required(t("validation.username.required")),
@@ -156,9 +185,11 @@ const useFormValidation = () => {
 
   return {
     userFormValidationSchema,
+    editUserFormValidationSchema,
     customerAccountValidationSchema,
     editCustomerAccountValidationSchema,
     stationFormValidationSchema,
+    editStationFormValidationSchema,
     signInFormValidationSchema,
   };
 };
