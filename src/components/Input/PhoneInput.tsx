@@ -11,16 +11,20 @@ interface PhoneInputProps {
   onChange: (phone: string) => void;
   onBlur?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder: string | undefined;
+  isDisabled?: boolean;
+  color?: string;
+  bg?: string;
 }
 
 export const PhoneInput: React.FC<PhoneInputProps> = ({
   id,
   name,
-  placeholder,
   value,
   onChange,
   onBlur,
-}) => {
+  placeholder,
+  isDisabled = false,
+}: PhoneInputProps) => {
   const phoneInput = usePhoneInput({
     defaultCountry: "us",
     value,
@@ -45,11 +49,13 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
         name={name}
         placeholder={placeholder}
         type="tel"
-        color="primary"
         value={phoneInput.inputValue}
         onChange={phoneInput.handlePhoneValueChange}
         onBlur={onBlur}
         ref={phoneInput.inputRef}
+        isDisabled={isDisabled}
+        color={isDisabled ? "gray.500" : "black"}
+        bg={isDisabled ? "gray.200" : "white"}
       />
     </div>
   );

@@ -74,6 +74,7 @@
   "customerAccountModal": {
     "update": "Mettre à jour le compte client",
     "header": "Créer un nouveau compte client",
+    "view": "Détails du compte client",
     "paymentMethods": "Modes de paiement",
     "payment": "Paiement",
     "actions": "Actions",
@@ -92,7 +93,7 @@
   },
   "userInformation": {
     "header": "Informations sur l'utilisateur",
-    "userNameLabel": "Nom d'utilisateur ",
+    "userNameLabel": "Login",
     "firstNameLabel": "Prénom ",
     "lastNameLabel": "Nom ",
     "phoneLabel": "Téléphone ",
@@ -121,11 +122,15 @@
     }
   },
   "addUserModal": {
-    "header": "Créer un nouvel utilisateur"
+    "header": "Créer un nouvel utilisateur",
+    "update": "Mettre à jour le utilisateur",
+    "view": "Détails du utilisateur"
   },
   "addStationModal": {
     "header": "Créer une nouvelle station",
-    "selectCountry": "Sélectionner un pays"
+    "selectCountry": "Sélectionner un pays",
+    "update": "Mettre à jour la station",
+    "view": "Détails du station"
   },
   "stationManagement": {
     "header": "Stations",
@@ -190,7 +195,7 @@
   },
   "userDetailsModel": {
     "header": "Détails de l'utilisateur",
-    "username": "Nom d'utilisateur",
+    "username": "Login",
     "name": "Nom",
     "email": "E-mail",
     "phone": "Téléphone",

@@ -1,4 +1,4 @@
-import { GeneralUser, userScope } from "common/AdminModel";
+import { CustomerAccount, GeneralUser, userScope } from "common/AdminModel";
 import api from "./axios";
 
 const API_URL = "/user";
@@ -78,5 +78,10 @@ export const getUserByUsername = async (username: string) => {
 export const getUserByEmail = async (email: string) => {
   const response = await api.get(`${API_URL}/email/${email}`);
 
+  return response.data;
+};
+
+export const updateUser = async (user: GeneralUser) => {
+  const response = await api.put(`${API_URL}/update`, user);
   return response.data;
 };

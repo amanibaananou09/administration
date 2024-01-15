@@ -78,7 +78,7 @@ export const addUser = async (
 };
 
 export const addStation = async (
-  customerAccountId: string | undefined,
+  customerAccountId: string,
   station: addStations,
 ): Promise<void> => {
   await api.post(`${API_URL}/${customerAccountId}/station/add`, station);

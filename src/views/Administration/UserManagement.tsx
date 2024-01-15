@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralUser } from "common/AdminModel";
 import {
@@ -14,9 +14,6 @@ import CardHeader from "components/Card/CardHeader";
 import ConfirmationDialog, {
   ConfirmationDialogRefType,
 } from "components/Dialog/ConfirmationDialog";
-import UserDetailsModal, {
-  UserDetailsModalRefType,
-} from "components/Modal/UserDetailsModal";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
@@ -25,8 +22,10 @@ import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { useEffect, useRef, useState } from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import { Route, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
+import { FaPencilAlt } from "react-icons/fa";
+import { Mode } from "../../common/enums";
 
 const UserManagement = () => {
   const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
@@ -37,7 +36,7 @@ const UserManagement = () => {
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
   const [selectedUser, setSelectedUser] = useState<GeneralUser>();
 
-  const userDetailModalRef = useRef<UserDetailsModalRefType>(null);
+  const history = useHistory();
 
   const query = useQuery();
   const name = query.get("name");
@@ -55,10 +54,10 @@ const UserManagement = () => {
   const updateStatusHandler = async () => {
     if (selectedUser) {
       let item = selectedUser;
-      if (item.actif && item.id !== undefined) {
+      if (item.actif && item.id) {
         // If currently active, deactivate
         await deactivateUser(item.id);
-      } else if (item.id !== undefined) {
+      } else if (item.id) {
         // If currently inactive, activate
         await activateUser(item.id);
       }
@@ -69,6 +68,9 @@ const UserManagement = () => {
         parent,
       });
     }
+  };
+  const submitModalHandler = async () => {
+    await fetchUsers();
   };
 
   const openConfirmationDialog = (user: GeneralUser) => {
@@ -94,7 +96,14 @@ const UserManagement = () => {
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => userDetailModalRef.current?.open(item)}
+          onClick={() => {
+            const clickedUser = users?.find((acc) => acc && acc.id === item.id);
+
+            if (clickedUser) {
+              setSelectedUser(clickedUser);
+              history.push(`${path}/consultation/${item.id}`);
+            }
+          }}
         >
           {item.username}
         </div>
@@ -125,8 +134,27 @@ const UserManagement = () => {
       ),
     },
     {
-      header: t("common.delete"),
-      render: () => <Status value={false} />,
+      header: t("common.action"),
+      render: (item: GeneralUser) => (
+        <Flex justifyContent="center">
+          <Box pr={6}>
+            <Status value={false} />
+          </Box>
+          <FaPencilAlt
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              const clickedUser = users?.find(
+                (user) => user && user.id === item.id,
+              );
+
+              if (clickedUser) {
+                setSelectedUser(clickedUser);
+                history.push(`${path}/edit/${item.id}`);
+              }
+            }}
+          />
+        </Flex>
+      ),
     },
   ];
 
@@ -159,13 +187,18 @@ const UserManagement = () => {
         </Card>
       </Flex>
       <Route path={`${path}/new`}>
-        <UserModal onSubmit={fetchUsers} />
+        <UserModal onSubmit={fetchUsers} mode={Mode.CREATE} />
+      </Route>
+      <Route path={`${path}/edit/:id`}>
+        <UserModal onSubmit={submitModalHandler} mode={Mode.EDIT} />
+      </Route>
+      <Route path={`${path}/consultation/:id`}>
+        <UserModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
       </Route>
       <ConfirmationDialog
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />
-      <UserDetailsModal ref={userDetailModalRef} />
     </>
   );
 };

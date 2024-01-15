@@ -10,12 +10,14 @@ type UIPhoneInputFormControlProps = {
   formik: FormikProps<any>;
   fieldName: string;
   label?: string;
+  isDisabled?: boolean;
 };
 
 const UIPhoneInputFormControl = ({
   formik,
   fieldName,
   label,
+  isDisabled = false,
 }: UIPhoneInputFormControlProps) => {
   const invalid =
     getIn(formik.errors, fieldName) && getIn(formik.touched, fieldName);
@@ -37,6 +39,9 @@ const UIPhoneInputFormControl = ({
         onChange={changeHandler}
         onBlur={blurHandler}
         placeholder={label}
+        isDisabled={isDisabled}
+        color={isDisabled ? "gray.500" : "black"}
+        bg={isDisabled ? "gray.200" : "white"}
       />
       <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>

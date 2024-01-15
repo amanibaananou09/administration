@@ -42,14 +42,14 @@ export interface GeneralUser {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
+  password?: string;
   role?: string;
   phone: string;
   changePassword?: boolean;
   sendSms?: boolean;
   subnetMask?: string;
-  customerAccountId?: string;
-  creatorAccountId?: string;
+  customerAccountId: string;
+  creatorAccountId: string;
   lastConnectionDate: string;
   creatorCustomerAccountName?: string;
   customerAccountName?: string;
@@ -105,7 +105,8 @@ export interface GeneralStations {
   countryId: number;
   customerAccountId: string;
   cordonneesGps: string;
-  country: country;
+  modeAffectation: string;
+  country?: country;
   journal: string;
 }
 
@@ -137,4 +138,46 @@ export interface CustomerAccountFormValues {
   password?: string;
   confirmPassword?: string;
   paymentMethods?: PaymentMethod[];
+}
+
+export interface UserFormValues {
+  id?: number;
+  username: string;
+  firstName: string;
+  lastName: string;
+  originalUsername: string;
+  email: string;
+  originalEmail: string;
+  password?: string;
+  phone: string;
+  changePassword?: boolean;
+  sendSms?: boolean;
+  actif?: boolean;
+  creatorAccountId: string;
+  customerAccountId: string;
+  subnetMask?: string;
+  lastConnectionDate: string;
+}
+
+export interface stationFormValues {
+  id?: string;
+  name: string;
+  address: string;
+  creatorCustomerAccountName: string;
+  customerAccountName: string;
+  creatorAccountId: string;
+  account: string;
+  controllerType: string;
+  actif: boolean;
+  controllerPts: ControllerPts;
+  phone: string;
+  connection: string;
+  dateStatusChange: string;
+  password: string;
+  countryId: number;
+  customerAccountId: string;
+  cordonneesGps: string;
+  modeAffectation: string;
+  country?: country;
+  journal: string;
 }

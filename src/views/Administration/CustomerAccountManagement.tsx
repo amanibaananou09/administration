@@ -15,9 +15,6 @@ import CardHeader from "components/Card/CardHeader";
 import ConfirmationDialog, {
   ConfirmationDialogRefType,
 } from "components/Dialog/ConfirmationDialog";
-import CustomerAccountDetailsModal, {
-  CustomerAccountDetailsModalRefType,
-} from "components/Modal/CustomerAccountDetailsModal";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
@@ -47,9 +44,6 @@ const CustomerAccountManagement = () => {
   const history = useHistory();
 
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
-  const customerAccountDetailModalRef = useRef<CustomerAccountDetailsModalRefType>(
-    null,
-  );
 
   const submitModalHandler = async () => {
     await fetchCustomerAccounts();
@@ -105,7 +99,16 @@ const CustomerAccountManagement = () => {
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => customerAccountDetailModalRef.current?.open(item)}
+          onClick={() => {
+            const clickedAccount = customerAccounts?.find(
+              (acc) => acc && acc.id === item.id,
+            );
+
+            if (clickedAccount) {
+              setSelectedAccount(clickedAccount);
+              history.push(`${path}/consultation/${item.id}`);
+            }
+          }}
         >
           {item.name}
         </div>
@@ -207,13 +210,18 @@ const CustomerAccountManagement = () => {
             mode={Mode.EDIT}
           />
         </Route>
+        <Route path={`${path}/consultation/:id`}>
+          <CustomerAccountModal
+            onSubmit={submitModalHandler}
+            mode={Mode.VIEW}
+          />
+        </Route>
       </Switch>
 
       <ConfirmationDialog
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />
-      <CustomerAccountDetailsModal ref={customerAccountDetailModalRef} />
     </>
   );
 };
