@@ -1,5 +1,5 @@
 import { Divider, Flex, Text, useDisclosure } from "@chakra-ui/react";
-import { addStations } from "common/AdminModel";
+import { GeneralStations, stationFormValues } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
 import { getListOfCountry } from "common/api/reference-data-api";
 import { country } from "common/model";
@@ -14,18 +14,40 @@ import useFormValidation from "hooks/use-form-validation";
 import useHttp from "hooks/use-http";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
+import { Mode } from "../../common/enums";
+import {
+  stationInformation,
+  updateStation,
+} from "../../common/api/station-api";
+import {
+  formValuesToStation,
+  stationInitFormValues,
+  stationToFormValues,
+} from "utils/form-utils";
 
-const StationModal = ({ onSubmit }: AddStationModalProps) => {
+type Params = {
+  id: string;
+};
+
+const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation();
+  const { id } = useParams<Params>();
   const history = useHistory();
   const [country, setCountry] = useState<country[]>([]);
   const { creators } = useCreators();
-  const { stationFormValidationSchema } = useFormValidation();
+  const {
+    stationFormValidationSchema,
+    editStationFormValidationSchema,
+  } = useFormValidation();
   const { user } = useAuth();
   const { makeRequest: submit } = useHttp(addStation, false);
+  const { makeRequest: fetchDetails, isLoading } = useHttp<GeneralStations>(
+    stationInformation,
+    false,
+  );
 
   useEffect(() => {
     const getListCountry = async () => {
@@ -39,38 +61,56 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
     getListCountry();
   }, []);
 
-  const form = useFormik<addStations>({
+  const form = useFormik<stationFormValues>({
     initialValues: {
-      name: "",
-      address: "",
-      controllerPts: {
-        ptsId: "",
-        phone: "",
-        controllerType: "",
-        userController: {
-          username: "",
-          password: "",
-        },
-      },
-      countryId: 0,
-      customerAccountId: user?.customerAccountId,
-      creatorAccountId: user?.customerAccountId,
-      modeAffectation: "",
-      cordonneesGps: "",
+      ...stationInitFormValues,
+      customerAccountId: user!!.customerAccountId,
+      creatorAccountId: user!!.customerAccountId,
     },
-    validationSchema: stationFormValidationSchema,
-    onSubmit: async (values: addStations) => {
+    enableReinitialize: true,
+    validationSchema:
+      mode === Mode.EDIT || mode === Mode.VIEW
+        ? editStationFormValidationSchema
+        : stationFormValidationSchema,
+
+    onSubmit: async (values: stationFormValues) => {
+      const station = formValuesToStation(values);
+
       try {
-        await submit(user?.customerAccountId, values);
-        form.setSubmitting(false);
+        switch (mode) {
+          case Mode.CREATE:
+            await submit(user?.customerAccountId, station);
+            break;
+          case Mode.EDIT:
+            await updateStation(user?.customerAccountId, station);
+            break;
+        }
         closeModalHandler();
         onSubmit();
       } catch (error) {
-        console.error("Error while creating a new station");
+        console.error("Error while submitting the form");
       }
     },
   });
 
+  useEffect(() => {
+    onOpen();
+
+    const fetchStationDetails = async () => {
+      try {
+        if (mode === Mode.EDIT || (mode === Mode.VIEW && id)) {
+          const stationDetails = await fetchDetails(+id);
+          // Ensure that account.masterUser is defined before accessing its properties
+          const values = stationToFormValues(stationDetails);
+          form.setValues(values);
+        }
+      } catch (error) {
+        console.error("Error while fetching account details:", error);
+      }
+    };
+
+    fetchStationDetails();
+  }, [mode, id]);
   const closeModalHandler = () => {
     form.resetForm();
     onClose();
@@ -91,22 +131,38 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
 
   return (
     <UIModal
-      title={t("addStationModal.header")}
+      title={
+        mode === Mode.EDIT
+          ? t("addStationModal.update")
+          : mode === Mode.VIEW
+          ? t("addStationModal.view")
+          : t("addStationModal.header")
+      }
       isOpen={isOpen}
       onClose={closeModalHandler}
       onSubmit={() => form.handleSubmit()}
       isSubmitting={form.isSubmitting}
+      isEditMode={mode === Mode.EDIT}
+      isConsultMode={mode === Mode.VIEW}
     >
       <form>
         <Flex direction="column" p="2">
           <Flex alignItems="center">
             <Text w="50%">{t("stationModal.name")}</Text>
-            <UIInputFormControl formik={form} fieldName="name" />
+            <UIInputFormControl
+              formik={form}
+              fieldName="name"
+              isDisabled={mode === Mode.VIEW}
+            />
           </Flex>
 
           <Flex alignItems="center">
             <Text w="50%">{t("common.address")}</Text>
-            <UIInputFormControl formik={form} fieldName="address" />
+            <UIInputFormControl
+              formik={form}
+              fieldName="address"
+              isDisabled={mode === Mode.VIEW}
+            />
           </Flex>
 
           <Flex alignItems="center">
@@ -115,6 +171,7 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
               formik={form}
               placeholder={t("common.country")}
               fieldName="countryId"
+              isDisabled={mode === Mode.VIEW}
             >
               {country.map((countryData) => (
                 <option key={countryData.id} value={countryData.id}>
@@ -130,6 +187,7 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
               formik={form}
               placeholder={t("common.creator")}
               fieldName="creatorAccountId"
+              isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
             >
               {accountSelectOptions}
             </UISelectFormControl>
@@ -141,6 +199,7 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
               formik={form}
               placeholder={t("stationManagement.compte")}
               fieldName="customerAccountId"
+              isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
             >
               {accountSelectOptions}
             </UISelectFormControl>
@@ -148,7 +207,11 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
           <Flex alignItems="center">
             <Text w="50%">{t("stationModal.cordonneesGps")}</Text>
 
-            <UIInputFormControl formik={form} fieldName="cordonneesGps" />
+            <UIInputFormControl
+              formik={form}
+              fieldName="cordonneesGps"
+              isDisabled={mode === Mode.VIEW}
+            />
           </Flex>
 
           <Flex alignItems="center">
@@ -158,6 +221,7 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
               formik={form}
               placeholder={t("stationModal.labelAffectation")}
               fieldName="modeAffectation"
+              isDisabled={mode === Mode.VIEW}
             >
               <option value="MANUEL">{t("stationModal.manuel")}</option>
               <option value="AUTOMATIQUE">
@@ -170,7 +234,11 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
 
           <Flex alignItems="center">
             <Text w="50%">{t("stationManagement.controllerId")}</Text>
-            <UIInputFormControl formik={form} fieldName="controllerPts.ptsId" />
+            <UIInputFormControl
+              formik={form}
+              fieldName="controllerPts.ptsId"
+              isDisabled={mode === Mode.VIEW}
+            />
           </Flex>
 
           <Flex alignItems="center">
@@ -180,6 +248,7 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
               formik={form}
               placeholder={t("stationManagement.typeController")}
               fieldName="controllerPts.controllerType"
+              isDisabled={mode === Mode.VIEW}
             >
               <option value="PTS2">PTS2</option>
             </UISelectFormControl>
@@ -191,24 +260,26 @@ const StationModal = ({ onSubmit }: AddStationModalProps) => {
             <UIInputFormControl
               formik={form}
               fieldName="controllerPts.userController.username"
+              isDisabled={mode === Mode.VIEW}
             />
           </Flex>
-
-          <Flex alignItems="center">
-            <Text w="50%">{t("common.password")}</Text>
-            <UIInputFormControl
-              formik={form}
-              fieldName="controllerPts.userController.password"
-              type="password"
-            />{" "}
-          </Flex>
-
+          {mode == Mode.CREATE && (
+            <Flex alignItems="center">
+              <Text w="50%">{t("common.password")}</Text>
+              <UIInputFormControl
+                formik={form}
+                fieldName="controllerPts.userController.password"
+                type="password"
+              />{" "}
+            </Flex>
+          )}
           <Flex alignItems="center">
             <Text w="50%">{t("userInformation.phoneLabel")}</Text>
 
             <UIPhoneInputFormControl
               formik={form}
               fieldName="controllerPts.phone"
+              isDisabled={mode === Mode.VIEW}
             />
           </Flex>
         </Flex>

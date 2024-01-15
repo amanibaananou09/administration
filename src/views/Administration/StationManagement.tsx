@@ -1,4 +1,4 @@
-import { Flex, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, Text, useToast } from "@chakra-ui/react";
 
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -22,11 +22,10 @@ import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { useEffect, useRef, useState } from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import { Route, useHistory, useRouteMatch } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import StationDetailsModal, {
-  StationDetailsModalRefType,
-} from "../../components/Modal/StationDetailsModal";
+import { FaPencilAlt } from "react-icons/fa";
+import { Mode } from "../../common/enums";
 
 const StationManagement = () => {
   const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
@@ -34,6 +33,7 @@ const StationManagement = () => {
   >(listStation, false);
   const { makeRequest: desactivate } = useHttp<void>(deactivateStation, false);
   const { makeRequest: activate } = useHttp<void>(activateStation, false);
+  const history = useHistory();
 
   const { t } = useTranslation();
   let { path } = useRouteMatch();
@@ -46,8 +46,6 @@ const StationManagement = () => {
 
   const [selectedStation, setSelectedStation] = useState<GeneralStations>();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
-
-  const stationDetailModalRef = useRef<StationDetailsModalRefType>(null);
 
   const currentUserAccountId = user?.customerAccountId;
 
@@ -94,12 +92,12 @@ const StationManagement = () => {
       let item = selectedStation;
       let message = "";
       try {
-        if (item.actif && item.id !== undefined) {
+        if (item.actif && item.id) {
           await desactivate(currentUserAccountId, item.id);
           message = t("stationManagement.stationDeactivated", {
             stationName: item.name,
           });
-        } else if (item.id !== undefined) {
+        } else if (item.id) {
           await activate(currentUserAccountId, item.id);
           message = t("stationManagement.stationActivated", {
             stationName: item.name,
@@ -131,7 +129,16 @@ const StationManagement = () => {
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => stationDetailModalRef.current?.open(item)}
+          onClick={() => {
+            const clickedStation = stations?.find(
+              (station) => station && station.id === item.id,
+            );
+
+            if (clickedStation) {
+              setSelectedStation(clickedStation);
+              history.push(${path}/consultation/${item.id});
+            }
+          }}
         >
           {item.name}
         </div>
@@ -188,6 +195,29 @@ const StationManagement = () => {
       header: t("common.country"),
       key: "country.name",
     },
+    {
+      header: t("common.action"),
+      render: (item: GeneralStations) => (
+        <Flex justifyContent="center">
+          <Box pr={6}>
+            <Status value={false} />
+          </Box>
+          <FaPencilAlt
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              const clickedStation = stations?.find(
+                (station) => station && station.id === item.id,
+              );
+
+              if (clickedStation) {
+                setSelectedStation(clickedStation);
+                history.push(${path}/edit/${item.id});
+              }
+            }}
+          />
+        </Flex>
+      ),
+    },
   ];
 
   //styles
@@ -221,13 +251,18 @@ const StationManagement = () => {
         </Card>
       </Flex>
       <Route path={`${path}/new`}>
-        <StationModal onSubmit={submitModalHandler} />
+        <StationModal onSubmit={submitModalHandler} mode={Mode.CREATE} />
+      </Route>
+      <Route path={`${path}/edit/:id`}>
+        <StationModal onSubmit={submitModalHandler} mode={Mode.EDIT} />
+      </Route>
+      <Route path={`${path}/consultation/:id`}>
+        <StationModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
       </Route>
       <ConfirmationDialog
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
       />
-      <StationDetailsModal ref={stationDetailModalRef} />
     </>
   );
 };
