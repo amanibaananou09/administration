@@ -9,6 +9,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
+import { Mode } from "common/enums";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -18,9 +19,8 @@ type UIModalProps = {
   onClose: () => void;
   onSubmit: () => void;
   isSubmitting: boolean;
-  isEditMode?: boolean;
+  mode: Mode;
   children: React.ReactNode;
-  isConsultMode: boolean;
 };
 
 const UIModal = ({
@@ -29,11 +29,12 @@ const UIModal = ({
   onClose,
   onSubmit,
   isSubmitting,
-  isEditMode = false,
+  mode,
   children,
-  isConsultMode,
 }: UIModalProps) => {
   const { t } = useTranslation();
+
+  const isCreateMode = mode === Mode.CREATE;
 
   return (
     <Modal
@@ -54,31 +55,7 @@ const UIModal = ({
         <ModalBody mb="24px">{children}</ModalBody>
         <ModalFooter>
           <Flex justifyContent="flex-end">
-            {!isConsultMode && (
-              <>
-                <Button
-                  fontSize="md"
-                  colorScheme="red"
-                  fontWeight="bold"
-                  size="lg"
-                  mr={3}
-                  onClick={onClose}
-                >
-                  {t("common.cancel")}
-                </Button>
-                <Button
-                  fontSize="md"
-                  colorScheme="teal"
-                  fontWeight="bold"
-                  size="lg"
-                  isLoading={isSubmitting}
-                  onClick={onSubmit}
-                >
-                  {isEditMode ? t("common.update") : t("common.submit")}
-                </Button>
-              </>
-            )}
-            {isConsultMode && (
+            <>
               <Button
                 fontSize="md"
                 colorScheme="red"
@@ -89,7 +66,17 @@ const UIModal = ({
               >
                 {t("common.cancel")}
               </Button>
-            )}
+              <Button
+                fontSize="md"
+                colorScheme="teal"
+                fontWeight="bold"
+                size="lg"
+                isLoading={isSubmitting}
+                onClick={onSubmit}
+              >
+                {isCreateMode ? t("common.submit") : t("common.update")}
+              </Button>
+            </>
           </Flex>
         </ModalFooter>
       </ModalContent>
