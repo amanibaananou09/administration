@@ -136,7 +136,7 @@ const StationManagement = () => {
 
             if (clickedStation) {
               setSelectedStation(clickedStation);
-              history.push(${path}/consultation/${item.id});
+              history.push(`${path}/consultation/${item.id}`);
             }
           }}
         >
@@ -211,7 +211,7 @@ const StationManagement = () => {
 
               if (clickedStation) {
                 setSelectedStation(clickedStation);
-                history.push(${path}/edit/${item.id});
+                history.push(`${path}/edit/${item.id}`);
               }
             }}
           />
