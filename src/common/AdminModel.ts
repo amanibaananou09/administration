@@ -128,6 +128,7 @@ export interface CustomerAccountFormValues {
   creatorAccountId: string;
   resaleRight: boolean;
   status: string;
+  actif?: boolean;
   username: string;
   originalUsername: string;
   email: string;
