@@ -16,16 +16,16 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import { Mode } from "../../common/enums";
-import {
-  stationInformation,
-  updateStation,
-} from "../../common/api/station-api";
 import {
   formValuesToStation,
   stationInitFormValues,
   stationToFormValues,
 } from "utils/form-utils";
+import {
+  stationInformation,
+  updateStation,
+} from "../../common/api/station-api";
+import { Mode } from "../../common/enums";
 
 type Params = {
   id: string;
@@ -142,8 +142,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
       onClose={closeModalHandler}
       onSubmit={() => form.handleSubmit()}
       isSubmitting={form.isSubmitting}
-      isEditMode={mode === Mode.EDIT}
-      isConsultMode={mode === Mode.VIEW}
+      mode={mode}
     >
       <form>
         <Flex direction="column" p="2">

@@ -61,6 +61,10 @@ const CustomerAccountModal = ({
     false,
   );
 
+  const isCreateMode = mode === Mode.CREATE;
+  const isViewMode = mode === Mode.VIEW;
+  const isEditMode = mode === Mode.EDIT;
+
   const form = useFormik<CustomerAccountFormValues>({
     initialValues: {
       ...customerAccountInitFormValues,
@@ -69,7 +73,7 @@ const CustomerAccountModal = ({
     },
     enableReinitialize: true,
     validationSchema:
-      mode === Mode.EDIT || mode === Mode.VIEW
+      isEditMode || isViewMode
         ? editCustomerAccountValidationSchema
         : customerAccountValidationSchema,
 
@@ -93,12 +97,20 @@ const CustomerAccountModal = ({
     },
   });
 
+  const onSubmitHandler = () => {
+    if (isCreateMode || isEditMode) {
+      form.handleSubmit();
+    } else if (isViewMode) {
+      history.push(`/administration/customer-accounts/edit/${id}`);
+    }
+  };
+
   useEffect(() => {
     onOpen();
 
     const fetchAccountDetails = async () => {
       try {
-        if (mode === Mode.EDIT || (mode === Mode.VIEW && id)) {
+        if (isEditMode || (isViewMode && id)) {
           const accountDetails = await fetchDetails(+id);
           // Ensure that account.masterUser is defined before accessing its properties
           const values = customerAccountToFormValues(accountDetails);
@@ -143,26 +155,23 @@ const CustomerAccountModal = ({
     ));
 
   useEffect(() => {
-    if (mode === Mode.CREATE && form.values.name) {
+    if (isCreateMode && form.values.name) {
       form.setFieldValue("username", form.values.name.replace(/\s+/g, ""));
     }
   }, [mode, form.values.name]);
 
+  let modalTitle = t("customerAccountModal.header");
+  if (isEditMode) modalTitle = t("customerAccountModal.update");
+  if (isViewMode) modalTitle = t("customerAccountModal.view");
+
   return (
     <UIModal
-      title={
-        mode === Mode.EDIT
-          ? t("customerAccountModal.update")
-          : mode === Mode.VIEW
-          ? t("customerAccountModal.view")
-          : t("customerAccountModal.header")
-      }
+      title={modalTitle}
       isOpen={isOpen}
       onClose={closeModalHandler}
-      onSubmit={() => form.handleSubmit()}
+      onSubmit={onSubmitHandler}
       isSubmitting={form.isSubmitting}
-      isEditMode={mode === Mode.EDIT}
-      isConsultMode={mode === Mode.VIEW}
+      mode={mode}
     >
       {!isLoading && (
         <form>

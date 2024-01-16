@@ -15,16 +15,16 @@ import useHttp from "hooks/use-http";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
+import { useParams } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
-import UIInputFormControl from "../UI/Form/UIInputFormControl";
-import UIModal from "../UI/Modal/UIModal";
 import { Mode } from "../../common/enums";
 import {
   formValuesToUser,
   userInitFormValues,
   userToFormValues,
 } from "../../utils/form-utils";
-import { useParams } from "react-router-dom";
+import UIInputFormControl from "../UI/Form/UIInputFormControl";
+import UIModal from "../UI/Modal/UIModal";
 
 type Params = {
   id: string;
@@ -129,8 +129,7 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
       onClose={closeModalHandler}
       onSubmit={() => form.handleSubmit()}
       isSubmitting={form.isSubmitting}
-      isEditMode={mode === Mode.EDIT}
-      isConsultMode={mode === Mode.VIEW}
+      mode={mode}
     >
       <form>
         <Flex direction="column" p="2">
