@@ -40,8 +40,8 @@ const UIPhoneInputFormControl = ({
         onBlur={blurHandler}
         placeholder={label}
         isDisabled={isDisabled}
-        color={isDisabled ? "gray.500" : "black"}
-        bg={isDisabled ? "gray.200" : "white"}
+        color={isDisabled ? "gray.900" : "black"}
+        bg={isDisabled ? "gray.100" : "white"}
       />
       <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>

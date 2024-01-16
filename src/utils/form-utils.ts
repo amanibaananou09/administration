@@ -15,6 +15,7 @@ import { Mode } from "common/enums";
 export const customerAccountInitFormValues = {
   mode: Mode.CREATE,
   name: "",
+  actif: false,
   resaleRight: false,
   status: "ENABLED",
   confirmPassword: "",
@@ -46,6 +47,7 @@ export const customerAccountToFormValues = (
     resaleRight,
     paymentMethods,
     status,
+    actif,
     masterUser,
   } = customerAccount;
 
@@ -58,6 +60,7 @@ export const customerAccountToFormValues = (
     parentId,
     resaleRight,
     status,
+    actif,
     username,
     originalUsername: username,
     email,
@@ -86,6 +89,7 @@ export const formValuesToCustomerAccount = (
     phone,
     paymentMethods,
     status,
+    actif,
   } = values;
 
   return {
@@ -96,6 +100,7 @@ export const formValuesToCustomerAccount = (
     resaleRight,
     paymentMethods,
     status,
+    actif,
     masterUser: {
       username,
       email,
