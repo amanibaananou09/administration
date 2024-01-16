@@ -61,6 +61,10 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
     getListCountry();
   }, []);
 
+  const isCreateMode = mode === Mode.CREATE;
+  const isViewMode = mode === Mode.VIEW;
+  const isEditMode = mode === Mode.EDIT;
+
   const form = useFormik<stationFormValues>({
     initialValues: {
       ...stationInitFormValues,
@@ -69,7 +73,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
     },
     enableReinitialize: true,
     validationSchema:
-      mode === Mode.EDIT || mode === Mode.VIEW
+      isEditMode || isViewMode
         ? editStationFormValidationSchema
         : stationFormValidationSchema,
 
@@ -93,19 +97,27 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
     },
   });
 
+  const onSubmitHandler = () => {
+    if (isCreateMode || isEditMode) {
+      form.handleSubmit();
+    } else if (isViewMode) {
+      history.push(`/administration/stations/edit/${id}`);
+    }
+  };
+
   useEffect(() => {
     onOpen();
 
     const fetchStationDetails = async () => {
       try {
-        if (mode === Mode.EDIT || (mode === Mode.VIEW && id)) {
+        if (isEditMode || (isViewMode && id)) {
           const stationDetails = await fetchDetails(+id);
           // Ensure that account.masterUser is defined before accessing its properties
           const values = stationToFormValues(stationDetails);
           form.setValues(values);
         }
       } catch (error) {
-        console.error("Error while fetching account details:", error);
+        console.error("Error while fetching stations details:", error);
       }
     };
 
@@ -129,18 +141,16 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
       </option>
     ));
 
+  let modalTitle = t("addStationModal.header");
+  if (isEditMode) modalTitle = t("addStationModal.update");
+  if (isViewMode) modalTitle = t("addStationModal.view");
+
   return (
     <UIModal
-      title={
-        mode === Mode.EDIT
-          ? t("addStationModal.update")
-          : mode === Mode.VIEW
-          ? t("addStationModal.view")
-          : t("addStationModal.header")
-      }
+      title={modalTitle}
       isOpen={isOpen}
       onClose={closeModalHandler}
-      onSubmit={() => form.handleSubmit()}
+      onSubmit={onSubmitHandler}
       isSubmitting={form.isSubmitting}
       mode={mode}
     >

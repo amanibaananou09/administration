@@ -101,7 +101,7 @@ const UserManagement = () => {
 
             if (clickedUser) {
               setSelectedUser(clickedUser);
-              history.push(`${path}/consultation/${item.id}`);
+              history.push(`${path}/details/${item.id}`);
             }
           }}
         >
@@ -192,7 +192,7 @@ const UserManagement = () => {
       <Route path={`${path}/edit/:id`}>
         <UserModal onSubmit={submitModalHandler} mode={Mode.EDIT} />
       </Route>
-      <Route path={`${path}/consultation/:id`}>
+      <Route path={`${path}/details/:id`}>
         <UserModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
       </Route>
       <ConfirmationDialog

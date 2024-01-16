@@ -61,8 +61,8 @@ const UIInputFormControl = ({
     placeholder: placeholder ?? label,
     isDisabled: isDisabled,
     variant: variant,
-    color: isDisabled ? "gray.500" : "",
-    bg: isDisabled ? "gray.200" : "",
+    color: isDisabled ? "gray.900" : "",
+    bg: isDisabled ? "gray.100" : "",
     size: size,
     ...styles,
   };

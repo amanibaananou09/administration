@@ -106,7 +106,7 @@ const CustomerAccountManagement = () => {
 
             if (clickedAccount) {
               setSelectedAccount(clickedAccount);
-              history.push(`${path}/consultation/${item.id}`);
+              history.push(`${path}/details/${item.id}`);
             }
           }}
         >
@@ -210,7 +210,7 @@ const CustomerAccountManagement = () => {
             mode={Mode.EDIT}
           />
         </Route>
-        <Route path={`${path}/consultation/:id`}>
+        <Route path={`${path}/details/:id`}>
           <CustomerAccountModal
             onSubmit={submitModalHandler}
             mode={Mode.VIEW}
