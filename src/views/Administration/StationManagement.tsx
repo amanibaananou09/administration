@@ -22,9 +22,9 @@ import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
 import useQuery from "hooks/use-query";
 import { useEffect, useRef, useState } from "react";
-import { Route, useHistory, useRouteMatch } from "react-router-dom";
-import { useAuth } from "store/AuthContext";
 import { FaPencilAlt } from "react-icons/fa";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import { useAuth } from "store/AuthContext";
 import { Mode } from "../../common/enums";
 
 const StationManagement = () => {
@@ -250,15 +250,17 @@ const StationManagement = () => {
           </CardBody>
         </Card>
       </Flex>
-      <Route path={`${path}/new`}>
-        <StationModal onSubmit={submitModalHandler} mode={Mode.CREATE} />
-      </Route>
-      <Route path={`${path}/edit/:id`}>
-        <StationModal onSubmit={submitModalHandler} mode={Mode.EDIT} />
-      </Route>
-      <Route path={`${path}/details/:id`}>
-        <StationModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
-      </Route>
+      <Switch>
+        <Route path={`${path}/new`}>
+          <StationModal onSubmit={submitModalHandler} mode={Mode.CREATE} />
+        </Route>
+        <Route path={`${path}/edit/:id`}>
+          <StationModal onSubmit={submitModalHandler} mode={Mode.EDIT} />
+        </Route>
+        <Route path={`${path}/details/:id`}>
+          <StationModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
+        </Route>
+      </Switch>
       <ConfirmationDialog
         onConfirm={updateStatusHandler}
         ref={confirmationDialogRef}
