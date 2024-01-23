@@ -1,5 +1,5 @@
 import { Alert, AlertIcon, Tbody, Td, Text, Tr } from "@chakra-ui/react";
-import { getIn } from "formik";
+import { get } from "lodash";
 import React from "react";
 import { UIColumnDefinitionType, UITableRowsProps } from "./Types";
 
@@ -37,7 +37,7 @@ const UITableRows = <T,>({
       return <Text {...styles}>{rowIndex + 1}</Text>;
     }
 
-    const value = getIn(row, column.key as string);
+    const value = get(row, column.key as string);
 
     return <Text {...styles}>{value}</Text>;
   };

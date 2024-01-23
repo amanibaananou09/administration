@@ -1,14 +1,13 @@
-import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
-  Checkbox,
   Divider,
   Flex,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 
+import { DeleteIcon } from "@chakra-ui/icons";
 import { CustomerAccount, CustomerAccountFormValues } from "common/AdminModel";
 import {
   createCustomerAccount,
@@ -17,14 +16,17 @@ import {
 } from "common/api/customerAccount-api";
 import { Mode } from "common/enums";
 import { CustomerAccountModalProps } from "common/react-props";
-import { SkeletonForm } from "components/Skeleton/Skeletons";
+import { CustomerAccountSkeletonForm } from "components/Skeleton/Skeletons";
+import UIArrayFormControl from "components/UI/Form/UIArrayFormControl";
+import UICheckBoxFormControl from "components/UI/Form/UICheckBoxFormControl";
+import UIInputFormControl from "components/UI/Form/UIInputFormControl";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
-import { useFormik } from "formik";
 import useCreators from "hooks/use-creators";
-import useFormValidation from "hooks/use-form-validation";
 import useHttp from "hooks/use-http";
+import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
@@ -33,7 +35,6 @@ import {
   customerAccountToFormValues,
   formValuesToCustomerAccount,
 } from "utils/form-utils";
-import UIInputFormControl from "../UI/Form/UIInputFormControl";
 import UIModal from "../UI/Modal/UIModal";
 
 type Params = {
@@ -49,10 +50,6 @@ const CustomerAccountModal = ({
   const { t } = useTranslation();
   const history = useHistory();
   const { creators } = useCreators();
-  const {
-    customerAccountValidationSchema,
-    editCustomerAccountValidationSchema,
-  } = useFormValidation();
   const { user } = useAuth();
 
   const { makeRequest: submit } = useHttp(createCustomerAccount, false);
@@ -60,33 +57,35 @@ const CustomerAccountModal = ({
     getCustomerAccountDetails,
     false,
   );
+  const { makeRequest: update } = useHttp(updateAccount, false);
 
   const isCreateMode = mode === Mode.CREATE;
   const isViewMode = mode === Mode.VIEW;
   const isEditMode = mode === Mode.EDIT;
 
-  const form = useFormik<CustomerAccountFormValues>({
-    initialValues: {
+  const validator = useValidators();
+
+  const form = useForm<CustomerAccountFormValues>({
+    mode: "all",
+    defaultValues: {
       ...customerAccountInitFormValues,
       parentId: user!!.customerAccountId,
       creatorAccountId: user!!.customerAccountId,
     },
-    enableReinitialize: true,
-    validationSchema:
-      isEditMode || isViewMode
-        ? editCustomerAccountValidationSchema
-        : customerAccountValidationSchema,
+  });
 
-    onSubmit: async (values: CustomerAccountFormValues) => {
-      const customerAccount = formValuesToCustomerAccount(values);
-
+  const submitHandler: SubmitHandler<CustomerAccountFormValues> = async (
+    values,
+  ) => {
+    if (isCreateMode || isEditMode) {
       try {
+        const customerAccount = formValuesToCustomerAccount(values);
         switch (mode) {
           case Mode.CREATE:
             await submit(customerAccount);
             break;
           case Mode.EDIT:
-            await updateAccount(customerAccount);
+            await update(customerAccount);
             break;
         }
         closeModalHandler();
@@ -94,12 +93,6 @@ const CustomerAccountModal = ({
       } catch (error) {
         console.error("Error while submitting the form");
       }
-    },
-  });
-
-  const onSubmitHandler = () => {
-    if (isCreateMode || isEditMode) {
-      form.handleSubmit();
     } else if (isViewMode) {
       history.push(`/administration/customer-accounts/edit/${id}`);
     }
@@ -114,7 +107,7 @@ const CustomerAccountModal = ({
           const accountDetails = await fetchDetails(+id);
           // Ensure that account.masterUser is defined before accessing its properties
           const values = customerAccountToFormValues(accountDetails);
-          form.setValues(values);
+          form.reset(values);
         }
       } catch (error) {
         console.error("Error while fetching account details:", error);
@@ -124,27 +117,23 @@ const CustomerAccountModal = ({
     fetchAccountDetails();
   }, [mode, id]);
 
-  const addPaymentMethodHandler = () => {
-    const newPaymentMethod = {
-      code: "",
-    };
-    form.setValues({
-      ...form.values,
-      paymentMethods: [...(form.values.paymentMethods ?? []), newPaymentMethod],
-    });
-  };
-
-  const removePaymentMethodHandler = (index: number) => {
-    const updatedPaymentMethods = (form.values.paymentMethods ?? []).filter(
-      (_, i) => i !== index,
-    );
-    form.setFieldValue("paymentMethods", updatedPaymentMethods);
-  };
-
   const closeModalHandler = () => {
     onClose();
     history.replace("/administration/customer-accounts");
   };
+
+  const name = form.watch("name");
+  useEffect(() => {
+    if (isCreateMode) {
+      form.setValue("username", name.replace(/\s+/g, ""), {
+        shouldValidate: true,
+      });
+    }
+  }, [name]);
+
+  let modalTitle = t("customerAccountModal.header");
+  if (isEditMode) modalTitle = t("customerAccountModal.update");
+  if (isViewMode) modalTitle = t("customerAccountModal.view");
 
   const accountSelectOptions =
     creators &&
@@ -154,185 +143,198 @@ const CustomerAccountModal = ({
       </option>
     ));
 
-  useEffect(() => {
-    if (isCreateMode && form.values.name) {
-      form.setFieldValue("username", form.values.name.replace(/\s+/g, ""));
-    }
-  }, [mode, form.values.name]);
-
-  let modalTitle = t("customerAccountModal.header");
-  if (isEditMode) modalTitle = t("customerAccountModal.update");
-  if (isViewMode) modalTitle = t("customerAccountModal.view");
-
   return (
     <UIModal
       title={modalTitle}
       isOpen={isOpen}
       onClose={closeModalHandler}
-      onSubmit={onSubmitHandler}
-      isSubmitting={form.isSubmitting}
+      onSubmit={form.handleSubmit(submitHandler)}
+      isSubmitting={form.formState.isSubmitting}
       mode={mode}
     >
       {!isLoading && (
         <form>
           <Flex direction="column" p="2">
-            <Flex alignItems="center">
-              <Text w="50%">{t("common.name")}</Text>
-              <UIInputFormControl
-                formik={form}
-                fieldName="name"
-                isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
-              />
-            </Flex>
-            <Flex alignItems="center">
-              <Text w="50%">{t("common.compteParent")}</Text>
-              <UISelectFormControl
-                formik={form}
-                placeholder={t("common.compteParent")}
-                fieldName="parentId"
-                isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
-              >
-                {accountSelectOptions}
-              </UISelectFormControl>
-            </Flex>
-            <Flex alignItems="center">
-              <Text w="50%">{t("common.creator")}</Text>
-              <UISelectFormControl
-                formik={form}
-                placeholder={t("common.creator")}
-                fieldName="creatorAccountId"
-                isDisabled={mode === Mode.EDIT || mode === Mode.VIEW}
-              >
-                {accountSelectOptions}
-              </UISelectFormControl>
-            </Flex>
-            <Flex alignItems="center">
-              <Text w="50%">{t("common.droits")}</Text>
-              <Checkbox
-                id="resaleRight"
-                name="resaleRight"
-                isChecked={form.values.resaleRight}
-                onChange={(e) =>
-                  form.setFieldValue("resaleRight", e.target.checked)
-                }
-                isDisabled={mode === Mode.VIEW}
-              />
-            </Flex>
+            <UIInputFormControl
+              label={t("common.name")}
+              name="name"
+              control={form.control}
+              disabled={isEditMode || isViewMode}
+              rules={{ validate: validator.nameValidator }}
+            />
+
+            <UISelectFormControl
+              label={t("common.compteParent")}
+              name="parentId"
+              control={form.control}
+              disabled={isEditMode || isViewMode}
+              rules={{ validate: validator.parentValidator }}
+            >
+              {accountSelectOptions}
+            </UISelectFormControl>
+
+            <UISelectFormControl
+              label={t("common.creator")}
+              name="creatorAccountId"
+              control={form.control}
+              disabled={isEditMode || isViewMode}
+              rules={{ validate: validator.creatorValidator }}
+            >
+              {accountSelectOptions}
+            </UISelectFormControl>
+
+            <UICheckBoxFormControl
+              label={t("common.droits")}
+              name="resaleRight"
+              control={form.control}
+              disabled={isViewMode}
+            />
+
             <Divider my={4} />
-            <Flex alignItems="center">
-              <Text w="50%">{t("userInformation.userNameLabel")}</Text>
+
+            <UIInputFormControl
+              label={t("userInformation.userNameLabel")}
+              name="username"
+              control={form.control}
+              disabled={isViewMode}
+              rules={{
+                validate: async (value) => {
+                  if (
+                    isCreateMode ||
+                    form.getValues("savedUsername") !== value
+                  ) {
+                    return await validator.usernameValidator(value);
+                  }
+                },
+              }}
+            />
+
+            <UIInputFormControl
+              label={t("userInformation.emailLabel")}
+              name="email"
+              control={form.control}
+              disabled={isViewMode}
+              rules={{
+                validate: async (value) => {
+                  if (isCreateMode || form.getValues("savedEmail") !== value) {
+                    return await validator.emailValidator(value);
+                  }
+                },
+              }}
+            />
+
+            <UIInputFormControl
+              label={t("userInformation.firstNameLabel")}
+              name="firstName"
+              control={form.control}
+              disabled={isViewMode}
+              rules={{ validate: validator.firstNameValidator }}
+            />
+
+            <UIInputFormControl
+              label={t("userInformation.lastNameLabel")}
+              name="lastName"
+              control={form.control}
+              disabled={isViewMode}
+              rules={{ validate: validator.lastNameValidator }}
+            />
+
+            {isCreateMode && (
               <UIInputFormControl
-                formik={form}
-                fieldName="username"
-                isDisabled={mode === Mode.VIEW}
+                label={t("common.password")}
+                name="password"
+                type="password"
+                control={form.control}
+                rules={{
+                  validate: validator.passwordValidator,
+                  deps: ["confirmPassword"],
+                }}
               />
-            </Flex>
-
-            <Flex alignItems="center">
-              <Text w="50%">{t("userInformation.emailLabel")}</Text>
-
-              <UIInputFormControl
-                formik={form}
-                fieldName="email"
-                isDisabled={mode === Mode.VIEW}
-              />
-            </Flex>
-
-            <Flex alignItems="center">
-              <Text w="50%">{t("userInformation.firstNameLabel")}</Text>
-
-              <UIInputFormControl
-                formik={form}
-                fieldName="firstName"
-                isDisabled={mode === Mode.VIEW}
-              />
-            </Flex>
-
-            <Flex alignItems="center">
-              <Text w="50%">{t("userInformation.lastNameLabel")}</Text>
-
-              <UIInputFormControl
-                formik={form}
-                fieldName="lastName"
-                isDisabled={mode === Mode.VIEW}
-              />
-            </Flex>
-
-            {mode == Mode.CREATE && (
-              <Flex alignItems="center">
-                <Text w="50%">{t("common.password")}</Text>
-
-                <UIInputFormControl
-                  formik={form}
-                  fieldName="password"
-                  type="password"
-                />
-              </Flex>
             )}
 
-            {mode == Mode.CREATE && (
-              <Flex alignItems="center">
-                <Text w="50%">{t("common.confirmPassword")}</Text>
-
-                <UIInputFormControl
-                  formik={form}
-                  fieldName="confirmPassword"
-                  type="password"
-                  showPasswordBtn={false}
-                />
-              </Flex>
+            {isCreateMode && (
+              <UIInputFormControl
+                label={t("common.confirmPassword")}
+                name="confirmPassword"
+                type="password"
+                showPasswordBtn={false}
+                control={form.control}
+                rules={{
+                  required: t("validation.confirmPassword.required"),
+                  validate: (value) => {
+                    if (form.watch("password") != value)
+                      return t("validation.confirmPassword.match");
+                  },
+                }}
+              />
             )}
 
-            <Flex alignItems="center">
-              <Text w="50%">{t("userInformation.phoneLabel")}</Text>
-
-              <UIPhoneInputFormControl
-                formik={form}
-                fieldName="phone"
-                isDisabled={mode === Mode.VIEW}
-              />
-            </Flex>
+            <UIPhoneInputFormControl
+              label={t("userInformation.phoneLabel")}
+              control={form.control}
+              name="phone"
+              disabled={isViewMode}
+              rules={{ validate: validator.phoneValidator }}
+            />
           </Flex>
+
           <Divider my={4} />
+
           <Flex alignItems="center">
-            <Text w="34%">{t("customerAccountModal.paymentMethods")}</Text>
-            <Box as="div" gridColumn="span 2">
-              {form.values.paymentMethods?.map((_, index) => (
-                <Box
-                  as="div"
-                  key={index}
-                  display="flex"
-                  justifyContent="flex-start"
-                  alignItems="center"
-                  py={2}
-                >
-                  <UIInputFormControl
-                    formik={form}
-                    fieldName={`paymentMethods[${index}].code`}
-                    placeholder={t("customerAccountModal.payment")}
-                    isDisabled={mode === Mode.VIEW}
-                  />
-                  {mode !== Mode.VIEW && (
-                    <Box as="div" px={30}>
-                      <DeleteIcon
-                        onClick={() => removePaymentMethodHandler(index)}
-                        cursor="pointer"
-                        color="red.500"
-                      />
-                    </Box>
+            <Text w="34%" fontSize="sm" fontWeight="bold">
+              {t("customerAccountModal.paymentMethods")}
+            </Text>
+            <UIArrayFormControl name="paymentMethods" control={form.control}>
+              {(fields, append, remove) => (
+                <>
+                  <Box as="div" gridColumn="span 2">
+                    {fields.map((field, index) => (
+                      <Box
+                        as="div"
+                        key={field.id}
+                        display="flex"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                        py={2}
+                      >
+                        <UIInputFormControl
+                          name={`paymentMethods.${index}.code`}
+                          control={form.control}
+                          placeholder={t("customerAccountModal.payment")}
+                          disabled={isViewMode}
+                          rules={{ validate: validator.paymentMethodValidator }}
+                        />
+                        {!isViewMode && (
+                          <Box as="div" px={30}>
+                            <DeleteIcon
+                              onClick={() => remove(index)}
+                              cursor="pointer"
+                              color="red.500"
+                            />
+                          </Box>
+                        )}
+                      </Box>
+                    ))}
+                  </Box>
+                  {!isViewMode && (
+                    <Button
+                      onClick={() =>
+                        append({
+                          code: "",
+                        })
+                      }
+                      ml={6}
+                    >
+                      {t("customerAccountModal.add")}
+                    </Button>
                   )}
-                </Box>
-              ))}
-            </Box>
-            {mode !== Mode.VIEW && (
-              <Button onClick={addPaymentMethodHandler} ml={6}>
-                {t("customerAccountModal.add")}
-              </Button>
-            )}
+                </>
+              )}
+            </UIArrayFormControl>
           </Flex>
         </form>
       )}
-      {isLoading && <SkeletonForm mode={mode} />}
+      {isLoading && <CustomerAccountSkeletonForm />}
     </UIModal>
   );
 };

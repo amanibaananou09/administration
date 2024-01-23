@@ -3,7 +3,7 @@ import {
   CustomerAccountFormValues,
   GeneralStations,
   GeneralUser,
-  stationFormValues,
+  StationFormValues,
   UserFormValues,
 } from "common/AdminModel";
 import { Mode } from "common/enums";
@@ -22,9 +22,7 @@ export const customerAccountInitFormValues = {
   parentId: "",
   creatorAccountId: "",
   username: "",
-  originalUsername: "",
   email: "",
-  originalEmail: "",
   firstName: "",
   lastName: "",
   password: "",
@@ -56,15 +54,16 @@ export const customerAccountToFormValues = (
   return {
     id,
     name,
+    savedName: name,
     creatorAccountId,
     parentId,
     resaleRight,
     status,
     actif,
     username,
-    originalUsername: username,
+    savedUsername: username,
     email,
-    originalEmail: email,
+    savedEmail: email,
     firstName,
     lastName,
     phone,
@@ -78,6 +77,7 @@ export const formValuesToCustomerAccount = (
   const {
     id,
     name,
+    savedName,
     creatorAccountId,
     parentId,
     resaleRight,
@@ -94,7 +94,7 @@ export const formValuesToCustomerAccount = (
 
   return {
     id,
-    name,
+    name: name ?? savedName,
     creatorAccountId,
     parentId,
     resaleRight,
@@ -154,9 +154,9 @@ export const userToFormValues = (user: GeneralUser): UserFormValues => {
     creatorAccountId,
     customerAccountId,
     username,
-    originalUsername: username,
+    savedUsername: username,
     email,
-    originalEmail: email,
+    savedEmail: email,
     firstName,
     lastName,
     phone,
@@ -234,7 +234,7 @@ export const stationInitFormValues = {
 
 export const stationToFormValues = (
   station: GeneralStations,
-): stationFormValues => {
+): StationFormValues => {
   const {
     id,
     name,
@@ -281,7 +281,7 @@ export const stationToFormValues = (
 };
 
 export const formValuesToStation = (
-  values: stationFormValues,
+  values: StationFormValues,
 ): GeneralStations => {
   const {
     id,
