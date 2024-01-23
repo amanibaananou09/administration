@@ -1,26 +1,27 @@
 import {
   Box,
+  Checkbox,
+  CheckboxProps,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/react";
-import { PhoneInput } from "components/Input/PhoneInput";
 import { UseControllerProps, useController } from "react-hook-form";
 
-type UIPhoneInputFormControlProps = UseControllerProps<any> & {
+type UICheckBoxFormControlProps = UseControllerProps<any> & {
   label?: string;
 };
 
-const UIPhoneInputFormControl = ({
+const UICheckBoxFormControl = ({
   name,
-  label,
   control,
   defaultValue,
   rules,
   shouldUnregister,
+  label,
   disabled,
-}: UIPhoneInputFormControlProps) => {
+}: UICheckBoxFormControlProps) => {
   const { field, fieldState } = useController({
     name,
     control,
@@ -32,29 +33,27 @@ const UIPhoneInputFormControl = ({
 
   const fieldName = field.name;
   const invalid = !!fieldState.error;
-  const val = field.value ?? "";
-  const changeHandler = field.onChange;
-  const blurHandler = field.onBlur;
+  const isDisabled = field.disabled;
   const error = fieldState.error?.message;
+
+  const checkBoxProps: CheckboxProps = {
+    id: fieldName,
+    ...field,
+    isChecked: field.value,
+    color: isDisabled ? "gray.900" : "",
+    bg: isDisabled ? "gray.100" : "",
+  };
 
   return (
     <FormControl isInvalid={invalid} mb="2px">
       <Flex alignItems="center">
         {label && (
-          <FormLabel flex={1} ms="4px" fontSize="sm" fontWeight="bold">
+          <FormLabel flex={2} ms="4px" fontSize="sm" fontWeight="bold">
             {label}
           </FormLabel>
         )}
-        <Box flex={2}>
-          <PhoneInput
-            id={fieldName}
-            name={fieldName}
-            value={val}
-            onChange={changeHandler}
-            onBlur={blurHandler}
-            placeholder={label}
-            isDisabled={disabled}
-          />
+        <Box flex={3}>
+          <Checkbox {...checkBoxProps} />
           <FormErrorMessage>{error}</FormErrorMessage>
         </Box>
       </Flex>
@@ -62,4 +61,4 @@ const UIPhoneInputFormControl = ({
   );
 };
 
-export default UIPhoneInputFormControl;
+export default UICheckBoxFormControl;

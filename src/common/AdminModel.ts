@@ -124,15 +124,16 @@ export interface addStations {
 export interface CustomerAccountFormValues {
   id?: string;
   name: string;
+  savedName?: string;
   parentId: string;
   creatorAccountId: string;
   resaleRight: boolean;
   status: string;
   actif?: boolean;
   username: string;
-  originalUsername: string;
+  savedUsername?: string;
   email: string;
-  originalEmail: string;
+  savedEmail: string;
   firstName: string;
   lastName: string;
   phone: string;
@@ -144,11 +145,11 @@ export interface CustomerAccountFormValues {
 export interface UserFormValues {
   id?: number;
   username: string;
+  savedUsername?: string;
   firstName: string;
   lastName: string;
-  originalUsername: string;
   email: string;
-  originalEmail: string;
+  savedEmail?: string;
   password?: string;
   phone: string;
   changePassword?: boolean;
@@ -160,7 +161,7 @@ export interface UserFormValues {
   lastConnectionDate: string;
 }
 
-export interface stationFormValues {
+export interface StationFormValues {
   id?: string;
   name: string;
   address: string;

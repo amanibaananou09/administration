@@ -31,8 +31,11 @@
     "required": "La confirmation du mot de passe est requis"
   },
   "phone": {
-    "min": "Le téléphone doit comporter au moins 8 chiffres",
+    "min": "Le téléphone doit comporter au moins 10 chiffres",
     "required": "Le téléphone est requis"
+  },
+  "paymentMethod": {
+    "required": "La methode de paiement est requis"
   },
   "address": {
     "min": "L'adresse doit comporter au moins 4 caractères",

@@ -10,19 +10,17 @@ import {
   InputProps,
   InputRightElement,
 } from "@chakra-ui/input";
+import { Box, Flex } from "@chakra-ui/react";
 import { ResponsiveValue, StyleProps } from "@chakra-ui/system";
-import { FormikProps, getIn } from "formik";
 import { useState } from "react";
+import { UseControllerProps, useController } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-type UIInputFormControlProps = {
-  formik: FormikProps<any>;
-  fieldName: string;
+type UIInputFormControlProps = UseControllerProps<any> & {
   label?: string;
   type?: string;
   placeholder?: string;
   showPasswordBtn?: boolean;
-  isDisabled?: boolean;
   variant?: ResponsiveValue<
     "outline" | (string & {}) | "filled" | "flushed" | "unstyled"
   >;
@@ -31,35 +29,41 @@ type UIInputFormControlProps = {
 };
 
 const UIInputFormControl = ({
-  formik,
-  fieldName,
+  name,
+  control,
+  defaultValue,
+  rules,
+  shouldUnregister,
   label,
   type = "text",
   placeholder,
   showPasswordBtn = true,
-  isDisabled = false,
   variant,
   size,
   styles,
+  disabled,
 }: UIInputFormControlProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const invalid =
-    getIn(formik.errors, fieldName) && getIn(formik.touched, fieldName);
-  const val = getIn(formik.values, fieldName) ?? "";
-  const changeHandler = formik.handleChange;
-  const blurHandler = formik.handleBlur;
-  const error = getIn(formik.errors, fieldName) as string;
+  const { field, fieldState } = useController({
+    name,
+    control,
+    defaultValue,
+    rules,
+    shouldUnregister,
+    disabled,
+  });
+
+  const fieldName = field.name;
+  const invalid = !!fieldState.error;
+  const isDisabled = field.disabled;
+  const error = fieldState.error?.message;
 
   const inputProps: InputProps = {
     id: fieldName,
-    name: fieldName,
-    value: val,
-    onChange: changeHandler,
-    onBlur: blurHandler,
+    ...field,
     type: type,
-    placeholder: placeholder ?? label,
-    isDisabled: isDisabled,
+    placeholder: placeholder,
     variant: variant,
     color: isDisabled ? "gray.900" : "",
     bg: isDisabled ? "gray.100" : "",
@@ -69,35 +73,40 @@ const UIInputFormControl = ({
 
   return (
     <FormControl isInvalid={invalid} mb="2px">
-      {label && (
-        <FormLabel ms="4px" fontSize="sm" fontWeight="bold">
-          {label}
-        </FormLabel>
-      )}
-      {(type !== "password" || (type === "password" && !showPasswordBtn)) && (
-        <Input {...inputProps} />
-      )}
+      <Flex alignItems="center">
+        {label && (
+          <FormLabel flex={1} ms="4px" fontSize="sm" fontWeight="bold">
+            {label}
+          </FormLabel>
+        )}
+        <Box flex={2}>
+          {(type !== "password" ||
+            (type === "password" && !showPasswordBtn)) && (
+            <Input {...inputProps} />
+          )}
 
-      {type === "password" && showPasswordBtn && (
-        <InputGroup>
-          <Input
-            {...inputProps}
-            type={showPassword ? "text" : "password"}
-            pr="4.5rem"
-          />
-          <InputRightElement width="3.2rem">
-            <Button
-              h="100%"
-              variant="ghost"
-              onClick={() => setShowPassword(!showPassword)}
-              color="gray.500"
-            >
-              {showPassword ? <FaEye /> : <FaEyeSlash />}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      )}
-      <FormErrorMessage>{error}</FormErrorMessage>
+          {type === "password" && showPasswordBtn && (
+            <InputGroup>
+              <Input
+                {...inputProps}
+                type={showPassword ? "text" : "password"}
+                pr="4.5rem"
+              />
+              <InputRightElement width="3.2rem">
+                <Button
+                  h="100%"
+                  variant="ghost"
+                  onClick={() => setShowPassword(!showPassword)}
+                  color="gray.500"
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          )}
+          <FormErrorMessage>{error}</FormErrorMessage>
+        </Box>
+      </Flex>
     </FormControl>
   );
 };

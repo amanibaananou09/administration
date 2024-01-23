@@ -16,9 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { login } from "common/api/auth-api";
 import LanguageSelector from "components/LanguageSelector";
-import { useFormik } from "formik";
-import useFormValidation from "hooks/use-form-validation";
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
@@ -26,7 +25,7 @@ import { useAuth } from "store/AuthContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 
-type SubmitFormValues = {
+type SignInFormValues = {
   username: string;
   password: string;
 };
@@ -34,30 +33,29 @@ type SubmitFormValues = {
 const SignIn = () => {
   const { signIn } = useAuth();
   const { t } = useTranslation();
-  const { signInFormValidationSchema } = useFormValidation();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const history = useHistory();
 
-  const form = useFormik<SubmitFormValues>({
-    initialValues: {
+  const form = useForm<SignInFormValues>({
+    mode: "all",
+    defaultValues: {
       username: "",
       password: "",
     },
-    validationSchema: signInFormValidationSchema,
-    onSubmit: async (values) => {
-      const { username, password } = values;
-
-      try {
-        const { access_token } = await login(username, password);
-        const user = decodeToken(access_token);
-        signIn(user!!);
-      } catch (error) {
-        console.error(error);
-        setErrorMessage(t("signIn.messageInvalid"));
-      }
-    },
   });
+
+  const submitHandler: SubmitHandler<SignInFormValues> = async (values) => {
+    try {
+      const { username, password } = values;
+      const { access_token } = await login(username, password);
+      const user = decodeToken(access_token);
+      signIn(user!!);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(t("signIn.messageInvalid"));
+    }
+  };
 
   const handleForgotPasswordClick = () => {
     history.push("/auth/Forgot-Password");
@@ -140,46 +138,40 @@ const SignIn = () => {
             {t("signIn.text")}
           </Text>
           <form>
-            <FormControl
-              isInvalid={!!form.errors.username && !!form.touched.username}
-              mb="24px"
-            >
+            <FormControl isInvalid={!!form.formState.errors.username} mb="24px">
               <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
                 {t("signIn.useName")}
               </FormLabel>
               <Input
                 id="username"
-                name="username"
                 fontSize="sm"
                 ms="4px"
                 type="text"
                 placeholder={t("signIn.placeholderUsername")}
                 size="lg"
-                value={form.values.username}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
+                {...form.register("username", {
+                  required: t("validation.username.required"),
+                })}
               />
-              <FormErrorMessage>{form.errors.username}</FormErrorMessage>
+              <FormErrorMessage>
+                {form.formState.errors.username?.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl
-              isInvalid={!!form.errors.password && !!form.touched.password}
-              mb="24px"
-            >
+            <FormControl isInvalid={!!form.formState.errors.password} mb="24px">
               <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
                 {t("signIn.password")}
               </FormLabel>
               <InputGroup>
                 <Input
                   id="password"
-                  name="password"
                   fontSize="sm"
                   ms="4px"
                   type={showPassword ? "text" : "password"}
                   placeholder={t("signIn.placeholderPassword")}
                   size="lg"
-                  value={form.values.password}
-                  onChange={form.handleChange}
-                  onBlur={form.handleBlur}
+                  {...form.register("password", {
+                    required: t("validation.password.required"),
+                  })}
                 />
                 <InputRightElement width="3.2rem">
                   <Button
@@ -193,7 +185,9 @@ const SignIn = () => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+              <FormErrorMessage>
+                {form.formState.errors.password?.message}
+              </FormErrorMessage>
             </FormControl>
             <ChakraLink
               color="blue.400"
@@ -210,8 +204,8 @@ const SignIn = () => {
                 w="100%"
                 h="45"
                 mb="24px"
-                onClick={() => form.handleSubmit()}
-                isLoading={form.isSubmitting}
+                onClick={form.handleSubmit(submitHandler)}
+                isLoading={form.formState.isSubmitting}
               >
                 {t("signIn.login")}
               </Button>

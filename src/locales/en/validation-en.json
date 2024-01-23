@@ -34,6 +34,9 @@
     "min": "Phone must be at least 8 digits",
     "required": "Phone is required"
   },
+  "paymentMethod": {
+    "required": "Payment method is required"
+  },
   "address": {
     "min": "Address must be at least 4 characters",
     "required": "Address is required"
