@@ -3,11 +3,11 @@ import { CustomerAccount } from "common/AdminModel";
 import {
   activateCustomerAccount,
   deactivateCustomerAccount,
-  getCustomerAccounts,
 } from "common/api/customerAccount-api";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -20,51 +20,49 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-import useHttp from "hooks/use-http";
-import useQuery from "hooks/use-query";
+import useCustomerAccounts from "hooks/use-customer-accounts";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
-  const {
-    data: customerAccounts,
-    isLoading,
-    makeRequest: fetchCustomerAccounts,
-  } = useHttp<CustomerAccount[]>(getCustomerAccounts, false);
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+  const history = useHistory();
+  let { path } = useRouteMatch();
 
   const [selectedAccount, setSelectedAccount] = useState<CustomerAccount>();
-
-  const { t } = useTranslation();
-  let { path } = useRouteMatch();
-  const query = useQuery();
-  const name = query.get("name");
-  const creator = query.get("creator");
-  const parent = query.get("parent");
-
-  const history = useHistory();
-
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
+  const { customerAccounts, isLoading } = useCustomerAccounts();
+
   const submitModalHandler = async () => {
-    await fetchCustomerAccounts();
+    queryClient.invalidateQueries({ queryKey: ["customerAccounts"] });
   };
 
-  const updateStatusHandler = async () => {
+  const { mutate: desactivate } = useMutation({
+    mutationKey: ["id"],
+    mutationFn: deactivateCustomerAccount,
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
+  });
+
+  const { mutate: activate } = useMutation({
+    mutationKey: ["id"],
+    mutationFn: activateCustomerAccount,
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
+  });
+
+  const updateStatusHandler = () => {
     if (selectedAccount) {
       let item = selectedAccount;
       if (item.actif && item.id) {
         // If currently active, deactivate
-        await deactivateCustomerAccount(item.id);
+        desactivate(item.id);
       } else if (item.id) {
         // If currently inactive, activate
-        await activateCustomerAccount(item.id);
+        activate(item.id);
       }
-
-      await fetchCustomerAccounts({
-        name,
-        creator,
-        parent,
-      });
     }
   };
 
@@ -76,14 +74,6 @@ const CustomerAccountManagement = () => {
       : t("customerAccounts.updateStatusDialog.activationMessage");
     confirmationDialogRef.current?.open(title, message);
   };
-
-  useEffect(() => {
-    fetchCustomerAccounts({
-      name,
-      creator,
-      parent,
-    });
-  }, [query]);
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
@@ -100,14 +90,7 @@ const CustomerAccountManagement = () => {
             textDecoration: "underline",
           }}
           onClick={() => {
-            const clickedAccount = customerAccounts?.find(
-              (acc) => acc && acc.id === item.id,
-            );
-
-            if (clickedAccount) {
-              setSelectedAccount(clickedAccount);
-              history.push(`${path}/details/${item.id}`);
-            }
+            history.push(`${path}/details/${item.id}`);
           }}
         >
           {item.name}
@@ -152,14 +135,7 @@ const CustomerAccountManagement = () => {
           <FaPencilAlt
             style={{ cursor: "pointer" }}
             onClick={() => {
-              const clickedAccount = customerAccounts?.find(
-                (acc) => acc && acc.id === item.id,
-              );
-
-              if (clickedAccount) {
-                setSelectedAccount(clickedAccount);
-                history.push(`${path}/edit/${item.id}`);
-              }
+              history.push(`${path}/edit/${item.id}`);
             }}
           />
         </Flex>

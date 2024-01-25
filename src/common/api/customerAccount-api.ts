@@ -11,7 +11,7 @@ type customerAccountSearchCreteria = {
 
 export const getCustomerAccounts = async (
   creteria: customerAccountSearchCreteria = {},
-) => {
+): Promise<CustomerAccount[]> => {
   let url = `${API_URL}`;
 
   const { name, creator, parent } = creteria;
@@ -53,7 +53,10 @@ export const activateCustomerAccount = async (id: number | string) => {
   return response.data;
 };
 
-export const deactivateCustomerAccount = async (id: number | string) => {
+export const deactivateCustomerAccount = async (
+  id: number | string,
+): Promise<void> => {
+  console.log(id);
   const response = await api.put(`${API_URL}/deactivate/${id}`);
   return response.data;
 };

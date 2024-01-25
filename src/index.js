@@ -3,6 +3,12 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
 import "react-international-phone/style.css";
@@ -15,25 +21,37 @@ import { ESSContextProvider } from "store/ESSContext";
 import { TranslationProvider } from "store/TranslationContext";
 import theme from "theme/theme";
 
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error) => console.error(error),
+  }),
+});
+
 const container = document.getElementById("root");
 
 const root = createRoot(container);
 
 root.render(
-  <ESSContextProvider>
-    <TranslationProvider>
-      <AuthContextProvider>
-        <ChakraProvider theme={theme} resetCss={false} position="relative">
-          <HashRouter>
-            <Switch>
-              <Route path={`/auth`} component={AuthLayout} />
-              <PrivateRoute path={`/administration`} component={AdminLayout} />
-              <MainRoute />
-              <ToastContainer />
-            </Switch>
-          </HashRouter>
-        </ChakraProvider>
-      </AuthContextProvider>
-    </TranslationProvider>
-  </ESSContextProvider>,
+  <QueryClientProvider client={queryClient}>
+    <ESSContextProvider>
+      <TranslationProvider>
+        <AuthContextProvider>
+          <ChakraProvider theme={theme} resetCss={false} position="relative">
+            <HashRouter>
+              <Switch>
+                <Route path={`/auth`} component={AuthLayout} />
+                <PrivateRoute
+                  path={`/administration`}
+                  component={AdminLayout}
+                />
+                <MainRoute />
+                <ToastContainer />
+              </Switch>
+            </HashRouter>
+          </ChakraProvider>
+        </AuthContextProvider>
+      </TranslationProvider>
+    </ESSContextProvider>
+    <ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
+  </QueryClientProvider>,
 );

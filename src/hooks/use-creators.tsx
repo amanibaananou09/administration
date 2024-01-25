@@ -1,24 +1,17 @@
-import { CustomerAccount } from "common/AdminModel";
+import { useQuery } from "@tanstack/react-query";
 import { listOfCreator } from "common/api/station-api";
-import { useEffect } from "react";
 import { useAuth } from "store/AuthContext";
-import useHttp from "./use-http";
 
 const useCreators = () => {
   const { user } = useAuth();
 
-  const { data: creators, makeRequest: fetch } = useHttp<CustomerAccount[]>(
-    listOfCreator,
-    false,
-  );
+  const customerAccountId = user?.customerAccountId;
 
-  useEffect(() => {
-    try {
-      fetch(user?.customerAccountId);
-    } catch (error) {
-      console.error("Error while fetching creators");
-    }
-  }, []);
+  const { data: creators } = useQuery({
+    queryKey: ["creators"],
+    queryFn: () => listOfCreator(user?.customerAccountId),
+    enabled: !!customerAccountId,
+  });
 
   return {
     creators,

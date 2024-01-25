@@ -20,7 +20,7 @@ import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import useHttp from "hooks/use-http";
-import useQuery from "hooks/use-query";
+import useQueryParams from "hooks/use-query-params";
 import { useEffect, useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
@@ -49,7 +49,7 @@ const StationManagement = () => {
 
   const currentUserAccountId = user?.customerAccountId;
 
-  const query = useQuery();
+  const query = useQueryParams();
   const name = query.get("name");
   const creator = query.get("creator");
   const parent = query.get("parent");

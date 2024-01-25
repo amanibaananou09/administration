@@ -1,22 +1,25 @@
-import { CustomerAccount } from "common/AdminModel";
+import { useQuery } from "@tanstack/react-query";
 import { getCustomerAccounts } from "common/api/customerAccount-api";
-import { useEffect, useState } from "react";
+import useQueryParams from "./use-query-params";
 
 const useCustomerAccounts = () => {
-  const [customerAccounts, setCustomerAccounts] = useState<CustomerAccount[]>(
-    [],
-  );
+  const query = useQueryParams();
+  const name = query.get("name") ?? undefined;
+  const creator = query.get("creator") ?? undefined;
+  const parent = query.get("parent") ?? undefined;
 
-  useEffect(() => {
-    const getListOfAccounts = async () => {
-      const result = await getCustomerAccounts();
-      setCustomerAccounts(result);
-    };
-
-    getListOfAccounts();
-  }, []);
+  const { data: customerAccounts, isLoading } = useQuery({
+    queryKey: ["customerAccounts", { name, creator, parent }],
+    queryFn: () =>
+      getCustomerAccounts({
+        name,
+        creator,
+        parent,
+      }),
+  });
 
   return {
+    isLoading,
     customerAccounts,
   };
 };
