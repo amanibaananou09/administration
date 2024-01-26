@@ -4,6 +4,7 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
 import {
+  MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
@@ -21,19 +22,24 @@ import { ESSContextProvider } from "store/ESSContext";
 import { TranslationProvider } from "store/TranslationContext";
 import theme from "theme/theme";
 
+const errorHandler = (error) => {
+  console.error(error);
+  toast.error(error.response.data, {
+    position: "bottom-left",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    theme: "colored",
+  });
+};
+
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error) => {
-      console.error(error);
-      toast.error(error.response.data, {
-        position: "bottom-left",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        theme: "colored",
-      });
-    },
+    onError: errorHandler,
+  }),
+  mutationCache: new MutationCache({
+    onError: errorHandler,
   }),
 });
 

@@ -7,7 +7,7 @@ import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import UIModal from "components/UI/Modal/UIModal";
 import useCountries from "hooks/use-countries";
 import useCreators from "hooks/use-creators";
-import useStation from "hooks/use-station";
+import { useStation } from "hooks/use-station";
 import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

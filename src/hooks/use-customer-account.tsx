@@ -4,10 +4,12 @@ import {
   createCustomerAccount,
   deactivateCustomerAccount,
   getCustomerAccountDetails,
+  getCustomerAccounts,
   updateAccount,
 } from "common/api/customerAccount-api";
+import useQueryParams from "./use-query-params";
 
-const useCustomerAccount = (customerAccountId: number = 0) => {
+export const useCustomerAccount = (customerAccountId: number = 0) => {
   const queryClient = useQueryClient();
 
   const { data: customerAccount, isLoading } = useQuery({
@@ -53,4 +55,24 @@ const useCustomerAccount = (customerAccountId: number = 0) => {
   };
 };
 
-export default useCustomerAccount;
+export const useCustomerAccounts = () => {
+  const query = useQueryParams();
+  const name = query.get("name") ?? undefined;
+  const creator = query.get("creator") ?? undefined;
+  const parent = query.get("parent") ?? undefined;
+
+  const { data: customerAccounts, isLoading } = useQuery({
+    queryKey: ["customerAccounts", { name, creator, parent }],
+    queryFn: () =>
+      getCustomerAccounts({
+        name,
+        creator,
+        parent,
+      }),
+  });
+
+  return {
+    isLoading,
+    customerAccounts,
+  };
+};

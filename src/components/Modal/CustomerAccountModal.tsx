@@ -18,7 +18,7 @@ import UIInputFormControl from "components/UI/Form/UIInputFormControl";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import useCreators from "hooks/use-creators";
-import useCustomerAccount from "hooks/use-customer-account";
+import { useCustomerAccount } from "hooks/use-customer-account";
 import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

@@ -4,12 +4,14 @@ import { addStation } from "common/api/customerAccount-api";
 import {
   activateStation,
   deactivateStation,
+  listStation,
   stationInformation,
   updateStation,
 } from "common/api/station-api";
 import { useAuth } from "store/AuthContext";
+import useQueryParams from "./use-query-params";
 
-const useStation = (stationId: number = 0) => {
+export const useStation = (stationId: number = 0) => {
   const queryClient = useQueryClient();
 
   const { user } = useAuth();
@@ -60,4 +62,30 @@ const useStation = (stationId: number = 0) => {
   };
 };
 
-export default useStation;
+export const useStations = () => {
+  const query = useQueryParams();
+  const { user } = useAuth();
+  const name = query.get("name") ?? undefined;
+  const creator = query.get("creator") ?? undefined;
+  const parent = query.get("parent") ?? undefined;
+
+  const { data: stations, isLoading } = useQuery({
+    queryKey: ["stations", { name, creator, parent }],
+    queryFn: () => {
+      if (user?.customerAccountId) {
+        return listStation({
+          customerAccountId: user?.customerAccountId,
+          name,
+          creator,
+          parent,
+        });
+      }
+    },
+    enabled: !!user?.customerAccountId,
+  });
+
+  return {
+    isLoading,
+    stations,
+  };
+};

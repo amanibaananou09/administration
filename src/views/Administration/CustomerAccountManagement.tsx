@@ -16,8 +16,10 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-import useCustomerAccount from "hooks/use-customer-account";
-import useCustomerAccounts from "hooks/use-customer-accounts";
+import {
+  useCustomerAccount,
+  useCustomerAccounts,
+} from "hooks/use-customer-account";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 

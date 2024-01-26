@@ -178,6 +178,7 @@ export interface StationFormValues {
   password: string;
   countryId: number;
   customerAccountId: string;
+  savedCustomerAccountId: string;
   cordonneesGps: string;
   modeAffectation: string;
   country?: Country;
