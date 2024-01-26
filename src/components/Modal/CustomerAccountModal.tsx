@@ -47,7 +47,7 @@ const CustomerAccountModal = ({
 
   const { user } = useAuth();
   const { creators } = useCreators();
-  const { create, update, customerAccount, isLoading } = useCustomerAccount(
+  const { customerAccount, isLoading, create, update } = useCustomerAccount(
     +id,
   );
   const validator = useValidators();

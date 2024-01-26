@@ -18,13 +18,6 @@ const useCustomerAccount = (customerAccountId: number = 0) => {
 
   const { mutate: create } = useMutation({
     mutationFn: createCustomerAccount,
-    onSuccess: () => {
-      if (customerAccountId > 0) {
-        return queryClient.invalidateQueries({
-          queryKey: ["customerAccount", customerAccountId],
-        });
-      }
-    },
   });
 
   const { mutate: update } = useMutation({

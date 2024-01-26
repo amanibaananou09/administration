@@ -4,10 +4,10 @@ export interface Station {
   address: string;
   actif: boolean;
   controllerPts: controllerPts;
-  country: country;
+  country: Country;
 }
 
-export interface country {
+export interface Country {
   id: number;
   name: string;
   code: string;

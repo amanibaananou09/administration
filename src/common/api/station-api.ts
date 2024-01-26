@@ -137,9 +137,11 @@ export const deactivateStation = async (
   return response.data;
 };
 export const stationInformation = async (
-  id: number | string,
-  accountId: undefined | string,
+  stationId: number | string,
+  customerAccountId: undefined | string,
 ): Promise<GeneralStations> => {
-  const response = await api.get(`${API_URL}/${accountId}/station/${id}/info`);
+  const response = await api.get(
+    `${API_URL}/${customerAccountId}/station/${stationId}/info`,
+  );
   return response.data;
 };
