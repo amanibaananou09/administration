@@ -15,7 +15,7 @@ const useStation = (stationId: number = 0) => {
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
 
-  const { data: station, isPending } = useQuery({
+  const { data: station, isLoading } = useQuery({
     queryKey: ["station", stationId],
     queryFn: () => stationInformation(stationId, customerAccountId),
     enabled: !!(stationId && stationId > 0),
@@ -52,7 +52,7 @@ const useStation = (stationId: number = 0) => {
 
   return {
     station,
-    isLoading: isPending,
+    isLoading,
     update,
     create,
     activate,

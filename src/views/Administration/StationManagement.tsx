@@ -75,14 +75,7 @@ const StationManagement = () => {
             textDecoration: "underline",
           }}
           onClick={() => {
-            const clickedStation = stations?.find(
-              (station) => station && station.id === item.id,
-            );
-
-            if (clickedStation) {
-              setSelectedStation(clickedStation);
-              history.push(`${path}/details/${item.id}`);
-            }
+            history.push(`${path}/details/${item.id}`);
           }}
         >
           {item.name}
@@ -150,14 +143,7 @@ const StationManagement = () => {
           <FaPencilAlt
             style={{ cursor: "pointer" }}
             onClick={() => {
-              const clickedStation = stations?.find(
-                (station) => station && station.id === item.id,
-              );
-
-              if (clickedStation) {
-                setSelectedStation(clickedStation);
-                history.push(`${path}/edit/${item.id}`);
-              }
+              history.push(`${path}/edit/${item.id}`);
             }}
           />
         </Flex>

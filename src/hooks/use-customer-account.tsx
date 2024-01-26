@@ -10,7 +10,7 @@ import {
 const useCustomerAccount = (customerAccountId: number = 0) => {
   const queryClient = useQueryClient();
 
-  const { data: customerAccount, isPending } = useQuery({
+  const { data: customerAccount, isLoading } = useQuery({
     queryKey: ["customerAccount", customerAccountId],
     queryFn: () => getCustomerAccountDetails(customerAccountId),
     enabled: !!(customerAccountId && customerAccountId > 0),
@@ -44,7 +44,7 @@ const useCustomerAccount = (customerAccountId: number = 0) => {
   });
 
   return {
-    isLoading: isPending,
+    isLoading,
     customerAccount,
     create,
     update,
