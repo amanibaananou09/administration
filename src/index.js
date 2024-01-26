@@ -12,7 +12,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
 import "react-international-phone/style.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainRoute from "router/Route/MainRoute";
 import PrivateRoute from "router/Route/PrivateRoute";
@@ -23,7 +23,17 @@ import theme from "theme/theme";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error) => console.error(error),
+    onError: (error) => {
+      console.error(error);
+      toast.error(error.response.data, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        theme: "colored",
+      });
+    },
   }),
 });
 
@@ -45,13 +55,13 @@ root.render(
                   component={AdminLayout}
                 />
                 <MainRoute />
-                <ToastContainer />
               </Switch>
             </HashRouter>
           </ChakraProvider>
         </AuthContextProvider>
       </TranslationProvider>
     </ESSContextProvider>
+    <ToastContainer />
     <ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
   </QueryClientProvider>,
 );

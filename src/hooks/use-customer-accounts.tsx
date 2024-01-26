@@ -8,7 +8,7 @@ const useCustomerAccounts = () => {
   const creator = query.get("creator") ?? undefined;
   const parent = query.get("parent") ?? undefined;
 
-  const { data: customerAccounts, isLoading } = useQuery({
+  const { data: customerAccounts, isPending } = useQuery({
     queryKey: ["customerAccounts", { name, creator, parent }],
     queryFn: () =>
       getCustomerAccounts({
@@ -19,7 +19,7 @@ const useCustomerAccounts = () => {
   });
 
   return {
-    isLoading,
+    isLoading: isPending,
     customerAccounts,
   };
 };

@@ -8,12 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 import { DeleteIcon } from "@chakra-ui/icons";
-import { CustomerAccount, CustomerAccountFormValues } from "common/AdminModel";
-import {
-  createCustomerAccount,
-  getCustomerAccountDetails,
-  updateAccount,
-} from "common/api/customerAccount-api";
+import { CustomerAccountFormValues } from "common/AdminModel";
 import { Mode } from "common/enums";
 import { CustomerAccountModalProps } from "common/react-props";
 import { CustomerAccountSkeletonForm } from "components/Skeleton/Skeletons";
@@ -23,7 +18,7 @@ import UIInputFormControl from "components/UI/Form/UIInputFormControl";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import useCreators from "hooks/use-creators";
-import useHttp from "hooks/use-http";
+import useCustomerAccount from "hooks/use-customer-account";
 import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -46,24 +41,20 @@ const CustomerAccountModal = ({
   mode,
 }: CustomerAccountModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { id } = useParams<Params>();
-  const { t } = useTranslation();
   const history = useHistory();
-  const { creators } = useCreators();
-  const { user } = useAuth();
+  const { t } = useTranslation();
+  const { id } = useParams<Params>();
 
-  const { makeRequest: submit } = useHttp(createCustomerAccount, false);
-  const { makeRequest: fetchDetails, isLoading } = useHttp<CustomerAccount>(
-    getCustomerAccountDetails,
-    false,
+  const { user } = useAuth();
+  const { creators } = useCreators();
+  const { create, update, customerAccount, isLoading } = useCustomerAccount(
+    +id,
   );
-  const { makeRequest: update } = useHttp(updateAccount, false);
+  const validator = useValidators();
 
   const isCreateMode = mode === Mode.CREATE;
   const isViewMode = mode === Mode.VIEW;
   const isEditMode = mode === Mode.EDIT;
-
-  const validator = useValidators();
 
   const form = useForm<CustomerAccountFormValues>({
     mode: "all",
@@ -72,55 +63,48 @@ const CustomerAccountModal = ({
       parentId: user!!.customerAccountId,
       creatorAccountId: user!!.customerAccountId,
     },
+    values:
+      !isCreateMode && customerAccount
+        ? customerAccountToFormValues(customerAccount)
+        : undefined,
   });
 
   const submitHandler: SubmitHandler<CustomerAccountFormValues> = async (
     values,
   ) => {
     if (isCreateMode || isEditMode) {
-      try {
-        const customerAccount = formValuesToCustomerAccount(values);
-        switch (mode) {
-          case Mode.CREATE:
-            await submit(customerAccount);
-            break;
-          case Mode.EDIT:
-            await update(customerAccount);
-            break;
-        }
-        closeModalHandler();
-        onSubmit();
-      } catch (error) {
-        console.error("Error while submitting the form");
+      const customerAccount = formValuesToCustomerAccount(values);
+      switch (mode) {
+        case Mode.CREATE:
+          create(customerAccount, {
+            onSuccess: () => {
+              closeModalHandler();
+              onSubmit();
+            },
+          });
+          break;
+        case Mode.EDIT:
+          update(customerAccount, {
+            onSuccess: () => {
+              closeModalHandler();
+              onSubmit();
+            },
+          });
+          break;
       }
     } else if (isViewMode) {
       history.push(`/administration/customer-accounts/edit/${id}`);
     }
   };
 
-  useEffect(() => {
-    onOpen();
-
-    const fetchAccountDetails = async () => {
-      try {
-        if (isEditMode || (isViewMode && id)) {
-          const accountDetails = await fetchDetails(+id);
-          // Ensure that account.masterUser is defined before accessing its properties
-          const values = customerAccountToFormValues(accountDetails);
-          form.reset(values);
-        }
-      } catch (error) {
-        console.error("Error while fetching account details:", error);
-      }
-    };
-
-    fetchAccountDetails();
-  }, [mode, id]);
-
   const closeModalHandler = () => {
     onClose();
     history.replace("/administration/customer-accounts");
   };
+
+  useEffect(() => {
+    onOpen();
+  }, []);
 
   const name = form.watch("name");
   useEffect(() => {

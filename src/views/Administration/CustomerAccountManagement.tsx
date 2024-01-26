@@ -1,13 +1,9 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
-import {
-  activateCustomerAccount,
-  deactivateCustomerAccount,
-} from "common/api/customerAccount-api";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -20,6 +16,7 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
+import useCustomerAccount from "hooks/use-customer-account";
 import useCustomerAccounts from "hooks/use-customer-accounts";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
@@ -34,24 +31,11 @@ const CustomerAccountManagement = () => {
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
   const { customerAccounts, isLoading } = useCustomerAccounts();
+  const { activate, desactivate } = useCustomerAccount();
 
   const submitModalHandler = async () => {
     queryClient.invalidateQueries({ queryKey: ["customerAccounts"] });
   };
-
-  const { mutate: desactivate } = useMutation({
-    mutationKey: ["id"],
-    mutationFn: deactivateCustomerAccount,
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
-  });
-
-  const { mutate: activate } = useMutation({
-    mutationKey: ["id"],
-    mutationFn: activateCustomerAccount,
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
-  });
 
   const updateStatusHandler = () => {
     if (selectedAccount) {

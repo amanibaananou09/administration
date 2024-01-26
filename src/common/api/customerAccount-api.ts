@@ -56,7 +56,6 @@ export const activateCustomerAccount = async (id: number | string) => {
 export const deactivateCustomerAccount = async (
   id: number | string,
 ): Promise<void> => {
-  console.log(id);
   const response = await api.put(`${API_URL}/deactivate/${id}`);
   return response.data;
 };
