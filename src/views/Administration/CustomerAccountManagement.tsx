@@ -3,7 +3,6 @@ import { CustomerAccount } from "common/AdminModel";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useQueryClient } from "@tanstack/react-query";
 import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -24,7 +23,6 @@ import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
 const CustomerAccountManagement = () => {
-  const queryClient = useQueryClient();
   const { t } = useTranslation();
   const history = useHistory();
   let { path } = useRouteMatch();
@@ -35,9 +33,7 @@ const CustomerAccountManagement = () => {
   const { customerAccounts, isLoading } = useCustomerAccounts();
   const { activate, desactivate } = useCustomerAccountQueries();
 
-  const submitModalHandler = async () => {
-    queryClient.invalidateQueries({ queryKey: ["customerAccounts"] });
-  };
+  const submitModalHandler = async () => {};
 
   const updateStatusHandler = () => {
     if (selectedAccount) {

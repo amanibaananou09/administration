@@ -3,7 +3,6 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
-import { useQueryClient } from "@tanstack/react-query";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -22,7 +21,6 @@ import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { Mode } from "../../common/enums";
 
 const StationManagement = () => {
-  const queryClient = useQueryClient();
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
@@ -33,9 +31,7 @@ const StationManagement = () => {
   const [selectedStation, setSelectedStation] = useState<GeneralStations>();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
-  const submitModalHandler = async () => {
-    queryClient.invalidateQueries({ queryKey: ["stations"] });
-  };
+  const submitModalHandler = async () => {};
 
   const openConfirmationDialog = (station: GeneralStations) => {
     setSelectedStation(station);

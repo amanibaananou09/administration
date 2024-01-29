@@ -3,7 +3,6 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
-import { useQueryClient } from "@tanstack/react-query";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -23,7 +22,6 @@ import { formatDate } from "utils/utils";
 import { Mode } from "../../common/enums";
 
 const UserManagement = () => {
-  const queryClient = useQueryClient();
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
@@ -46,9 +44,7 @@ const UserManagement = () => {
       }
     }
   };
-  const submitModalHandler = async () => {
-    queryClient.invalidateQueries({ queryKey: ["users"] });
-  };
+  const submitModalHandler = async () => {};
 
   const openConfirmationDialog = (user: GeneralUser) => {
     setSelectedUser(user);
