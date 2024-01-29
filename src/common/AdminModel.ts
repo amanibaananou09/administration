@@ -1,4 +1,4 @@
-import { country } from "common/model";
+import { Country } from "common/model";
 
 export interface CustomerAccount {
   id?: string;
@@ -106,7 +106,7 @@ export interface GeneralStations {
   customerAccountId: string;
   cordonneesGps: string;
   modeAffectation: string;
-  country?: country;
+  country?: Country;
   journal: string;
 }
 
@@ -178,8 +178,9 @@ export interface StationFormValues {
   password: string;
   countryId: number;
   customerAccountId: string;
+  savedCustomerAccountId: string;
   cordonneesGps: string;
   modeAffectation: string;
-  country?: country;
+  country?: Country;
   journal: string;
 }

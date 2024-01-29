@@ -1,17 +1,15 @@
 import { Divider, Flex, useDisclosure } from "@chakra-ui/react";
-import { GeneralStations, StationFormValues } from "common/AdminModel";
-import { addStation } from "common/api/customerAccount-api";
-import { getListOfCountry } from "common/api/reference-data-api";
-import { country } from "common/model";
+import { StationFormValues } from "common/AdminModel";
 import { AddStationModalProps } from "common/react-props";
 import UIInputFormControl from "components/UI/Form/UIInputFormControl";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import UIModal from "components/UI/Modal/UIModal";
+import useCountries from "hooks/use-countries";
 import useCreators from "hooks/use-creators";
-import useHttp from "hooks/use-http";
+import { useStationById, useStationQueries } from "hooks/use-station";
 import useValidators from "hooks/use-validators";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router-dom";
@@ -21,10 +19,6 @@ import {
   stationInitFormValues,
   stationToFormValues,
 } from "utils/form-utils";
-import {
-  stationInformation,
-  updateStation,
-} from "../../common/api/station-api";
 import { Mode } from "../../common/enums";
 
 type Params = {
@@ -33,19 +27,17 @@ type Params = {
 
 const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { t } = useTranslation();
   const history = useHistory();
+  const { t } = useTranslation();
   const { id } = useParams<Params>();
-  const [country, setCountry] = useState<country[]>([]);
-  const { creators } = useCreators();
-  const { user } = useAuth();
-  const validator = useValidators();
 
-  const { makeRequest: submit } = useHttp(addStation, false);
-  const { makeRequest: fetchDetails } = useHttp<GeneralStations>(
-    stationInformation,
-    false,
-  );
+  const validator = useValidators();
+  const { user } = useAuth();
+
+  const { countries } = useCountries();
+  const { creators } = useCreators();
+  const { station } = useStationById(+id);
+  const { create, update } = useStationQueries();
 
   const isCreateMode = mode === Mode.CREATE;
   const isViewMode = mode === Mode.VIEW;
@@ -58,6 +50,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
       customerAccountId: user!!.customerAccountId,
       creatorAccountId: user!!.customerAccountId,
     },
+    values: !isCreateMode && station ? stationToFormValues(station) : undefined,
   });
 
   const submitHandler: SubmitHandler<StationFormValues> = async (values) => {
@@ -67,17 +60,15 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
 
         switch (mode) {
           case Mode.CREATE:
-            await submit(user?.customerAccountId, station);
+            await create(station);
             break;
           case Mode.EDIT:
-            await updateStation(user?.customerAccountId, station);
+            await update(station);
             break;
         }
         closeModalHandler();
         onSubmit();
-      } catch (error) {
-        console.error("Error while submitting the form");
-      }
+      } catch (error) {}
     } else if (isViewMode) {
       history.push(`/administration/stations/edit/${id}`);
     }
@@ -85,32 +76,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
 
   useEffect(() => {
     onOpen();
-
-    const getListCountry = async () => {
-      try {
-        const result = await getListOfCountry();
-        setCountry(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const fetchStationDetails = async () => {
-      try {
-        if (isEditMode || (isViewMode && id)) {
-          const stationDetails = await fetchDetails(+id);
-          // Ensure that account.masterUser is defined before accessing its properties
-          const values = stationToFormValues(stationDetails);
-          form.reset(values);
-        }
-      } catch (error) {
-        console.error("Error while fetching stations details:", error);
-      }
-    };
-
-    getListCountry();
-    fetchStationDetails();
-  }, [mode, id]);
+  }, []);
 
   const closeModalHandler = () => {
     onClose();
@@ -164,11 +130,12 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
             disabled={isViewMode}
             rules={{ validate: validator.countryValidator }}
           >
-            {country.map((countryData) => (
-              <option key={countryData.id} value={countryData.id}>
-                {countryData.name}
-              </option>
-            ))}
+            {countries &&
+              countries.map((country) => (
+                <option key={country.id} value={country.id}>
+                  {country.name}
+                </option>
+              ))}
           </UISelectFormControl>
 
           <UISelectFormControl

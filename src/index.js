@@ -3,10 +3,17 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AdminLayout from "layouts/Admin";
 import AuthLayout from "layouts/Auth";
 import "react-international-phone/style.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainRoute from "router/Route/MainRoute";
 import PrivateRoute from "router/Route/PrivateRoute";
@@ -15,25 +22,64 @@ import { ESSContextProvider } from "store/ESSContext";
 import { TranslationProvider } from "store/TranslationContext";
 import theme from "theme/theme";
 
+const errorHandler = (error) => {
+  console.error(error);
+
+  let message;
+  if (
+    !error.response ||
+    error.response.status == 500 ||
+    error.response.status == 401
+  ) {
+    message = error.message;
+  } else {
+    message = error.response.data;
+  }
+
+  toast.error(message, {
+    position: "bottom-left",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    theme: "colored",
+  });
+};
+
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: errorHandler,
+  }),
+  mutationCache: new MutationCache({
+    onError: errorHandler,
+  }),
+});
+
 const container = document.getElementById("root");
 
 const root = createRoot(container);
 
 root.render(
-  <ESSContextProvider>
-    <TranslationProvider>
-      <AuthContextProvider>
-        <ChakraProvider theme={theme} resetCss={false} position="relative">
-          <HashRouter>
-            <Switch>
-              <Route path={`/auth`} component={AuthLayout} />
-              <PrivateRoute path={`/administration`} component={AdminLayout} />
-              <MainRoute />
-              <ToastContainer />
-            </Switch>
-          </HashRouter>
-        </ChakraProvider>
-      </AuthContextProvider>
-    </TranslationProvider>
-  </ESSContextProvider>,
+  <QueryClientProvider client={queryClient}>
+    <ESSContextProvider>
+      <TranslationProvider>
+        <AuthContextProvider>
+          <ChakraProvider theme={theme} resetCss={false} position="relative">
+            <HashRouter>
+              <Switch>
+                <Route path={`/auth`} component={AuthLayout} />
+                <PrivateRoute
+                  path={`/administration`}
+                  component={AdminLayout}
+                />
+                <MainRoute />
+              </Switch>
+            </HashRouter>
+          </ChakraProvider>
+        </AuthContextProvider>
+      </TranslationProvider>
+    </ESSContextProvider>
+    <ToastContainer />
+    <ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
+  </QueryClientProvider>,
 );

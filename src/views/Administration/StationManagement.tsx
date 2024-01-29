@@ -1,13 +1,8 @@
-import { Box, Flex, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
-import {
-  activateStation,
-  deactivateStation,
-  listStation,
-} from "common/api/station-api";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
@@ -19,58 +14,24 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-import useHttp from "hooks/use-http";
-import useQuery from "hooks/use-query";
-import { useEffect, useRef, useState } from "react";
+import { useStationQueries, useStations } from "hooks/use-station";
+import { useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import { useAuth } from "store/AuthContext";
 import { Mode } from "../../common/enums";
 
 const StationManagement = () => {
-  const { data: stations, isLoading, makeRequest: fetchStations } = useHttp<
-    GeneralStations[]
-  >(listStation, false);
-  const { makeRequest: desactivate } = useHttp<void>(deactivateStation, false);
-  const { makeRequest: activate } = useHttp<void>(activateStation, false);
   const history = useHistory();
-
   const { t } = useTranslation();
   let { path } = useRouteMatch();
-  const { user } = useAuth();
-  const toast = useToast({
-    status: "success",
-    position: "top",
-    isClosable: true,
-  });
+
+  const { stations, isLoading } = useStations();
+  const { activate, desactivate } = useStationQueries();
 
   const [selectedStation, setSelectedStation] = useState<GeneralStations>();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
-  const currentUserAccountId = user?.customerAccountId;
-
-  const query = useQuery();
-  const name = query.get("name");
-  const creator = query.get("creator");
-  const parent = query.get("parent");
-
-  const getStations = async () => {
-    try {
-      const searchCriteria = {
-        customerAccountId: currentUserAccountId,
-        name,
-        creator,
-        parent,
-      };
-      await fetchStations(searchCriteria);
-    } catch (error) {
-      console.error("Error when fetching stations");
-    }
-  };
-
-  const submitModalHandler = async () => {
-    await getStations();
-  };
+  const submitModalHandler = async () => {};
 
   const openConfirmationDialog = (station: GeneralStations) => {
     setSelectedStation(station);
@@ -83,34 +44,13 @@ const StationManagement = () => {
     confirmationDialogRef.current?.open(title, message);
   };
 
-  useEffect(() => {
-    getStations();
-  }, [query, name, creator, parent, currentUserAccountId]);
-
   const updateStatusHandler = async () => {
     if (selectedStation) {
       let item = selectedStation;
-      let message = "";
-      try {
-        if (item.actif && item.id) {
-          await desactivate(currentUserAccountId, item.id);
-          message = t("stationManagement.stationDeactivated", {
-            stationName: item.name,
-          });
-        } else if (item.id) {
-          await activate(currentUserAccountId, item.id);
-          message = t("stationManagement.stationActivated", {
-            stationName: item.name,
-          });
-        }
-
-        await getStations();
-
-        toast({
-          description: message,
-        });
-      } catch (error) {
-        console.error("Error while updating station status");
+      if (item.actif && item.id) {
+        desactivate(item.id);
+      } else if (item.id) {
+        activate(item.id);
       }
     }
   };
@@ -130,14 +70,7 @@ const StationManagement = () => {
             textDecoration: "underline",
           }}
           onClick={() => {
-            const clickedStation = stations?.find(
-              (station) => station && station.id === item.id,
-            );
-
-            if (clickedStation) {
-              setSelectedStation(clickedStation);
-              history.push(`${path}/details/${item.id}`);
-            }
+            history.push(`${path}/details/${item.id}`);
           }}
         >
           {item.name}
@@ -205,14 +138,7 @@ const StationManagement = () => {
           <FaPencilAlt
             style={{ cursor: "pointer" }}
             onClick={() => {
-              const clickedStation = stations?.find(
-                (station) => station && station.id === item.id,
-              );
-
-              if (clickedStation) {
-                setSelectedStation(clickedStation);
-                history.push(`${path}/edit/${item.id}`);
-              }
+              history.push(`${path}/edit/${item.id}`);
             }}
           />
         </Flex>

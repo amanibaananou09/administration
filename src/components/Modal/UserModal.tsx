@@ -1,10 +1,5 @@
 import { Divider, Flex, useDisclosure } from "@chakra-ui/react";
-import { GeneralUser, UserFormValues } from "common/AdminModel";
-import {
-  addUser,
-  updateUser,
-  userInformation,
-} from "common/api/general-user-api";
+import { UserFormValues } from "common/AdminModel";
 import { UserModalProps } from "common/react-props";
 import { UserSkeletonForm } from "components/Skeleton/Skeletons";
 import UICheckBoxFormControl from "components/UI/Form/UICheckBoxFormControl";
@@ -12,7 +7,7 @@ import UIInputFormControl from "components/UI/Form/UIInputFormControl";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import useCreators from "hooks/use-creators";
-import useHttp from "hooks/use-http";
+import { useUserById, useUserQueries } from "hooks/use-user";
 import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -34,19 +29,16 @@ type Params = {
 
 const UserModal = ({ onSubmit, mode }: UserModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useAuth();
-  const validator = useValidators();
-  const { creators } = useCreators();
-  const { t } = useTranslation();
-  const { id } = useParams<Params>();
   const history = useHistory();
+  const { id } = useParams<Params>();
+  const { t } = useTranslation();
 
-  const { makeRequest: submit } = useHttp(addUser, false);
-  const { makeRequest: update } = useHttp(updateUser, false);
-  const { makeRequest: fetchDetails, isLoading } = useHttp<GeneralUser>(
-    userInformation,
-    false,
-  );
+  const validator = useValidators();
+  const { user: loggedUser } = useAuth();
+  const { creators } = useCreators();
+  const { user, isLoading } = useUserById(+id);
+  const { create, update } = useUserQueries();
+
   const isCreateMode = mode === Mode.CREATE;
   const isViewMode = mode === Mode.VIEW;
   const isEditMode = mode === Mode.EDIT;
@@ -55,9 +47,10 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
     mode: "all",
     defaultValues: {
       ...userInitFormValues,
-      customerAccountId: user!!.customerAccountId,
-      creatorAccountId: user!!.customerAccountId,
+      customerAccountId: loggedUser!!.customerAccountId,
+      creatorAccountId: loggedUser!!.customerAccountId,
     },
+    values: user ? userToFormValues(user) : undefined,
   });
 
   const submitHandler: SubmitHandler<UserFormValues> = async (values) => {
@@ -66,7 +59,7 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
         const toUser = formValuesToUser(values);
         switch (mode) {
           case Mode.CREATE:
-            await submit(toUser);
+            await create(toUser);
             break;
           case Mode.EDIT:
             await update(toUser);
@@ -74,9 +67,7 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
         }
         closeModalHandler();
         onSubmit();
-      } catch (error) {
-        console.error("Error while submitting the form");
-      }
+      } catch (error) {}
     } else if (isViewMode) {
       history.push(`/administration/users/edit/${id}`);
     }
@@ -84,22 +75,7 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
 
   useEffect(() => {
     onOpen();
-
-    const fetchUserDetails = async () => {
-      try {
-        if (isEditMode || (isViewMode && id)) {
-          const userDetails = await fetchDetails(+id);
-          // Ensure that account.masterUser is defined before accessing its properties
-          const values = userToFormValues(userDetails);
-          form.reset(values);
-        }
-      } catch (error) {
-        console.error("Error while fetching user details:", error);
-      }
-    };
-
-    fetchUserDetails();
-  }, [mode, id]);
+  }, []);
 
   const closeModalHandler = () => {
     onClose();

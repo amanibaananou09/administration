@@ -1,11 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralUser } from "common/AdminModel";
-import {
-  activateUser,
-  deactivateUser,
-  getUsers,
-} from "common/api/general-user-api";
 import { useTranslation } from "react-i18next";
 
 import Card from "components/Card/Card";
@@ -19,59 +14,37 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-import useHttp from "hooks/use-http";
-import useQuery from "hooks/use-query";
-import { useEffect, useRef, useState } from "react";
+import { useUserQueries, useUsers } from "hooks/use-user";
+import { useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
 import { Mode } from "../../common/enums";
 
 const UserManagement = () => {
-  const { data: users, isLoading, makeRequest: fetchUsers } = useHttp<
-    GeneralUser[]
-  >(getUsers, false);
+  const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
+
+  const { users, isLoading } = useUsers();
+  const { activate, desactivate } = useUserQueries();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
+
   const [selectedUser, setSelectedUser] = useState<GeneralUser>();
-
-  const history = useHistory();
-
-  const query = useQuery();
-  const name = query.get("name");
-  const creator = query.get("creator");
-  const parent = query.get("parent");
-
-  useEffect(() => {
-    fetchUsers({
-      name,
-      creator,
-      parent,
-    });
-  }, [query]);
 
   const updateStatusHandler = async () => {
     if (selectedUser) {
       let item = selectedUser;
       if (item.actif && item.id) {
         // If currently active, deactivate
-        await deactivateUser(item.id);
+        desactivate(item.id);
       } else if (item.id) {
         // If currently inactive, activate
-        await activateUser(item.id);
+        activate(item.id);
       }
-
-      await fetchUsers({
-        name,
-        creator,
-        parent,
-      });
     }
   };
-  const submitModalHandler = async () => {
-    await fetchUsers();
-  };
+  const submitModalHandler = async () => {};
 
   const openConfirmationDialog = (user: GeneralUser) => {
     setSelectedUser(user);
@@ -97,12 +70,7 @@ const UserManagement = () => {
             textDecoration: "underline",
           }}
           onClick={() => {
-            const clickedUser = users?.find((acc) => acc && acc.id === item.id);
-
-            if (clickedUser) {
-              setSelectedUser(clickedUser);
-              history.push(`${path}/details/${item.id}`);
-            }
+            history.push(`${path}/details/${item.id}`);
           }}
         >
           {item.username}
@@ -143,14 +111,7 @@ const UserManagement = () => {
           <FaPencilAlt
             style={{ cursor: "pointer" }}
             onClick={() => {
-              const clickedUser = users?.find(
-                (user) => user && user.id === item.id,
-              );
-
-              if (clickedUser) {
-                setSelectedUser(clickedUser);
-                history.push(`${path}/edit/${item.id}`);
-              }
+              history.push(`${path}/edit/${item.id}`);
             }}
           />
         </Flex>
@@ -188,7 +149,7 @@ const UserManagement = () => {
       </Flex>
       <Switch>
         <Route path={`${path}/new`}>
-          <UserModal onSubmit={fetchUsers} mode={Mode.CREATE} />
+          <UserModal onSubmit={submitModalHandler} mode={Mode.CREATE} />
         </Route>
         <Route path={`${path}/edit/:id`}>
           <UserModal onSubmit={submitModalHandler} mode={Mode.EDIT} />
