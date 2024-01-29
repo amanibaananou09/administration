@@ -18,7 +18,10 @@ import UIInputFormControl from "components/UI/Form/UIInputFormControl";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import useCreators from "hooks/use-creators";
-import { useCustomerAccount } from "hooks/use-customer-account";
+import {
+  useCustomerAccountById,
+  useCustomerAccountQueries,
+} from "hooks/use-customer-account";
 import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -47,9 +50,9 @@ const CustomerAccountModal = ({
 
   const { user } = useAuth();
   const { creators } = useCreators();
-  const { customerAccount, isLoading, create, update } = useCustomerAccount(
-    +id,
-  );
+  const { customerAccount, isLoading } = useCustomerAccountById(+id);
+  const { create, update } = useCustomerAccountQueries();
+
   const validator = useValidators();
 
   const isCreateMode = mode === Mode.CREATE;
@@ -73,25 +76,19 @@ const CustomerAccountModal = ({
     values,
   ) => {
     if (isCreateMode || isEditMode) {
-      const customerAccount = formValuesToCustomerAccount(values);
-      switch (mode) {
-        case Mode.CREATE:
-          create(customerAccount, {
-            onSuccess: () => {
-              closeModalHandler();
-              onSubmit();
-            },
-          });
-          break;
-        case Mode.EDIT:
-          update(customerAccount, {
-            onSuccess: () => {
-              closeModalHandler();
-              onSubmit();
-            },
-          });
-          break;
-      }
+      try {
+        const customerAccount = formValuesToCustomerAccount(values);
+        switch (mode) {
+          case Mode.CREATE:
+            await create(customerAccount);
+            break;
+          case Mode.EDIT:
+            await update(customerAccount);
+            break;
+        }
+        closeModalHandler();
+        onSubmit();
+      } catch (error) {}
     } else if (isViewMode) {
       history.push(`/administration/customer-accounts/edit/${id}`);
     }

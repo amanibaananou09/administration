@@ -9,49 +9,17 @@ import {
 } from "common/api/customerAccount-api";
 import useQueryParams from "./use-query-params";
 
-export const useCustomerAccount = (customerAccountId: number = 0) => {
-  const queryClient = useQueryClient();
-
-  const { data: customerAccount, isLoading } = useQuery({
+export const useCustomerAccountById = (customerAccountId: number) => {
+  const { data: customerAccount, isLoading, error } = useQuery({
     queryKey: ["customerAccount", customerAccountId],
     queryFn: () => getCustomerAccountDetails(customerAccountId),
-    enabled: !!(customerAccountId && customerAccountId > 0),
-  });
-
-  const { mutate: create } = useMutation({
-    mutationFn: createCustomerAccount,
-  });
-
-  const { mutate: update } = useMutation({
-    mutationFn: updateAccount,
-    onSuccess: () => {
-      if (customerAccountId > 0) {
-        return queryClient.invalidateQueries({
-          queryKey: ["customerAccount", customerAccountId],
-        });
-      }
-    },
-  });
-
-  const { mutate: activate } = useMutation({
-    mutationFn: activateCustomerAccount,
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
-  });
-
-  const { mutate: desactivate } = useMutation({
-    mutationFn: deactivateCustomerAccount,
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
+    enabled: !!customerAccountId,
   });
 
   return {
     isLoading,
     customerAccount,
-    create,
-    update,
-    activate,
-    desactivate,
+    error,
   };
 };
 
@@ -74,5 +42,44 @@ export const useCustomerAccounts = () => {
   return {
     isLoading,
     customerAccounts,
+  };
+};
+
+export const useCustomerAccountQueries = () => {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: create } = useMutation({
+    mutationFn: createCustomerAccount,
+  });
+
+  const { mutateAsync: update } = useMutation({
+    mutationFn: updateAccount,
+    onSuccess: (_, customerAccount) => {
+      queryClient.invalidateQueries({
+        queryKey: ["customerAccount", customerAccount.id],
+      });
+      return queryClient.invalidateQueries({
+        queryKey: ["customerAccounts"],
+      });
+    },
+  });
+
+  const { mutate: activate } = useMutation({
+    mutationFn: activateCustomerAccount,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
+  });
+
+  const { mutate: desactivate } = useMutation({
+    mutationFn: deactivateCustomerAccount,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
+  });
+
+  return {
+    create,
+    update,
+    activate,
+    desactivate,
   };
 };

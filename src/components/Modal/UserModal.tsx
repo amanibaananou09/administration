@@ -7,7 +7,7 @@ import UIInputFormControl from "components/UI/Form/UIInputFormControl";
 import UIPhoneInputFormControl from "components/UI/Form/UIPhoneInputFormControl";
 import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import useCreators from "hooks/use-creators";
-import { useUser } from "hooks/use-user";
+import { useUserById, useUserQueries } from "hooks/use-user";
 import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -36,7 +36,8 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
   const validator = useValidators();
   const { user: loggedUser } = useAuth();
   const { creators } = useCreators();
-  const { create, update, user, isLoading } = useUser(+id);
+  const { user, isLoading } = useUserById(+id);
+  const { create, update } = useUserQueries();
 
   const isCreateMode = mode === Mode.CREATE;
   const isViewMode = mode === Mode.VIEW;
@@ -54,25 +55,19 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
 
   const submitHandler: SubmitHandler<UserFormValues> = async (values) => {
     if (isCreateMode || isEditMode) {
-      const toUser = formValuesToUser(values);
-      switch (mode) {
-        case Mode.CREATE:
-          create(toUser, {
-            onSuccess: () => {
-              closeModalHandler();
-              onSubmit();
-            },
-          });
-          break;
-        case Mode.EDIT:
-          update(toUser, {
-            onSuccess: () => {
-              closeModalHandler();
-              onSubmit();
-            },
-          });
-          break;
-      }
+      try {
+        const toUser = formValuesToUser(values);
+        switch (mode) {
+          case Mode.CREATE:
+            await create(toUser);
+            break;
+          case Mode.EDIT:
+            await update(toUser);
+            break;
+        }
+        closeModalHandler();
+        onSubmit();
+      } catch (error) {}
     } else if (isViewMode) {
       history.push(`/administration/users/edit/${id}`);
     }

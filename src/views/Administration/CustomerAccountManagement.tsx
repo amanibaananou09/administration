@@ -17,7 +17,7 @@ import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import {
-  useCustomerAccount,
+  useCustomerAccountQueries,
   useCustomerAccounts,
 } from "hooks/use-customer-account";
 import { FaPencilAlt } from "react-icons/fa";
@@ -33,7 +33,7 @@ const CustomerAccountManagement = () => {
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
   const { customerAccounts, isLoading } = useCustomerAccounts();
-  const { activate, desactivate } = useCustomerAccount();
+  const { activate, desactivate } = useCustomerAccountQueries();
 
   const submitModalHandler = async () => {
     queryClient.invalidateQueries({ queryKey: ["customerAccounts"] });

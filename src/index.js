@@ -24,7 +24,19 @@ import theme from "theme/theme";
 
 const errorHandler = (error) => {
   console.error(error);
-  toast.error(error.response.data, {
+
+  let message;
+  if (
+    !error.response ||
+    error.response.status == 500 ||
+    error.response.status == 401
+  ) {
+    message = error.message;
+  } else {
+    message = error.response.data;
+  }
+
+  toast.error(message, {
     position: "bottom-left",
     autoClose: 5000,
     hideProgressBar: false,

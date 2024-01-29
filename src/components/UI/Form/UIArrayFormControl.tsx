@@ -16,11 +16,13 @@ type UIArrayFormControlProps = UseFieldArrayProps<any> & {
 const UIArrayFormControl = ({
   name,
   control,
+  rules,
   children,
 }: UIArrayFormControlProps) => {
   const { fields, append, remove } = useFieldArray({
     name,
     control,
+    rules,
   });
 
   return children(fields, append, remove);

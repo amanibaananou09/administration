@@ -15,7 +15,7 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-import { useStation, useStations } from "hooks/use-station";
+import { useStationQueries, useStations } from "hooks/use-station";
 import { useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
@@ -28,7 +28,7 @@ const StationManagement = () => {
   let { path } = useRouteMatch();
 
   const { stations, isLoading } = useStations();
-  const { activate, desactivate } = useStation();
+  const { activate, desactivate } = useStationQueries();
 
   const [selectedStation, setSelectedStation] = useState<GeneralStations>();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);

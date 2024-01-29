@@ -7,7 +7,7 @@ import UISelectFormControl from "components/UI/Form/UISelectFormControl";
 import UIModal from "components/UI/Modal/UIModal";
 import useCountries from "hooks/use-countries";
 import useCreators from "hooks/use-creators";
-import { useStation } from "hooks/use-station";
+import { useStationById, useStationQueries } from "hooks/use-station";
 import useValidators from "hooks/use-validators";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -31,13 +31,13 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
   const { t } = useTranslation();
   const { id } = useParams<Params>();
 
+  const validator = useValidators();
   const { user } = useAuth();
+
   const { countries } = useCountries();
   const { creators } = useCreators();
-
-  const validator = useValidators();
-
-  const { create, update, station } = useStation(+id);
+  const { station } = useStationById(+id);
+  const { create, update } = useStationQueries();
 
   const isCreateMode = mode === Mode.CREATE;
   const isViewMode = mode === Mode.VIEW;
@@ -55,26 +55,20 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
 
   const submitHandler: SubmitHandler<StationFormValues> = async (values) => {
     if (isCreateMode || isEditMode) {
-      const station = formValuesToStation(values);
+      try {
+        const station = formValuesToStation(values);
 
-      switch (mode) {
-        case Mode.CREATE:
-          create(station, {
-            onSuccess: () => {
-              closeModalHandler();
-              onSubmit();
-            },
-          });
-          break;
-        case Mode.EDIT:
-          update(station, {
-            onSuccess: () => {
-              closeModalHandler();
-              onSubmit();
-            },
-          });
-          break;
-      }
+        switch (mode) {
+          case Mode.CREATE:
+            await create(station);
+            break;
+          case Mode.EDIT:
+            await update(station);
+            break;
+        }
+        closeModalHandler();
+        onSubmit();
+      } catch (error) {}
     } else if (isViewMode) {
       history.push(`/administration/stations/edit/${id}`);
     }

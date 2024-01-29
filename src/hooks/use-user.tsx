@@ -9,47 +9,17 @@ import {
 } from "common/api/general-user-api";
 import useQueryParams from "./use-query-params";
 
-export const useUser = (userId: number = 0) => {
-  const queryClient = useQueryClient();
-
-  const { data: user, isLoading } = useQuery({
+export const useUserById = (userId: number) => {
+  const { data: user, isLoading, error } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => userInformation(userId),
-    enabled: !!(userId && userId > 0),
-  });
-
-  const { mutate: create } = useMutation({
-    mutationFn: addUser,
-  });
-
-  const { mutate: update } = useMutation({
-    mutationFn: updateUser,
-    onSuccess: () => {
-      if (userId > 0) {
-        return queryClient.invalidateQueries({
-          queryKey: ["user", userId],
-        });
-      }
-    },
-  });
-
-  const { mutate: activate } = useMutation({
-    mutationFn: activateUser,
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
-  });
-
-  const { mutate: desactivate } = useMutation({
-    mutationFn: deactivateUser,
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    enabled: !!userId,
   });
 
   return {
     isLoading,
     user,
-    create,
-    update,
-    activate,
-    desactivate,
+    error,
   };
 };
 
@@ -72,5 +42,42 @@ export const useUsers = () => {
   return {
     isLoading,
     users,
+  };
+};
+
+export const useUserQueries = () => {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: create } = useMutation({
+    mutationFn: addUser,
+  });
+
+  const { mutateAsync: update } = useMutation({
+    mutationFn: updateUser,
+    onSuccess: (_, user) => {
+      queryClient.invalidateQueries({
+        queryKey: ["user", user.id],
+      });
+      return queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
+    },
+  });
+
+  const { mutate: activate } = useMutation({
+    mutationFn: activateUser,
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+  });
+
+  const { mutate: desactivate } = useMutation({
+    mutationFn: deactivateUser,
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+  });
+
+  return {
+    create,
+    update,
+    activate,
+    desactivate,
   };
 };

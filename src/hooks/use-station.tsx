@@ -11,54 +11,20 @@ import {
 import { useAuth } from "store/AuthContext";
 import useQueryParams from "./use-query-params";
 
-export const useStation = (stationId: number = 0) => {
-  const queryClient = useQueryClient();
-
+export const useStationById = (stationId: number) => {
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
 
-  const { data: station, isLoading } = useQuery({
+  const { data: station, isLoading, error } = useQuery({
     queryKey: ["station", stationId],
     queryFn: () => stationInformation(stationId, customerAccountId),
-    enabled: !!(stationId && stationId > 0),
-  });
-
-  const { mutate: create } = useMutation({
-    mutationFn: (newStation: addStations) =>
-      addStation(customerAccountId!!, newStation),
-  });
-
-  const { mutate: update } = useMutation({
-    mutationFn: (station: GeneralStations) =>
-      updateStation(customerAccountId!!, station),
-    onSuccess: () => {
-      if (stationId > 0) {
-        return queryClient.invalidateQueries({
-          queryKey: ["customerAccount", customerAccountId],
-        });
-      }
-    },
-  });
-
-  const { mutate: activate } = useMutation({
-    mutationFn: (stationId: string) =>
-      activateStation(customerAccountId!!, stationId),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["stations"] }),
-  });
-
-  const { mutate: desactivate } = useMutation({
-    mutationFn: (stationId: string) =>
-      deactivateStation(user?.customerAccountId!!, stationId),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["stations"] }),
+    enabled: !!(stationId && customerAccountId),
   });
 
   return {
     station,
     isLoading,
-    update,
-    create,
-    activate,
-    desactivate,
+    error,
   };
 };
 
@@ -69,7 +35,7 @@ export const useStations = () => {
   const creator = query.get("creator") ?? undefined;
   const parent = query.get("parent") ?? undefined;
 
-  const { data: stations, isLoading } = useQuery({
+  const { data: stations, isLoading, error } = useQuery({
     queryKey: ["stations", { name, creator, parent }],
     queryFn: () => {
       if (user?.customerAccountId) {
@@ -85,7 +51,52 @@ export const useStations = () => {
   });
 
   return {
-    isLoading,
     stations,
+    isLoading,
+    error,
+  };
+};
+
+export const useStationQueries = () => {
+  const queryClient = useQueryClient();
+
+  const { user } = useAuth();
+  const customerAccountId = user?.customerAccountId;
+
+  const { mutateAsync: create } = useMutation({
+    mutationFn: (newStation: addStations) =>
+      addStation(customerAccountId!!, newStation),
+  });
+
+  const { mutateAsync: update } = useMutation({
+    mutationFn: (station: GeneralStations) =>
+      updateStation(customerAccountId!!, station),
+    onSuccess: (_, station) => {
+      queryClient.invalidateQueries({
+        queryKey: ["station", station.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["stations"],
+      });
+    },
+  });
+
+  const { mutate: activate } = useMutation({
+    mutationFn: (stationId: string) =>
+      activateStation(customerAccountId!!, stationId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["stations"] }),
+  });
+
+  const { mutate: desactivate } = useMutation({
+    mutationFn: (stationId: string) =>
+      deactivateStation(user?.customerAccountId!!, stationId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["stations"] }),
+  });
+
+  return {
+    update,
+    create,
+    activate,
+    desactivate,
   };
 };

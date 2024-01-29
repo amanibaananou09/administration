@@ -15,7 +15,7 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-import { useUser, useUsers } from "hooks/use-user";
+import { useUserQueries, useUsers } from "hooks/use-user";
 import { useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
@@ -29,7 +29,7 @@ const UserManagement = () => {
   let { path } = useRouteMatch();
 
   const { users, isLoading } = useUsers();
-  const { activate, desactivate } = useUser();
+  const { activate, desactivate } = useUserQueries();
   const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
   const [selectedUser, setSelectedUser] = useState<GeneralUser>();
