@@ -3,23 +3,20 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { GeneralUser } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
+import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import ConfirmationDialog, {
-  ConfirmationDialogRefType,
-} from "components/Dialog/ConfirmationDialog";
+import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import UserModal from "components/Modal/UserModal";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useUserQueries, useUsers } from "hooks/use-user";
-import { useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
-import { Mode } from "../../common/enums";
 
 const UserManagement = () => {
   const history = useHistory();
@@ -28,33 +25,23 @@ const UserManagement = () => {
 
   const { users, isLoading } = useUsers();
   const { activate, desactivate } = useUserQueries();
-  const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
 
-  const [selectedUser, setSelectedUser] = useState<GeneralUser>();
+  const { confirm, ConfirmationDialog } = useConfirm({
+    title: t("customerAccounts.updateStatusDialog.title"),
+    onConfirm: (user) => updateStatus(user),
+  });
 
-  const updateStatusHandler = async () => {
-    if (selectedUser) {
-      let item = selectedUser;
-      if (item.actif && item.id) {
-        // If currently active, deactivate
-        desactivate(item.id);
-      } else if (item.id) {
-        // If currently inactive, activate
-        activate(item.id);
-      }
+  const updateStatus = async (user: GeneralUser) => {
+    if (user.actif && user.id) {
+      // If currently active, deactivate
+      desactivate(user.id);
+    } else if (user.id) {
+      // If currently inactive, activate
+      activate(user.id);
     }
   };
-  const submitModalHandler = async () => {};
 
-  const openConfirmationDialog = (user: GeneralUser) => {
-    setSelectedUser(user);
-    const message =
-      user && user.actif
-        ? t("customerAccounts.updateStatusDialog.desativationMessage")
-        : t("customerAccounts.updateStatusDialog.activationMessage");
-    const title = t("customerAccounts.updateStatusDialog.title");
-    confirmationDialogRef.current?.open(title, message);
-  };
+  const submitModalHandler = async () => {};
 
   const columns: UIColumnDefinitionType<GeneralUser>[] = [
     {
@@ -94,7 +81,12 @@ const UserManagement = () => {
       header: t("userManagement.globalUsers.statusColumn"),
       render: (item) => (
         <div
-          onClick={() => openConfirmationDialog(item)}
+          onClick={() => {
+            const message = item.actif
+              ? t("customerAccounts.updateStatusDialog.desativationMessage")
+              : t("customerAccounts.updateStatusDialog.activationMessage");
+            confirm(item, message);
+          }}
           style={{ cursor: "pointer" }}
         >
           <Status value={item.actif!!} />
@@ -158,10 +150,7 @@ const UserManagement = () => {
           <UserModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
         </Route>
       </Switch>
-      <ConfirmationDialog
-        onConfirm={updateStatusHandler}
-        ref={confirmationDialogRef}
-      />
+      <ConfirmationDialog />
     </>
   );
 };

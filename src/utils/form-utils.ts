@@ -202,8 +202,7 @@ export const formValuesToUser = (values: UserFormValues): GeneralUser => {
   };
 };
 
-export const stationInitFormValues = {
-  mode: Mode.CREATE,
+export const stationInitFormValues: StationFormValues = {
   name: "",
   address: "",
   creatorCustomerAccountName: "",
@@ -227,6 +226,7 @@ export const stationInitFormValues = {
   password: "",
   countryId: 0,
   customerAccountId: "",
+  savedCustomerAccountId: "",
   cordonneesGps: "",
   modeAffectation: "",
   journal: "",

@@ -1,15 +1,12 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
-import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import ConfirmationDialog, {
-  ConfirmationDialogRefType,
-} from "components/Dialog/ConfirmationDialog";
+import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
@@ -27,35 +24,25 @@ const CustomerAccountManagement = () => {
   const history = useHistory();
   let { path } = useRouteMatch();
 
-  const [selectedAccount, setSelectedAccount] = useState<CustomerAccount>();
-  const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
-
   const { customerAccounts, isLoading } = useCustomerAccounts();
   const { activate, desactivate } = useCustomerAccountQueries();
 
-  const submitModalHandler = async () => {};
+  const { confirm, ConfirmationDialog } = useConfirm({
+    title: t("customerAccounts.updateStatusDialog.title"),
+    onConfirm: (customerAccount) => updateStatus(customerAccount),
+  });
 
-  const updateStatusHandler = () => {
-    if (selectedAccount) {
-      let item = selectedAccount;
-      if (item.actif && item.id) {
-        // If currently active, deactivate
-        desactivate(item.id);
-      } else if (item.id) {
-        // If currently inactive, activate
-        activate(item.id);
-      }
+  const updateStatus = (customerAccount: CustomerAccount) => {
+    if (customerAccount.actif && customerAccount.id) {
+      // If currently active, deactivate
+      desactivate(customerAccount.id);
+    } else if (customerAccount.id) {
+      // If currently inactive, activate
+      activate(customerAccount.id);
     }
   };
 
-  const openConfirmationDialog = (customerAccount: CustomerAccount) => {
-    setSelectedAccount(customerAccount);
-    const title = t("customerAccounts.updateStatusDialog.title");
-    const message = customerAccount.actif
-      ? t("customerAccounts.updateStatusDialog.desativationMessage")
-      : t("customerAccounts.updateStatusDialog.activationMessage");
-    confirmationDialogRef.current?.open(title, message);
-  };
+  const submitModalHandler = async () => {};
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
@@ -96,7 +83,12 @@ const CustomerAccountManagement = () => {
       header: t("common.status"),
       render: (item: CustomerAccount) => (
         <div
-          onClick={() => openConfirmationDialog(item)}
+          onClick={() => {
+            const message = item.actif
+              ? t("customerAccounts.updateStatusDialog.desativationMessage")
+              : t("customerAccounts.updateStatusDialog.activationMessage");
+            confirm(item, message);
+          }}
           style={{ cursor: "pointer" }}
         >
           <Status value={item.actif!!} />
@@ -176,10 +168,7 @@ const CustomerAccountManagement = () => {
         </Route>
       </Switch>
 
-      <ConfirmationDialog
-        onConfirm={updateStatusHandler}
-        ref={confirmationDialogRef}
-      />
+      <ConfirmationDialog />
     </>
   );
 };
