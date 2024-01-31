@@ -50,6 +50,11 @@ export const useCustomerAccountQueries = () => {
 
   const { mutateAsync: create } = useMutation({
     mutationFn: createCustomerAccount,
+    onSuccess: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["customerAccounts"],
+      });
+    },
   });
 
   const { mutateAsync: update } = useMutation({

@@ -50,6 +50,11 @@ export const useUserQueries = () => {
 
   const { mutateAsync: create } = useMutation({
     mutationFn: addUser,
+    onSuccess: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
+    },
   });
 
   const { mutateAsync: update } = useMutation({
@@ -66,12 +71,12 @@ export const useUserQueries = () => {
 
   const { mutate: activate } = useMutation({
     mutationFn: activateUser,
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
   });
 
   const { mutate: desactivate } = useMutation({
     mutationFn: deactivateUser,
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
   });
 
   return {

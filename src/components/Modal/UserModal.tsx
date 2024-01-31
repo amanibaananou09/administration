@@ -45,12 +45,13 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
 
   const form = useForm<UserFormValues>({
     mode: "all",
-    defaultValues: {
-      ...userInitFormValues,
-      customerAccountId: loggedUser!!.customerAccountId,
-      creatorAccountId: loggedUser!!.customerAccountId,
-    },
-    values: user ? userToFormValues(user) : undefined,
+    values: user
+      ? userToFormValues(user)
+      : {
+          ...userInitFormValues,
+          customerAccountId: loggedUser!!.customerAccountId,
+          creatorAccountId: loggedUser!!.customerAccountId,
+        },
   });
 
   const submitHandler: SubmitHandler<UserFormValues> = async (values) => {

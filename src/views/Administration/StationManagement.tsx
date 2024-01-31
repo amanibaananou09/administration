@@ -3,22 +3,19 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
+import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import ConfirmationDialog, {
-  ConfirmationDialogRefType,
-} from "components/Dialog/ConfirmationDialog";
+import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import StationModal from "components/Modal/StationModal";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useStationQueries, useStations } from "hooks/use-station";
-import { useRef, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import { Mode } from "../../common/enums";
 
 const StationManagement = () => {
   const history = useHistory();
@@ -28,32 +25,20 @@ const StationManagement = () => {
   const { stations, isLoading } = useStations();
   const { activate, desactivate } = useStationQueries();
 
-  const [selectedStation, setSelectedStation] = useState<GeneralStations>();
-  const confirmationDialogRef = useRef<ConfirmationDialogRefType>(null);
+  const { ConfirmationDialog, confirm } = useConfirm({
+    onConfirm: (item) => updateStatus(item),
+    title: t("stationManagement.updateStatusDialog.title"),
+  });
 
-  const submitModalHandler = async () => {};
-
-  const openConfirmationDialog = (station: GeneralStations) => {
-    setSelectedStation(station);
-
-    const title = t("stationManagement.updateStatusDialog.title");
-    const message = station.actif
-      ? t("stationManagement.updateStatusDialog.desativationMessage")
-      : t("stationManagement.updateStatusDialog.activationMessage");
-
-    confirmationDialogRef.current?.open(title, message);
-  };
-
-  const updateStatusHandler = async () => {
-    if (selectedStation) {
-      let item = selectedStation;
-      if (item.actif && item.id) {
-        desactivate(item.id);
-      } else if (item.id) {
-        activate(item.id);
-      }
+  const updateStatus = async (item: GeneralStations) => {
+    if (item.actif && item.id) {
+      desactivate(item.id);
+    } else if (item.id) {
+      activate(item.id);
     }
   };
+
+  const submitModalHandler = async () => {};
 
   const columns: UIColumnDefinitionType<GeneralStations>[] = [
     {
@@ -89,7 +74,12 @@ const StationManagement = () => {
       header: t("stationManagement.deactivation"),
       render: (item) => (
         <div
-          onClick={() => openConfirmationDialog(item)}
+          onClick={() => {
+            const message = item.actif
+              ? t("stationManagement.updateStatusDialog.desativationMessage")
+              : t("stationManagement.updateStatusDialog.activationMessage");
+            confirm(item, message);
+          }}
           style={{ cursor: "pointer" }}
         >
           <Status value={item.actif!!} />
@@ -187,12 +177,9 @@ const StationManagement = () => {
           <StationModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
         </Route>
       </Switch>
-      <ConfirmationDialog
-        onConfirm={updateStatusHandler}
-        ref={confirmationDialogRef}
-      />
+      <ConfirmationDialog />
     </>
   );
-};
+};;
 
 export default StationManagement;

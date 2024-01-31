@@ -66,6 +66,11 @@ export const useStationQueries = () => {
   const { mutateAsync: create } = useMutation({
     mutationFn: (newStation: addStations) =>
       addStation(customerAccountId!!, newStation),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["stations"],
+      });
+    },
   });
 
   const { mutateAsync: update } = useMutation({

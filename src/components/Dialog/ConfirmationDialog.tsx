@@ -1,83 +1,79 @@
+import { Button } from "@chakra-ui/button";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React, {
-  Ref,
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/modal";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export interface ConfirmationDialogRefType {
-  open: (title: string, message: string) => void;
+interface DialogProps {
+  onConfirm: (args: any) => void;
+  onDismiss?: () => void;
+  message?: string;
+  title: string;
 }
 
-interface ConfirmationDialogProps {
-  cancelBtn?: string;
-  submitBtn?: string;
-  onConfirm: () => void;
-  ref?: React.Ref<any>;
-}
-
-const ConfirmationDialog = (
-  { cancelBtn, submitBtn, onConfirm }: ConfirmationDialogProps,
-  ref: Ref<ConfirmationDialogRefType>,
-) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [title, setTitle] = useState<string>();
-  const [message, setMessage] = useState<string>();
-  const cancelRef = useRef<any>(null);
+export const useConfirm = ({
+  onConfirm,
+  onDismiss,
+  message,
+  title,
+}: DialogProps) => {
   const { t } = useTranslation();
+  const [msg, setMsg] = useState(message);
+  const [confirmArgs, setConfirmArgs] = useState();
+  const [isOpen, setOpen] = useState(false);
 
-  useImperativeHandle(ref, () => ({
-    open(title, message) {
-      setTitle(title);
-      setMessage(message);
-      onOpen();
-    },
-  }));
+  const toggle = () => setOpen(!isOpen);
 
-  const confirmHandler = () => {
-    onConfirm();
-    onClose();
+  const handleApprove = () => {
+    if (onConfirm) {
+      onConfirm(confirmArgs);
+    }
+    toggle();
   };
 
-  return (
-    <AlertDialog
-      isOpen={isOpen}
-      leastDestructiveRef={cancelRef}
-      onClose={onClose}
-      closeOnOverlayClick={false}
-    >
-      <AlertDialogOverlay>
-        <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            {title}
-          </AlertDialogHeader>
+  const handleDismiss = () => {
+    if (onDismiss) {
+      onDismiss();
+    }
+    toggle();
+  };
 
-          <AlertDialogBody>{message}</AlertDialogBody>
+  const openDialog = (args: any, message?: string) => {
+    setConfirmArgs(args);
+    if (message) {
+      setMsg(message);
+    }
+    toggle();
+  };
 
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
-              {cancelBtn ? cancelBtn : t("common.confirmationDialog.cancel")}
+  const ConfirmationDialog = () => {
+    return (
+      <Modal isOpen={isOpen} onClose={toggle} closeOnOverlayClick={false}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{title}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>{msg}</ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={handleDismiss}>
+              {t("common.confirmationDialog.cancel")}
             </Button>
-            <Button colorScheme="red" onClick={confirmHandler} ml={3}>
-              {submitBtn ? submitBtn : t("common.confirmationDialog.confirm")}
+            <Button colorScheme="teal" onClick={handleApprove}>
+              {t("common.confirmationDialog.confirm")}
             </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogOverlay>
-    </AlertDialog>
-  );
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+  };
+
+  return { ConfirmationDialog, confirm: openDialog };
 };
-
-export default forwardRef(ConfirmationDialog);

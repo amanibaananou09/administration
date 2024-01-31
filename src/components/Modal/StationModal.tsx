@@ -45,12 +45,13 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
 
   const form = useForm<StationFormValues>({
     mode: "all",
-    defaultValues: {
-      ...stationInitFormValues,
-      customerAccountId: user!!.customerAccountId,
-      creatorAccountId: user!!.customerAccountId,
-    },
-    values: !isCreateMode && station ? stationToFormValues(station) : undefined,
+    values: station
+      ? stationToFormValues(station)
+      : {
+          ...stationInitFormValues,
+          customerAccountId: user!!.customerAccountId,
+          creatorAccountId: user!!.customerAccountId,
+        },
   });
 
   const submitHandler: SubmitHandler<StationFormValues> = async (values) => {

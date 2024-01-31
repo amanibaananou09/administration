@@ -12,8 +12,7 @@ import { Mode } from "common/enums";
  * Customer Account form utils
  */
 
-export const customerAccountInitFormValues = {
-  mode: Mode.CREATE,
+export const customerAccountInitFormValues: CustomerAccountFormValues = {
   name: "",
   actif: false,
   resaleRight: false,
@@ -23,6 +22,7 @@ export const customerAccountInitFormValues = {
   creatorAccountId: "",
   username: "",
   email: "",
+  savedEmail: "",
   firstName: "",
   lastName: "",
   password: "",
@@ -202,8 +202,7 @@ export const formValuesToUser = (values: UserFormValues): GeneralUser => {
   };
 };
 
-export const stationInitFormValues = {
-  mode: Mode.CREATE,
+export const stationInitFormValues: StationFormValues = {
   name: "",
   address: "",
   creatorCustomerAccountName: "",
@@ -227,6 +226,7 @@ export const stationInitFormValues = {
   password: "",
   countryId: 0,
   customerAccountId: "",
+  savedCustomerAccountId: "",
   cordonneesGps: "",
   modeAffectation: "",
   journal: "",
