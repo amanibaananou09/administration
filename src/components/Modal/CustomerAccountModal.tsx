@@ -61,15 +61,13 @@ const CustomerAccountModal = ({
 
   const form = useForm<CustomerAccountFormValues>({
     mode: "all",
-    defaultValues: {
-      ...customerAccountInitFormValues,
-      parentId: user!!.customerAccountId,
-      creatorAccountId: user!!.customerAccountId,
-    },
-    values:
-      !isCreateMode && customerAccount
-        ? customerAccountToFormValues(customerAccount)
-        : undefined,
+    values: customerAccount
+      ? customerAccountToFormValues(customerAccount)
+      : {
+          ...customerAccountInitFormValues,
+          parentId: user!!.customerAccountId,
+          creatorAccountId: user!!.customerAccountId,
+        },
   });
 
   const submitHandler: SubmitHandler<CustomerAccountFormValues> = async (
