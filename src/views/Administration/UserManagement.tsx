@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralUser } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -17,20 +17,26 @@ import { useUserQueries, useUsers } from "hooks/use-user";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
+import { useState } from "react";
 
 const UserManagement = () => {
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
 
-  const { users, isLoading } = useUsers();
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
+  const { users, totalPages, totalElements, isLoading } = useUsers({
+    page: currentPage,
+  });
   const { activate, desactivate } = useUserQueries();
+  const numberOfElements = users ? users.length : 0;
 
   const { confirm, ConfirmationDialog } = useConfirm({
     title: t("customerAccounts.updateStatusDialog.title"),
     onConfirm: (user) => updateStatus(user),
   });
-
+  const submitModalHandler = async () => {};
   const updateStatus = async (user: GeneralUser) => {
     if (user.actif && user.id) {
       // If currently active, deactivate
@@ -41,8 +47,8 @@ const UserManagement = () => {
     }
   };
 
-  const submitModalHandler = async () => {};
-
+  //styles
+  const textColor = "gray.700";
   const columns: UIColumnDefinitionType<GeneralUser>[] = [
     {
       header: "#",
@@ -111,9 +117,6 @@ const UserManagement = () => {
     },
   ];
 
-  //styles
-  const textColor = "gray.700";
-
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -125,7 +128,34 @@ const UserManagement = () => {
               </Text>
             </Flex>
           </CardHeader>
-
+          <Box
+            display={{ base: "none", md: "flex" }}
+            justifyContent="flex-end"
+            p="4"
+          >
+            <ButtonGroup spacing={4}>
+              <Button
+                isDisabled={currentPage === 0 || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                {t("common.previous")}
+              </Button>
+              <Button isDisabled={currentPage === 0 || totalPages === 0}>
+                {t("common.page")} {currentPage + 1} {t("common.of")}{" "}
+                {totalPages}
+              </Button>
+              <Button
+                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                {t("common.next")}
+              </Button>
+              <Button isDisabled={currentPage === 0 || totalPages === 0}>
+                {t("common.report")} {numberOfElements} {t("common.on")}{" "}
+                {totalElements}
+              </Button>
+            </ButtonGroup>
+          </Box>
           <CardBody>
             {!isLoading && users && (
               <UITable

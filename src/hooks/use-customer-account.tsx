@@ -8,6 +8,7 @@ import {
   updateAccount,
 } from "common/api/customerAccount-api";
 import useQueryParams from "./use-query-params";
+import { CustomerAccountCreteria } from "../common/AdminModel";
 
 export const useCustomerAccountById = (customerAccountId: number) => {
   const { data: customerAccount, isLoading, error } = useQuery({
@@ -23,25 +24,33 @@ export const useCustomerAccountById = (customerAccountId: number) => {
   };
 };
 
-export const useCustomerAccounts = () => {
+export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
   const query = useQueryParams();
   const name = query.get("name") ?? undefined;
   const creator = query.get("creator") ?? undefined;
   const parent = query.get("parent") ?? undefined;
 
-  const { data: customerAccounts, isLoading } = useQuery({
-    queryKey: ["customerAccounts", { name, creator, parent }],
+  const { page } = creteria;
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["customerAccounts", { name, creator, parent }, creteria],
     queryFn: () =>
-      getCustomerAccounts({
-        name,
-        creator,
-        parent,
-      }),
+      getCustomerAccounts(
+        {
+          name,
+          creator,
+          parent,
+        },
+        page,
+      ),
   });
 
   return {
     isLoading,
-    customerAccounts,
+    customerAccounts: data?.content,
+    totalPages: data?.totalPages ?? 0,
+    totalElements: data?.totalElements ?? 0,
+    numberOfElements: data?.numberOfElements ?? 0,
   };
 };
 

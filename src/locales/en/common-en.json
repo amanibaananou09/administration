@@ -39,5 +39,11 @@
     "cancel": "Cancel"
   },
   "admin": "Administration",
-  "interface": "Management interface"
+  "interface": "Management interface",
+  "previous": "Previous",
+  "next": "Next",
+  "page": "Page",
+  "of": "of",
+  "report": "Reports from",
+  "on": "on"
 }

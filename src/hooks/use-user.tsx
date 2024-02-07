@@ -8,6 +8,10 @@ import {
   userInformation,
 } from "common/api/general-user-api";
 import useQueryParams from "./use-query-params";
+import {
+  CustomerAccountCreteria,
+  GeneralUserCreteria,
+} from "../common/AdminModel";
 
 export const useUserById = (userId: number) => {
   const { data: user, isLoading, error } = useQuery({
@@ -23,25 +27,33 @@ export const useUserById = (userId: number) => {
   };
 };
 
-export const useUsers = () => {
+export const useUsers = (creteria: GeneralUserCreteria) => {
   const query = useQueryParams();
   const name = query.get("name") ?? undefined;
   const creator = query.get("creator") ?? undefined;
   const parent = query.get("parent") ?? undefined;
 
-  const { data: users, isLoading } = useQuery({
-    queryKey: ["users", { name, creator, parent }],
+  const { page } = creteria;
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["users", { name, creator, parent }, creteria],
     queryFn: () =>
-      getUsers({
-        name,
-        creator,
-        parent,
-      }),
+      getUsers(
+        {
+          name,
+          creator,
+          parent,
+        },
+        page,
+      ),
   });
 
   return {
     isLoading,
-    users,
+    users: data?.content,
+    totalPages: data?.totalPages ?? 0,
+    totalElements: data?.totalElements ?? 0,
+    numberOfElements: data?.numberOfElements ?? 0,
   };
 };
 

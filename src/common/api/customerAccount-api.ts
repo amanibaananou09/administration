@@ -11,15 +11,23 @@ type customerAccountSearchCreteria = {
 
 export const getCustomerAccounts = async (
   creteria: customerAccountSearchCreteria = {},
-): Promise<CustomerAccount[]> => {
-  let url = `${API_URL}`;
+  page: number,
+): Promise<{
+  content: CustomerAccount[];
+  totalPages: number;
+  totalElements: number;
+  numberOfElements: number;
+}> => {
+  let url = `${API_URL}/filter`;
 
   const { name, creator, parent } = creteria;
 
   const searchParams = new URLSearchParams();
 
   if (name || parent || creator) {
-    url += "/filter?";
+    url;
+  } else {
+    url;
   }
 
   if (name) {
@@ -33,8 +41,9 @@ export const getCustomerAccounts = async (
   if (parent) {
     searchParams.append("parent", parent);
   }
+  searchParams.append("page", page.toString());
 
-  const response = await api.get(url + searchParams.toString());
+  const response = await api.get(url + "?" + searchParams.toString());
 
   return response.data;
 };

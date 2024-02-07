@@ -13,7 +13,7 @@ import AdminNavbarLinks from "./AdminNavbarLinks";
 
 const AdminNavbar = (props: AdminNavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     window.addEventListener("scroll", changeNavbar);
 
@@ -21,6 +21,15 @@ const AdminNavbar = (props: AdminNavbarProps) => {
       window.removeEventListener("scroll", changeNavbar);
     };
   });
+
+  const handleBrandClick = async (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) => {
+    event.preventDefault();
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setLoading(false);
+  };
 
   const {
     variant,
@@ -119,13 +128,11 @@ const AdminNavbar = (props: AdminNavbarProps) => {
         >
           <Breadcrumb>
             <BreadcrumbItem color={mainText}>
-              <BreadcrumbLink href="#" color={secondaryText}>
-                Pages
-              </BreadcrumbLink>
+              <BreadcrumbLink color={secondaryText}>Pages</BreadcrumbLink>
             </BreadcrumbItem>
 
             <BreadcrumbItem color={mainText}>
-              <BreadcrumbLink href="#" color={mainText}>
+              <BreadcrumbLink onClick={handleBrandClick} color={mainText}>
                 {brandText}
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -133,7 +140,6 @@ const AdminNavbar = (props: AdminNavbarProps) => {
           {/* Here we create navbar brand, based on route name */}
           <Link
             color={mainText}
-            href="#"
             bg="inherit"
             borderRadius="inherit"
             fontWeight="bold"
@@ -147,7 +153,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
               boxShadow: "none",
             }}
           >
-            {brandText}
+            {loading ? "Loading..." : brandText}
           </Link>
         </Box>
         <Box ms="auto" w={{ sm: "100%", md: "unset" }}>

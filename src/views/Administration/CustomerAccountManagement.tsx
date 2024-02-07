@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
@@ -18,20 +18,31 @@ import {
 } from "hooks/use-customer-account";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import { useState } from "react";
 
 const CustomerAccountManagement = () => {
   const { t } = useTranslation();
   const history = useHistory();
   let { path } = useRouteMatch();
 
-  const { customerAccounts, isLoading } = useCustomerAccounts();
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const {
+    customerAccounts,
+    totalPages,
+    totalElements,
+    isLoading,
+  } = useCustomerAccounts({
+    page: currentPage,
+  });
   const { activate, desactivate } = useCustomerAccountQueries();
+
+  const numberOfElements = customerAccounts ? customerAccounts.length : 0;
 
   const { confirm, ConfirmationDialog } = useConfirm({
     title: t("customerAccounts.updateStatusDialog.title"),
     onConfirm: (customerAccount) => updateStatus(customerAccount),
   });
-
+  const submitModalHandler = async () => {};
   const updateStatus = (customerAccount: CustomerAccount) => {
     if (customerAccount.actif && customerAccount.id) {
       // If currently active, deactivate
@@ -42,7 +53,8 @@ const CustomerAccountManagement = () => {
     }
   };
 
-  const submitModalHandler = async () => {};
+  //styles
+  const textColor = "gray.700";
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
@@ -117,21 +129,45 @@ const CustomerAccountManagement = () => {
     },
   ];
 
-  //styles
-  const textColor = "gray.700";
-
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
         <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
           <CardHeader p="6px 0px 22px 0px">
-            <Flex align="center" justify="space-between" p="5px">
+            <Flex align="center" justify="space-between">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("customerAccounts.header")}
               </Text>
             </Flex>
           </CardHeader>
-
+          <Box
+            display={{ base: "none", md: "flex" }}
+            justifyContent="flex-end"
+            p="4"
+          >
+            <ButtonGroup spacing={4}>
+              <Button
+                isDisabled={currentPage === 0 || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                {t("common.previous")}
+              </Button>
+              <Button isDisabled={currentPage === 0 || totalPages === 0}>
+                {t("common.page")} {currentPage + 1} {t("common.of")}{" "}
+                {totalPages}
+              </Button>
+              <Button
+                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                {t("common.next")}
+              </Button>
+              <Button isDisabled={currentPage === 0 || totalPages === 0}>
+                {t("common.report")} {numberOfElements} {t("common.on")}{" "}
+                {totalElements}
+              </Button>
+            </ButtonGroup>
+          </Box>
           <CardBody>
             {!isLoading && customerAccounts && (
               <UITable

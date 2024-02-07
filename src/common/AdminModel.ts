@@ -18,6 +18,10 @@ export interface CustomerAccount {
   paymentMethods?: PaymentMethod[];
 }
 
+export interface CustomerAccountCreteria {
+  page: number;
+}
+
 export interface PaymentMethod {
   code: string;
   customerAccountId?: string;
@@ -53,6 +57,10 @@ export interface GeneralUser {
   lastConnectionDate: string;
   creatorCustomerAccountName?: string;
   customerAccountName?: string;
+}
+
+export interface GeneralUserCreteria {
+  page: number;
 }
 
 export interface userScope {
@@ -108,6 +116,10 @@ export interface GeneralStations {
   modeAffectation: string;
   country?: Country;
   journal: string;
+}
+
+export interface GeneralStationCreteria {
+  page: number;
 }
 
 export interface addStations {
