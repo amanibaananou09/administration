@@ -188,6 +188,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
             name="controllerPts.ptsId"
             control={form.control}
             disabled={isViewMode}
+            maxLength={24}
             rules={{ validate: validator.ptsIdValidator }}
           />
 
