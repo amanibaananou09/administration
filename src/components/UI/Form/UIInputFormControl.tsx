@@ -26,6 +26,7 @@ type UIInputFormControlProps = UseControllerProps<any> & {
   >;
   size?: ResponsiveValue<(string & {}) | "sm" | "md" | "lg" | "xs">;
   styles?: StyleProps;
+  maxLength?: number; 
 };
 
 const UIInputFormControl = ({
@@ -42,6 +43,7 @@ const UIInputFormControl = ({
   size,
   styles,
   disabled,
+  maxLength,
 }: UIInputFormControlProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -68,6 +70,7 @@ const UIInputFormControl = ({
     color: isDisabled ? "gray.900" : "",
     bg: isDisabled ? "gray.100" : "",
     size: size,
+    maxLength: type === "text" ? maxLength : undefined,
     ...styles,
   };
 
