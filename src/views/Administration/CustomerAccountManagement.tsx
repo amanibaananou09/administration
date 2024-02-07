@@ -140,6 +140,20 @@ const CustomerAccountManagement = () => {
               </Text>
             </Flex>
           </CardHeader>
+
+          <CardBody>
+            {!isLoading && customerAccounts && (
+              <UITable
+                data={customerAccounts.sort(
+                  (c1, c2) => Number(c1.id!!) - Number(c2.id!!),
+                )}
+                columns={columns}
+                emptyListMessage={t("customerAccounts.listEmpty")}
+              />
+            )}
+
+            {isLoading && <SkeletonTable />}
+          </CardBody>
           <Box
             display={{ base: "none", md: "flex" }}
             justifyContent="flex-end"
@@ -168,19 +182,6 @@ const CustomerAccountManagement = () => {
               </Button>
             </ButtonGroup>
           </Box>
-          <CardBody>
-            {!isLoading && customerAccounts && (
-              <UITable
-                data={customerAccounts.sort(
-                  (c1, c2) => Number(c1.id!!) - Number(c2.id!!),
-                )}
-                columns={columns}
-                emptyListMessage={t("customerAccounts.listEmpty")}
-              />
-            )}
-
-            {isLoading && <SkeletonTable />}
-          </CardBody>
         </Card>
       </Flex>
       <Switch>
