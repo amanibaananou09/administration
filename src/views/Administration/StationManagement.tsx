@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -16,20 +16,25 @@ import UITable from "components/UI/Table/UITable";
 import { useStationQueries, useStations } from "hooks/use-station";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import { useState } from "react";
 
 const StationManagement = () => {
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
 
-  const { stations, isLoading } = useStations();
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const { stations, totalPages, totalElements, isLoading } = useStations({
+    page: currentPage,
+  });
   const { activate, desactivate } = useStationQueries();
+
+  const numberOfElements = stations ? stations.length : 0;
 
   const { ConfirmationDialog, confirm } = useConfirm({
     onConfirm: (item) => updateStatus(item),
     title: t("stationManagement.updateStatusDialog.title"),
   });
-
   const updateStatus = async (item: GeneralStations) => {
     if (item.actif && item.id) {
       desactivate(item.id);
@@ -150,7 +155,34 @@ const StationManagement = () => {
               </Text>
             </Flex>
           </CardHeader>
-
+          <Box
+            display={{ base: "none", md: "flex" }}
+            justifyContent="flex-end"
+            p="4"
+          >
+            <ButtonGroup spacing={4}>
+              <Button
+                isDisabled={currentPage === 0 || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                {t("common.previous")}
+              </Button>
+              <Button isDisabled={currentPage === 0 || totalPages === 0}>
+                {t("common.page")} {currentPage + 1} {t("common.of")}{" "}
+                {totalPages}
+              </Button>
+              <Button
+                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                {t("common.next")}
+              </Button>
+              <Button isDisabled={currentPage === 0 || totalPages === 0}>
+                {t("common.report")} {numberOfElements} {t("common.on")}{" "}
+                {totalElements}
+              </Button>
+            </ButtonGroup>
+          </Box>
           <CardBody>
             <Flex overflowX="auto">
               {!isLoading && stations && (
@@ -180,6 +212,5 @@ const StationManagement = () => {
       <ConfirmationDialog />
     </>
   );
-};;
-
+};
 export default StationManagement;

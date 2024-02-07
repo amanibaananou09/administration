@@ -39,5 +39,11 @@
     "cancel": "Annuler"
   },
   "admin": "Administration",
-  "interface": "Interface de gestion"
+  "interface": "Interface de gestion",
+  "previous": "Précédent",
+  "next": "Suivant",
+  "page": "Page",
+  "of": "de",
+  "report": "Rapports de",
+  "on": "sur"
 }

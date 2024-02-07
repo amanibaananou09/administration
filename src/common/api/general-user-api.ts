@@ -11,15 +11,23 @@ type userSearchCreteria = {
 
 export const getUsers = async (
   creteria: userSearchCreteria = {},
-): Promise<GeneralUser[]> => {
-  let url = `${API_URL}`;
+  page: number,
+): Promise<{
+  content: GeneralUser[];
+  totalPages: number;
+  totalElements: number;
+  numberOfElements: number;
+}> => {
+  let url = `${API_URL}/filter`;
 
   const { name, creator, parent } = creteria;
 
   const searchParams = new URLSearchParams();
 
   if (name || parent || creator) {
-    url += "/filter?";
+    url;
+  } else {
+    url;
   }
 
   if (name) {
@@ -34,7 +42,10 @@ export const getUsers = async (
     searchParams.append("parent", parent);
   }
 
-  const response = await api.get(url + searchParams.toString());
+  searchParams.append("page", page.toString());
+
+  const response = await api.get(url + "?" + searchParams.toString());
+
   return response.data;
 };
 

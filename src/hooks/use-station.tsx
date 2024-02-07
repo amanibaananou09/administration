@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GeneralStations, addStations } from "common/AdminModel";
+import {
+  GeneralStations,
+  addStations,
+  GeneralStationCreteria,
+} from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
 import {
   activateStation,
@@ -28,30 +32,38 @@ export const useStationById = (stationId: number) => {
   };
 };
 
-export const useStations = () => {
+export const useStations = (creteria: GeneralStationCreteria) => {
   const query = useQueryParams();
   const { user } = useAuth();
   const name = query.get("name") ?? undefined;
   const creator = query.get("creator") ?? undefined;
   const parent = query.get("parent") ?? undefined;
 
-  const { data: stations, isLoading, error } = useQuery({
-    queryKey: ["stations", { name, creator, parent }],
+  const { page } = creteria;
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["stations", { name, creator, parent }, creteria],
     queryFn: () => {
       if (user?.customerAccountId) {
-        return listStation({
-          customerAccountId: user?.customerAccountId,
-          name,
-          creator,
-          parent,
-        });
+        return listStation(
+          {
+            customerAccountId: user?.customerAccountId,
+            name,
+            creator,
+            parent,
+          },
+          page,
+        );
       }
     },
     enabled: !!user?.customerAccountId,
   });
 
   return {
-    stations,
+    stations: data?.content,
+    totalPages: data?.totalPages ?? 0,
+    totalElements: data?.totalElements ?? 0,
+    numberOfElements: data?.numberOfElements ?? 0,
     isLoading,
     error,
   };

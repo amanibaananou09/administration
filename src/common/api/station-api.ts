@@ -1,4 +1,8 @@
-import { CustomerAccount, GeneralStations } from "common/AdminModel";
+import {
+  CustomerAccount,
+  GeneralStations,
+  GeneralUser,
+} from "common/AdminModel";
 import { Station, User } from "common/model";
 import api from "./axios";
 
@@ -77,15 +81,23 @@ export const listStation = async (
   stationSearchCriteria: StationSearchCriteria = {
     customerAccountId: "",
   },
-): Promise<GeneralStations[]> => {
-  let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station`;
+  page: number,
+): Promise<{
+  content: GeneralStations[];
+  totalPages: number;
+  totalElements: number;
+  numberOfElements: number;
+}> => {
+  let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station/filter`;
 
   const { name, creator, parent } = stationSearchCriteria;
 
   const searchParams = new URLSearchParams();
 
   if (name || parent || creator) {
-    url += "/filter?";
+    url;
+  } else {
+    url;
   }
 
   if (name) {
@@ -99,12 +111,9 @@ export const listStation = async (
   if (parent) {
     searchParams.append("parent", parent);
   }
+  searchParams.append("page", page.toString());
 
-  if (stationSearchCriteria.customerAccountId && !name && !creator && !parent) {
-    const response = await api.get(url);
-    return response.data;
-  }
-  const response = await api.get(url + searchParams.toString());
+  const response = await api.get(url + "?" + searchParams.toString());
 
   return response.data;
 };
