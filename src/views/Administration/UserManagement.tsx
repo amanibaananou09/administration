@@ -128,6 +128,18 @@ const UserManagement = () => {
               </Text>
             </Flex>
           </CardHeader>
+
+          <CardBody>
+            {!isLoading && users && (
+              <UITable
+                data={users}
+                columns={columns}
+                emptyListMessage={t("userManagement.globalUsers.listEmpty")}
+              />
+            )}
+
+            {isLoading && <SkeletonTable />}
+          </CardBody>
           <Box
             display={{ base: "none", md: "flex" }}
             justifyContent="flex-end"
@@ -156,17 +168,6 @@ const UserManagement = () => {
               </Button>
             </ButtonGroup>
           </Box>
-          <CardBody>
-            {!isLoading && users && (
-              <UITable
-                data={users}
-                columns={columns}
-                emptyListMessage={t("userManagement.globalUsers.listEmpty")}
-              />
-            )}
-
-            {isLoading && <SkeletonTable />}
-          </CardBody>
         </Card>
       </Flex>
       <Switch>

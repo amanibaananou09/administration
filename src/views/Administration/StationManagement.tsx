@@ -155,6 +155,19 @@ const StationManagement = () => {
               </Text>
             </Flex>
           </CardHeader>
+          <CardBody>
+            <Flex overflowX="auto">
+              {!isLoading && stations && (
+                <UITable
+                  data={stations}
+                  columns={columns}
+                  emptyListMessage={t("stationManagement.isLoading")}
+                />
+              )}
+
+              {isLoading && <SkeletonTable />}
+            </Flex>
+          </CardBody>
           <Box
             display={{ base: "none", md: "flex" }}
             justifyContent="flex-end"
@@ -183,19 +196,6 @@ const StationManagement = () => {
               </Button>
             </ButtonGroup>
           </Box>
-          <CardBody>
-            <Flex overflowX="auto">
-              {!isLoading && stations && (
-                <UITable
-                  data={stations}
-                  columns={columns}
-                  emptyListMessage={t("stationManagement.isLoading")}
-                />
-              )}
-
-              {isLoading && <SkeletonTable />}
-            </Flex>
-          </CardBody>
         </Card>
       </Flex>
       <Switch>
