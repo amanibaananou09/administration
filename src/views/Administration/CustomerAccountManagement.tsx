@@ -19,6 +19,9 @@ import {
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import * as XLSX from "xlsx";
 
 const CustomerAccountManagement = () => {
   const { t } = useTranslation();
@@ -42,6 +45,88 @@ const CustomerAccountManagement = () => {
     title: t("customerAccounts.updateStatusDialog.title"),
     onConfirm: (customerAccount) => updateStatus(customerAccount),
   });
+
+  const exportToExcelHandler = () => {
+    if (customerAccounts) {
+      // Extracting only required fields and mapping them to the desired order
+      const data = customerAccounts.map(
+        ({
+          id,
+          name,
+          creatorCustomerAccountName,
+          parentName,
+          resaleRight,
+          actif,
+          stationsCount,
+        }) => ({
+          ID: id,
+          Name: name,
+          Creator: creatorCustomerAccountName,
+          Parent: parentName,
+          Rights: resaleRight ? t("common.reseller") : "-",
+          Status: actif
+            ? t("accountDetailsModel.active")
+            : t("accountDetailsModel.inActive"),
+          Stations: stationsCount,
+        }),
+      );
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        t("routes.manageAccounts"),
+      );
+      XLSX.writeFile(workbook, "customer_accounts.xlsx");
+    }
+  };
+
+  const exportToPDFHandler = () => {
+    const doc = new jsPDF() as any;
+    const tableColumn = [
+      "ID",
+      "Name",
+      "Creator",
+      "Parent",
+      "Rights",
+      "Status",
+      "Stations",
+    ];
+    const tableRows: any[][] = [];
+
+    if (customerAccounts) {
+      // Prepare table rows
+      customerAccounts.forEach((customerAccount, index) => {
+        const rowData = [
+          index + 1, // ID
+          customerAccount.name,
+          customerAccount.creatorCustomerAccountName,
+          customerAccount.parentName,
+          customerAccount.resaleRight ? t("common.reseller") : "-",
+          customerAccount.actif
+            ? t("accountDetailsModel.active")
+            : t("accountDetailsModel.inActive"),
+          customerAccount.stationsCount,
+        ];
+        tableRows.push(rowData);
+      });
+    }
+
+    // Add table headers and rows
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+    });
+
+    // Set document title
+    doc.text(t("routes.manageAccounts"), 14, 10);
+
+    // Save PDF file
+    doc.save("customer_accounts.pdf");
+  };
+
   const submitModalHandler = async () => {};
   const updateStatus = (customerAccount: CustomerAccount) => {
     if (customerAccount.actif && customerAccount.id) {
@@ -138,6 +223,16 @@ const CustomerAccountManagement = () => {
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("customerAccounts.header")}
               </Text>
+              <Flex>
+                <ButtonGroup spacing={4}>
+                  <Button onClick={exportToExcelHandler}>
+                    {t("common.exportExcel")}
+                  </Button>
+                  <Button onClick={exportToPDFHandler}>
+                    {t("common.exportPDF")}
+                  </Button>
+                </ButtonGroup>
+              </Flex>
             </Flex>
           </CardHeader>
 

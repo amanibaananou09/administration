@@ -18,6 +18,9 @@ import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
 import { useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import * as XLSX from "xlsx";
 
 const UserManagement = () => {
   const history = useHistory();
@@ -36,6 +39,67 @@ const UserManagement = () => {
     title: t("customerAccounts.updateStatusDialog.title"),
     onConfirm: (user) => updateStatus(user),
   });
+
+  const exportToExcelHandler = () => {
+    if (users) {
+      const data = users.map((user) => ({
+        ID: user.id || "",
+        Username: user.username || "",
+        Creator: user.creatorCustomerAccountName || "",
+        CustomerAccount: user.customerAccountName || "",
+        Active: user.actif ? "Active" : "Inactive",
+        LastConnectionDate: formatDate(user.lastConnectionDate),
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        t("routes.manageUsers"),
+      );
+      XLSX.writeFile(workbook, "users.xlsx");
+    }
+  };
+
+  const exportToPDFHandler = () => {
+    const doc = new jsPDF() as any;
+    const tableColumn = [
+      "ID",
+      "Username",
+      "Creator",
+      "CustomerAccount",
+      "Active",
+      "LastConnectionDate",
+    ];
+    const tableRows: any[][] = [];
+
+    if (users) {
+      users.forEach((user, index) => {
+        const rowData = [
+          user.id || "",
+          user.username || "",
+          user.creatorCustomerAccountName || "",
+          user.customerAccountName || "",
+          user.actif
+            ? t("accountDetailsModel.active")
+            : t("accountDetailsModel.inActive"),
+          formatDate(user.lastConnectionDate),
+        ];
+        tableRows.push(rowData);
+      });
+    }
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+    });
+
+    doc.text(t("routes.manageUsers"), 14, 10);
+    doc.save("users.pdf");
+  };
+
   const submitModalHandler = async () => {};
   const updateStatus = async (user: GeneralUser) => {
     if (user.actif && user.id) {
@@ -126,6 +190,16 @@ const UserManagement = () => {
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("userManagement.globalUsers.header")}
               </Text>
+              <Flex>
+                <ButtonGroup spacing={4}>
+                  <Button onClick={exportToExcelHandler}>
+                    {t("common.exportExcel")}
+                  </Button>
+                  <Button onClick={exportToPDFHandler}>
+                    {t("common.exportPDF")}
+                  </Button>
+                </ButtonGroup>
+              </Flex>
             </Flex>
           </CardHeader>
 

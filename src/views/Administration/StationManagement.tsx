@@ -17,6 +17,9 @@ import { useStationQueries, useStations } from "hooks/use-station";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import * as XLSX from "xlsx";
 
 const StationManagement = () => {
   const history = useHistory();
@@ -41,6 +44,80 @@ const StationManagement = () => {
     } else if (item.id) {
       activate(item.id);
     }
+  };
+
+  const exportToExcelHandler = () => {
+    if (stations) {
+      const data = stations.map((station) => ({
+        ID: station.id || "",
+        Name: station.name || "",
+        Address: station.address || "",
+        Creator: station.creatorCustomerAccountName || "",
+        CustomerAccount: station.customerAccountName || "",
+        ControllerType: station.controllerPts.controllerType || "",
+        PtsId: station.controllerPts.ptsId || "",
+        Active: station.actif
+          ? t("accountDetailsModel.active")
+          : t("accountDetailsModel.inActive"),
+        Phone: station.controllerPts.phone || "",
+        Country: station.country?.name || "",
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        t("routes.manageStations"),
+      );
+      XLSX.writeFile(workbook, "stations.xlsx");
+    }
+  };
+
+  const exportToPDFHandler = () => {
+    const doc = new jsPDF() as any;
+    const tableColumn = [
+      "ID",
+      "Name",
+      "Address",
+      "Creator",
+      "CustomerAccount",
+      "ControllerType",
+      "PtsId",
+      "Active",
+      "Phone",
+      "Country",
+    ];
+    const tableRows: any[][] = [];
+
+    if (stations) {
+      stations.forEach((station) => {
+        const rowData = [
+          station.id || "",
+          station.name || "",
+          station.address || "",
+          station.creatorCustomerAccountName || "",
+          station.customerAccountName || "",
+          station.controllerPts.controllerType || "",
+          station.controllerPts.ptsId || "",
+          station.actif
+            ? t("accountDetailsModel.active")
+            : t("accountDetailsModel.inActive"),
+          station.controllerPts.phone || "",
+          station.country?.name || "",
+        ];
+        tableRows.push(rowData);
+      });
+    }
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+    });
+
+    doc.text(t("routes.manageStations"), 14, 10);
+    doc.save("stations.pdf");
   };
 
   const submitModalHandler = async () => {};
@@ -153,6 +230,16 @@ const StationManagement = () => {
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("stationManagement.header")}
               </Text>
+              <Flex>
+                <ButtonGroup spacing={4}>
+                  <Button onClick={exportToExcelHandler}>
+                    {t("common.exportExcel")}
+                  </Button>
+                  <Button onClick={exportToPDFHandler}>
+                    {t("common.exportPDF")}
+                  </Button>
+                </ButtonGroup>
+              </Flex>
             </Flex>
           </CardHeader>
           <CardBody>

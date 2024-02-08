@@ -190,6 +190,7 @@
     "resale": "Droit de revente",
     "stations": "Stations",
     "active": "Actif",
+    "inActive": "InActif",
     "masterUser": "Utilisateur principal",
     "paymentMean": "Moyenne du paiement"
   },

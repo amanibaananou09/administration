@@ -45,5 +45,7 @@
   "page": "Page",
   "of": "of",
   "report": "Reports from",
-  "on": "on"
+  "on": "on",
+  "exportExcel": "Excel",
+  "exportPDF": "PDF"
 }
