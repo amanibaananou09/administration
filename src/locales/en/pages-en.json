@@ -190,6 +190,7 @@
     "resale": "Resale right",
     "stations": "Stations",
     "active": "Active",
+    "inActive": "InActive",
     "masterUser": "Master user",
     "paymentMean": "Payment Mean"
   },
