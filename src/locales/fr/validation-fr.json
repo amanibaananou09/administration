@@ -1,7 +1,8 @@
 {
   "name": {
     "min": "Le nom doit comporter au moins 3 caractères",
-    "required": "Le nom est requis"
+    "required": "Le nom est requis",
+    "firstLetterUppercaseOrNoSpaces": "Le nom doit commencer par une lettre majuscule et ne doit pas contenir d'espaces ni de tirets."
   },
   "firstName": {
     "min": "Le prénom doit comporter au moins 3 caractères",
