@@ -5,6 +5,7 @@
   "compteParent": "Parent account",
   "droits": "Distributor rights",
   "stations": "Stations",
+  "stationsCount": "stations count",
   "status": "Status",
   "error": "is required",
   "errorLength": "must be at least 4 characters",

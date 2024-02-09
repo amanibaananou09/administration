@@ -44,11 +44,17 @@ const UserManagement = () => {
     if (users) {
       const data = users.map((user) => ({
         ID: user.id || "",
-        Username: user.username || "",
-        Creator: user.creatorCustomerAccountName || "",
-        CustomerAccount: user.customerAccountName || "",
-        Active: user.actif ? "Active" : "Inactive",
-        LastConnectionDate: formatDate(user.lastConnectionDate),
+        [t("userManagement.globalUsers.userNameColumn")]: user.username || "",
+        [t("userManagement.globalUsers.accountCreator")]:
+          user.creatorCustomerAccountName || "",
+        [t("userManagement.globalUsers.account")]:
+          user.customerAccountName || "",
+        [t("userManagement.globalUsers.statusColumn")]: user.actif
+          ? "Active"
+          : "Inactive",
+        [t("userManagement.globalUsers.lastVisit")]: formatDate(
+          user.lastConnectionDate,
+        ),
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -66,11 +72,11 @@ const UserManagement = () => {
     const doc = new jsPDF() as any;
     const tableColumn = [
       "ID",
-      "Username",
-      "Creator",
-      "CustomerAccount",
-      "Active",
-      "LastConnectionDate",
+      t("userManagement.globalUsers.userNameColumn"),
+      t("userManagement.globalUsers.accountCreator"),
+      t("userManagement.globalUsers.account"),
+      t("userManagement.globalUsers.statusColumn"),
+      t("userManagement.globalUsers.lastVisit"),
     ];
     const tableRows: any[][] = [];
 
@@ -94,6 +100,7 @@ const UserManagement = () => {
       head: [tableColumn],
       body: tableRows,
       startY: 20,
+      styles: { fontSize: 8 },
     });
 
     doc.text(t("routes.manageUsers"), 14, 10);

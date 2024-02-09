@@ -60,14 +60,14 @@ const CustomerAccountManagement = () => {
           stationsCount,
         }) => ({
           ID: id,
-          Name: name,
-          Creator: creatorCustomerAccountName,
-          Parent: parentName,
-          Rights: resaleRight ? t("common.reseller") : "-",
-          Status: actif
+          [t("common.name")]: name,
+          [t("common.creator")]: creatorCustomerAccountName,
+          [t("common.compteParent")]: parentName,
+          [t("common.droits")]: resaleRight ? t("common.reseller") : "-",
+          [t("common.status")]: actif
             ? t("accountDetailsModel.active")
             : t("accountDetailsModel.inActive"),
-          Stations: stationsCount,
+          [t("common.stationsCount")]: stationsCount,
         }),
       );
 
@@ -86,12 +86,12 @@ const CustomerAccountManagement = () => {
     const doc = new jsPDF() as any;
     const tableColumn = [
       "ID",
-      "Name",
-      "Creator",
-      "Parent",
-      "Rights",
-      "Status",
-      "Stations",
+      t("common.name"),
+      t("common.creator"),
+      t("common.compteParent"),
+      t("common.droits"),
+      t("common.status"),
+      t("common.stations"),
     ];
     const tableRows: any[][] = [];
 
@@ -118,6 +118,7 @@ const CustomerAccountManagement = () => {
       head: [tableColumn],
       body: tableRows,
       startY: 20,
+      styles: { fontSize: 8 },
     });
 
     // Set document title

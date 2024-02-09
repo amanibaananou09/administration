@@ -50,17 +50,20 @@ const StationManagement = () => {
     if (stations) {
       const data = stations.map((station) => ({
         ID: station.id || "",
-        Name: station.name || "",
-        Address: station.address || "",
-        Creator: station.creatorCustomerAccountName || "",
-        CustomerAccount: station.customerAccountName || "",
-        ControllerType: station.controllerPts.controllerType || "",
-        PtsId: station.controllerPts.ptsId || "",
-        Active: station.actif
+        [t("stationManagement.name")]: station.name || "",
+        [t("common.address")]: station.address || "",
+        [t("stationManagement.creator")]:
+          station.creatorCustomerAccountName || "",
+        [t("stationManagement.compte")]: station.customerAccountName || "",
+        [t("stationManagement.typeController")]:
+          station.controllerPts?.controllerType || "",
+        [t("stationManagement.controllerId")]:
+          station.controllerPts?.ptsId || "",
+        [t("common.status")]: station.actif
           ? t("accountDetailsModel.active")
           : t("accountDetailsModel.inActive"),
-        Phone: station.controllerPts.phone || "",
-        Country: station.country?.name || "",
+        [t("stationManagement.phone")]: station.controllerPts?.phone || "",
+        [t("common.country")]: station.country?.name || "",
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -78,15 +81,15 @@ const StationManagement = () => {
     const doc = new jsPDF() as any;
     const tableColumn = [
       "ID",
-      "Name",
-      "Address",
-      "Creator",
-      "CustomerAccount",
-      "ControllerType",
-      "PtsId",
-      "Active",
-      "Phone",
-      "Country",
+      t("stationManagement.name"),
+      t("common.address"),
+      t("stationManagement.creator"),
+      t("stationManagement.compte"),
+      t("stationManagement.typeController"),
+      t("stationManagement.controllerId"),
+      t("common.status"),
+      t("stationManagement.phone"),
+      t("common.country"),
     ];
     const tableRows: any[][] = [];
 
@@ -98,12 +101,12 @@ const StationManagement = () => {
           station.address || "",
           station.creatorCustomerAccountName || "",
           station.customerAccountName || "",
-          station.controllerPts.controllerType || "",
-          station.controllerPts.ptsId || "",
+          station.controllerPts?.controllerType || "",
+          station.controllerPts?.ptsId || "",
           station.actif
             ? t("accountDetailsModel.active")
             : t("accountDetailsModel.inActive"),
-          station.controllerPts.phone || "",
+          station.controllerPts?.phone || "",
           station.country?.name || "",
         ];
         tableRows.push(rowData);
@@ -114,6 +117,7 @@ const StationManagement = () => {
       head: [tableColumn],
       body: tableRows,
       startY: 20,
+      styles: { fontSize: 6 },
     });
 
     doc.text(t("routes.manageStations"), 14, 10);
@@ -145,28 +149,12 @@ const StationManagement = () => {
       ),
     },
     {
-      header: t("common.creator"),
+      header: t("stationManagement.creator"),
       key: "creatorCustomerAccountName",
     },
     {
       header: t("stationManagement.compte"),
       key: "customerAccountName",
-    },
-    {
-      header: t("stationManagement.deactivation"),
-      render: (item) => (
-        <div
-          onClick={() => {
-            const message = item.actif
-              ? t("stationManagement.updateStatusDialog.desativationMessage")
-              : t("stationManagement.updateStatusDialog.activationMessage");
-            confirm(item, message);
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <Status value={item.actif!!} />
-        </div>
-      ),
     },
     {
       header: t("stationManagement.typeController"),
@@ -177,7 +165,7 @@ const StationManagement = () => {
       key: "controllerPts.ptsId",
     },
     {
-      header: t("common.phone"),
+      header: t("stationManagement.phone"),
       key: "controllerPts.phone",
     },
     {
@@ -199,6 +187,30 @@ const StationManagement = () => {
     {
       header: t("common.country"),
       key: "country.name",
+    },
+    {
+      header: t("stationManagement.deactivation"),
+      render: (item) => (
+        <div
+          onClick={() => {
+            const message = item.actif
+              ? t("stationManagement.updateStatusDialog.desativationMessage")
+              : t("stationManagement.updateStatusDialog.activationMessage");
+            confirm(item, message);
+          }}
+          style={{ cursor: "pointer" }}
+        >
+          <Status value={item.actif!!} />
+        </div>
+      ),
+    },
+    {
+      header: t("stationManagement.modeAffectation"),
+      key: "modeAffectation",
+    },
+    {
+      header: t("stationManagement.journal"),
+      key: "journal",
     },
     {
       header: t("common.action"),
