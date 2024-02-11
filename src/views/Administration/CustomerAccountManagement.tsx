@@ -7,6 +7,7 @@ import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import { useConfirm } from "components/Dialog/ConfirmationDialog";
+import CustomerAccountExporter from "components/Exporter/CustomerAccountExporter";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
@@ -16,12 +17,9 @@ import {
   useCustomerAccountQueries,
   useCustomerAccounts,
 } from "hooks/use-customer-account";
+import { useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import { useState } from "react";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-import * as XLSX from "xlsx";
 
 const CustomerAccountManagement = () => {
   const { t } = useTranslation();
@@ -45,88 +43,6 @@ const CustomerAccountManagement = () => {
     title: t("customerAccounts.updateStatusDialog.title"),
     onConfirm: (customerAccount) => updateStatus(customerAccount),
   });
-
-  const exportToExcelHandler = () => {
-    if (customerAccounts) {
-      // Extracting only required fields and mapping them to the desired order
-      const data = customerAccounts.map(
-        ({
-          id,
-          name,
-          creatorCustomerAccountName,
-          parentName,
-          resaleRight,
-          actif,
-          stationsCount,
-        }) => ({
-          ID: id,
-          [t("common.name")]: name,
-          [t("common.creator")]: creatorCustomerAccountName,
-          [t("common.compteParent")]: parentName,
-          [t("common.droits")]: resaleRight ? t("common.reseller") : "-",
-          [t("common.status")]: actif
-            ? t("accountDetailsModel.active")
-            : t("accountDetailsModel.inActive"),
-          [t("common.stationsCount")]: stationsCount,
-        }),
-      );
-
-      const worksheet = XLSX.utils.json_to_sheet(data);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(
-        workbook,
-        worksheet,
-        t("routes.manageAccounts"),
-      );
-      XLSX.writeFile(workbook, "customer_accounts.xlsx");
-    }
-  };
-
-  const exportToPDFHandler = () => {
-    const doc = new jsPDF() as any;
-    const tableColumn = [
-      "ID",
-      t("common.name"),
-      t("common.creator"),
-      t("common.compteParent"),
-      t("common.droits"),
-      t("common.status"),
-      t("common.stations"),
-    ];
-    const tableRows: any[][] = [];
-
-    if (customerAccounts) {
-      // Prepare table rows
-      customerAccounts.forEach((customerAccount, index) => {
-        const rowData = [
-          index + 1, // ID
-          customerAccount.name,
-          customerAccount.creatorCustomerAccountName,
-          customerAccount.parentName,
-          customerAccount.resaleRight ? t("common.reseller") : "-",
-          customerAccount.actif
-            ? t("accountDetailsModel.active")
-            : t("accountDetailsModel.inActive"),
-          customerAccount.stationsCount,
-        ];
-        tableRows.push(rowData);
-      });
-    }
-
-    // Add table headers and rows
-    doc.autoTable({
-      head: [tableColumn],
-      body: tableRows,
-      startY: 20,
-      styles: { fontSize: 8 },
-    });
-
-    // Set document title
-    doc.text(t("routes.manageAccounts"), 14, 10);
-
-    // Save PDF file
-    doc.save("customer_accounts.pdf");
-  };
 
   const submitModalHandler = async () => {};
   const updateStatus = (customerAccount: CustomerAccount) => {
@@ -224,16 +140,9 @@ const CustomerAccountManagement = () => {
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("customerAccounts.header")}
               </Text>
-              <Flex>
-                <ButtonGroup spacing={4}>
-                  <Button onClick={exportToExcelHandler}>
-                    {t("common.exportExcel")}
-                  </Button>
-                  <Button onClick={exportToPDFHandler}>
-                    {t("common.exportPDF")}
-                  </Button>
-                </ButtonGroup>
-              </Flex>
+              {customerAccounts && (
+                <CustomerAccountExporter customerAccounts={customerAccounts} />
+              )}
             </Flex>
           </CardHeader>
 
