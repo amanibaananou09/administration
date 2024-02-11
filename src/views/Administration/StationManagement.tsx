@@ -8,18 +8,17 @@ import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
 import { useConfirm } from "components/Dialog/ConfirmationDialog";
+import StationExporter from "components/Exporter/StationExporter";
 import StationModal from "components/Modal/StationModal";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useStationQueries, useStations } from "hooks/use-station";
+import "jspdf-autotable";
+import { useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import { useState } from "react";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-import * as XLSX from "xlsx";
 
 const StationManagement = () => {
   const history = useHistory();
@@ -44,84 +43,6 @@ const StationManagement = () => {
     } else if (item.id) {
       activate(item.id);
     }
-  };
-
-  const exportToExcelHandler = () => {
-    if (stations) {
-      const data = stations.map((station) => ({
-        ID: station.id || "",
-        [t("stationManagement.name")]: station.name || "",
-        [t("common.address")]: station.address || "",
-        [t("stationManagement.creator")]:
-          station.creatorCustomerAccountName || "",
-        [t("stationManagement.compte")]: station.customerAccountName || "",
-        [t("stationManagement.typeController")]:
-          station.controllerPts?.controllerType || "",
-        [t("stationManagement.controllerId")]:
-          station.controllerPts?.ptsId || "",
-        [t("common.status")]: station.actif
-          ? t("accountDetailsModel.active")
-          : t("accountDetailsModel.inActive"),
-        [t("stationManagement.phone")]: station.controllerPts?.phone || "",
-        [t("common.country")]: station.country?.name || "",
-      }));
-
-      const worksheet = XLSX.utils.json_to_sheet(data);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(
-        workbook,
-        worksheet,
-        t("routes.manageStations"),
-      );
-      XLSX.writeFile(workbook, "stations.xlsx");
-    }
-  };
-
-  const exportToPDFHandler = () => {
-    const doc = new jsPDF() as any;
-    const tableColumn = [
-      "ID",
-      t("stationManagement.name"),
-      t("common.address"),
-      t("stationManagement.creator"),
-      t("stationManagement.compte"),
-      t("stationManagement.typeController"),
-      t("stationManagement.controllerId"),
-      t("common.status"),
-      t("stationManagement.phone"),
-      t("common.country"),
-    ];
-    const tableRows: any[][] = [];
-
-    if (stations) {
-      stations.forEach((station) => {
-        const rowData = [
-          station.id || "",
-          station.name || "",
-          station.address || "",
-          station.creatorCustomerAccountName || "",
-          station.customerAccountName || "",
-          station.controllerPts?.controllerType || "",
-          station.controllerPts?.ptsId || "",
-          station.actif
-            ? t("accountDetailsModel.active")
-            : t("accountDetailsModel.inActive"),
-          station.controllerPts?.phone || "",
-          station.country?.name || "",
-        ];
-        tableRows.push(rowData);
-      });
-    }
-
-    doc.autoTable({
-      head: [tableColumn],
-      body: tableRows,
-      startY: 20,
-      styles: { fontSize: 6 },
-    });
-
-    doc.text(t("routes.manageStations"), 14, 10);
-    doc.save("stations.pdf");
   };
 
   const submitModalHandler = async () => {};
@@ -242,16 +163,7 @@ const StationManagement = () => {
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("stationManagement.header")}
               </Text>
-              <Flex>
-                <ButtonGroup spacing={4}>
-                  <Button onClick={exportToExcelHandler}>
-                    {t("common.exportExcel")}
-                  </Button>
-                  <Button onClick={exportToPDFHandler}>
-                    {t("common.exportPDF")}
-                  </Button>
-                </ButtonGroup>
-              </Flex>
+              {stations && <StationExporter stations={stations} />}
             </Flex>
           </CardHeader>
           <CardBody>

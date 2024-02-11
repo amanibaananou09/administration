@@ -47,6 +47,11 @@ const errorHandler = (error) => {
 };
 
 const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
   queryCache: new QueryCache({
     onError: errorHandler,
   }),
