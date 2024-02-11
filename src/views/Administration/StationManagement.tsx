@@ -34,7 +34,6 @@ const StationManagement = () => {
   const numberOfElements = stations ? stations.length : 0;
 
   const { ConfirmationDialog, confirm } = useConfirm({
-    onConfirm: (item) => updateStatus(item),
     title: t("stationManagement.updateStatusDialog.title"),
   });
   const updateStatus = async (item: GeneralStations) => {
@@ -117,7 +116,7 @@ const StationManagement = () => {
             const message = item.actif
               ? t("stationManagement.updateStatusDialog.desativationMessage")
               : t("stationManagement.updateStatusDialog.activationMessage");
-            confirm(item, message);
+              confirm({ message, onConfirm: () => updateStatus(item) });
           }}
           style={{ cursor: "pointer" }}
         >

@@ -41,10 +41,8 @@ const CustomerAccountManagement = () => {
 
   const { confirm, ConfirmationDialog } = useConfirm({
     title: t("customerAccounts.updateStatusDialog.title"),
-    onConfirm: (customerAccount) => updateStatus(customerAccount),
   });
 
-  const submitModalHandler = async () => {};
   const updateStatus = (customerAccount: CustomerAccount) => {
     if (customerAccount.actif && customerAccount.id) {
       // If currently active, deactivate
@@ -54,6 +52,8 @@ const CustomerAccountManagement = () => {
       activate(customerAccount.id);
     }
   };
+
+  const submitModalHandler = async () => {};
 
   //styles
   const textColor = "gray.700";
@@ -101,7 +101,7 @@ const CustomerAccountManagement = () => {
             const message = item.actif
               ? t("customerAccounts.updateStatusDialog.desativationMessage")
               : t("customerAccounts.updateStatusDialog.activationMessage");
-            confirm(item, message);
+            confirm({ message, onConfirm: () => updateStatus(item) });
           }}
           style={{ cursor: "pointer" }}
         >

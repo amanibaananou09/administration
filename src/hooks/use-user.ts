@@ -7,11 +7,8 @@ import {
   updateUser,
   userInformation,
 } from "common/api/general-user-api";
+import { GeneralUserCreteria } from "../common/AdminModel";
 import useQueryParams from "./use-query-params";
-import {
-  CustomerAccountCreteria,
-  GeneralUserCreteria,
-} from "../common/AdminModel";
 
 export const useUserById = (userId: number) => {
   const { data: user, isLoading, error } = useQuery({

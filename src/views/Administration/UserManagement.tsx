@@ -36,7 +36,6 @@ const UserManagement = () => {
 
   const { confirm, ConfirmationDialog } = useConfirm({
     title: t("customerAccounts.updateStatusDialog.title"),
-    onConfirm: (user) => updateStatus(user),
   });
 
   const submitModalHandler = async () => {};
@@ -94,7 +93,7 @@ const UserManagement = () => {
             const message = item.actif
               ? t("customerAccounts.updateStatusDialog.desativationMessage")
               : t("customerAccounts.updateStatusDialog.activationMessage");
-            confirm(item, message);
+            confirm({ message, onConfirm: () => updateStatus(item) });
           }}
           style={{ cursor: "pointer" }}
         >

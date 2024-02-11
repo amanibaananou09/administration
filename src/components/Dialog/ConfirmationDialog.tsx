@@ -8,72 +8,81 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-interface DialogProps {
-  onConfirm: (args: any) => void;
-  onDismiss?: () => void;
+interface DialogConfig {
+  title?: string;
   message?: string;
-  title: string;
+  onConfirm?: () => void;
+  onDismiss?: () => void;
 }
 
-export const useConfirm = ({
-  onConfirm,
-  onDismiss,
-  message,
-  title,
-}: DialogProps) => {
+export const useConfirm = (props?: DialogConfig) => {
+  const { title, message, onConfirm, onDismiss } = props || {};
+
   const { t } = useTranslation();
-  const [msg, setMsg] = useState(message);
-  const [confirmArgs, setConfirmArgs] = useState();
+
   const [isOpen, setOpen] = useState(false);
+  const [config, setConfig] = useState<DialogConfig>({
+    title,
+    message,
+    onConfirm,
+    onDismiss,
+  });
 
   const toggle = () => setOpen(!isOpen);
+  const close = () => setOpen(false);
 
   const handleApprove = () => {
-    if (onConfirm) {
-      onConfirm(confirmArgs);
+    if (config.onConfirm) {
+      config.onConfirm();
     }
     toggle();
   };
 
   const handleDismiss = () => {
-    if (onDismiss) {
-      onDismiss();
+    if (config.onDismiss) {
+      config.onDismiss();
     }
     toggle();
   };
 
-  const openDialog = (args: any, message?: string) => {
-    setConfirmArgs(args);
-    if (message) {
-      setMsg(message);
+  const openDialog = (conf?: DialogConfig) => {
+    if (conf) {
+      setConfig((prev) => ({
+        title: conf?.title ?? prev.title,
+        message: conf?.message ?? prev.message,
+        onConfirm: conf?.onConfirm ?? prev.onConfirm,
+        onDismiss: conf?.onDismiss ?? prev.onDismiss,
+      }));
     }
     toggle();
   };
 
-  const ConfirmationDialog = () => {
+  const ConfirmationDialog = ({ children }: { children?: React.ReactNode }) => {
     return (
       <Modal isOpen={isOpen} onClose={toggle} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{title}</ModalHeader>
+          <ModalHeader>{config.title}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{msg}</ModalBody>
+          <ModalBody>{children ? children : config.message}</ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={handleDismiss}>
-              {t("common.confirmationDialog.cancel")}
-            </Button>
-            <Button colorScheme="teal" onClick={handleApprove}>
-              {t("common.confirmationDialog.confirm")}
-            </Button>
-          </ModalFooter>
+          {!children && (
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={handleDismiss}>
+                {t("common.confirmationDialog.cancel")}
+              </Button>
+              <Button colorScheme="teal" onClick={handleApprove}>
+                {t("common.confirmationDialog.confirm")}
+              </Button>
+            </ModalFooter>
+          )}
         </ModalContent>
       </Modal>
     );
   };
 
-  return { ConfirmationDialog, confirm: openDialog };
+  return { ConfirmationDialog, confirm: openDialog, close };
 };
