@@ -2,7 +2,7 @@
   "name": {
     "min": "Name must be at least 3 characters",
     "required": "Name is required",
-    "firstLetterUppercaseOrNoSpaces": "The name must start with an uppercase letter and should not contain spaces or hyphens."
+    "firstLetterUppercaseOrNoSpaces": "Please avoid spaces, hyphens and be sure to capitalize the first letter of each word."
   },
   "firstName": {
     "min": "First Name must be at least 3 characters",
