@@ -37,7 +37,7 @@ const useValidators = () => {
   const name = Yup.string()
     .required(t("validation.name.required"))
     .min(3, t("validation.name.min"))
-    .matches(/^[A-Z][a-z]*(?:(?![\s-])[a-z])*$/, t("validation.name.firstLetterUppercaseOrNoSpaces"));
+    .matches(/^[A-Z-0-9][a-z]*(?:(?![\s-])[a-z-A-Z-0-9])*$/, t("validation.name.firstLetterUppercaseOrNoSpaces"));
   const email = Yup.string()
     .required(t("validation.email.required"))
     .email(t("validation.email.invalid"))
