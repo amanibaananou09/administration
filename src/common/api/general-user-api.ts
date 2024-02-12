@@ -12,11 +12,13 @@ type userSearchCreteria = {
 export const getUsers = async (
   creteria: userSearchCreteria = {},
   page: number,
+  size: number,
 ): Promise<{
   content: GeneralUser[];
   totalPages: number;
   totalElements: number;
   numberOfElements: number;
+  size: number;
 }> => {
   let url = `${API_URL}/filter`;
 
@@ -43,6 +45,7 @@ export const getUsers = async (
   }
 
   searchParams.append("page", page.toString());
+  searchParams.append("size", size.toString());
 
   const response = await api.get(url + "?" + searchParams.toString());
 

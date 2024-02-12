@@ -3,7 +3,7 @@ import { StyleProps } from "@chakra-ui/system";
 export type UIColumnDefinitionType<T> = {
   header: string;
   key?: string;
-  render?: (item: T) => string | number | React.ReactNode;
+  render?: (item: T, index: number) => string | number | React.ReactNode;
 };
 
 export type UITableHeaderProps<T> = {

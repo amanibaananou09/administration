@@ -1,6 +1,6 @@
-import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Select, Text } from "@chakra-ui/react";
 
-import { GeneralStations } from "common/AdminModel";
+import { CustomerAccount, GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
 import { Mode } from "common/enums";
@@ -24,10 +24,12 @@ const StationManagement = () => {
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
+  const [pageSize, setPageSize] = useState<number>(50);
 
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const { stations, totalPages, totalElements, isLoading } = useStations({
+  const { stations, totalPages, totalElements, size, isLoading } = useStations({
     page: currentPage,
+    size: pageSize,
   });
   const { activate, desactivate } = useStationQueries();
 
@@ -43,13 +45,18 @@ const StationManagement = () => {
       activate(item.id);
     }
   };
-
+  const calculateIndex = (currentPage: number, index: number) => {
+    return currentPage * size + index + 1;
+  };
   const submitModalHandler = async () => {};
 
   const columns: UIColumnDefinitionType<GeneralStations>[] = [
     {
       header: "#",
       key: "#",
+      render: (item: GeneralStations, index: number) => (
+        <div>{calculateIndex(currentPage, index)}</div>
+      ),
     },
     {
       header: t("stationManagement.name"),
@@ -116,7 +123,7 @@ const StationManagement = () => {
             const message = item.actif
               ? t("stationManagement.updateStatusDialog.desativationMessage")
               : t("stationManagement.updateStatusDialog.activationMessage");
-              confirm({ message, onConfirm: () => updateStatus(item) });
+            confirm({ message, onConfirm: () => updateStatus(item) });
           }}
           style={{ cursor: "pointer" }}
         >
@@ -127,10 +134,6 @@ const StationManagement = () => {
     {
       header: t("stationManagement.modeAffectation"),
       key: "modeAffectation",
-    },
-    {
-      header: t("stationManagement.journal"),
-      key: "journal",
     },
     {
       header: t("common.action"),
@@ -186,9 +189,15 @@ const StationManagement = () => {
             <ButtonGroup spacing={4}>
               <Button
                 isDisabled={currentPage === 0 || totalPages === 0}
+                onClick={() => setCurrentPage(0)}
+              >
+                {"<<"}
+              </Button>
+              <Button
+                isDisabled={currentPage === 0 || totalPages === 0}
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
-                {t("common.previous")}
+                {"<"}
               </Button>
               <Button isDisabled={currentPage === 0 || totalPages === 0}>
                 {t("common.page")} {currentPage + 1} {t("common.of")}{" "}
@@ -198,13 +207,30 @@ const StationManagement = () => {
                 isDisabled={currentPage === totalPages - 1 || totalPages === 0}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
-                {t("common.next")}
+                {">"}
+              </Button>
+              <Button
+                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
+                onClick={() => setCurrentPage(totalPages - 1)}
+              >
+                {">>"}
               </Button>
               <Button isDisabled={currentPage === 0 || totalPages === 0}>
-                {t("common.report")} {numberOfElements} {t("common.on")}{" "}
-                {totalElements}
+                {totalElements} {t("common.report")}
               </Button>
             </ButtonGroup>
+            <Select
+              value={pageSize.toString()}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+              w="fit-content"
+              ml="4"
+            >
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="500">500</option>
+            </Select>
           </Box>
         </Card>
       </Flex>

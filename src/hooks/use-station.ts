@@ -39,7 +39,7 @@ export const useStations = (creteria: GeneralStationCreteria) => {
   const creator = query.get("creator") ?? undefined;
   const parent = query.get("parent") ?? undefined;
 
-  const { page } = creteria;
+  const { page, size } = creteria;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["stations", { name, creator, parent }, creteria],
@@ -53,6 +53,7 @@ export const useStations = (creteria: GeneralStationCreteria) => {
             parent,
           },
           page,
+          size,
         );
       }
     },
@@ -64,6 +65,7 @@ export const useStations = (creteria: GeneralStationCreteria) => {
     totalPages: data?.totalPages ?? 0,
     totalElements: data?.totalElements ?? 0,
     numberOfElements: data?.numberOfElements ?? 0,
+    size: data?.size ?? 0,
     isLoading,
     error,
   };

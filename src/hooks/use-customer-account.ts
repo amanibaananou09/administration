@@ -30,7 +30,7 @@ export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
   const creator = query.get("creator") ?? undefined;
   const parent = query.get("parent") ?? undefined;
 
-  const { page } = creteria;
+  const { page, size } = creteria;
 
   const { data, isLoading } = useQuery({
     queryKey: ["customerAccounts", { name, creator, parent }, creteria],
@@ -42,6 +42,7 @@ export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
           parent,
         },
         page,
+        size,
       ),
   });
 
@@ -51,6 +52,7 @@ export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
     totalPages: data?.totalPages ?? 0,
     totalElements: data?.totalElements ?? 0,
     numberOfElements: data?.numberOfElements ?? 0,
+    size: data?.size ?? 0,
   };
 };
 
