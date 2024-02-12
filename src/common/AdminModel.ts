@@ -20,6 +20,7 @@ export interface CustomerAccount {
 
 export interface CustomerAccountCreteria {
   page: number;
+  size: number;
 }
 
 export interface PaymentMethod {
@@ -61,6 +62,7 @@ export interface GeneralUser {
 
 export interface GeneralUserCreteria {
   page: number;
+  size: number;
 }
 
 export interface userScope {
@@ -120,6 +122,7 @@ export interface GeneralStations {
 
 export interface GeneralStationCreteria {
   page: number;
+  size: number;
 }
 
 export interface addStations {

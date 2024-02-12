@@ -82,11 +82,13 @@ export const listStation = async (
     customerAccountId: "",
   },
   page: number,
+  size: number,
 ): Promise<{
   content: GeneralStations[];
   totalPages: number;
   totalElements: number;
   numberOfElements: number;
+  size: number;
 }> => {
   let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station/filter`;
 
@@ -112,6 +114,7 @@ export const listStation = async (
     searchParams.append("parent", parent);
   }
   searchParams.append("page", page.toString());
+  searchParams.append("size", size.toString());
 
   const response = await api.get(url + "?" + searchParams.toString());
 
