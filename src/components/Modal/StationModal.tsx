@@ -174,7 +174,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
             name="modeAffectation"
             placeholder={t("stationModal.labelAffectation")}
             control={form.control}
-            disabled={isEditMode || isViewMode}
+            disabled={isViewMode}
             rules={{ validate: validator.modeAffectationValidator }}
           >
             <option value="MANUEL">{t("stationModal.manuel")}</option>
