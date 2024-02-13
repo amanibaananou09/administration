@@ -17,19 +17,22 @@ const StationExporter = ({ stations }: StationExporterProps) => {
       const data = stations.map((station) => ({
         ID: station.id || "",
         [t("stationManagement.name")]: station.name || "",
-        [t("common.address")]: station.address || "",
+        [t("stationManagement.compte")]: station.customerAccountName || "",
         [t("stationManagement.creator")]:
           station.creatorCustomerAccountName || "",
-        [t("stationManagement.compte")]: station.customerAccountName || "",
         [t("stationManagement.typeController")]:
           station.controllerPts?.controllerType || "",
         [t("stationManagement.controllerId")]:
           station.controllerPts?.ptsId || "",
+        [t("stationManagement.phone")]: station.controllerPts?.phone || "",
+        [t("stationManagement.created")]: station.dateStatusChange || "",
+        [t("stationModal.cordonneesGps")]: station.cordonneesGps || "",
+        [t("common.address")]: station.address || "",
+        [t("common.country")]: station.country?.name || "",
         [t("common.status")]: station.actif
           ? t("accountDetailsModel.active")
           : t("accountDetailsModel.inActive"),
-        [t("stationManagement.phone")]: station.controllerPts?.phone || "",
-        [t("common.country")]: station.country?.name || "",
+        [t("stationManagement.modeAffectation")]: station.modeAffectation || "",
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -48,14 +51,17 @@ const StationExporter = ({ stations }: StationExporterProps) => {
     const tableColumn = [
       "ID",
       t("stationManagement.name"),
-      t("common.address"),
       t("stationManagement.creator"),
       t("stationManagement.compte"),
       t("stationManagement.typeController"),
       t("stationManagement.controllerId"),
-      t("common.status"),
       t("stationManagement.phone"),
+      t("stationManagement.created"),
+      t("stationModal.cordonneesGps"),
+      t("common.address"),
       t("common.country"),
+      t("common.status"),
+      t("stationManagement.modeAffectation"),
     ];
     const tableRows: any[][] = [];
 
@@ -64,16 +70,19 @@ const StationExporter = ({ stations }: StationExporterProps) => {
         const rowData = [
           station.id || "",
           station.name || "",
-          station.address || "",
-          station.creatorCustomerAccountName || "",
           station.customerAccountName || "",
+          station.creatorCustomerAccountName || "",
           station.controllerPts?.controllerType || "",
           station.controllerPts?.ptsId || "",
+          station.controllerPts?.phone || "",
+          station.dateStatusChange || "",
+          station.cordonneesGps || "",
+          station.address || "",
+          station.country?.name || "",
           station.actif
             ? t("accountDetailsModel.active")
             : t("accountDetailsModel.inActive"),
-          station.controllerPts?.phone || "",
-          station.country?.name || "",
+          station.modeAffectation || "",
         ];
         tableRows.push(rowData);
       });
@@ -83,10 +92,20 @@ const StationExporter = ({ stations }: StationExporterProps) => {
       head: [tableColumn],
       body: tableRows,
       startY: 20,
-      styles: { fontSize: 6 },
+      styles: { fontSize: 5 },
     });
 
-    doc.text(t("routes.manageStations"), 14, 10);
+    // Calculate the center of the page
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleWidth =
+      (doc.getStringUnitWidth(t("routes.manageStations")) *
+        doc.internal.getFontSize()) /
+      doc.internal.scaleFactor;
+    const xOffset = (pageWidth - titleWidth) / 2;
+
+    // Center align the title
+    doc.text(t("routes.manageStations"), xOffset, 10);
+
     doc.save("stations.pdf");
   };
 
