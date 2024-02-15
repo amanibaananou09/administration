@@ -17,8 +17,9 @@ import UITable from "components/UI/Table/UITable";
 import { useStationQueries, useStations } from "hooks/use-station";
 import "jspdf-autotable";
 import { useState } from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
 
 const StationManagement = () => {
   const history = useHistory();
@@ -26,14 +27,13 @@ const StationManagement = () => {
   let { path } = useRouteMatch();
   const [pageSize, setPageSize] = useState<number>(50);
 
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const { stations, totalPages, totalElements, size, isLoading } = useStations({
     page: currentPage,
     size: pageSize,
   });
   const { activate, desactivate } = useStationQueries();
-
-  const numberOfElements = stations ? stations.length : 0;
 
   const { ConfirmationDialog, confirm } = useConfirm({
     title: t("stationManagement.updateStatusDialog.title"),
@@ -97,6 +97,7 @@ const StationManagement = () => {
     },
     {
       header: t("stationManagement.created"),
+      key: "created",
       render: (item) => (
         <Text textAlign="center">
           {new Date(item.dateStatusChange).toLocaleString()}
@@ -117,6 +118,7 @@ const StationManagement = () => {
     },
     {
       header: t("stationManagement.deactivation"),
+      key: "deactivation",
       render: (item) => (
         <div
           onClick={() => {
@@ -137,6 +139,7 @@ const StationManagement = () => {
     },
     {
       header: t("common.action"),
+      key: "action",
       render: (item: GeneralStations) => (
         <Flex justifyContent="center">
           <Box pr={6}>
@@ -156,6 +159,10 @@ const StationManagement = () => {
   //styles
   const textColor = "gray.700";
 
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [displayedColumns, setDisplayedColumns] = useState<
+    UIColumnDefinitionType<GeneralStations>[]
+  >(columns);
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -168,17 +175,32 @@ const StationManagement = () => {
               {stations && <StationExporter stations={stations} />}
             </Flex>
           </CardHeader>
+          <ColumnSelectionDropdown
+            columns={columns}
+            visibleColumns={visibleColumns}
+            setVisibleColumns={setVisibleColumns}
+            setDisplayedColumns={setDisplayedColumns}
+            isOpen={isOpen}
+          />
           <CardBody>
             <Flex overflowX="auto">
               {!isLoading && stations && (
                 <UITable
                   data={stations}
-                  columns={columns}
+                  columns={displayedColumns}
                   emptyListMessage={t("stationManagement.isLoading")}
                 />
               )}
 
               {isLoading && <SkeletonTable />}
+              <Button
+                onClick={() => setIsOpen(!isOpen)}
+                bg="white"
+                mr={50}
+                mt={3}
+              >
+                <FaEllipsisV />
+              </Button>
             </Flex>
           </CardBody>
           <Box

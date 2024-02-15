@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Flex, Select, Text } from "@chakra-ui/react";
 
-import { CustomerAccount, GeneralUser } from "common/AdminModel";
+import { GeneralUser } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
 import { Mode } from "common/enums";
@@ -17,9 +17,10 @@ import UITable from "components/UI/Table/UITable";
 import { useUserQueries, useUsers } from "hooks/use-user";
 import "jspdf-autotable";
 import { useState } from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
+import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
 
 const UserManagement = () => {
   const history = useHistory();
@@ -28,13 +29,13 @@ const UserManagement = () => {
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(50);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { users, totalPages, totalElements, size, isLoading } = useUsers({
     page: currentPage,
     size: pageSize,
   });
   const { activate, desactivate } = useUserQueries();
-  const numberOfElements = users ? users.length : 0;
 
   const { confirm, ConfirmationDialog } = useConfirm({
     title: t("customerAccounts.updateStatusDialog.title"),
@@ -67,6 +68,7 @@ const UserManagement = () => {
     },
     {
       header: t("userManagement.globalUsers.userNameColumn"),
+      key: "userNameColumn",
       render: (item: GeneralUser) => (
         <div
           style={{
@@ -92,10 +94,12 @@ const UserManagement = () => {
     },
     {
       header: t("userManagement.globalUsers.lastVisit"),
+      key: "lastVisit",
       render: (generalUser) => formatDate(generalUser.lastConnectionDate),
     },
     {
       header: t("userManagement.globalUsers.statusColumn"),
+      key: "statusColumn",
       render: (item) => (
         <div
           onClick={() => {
@@ -112,6 +116,7 @@ const UserManagement = () => {
     },
     {
       header: t("common.action"),
+      key: "action",
       render: (item: GeneralUser) => (
         <Flex justifyContent="center">
           <Box pr={6}>
@@ -127,7 +132,10 @@ const UserManagement = () => {
       ),
     },
   ];
-
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [displayedColumns, setDisplayedColumns] = useState<
+    UIColumnDefinitionType<GeneralUser>[]
+  >(columns);
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -140,17 +148,28 @@ const UserManagement = () => {
               {users && <UserExporter users={users} />}
             </Flex>
           </CardHeader>
-
+          <ColumnSelectionDropdown
+            columns={columns}
+            visibleColumns={visibleColumns}
+            setVisibleColumns={setVisibleColumns}
+            setDisplayedColumns={setDisplayedColumns}
+            isOpen={isOpen}
+          />
           <CardBody>
-            {!isLoading && users && (
-              <UITable
-                data={users}
-                columns={columns}
-                emptyListMessage={t("userManagement.globalUsers.listEmpty")}
-              />
-            )}
+            <Flex direction="row-reverse">
+              <Button onClick={() => setIsOpen(!isOpen)} bg="white" mr={1}>
+                <FaEllipsisV />
+              </Button>
+              {!isLoading && users && (
+                <UITable
+                  data={users}
+                  columns={displayedColumns}
+                  emptyListMessage={t("userManagement.globalUsers.listEmpty")}
+                />
+              )}
 
-            {isLoading && <SkeletonTable />}
+              {isLoading && <SkeletonTable />}
+            </Flex>
           </CardBody>
           <Box
             display={{ base: "none", md: "flex" }}
