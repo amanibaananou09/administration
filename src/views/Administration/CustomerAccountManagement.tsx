@@ -1,4 +1,12 @@
-import { Box, Button, ButtonGroup, Flex, Select, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Checkbox,
+  Flex,
+  Select,
+  Text,
+} from "@chakra-ui/react";
 import { CustomerAccount } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
@@ -18,8 +26,9 @@ import {
   useCustomerAccounts,
 } from "hooks/use-customer-account";
 import { useState } from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
 
 const CustomerAccountManagement = () => {
   const { t } = useTranslation();
@@ -58,8 +67,10 @@ const CustomerAccountManagement = () => {
   const calculateIndex = (currentPage: number, index: number) => {
     return currentPage * size + index + 1;
   };
+
   //styles
   const textColor = "gray.700";
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
@@ -96,11 +107,13 @@ const CustomerAccountManagement = () => {
     },
     {
       header: t("common.droits"),
+      key: "droits",
       render: (item: CustomerAccount) =>
         item.resaleRight ? t("common.reseller") : "-",
     },
     {
       header: t("common.status"),
+      key: "status",
       render: (item: CustomerAccount) => (
         <div
           onClick={() => {
@@ -121,6 +134,7 @@ const CustomerAccountManagement = () => {
     },
     {
       header: t("common.action"),
+      key: "action",
       render: (item: CustomerAccount) => (
         <Flex justifyContent="center">
           <Box pr={6}>
@@ -137,6 +151,11 @@ const CustomerAccountManagement = () => {
     },
   ];
 
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [displayedColumns, setDisplayedColumns] = useState<
+    UIColumnDefinitionType<CustomerAccount>[]
+  >(columns);
+
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -151,18 +170,30 @@ const CustomerAccountManagement = () => {
               )}
             </Flex>
           </CardHeader>
+          <ColumnSelectionDropdown
+            columns={columns}
+            visibleColumns={visibleColumns}
+            setVisibleColumns={setVisibleColumns}
+            setDisplayedColumns={setDisplayedColumns}
+            isOpen={isOpen}
+          />
 
           <CardBody>
-            {!isLoading && customerAccounts && (
-              <UITable
-                data={customerAccounts}
-                columns={columns}
-                emptyListMessage={t("customerAccounts.listEmpty")}
-              />
-            )}
-
-            {isLoading && <SkeletonTable />}
+            <Flex direction="row-reverse">
+              <Button onClick={() => setIsOpen(!isOpen)} bg="white" mr={1}>
+                <FaEllipsisV />
+              </Button>
+              {!isLoading && customerAccounts && (
+                <UITable
+                  data={customerAccounts}
+                  columns={displayedColumns}
+                  emptyListMessage={t("customerAccounts.listEmpty")}
+                />
+              )}
+              {isLoading && <SkeletonTable />}
+            </Flex>
           </CardBody>
+
           <Box
             display={{ base: "none", md: "flex" }}
             justifyContent="flex-end"
