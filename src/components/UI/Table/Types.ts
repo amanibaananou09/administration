@@ -12,14 +12,14 @@ export type UITableHeaderProps<T> = {
 };
 
 export type UITableRowsProps<T> = {
-  data: Array<T>;
+  data?: Array<T>;
   columns: Array<UIColumnDefinitionType<T>>;
   emptyListMessage: string;
   styles?: StyleProps;
 };
 
 export type UITableProps<T> = {
-  data: Array<T>;
+  data?: Array<T>;
   columns: Array<UIColumnDefinitionType<T>>;
   emptyListMessage: string;
   headerStyles?: StyleProps;

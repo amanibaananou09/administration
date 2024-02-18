@@ -1,15 +1,17 @@
-import { Box, Button, ButtonGroup, Flex, Select, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 
-import { CustomerAccount, GeneralStations } from "common/AdminModel";
+import { GeneralStationCreteria, GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
 import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
+import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
 import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import StationExporter from "components/Exporter/StationExporter";
 import StationModal from "components/Modal/StationModal";
+import Pagination from "components/Pagination/Pagination";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
@@ -19,20 +21,21 @@ import "jspdf-autotable";
 import { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
 
 const StationManagement = () => {
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
-  const [pageSize, setPageSize] = useState<number>(50);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const { stations, totalPages, totalElements, size, isLoading } = useStations({
-    page: currentPage,
-    size: pageSize,
+  const [creteria, setCreteria] = useState<GeneralStationCreteria>({
+    page: 0,
+    size: 25,
   });
+
+  const { stations, totalPages, totalElements, size, isLoading } = useStations(
+    creteria,
+  );
   const { activate, desactivate } = useStationQueries();
 
   const { ConfirmationDialog, confirm } = useConfirm({
@@ -55,7 +58,7 @@ const StationManagement = () => {
       header: "#",
       key: "#",
       render: (item: GeneralStations, index: number) => (
-        <div>{calculateIndex(currentPage, index)}</div>
+        <div>{calculateIndex(creteria.page, index)}</div>
       ),
     },
     {
@@ -184,7 +187,7 @@ const StationManagement = () => {
           />
           <CardBody>
             <Flex overflowX="auto">
-              {!isLoading && stations && (
+              {!isLoading && (
                 <UITable
                   data={stations}
                   columns={displayedColumns}
@@ -194,6 +197,7 @@ const StationManagement = () => {
 
               {isLoading && <SkeletonTable />}
               <Button
+                size="sm"
                 onClick={() => setIsOpen(!isOpen)}
                 bg="white"
                 mr={50}
@@ -203,57 +207,20 @@ const StationManagement = () => {
               </Button>
             </Flex>
           </CardBody>
-          <Box
-            display={{ base: "none", md: "flex" }}
-            justifyContent="flex-end"
-            p="4"
-          >
-            <ButtonGroup spacing={4}>
-              <Button
-                isDisabled={currentPage === 0 || totalPages === 0}
-                onClick={() => setCurrentPage(0)}
-              >
-                {"<<"}
-              </Button>
-              <Button
-                isDisabled={currentPage === 0 || totalPages === 0}
-                onClick={() => setCurrentPage(currentPage - 1)}
-              >
-                {"<"}
-              </Button>
-              <Button isDisabled={currentPage === 0 || totalPages === 0}>
-                {t("common.page")} {currentPage + 1} {t("common.of")}{" "}
-                {totalPages}
-              </Button>
-              <Button
-                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                {">"}
-              </Button>
-              <Button
-                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
-                onClick={() => setCurrentPage(totalPages - 1)}
-              >
-                {">>"}
-              </Button>
-              <Button isDisabled={currentPage === 0 || totalPages === 0}>
-                {totalElements} {t("common.report")}
-              </Button>
-            </ButtonGroup>
-            <Select
-              value={pageSize.toString()}
-              onChange={(e) => setPageSize(Number(e.target.value))}
-              w="fit-content"
-              ml="4"
-            >
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="200">200</option>
-              <option value="500">500</option>
-            </Select>
-          </Box>
+          {!isLoading && (
+            <Pagination
+              defaultPage={creteria.page}
+              defaultsize={creteria.size}
+              totalPages={totalPages}
+              totalElements={totalElements}
+              onChange={(page, size) =>
+                setCreteria({
+                  page,
+                  size,
+                })
+              }
+            />
+          )}
         </Card>
       </Flex>
       <Switch>
