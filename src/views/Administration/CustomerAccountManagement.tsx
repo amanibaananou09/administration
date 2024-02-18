@@ -1,22 +1,16 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Checkbox,
-  Flex,
-  Select,
-  Text,
-} from "@chakra-ui/react";
-import { CustomerAccount } from "common/AdminModel";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { CustomerAccount, CustomerAccountCreteria } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
 import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
+import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
 import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import CustomerAccountExporter from "components/Exporter/CustomerAccountExporter";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
+import Pagination from "components/Pagination/Pagination";
 import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
@@ -28,25 +22,25 @@ import {
 import { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
 
 const CustomerAccountManagement = () => {
   const { t } = useTranslation();
   const history = useHistory();
   let { path } = useRouteMatch();
-  const [pageSize, setPageSize] = useState<number>(50);
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [creteria, setCreteria] = useState<CustomerAccountCreteria>({
+    page: 0,
+    size: 25,
+  });
+
   const {
     customerAccounts,
     totalPages,
     totalElements,
     size,
     isLoading,
-  } = useCustomerAccounts({
-    page: currentPage,
-    size: pageSize,
-  });
+  } = useCustomerAccounts(creteria);
+
   const { activate, desactivate } = useCustomerAccountQueries();
 
   const { confirm, ConfirmationDialog } = useConfirm({
@@ -77,7 +71,7 @@ const CustomerAccountManagement = () => {
       header: "#",
       key: "#",
       render: (item: CustomerAccount, index: number) => (
-        <div>{calculateIndex(currentPage, index)}</div>
+        <div>{calculateIndex(creteria.page, index)}</div>
       ),
     },
     {
@@ -161,7 +155,7 @@ const CustomerAccountManagement = () => {
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
         <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
           <CardHeader p="6px 0px 22px 0px">
-            <Flex align="center" justify="space-between">
+            <Flex align="center" justify="space-between" p="5px">
               <Text fontSize="xl" color={textColor} fontWeight="bold">
                 {t("customerAccounts.header")}
               </Text>
@@ -180,10 +174,15 @@ const CustomerAccountManagement = () => {
 
           <CardBody>
             <Flex direction="row-reverse">
-              <Button onClick={() => setIsOpen(!isOpen)} bg="white" mr={1}>
+              <Button
+                size="sm"
+                onClick={() => setIsOpen(!isOpen)}
+                bg="white"
+                mr={1}
+              >
                 <FaEllipsisV />
               </Button>
-              {!isLoading && customerAccounts && (
+              {!isLoading && (
                 <UITable
                   data={customerAccounts}
                   columns={displayedColumns}
@@ -194,57 +193,20 @@ const CustomerAccountManagement = () => {
             </Flex>
           </CardBody>
 
-          <Box
-            display={{ base: "none", md: "flex" }}
-            justifyContent="flex-end"
-            p="4"
-          >
-            <ButtonGroup spacing={4}>
-              <Button
-                isDisabled={currentPage === 0 || totalPages === 0}
-                onClick={() => setCurrentPage(0)}
-              >
-                {"<<"}
-              </Button>
-              <Button
-                isDisabled={currentPage === 0 || totalPages === 0}
-                onClick={() => setCurrentPage(currentPage - 1)}
-              >
-                {"<"}
-              </Button>
-              <Button isDisabled={currentPage === 0 || totalPages === 0}>
-                {t("common.page")} {currentPage + 1} {t("common.of")}{" "}
-                {totalPages}
-              </Button>
-              <Button
-                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                {">"}
-              </Button>
-              <Button
-                isDisabled={currentPage === totalPages - 1 || totalPages === 0}
-                onClick={() => setCurrentPage(totalPages - 1)}
-              >
-                {">>"}
-              </Button>
-              <Button isDisabled={currentPage === 0 || totalPages === 0}>
-                {totalElements} {t("common.report")}
-              </Button>
-            </ButtonGroup>
-            <Select
-              value={pageSize.toString()}
-              onChange={(e) => setPageSize(Number(e.target.value))}
-              w="fit-content"
-              ml="4"
-            >
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="200">200</option>
-              <option value="500">500</option>
-            </Select>
-          </Box>
+          {!isLoading && (
+            <Pagination
+              defaultPage={creteria.page}
+              defaultsize={creteria.size}
+              totalPages={totalPages}
+              totalElements={totalElements}
+              onChange={(page, size) =>
+                setCreteria({
+                  page,
+                  size,
+                })
+              }
+            />
+          )}
         </Card>
       </Flex>
       <Switch>

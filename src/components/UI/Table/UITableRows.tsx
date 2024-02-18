@@ -44,7 +44,7 @@ const UITableRows = <T,>({
 
   let rows;
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     rows = (
       <Tr>
         <Td colSpan={columns.length}>

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Flex } from "@chakra-ui/react";
+import { Button, ButtonGroup } from "@chakra-ui/react";
 
 import { GeneralUser } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -83,14 +83,10 @@ const UserExporter = ({ users }: UserExporterProps) => {
   };
 
   return (
-    <Flex>
-      <ButtonGroup spacing={4}>
-        <Button onClick={exportToExcelHandler}>
-          {t("common.exportExcel")}
-        </Button>
-        <Button onClick={exportToPDFHandler}>{t("common.exportPDF")}</Button>
-      </ButtonGroup>
-    </Flex>
+    <ButtonGroup size="sm" spacing={4}>
+      <Button onClick={exportToExcelHandler}>{t("common.exportExcel")}</Button>
+      <Button onClick={exportToPDFHandler}>{t("common.exportPDF")}</Button>
+    </ButtonGroup>
   );
 };
 
