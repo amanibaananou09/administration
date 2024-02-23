@@ -75,10 +75,19 @@ const UserExporter = ({ users }: UserExporterProps) => {
       head: [tableColumn],
       body: tableRows,
       startY: 20,
-      styles: { fontSize: 8 },
+      styles: { fontSize: 5 },
     });
 
-    doc.text(t("routes.manageUsers"), 14, 10);
+    // Calculate the center of the page
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleWidth =
+      (doc.getStringUnitWidth(t("routes.users")) * doc.internal.getFontSize()) /
+      doc.internal.scaleFactor;
+    const xOffset = (pageWidth - titleWidth) / 2;
+
+    // Center align the title
+    doc.text(t("routes.manageUsers"), xOffset, 10);
+
     doc.save("users.pdf");
   };
 

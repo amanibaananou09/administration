@@ -82,18 +82,24 @@ const CustomerAccountExporter = ({
       });
     }
 
-    // Add table headers and rows
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
       startY: 20,
-      styles: { fontSize: 8 },
+      styles: { fontSize: 5 },
     });
 
-    // Set document title
-    doc.text(t("routes.manageAccounts"), 14, 10);
+    // Calculate the center of the page
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleWidth =
+      (doc.getStringUnitWidth(t("routes.manageAccounts")) *
+        doc.internal.getFontSize()) /
+      doc.internal.scaleFactor;
+    const xOffset = (pageWidth - titleWidth) / 2;
 
-    // Save PDF file
+    // Center align the title
+    doc.text(t("routes.manageAccounts"), xOffset, 10);
+
     doc.save("customer_accounts.pdf");
   };
 

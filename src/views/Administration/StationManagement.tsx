@@ -33,7 +33,7 @@ const StationManagement = () => {
     size: 25,
   });
 
-  const { stations, totalPages, totalElements, size, isLoading } = useStations(
+  const { stations, totalPages, totalElements, isLoading } = useStations(
     creteria,
   );
   const { activate, desactivate } = useStationQueries();
@@ -48,18 +48,13 @@ const StationManagement = () => {
       activate(item.id);
     }
   };
-  const calculateIndex = (currentPage: number, index: number) => {
-    return currentPage * size + index + 1;
-  };
   const submitModalHandler = async () => {};
 
   const columns: UIColumnDefinitionType<GeneralStations>[] = [
     {
       header: "#",
       key: "#",
-      render: (item: GeneralStations, index: number) => (
-        <div>{calculateIndex(creteria.page, index)}</div>
-      ),
+      render: (item) => <div>{item.index}</div>,
     },
     {
       header: t("stationManagement.name"),
@@ -166,6 +161,7 @@ const StationManagement = () => {
   const [displayedColumns, setDisplayedColumns] = useState<
     UIColumnDefinitionType<GeneralStations>[]
   >(columns);
+
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>

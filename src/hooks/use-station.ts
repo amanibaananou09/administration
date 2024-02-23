@@ -58,6 +58,18 @@ export const useStations = (creteria: GeneralStationCreteria) => {
       }
     },
     enabled: !!user?.customerAccountId,
+    select: (data) => {
+      if (!data || !data.content) {
+        return data;
+      }
+      return {
+        ...data,
+        content: data.content.map((station, index) => ({
+          index: creteria.page * creteria.size + index + 1,
+          ...station,
+        })),
+      };
+    },
   });
 
   return {

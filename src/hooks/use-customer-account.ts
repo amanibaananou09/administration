@@ -44,6 +44,15 @@ export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
         page,
         size,
       ),
+    select: (data) => {
+      return {
+        ...data,
+        content: data.content.map((account, index) => ({
+          index: creteria.page * creteria.size + index + 1,
+          ...account,
+        })),
+      };
+    },
   });
 
   return {
