@@ -40,6 +40,7 @@ export interface MasterUser {
 }
 
 export interface GeneralUser {
+  index?: number;
   id?: number;
   actif?: boolean;
   dateStatusChange?: string;

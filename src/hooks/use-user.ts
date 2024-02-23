@@ -44,6 +44,15 @@ export const useUsers = (creteria: GeneralUserCreteria) => {
         page,
         size,
       ),
+    select: (data) => {
+      return {
+        ...data,
+        content: data.content.map((user, index) => ({
+          index: creteria.page * creteria.size + index + 1,
+          ...user,
+        })),
+      };
+    },
   });
 
   return {
