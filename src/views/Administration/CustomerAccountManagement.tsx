@@ -37,7 +37,6 @@ const CustomerAccountManagement = () => {
     customerAccounts,
     totalPages,
     totalElements,
-    size,
     isLoading,
   } = useCustomerAccounts(creteria);
 
@@ -58,10 +57,6 @@ const CustomerAccountManagement = () => {
   };
 
   const submitModalHandler = async () => {};
-  const calculateIndex = (currentPage: number, index: number) => {
-    return currentPage * size + index + 1;
-  };
-
   //styles
   const textColor = "gray.700";
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -70,9 +65,7 @@ const CustomerAccountManagement = () => {
     {
       header: "#",
       key: "#",
-      render: (item: CustomerAccount, index: number) => (
-        <div>{calculateIndex(creteria.page, index)}</div>
-      ),
+      render: (item) => <div>{item.index}</div>,
     },
     {
       header: t("common.name"),

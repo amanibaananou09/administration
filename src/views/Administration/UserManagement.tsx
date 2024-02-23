@@ -34,9 +34,8 @@ const UserManagement = () => {
     size: 25,
   });
 
-  const { users, totalPages, totalElements, size, isLoading } = useUsers(
-    creteria,
-  );
+  const { users, totalPages, totalElements, isLoading } = useUsers(creteria);
+
   const { activate, desactivate } = useUserQueries();
 
   const { confirm, ConfirmationDialog } = useConfirm({
@@ -54,19 +53,13 @@ const UserManagement = () => {
     }
   };
 
-  const calculateIndex = (currentPage: number, index: number) => {
-    return currentPage * size + index + 1;
-  };
-
   //styles
   const textColor = "gray.700";
   const columns: UIColumnDefinitionType<GeneralUser>[] = [
     {
       header: "#",
       key: "#",
-      render: (item: GeneralUser, index: number) => (
-        <div>{calculateIndex(creteria.page, index)}</div>
-      ),
+      render: (item) => <div>{item.index}</div>,
     },
     {
       header: t("userManagement.globalUsers.userNameColumn"),

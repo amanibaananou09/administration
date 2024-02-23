@@ -1,6 +1,7 @@
 import { Country } from "common/model";
 
 export interface CustomerAccount {
+  index?: number;
   id?: string;
   name: string;
   creatorAccountId: string;
@@ -40,6 +41,7 @@ export interface MasterUser {
 }
 
 export interface GeneralUser {
+  index?: number;
   id?: number;
   actif?: boolean;
   dateStatusChange?: string;
@@ -93,11 +95,8 @@ export interface UserController {
   password: string;
 }
 
-export interface RouteParams {
-  id: string;
-}
-
 export interface GeneralStations {
+  index?: number;
   id?: string;
   name: string;
   address: string;
