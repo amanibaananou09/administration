@@ -30,7 +30,7 @@ const CustomerAccountExporter = ({
         }) => ({
           ID: id,
           [t("common.name")]: name,
-          [t("common.creator")]: creatorCustomerAccountName,
+          [t("common.creatorAccount")]: creatorCustomerAccountName,
           [t("common.compteParent")]: parentName,
           [t("common.droits")]: resaleRight ? t("common.reseller") : "-",
           [t("common.status")]: actif
@@ -56,7 +56,7 @@ const CustomerAccountExporter = ({
     const tableColumn = [
       "ID",
       t("common.name"),
-      t("common.creator"),
+      t("common.creatorAccount"),
       t("common.compteParent"),
       t("common.droits"),
       t("common.status"),
@@ -100,7 +100,9 @@ const CustomerAccountExporter = ({
     // Center align the title
     doc.text(t("routes.manageAccounts"), xOffset, 10);
 
-    doc.save("customer_accounts.pdf");
+    const title = t("routes.manageAccounts");
+
+    doc.save(`${title}.pdf`);
   };
 
   return (

@@ -115,8 +115,8 @@
       "phoneColumn": "Phone",
       "statusColumn": "Status",
       "noUserAvailable": "No user available.",
-      "accountCreator": "Creator",
-      "account": "Account",
+      "accountCreator": "Creator account",
+      "account": "Customer account",
       "lastVisit": "Last visit",
       "listEmpty": "You don't have a user"
     }
@@ -135,7 +135,7 @@
   "stationManagement": {
     "header": "Stations",
     "compte": "Creator account",
-    "creator": "Compte parent",
+    "creator": "Parent account",
     "name": "Station name",
     "phone": "Controller phone number",
     "typeController": "Type of controller",

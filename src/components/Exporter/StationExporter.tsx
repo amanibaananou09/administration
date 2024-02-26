@@ -106,7 +106,9 @@ const StationExporter = ({ stations }: StationExporterProps) => {
     // Center align the title
     doc.text(t("routes.manageStations"), xOffset, 10);
 
-    doc.save("stations.pdf");
+    const title = t("routes.manageStations");
+
+    doc.save(`${title}.pdf`);
   };
 
   return (

@@ -85,7 +85,7 @@ const CustomerAccountManagement = () => {
       ),
     },
     {
-      header: t("common.creator"),
+      header: t("common.creatorAccount"),
       key: "creatorCustomerAccountName",
     },
     {

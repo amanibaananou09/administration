@@ -88,7 +88,9 @@ const UserExporter = ({ users }: UserExporterProps) => {
     // Center align the title
     doc.text(t("routes.manageUsers"), xOffset, 10);
 
-    doc.save("users.pdf");
+    const title = t("routes.manageUsers");
+
+    doc.save(`${title}.pdf`);
   };
 
   return (
