@@ -144,7 +144,7 @@
     "controllerId": "Controller ID",
     "connection": "Last connection",
     "created": "created the",
-    "modeAffectation": "Mode d'affectation",
+    "modeAffectation": "Assignment mode",
     "isLoading": "You don't have a station",
     "stationActivated": "Station{{stationName}} has been successfully activated.",
     "stationDeactivated": "Station {{stationName}} has been successfully deactivated.",
