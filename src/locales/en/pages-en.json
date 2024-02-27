@@ -143,7 +143,7 @@
     "controller": "Controller",
     "controllerId": "Controller ID",
     "connection": "Last connection",
-    "created": "created the",
+    "created": "Created on",
     "modeAffectation": "Assignment mode",
     "isLoading": "You don't have a station",
     "stationActivated": "Station{{stationName}} has been successfully activated.",
