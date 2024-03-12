@@ -20,14 +20,14 @@ export const getCustomerAccounts = async (
   numberOfElements: number;
   size: number;
 }> => {
-  let url = `${API_URL}/filter`;
+  let url = `${API_URL}`;
 
   const { name, creator, parent } = creteria;
 
   const searchParams = new URLSearchParams();
 
   if (name || parent || creator) {
-    url;
+    url += "/filter";
   } else {
     url;
   }
