@@ -1,8 +1,4 @@
-import {
-  CustomerAccount,
-  GeneralStations,
-  GeneralUser,
-} from "common/AdminModel";
+import { CustomerAccount, GeneralStations } from "common/AdminModel";
 import { Station, User } from "common/model";
 import api from "./axios";
 
@@ -90,14 +86,14 @@ export const listStation = async (
   numberOfElements: number;
   size: number;
 }> => {
-  let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station/filter`;
+  let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station`;
 
   const { name, creator, parent } = stationSearchCriteria;
 
   const searchParams = new URLSearchParams();
 
   if (name || parent || creator) {
-    url;
+    url += "/filter";
   } else {
     url;
   }
