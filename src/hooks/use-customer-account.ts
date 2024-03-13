@@ -9,6 +9,7 @@ import {
 } from "common/api/customerAccount-api";
 import useQueryParams from "./use-query-params";
 import { CustomerAccountCreteria } from "../common/AdminModel";
+import { useAuth } from "../store/AuthContext";
 
 export const useCustomerAccountById = (customerAccountId: number) => {
   const { data: customerAccount, isLoading, error } = useQuery({
@@ -31,7 +32,8 @@ export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
   const parent = query.get("parent") ?? undefined;
 
   const { page, size } = creteria;
-
+  const { user } = useAuth();
+  const customerAccountId = user?.customerAccountId;
   const { data, isLoading } = useQuery({
     queryKey: ["customerAccounts", { name, creator, parent }, creteria],
     queryFn: () =>
@@ -43,6 +45,7 @@ export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
         },
         page,
         size,
+        customerAccountId,
       ),
     select: (data) => {
       return {
