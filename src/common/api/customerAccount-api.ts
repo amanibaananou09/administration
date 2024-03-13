@@ -13,6 +13,7 @@ export const getCustomerAccounts = async (
   creteria: customerAccountSearchCreteria = {},
   page: number,
   size: number,
+  customerAccountId: string | undefined,
 ): Promise<{
   content: CustomerAccount[];
   totalPages: number;
@@ -29,7 +30,7 @@ export const getCustomerAccounts = async (
   if (name || parent || creator) {
     url += "/filter";
   } else {
-    url;
+    url += `/${customerAccountId}/list`;
   }
 
   if (name) {
