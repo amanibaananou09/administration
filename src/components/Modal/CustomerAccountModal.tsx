@@ -116,11 +116,13 @@ const CustomerAccountModal = ({
 
   const accountSelectOptions =
     creators &&
-    creators.map((accountData) => (
-      <option key={accountData.id} value={accountData.id}>
-        {accountData.name}
-      </option>
-    ));
+    creators
+      .filter((creator) => creator.resaleRight)
+      .map((accountData) => (
+        <option key={accountData.id} value={accountData.id}>
+          {accountData.name}
+        </option>
+      ));
 
   return (
     <UIModal

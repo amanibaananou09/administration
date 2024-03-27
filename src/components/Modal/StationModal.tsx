@@ -86,11 +86,13 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
 
   const accountSelectOptions =
     creators &&
-    creators.map((creator) => (
-      <option key={creator.id} value={creator.id}>
-        {creator.name}
-      </option>
-    ));
+    creators
+      .filter((creator) => !creator.resaleRight)
+      .map((creator) => (
+        <option key={creator.id} value={creator.id}>
+          {creator.name}
+        </option>
+      ));
 
   let modalTitle = t("addStationModal.header");
   if (isEditMode) modalTitle = t("addStationModal.update");
