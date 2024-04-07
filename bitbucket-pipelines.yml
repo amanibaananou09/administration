@@ -1,0 +1,118 @@
+image: node:18.14.2
+
+definitions:
+  steps:
+    - step: &install-dependencies
+        name: Install dependencies
+        caches:
+          - node
+        script:
+          - npm install
+
+    - step: &build-and-test
+        name: Build and Test
+        runs-on:
+          - self.hosted
+          - linux
+        caches:
+          - node
+        script:
+          #- npm test
+          - export REACT_APP_BACKEND_URL=${BACKEND_URL}
+          - npm run build
+        artifacts:
+          - build/**
+
+    - step: &build-docker-image
+        name: Build & Push Docker Image
+        runs-on:
+          - self.hosted
+          - linux
+        caches:
+          - docker
+        services:
+          - docker
+        script:
+          - docker login ${DOCKER_REGISTRY_URL} --username=${REPOSITORY_USERNAME} --password=${REPOSITORY_PASSWORD}
+          - docker build -f ./deployments/Dockerfile -t ${DOCKER_REGISTRY_URL}/${PROJECT_NAME}:${BITBUCKET_BRANCH-${BITBUCKET_TAG}} .
+          - docker push ${DOCKER_REGISTRY_URL}/${PROJECT_NAME}:${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
+
+    - step: &deploy-container
+        name: Deploy to Dev
+        image: atlassian/default-image:4
+        trigger: manual
+        runs-on:
+          - self.hosted
+          - linux
+        artifacts:
+          download: false
+        script:
+          - export IMAGE_TAG=${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
+          - envsubst < ./deployments/deploy-container.sh > deploy.sh
+          - pipe: atlassian/ssh-run:0.8.0
+            variables:
+              SERVER: ${HOST_URL}
+              SSH_USER: ${SSH_USER}
+              MODE: 'script'
+              COMMAND: 'deploy.sh'
+
+pipelines:
+  branches:
+    develop:
+      - step: *install-dependencies
+      - step:
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - node
+          script:
+            - export REACT_APP_BACKEND_URL=${BACKEND_URL_REC}
+            - npm run build
+          artifacts:
+            - build/**
+      - step: *build-docker-image
+      - step:
+          <<: *deploy-container
+          name: Deploy to Recette
+          deployment: recette
+    '*':
+      - step: *install-dependencies
+      - step:
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - node
+          script:
+            - export REACT_APP_BACKEND_URL=${BACKEND_URL_DEV}
+            - npm run build
+          artifacts:
+            - build/**
+      - step: *build-docker-image
+      - step:
+          <<: *deploy-container
+          name: Deploy to Dev
+          deployment: dev
+  tags:
+    '*':
+      - step: *install-dependencies
+      - step:
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - node
+          script:
+            - export REACT_APP_BACKEND_URL=${BACKEND_URL_PROD}
+            - npm run build
+          artifacts:
+            - build/**
+      - step: *build-docker-image
+      - step:
+          <<: *deploy-container
+          name: Deploy to Prod
+          deployment: prod
