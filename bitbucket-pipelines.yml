@@ -1,6 +1,8 @@
 image: node:18.14.2
 
 definitions:
+  caches:
+    sonar: ~/.sonar
   steps:
     - step: &install-dependencies
         name: Install dependencies
@@ -8,6 +10,26 @@ definitions:
           - node
         script:
           - npm install
+
+    - step: &quality
+        name: Quality
+        max-time: 5
+        clone:
+          depth: full
+        caches:
+          - sonar
+        runs-on:
+          - self.hosted
+          - linux
+        script:
+          - pipe: sonarsource/sonarqube-scan:2.0.1
+            variables:
+              SONAR_HOST_URL: ${SONAR_HOST_URL}
+              SONAR_TOKEN: ${SONAR_TOKEN}
+              SONAR_SCANNER_OPTS: -Xmx512m
+          - pipe: sonarsource/sonarqube-quality-gate:1.0.0
+            variables:
+              SONAR_TOKEN: ${SONAR_TOKEN}
 
     - step: &build-and-test
         name: Build and Test
@@ -72,6 +94,7 @@ pipelines:
             - npm run build
           artifacts:
             - build/**
+      - step: *quality
       - step: *build-docker-image
       - step:
           <<: *deploy-container
@@ -91,6 +114,7 @@ pipelines:
             - npm run build
           artifacts:
             - build/**
+      - step: *quality
       - step: *build-docker-image
       - step:
           <<: *deploy-container
