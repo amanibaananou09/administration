@@ -8,6 +8,9 @@ definitions:
         name: Install dependencies
         caches:
           - node
+        runs-on:
+          - self.hosted
+          - linux
         script:
           - npm install
 
