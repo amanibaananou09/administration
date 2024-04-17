@@ -143,7 +143,6 @@ const CustomerAccountModal = ({
               disabled={isEditMode || isViewMode}
               rules={{ validate: validator.nameValidator }}
             />
-
             <UISelectFormControl
               label={t("common.compteParent")}
               name="parentId"
@@ -153,7 +152,6 @@ const CustomerAccountModal = ({
             >
               {accountSelectOptions}
             </UISelectFormControl>
-
             <UISelectFormControl
               label={t("common.creator")}
               name="creatorAccountId"
@@ -163,16 +161,21 @@ const CustomerAccountModal = ({
             >
               {accountSelectOptions}
             </UISelectFormControl>
-
             <UICheckBoxFormControl
               label={t("common.droits")}
               name="resaleRight"
               control={form.control}
               disabled={isViewMode}
             />
-
             <Divider my={4} />
 
+            <UIInputFormControl
+              label={t("common.city")}
+              name="city"
+              control={form.control}
+              disabled={isEditMode || isViewMode}
+              rules={{ validate: validator.cityValidator }}
+            />
             <UIInputFormControl
               label={t("userInformation.userNameLabel")}
               name="username"
@@ -189,7 +192,6 @@ const CustomerAccountModal = ({
                 },
               }}
             />
-
             <UIInputFormControl
               label={t("userInformation.emailLabel")}
               name="email"
@@ -203,7 +205,6 @@ const CustomerAccountModal = ({
                 },
               }}
             />
-
             <UIInputFormControl
               label={t("userInformation.firstNameLabel")}
               name="firstName"
@@ -211,7 +212,6 @@ const CustomerAccountModal = ({
               disabled={isViewMode}
               rules={{ validate: validator.firstNameValidator }}
             />
-
             <UIInputFormControl
               label={t("userInformation.lastNameLabel")}
               name="lastName"
@@ -219,7 +219,6 @@ const CustomerAccountModal = ({
               disabled={isViewMode}
               rules={{ validate: validator.lastNameValidator }}
             />
-
             {isCreateMode && (
               <UIInputFormControl
                 label={t("common.password")}
@@ -232,7 +231,6 @@ const CustomerAccountModal = ({
                 }}
               />
             )}
-
             {isCreateMode && (
               <UIInputFormControl
                 label={t("common.confirmPassword")}
@@ -249,7 +247,6 @@ const CustomerAccountModal = ({
                 }}
               />
             )}
-
             <UIPhoneInputFormControl
               label={t("userInformation.phoneLabel")}
               control={form.control}
@@ -312,6 +309,18 @@ const CustomerAccountModal = ({
                 </>
               )}
             </UIArrayFormControl>
+          </Flex>
+          <Divider my={4} />
+          <Flex direction="column">
+            <Text fontWeight="bold" fontSize="lg" mb={3} color="teal.500">
+              {t("common.moduleAccess")}
+            </Text>
+            <UICheckBoxFormControl
+              label={t("common.cardManager")}
+              name="cardManager"
+              control={form.control}
+              disabled={isViewMode}
+            />
           </Flex>
         </form>
       )}
