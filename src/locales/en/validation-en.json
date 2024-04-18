@@ -79,5 +79,9 @@
   },
   "cordonneesGps": {
     "required": "GPS coordinates is required"
+  },
+  "city": {
+    "min": "City must be at least 3 characters",
+    "required": "City is required"
   }
 }

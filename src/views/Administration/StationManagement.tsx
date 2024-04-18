@@ -107,12 +107,16 @@ const StationManagement = () => {
       key: "cordonneesGps",
     },
     {
-      header: t("common.address"),
-      key: "address",
-    },
-    {
       header: t("common.country"),
       key: "country.name",
+    },
+    {
+      header: t("common.city"),
+      key: "city",
+    },
+    {
+      header: t("common.address"),
+      key: "address",
     },
     {
       header: t("stationManagement.deactivation"),

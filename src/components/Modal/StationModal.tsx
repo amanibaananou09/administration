@@ -117,14 +117,6 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
             rules={{ validate: validator.nameValidator }}
           />
 
-          <UIInputFormControl
-            label={t("common.address")}
-            name="address"
-            control={form.control}
-            disabled={isViewMode}
-            rules={{ validate: validator.addressValidator }}
-          />
-
           <UISelectFormControl
             label={t("common.country")}
             name="countryId"
@@ -140,7 +132,22 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
                 </option>
               ))}
           </UISelectFormControl>
+          <UIInputFormControl
+            label={t("common.city")}
+            name="city"
+            control={form.control}
+            disabled={isViewMode}
+            rules={{ validate: validator.cityValidator }}
+          />
 
+          <UIInputFormControl
+            label={t("common.address")}
+            name="address"
+            control={form.control}
+            disabled={isViewMode}
+            rules={{ validate: validator.addressValidator }}
+          />
+          
           <UISelectFormControl
             label={t("common.creator")}
             name="creatorAccountId"

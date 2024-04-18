@@ -15,6 +15,8 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
+import { IoCloudDownloadOutline } from "react-icons/io5";
+
 import {
   useCustomerAccountQueries,
   useCustomerAccounts,
@@ -99,6 +101,12 @@ const CustomerAccountManagement = () => {
         item.resaleRight ? t("common.reseller") : "-",
     },
     {
+      header: t("common.cardManager"),
+      key: "cardManager",
+      render: (item: CustomerAccount) =>
+        item.cardManager ? t("common.manager") : "-",
+    },
+    {
       header: t("common.status"),
       key: "status",
       render: (item: CustomerAccount) => (
@@ -127,11 +135,17 @@ const CustomerAccountManagement = () => {
           <Box pr={6}>
             <Status value={false} />
           </Box>
-          <FaPencilAlt
+          <Box pr={6}>
+            <FaPencilAlt
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                history.push(`${path}/edit/${item.id}`);
+              }}
+            />
+          </Box>
+          <IoCloudDownloadOutline
             style={{ cursor: "pointer" }}
-            onClick={() => {
-              history.push(`${path}/edit/${item.id}`);
-            }}
+            onClick={() => {}}
           />
         </Flex>
       ),

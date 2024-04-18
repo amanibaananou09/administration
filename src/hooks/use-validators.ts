@@ -25,6 +25,9 @@ const useValidators = () => {
       return true;
     },
   );
+  const city = Yup.string()
+    .required(t("validation.city.required"))
+    .min(3, t("validation.city.min"));
 
   const firstName = Yup.string()
     .required(t("validation.firstName.required"))
@@ -118,6 +121,9 @@ const useValidators = () => {
   const nameValidator = async (value: string) => {
     return await validateWithSchema(name, value);
   };
+  const cityValidator = async (value: string) => {
+    return await validateWithSchema(city, value);
+  };
 
   const parentValidator = async (value: string) => {
     return await validateWithSchema(parentAccount, value);
@@ -188,6 +194,7 @@ const useValidators = () => {
 
   return {
     nameValidator,
+    cityValidator,
     parentValidator,
     creatorValidator,
     usernameValidator,

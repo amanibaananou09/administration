@@ -4,11 +4,13 @@ export interface CustomerAccount {
   index?: number;
   id?: string;
   name: string;
+  city: string;
   creatorAccountId: string;
   parentId: string;
   parentName?: string;
   creatorCustomerAccountName?: string;
   resaleRight: boolean;
+  cardManager: boolean;
   dateStatusChange?: string;
   stations?: number;
   stationsCount?: number;
@@ -100,6 +102,7 @@ export interface GeneralStations {
   id?: string;
   name: string;
   address: string;
+  city: string;
   creatorCustomerAccountName: string;
   customerAccountName: string;
   creatorAccountId: string;
@@ -138,10 +141,12 @@ export interface addStations {
 export interface CustomerAccountFormValues {
   id?: string;
   name: string;
+  city: string;
   savedName?: string;
   parentId: string;
   creatorAccountId: string;
   resaleRight: boolean;
+  cardManager: boolean;
   status: string;
   actif?: boolean;
   username: string;
@@ -179,6 +184,7 @@ export interface StationFormValues {
   id?: string;
   name: string;
   address: string;
+  city: string;
   creatorCustomerAccountName: string;
   customerAccountName: string;
   creatorAccountId: string;
