@@ -73,6 +73,11 @@ export const deactivateCustomerAccount = async (
   return response.data;
 };
 
+export const exportAccount = async (id: number | string): Promise<void> => {
+  const response = await api.post(`${API_URL}/export/${id}`);
+  return response.data;
+};
+
 export const updateAccount = async (account: CustomerAccount) => {
   const response = await api.put(`${API_URL}/update`, account);
   return response.data;

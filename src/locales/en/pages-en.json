@@ -69,6 +69,11 @@
       "title": "Update status",
       "desativationMessage": "Are you sure, you want to desactivate this account ?",
       "activationMessage": "Are you sure, you want to activate this account ?"
+    },
+    "exportDialog": {
+      "title": "export customer account",
+      "exportMessage": "Are you sure, you want to export this account to card Manager Module ?",
+      "notExport": "You can't export this account because it doesn't have card Manager rights !"
     }
   },
   "customerAccountModal": {
