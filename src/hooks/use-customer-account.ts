@@ -3,6 +3,7 @@ import {
   activateCustomerAccount,
   createCustomerAccount,
   deactivateCustomerAccount,
+  exportAccount,
   getCustomerAccountDetails,
   getCustomerAccounts,
   updateAccount,
@@ -103,11 +104,17 @@ export const useCustomerAccountQueries = () => {
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
   });
+  const { mutate: exportCustomerAccount } = useMutation({
+    mutationFn: exportAccount,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["customerAccounts"] }),
+  });
 
   return {
     create,
     update,
     activate,
     desactivate,
+    exportCustomerAccount,
   };
 };

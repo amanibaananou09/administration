@@ -42,10 +42,14 @@ const CustomerAccountManagement = () => {
     isLoading,
   } = useCustomerAccounts(creteria);
 
-  const { activate, desactivate } = useCustomerAccountQueries();
+  const {
+    activate,
+    desactivate,
+    exportCustomerAccount,
+  } = useCustomerAccountQueries();
 
   const { confirm, ConfirmationDialog } = useConfirm({
-    title: t("customerAccounts.updateStatusDialog.title"),
+    title: t("customerAccounts.exportDialog.title"),
   });
 
   const updateStatus = (customerAccount: CustomerAccount) => {
@@ -55,6 +59,11 @@ const CustomerAccountManagement = () => {
     } else if (customerAccount.id) {
       // If currently inactive, activate
       activate(customerAccount.id);
+    }
+  };
+  const exportAccount = (customerAccount: CustomerAccount) => {
+    if (customerAccount.cardManager && customerAccount.id) {
+      exportCustomerAccount(customerAccount.id);
     }
   };
 
@@ -103,8 +112,7 @@ const CustomerAccountManagement = () => {
     {
       header: t("common.cardManager"),
       key: "cardManager",
-      render: (item: CustomerAccount) =>
-        item.cardManager ? t("common.manager") : "-",
+      render: (item: CustomerAccount) => <Status value={item.cardManager!!} />,
     },
     {
       header: t("common.status"),
@@ -112,10 +120,11 @@ const CustomerAccountManagement = () => {
       render: (item: CustomerAccount) => (
         <div
           onClick={() => {
-            const message = item.actif
+            const message = item.cardManager
               ? t("customerAccounts.updateStatusDialog.desativationMessage")
               : t("customerAccounts.updateStatusDialog.activationMessage");
-            confirm({ message, onConfirm: () => updateStatus(item) });
+            const title = t("customerAccounts.updateStatusDialog.title");
+            confirm({ title, message, onConfirm: () => exportAccount(item) });
           }}
           style={{ cursor: "pointer" }}
         >
@@ -145,7 +154,13 @@ const CustomerAccountManagement = () => {
           </Box>
           <IoCloudDownloadOutline
             style={{ cursor: "pointer" }}
-            onClick={() => {}}
+            onClick={() => {
+              const message = item.cardManager
+                ? t("customerAccounts.exportDialog.exportMessage")
+                : t("customerAccounts.exportDialog.notExport");
+              const title = t("customerAccounts.exportDialog.title");
+              confirm({ title, message, onConfirm: () => exportAccount(item) });
+            }}
           />
         </Flex>
       ),

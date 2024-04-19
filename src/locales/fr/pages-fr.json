@@ -69,6 +69,11 @@
       "title": "Mise à jour du statut",
       "desativationMessage": "Etes-vous sur de vouloir désactiver ce compte ?",
       "activationMessage": "Etes-vous sur de vouloir activer ce compte ?"
+    },
+    "exportDialog": {
+      "title": "exporter compte  client",
+      "exportMessage": "Etes-vous sûr de vouloir exporter ce compte vers le module Card Manager ? ?",
+      "notExport": "Vous ne pouvez pas exporter ce compte car il ne dispose pas des droits de gestion des cartes !"
     }
   },
   "customerAccountModal": {
