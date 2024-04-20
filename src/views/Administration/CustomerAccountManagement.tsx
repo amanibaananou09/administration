@@ -120,7 +120,7 @@ const CustomerAccountManagement = () => {
       render: (item: CustomerAccount) => (
         <div
           onClick={() => {
-            const message = item.cardManager
+            const message = item.status
               ? t("customerAccounts.updateStatusDialog.desativationMessage")
               : t("customerAccounts.updateStatusDialog.activationMessage");
             const title = t("customerAccounts.updateStatusDialog.title");
