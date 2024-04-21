@@ -42,8 +42,7 @@ definitions:
         caches:
           - node
         script:
-          #- npm test
-          - export REACT_APP_BACKEND_URL=${BACKEND_URL}
+          - export REACT_APP_BACKEND_URL=/api
           - npm run build
         artifacts:
           - build/**
@@ -85,18 +84,7 @@ pipelines:
   branches:
     develop:
       - step: *install-dependencies
-      - step:
-          name: Build and Test
-          runs-on:
-            - self.hosted
-            - linux
-          caches:
-            - node
-          script:
-            - export REACT_APP_BACKEND_URL=${BACKEND_URL_REC}
-            - npm run build
-          artifacts:
-            - build/**
+      - step: *build-and-test
       - step: *quality
       - step: *build-docker-image
       - step:
@@ -105,18 +93,7 @@ pipelines:
           deployment: recette
     '*':
       - step: *install-dependencies
-      - step:
-          name: Build and Test
-          runs-on:
-            - self.hosted
-            - linux
-          caches:
-            - node
-          script:
-            - export REACT_APP_BACKEND_URL=${BACKEND_URL_DEV}
-            - npm run build
-          artifacts:
-            - build/**
+      - step: *build-and-test
       - step: *quality
       - step: *build-docker-image
       - step:
@@ -126,18 +103,7 @@ pipelines:
   tags:
     '*':
       - step: *install-dependencies
-      - step:
-          name: Build and Test
-          runs-on:
-            - self.hosted
-            - linux
-          caches:
-            - node
-          script:
-            - export REACT_APP_BACKEND_URL=${BACKEND_URL_PROD}
-            - npm run build
-          artifacts:
-            - build/**
+      - step: *build-and-test
       - step: *build-docker-image
       - step:
           <<: *deploy-container
