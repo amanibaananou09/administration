@@ -173,7 +173,7 @@ const CustomerAccountModal = ({
               label={t("common.city")}
               name="city"
               control={form.control}
-              disabled={isEditMode || isViewMode}
+              disabled={isViewMode}
               rules={{ validate: validator.cityValidator }}
             />
             <UIInputFormControl

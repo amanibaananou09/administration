@@ -119,6 +119,10 @@ const StationManagement = () => {
       key: "address",
     },
     {
+      header: t("common.phone"),
+      key: "phone",
+    },
+    {
       header: t("stationManagement.deactivation"),
       key: "deactivation",
       render: (item) => (
