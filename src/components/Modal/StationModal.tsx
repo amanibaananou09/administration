@@ -147,12 +147,12 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
             disabled={isViewMode}
             rules={{ validate: validator.addressValidator }}
           />
-          <UIInputFormControl
+          <UIPhoneInputFormControl
             label={t("common.phone")}
-            name="phone"
             control={form.control}
+            name="phone"
             disabled={isViewMode}
-            rules={{ validate: validator.addressValidator }}
+            rules={{ validate: validator.phoneValidator }}
           />
           <UISelectFormControl
             label={t("common.creator")}

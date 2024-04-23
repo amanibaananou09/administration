@@ -142,7 +142,7 @@
     "compte": "Creator account",
     "creator": "Parent account",
     "name": "Station name",
-    "phone": "Controller phone number",
+    "phone": "Controller SIM",
     "typeController": "Type of controller",
     "deactivation": "Deactivation",
     "controller": "Controller",
