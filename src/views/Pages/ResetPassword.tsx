@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import BgSignUp from "../../assets/img/BgSignUp.png";
+import Logo from "../../assets/img/Stationnex.png";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState<string>("");
@@ -94,7 +95,7 @@ const ResetPassword = () => {
         mt={{ md: "14px" }}
         borderRadius={{ base: "0px", md: "20px" }}
       >
-        <Box w="100vw" h="100vh" bg="blue.500" opacity="0.8"></Box>
+        <Box w="100vw" h="100vh" bg="gray.300" opacity="0.8"></Box>
       </Box>
       <Flex
         justifyContent="flex-end"
@@ -112,9 +113,20 @@ const ResetPassword = () => {
         mt="125px"
         mb="30px"
       >
-        <Text fontSize="4xl" color="white" fontWeight="bold">
-          {t("signIn.header")}
-        </Text>
+        <img
+          src={Logo}
+          alt="Stationnex Logo"
+          style={{ height: "150px", width: "15%" }}
+        />
+        <Text
+          fontSize="lg"
+          color="black"
+          fontWeight="bold"
+          mt="10px"
+          w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
+        >
+          {t("signIn.title")}
+        </Text>{" "}
         <Text
           fontSize="md"
           color="white"
