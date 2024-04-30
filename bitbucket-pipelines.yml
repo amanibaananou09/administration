@@ -109,3 +109,12 @@ pipelines:
           <<: *deploy-container
           name: Deploy to Prod
           deployment: prod
+  custom:
+    deploy-to-formation:
+      - step: *install-dependencies
+      - step: *build-and-test
+      - step: *build-docker-image
+      - step:
+          <<: *deploy-container
+          name: Deploy to Formation
+          deployment: formation
