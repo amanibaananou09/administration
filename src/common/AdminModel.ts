@@ -11,6 +11,7 @@ export interface CustomerAccount {
   creatorCustomerAccountName?: string;
   resaleRight: boolean;
   cardManager: boolean;
+  exported: boolean;
   dateStatusChange?: string;
   stations?: number;
   stationsCount?: number;
@@ -147,6 +148,7 @@ export interface CustomerAccountFormValues {
   creatorAccountId: string;
   resaleRight: boolean;
   cardManager: boolean;
+  exported: boolean;
   status: string;
   actif?: boolean;
   username: string;
