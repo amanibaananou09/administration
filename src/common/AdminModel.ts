@@ -20,6 +20,7 @@ export interface CustomerAccount {
   masterUser: MasterUser;
   creatorUser?: GeneralUser;
   paymentMethods?: PaymentMethod[];
+  plannedExportDate?: string;
 }
 
 export interface CustomerAccountCreteria {
@@ -161,6 +162,7 @@ export interface CustomerAccountFormValues {
   password?: string;
   confirmPassword?: string;
   paymentMethods?: PaymentMethod[];
+  plannedExportDate?: string;
 }
 
 export interface UserFormValues {

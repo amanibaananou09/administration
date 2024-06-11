@@ -102,6 +102,8 @@ const CustomerAccountModal = ({
   }, []);
 
   const name = form.watch("name");
+  const cardManager = form.watch("cardManager");
+
   useEffect(() => {
     if (isCreateMode) {
       form.setValue("username", name.replace(/\s+/g, ""), {
@@ -123,7 +125,9 @@ const CustomerAccountModal = ({
           {accountData.name}
         </option>
       ));
-
+  const initialCardManager = customerAccount
+    ? customerAccount.cardManager
+    : false;
   return (
     <UIModal
       title={modalTitle}
@@ -187,7 +191,7 @@ const CustomerAccountModal = ({
                     isCreateMode ||
                     form.getValues("savedUsername") !== value
                   ) {
-                    return await validator.usernameValidator(value);
+                    return await validator.loginValidator(value);
                   }
                 },
               }}
@@ -322,6 +326,17 @@ const CustomerAccountModal = ({
               disabled={isViewMode}
             />
           </Flex>
+          {(isCreateMode || isEditMode) &&
+            (cardManager || initialCardManager) && (
+              <UIInputFormControl
+                control={form.control}
+                type="datetime-local"
+                label={t("customerAccountModal.date")}
+                name="plannedExportDate"
+                disabled={isViewMode}
+                rules={{ validate: validator.plannedExportDateValidator }}
+              />
+            )}
         </form>
       )}
       {isLoading && <CustomerAccountSkeletonForm />}

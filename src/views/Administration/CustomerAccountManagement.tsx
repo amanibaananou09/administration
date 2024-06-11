@@ -35,18 +35,11 @@ const CustomerAccountManagement = () => {
     size: 25,
   });
 
-  const {
-    customerAccounts,
-    totalPages,
-    totalElements,
-    isLoading,
-  } = useCustomerAccounts(creteria);
+  const { customerAccounts, totalPages, totalElements, isLoading } =
+    useCustomerAccounts(creteria);
 
-  const {
-    activate,
-    desactivate,
-    exportCustomerAccount,
-  } = useCustomerAccountQueries();
+  const { activate, desactivate, exportCustomerAccount } =
+    useCustomerAccountQueries();
 
   const { confirm, ConfirmationDialog } = useConfirm({
     title: t("customerAccounts.exportDialog.title"),
@@ -144,22 +137,11 @@ const CustomerAccountManagement = () => {
           <Box pr={6}>
             <Status value={false} />
           </Box>
-          <Box pr={6}>
-            <FaPencilAlt
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                history.push(`${path}/edit/${item.id}`);
-              }}
-            />
-          </Box>
-          <IoCloudDownloadOutline
+
+          <FaPencilAlt
             style={{ cursor: "pointer" }}
             onClick={() => {
-              const message = item.cardManager
-                ? t("customerAccounts.exportDialog.exportMessage")
-                : t("customerAccounts.exportDialog.notExport");
-              const title = t("customerAccounts.exportDialog.title");
-              confirm({ title, message, onConfirm: () => exportAccount(item) });
+              history.push(`${path}/edit/${item.id}`);
             }}
           />
         </Flex>
@@ -168,9 +150,8 @@ const CustomerAccountManagement = () => {
   ];
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-  const [displayedColumns, setDisplayedColumns] = useState<
-    UIColumnDefinitionType<CustomerAccount>[]
-  >(columns);
+  const [displayedColumns, setDisplayedColumns] =
+    useState<UIColumnDefinitionType<CustomerAccount>[]>(columns);
 
   return (
     <>
