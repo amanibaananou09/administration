@@ -7,6 +7,7 @@ import {
   UserFormValues,
 } from "common/AdminModel";
 import { Mode } from "common/enums";
+import moment from "moment";
 
 /**
  * Customer Account form utils
@@ -35,6 +36,7 @@ export const customerAccountInitFormValues: CustomerAccountFormValues = {
       code: "",
     },
   ],
+  plannedExportDate: moment().format("YYYY-MM-DDTHH:mm"),
 };
 
 export const customerAccountToFormValues = (
@@ -53,6 +55,7 @@ export const customerAccountToFormValues = (
     status,
     actif,
     masterUser,
+    plannedExportDate,
   } = customerAccount;
 
   const { username, firstName, lastName, email, phone } = masterUser;
@@ -77,6 +80,7 @@ export const customerAccountToFormValues = (
     lastName,
     phone,
     paymentMethods,
+    plannedExportDate: moment().format("YYYY-MM-DDTHH:mm"),
   };
 };
 
@@ -102,6 +106,7 @@ export const formValuesToCustomerAccount = (
     paymentMethods,
     status,
     actif,
+    plannedExportDate,
   } = values;
 
   return {
@@ -124,6 +129,7 @@ export const formValuesToCustomerAccount = (
       password,
       phone,
     },
+    plannedExportDate: moment().format("YYYY-MM-DDTHH:mm"),
   };
 };
 

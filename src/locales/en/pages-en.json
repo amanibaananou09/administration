@@ -83,7 +83,8 @@
     "paymentMethods": "Payment methods",
     "payment": "Payment",
     "actions": "Actions",
-    "add": "Add"
+    "add": "Add",
+    "date": "Activation date"
   },
   "customerAccountInformation": {
     "header": "Customer account information",

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { isEmailExist, isUsernameExist } from "utils/utils";
 import * as Yup from "yup";
 import { Schema } from "yup";
+import moment from "moment";
 
 const useValidators = () => {
   const { t } = useTranslation();
@@ -13,8 +14,21 @@ const useValidators = () => {
   const username = Yup.string()
     .required(t("validation.username.required"))
     .min(3, t("validation.username.min"));
-
+  const login = Yup.string()
+    .required(t("validation.login.required"))
+    .min(3, t("validation.login.min"));
   const usernameAsync = Yup.string().test(
+    "username",
+    t("validation.username.exist"),
+    async (value) => {
+      if (value) {
+        const exist = await isUsernameExist(value);
+        return !exist;
+      }
+      return true;
+    },
+  );
+  const loginAsync = Yup.string().test(
     "username",
     t("validation.username.exist"),
     async (value) => {
@@ -105,7 +119,12 @@ const useValidators = () => {
   const cordonneesGps = Yup.string().required(
     t("validation.cordonneesGps.required"),
   );
-
+  const plannedExportDate = Yup.date()
+    .required(t("validation.plannedExportDate.required"))
+    .min(
+      moment().format("YYYY-MM-DDTHH:mm"),
+      t("validation.plannedExportDate.greaterThan"),
+    );
   /**
    * validation function for react form hook
    *
@@ -136,7 +155,9 @@ const useValidators = () => {
   const usernameValidator = async (value: string) => {
     return await validateWithSchema(username.concat(usernameAsync), value);
   };
-
+  const loginValidator = async (value: string) => {
+    return await validateWithSchema(login.concat(loginAsync), value);
+  };
   const emailValidator = async (value: string) => {
     return await validateWithSchema(email, value);
   };
@@ -191,13 +212,16 @@ const useValidators = () => {
   const controllerUsernameValidator = async (value: string) => {
     return await validateWithSchema(username, value);
   };
-
+  const plannedExportDateValidator = async (value: Date) => {
+    return await validateWithSchema(plannedExportDate, value);
+  };
   return {
     nameValidator,
     cityValidator,
     parentValidator,
     creatorValidator,
     usernameValidator,
+    loginValidator,
     emailValidator,
     firstNameValidator,
     lastNameValidator,
@@ -211,6 +235,7 @@ const useValidators = () => {
     ptsIdValidator,
     controllerTypeValidator,
     controllerUsernameValidator,
+    plannedExportDateValidator,
   };
 };
 

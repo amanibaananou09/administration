@@ -17,6 +17,11 @@
     "required": "Le nom d'utilisateur est requis",
     "exist": "Le nom d'utilisateur existe deja"
   },
+  "login": {
+    "min": "Login doit comporter au moins 3 caractères",
+    "required": "Login est requis",
+    "exist": "Login existe deja"
+  },
   "email": {
     "invalid": "E-mail invalide",
     "required": "L'e-mail est requis",
@@ -83,5 +88,9 @@
   "city": {
     "min": "Le ville doit comporter au moins 3 caractères",
     "required": "Le ville est requis"
+  },
+  "plannedExportDate": {
+    "required": "Date d'activation est requise",
+    "greaterThan": "Date d'activation doit étre supérieur à la date et heure en cours"
   }
 }

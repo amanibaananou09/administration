@@ -83,7 +83,8 @@
     "paymentMethods": "Modes de paiement",
     "payment": "Paiement",
     "actions": "Actions",
-    "add": " Ajouter"
+    "add": " Ajouter",
+    "date": "Date d'activation"
   },
   "customerAccountInformation": {
     "header": "Informations sur le compte client",
