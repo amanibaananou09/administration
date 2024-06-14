@@ -86,7 +86,7 @@ export const listStation = async (
   numberOfElements: number;
   size: number;
 }> => {
-  let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station/list`;
+  let url = `${API_URL}/${stationSearchCriteria.customerAccountId}/station`;
 
   const { name, creator, parent } = stationSearchCriteria;
 
@@ -95,7 +95,7 @@ export const listStation = async (
   if (name || parent || creator) {
     url += "/filter";
   } else {
-    url;
+    url += "/list";
   }
 
   if (name) {
