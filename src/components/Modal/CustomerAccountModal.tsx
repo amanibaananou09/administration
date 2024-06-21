@@ -103,6 +103,7 @@ const CustomerAccountModal = ({
 
   const name = form.watch("name");
   const cardManager = form.watch("cardManager");
+  const resaleRight = form.watch("resaleRight");
 
   useEffect(() => {
     if (isCreateMode) {
@@ -261,60 +262,63 @@ const CustomerAccountModal = ({
           </Flex>
 
           <Divider my={4} />
-
-          <Flex alignItems="center">
-            <Text w="34%" fontSize="sm" fontWeight="bold">
-              {t("customerAccountModal.paymentMethods")}
-            </Text>
-            <UIArrayFormControl name="paymentMethods" control={form.control}>
-              {(fields, append, remove) => (
-                <>
-                  <Box as="div" gridColumn="span 2">
-                    {fields.map((field, index) => (
-                      <Box
-                        as="div"
-                        key={field.id}
-                        display="flex"
-                        justifyContent="flex-start"
-                        alignItems="center"
-                        py={2}
+          {resaleRight && (
+            <Flex alignItems="center">
+              <Text w="34%" fontSize="sm" fontWeight="bold">
+                {t("customerAccountModal.paymentMethods")}
+              </Text>
+              <UIArrayFormControl name="paymentMethods" control={form.control}>
+                {(fields, append, remove) => (
+                  <>
+                    <Box as="div" gridColumn="span 2">
+                      {fields.map((field, index) => (
+                        <Box
+                          as="div"
+                          key={field.id}
+                          display="flex"
+                          justifyContent="flex-start"
+                          alignItems="center"
+                          py={2}
+                        >
+                          <UIInputFormControl
+                            name={`paymentMethods.${index}.code`}
+                            control={form.control}
+                            placeholder={t("customerAccountModal.payment")}
+                            disabled={isViewMode}
+                            rules={{
+                              validate: validator.paymentMethodValidator,
+                            }}
+                          />
+                          {!isViewMode && (
+                            <Box as="div" px={30}>
+                              <DeleteIcon
+                                onClick={() => remove(index)}
+                                cursor="pointer"
+                                color="red.500"
+                              />
+                            </Box>
+                          )}
+                        </Box>
+                      ))}
+                    </Box>
+                    {!isViewMode && (
+                      <Button
+                        onClick={() =>
+                          append({
+                            code: "",
+                          })
+                        }
+                        ml={6}
                       >
-                        <UIInputFormControl
-                          name={`paymentMethods.${index}.code`}
-                          control={form.control}
-                          placeholder={t("customerAccountModal.payment")}
-                          disabled={isViewMode}
-                          rules={{ validate: validator.paymentMethodValidator }}
-                        />
-                        {!isViewMode && (
-                          <Box as="div" px={30}>
-                            <DeleteIcon
-                              onClick={() => remove(index)}
-                              cursor="pointer"
-                              color="red.500"
-                            />
-                          </Box>
-                        )}
-                      </Box>
-                    ))}
-                  </Box>
-                  {!isViewMode && (
-                    <Button
-                      onClick={() =>
-                        append({
-                          code: "",
-                        })
-                      }
-                      ml={6}
-                    >
-                      {t("customerAccountModal.add")}
-                    </Button>
-                  )}
-                </>
-              )}
-            </UIArrayFormControl>
-          </Flex>
-          <Divider my={4} />
+                        {t("customerAccountModal.add")}
+                      </Button>
+                    )}
+                  </>
+                )}
+              </UIArrayFormControl>
+            </Flex>
+          )}
+
           <Flex direction="column">
             <Text fontWeight="bold" fontSize="lg" mb={3} color="teal.500">
               {t("common.moduleAccess")}

@@ -15,7 +15,6 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-import { IoCloudDownloadOutline } from "react-icons/io5";
 
 import {
   useCustomerAccountQueries,
