@@ -18,7 +18,7 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useStationQueries, useStations } from "hooks/use-station";
 import "jspdf-autotable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
@@ -33,9 +33,8 @@ const StationManagement = () => {
     size: 25,
   });
 
-  const { stations, totalPages, totalElements, isLoading } = useStations(
-    creteria,
-  );
+  const { stations, totalPages, totalElements, isLoading } =
+    useStations(creteria);
   const { activate, desactivate } = useStationQueries();
 
   const { ConfirmationDialog, confirm } = useConfirm({
@@ -168,8 +167,14 @@ const StationManagement = () => {
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [displayedColumns, setDisplayedColumns] = useState<
     UIColumnDefinitionType<GeneralStations>[]
-  >(columns);
-
+  >([]);
+  useEffect(() => {
+    setDisplayedColumns(
+      visibleColumns.length > 0
+        ? columns.filter((col) => visibleColumns.includes(col.key as string))
+        : columns,
+    );
+  }, [columns, visibleColumns]);
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -188,6 +193,7 @@ const StationManagement = () => {
             setVisibleColumns={setVisibleColumns}
             setDisplayedColumns={setDisplayedColumns}
             isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
           />
           <CardBody>
             <Flex overflowX="auto">
