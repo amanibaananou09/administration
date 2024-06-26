@@ -6,8 +6,11 @@ interface ColumnSelectionDropdownProps {
   columns: UIColumnDefinitionType<any>[];
   visibleColumns: string[];
   setVisibleColumns: React.Dispatch<React.SetStateAction<string[]>>;
-  setDisplayedColumns: React.Dispatch<React.SetStateAction<UIColumnDefinitionType<any>[]>>;
+  setDisplayedColumns: React.Dispatch<
+    React.SetStateAction<UIColumnDefinitionType<any>[]>
+  >;
   isOpen: boolean;
+  onClose: () => void;
 }
 
 const ColumnSelectionDropdown = ({
@@ -16,6 +19,7 @@ const ColumnSelectionDropdown = ({
   setVisibleColumns,
   setDisplayedColumns,
   isOpen,
+  onClose,
 }: ColumnSelectionDropdownProps) => {
   const toggleColumnVisibility = (columnKey: string | undefined) => {
     if (columnKey && columnKey !== "#") {
@@ -25,7 +29,7 @@ const ColumnSelectionDropdown = ({
           ? prevVisibleColumns.filter((key) => key !== columnKey)
           : [...prevVisibleColumns, columnKey];
 
-          if (!updatedVisibleColumns.includes("#")) {
+        if (!updatedVisibleColumns.includes("#")) {
           updatedVisibleColumns.push("#");
         }
         // Update displayedColumns based on updatedVisibleColumns
@@ -33,11 +37,15 @@ const ColumnSelectionDropdown = ({
           updatedVisibleColumns.includes(col.key as string),
         ) as UIColumnDefinitionType<any>[];
 
-        if (updatedDisplayedColumns.length === 1 && updatedDisplayedColumns[0].key === "#") {
+        if (
+          updatedDisplayedColumns.length === 1 &&
+          updatedDisplayedColumns[0].key === "#"
+        ) {
           setDisplayedColumns(columns);
         } else {
           setDisplayedColumns([...updatedDisplayedColumns]);
         }
+        onClose();
         return updatedVisibleColumns;
       });
     }

@@ -20,7 +20,7 @@ import {
   useCustomerAccountQueries,
   useCustomerAccounts,
 } from "hooks/use-customer-account";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
@@ -149,8 +149,16 @@ const CustomerAccountManagement = () => {
   ];
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-  const [displayedColumns, setDisplayedColumns] =
-    useState<UIColumnDefinitionType<CustomerAccount>[]>(columns);
+  const [displayedColumns, setDisplayedColumns] = useState<
+    UIColumnDefinitionType<CustomerAccount>[]
+  >([]);
+  useEffect(() => {
+    setDisplayedColumns(
+      visibleColumns.length > 0
+        ? columns.filter((col) => visibleColumns.includes(col.key as string))
+        : columns,
+    );
+  }, [columns, visibleColumns]);
 
   return (
     <>
@@ -172,6 +180,7 @@ const CustomerAccountManagement = () => {
             setVisibleColumns={setVisibleColumns}
             setDisplayedColumns={setDisplayedColumns}
             isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
           />
 
           <CardBody>

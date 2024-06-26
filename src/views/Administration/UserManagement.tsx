@@ -18,7 +18,7 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useUserQueries, useUsers } from "hooks/use-user";
 import "jspdf-autotable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
@@ -130,7 +130,14 @@ const UserManagement = () => {
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [displayedColumns, setDisplayedColumns] = useState<
     UIColumnDefinitionType<GeneralUser>[]
-  >(columns);
+  >([]);
+  useEffect(() => {
+    setDisplayedColumns(
+      visibleColumns.length > 0
+        ? columns.filter((col) => visibleColumns.includes(col.key as string))
+        : columns,
+    );
+  }, [columns, visibleColumns]);
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -149,6 +156,7 @@ const UserManagement = () => {
             setVisibleColumns={setVisibleColumns}
             setDisplayedColumns={setDisplayedColumns}
             isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
           />
           <CardBody>
             <Flex direction="row-reverse">
