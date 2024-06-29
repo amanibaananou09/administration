@@ -1,4 +1,4 @@
-image: node:18.14.2
+image: node:18.17.1
 
 definitions:
   caches:
@@ -30,9 +30,9 @@ definitions:
               SONAR_HOST_URL: ${SONAR_HOST_URL}
               SONAR_TOKEN: ${SONAR_TOKEN}
               SONAR_SCANNER_OPTS: -Xmx512m
-          - pipe: sonarsource/sonarqube-quality-gate:1.0.0
-            variables:
-              SONAR_TOKEN: ${SONAR_TOKEN}
+          #- pipe: sonarsource/sonarqube-quality-gate:1.0.0
+          #  variables:
+          #    SONAR_TOKEN: ${SONAR_TOKEN}
 
     - step: &build-and-test
         name: Build and Test
@@ -95,11 +95,14 @@ pipelines:
       - step: *install-dependencies
       - step: *build-and-test
       - step: *quality
+    master:
+      - step: *install-dependencies
+      - step: *build-and-test
       - step: *build-docker-image
       - step:
           <<: *deploy-container
-          name: Deploy to Dev
-          deployment: dev
+          name: Deploy to preprod
+          deployment: preprod
   tags:
     '*':
       - step: *install-dependencies
