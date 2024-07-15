@@ -28,7 +28,6 @@ const CustomerAccountExporter = ({
           actif,
           stationsCount,
         }) => ({
-          ID: id,
           [t("common.name")]: name,
           [t("common.creatorAccount")]: creatorCustomerAccountName,
           [t("common.compteParent")]: parentName,
@@ -54,7 +53,7 @@ const CustomerAccountExporter = ({
   const exportToPDFHandler = () => {
     const doc = new jsPDF() as any;
     const tableColumn = [
-      "ID",
+      "#",
       t("common.name"),
       t("common.creatorAccount"),
       t("common.compteParent"),
