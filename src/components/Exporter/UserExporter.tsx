@@ -18,7 +18,6 @@ const UserExporter = ({ users }: UserExporterProps) => {
   const exportToExcelHandler = () => {
     if (users) {
       const data = users.map((user) => ({
-        ID: user.id || "",
         [t("userManagement.globalUsers.userNameColumn")]: user.username || "",
         [t("userManagement.globalUsers.accountCreator")]:
           user.creatorCustomerAccountName || "",
@@ -46,7 +45,7 @@ const UserExporter = ({ users }: UserExporterProps) => {
   const exportToPDFHandler = () => {
     const doc = new jsPDF() as any;
     const tableColumn = [
-      "ID",
+      "#",
       t("userManagement.globalUsers.userNameColumn"),
       t("userManagement.globalUsers.accountCreator"),
       t("userManagement.globalUsers.account"),
@@ -58,7 +57,7 @@ const UserExporter = ({ users }: UserExporterProps) => {
     if (users) {
       users.forEach((user, index) => {
         const rowData = [
-          user.id || "",
+          index + 1,
           user.username || "",
           user.creatorCustomerAccountName || "",
           user.customerAccountName || "",

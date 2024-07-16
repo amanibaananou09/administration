@@ -4,6 +4,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
+import { formatDate } from "../../utils/utils";
 
 type StationExporterProps = {
   stations: GeneralStations[];
@@ -15,7 +16,6 @@ const StationExporter = ({ stations }: StationExporterProps) => {
   const exportToExcelHandler = () => {
     if (stations) {
       const data = stations.map((station) => ({
-        ID: station.id || "",
         [t("stationManagement.name")]: station.name || "",
         [t("stationManagement.compte")]: station.customerAccountName || "",
         [t("stationManagement.creator")]:
@@ -49,7 +49,7 @@ const StationExporter = ({ stations }: StationExporterProps) => {
   const exportToPDFHandler = () => {
     const doc = new jsPDF() as any;
     const tableColumn = [
-      "ID",
+      "#",
       t("stationManagement.name"),
       t("stationManagement.creator"),
       t("stationManagement.compte"),
@@ -66,16 +66,16 @@ const StationExporter = ({ stations }: StationExporterProps) => {
     const tableRows: any[][] = [];
 
     if (stations) {
-      stations.forEach((station) => {
+      stations.forEach((station, index) => {
         const rowData = [
-          station.id || "",
+          index + 1,
           station.name || "",
           station.customerAccountName || "",
           station.creatorCustomerAccountName || "",
           station.controllerPts?.controllerType || "",
           station.controllerPts?.ptsId || "",
           station.controllerPts?.phone || "",
-          station.dateStatusChange || "",
+          formatDate(station.dateStatusChange) || "",
           station.cordonneesGps || "",
           station.address || "",
           station.country?.name || "",
