@@ -219,7 +219,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
           </UISelectFormControl>
 
           <UIInputFormControl
-            label={t("userInformation.userNameLabel")}
+            label={t("stationManagement.userController")}
             name="controllerPts.userController.username"
             control={form.control}
             disabled={isViewMode}
@@ -237,7 +237,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
           )}
 
           <UIPhoneInputFormControl
-            label={t("userInformation.phoneLabel")}
+            label={t("stationManagement.phone")}
             control={form.control}
             name="controllerPts.phone"
             disabled={isViewMode}
