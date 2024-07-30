@@ -1,6 +1,6 @@
 {
   "name": "Nom du compte",
-  "creator": "Créateur",
+  "creator": "Compte parent",
   "creatorAccount": "Compte créateur",
   "compteParent": "Compte parent",
   "droits": "Droits du distributeur",
