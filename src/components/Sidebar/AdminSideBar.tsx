@@ -11,7 +11,6 @@ import {
   DrawerContent,
   DrawerOverlay,
   Flex,
-  Icon,
   Stack,
   Text,
   useDisclosure,
@@ -27,9 +26,10 @@ import { HSeparator } from "components/Separator/Separator";
 import SidebarHelp from "components/Sidebar/SidebarHelp";
 import React, { useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { administrationRoutes } from "router/routes";
 
+// AdminSideBar Component
 const AdminSideBar = (props: SidebarProps) => {
   const { logo } = props;
   const mainPanel = React.useRef<HTMLDivElement>(null);
@@ -56,7 +56,7 @@ const AdminSideBar = (props: SidebarProps) => {
         );
       } else {
         return (
-          <Alert status="error">
+          <Alert status="error" key={index}>
             <AlertIcon />
             {route.name}: No SideBar Item description
           </Alert>
@@ -104,138 +104,44 @@ const AdminSideBar = (props: SidebarProps) => {
   );
 };
 
-export const SidebarResponsive = (props: SidebarProps) => {
-  let location = useLocation();
-  const { logo, routes, hamburgerColor, ...rest } = props;
+export const AdminSidebarResponsive = (props: SidebarProps) => {
+  const { logo, hamburgerColor } = props;
+  const location = useLocation();
   const mainPanel = React.useRef<HTMLDivElement>(null);
-  const activeRoute = (routeName: string) => {
-    return location.pathname === routeName ? "active" : "";
+
+  const routes = administrationRoutes();
+
+  const [expandedIndex, setExpandedIndex] = useState<number>(0);
+
+  const handleItemChange = (index: number) => {
+    setExpandedIndex(index);
   };
 
-  //styles
-  let activeBg = "white";
-  let inactiveBg = "white";
-  let activeColor = "gray.700";
-  let inactiveColor = "gray.400";
-  let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
-  let sidebarBackgroundColor = "white";
-
-  const createLinks = (routes: any) => {
-    const routesArray = Object.values(routes);
-    return routesArray.map((prop: any, key: any) => {
-      if (prop.redirect) {
-        return null;
+  const links = routes
+    .filter((route) => !route.hideInNavbar)
+    .map((route, index) => {
+      const SideBarItem = route.sideBarItemComponent;
+      if (SideBarItem) {
+        return (
+          <SideBarItem
+            key={index}
+            route={route}
+            isOpen={index === expandedIndex}
+          />
+        );
+      } else {
+        return (
+          <Alert status="error" key={index}>
+            <AlertIcon />
+            {route.name}: No SideBar Item description
+          </Alert>
+        );
       }
-
-      return (
-        <NavLink to={prop.layout + prop.path} key={key}>
-          {activeRoute(prop.layout + prop.path) === "active" ? (
-            <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
-              bg={activeBg}
-              boxShadow={sidebarActiveShadow}
-              mb={{
-                xl: "6px",
-              }}
-              mx={{
-                xl: "auto",
-              }}
-              ps={{
-                sm: "10px",
-                xl: "16px",
-              }}
-              py="12px"
-              borderRadius="15px"
-              w="100%"
-              _active={{
-                bg: "inherit",
-                transform: "none",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                boxShadow: "none",
-              }}
-            >
-              <Flex>
-                {typeof prop.icon === "string" ? (
-                  <Icon>{prop.icon}</Icon>
-                ) : (
-                  <IconBox
-                    bg="blue.500"
-                    color="white"
-                    h="30px"
-                    w="30px"
-                    me="12px"
-                  >
-                    {prop.icon}
-                  </IconBox>
-                )}
-                <Text color={activeColor} my="auto" fontSize="sm">
-                  {prop.name}
-                </Text>
-              </Flex>
-            </Button>
-          ) : (
-            <Button
-              boxSize="initial"
-              justifyContent="flex-start"
-              alignItems="center"
-              bg="transparent"
-              mb={{
-                xl: "6px",
-              }}
-              mx={{
-                xl: "auto",
-              }}
-              py="12px"
-              ps={{
-                sm: "10px",
-                xl: "16px",
-              }}
-              borderRadius="15px"
-              w="100%"
-              _active={{
-                bg: "inherit",
-                transform: "none",
-                borderColor: "transparent",
-              }}
-              _focus={{
-                boxShadow: "none",
-              }}
-            >
-              <Flex>
-                {typeof prop.icon === "string" ? (
-                  <Icon>{prop.icon}</Icon>
-                ) : (
-                  <IconBox
-                    bg={inactiveBg}
-                    color="blue.500"
-                    h="30px"
-                    w="30px"
-                    me="12px"
-                  >
-                    {prop.icon}
-                  </IconBox>
-                )}
-                <Text color={inactiveColor} my="auto" fontSize="sm">
-                  {prop.name}
-                </Text>
-              </Flex>
-            </Button>
-          )}
-        </NavLink>
-      );
     });
-  };
-
-  var links = <>{createLinks(routes)}</>;
 
   var brand = (
-    <Box pt={"35px"} mb="8px">
+    <Box pt={"25px"} mb="12px">
       {logo}
-      <HSeparator my="26px" />
     </Box>
   );
 
@@ -258,28 +164,28 @@ export const SidebarResponsive = (props: SidebarProps) => {
       <Drawer isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef}>
         <DrawerOverlay />
         <DrawerContent
-          w="250px"
-          maxW="250px"
-          ms={{
-            sm: "16px",
-          }}
-          my={{
-            sm: "16px",
-          }}
+          w="300px"
+          maxW="300px"
+          ms={{ sm: "16px" }}
+          my={{ sm: "16px" }}
           borderRadius="16px"
-          bg={sidebarBackgroundColor}
+          bg="white"
         >
           <DrawerCloseButton
             _focus={{ boxShadow: "none" }}
             _hover={{ boxShadow: "none" }}
           />
-          <DrawerBody maxW="250px" px="1rem">
-            <Box maxW="100%" h="100vh">
+          <DrawerBody maxW="300px" px="1rem">
+            <Box>
               <Box>{brand}</Box>
-              <Stack direction="column" mb="40px">
-                <Box>{links}</Box>
-              </Stack>
-              <SidebarHelp />
+              <Accordion
+                index={expandedIndex}
+                onChange={handleItemChange}
+                allowToggle
+              >
+                {links}
+              </Accordion>
+              <SidebarHelp sidebarVariant={props.sidebarVariant} />
             </Box>
           </DrawerBody>
         </DrawerContent>

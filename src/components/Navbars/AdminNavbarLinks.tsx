@@ -10,13 +10,13 @@ import {
 import StationConfigurator from "components/Configurator/StationConfigurator";
 import { ProfileIcon } from "components/Icons/Icons";
 import LanguageSelector from "components/LanguageSelector";
-import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { administrationRoutes } from "router/routes";
 import { useAuth } from "store/AuthContext";
 
 import avatar1 from "../../assets/img/avatars/avatar1.png";
+import { AdminSidebarResponsive } from "../Sidebar/AdminSideBar";
 
 interface Notification {
   notification: string;
@@ -24,22 +24,13 @@ interface Notification {
 }
 
 const HeaderLinks = (props: any) => {
-  const {
-    variant,
-    children,
-    fixed,
-    scrolled,
-    secondary,
-    onOpen,
-    ...rest
-  } = props;
+  const { variant, children, fixed, scrolled, secondary, onOpen, ...rest } =
+    props;
   const { signOut, user, isSignedIn } = useAuth();
   const routes = administrationRoutes();
   const { t } = useTranslation();
-  const [
-    showStationConfigurator,
-    setShowStationConfigurator,
-  ] = useState<boolean>(false);
+  const [showStationConfigurator, setShowStationConfigurator] =
+    useState<boolean>(false);
 
   //styles
   const navbarIcon = "gray.700";
@@ -123,8 +114,8 @@ const HeaderLinks = (props: any) => {
       </Flex>
 
       <Flex ml="16px">
-        <SidebarResponsive
-          hamburgerColor="white"
+        <AdminSidebarResponsive
+          hamburgerColor="black"
           secondary={props.secondary}
           routes={routes}
           {...props}
