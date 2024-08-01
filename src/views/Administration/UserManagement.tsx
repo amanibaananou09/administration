@@ -131,13 +131,11 @@ const UserManagement = () => {
   const [displayedColumns, setDisplayedColumns] = useState<
     UIColumnDefinitionType<GeneralUser>[]
   >([]);
-  useEffect(() => {
-    setDisplayedColumns(
-      visibleColumns.length > 0
-        ? columns.filter((col) => visibleColumns.includes(col.key as string))
-        : columns,
-    );
-  }, [columns, visibleColumns]);
+  // Filter columns based on visibleColumns
+  const filteredColumns =
+    visibleColumns.length > 0
+      ? columns.filter((col) => visibleColumns.includes(col.key as string))
+      : columns;
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -171,7 +169,7 @@ const UserManagement = () => {
               {!isLoading && (
                 <UITable
                   data={users}
-                  columns={displayedColumns}
+                  columns={filteredColumns}
                   emptyListMessage={t("userManagement.globalUsers.listEmpty")}
                 />
               )}

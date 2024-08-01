@@ -25,7 +25,7 @@ const StationExporter = ({ stations }: StationExporterProps) => {
         [t("stationManagement.controllerId")]:
           station.controllerPts?.ptsId || "",
         [t("stationManagement.phone")]: station.controllerPts?.phone || "",
-        [t("stationManagement.created")]: station.dateStatusChange || "",
+        [t("stationManagement.created")]: station.createdDate || "",
         [t("stationModal.cordonneesGps")]: station.cordonneesGps || "",
         [t("common.address")]: station.address || "",
         [t("common.country")]: station.country?.name || "",
@@ -75,7 +75,7 @@ const StationExporter = ({ stations }: StationExporterProps) => {
           station.controllerPts?.controllerType || "",
           station.controllerPts?.ptsId || "",
           station.controllerPts?.phone || "",
-          formatDate(station.dateStatusChange) || "",
+          formatDate(station.createdDate) || "",
           station.cordonneesGps || "",
           station.address || "",
           station.country?.name || "",
