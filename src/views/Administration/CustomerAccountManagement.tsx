@@ -20,7 +20,7 @@ import {
   useCustomerAccountQueries,
   useCustomerAccounts,
 } from "hooks/use-customer-account";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
@@ -34,11 +34,14 @@ const CustomerAccountManagement = () => {
     size: 25,
   });
 
-  const { customerAccounts, totalPages, totalElements, isLoading } =
-    useCustomerAccounts(creteria);
+  const {
+    customerAccounts,
+    totalPages,
+    totalElements,
+    isLoading,
+  } = useCustomerAccounts(creteria);
 
-  const { activate, desactivate, exportCustomerAccount } =
-    useCustomerAccountQueries();
+  const { activate, desactivate } = useCustomerAccountQueries();
 
   const { confirm, ConfirmationDialog } = useConfirm({
     title: t("customerAccounts.exportDialog.title"),
@@ -51,11 +54,6 @@ const CustomerAccountManagement = () => {
     } else if (customerAccount.id) {
       // If currently inactive, activate
       activate(customerAccount.id);
-    }
-  };
-  const exportAccount = (customerAccount: CustomerAccount) => {
-    if (customerAccount.cardManager && customerAccount.id) {
-      exportCustomerAccount(customerAccount.id);
     }
   };
 
@@ -112,11 +110,11 @@ const CustomerAccountManagement = () => {
       render: (item: CustomerAccount) => (
         <div
           onClick={() => {
-            const message = item.status
+            const message = item.actif
               ? t("customerAccounts.updateStatusDialog.desativationMessage")
               : t("customerAccounts.updateStatusDialog.activationMessage");
             const title = t("customerAccounts.updateStatusDialog.title");
-            confirm({ title, message, onConfirm: () => exportAccount(item) });
+            confirm({ title, message, onConfirm: () => updateStatus(item) });
           }}
           style={{ cursor: "pointer" }}
         >
@@ -152,13 +150,11 @@ const CustomerAccountManagement = () => {
   const [displayedColumns, setDisplayedColumns] = useState<
     UIColumnDefinitionType<CustomerAccount>[]
   >([]);
-  useEffect(() => {
-    setDisplayedColumns(
-      visibleColumns.length > 0
-        ? columns.filter((col) => visibleColumns.includes(col.key as string))
-        : columns,
-    );
-  }, [columns, visibleColumns]);
+  // Filter columns based on visibleColumns
+  const filteredColumns =
+    visibleColumns.length > 0
+      ? columns.filter((col) => visibleColumns.includes(col.key as string))
+      : columns;
 
   return (
     <>
@@ -196,7 +192,7 @@ const CustomerAccountManagement = () => {
               {!isLoading && (
                 <UITable
                   data={customerAccounts}
-                  columns={displayedColumns}
+                  columns={filteredColumns}
                   emptyListMessage={t("customerAccounts.listEmpty")}
                 />
               )}

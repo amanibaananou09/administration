@@ -33,8 +33,9 @@ const StationManagement = () => {
     size: 25,
   });
 
-  const { stations, totalPages, totalElements, isLoading } =
-    useStations(creteria);
+  const { stations, totalPages, totalElements, isLoading } = useStations(
+    creteria,
+  );
   const { activate, desactivate } = useStationQueries();
 
   const { ConfirmationDialog, confirm } = useConfirm({
@@ -97,7 +98,7 @@ const StationManagement = () => {
       key: "created",
       render: (item) => (
         <Text textAlign="center">
-          {new Date(item.dateStatusChange).toLocaleString()}
+          {new Date(item.createdDate).toLocaleString()}
         </Text>
       ),
     },
@@ -168,13 +169,11 @@ const StationManagement = () => {
   const [displayedColumns, setDisplayedColumns] = useState<
     UIColumnDefinitionType<GeneralStations>[]
   >([]);
-  useEffect(() => {
-    setDisplayedColumns(
-      visibleColumns.length > 0
-        ? columns.filter((col) => visibleColumns.includes(col.key as string))
-        : columns,
-    );
-  }, [columns, visibleColumns]);
+  // Filter columns based on visibleColumns
+  const filteredColumns =
+    visibleColumns.length > 0
+      ? columns.filter((col) => visibleColumns.includes(col.key as string))
+      : columns;
   return (
     <>
       <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -200,7 +199,7 @@ const StationManagement = () => {
               {!isLoading && (
                 <UITable
                   data={stations}
-                  columns={displayedColumns}
+                  columns={filteredColumns}
                   emptyListMessage={t("stationManagement.isLoading")}
                 />
               )}

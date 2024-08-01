@@ -114,7 +114,7 @@ export interface GeneralStations {
   controllerPts: ControllerPts;
   phone: string;
   connection: string;
-  dateStatusChange: string;
+  createdDate: string;
   password: string;
   countryId: number;
   customerAccountId: string;
@@ -198,7 +198,7 @@ export interface StationFormValues {
   controllerPts: ControllerPts;
   phone: string;
   connection: string;
-  dateStatusChange: string;
+  createdDate: string;
   password: string;
   countryId: number;
   customerAccountId: string;
