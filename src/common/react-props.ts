@@ -1,12 +1,5 @@
 import { ReactNode } from "react";
-import { CustomerAccount, GeneralStations } from "./AdminModel";
-import {
-  ChartFilter,
-  RouteConfig,
-  Station,
-  TankMeasurement,
-  User,
-} from "./model";
+import { RouteConfig, User } from "./model";
 import { Mode } from "./enums";
 
 export interface CustomCardProps {
@@ -14,29 +7,6 @@ export interface CustomCardProps {
   avatar?: string;
   description?: string;
   onClick: (title: string) => void;
-}
-
-export interface ReportSalesChartMenuProps {
-  filter: ChartFilter;
-  onChange: (newFilter: ChartFilter) => void;
-}
-
-export interface TankChartMenuProps {
-  tanks: Array<{ idConf: string | number | null }>;
-  selectedTank: string | number | null;
-  onChange: (idConf: string | number | null) => void;
-}
-
-export interface TransactionTableRowProps {
-  pump: string;
-  fuelGrade: string;
-  volume: number;
-  price: number;
-  amount: number;
-  //tag: string;
-  totalVolume: number;
-  totalAmount: number;
-  dateTimeStart: string;
 }
 
 export interface ConfiguratorProps {
@@ -47,6 +17,10 @@ export interface ConfiguratorProps {
   onSwitch: (isChecked: boolean) => void;
 }
 
+export interface ExitConfiguratorProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 export interface StationConfiguratorProps {
   isOpen: boolean;
   onClose: () => void;
@@ -58,52 +32,15 @@ export interface FixedPluginProps {
   onOpen: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
-export interface ConfirmationModalProps {
-  message: string;
-  onConfirm: (station: Station) => void;
-}
-
-export interface CustomerAccountTableRowProps {
-  customerAccount: CustomerAccount;
-  isLastRow: boolean;
-}
-
 export interface AddStationModalProps {
   onSubmit: () => void;
   mode: Mode;
-}
-
-export interface AddStationModalRefType {
-  open: () => void;
-}
-
-export interface StationModalRefType {
-  open: (station: Station) => void;
-  close: () => void;
 }
 
 export interface CustomerAccountModalProps {
   onSubmit: () => void;
   ref?: React.Ref<any>;
   mode: Mode;
-}
-
-export interface SalesPumpGradesRowProps {
-  pumpId: number;
-  period?: string;
-  startDate?: string;
-  endDate?: string;
-}
-
-export interface LastTankRowProps {
-  tankId: number;
-}
-
-export interface StationModalProps {
-  onSubmit: (values: Station) => void;
-  station: Station | null;
-  onClose: () => void;
-  ref?: React.Ref<any>;
 }
 
 export interface AdminNavbarProps {
@@ -143,22 +80,13 @@ export interface SidebarProps {
   secondary?: any;
 }
 
-export interface StationRowProps {
-  id: number;
-  name: string;
-  address: string;
-  controllerPtsId: string;
-  firmwareInformations: any;
-  onEdit: () => void;
-  onDelete: () => void;
-}
-
 export interface AuthContextProps {
   token: string | null;
   isSignedIn: boolean;
   user: User | null;
   signIn: (user: User) => void;
   signOut: () => void;
+  impersonate: (userId: number) => void;
 }
 
 export interface ESSContextProps {
@@ -170,41 +98,9 @@ export interface AuthContextProviderProps {
   children: ReactNode;
 }
 
-export interface ModalRef {
-  open: (station?: Station) => void;
-  close: () => void;
-}
-
-export interface TankMeasurementRowProps {
-  tankMeasurement: TankMeasurement;
-}
-
-export interface PeriodeProps {
-  periode: string;
-  startDate: string;
-  endDate: string;
-}
-
-export interface TankDeliveryRowProps {
-  tank: string;
-  fuelGradeName: string;
-  productHeight: number;
-  waterHeight: number;
-  temperature: number;
-  productVolume: number;
-}
-
 export interface UserModalProps {
   onSubmit: () => void;
   mode: Mode;
-}
-
-export interface AddUserModalProps {
-  onSubmit: () => void;
-}
-
-export interface AddUserModalRefType {
-  open: () => void;
 }
 
 export interface AdminSideBarItemProps {

@@ -4,6 +4,7 @@ import { User } from "common/model";
 import { AuthContextProps, AuthContextProviderProps } from "common/react-props";
 import { decodeToken } from "utils/utils";
 import { useESSContext } from "./ESSContext";
+import { impersonateUser } from "../common/api/auth-api";
 
 export const AuthContext = React.createContext<AuthContextProps>({
   token: null,
@@ -11,6 +12,7 @@ export const AuthContext = React.createContext<AuthContextProps>({
   user: null,
   signIn: (user) => {},
   signOut: () => {},
+  impersonate: (userId) => Promise.resolve(),
 });
 
 let firstLoad = true;
@@ -30,15 +32,25 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const signOutHandler = useCallback(() => {
     setUser(null);
     clearContext();
-  }, []);
+  }, [clearContext]);
+
+  const impersonateHandler = useCallback(
+    async (userId: number) => {
+      try {
+        const impersonatedUser = await impersonateUser(userId);
+        signInHandler(impersonatedUser);
+      } catch (error) {
+        console.error("Failed to impersonate user:", error);
+      }
+    },
+    [signInHandler],
+  );
 
   useEffect(() => {
     let signOutTimer: NodeJS.Timeout;
 
     if (user && user.expireTime) {
-      const remainingTime = new Date(
-        +user.expireTime - new Date().getTime(),
-      ).getTime();
+      const remainingTime = user.expireTime - new Date().getTime();
       if (remainingTime <= 0) {
         signOutHandler();
       }
@@ -64,11 +76,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }, [user, signOutHandler]);
 
   const contextValue: AuthContextProps = {
-    user: user,
+    user,
     isSignedIn,
     signIn: signInHandler,
     signOut: signOutHandler,
-    token: null,
+    impersonate: impersonateHandler,
+    token: user?.token || null,
   };
 
   return (
@@ -76,6 +89,4 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

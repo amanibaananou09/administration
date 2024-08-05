@@ -10,9 +10,14 @@ import {
 import { GeneralUserCreteria } from "../common/AdminModel";
 import useQueryParams from "./use-query-params";
 import { useAuth } from "../store/AuthContext";
+import { searchUser } from "../common/api/auth-api";
 
 export const useUserById = (userId: number) => {
-  const { data: user, isLoading, error } = useQuery({
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => userInformation(userId),
     enabled: !!userId,
@@ -107,5 +112,25 @@ export const useUserQueries = () => {
     update,
     activate,
     desactivate,
+  };
+};
+
+export const useUsersByName = (name: string) => {
+  const { user } = useAuth();
+
+  const {
+    data: listUser,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["listUser", user?.id, name],
+    queryFn: () => searchUser(name),
+    enabled: !!user?.id,
+  });
+
+  return {
+    listUser,
+    isLoading,
+    error,
   };
 };
