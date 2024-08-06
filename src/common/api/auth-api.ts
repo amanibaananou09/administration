@@ -32,3 +32,7 @@ export const impersonateUser = async (targetUserId: number) => {
   const response = await api.post(`/impersonate/${targetUserId}`);
   return response.data;
 };
+export const exitImpersonation = async (targetUserId: number) => {
+  const response = await api.post(`/impersonate/${targetUserId}/exit`);
+  return response.data;
+};

@@ -33,7 +33,9 @@
   "navbarLinks": {
     "userLogin": "User Login",
     "myProfile": "My Profile",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "ImpersonationMode": "Impersonation Mode ",
+    "BackToMyAccount": "Back to My Account"
   },
   "configurator": {
     "Configurator": "Configurator",
@@ -213,5 +215,10 @@
     "customerAccount": "Parent account",
     "creatorAccount": "Creator account",
     "lastConnection": "Last connection date"
+  },
+  "exitConfigurator": {
+    "title": "Log in as a account",
+    "placeholder": "find your account",
+    "empty": "No account affected, please contact the administrator"
   }
 }

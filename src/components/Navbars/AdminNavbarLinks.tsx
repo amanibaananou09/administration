@@ -21,7 +21,7 @@ import { AdminSidebarResponsive } from "../Sidebar/AdminSideBar";
 import { IoMdExit } from "react-icons/io";
 import { decodeToken } from "../../utils/utils";
 import ExitConfigurator from "../Configurator/ExitConfigurator";
-import { impersonateUser } from "../../common/api/auth-api";
+import { exitImpersonation, impersonateUser } from "../../common/api/auth-api";
 
 interface Notification {
   notification: string;
@@ -29,27 +29,34 @@ interface Notification {
 }
 
 const HeaderLinks = (props: any) => {
-  const { variant, children, fixed, scrolled, secondary, onOpen, ...rest } =
-    props;
+  const {
+    variant,
+    children,
+    fixed,
+    scrolled,
+    secondary,
+    onOpen,
+    ...rest
+  } = props;
   const storedMode = localStorage.getItem("impersonationMode");
   const originalUserId = localStorage.getItem("originalUserId");
   const { signOut, user, isSignedIn, signIn } = useAuth();
   const routes = administrationRoutes();
   const { t } = useTranslation();
-  const [showStationConfigurator, setShowStationConfigurator] =
-    useState<boolean>(false);
+  const [
+    showStationConfigurator,
+    setShowStationConfigurator,
+  ] = useState<boolean>(false);
   const [showExitConfigurator, setShowExitConfigurator] = useState(false);
 
   const handleExitImpersonation = async () => {
     if (!originalUserId) return;
 
     try {
-      const { access_token } = await impersonateUser(Number(originalUserId));
+      const { access_token } = await exitImpersonation(Number(originalUserId));
       const originalUser = decodeToken(access_token);
 
       if (originalUser) {
-        originalUser.impersonationMode = false;
-        originalUser.originalUserId = null;
         localStorage.removeItem("impersonationMode");
         localStorage.removeItem("originalUserId");
         signIn(originalUser);
@@ -74,14 +81,11 @@ const HeaderLinks = (props: any) => {
       <Menu>
         <MenuButton>
           <Flex alignItems="center" me="10px">
-            <Box
-              display={{ sm: "none", md: "unset" }}
-              style={{ display: "flex", alignItems: "center" }}
-            >
+            <Box display={{ sm: "none", md: "unset" }}>
               {storedMode && (
                 <>
                   <Text color="black" ml="16px" fontWeight="bold" fontSize="sm">
-                    {t("navbarLinks.ImpersonationMode")}:
+                    {t("navbarLinks.ImpersonationMode")}
                   </Text>
                 </>
               )}
