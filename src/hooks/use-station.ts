@@ -42,7 +42,7 @@ export const useStations = (creteria: GeneralStationCreteria) => {
   const { page, size } = creteria;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["stations", { name, creator, parent }, creteria],
+    queryKey: ["stations", { name, creator, parent }, creteria, user],
     queryFn: () => {
       if (user?.customerAccountId) {
         return listStation(

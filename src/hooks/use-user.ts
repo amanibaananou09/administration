@@ -10,14 +10,14 @@ import {
 import { GeneralUserCreteria } from "../common/AdminModel";
 import useQueryParams from "./use-query-params";
 import { useAuth } from "../store/AuthContext";
-import { searchUser } from "../common/api/auth-api";
+import {
+  exitImpersonation,
+  impersonateUser,
+  searchUser,
+} from "../common/api/auth-api";
 
 export const useUserById = (userId: number) => {
-  const {
-    data: user,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: user, isLoading, error } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => userInformation(userId),
     enabled: !!userId,
@@ -40,7 +40,7 @@ export const useUsers = (creteria: GeneralUserCreteria) => {
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
   const { data, isLoading } = useQuery({
-    queryKey: ["users", { name, creator, parent }, creteria],
+    queryKey: ["users", { name, creator, parent }, creteria, user],
     queryFn: () =>
       getUsers(
         {
@@ -118,11 +118,7 @@ export const useUserQueries = () => {
 export const useUsersByName = (name: string) => {
   const { user } = useAuth();
 
-  const {
-    data: listUser,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: listUser, isLoading, error } = useQuery({
     queryKey: ["listUser", user?.id, name],
     queryFn: () => searchUser(name),
     enabled: !!user?.id,
@@ -132,5 +128,41 @@ export const useUsersByName = (name: string) => {
     listUser,
     isLoading,
     error,
+  };
+};
+
+export const useImpersonateUser = () => {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: impersonate } = useMutation({
+    mutationFn: impersonateUser,
+    onSuccess: (data, targetUserId) => {
+      queryClient.invalidateQueries({ queryKey: ["users", targetUserId] });
+    },
+    onError: (error) => {
+      console.error("Impersonation failed:", error);
+    },
+  });
+
+  return {
+    impersonateUser,
+  };
+};
+
+export const useExitImpersonation = () => {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: exit } = useMutation({
+    mutationFn: exitImpersonation,
+    onSuccess: (data, targetUserId) => {
+      queryClient.invalidateQueries({ queryKey: ["users", targetUserId] });
+    },
+    onError: (error) => {
+      console.error("Exiting impersonation failed:", error);
+    },
+  });
+
+  return {
+    exit,
   };
 };

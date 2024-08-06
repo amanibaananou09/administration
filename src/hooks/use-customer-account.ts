@@ -36,7 +36,7 @@ export const useCustomerAccounts = (creteria: CustomerAccountCreteria) => {
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
   const { data, isLoading } = useQuery({
-    queryKey: ["customerAccounts", { name, creator, parent }, creteria],
+    queryKey: ["customerAccounts", { name, creator, parent }, creteria, user],
     queryFn: () =>
       getCustomerAccounts(
         {

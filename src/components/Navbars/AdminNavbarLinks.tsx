@@ -22,6 +22,7 @@ import { IoMdExit } from "react-icons/io";
 import { decodeToken } from "../../utils/utils";
 import ExitConfigurator from "../Configurator/ExitConfigurator";
 import { exitImpersonation, impersonateUser } from "../../common/api/auth-api";
+import { useExitImpersonation } from "../../hooks/use-user";
 
 interface Notification {
   notification: string;
@@ -49,11 +50,13 @@ const HeaderLinks = (props: any) => {
   ] = useState<boolean>(false);
   const [showExitConfigurator, setShowExitConfigurator] = useState(false);
 
+  const { exit } = useExitImpersonation();
+
   const handleExitImpersonation = async () => {
     if (!originalUserId) return;
 
     try {
-      const { access_token } = await exitImpersonation(Number(originalUserId));
+      const { access_token } = await exit(Number(originalUserId));
       const originalUser = decodeToken(access_token);
 
       if (originalUser) {
@@ -84,7 +87,7 @@ const HeaderLinks = (props: any) => {
             <Box display={{ sm: "none", md: "unset" }}>
               {storedMode && (
                 <>
-                  <Text color="black" ml="16px" fontWeight="bold" fontSize="sm">
+                  <Text color="black" fontWeight="bold" fontSize="md">
                     {t("navbarLinks.ImpersonationMode")}
                   </Text>
                 </>

@@ -17,9 +17,8 @@ import { useDebounce } from "hooks/use-debounce";
 import { useRef, useState } from "react";
 import Scrollbars from "react-custom-scrollbars";
 import { useTranslation } from "react-i18next";
-import { useUsersByName } from "../../hooks/use-user";
+import { useImpersonateUser, useUsersByName } from "../../hooks/use-user";
 import { useAuth } from "../../store/AuthContext";
-import { impersonateUser } from "../../common/api/auth-api";
 import { decodeToken } from "../../utils/utils";
 
 const ExitConfigurator = (props: ExitConfiguratorProps) => {
@@ -30,10 +29,15 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue = useDebounce(searchValue);
   const { listUser, isLoading, error } = useUsersByName(debouncedSearchValue);
+  const { impersonateUser } = useImpersonateUser();
+
   const handleImpersonate = async (userId: number) => {
     try {
-      const { access_token, impersonation_mode, original_user_id } =
-        await impersonateUser(userId);
+      const {
+        access_token,
+        impersonation_mode,
+        original_user_id,
+      } = await impersonateUser(userId);
       const user = decodeToken(access_token);
 
       if (user) {
