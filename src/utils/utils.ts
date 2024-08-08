@@ -34,6 +34,8 @@ export const decodeToken = (token: string | null): User | null => {
     email,
     expireTime: exp * 1000,
     customerAccountId: customerAccountId,
+    impersonationMode: false,
+    originalUserId: null,
   };
 
   return user;

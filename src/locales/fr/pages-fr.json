@@ -33,7 +33,9 @@
   "navbarLinks": {
     "userLogin": "Nom d'utilisateur",
     "myProfile": "Mon profil",
-    "signOut": "Déconnexion"
+    "signOut": "Déconnexion",
+    "ImpersonationMode": "Mode impersonation ",
+    "BackToMyAccount": "Revenir à mon compte"
   },
   "configurator": {
     "Configurator": "Configurateur",
@@ -213,5 +215,10 @@
     "customerAccount": "Compte parent",
     "creatorAccount": "Compte Créateur",
     "lastConnection": "Date de la dernière connexion"
+  },
+  "exitConfigurator": {
+    "title": "Se connecter en tant que client",
+    "placeholder": "recherchez votre compte",
+    "empty": "Aucune compte n'est affectée, veuillez contacter l'administrateur"
   }
 }

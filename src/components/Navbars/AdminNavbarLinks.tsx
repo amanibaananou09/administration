@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   Menu,
   MenuButton,
@@ -10,13 +11,18 @@ import {
 import StationConfigurator from "components/Configurator/StationConfigurator";
 import { ProfileIcon } from "components/Icons/Icons";
 import LanguageSelector from "components/LanguageSelector";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { administrationRoutes } from "router/routes";
 import { useAuth } from "store/AuthContext";
 
 import avatar1 from "../../assets/img/avatars/avatar1.png";
 import { AdminSidebarResponsive } from "../Sidebar/AdminSideBar";
+import { IoMdExit } from "react-icons/io";
+import { decodeToken } from "../../utils/utils";
+import ExitConfigurator from "../Configurator/ExitConfigurator";
+import { exitImpersonation, impersonateUser } from "../../common/api/auth-api";
+import { useExitImpersonation } from "../../hooks/use-user";
 
 interface Notification {
   notification: string;
@@ -24,13 +30,46 @@ interface Notification {
 }
 
 const HeaderLinks = (props: any) => {
-  const { variant, children, fixed, scrolled, secondary, onOpen, ...rest } =
-    props;
-  const { signOut, user, isSignedIn } = useAuth();
+  const {
+    variant,
+    children,
+    fixed,
+    scrolled,
+    secondary,
+    onOpen,
+    ...rest
+  } = props;
+  const storedMode = localStorage.getItem("impersonationMode");
+  const originalUserId = localStorage.getItem("originalUserId");
+  const { signOut, user, isSignedIn, signIn } = useAuth();
   const routes = administrationRoutes();
   const { t } = useTranslation();
-  const [showStationConfigurator, setShowStationConfigurator] =
-    useState<boolean>(false);
+  const [
+    showStationConfigurator,
+    setShowStationConfigurator,
+  ] = useState<boolean>(false);
+  const [showExitConfigurator, setShowExitConfigurator] = useState(false);
+
+  const { exit } = useExitImpersonation();
+
+  const handleExitImpersonation = async () => {
+    if (!originalUserId) return;
+
+    try {
+      const { access_token } = await exit(Number(originalUserId));
+      const originalUser = decodeToken(access_token);
+
+      if (originalUser) {
+        localStorage.removeItem("impersonationMode");
+        localStorage.removeItem("originalUserId");
+        signIn(originalUser);
+      }
+
+      console.log("Exited impersonation mode");
+    } catch (err) {
+      console.error("Exiting impersonation failed:", err);
+    }
+  };
 
   //styles
   const navbarIcon = "gray.700";
@@ -46,6 +85,13 @@ const HeaderLinks = (props: any) => {
         <MenuButton>
           <Flex alignItems="center" me="10px">
             <Box display={{ sm: "none", md: "unset" }}>
+              {storedMode && (
+                <>
+                  <Text color="black" fontWeight="bold" fontSize="md">
+                    {t("navbarLinks.ImpersonationMode")}
+                  </Text>
+                </>
+              )}
               <Text
                 fontSize="md"
                 fontWeight="bold"
@@ -108,11 +154,30 @@ const HeaderLinks = (props: any) => {
           </MenuItem>
         </MenuList>
       </Menu>
-
+      {storedMode && (
+        <>
+          <Button
+            colorScheme="red"
+            ml="16px"
+            onClick={handleExitImpersonation}
+            size="sm"
+          >
+            <Text fontSize="sm">{t("navbarLinks.BackToMyAccount")}</Text>
+          </Button>
+        </>
+      )}
+      {!user!!.impersonationMode && (
+        <Flex ml="16px">
+          <IoMdExit
+            color={navbarIcon}
+            size="30px"
+            onClick={() => setShowExitConfigurator(true)}
+          />
+        </Flex>
+      )}
       <Flex ml="16px">
         <LanguageSelector />
       </Flex>
-
       <Flex ml="16px">
         <AdminSidebarResponsive
           hamburgerColor="black"
@@ -127,6 +192,12 @@ const HeaderLinks = (props: any) => {
         <StationConfigurator
           isOpen={showStationConfigurator}
           onClose={() => setShowStationConfigurator(false)}
+        />
+      )}
+      {showExitConfigurator && (
+        <ExitConfigurator
+          isOpen={showExitConfigurator}
+          onClose={() => setShowExitConfigurator(false)}
         />
       )}
     </Flex>

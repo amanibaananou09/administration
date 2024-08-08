@@ -1,6 +1,6 @@
 import { User } from "common/model";
 import api from "./axios";
-
+const API_URL = "/user";
 export const login = async (username: string, password: string) => {
   const response = await api.post("/login", {
     username,
@@ -23,9 +23,16 @@ export const createUser = async (user: User) => {
 
   return response.data;
 };
+export const searchUser = async (name: string): Promise<User[]> => {
+  const response = await api.get(`${API_URL}/search?name=${name}`);
 
-export const getListUser = async () => {
-  const response = await api.get("/listUsers");
-
+  return response.data;
+};
+export const impersonateUser = async (targetUserId: number) => {
+  const response = await api.post(`/impersonate/${targetUserId}`);
+  return response.data;
+};
+export const exitImpersonation = async (targetUserId: number) => {
+  const response = await api.post(`/impersonate/${targetUserId}/exit`);
   return response.data;
 };

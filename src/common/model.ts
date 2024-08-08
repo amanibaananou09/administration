@@ -100,6 +100,7 @@ export interface RouteConfig {
 }
 
 export interface User {
+  originalUserId: number | null;
   id?: string;
   firstName?: string;
   lastName?: string;
@@ -112,6 +113,7 @@ export interface User {
   name: string;
   customerAccountId: string;
   creatorAccountId?: string;
+  impersonationMode: boolean;
 }
 
 export interface Decode {

@@ -55,7 +55,7 @@ const useValidators = () => {
     .required(t("validation.name.required"))
     .min(3, t("validation.name.min"))
     .matches(
-      /^[A-ZÉÔÈÀÖ][a-zA-Zéôèàö0-9_]*(?:(?![\s-])[a-zA-Zéôèàö0-9_-])*$/,
+      /^[A-ZÉÔÈÀÖÆŒ][\s\S]*[^\s]$/,
       t("validation.name.firstLetterUppercaseOrNoSpaces"),
     );
 
