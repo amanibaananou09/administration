@@ -21,13 +21,7 @@ import { AdminSidebarResponsive } from "../Sidebar/AdminSideBar";
 import { IoMdExit } from "react-icons/io";
 import { decodeToken } from "../../utils/utils";
 import ExitConfigurator from "../Configurator/ExitConfigurator";
-import { exitImpersonation, impersonateUser } from "../../common/api/auth-api";
 import { useExitImpersonation } from "../../hooks/use-user";
-
-interface Notification {
-  notification: string;
-  timestamp: Date;
-}
 
 const HeaderLinks = (props: any) => {
   const {

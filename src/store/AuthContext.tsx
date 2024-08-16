@@ -68,6 +68,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       localStorage.setItem("auth-admin", user.token);
     } else {
       localStorage.removeItem("auth-admin");
+      localStorage.removeItem("impersonationMode");
+      localStorage.removeItem("originalUserId");
     }
 
     return () => {

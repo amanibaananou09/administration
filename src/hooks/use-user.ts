@@ -115,17 +115,17 @@ export const useUserQueries = () => {
   };
 };
 
-export const useUsersByName = (name: string) => {
+export const useUsersByName = () => {
   const { user } = useAuth();
 
-  const { data: listUser, isLoading, error } = useQuery({
-    queryKey: ["listUser", user?.id, name],
-    queryFn: () => searchUser(name),
+  const { data: customerAccounts, isLoading, error } = useQuery({
+    queryKey: ["customerAccounts", user?.id],
+    queryFn: () => searchUser(),
     enabled: !!user?.id,
   });
 
   return {
-    listUser,
+    customerAccounts,
     isLoading,
     error,
   };

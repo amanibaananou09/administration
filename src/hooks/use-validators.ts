@@ -78,6 +78,11 @@ const useValidators = () => {
       t("validation.password.matches"),
     );
 
+  const pasword = Yup.string()
+    .required(t("validation.password.required"))
+    .min(4, t("validation.password.miin"))
+    .matches(/^[a-zA-Z]+$/, t("validation.password.matche"));
+
   const confirmPassword = Yup.string()
     .required(t("validation.confirmPassword.required"))
     .oneOf([Yup.ref("password")], t("validation.confirmPassword.match"));
@@ -173,7 +178,9 @@ const useValidators = () => {
   const passwordValidator = async (value: string) => {
     return await validateWithSchema(password, value);
   };
-
+  const paswordValidator = async (value: string) => {
+    return await validateWithSchema(pasword, value);
+  };
   const phoneValidator = async (value: string) => {
     return await validateWithSchema(phone, value);
   };
@@ -226,6 +233,7 @@ const useValidators = () => {
     firstNameValidator,
     lastNameValidator,
     passwordValidator,
+    paswordValidator,
     phoneValidator,
     paymentMethodValidator,
     addressValidator,

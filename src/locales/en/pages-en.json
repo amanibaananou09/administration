@@ -218,7 +218,9 @@
   },
   "exitConfigurator": {
     "title": "Log in as a account",
-    "placeholder": "find your account",
-    "empty": "No account affected, please contact the administrator"
+    "placeholder": "Search",
+    "empty": "No account affected, please contact the administrator",
+    "user": "User",
+    "account": "Account"
   }
 }

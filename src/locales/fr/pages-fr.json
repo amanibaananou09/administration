@@ -218,7 +218,9 @@
   },
   "exitConfigurator": {
     "title": "Se connecter en tant que client",
-    "placeholder": "recherchez votre compte",
-    "empty": "Aucune compte n'est affectée, veuillez contacter l'administrateur"
+    "placeholder": "Recherchez",
+    "empty": "Aucune compte n'est affectée, veuillez contacter l'administrateur",
+    "user": "Utilisateur",
+    "account": "Compte"
   }
 }

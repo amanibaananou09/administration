@@ -1,7 +1,5 @@
-import { Input } from "@chakra-ui/input";
 import {
-  Alert,
-  AlertIcon,
+  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -9,27 +7,53 @@ import {
   DrawerContent,
   DrawerHeader,
   Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Select,
   Spinner,
   Text,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { ExitConfiguratorProps } from "common/react-props";
+import { ProfileIcon } from "components/Icons/Icons";
 import { useDebounce } from "hooks/use-debounce";
-import { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Scrollbars from "react-custom-scrollbars";
 import { useTranslation } from "react-i18next";
 import { useImpersonateUser, useUsersByName } from "../../hooks/use-user";
 import { useAuth } from "../../store/AuthContext";
 import { decodeToken } from "../../utils/utils";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 const ExitConfigurator = (props: ExitConfiguratorProps) => {
   const { t } = useTranslation();
   const { signIn } = useAuth();
   const settingsRef = useRef<HTMLDivElement>(null);
-  const { user, impersonate } = useAuth();
+  const { user } = useAuth();
   const [searchValue, setSearchValue] = useState<string>("");
+  const [searchType, setSearchType] = useState<"account" | "user">("account");
   const debouncedSearchValue = useDebounce(searchValue);
-  const { listUser, isLoading, error } = useUsersByName(debouncedSearchValue);
+  const [searchText, setSearchText] = useState<string>("");
+  const { customerAccounts, isLoading, error } = useUsersByName();
   const { impersonateUser } = useImpersonateUser();
+
+  useEffect(() => {
+    setSearchText(debouncedSearchValue);
+  }, [debouncedSearchValue]);
+
+  const filteredAccounts = customerAccounts?.filter((account) =>
+    searchType === "account"
+      ? account.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+        account.parentName?.toLowerCase().includes(searchText.toLowerCase())
+      : account.masterUser?.firstName
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        account.masterUser?.lastName
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase()),
+  );
 
   const handleImpersonate = async (userId: number) => {
     try {
@@ -41,7 +65,7 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
       const user = decodeToken(access_token);
 
       if (user) {
-        user.impersonationMode = impersonation_mode; // Set impersonation mode
+        user.impersonationMode = impersonation_mode;
         user.originalUserId = original_user_id;
         localStorage.setItem(
           "impersonationMode",
@@ -73,13 +97,45 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
           <Text fontSize="md" fontWeight="bold" my="16px">
             {t("exitConfigurator.title")}
           </Text>
-          <Input
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            placeholder={t("exitConfigurator.placeholder")}
-            type="text"
-            my="4px"
-          />
+          <Flex>
+            <Select
+              size="sm"
+              width="150px"
+              value={searchType}
+              onChange={(e) =>
+                setSearchType(e.target.value as "account" | "user")
+              }
+            >
+              <option value="account">{t("exitConfigurator.account")}</option>
+              <option value="user">{t("exitConfigurator.user")}</option>
+            </Select>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                children={<FaSearch color="gray.500" />}
+              />
+              <Input
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder={t("exitConfigurator.placeholder")}
+                type="text"
+                variant="filled"
+                size="sm"
+              />
+              {searchValue && (
+                <Button
+                  size="sm"
+                  position="absolute"
+                  right="0"
+                  top="0"
+                  bg="transparent"
+                  onClick={() => setSearchValue("")}
+                >
+                  <FaTimes />
+                </Button>
+              )}
+            </InputGroup>
+          </Flex>
         </DrawerHeader>
         <DrawerBody overflowY="hidden">
           {isLoading && (
@@ -88,7 +144,7 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
             </Flex>
           )}
 
-          {!isLoading && listUser?.length === 0 && (
+          {!isLoading && filteredAccounts?.length === 0 && (
             <Text fontSize="md" fontWeight="bold" my="16px">
               {t("exitConfigurator.empty")}
             </Text>
@@ -104,33 +160,78 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
           <Scrollbars autoHide style={{ height: "calc(100vh - 185px)" }}>
             {!isLoading && (
               <div>
-                {listUser?.map((userItem) => (
+                {filteredAccounts?.map((account) => (
                   <Button
-                    key={userItem.id}
+                    key={account.id}
                     w="100%"
                     bg={
-                      userItem.username === user?.username
-                        ? "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
-                        : "white"
+                      account.masterUser?.username === user?.username
+                        ? "linear-gradient(90deg, #2c5282, #2a4365)"
+                        : account.resaleRight
+                        ? "blue.50"
+                        : "gray.50"
                     }
                     color={
-                      userItem.username === user?.username
+                      account.masterUser?.username === user?.username
                         ? "white"
-                        : "gray.700"
+                        : "gray.800"
                     }
+                    borderRadius="sm"
                     border={
-                      userItem.username === user?.username
+                      account.masterUser?.username === user?.username
                         ? "none"
-                        : "1px solid"
+                        : "2px solid"
                     }
                     borderColor={
-                      userItem.username === user?.username ? "" : "gray.700"
+                      account.masterUser?.username === user?.username
+                        ? ""
+                        : "gray.300"
+                    }
+                    boxShadow={
+                      account.masterUser?.username === user?.username
+                        ? "0 4px 6px rgba(0, 0, 0, 0.1)"
+                        : "0 1px 3px rgba(0, 0, 0, 0.1)"
                     }
                     fontSize="sm"
-                    mb="8px"
-                    onClick={() => handleImpersonate(Number(userItem.id))}
+                    mb="12px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    px="16px"
+                    py="12px"
+                    transition="all 0.3s ease"
+                    _hover={{
+                      bg:
+                        account.masterUser?.username === user?.username
+                          ? "linear-gradient(90deg, #2a4365, #2c5282)"
+                          : "gray.100",
+                    }}
+                    _active={{
+                      transform: "scale(0.98)",
+                    }}
+                    onClick={() =>
+                      handleImpersonate(Number(account.masterUser.id))
+                    }
                   >
-                    {userItem.username}
+                    <Box display="flex" alignItems="center">
+                      <Flex>
+                        {account.resaleRight && (
+                          <ProfileIcon
+                            color={"gray.700"}
+                            w="33px"
+                            h="33px"
+                            mr="12px"
+                          />
+                        )}
+                      </Flex>
+                      <Flex>
+                        {account.resaleRight
+                          ? `${account.masterUser.firstName} ${account.masterUser.lastName} - ${account.name}`
+                          : `${account.masterUser.firstName} ${
+                              account.masterUser.lastName
+                            } - ${account.parentName || ""}`}
+                      </Flex>
+                    </Box>
                   </Button>
                 ))}
               </div>
