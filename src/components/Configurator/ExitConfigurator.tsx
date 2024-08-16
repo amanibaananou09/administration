@@ -78,6 +78,7 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
       }
 
       signIn(user!!);
+      props.onClose();
     } catch (err) {
       console.error("Failed :", err);
     }

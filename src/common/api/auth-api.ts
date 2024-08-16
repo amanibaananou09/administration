@@ -1,6 +1,7 @@
 import { User } from "common/model";
 import api from "./axios";
 import { CustomerAccount } from "../AdminModel";
+
 const API_URL = "/user";
 export const login = async (username: string, password: string) => {
   const response = await api.post("/login", {
@@ -25,7 +26,7 @@ export const createUser = async (user: User) => {
   return response.data;
 };
 export const searchUser = async (): Promise<CustomerAccount[]> => {
-  const response = await api.get(`${API_URL}/search?`);
+  const response = await api.get(`${API_URL}/search`);
   return response.data;
 };
 export const impersonateUser = async (targetUserId: number) => {
