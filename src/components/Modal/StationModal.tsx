@@ -232,7 +232,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
               name="controllerPts.userController.password"
               type="password"
               control={form.control}
-              rules={{ validate: validator.passwordValidator }}
+              rules={{ validate: validator.paswordValidator }}
             />
           )}
 
