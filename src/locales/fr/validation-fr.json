@@ -29,8 +29,10 @@
   },
   "password": {
     "min": "Le mot de passe doit comporter au moins 6 caractères",
+    "miin": "Le mot de passe doit comporter au moins 4 caractères",
     "matches": "Le mot de passe doit contenir au moins un caractère spécial",
-    "required": "Le mot de passe est requis"
+    "required": "Le mot de passe est requis",
+    "matche": "Contient uniquement des caractères alphabétiques sans caractères spéciaux ni chiffres."
   },
   "confirmPassword": {
     "match": "Le mot de passe est sa confirmation ne sont pas identiques",

@@ -29,8 +29,10 @@
   },
   "password": {
     "min": "Password must be at least 6 characters",
+    "miin": "Password must be at least 4 characters",
     "matches": "Password must contain at least one special character",
-    "required": "Password is required"
+    "required": "Password is required",
+    "matche": "Contains only alphabetic characters with no special characters or numbers."
   },
   "confirmPassword": {
     "match": "Passwords must match",

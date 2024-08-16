@@ -45,7 +45,8 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
 
   const filteredAccounts = customerAccounts?.filter((account) =>
     searchType === "account"
-      ? account.name?.toLowerCase().includes(searchText.toLowerCase())
+      ? account.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+        account.parentName?.toLowerCase().includes(searchText.toLowerCase())
       : account.masterUser?.firstName
           ?.toLowerCase()
           .includes(searchText.toLowerCase()) ||
@@ -96,44 +97,45 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
           <Text fontSize="md" fontWeight="bold" my="16px">
             {t("exitConfigurator.title")}
           </Text>
-          <Box mb={4}>
+          <Flex>
             <Select
               size="sm"
+              width="150px"
               value={searchType}
               onChange={(e) =>
                 setSearchType(e.target.value as "account" | "user")
               }
             >
-              <option value="account">{t("account")}</option>
-              <option value="user">{t("user")}</option>
+              <option value="account">{t("exitConfigurator.account")}</option>
+              <option value="user">{t("exitConfigurator.user")}</option>
             </Select>
-          </Box>
-          <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              children={<FaSearch color="gray.500" />}
-            />
-            <Input
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder={t("exitConfigurator.placeholder")}
-              type="text"
-              variant="filled"
-              size="sm"
-            />
-            {searchValue && (
-              <Button
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                children={<FaSearch color="gray.500" />}
+              />
+              <Input
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder={t("exitConfigurator.placeholder")}
+                type="text"
+                variant="filled"
                 size="sm"
-                position="absolute"
-                right="0"
-                top="0"
-                bg="transparent"
-                onClick={() => setSearchValue("")}
-              >
-                <FaTimes />
-              </Button>
-            )}
-          </InputGroup>
+              />
+              {searchValue && (
+                <Button
+                  size="sm"
+                  position="absolute"
+                  right="0"
+                  top="0"
+                  bg="transparent"
+                  onClick={() => setSearchValue("")}
+                >
+                  <FaTimes />
+                </Button>
+              )}
+            </InputGroup>
+          </Flex>
         </DrawerHeader>
         <DrawerBody overflowY="hidden">
           {isLoading && (
@@ -164,30 +166,52 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
                     w="100%"
                     bg={
                       account.masterUser?.username === user?.username
-                        ? "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
-                        : "white"
+                        ? "linear-gradient(90deg, #2c5282, #2a4365)"
+                        : account.resaleRight
+                        ? "blue.50"
+                        : "gray.50"
                     }
                     color={
                       account.masterUser?.username === user?.username
                         ? "white"
-                        : "gray.700"
+                        : "gray.800"
                     }
+                    borderRadius="sm"
                     border={
                       account.masterUser?.username === user?.username
                         ? "none"
-                        : "1px solid"
+                        : "2px solid"
                     }
                     borderColor={
                       account.masterUser?.username === user?.username
                         ? ""
-                        : "gray.700"
+                        : "gray.300"
+                    }
+                    boxShadow={
+                      account.masterUser?.username === user?.username
+                        ? "0 4px 6px rgba(0, 0, 0, 0.1)"
+                        : "0 1px 3px rgba(0, 0, 0, 0.1)"
                     }
                     fontSize="sm"
-                    mb="8px"
+                    mb="12px"
                     display="flex"
                     alignItems="center"
                     justifyContent="space-between"
-                    onClick={() => handleImpersonate(Number(account.id))}
+                    px="16px"
+                    py="12px"
+                    transition="all 0.3s ease"
+                    _hover={{
+                      bg:
+                        account.masterUser?.username === user?.username
+                          ? "linear-gradient(90deg, #2a4365, #2c5282)"
+                          : "gray.100",
+                    }}
+                    _active={{
+                      transform: "scale(0.98)",
+                    }}
+                    onClick={() =>
+                      handleImpersonate(Number(account.masterUser.id))
+                    }
                   >
                     <Box display="flex" alignItems="center">
                       <Flex>
@@ -201,9 +225,11 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
                         )}
                       </Flex>
                       <Flex>
-                        {`${account.name}: ${
-                          account.masterUser?.firstName || ""
-                        } ${account.masterUser?.lastName || ""}`}
+                        {account.resaleRight
+                          ? `${account.masterUser.firstName} ${account.masterUser.lastName} - ${account.name}`
+                          : `${account.masterUser.firstName} ${
+                              account.masterUser.lastName
+                            } - ${account.parentName || ""}`}
                       </Flex>
                     </Box>
                   </Button>
