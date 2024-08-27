@@ -17,6 +17,13 @@
     "required": "Le nom d'utilisateur est requis",
     "exist": "Le nom d'utilisateur existe deja"
   },
+  "userController": {
+    "min": "L'utilisateur du contrôleur doit contenir au moins 3 caractères",
+    "max": "L'utilisateur du contrôleur doit contenir au plus 10 caractères",
+    "required": "L'utilisateur du contrôleur est requis",
+    "exist": "L'utilisateur du contrôleur existe déjà",
+    "matche": "Contient uniquement des caractères alphabétiques et numériques sans caractères spéciaux."
+  },
   "login": {
     "min": "Login doit comporter au moins 3 caractères",
     "required": "Login est requis",
@@ -30,9 +37,10 @@
   "password": {
     "min": "Le mot de passe doit comporter au moins 6 caractères",
     "miin": "Le mot de passe doit comporter au moins 4 caractères",
+    "max": "Le mot de passe doit comporter au plus 10 caractères",
     "matches": "Le mot de passe doit contenir au moins un caractère spécial",
     "required": "Le mot de passe est requis",
-    "matche": "Contient uniquement des caractères alphabétiques sans caractères spéciaux ni chiffres."
+    "matche": "Contient uniquement des caractères alphabétiques et numériques sans caractères spéciaux."
   },
   "confirmPassword": {
     "match": "Le mot de passe est sa confirmation ne sont pas identiques",

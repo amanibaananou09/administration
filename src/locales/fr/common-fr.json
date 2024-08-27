@@ -23,6 +23,8 @@
   "true": "vrai",
   "false": "faux",
   "password": "Mot de passe",
+  "passwordController": "Mot de passe du contrôleur",
+  "newPassword": "Veuillez entrer un nouveau mot de passe.",
   "submit": "Créer",
   "cancel": "Annuler",
   "loading": "Chargement...",

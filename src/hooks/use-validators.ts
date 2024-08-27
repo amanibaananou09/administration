@@ -39,6 +39,25 @@ const useValidators = () => {
       return true;
     },
   );
+
+  const userController = Yup.string()
+    .required(t("validation.userController.required"))
+    .min(3, t("validation.userController.min"))
+    .max(10, t("validation.userController.max"))
+    .matches(/^[a-zA-Z0-9_]+$/, t("validation.userController.matches"));
+
+  const userControllerAsync = Yup.string().test(
+    "username",
+    t("validation.userController.exist"),
+    async (value) => {
+      if (value) {
+        const exist = await isUsernameExist(value);
+        return !exist;
+      }
+      return true;
+    },
+  );
+
   const city = Yup.string()
     .required(t("validation.city.required"))
     .min(3, t("validation.city.min"));
@@ -80,8 +99,9 @@ const useValidators = () => {
 
   const pasword = Yup.string()
     .required(t("validation.password.required"))
-    .min(4, t("validation.password.miin"))
-    .matches(/^[a-zA-Z]+$/, t("validation.password.matche"));
+    .min(3, t("validation.password.miin"))
+    .max(10, t("validation.password.max"))
+    .matches(/^[a-zA-Z0-9_]+$/, t("validation.password.matche"));
 
   const confirmPassword = Yup.string()
     .required(t("validation.confirmPassword.required"))
@@ -160,6 +180,12 @@ const useValidators = () => {
   const usernameValidator = async (value: string) => {
     return await validateWithSchema(username.concat(usernameAsync), value);
   };
+  const userControllerValidator = async (value: string) => {
+    return await validateWithSchema(
+      userController.concat(userControllerAsync),
+      value,
+    );
+  };
   const loginValidator = async (value: string) => {
     return await validateWithSchema(login.concat(loginAsync), value);
   };
@@ -217,7 +243,7 @@ const useValidators = () => {
   };
 
   const controllerUsernameValidator = async (value: string) => {
-    return await validateWithSchema(username, value);
+    return await validateWithSchema(userController, value);
   };
   const plannedExportDateValidator = async (value: Date) => {
     return await validateWithSchema(plannedExportDate, value);
@@ -228,6 +254,7 @@ const useValidators = () => {
     parentValidator,
     creatorValidator,
     usernameValidator,
+    userControllerValidator,
     loginValidator,
     emailValidator,
     firstNameValidator,
