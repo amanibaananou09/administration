@@ -20,6 +20,7 @@ import {
   stationToFormValues,
 } from "utils/form-utils";
 import { Mode } from "../../common/enums";
+import { useToast } from "@chakra-ui/react";
 
 type Params = {
   id: string;
@@ -30,6 +31,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
   const history = useHistory();
   const { t } = useTranslation();
   const { id } = useParams<Params>();
+  const toast = useToast();
 
   const validator = useValidators();
   const { user } = useAuth();
@@ -223,16 +225,40 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
             name="controllerPts.userController.username"
             control={form.control}
             disabled={isViewMode}
+            maxLength={10}
             rules={{ validate: validator.controllerUsernameValidator }}
           />
 
-          {mode == Mode.CREATE && (
+          {(isCreateMode || isEditMode) && (
             <UIInputFormControl
-              label={t("common.password")}
+              label={t("common.passwordController")}
               name="controllerPts.userController.password"
               type="password"
+              placeholder={isEditMode ? t("common.newPassword") : undefined}
               control={form.control}
-              rules={{ validate: validator.paswordValidator }}
+              rules={{
+                validate: (value) => {
+                  const username = form.getValues(
+                    "controllerPts.userController.username",
+                  );
+                  const originalUsername =
+                    station?.controllerPts?.userController?.username;
+
+                  if (username !== originalUsername && !value) {
+                    toast({
+                      title: t("stationModal.usernameUpdateAlert"),
+                      status: "warning",
+                      duration: 5000,
+                      isClosable: true,
+                      position: "top",
+                    });
+                    return false;
+                  }
+
+                  return value ? validator.paswordValidator(value) : true;
+                },
+              }}
+              maxLength={10}
             />
           )}
 

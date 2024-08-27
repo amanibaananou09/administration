@@ -177,6 +177,7 @@
     "automatique": "Automatic",
     "cordonneesGps": "GPS coordinates",
     "cordonneesGpsPlaceholder": "Standard format: latitude, longitude",
+    "usernameUpdateAlert": "Please update the password when updating the username.",
     "selectAccount": "Select a Account"
   },
   "stationDetailsModel": {

@@ -23,6 +23,8 @@
   "true": "true",
   "false": "false",
   "password": "Password",
+  "passwordController": "Controller password",
+  "newPassword": "Please enter a new password.",
   "submit": "Submit",
   "cancel": "Cancel",
   "loading": "Loading...",
