@@ -208,3 +208,15 @@ export interface StationFormValues {
   country?: Country;
   journal: string;
 }
+
+export interface Log {
+  id: string;
+  index?: number;
+  userId?: number;
+  requestURI?: string;
+  ipAddress?: string;
+  activityDate: string;
+  action?: string;
+  userName?: string;
+  impersonationMode?: boolean;
+}
