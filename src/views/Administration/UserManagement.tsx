@@ -56,9 +56,14 @@ const UserManagement = () => {
       activate(user.id);
     }
   };
-  const handleLogRedirect = () => {
-    history.push(`${path}/log`);
+  const handleLogRedirect = (userId: number | undefined) => {
+    if (userId !== undefined) {
+      history.push(`${path}/log/${userId}`);
+    } else {
+      console.error("User ID is undefined");
+    }
   };
+
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(e.target.value);
   };
@@ -132,7 +137,7 @@ const UserManagement = () => {
         <Flex justifyContent="center">
           <FaTableList
             style={{ cursor: "pointer" }}
-            onClick={handleLogRedirect}
+            onClick={() => handleLogRedirect(item.id)}
           />
         </Flex>
       ),
@@ -248,7 +253,7 @@ const UserManagement = () => {
         <Route path={`${path}/details/:id`}>
           <UserModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
         </Route>
-        <Route path={`${path}/log`}>
+        <Route path={`${path}/log/:userId`}>
           <LogModal />
         </Route>
       </Switch>

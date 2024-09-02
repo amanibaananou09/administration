@@ -109,9 +109,12 @@ export const addStation = async (
   await api.post(`${API_URL}/${customerAccountId}/station/add`, station);
 };
 
-export const getlog = async (customerAccountId: string | undefined) => {
+export const getlog = async (
+  customerAccountId: string | undefined,
+  userId: string | undefined,
+) => {
   const response = await api.get<Log>(
-    `${API_URL}/${customerAccountId}/users/log`,
+    `${API_URL}/${customerAccountId}/user/log/${userId}`,
   );
 
   return response.data;

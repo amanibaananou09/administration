@@ -18,15 +18,16 @@ import { Log } from "../../common/AdminModel";
 import { formatDate } from "../../utils/utils";
 import { useAuth } from "../../store/AuthContext";
 import moment, { Moment } from "moment";
+import { useParams } from "react-router-dom";
 
 const LogModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation();
   const history = useHistory();
-
+  const { userId } = useParams<{ userId: string }>();
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
-  const { log, isLoading } = useLog(customerAccountId);
+  const { log, isLoading } = useLog(customerAccountId, userId);
   const [notes, setNotes] = useState<{ [key: string]: string }>({});
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
