@@ -223,5 +223,19 @@
     "empty": "Aucune compte n'est affectée, veuillez contacter l'administrateur",
     "user": "Utilisateur",
     "account": "Compte"
+  },
+  "logModal": {
+    "title": "Journal de l'utilisateur",
+    "dateAndTime": "Date et heure",
+    "user": "Utilisateur",
+    "action": "Action",
+    "typeOfAction": "Type d'action",
+    "host": "Hôte",
+    "notes": "Notes",
+    "text": "Ajoutez des remarques ici",
+    "interval": "Intervallel",
+    "display": "Afficher",
+    "export": "Export vers Excel",
+    "close": "Fermer"
   }
 }

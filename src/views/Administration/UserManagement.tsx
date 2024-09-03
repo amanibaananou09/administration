@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Select, Text } from "@chakra-ui/react";
 
 import { GeneralUser, GeneralUserCreteria } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -18,10 +18,13 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useUserQueries, useUsers } from "hooks/use-user";
 import "jspdf-autotable";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { formatDate } from "utils/utils";
+import { FaTableList } from "react-icons/fa6";
+import { IoMdExit } from "react-icons/io";
+import LogModal from "../../components/Modal/LogModal";
 
 const UserManagement = () => {
   const history = useHistory();
@@ -33,6 +36,7 @@ const UserManagement = () => {
     page: 0,
     size: 25,
   });
+  const [selectedValue, setSelectedValue] = useState<string>("administration");
 
   const { users, totalPages, totalElements, isLoading } = useUsers(creteria);
 
@@ -50,6 +54,23 @@ const UserManagement = () => {
     } else if (user.id) {
       // If currently inactive, activate
       activate(user.id);
+    }
+  };
+  const handleLogRedirect = (userId: number | undefined) => {
+    if (userId !== undefined) {
+      history.push(`${path}/log/${userId}`);
+    } else {
+      console.error("User ID is undefined");
+    }
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedValue(e.target.value);
+  };
+  const handleIconClick = async (userId: number | undefined) => {
+    if (userId === undefined) {
+      console.error("User ID is undefined");
+      return;
     }
   };
 
@@ -91,6 +112,35 @@ const UserManagement = () => {
       header: t("userManagement.globalUsers.lastVisit"),
       key: "lastVisit",
       render: (generalUser) => formatDate(generalUser.lastConnectionDate),
+    },
+    {
+      header: t("connecte en tant que"),
+      key: "..",
+      render: (item: GeneralUser) => (
+        <Flex justifyContent="center" alignItems="center">
+          <Select onChange={(e) => handleSelectChange(e)}>
+            <option value="">select </option>
+            <option value="administration">administration</option>
+            <option value="Dashboard">Dashboard</option>
+          </Select>
+          <IoMdExit
+            style={{ cursor: "pointer", width: "50px", height: "20px" }}
+            onClick={(e) => handleIconClick(item.id)}
+          />
+        </Flex>
+      ),
+    },
+    {
+      header: t("log"),
+      key: "...",
+      render: (item: GeneralUser) => (
+        <Flex justifyContent="center">
+          <FaTableList
+            style={{ cursor: "pointer" }}
+            onClick={() => handleLogRedirect(item.id)}
+          />
+        </Flex>
+      ),
     },
     {
       header: t("userManagement.globalUsers.statusColumn"),
@@ -202,6 +252,9 @@ const UserManagement = () => {
         </Route>
         <Route path={`${path}/details/:id`}>
           <UserModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
+        </Route>
+        <Route path={`${path}/log/:userId`}>
+          <LogModal />
         </Route>
       </Switch>
       <ConfirmationDialog />

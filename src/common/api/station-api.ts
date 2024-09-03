@@ -57,7 +57,12 @@ export const deleteStation = async (station: Station) => {
 
   return response.data;
 };
-
+export const getDefaultStation = async (
+  user: User,
+): Promise<Station | null> => {
+  const stations = await getStations(user);
+  return stations.length > 0 ? stations[0] : null;
+};
 export const allStationByCustomerAccount = async (id: string) => {
   const response = await api.get(`${API_URL}/${id}/station`);
 

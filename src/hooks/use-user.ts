@@ -15,6 +15,7 @@ import {
   impersonateUser,
   searchUser,
 } from "../common/api/auth-api";
+import { getlog } from "../common/api/customerAccount-api";
 
 export const useUserById = (userId: number) => {
   const { data: user, isLoading, error } = useQuery({
@@ -164,5 +165,21 @@ export const useExitImpersonation = () => {
 
   return {
     exit,
+  };
+};
+export const useLog = (
+  customerAccountId: string | undefined,
+  userId: string | undefined,
+) => {
+  const { data: log, isLoading, error } = useQuery({
+    queryKey: ["log", customerAccountId, userId],
+    queryFn: () => getlog(customerAccountId, userId),
+    enabled: !!customerAccountId,
+  });
+
+  return {
+    log,
+    isLoading,
+    error,
   };
 };
