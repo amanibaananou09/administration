@@ -5,7 +5,6 @@ import {
   Flex,
   Heading,
   Input,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
@@ -17,8 +16,11 @@ import { UIColumnDefinitionType } from "../UI/Table/Types";
 import { Log } from "../../common/AdminModel";
 import { formatDate } from "../../utils/utils";
 import { useAuth } from "../../store/AuthContext";
-import moment, { Moment } from "moment";
 import { useParams } from "react-router-dom";
+import { LogCreteria } from "../../common/model";
+import FilterLog from "../Filter/FilterLog";
+import Scrollbars from "react-custom-scrollbars";
+import { SkeletonTable } from "../Skeleton/Skeletons";
 
 const LogModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,30 +29,34 @@ const LogModal = () => {
   const { userId } = useParams<{ userId: string }>();
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
-  const { log, isLoading } = useLog(customerAccountId, userId);
+
+  const [creteria, setCreteria] = useState<LogCreteria>({
+    startDate: "",
+    endDate: "",
+  });
+
+  const { log, isLoading } = useLog(customerAccountId, userId, creteria);
+
   const [notes, setNotes] = useState<{ [key: string]: string }>({});
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
-  const [filteredLogData, setFilteredLogData] = useState<Log[] | undefined>();
-  const [dateError, setDateError] = useState<string | null>(null);
 
   useEffect(() => {
     onOpen();
   }, [onOpen]);
 
-  useEffect(() => {
-    if (log) {
-      setFilteredLogData(
-        Array.isArray(log)
-          ? log
-          : [log].filter((l): l is Log => l !== undefined),
-      );
-    }
-  }, [log]);
-
   const closeModalHandler = () => {
     onClose();
     history.replace("/administration/users");
+  };
+
+  const handleSearchFilters = (creteria: LogCreteria) => {
+    setCreteria((prev) => ({
+      ...prev,
+      ...creteria,
+    }));
+  };
+
+  const clearFilters = () => {
+    setCreteria({ startDate: "", endDate: "" });
   };
 
   const handleNoteChange = (logId: string, value: string) => {
@@ -58,47 +64,6 @@ const LogModal = () => {
       ...prevNotes,
       [logId]: value,
     }));
-  };
-
-  const filterLogsByDate = () => {
-    const logData = Array.isArray(filteredLogData) ? filteredLogData : [];
-
-    if (!startDate || !endDate) {
-      setFilteredLogData(logData);
-      setDateError(null);
-      return;
-    }
-
-    const start = moment(startDate).startOf("minute").valueOf();
-    const end = moment(endDate).endOf("minute").valueOf();
-
-    if (end < start) {
-      setDateError(
-        t("La date de fin doit être supérieure ou égale à la date de début."),
-      );
-      return;
-    }
-
-    const filtered = logData.filter((log) => {
-      const logDate = moment(log.activityDate).valueOf();
-      return logDate >= start && logDate <= end;
-    });
-
-    setFilteredLogData(filtered);
-    setDateError(null);
-  };
-
-  const clearFilters = () => {
-    setStartDate("");
-    setEndDate("");
-    setFilteredLogData(
-      log
-        ? Array.isArray(log)
-          ? log
-          : [log].filter((l): l is Log => l !== undefined)
-        : [],
-    );
-    setDateError(null);
   };
 
   let modalTitle = t("logModal.title");
@@ -157,49 +122,21 @@ const LogModal = () => {
       title={modalTitle}
       isOpen={isOpen}
       onClose={closeModalHandler}
-      logData={filteredLogData}
+      logData={log}
     >
       <Box my="20px">
-        <Flex direction="row" gap={3} alignItems="center">
-          <p>{t("logModal.interval")}:</p>
-          <Input
-            type="datetime-local"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            flex={2}
-          />
-
-          <Heading>{t("-")}</Heading>
-          <Input
-            type="datetime-local"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            flex={2}
-          />
-          <Button
-            flex={1}
-            colorScheme="telegram"
-            size="md"
-            onClick={filterLogsByDate}
-          >
-            {t("logModal.display")}
-          </Button>
-          <Button flex={1} colorScheme="gray" size="md" onClick={clearFilters}>
-            {t("Clear")}
-          </Button>
-        </Flex>
-        {dateError && (
-          <Box color="red.500" mt="4">
-            <Text>{dateError}</Text>
-          </Box>
-        )}
+        <FilterLog onSearch={handleSearchFilters} onClear={clearFilters} />
       </Box>
+      {isLoading && <SkeletonTable />}
+
       {!isLoading && (
-        <UITable
-          data={filteredLogData}
-          columns={filteredColumns}
-          emptyListMessage={t("userManagement.globalUsers.listEmpty")}
-        />
+        <Scrollbars autoHide style={{ height: "calc(50vh - 185px)" }}>
+          <UITable
+            data={log}
+            columns={filteredColumns}
+            emptyListMessage={t("userManagement.globalUsers.listEmpty")}
+          />
+        </Scrollbars>
       )}
     </UITableModal>
   );

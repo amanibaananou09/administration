@@ -159,46 +159,7 @@ export interface TankMeasurement {
   temperature: number;
 }
 
-export interface SalesPump {
-  pumpId: number;
-  allSales: number;
-  pumpSales: number;
-}
-
-export interface SalesPumpGrades {
-  pumpId: number;
-  fuelGrade: String;
-  totalSalesParAmount: number;
-}
-
-export interface LastTankDelivery {
-  dateTime: string;
-  tank: number;
-  fullGrade: string;
-  productHeight: number;
-  waterHeight: number;
-  temperature: number;
-  productVolume: number;
-  waterVolume: number;
-  pumpsDispensedVolume: number;
-  productTCVolume: number;
-  productDensity: number;
-  productMass: number;
-}
-
-export interface tankMeasurementData {
-  dateTime: string;
-  tank: number;
-  fullGrade: string;
-  productVolume: number;
-}
-
-export interface tankLevelData {
-  dateTime: string;
-  tank: number;
-  fullGrade: string;
-  productVolume: number;
-  salesVolume: number;
-  tankVolumeChanges: number;
-  changedVolume: number;
+export interface LogCreteria {
+  startDate: string;
+  endDate: string;
 }

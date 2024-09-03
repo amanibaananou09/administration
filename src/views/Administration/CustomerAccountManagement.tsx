@@ -150,7 +150,7 @@ const CustomerAccountManagement = () => {
   const [displayedColumns, setDisplayedColumns] = useState<
     UIColumnDefinitionType<CustomerAccount>[]
   >([]);
-  // Filter columns based on visibleColumns
+
   const filteredColumns =
     visibleColumns.length > 0
       ? columns.filter((col) => visibleColumns.includes(col.key as string))
