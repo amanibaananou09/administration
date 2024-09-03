@@ -12,12 +12,15 @@ import {
 import { Mode } from "common/enums";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Log } from "../../../common/AdminModel";
+import LogExporter from "../../Exporter/LogExporter";
 
 type UITableModalProps = {
   title: string;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  logData?: Log[];
 };
 
 const UITableModal = ({
@@ -25,6 +28,7 @@ const UITableModal = ({
   isOpen,
   onClose,
   children,
+  logData,
 }: UITableModalProps) => {
   const { t } = useTranslation();
 
@@ -46,7 +50,8 @@ const UITableModal = ({
         <ModalCloseButton />
         <ModalBody mb="24px">{children}</ModalBody>
         <ModalFooter>
-          <Flex justifyContent="space-between">
+          <Flex w="100%" justifyContent="space-between">
+            <LogExporter logs={logData || []} />
             <Button
               fontSize="md"
               colorScheme="red"
@@ -55,15 +60,7 @@ const UITableModal = ({
               mr={3}
               onClick={onClose}
             >
-              {t("common.cancel")}
-            </Button>
-            <Button
-              fontSize="md"
-              colorScheme="teal"
-              fontWeight="bold"
-              size="lg"
-            >
-              {t("common.export")}
+              {t("logModal.close")}
             </Button>
           </Flex>
         </ModalFooter>

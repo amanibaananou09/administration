@@ -223,5 +223,19 @@
     "empty": "No account affected, please contact the administrator",
     "user": "User",
     "account": "Account"
+  },
+  "logModal": {
+    "title": "User Log",
+    "dateAndTime": "Date and Time",
+    "user": "User",
+    "action": "Action",
+    "typeOfAction": "Action Type",
+    "host": "Host",
+    "notes": "Notes",
+    "text": "Add Notes Here",
+    "interval": "Interval",
+    "display": "Show",
+    "export": "Export to excel",
+    "close": "Close"
   }
 }

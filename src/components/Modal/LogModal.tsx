@@ -69,8 +69,8 @@ const LogModal = () => {
       return;
     }
 
-    const start = moment(startDate).valueOf();
-    const end = moment(endDate).valueOf();
+    const start = moment(startDate).startOf("minute").valueOf();
+    const end = moment(endDate).endOf("minute").valueOf();
 
     if (end < start) {
       setDateError(
@@ -101,7 +101,7 @@ const LogModal = () => {
     setDateError(null);
   };
 
-  let modalTitle = t("Journal de l'utilisateur");
+  let modalTitle = t("logModal.title");
 
   const columns: UIColumnDefinitionType<Log>[] = [
     {
@@ -110,37 +110,37 @@ const LogModal = () => {
       render: (item) => <div>{item.index}</div>,
     },
     {
-      header: t("Date et heure"),
+      header: t("logModal.dateAndTime"),
       key: "activityDate",
       render: (log) => formatDate(log.activityDate),
     },
     {
-      header: t("Utilisateur "),
+      header: t("logModal.user"),
       key: "userName",
     },
     {
-      header: t("Action"),
+      header: t("logModal.action"),
       key: "action",
     },
     {
-      header: t("Type d'action"),
+      header: t("logModal.typeOfAction"),
       key: "impersonationMode",
       render: (log) =>
         log.impersonationMode === false ? "Ressource" : "Impersonation",
     },
     {
-      header: t("Hôte"),
+      header: t("logModal.host"),
       key: "ipAddress",
     },
     {
-      header: t("Notes"),
+      header: t("logModal.notes"),
       key: "notes",
       render: (log) => (
         <input
           type="text"
           value={notes[log.id] || ""}
           onChange={(e) => handleNoteChange(log.id, e.target.value)}
-          placeholder={t("Ajoutez des remarques ici")}
+          placeholder={t("logModal.text")}
         />
       ),
     },
@@ -157,10 +157,11 @@ const LogModal = () => {
       title={modalTitle}
       isOpen={isOpen}
       onClose={closeModalHandler}
+      logData={filteredLogData}
     >
       <Box my="20px">
         <Flex direction="row" gap={3} alignItems="center">
-          <p>{t("Intervalle")}:</p>
+          <p>{t("logModal.interval")}:</p>
           <Input
             type="datetime-local"
             value={startDate}
@@ -181,7 +182,7 @@ const LogModal = () => {
             size="md"
             onClick={filterLogsByDate}
           >
-            {t("Afficher")}
+            {t("logModal.display")}
           </Button>
           <Button flex={1} colorScheme="gray" size="md" onClick={clearFilters}>
             {t("Clear")}
