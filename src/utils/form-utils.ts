@@ -80,7 +80,7 @@ export const customerAccountToFormValues = (
     lastName,
     phone,
     paymentMethods,
-    plannedExportDate: moment().format("YYYY-MM-DDTHH:mm"),
+    plannedExportDate: plannedExportDate ?? moment().format("YYYY-MM-DDTHH:mm"),
   };
 };
 
