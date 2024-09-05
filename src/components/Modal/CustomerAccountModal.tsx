@@ -34,6 +34,7 @@ import {
   formValuesToCustomerAccount,
 } from "utils/form-utils";
 import UIModal from "../UI/Modal/UIModal";
+import moment from "moment";
 
 type Params = {
   id: string;
@@ -129,6 +130,16 @@ const CustomerAccountModal = ({
   const initialCardManager = customerAccount
     ? customerAccount.cardManager
     : false;
+  const plannedExportDate = customerAccount?.plannedExportDate;
+  // Function to check if the plannedExportDate is in the past
+  const isPlannedExportDateDisabled = () => {
+    if (plannedExportDate!! < moment().format("YYYY-MM-DDTHH:mm")) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <UIModal
       title={modalTitle}
@@ -327,20 +338,23 @@ const CustomerAccountModal = ({
               label={t("common.cardManager")}
               name="cardManager"
               control={form.control}
-              disabled={isViewMode}
+              disabled={
+                isViewMode || (!isCreateMode && isPlannedExportDateDisabled())
+              }
             />
           </Flex>
-          {(isCreateMode || isEditMode) &&
-            (cardManager || initialCardManager) && (
-              <UIInputFormControl
-                control={form.control}
-                type="datetime-local"
-                label={t("customerAccountModal.date")}
-                name="plannedExportDate"
-                disabled={isViewMode}
-                rules={{ validate: validator.plannedExportDateValidator }}
-              />
-            )}
+          {cardManager && (
+            <UIInputFormControl
+              control={form.control}
+              type="datetime-local"
+              label={t("customerAccountModal.date")}
+              name="plannedExportDate"
+              disabled={
+                isViewMode || (!isCreateMode && isPlannedExportDateDisabled())
+              }
+              rules={{ validate: validator.plannedExportDateValidator }}
+            />
+          )}
         </form>
       )}
       {isLoading && <CustomerAccountSkeletonForm />}

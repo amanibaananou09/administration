@@ -129,7 +129,7 @@ export const formValuesToCustomerAccount = (
       password,
       phone,
     },
-    plannedExportDate: moment().format("YYYY-MM-DDTHH:mm"),
+    plannedExportDate: plannedExportDate,
   };
 };
 
