@@ -130,9 +130,7 @@ const CustomerAccountModal = ({
   const initialCardManager = customerAccount
     ? customerAccount.cardManager
     : false;
-  const plannedExportDate = customerAccount
-    ? customerAccount.plannedExportDate
-    : moment().format("YYYY-MM-DDTHH:mm");
+  const plannedExportDate = customerAccount?.plannedExportDate;
   // Function to check if the plannedExportDate is in the past
   const isPlannedExportDateDisabled = () => {
     if (plannedExportDate!! < moment().format("YYYY-MM-DDTHH:mm")) {
@@ -340,10 +338,12 @@ const CustomerAccountModal = ({
               label={t("common.cardManager")}
               name="cardManager"
               control={form.control}
-              disabled={isViewMode || (!isCreateMode && initialCardManager)}
+              disabled={
+                isViewMode || (!isCreateMode && isPlannedExportDateDisabled())
+              }
             />
           </Flex>
-          {(cardManager || initialCardManager) && (
+          {cardManager && (
             <UIInputFormControl
               control={form.control}
               type="datetime-local"
