@@ -31,6 +31,7 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
   const { t } = useTranslation();
   const { signIn } = useAuth();
   const settingsRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchType, setSearchType] = useState<"account" | "user">("account");
@@ -38,6 +39,8 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
   const [searchText, setSearchText] = useState<string>("");
   const { customerAccounts, isLoading, error } = useUsersByName();
   const { impersonateUser } = useImpersonateUser();
+  const [isResizing, setIsResizing] = useState(false);
+  const [drawerWidth, setDrawerWidth] = useState(350); // Initial width
 
   useEffect(() => {
     setSearchText(debouncedSearchValue);
@@ -84,6 +87,36 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
     }
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsResizing(true);
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isResizing && drawerRef.current) {
+      const newWidth = window.innerWidth - e.clientX; // Adjust width based on mouse position from the left
+      setDrawerWidth(newWidth > 200 ? newWidth : 200); // Minimum width of 200px
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsResizing(false);
+  };
+
+  useEffect(() => {
+    if (isResizing) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    } else {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizing]);
+
   return (
     <Drawer
       isOpen={props.isOpen}
@@ -91,8 +124,35 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
       placement={"right"}
       finalFocusRef={settingsRef}
       blockScrollOnMount={true}
+      size="sm"
     >
-      <DrawerContent bg="white">
+      <DrawerContent
+        bg="white"
+        ref={drawerRef}
+        style={{
+          width: `${drawerWidth}px`,
+          minWidth: "300px",
+          maxWidth: "500px",
+          position: "fixed", // Fixed positioning to anchor the Drawer on the right
+          right: "0", // Keep the drawer on the right
+          top: "0",
+          bottom: "0",
+        }}
+      >
+        {/* Resizer Bar */}
+        <Box
+          position="absolute"
+          left="-5px" // Resizer bar on the left edge
+          top="0"
+          height="100%"
+          width="10px"
+          cursor="ew-resize"
+          backgroundColor="gray.300" // Make the resizer bar visible
+          onMouseDown={handleMouseDown}
+          zIndex="1000"
+          _hover={{ backgroundColor: "gray.500" }} // Hover effect for better visibility
+        />
+
         <DrawerCloseButton />
         <DrawerHeader pt="24px" px="24px">
           <Text fontSize="md" fontWeight="bold" my="16px">
@@ -158,7 +218,7 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
             </Alert>
           )}
 
-          <Scrollbars autoHide style={{ height: "calc(100vh - 185px)" }}>
+          <Scrollbars autoHide style={{ height: "100%" }}>
             {!isLoading && (
               <div>
                 {filteredAccounts?.map((account) => (
@@ -198,18 +258,9 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
                     display="flex"
                     alignItems="center"
                     justifyContent="space-between"
-                    px="16px"
+                    px="5px"
                     py="12px"
                     transition="all 0.3s ease"
-                    _hover={{
-                      bg:
-                        account.masterUser?.username === user?.username
-                          ? "linear-gradient(90deg, #2a4365, #2c5282)"
-                          : "gray.100",
-                    }}
-                    _active={{
-                      transform: "scale(0.98)",
-                    }}
                     onClick={() =>
                       handleImpersonate(Number(account.masterUser.id))
                     }
@@ -227,10 +278,8 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
                       </Flex>
                       <Flex>
                         {account.resaleRight
-                          ? `${account.masterUser.firstName} ${account.masterUser.lastName} - ${account.name}`
-                          : `${account.masterUser.firstName} ${
-                              account.masterUser.lastName
-                            } - ${account.parentName || ""}`}
+                          ? `${account.masterUser.firstName} ${account.masterUser.lastName} - ${account.name} (${account.parentName})`
+                          : `${account.masterUser.firstName} ${account.masterUser.lastName} - ${account.name}`}
                       </Flex>
                     </Box>
                   </Button>

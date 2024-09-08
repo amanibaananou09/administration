@@ -342,6 +342,11 @@ const CustomerAccountModal = ({
                 isViewMode || (!isCreateMode && isPlannedExportDateDisabled())
               }
             />
+            {!isCreateMode && isPlannedExportDateDisabled() && (
+              <Text color="red.500" mt={2}>
+                {t("customerAccountModal.activationDatePassedMessage")}
+              </Text>
+            )}
           </Flex>
           {cardManager && (
             <UIInputFormControl
