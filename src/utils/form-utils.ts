@@ -113,7 +113,7 @@ export const formValuesToCustomerAccount = (
     id,
     name: name ?? savedName,
     city,
-    cardManager,
+    cardManager: cardManager,
     creatorAccountId,
     parentId,
     resaleRight,

@@ -86,7 +86,8 @@
     "payment": "Paiement",
     "actions": "Actions",
     "add": " Ajouter",
-    "date": "Date d'activation"
+    "date": "Date d'activation",
+    "activationDatePassedMessage": "Le module est déjà activé. La modification de la date d’activation n’est plus autorisée."
   },
   "customerAccountInformation": {
     "header": "Informations sur le compte client",
