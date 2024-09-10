@@ -17,13 +17,14 @@ const LogExporter = ({ logs }: LogExporterProps) => {
 
   const exportToExcelHandler = () => {
     if (logs) {
-      const data = logs.map((log) => ({
-        [t("logModal.dateAndTime")]: log.activityDate || "",
+      const data = logs.map((log,index) => ({
+        [t("#")]: index + 1,
+        [t("logModal.dateAndTime")]: formatDate(log.activityDate) || "",
         [t("logModal.user")]: log.userName || "",
         [t("logModal.action")]: log.action || "",
         [t("logModal.typeOfAction")]: log.impersonationMode
-          ? "Ressource"
-          : "Impersonation",
+          ? "Impersonation"
+          : "Ressource",
         [t("logModal.host")]: log.ipAddress || "",
       }));
 

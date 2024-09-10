@@ -13,7 +13,7 @@ import UITableModal from "../UI/Modal/UITableModal";
 import UITable from "../UI/Table/UITable";
 import { useLog } from "../../hooks/use-user";
 import { UIColumnDefinitionType } from "../UI/Table/Types";
-import { Log } from "../../common/AdminModel";
+import { GeneralUser, Log } from "../../common/AdminModel";
 import { formatDate } from "../../utils/utils";
 import { useAuth } from "../../store/AuthContext";
 import { useParams } from "react-router-dom";
@@ -21,6 +21,8 @@ import { LogCreteria } from "../../common/model";
 import FilterLog from "../Filter/FilterLog";
 import Scrollbars from "react-custom-scrollbars";
 import { SkeletonTable } from "../Skeleton/Skeletons";
+import ColumnSelectionDropdown from "../ColumnSelector/ColumnSelector";
+import { FaEllipsisV } from "react-icons/fa";
 
 const LogModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,6 +31,7 @@ const LogModal = () => {
   const { userId } = useParams<{ userId: string }>();
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
+  const [isOpens, setIsOpen] = useState<boolean>(false);
 
   const [creteria, setCreteria] = useState<LogCreteria>({
     startDate: "",
@@ -102,6 +105,10 @@ const LogModal = () => {
       key: "notes",
       render: (log) => (
         <input
+          style={{
+            fontSize: "12px",
+            width: "150px",
+          }}
           type="text"
           value={notes[log.id] || ""}
           onChange={(e) => handleNoteChange(log.id, e.target.value)}
@@ -112,6 +119,10 @@ const LogModal = () => {
   ];
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [displayedColumns, setDisplayedColumns] = useState<
+    UIColumnDefinitionType<Log>[]
+  >([]);
+
   const filteredColumns =
     visibleColumns.length > 0
       ? columns.filter((col) => visibleColumns.includes(col.key as string))
@@ -127,17 +138,35 @@ const LogModal = () => {
       <Box my="20px">
         <FilterLog onSearch={handleSearchFilters} onClear={clearFilters} />
       </Box>
-      {isLoading && <SkeletonTable />}
+      <ColumnSelectionDropdown
+        columns={columns}
+        visibleColumns={visibleColumns}
+        setVisibleColumns={setVisibleColumns}
+        setDisplayedColumns={setDisplayedColumns}
+        isOpen={isOpens}
+        onClose={() => setIsOpen(false)}
+      />
+      <Flex direction="row-reverse">
+        <Button size="sm" onClick={() => setIsOpen(!isOpens)} bg="white" mr={1}>
+          <FaEllipsisV />
+        </Button>
 
-      {!isLoading && (
-        <Scrollbars autoHide style={{ height: "calc(50vh - 185px)" }}>
-          <UITable
-            data={log}
-            columns={filteredColumns}
-            emptyListMessage={t("userManagement.globalUsers.listEmpty")}
-          />
-        </Scrollbars>
-      )}
+        {!isLoading ? (
+          <Scrollbars style={{ height: "calc(70vh - 185px)" }}>
+            <UITable
+              data={log}
+              columns={filteredColumns}
+              emptyListMessage={
+                creteria.startDate && creteria.endDate
+                  ? t("Aucun log trouvé pour la période spécifiée.")
+                  : t("userManagement.globalUsers.listEmpty")
+              }
+            />
+          </Scrollbars>
+        ) : (
+          <SkeletonTable />
+        )}
+      </Flex>
     </UITableModal>
   );
 };
