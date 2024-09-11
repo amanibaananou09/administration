@@ -60,7 +60,14 @@ export const customerAccountToFormValues = (
     plannedExportDate,
   } = customerAccount;
 
-  const { username, firstName, lastName, email, phone } = masterUser;
+  const {
+    username,
+    firstName,
+    userIdentifier,
+    lastName,
+    email,
+    phone,
+  } = masterUser;
 
   return {
     id,
@@ -78,6 +85,8 @@ export const customerAccountToFormValues = (
     actif,
     username,
     savedUsername: username,
+    userIdentifier,
+    savedUserIdentifier: userIdentifier,
     email,
     savedEmail: email,
     firstName,
@@ -97,6 +106,8 @@ export const formValuesToCustomerAccount = (
     savedIdentifier,
     name,
     savedName,
+    userIdentifier,
+    savedUserIdentifier,
     city,
     cardManager,
     creatorAccountId,
@@ -130,7 +141,7 @@ export const formValuesToCustomerAccount = (
     actif,
     masterUser: {
       username,
-      identifier,
+      userIdentifier,
       email,
       firstName,
       lastName,
@@ -165,7 +176,7 @@ export const userInitFormValues = {
 export const userToFormValues = (user: GeneralUser): UserFormValues => {
   const {
     id,
-    identifier,
+    userIdentifier,
     username,
     creatorAccountId,
     customerAccountId,
@@ -182,11 +193,12 @@ export const userToFormValues = (user: GeneralUser): UserFormValues => {
 
   return {
     id,
-    identifier,
+    userIdentifier,
     creatorAccountId,
     customerAccountId,
     username,
     savedUsername: username,
+    savedUserIdentifier: userIdentifier,
     email,
     savedEmail: email,
     firstName,
@@ -203,7 +215,7 @@ export const userToFormValues = (user: GeneralUser): UserFormValues => {
 export const formValuesToUser = (values: UserFormValues): GeneralUser => {
   const {
     id,
-    identifier,
+    userIdentifier,
     creatorAccountId,
     customerAccountId,
     username,
@@ -220,7 +232,7 @@ export const formValuesToUser = (values: UserFormValues): GeneralUser => {
 
   return {
     id,
-    identifier,
+    userIdentifier,
     username,
     creatorAccountId,
     customerAccountId,

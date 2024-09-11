@@ -84,7 +84,7 @@ const UserManagement = () => {
     },
     {
       header: t("common.userIdentifier"),
-      key: "identifier",
+      key: "userIdentifier",
       render: (item: GeneralUser) => (
         <div
           style={{
@@ -95,7 +95,7 @@ const UserManagement = () => {
             history.push(`${path}/details/${item.id}`);
           }}
         >
-          {item.identifier}
+          {item.userIdentifier}
         </div>
       ),
     },

@@ -36,7 +36,7 @@ export interface PaymentMethod {
 
 export interface MasterUser {
   id?: string;
-  identifier?: string;
+  userIdentifier?: string;
   username: string;
   email: string;
   firstName: string;
@@ -49,7 +49,7 @@ export interface MasterUser {
 export interface GeneralUser {
   index?: number;
   id?: number;
-  identifier?: string;
+  userIdentifier?: string;
   actif?: boolean;
   dateStatusChange?: string;
   username: string;
@@ -152,6 +152,8 @@ export interface CustomerAccountFormValues {
   name: string;
   city: string;
   savedName?: string;
+  userIdentifier?: string;
+  savedUserIdentifier?: string;
   parentId: string;
   creatorAccountId: string;
   resaleRight: boolean;
@@ -174,7 +176,8 @@ export interface CustomerAccountFormValues {
 
 export interface UserFormValues {
   id?: number;
-  identifier?: string;
+  userIdentifier?: string;
+  savedUserIdentifier?: string;
   username: string;
   savedUsername?: string;
   firstName: string;

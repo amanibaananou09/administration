@@ -63,7 +63,6 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
             await create(toUser);
             break;
           case Mode.EDIT:
-            toUser.identifier = user?.identifier as string;
             await update(toUser);
             break;
         }
@@ -110,7 +109,7 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
           <Flex direction="column" p="2">
             <UIInputFormControl
               label={t("common.userIdentifier")}
-              name="identifier"
+              name="userIdentifier"
               control={form.control}
               disabled={isViewMode || isEditMode}
               rules={{ validate: validator.identifierValidator }}
