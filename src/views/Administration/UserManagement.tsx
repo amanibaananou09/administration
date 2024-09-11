@@ -83,8 +83,8 @@ const UserManagement = () => {
       render: (item) => <div>{item.index}</div>,
     },
     {
-      header: t("userManagement.globalUsers.userNameColumn"),
-      key: "userNameColumn",
+      header: t("common.userIdentifier"),
+      key: "identifier",
       render: (item: GeneralUser) => (
         <div
           style={{
@@ -95,9 +95,13 @@ const UserManagement = () => {
             history.push(`${path}/details/${item.id}`);
           }}
         >
-          {item.username}
+          {item.identifier}
         </div>
       ),
+    },
+    {
+      header: t("userManagement.globalUsers.userNameColumn"),
+      key: "username",
     },
     {
       header: t("userManagement.globalUsers.accountCreator"),

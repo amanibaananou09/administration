@@ -57,8 +57,8 @@ const StationManagement = () => {
       render: (item) => <div>{item.index}</div>,
     },
     {
-      header: t("stationManagement.name"),
-      key: "name",
+      header: t("common.stationIdentifier"),
+      key: "identifier",
       render: (item) => (
         <div
           style={{
@@ -69,9 +69,13 @@ const StationManagement = () => {
             history.push(`${path}/details/${item.id}`);
           }}
         >
-          {item.name}
+          {item.identifier}
         </div>
       ),
+    },
+    {
+      header: t("stationManagement.name"),
+      key: "name",
     },
     {
       header: t("stationManagement.creator"),

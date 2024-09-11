@@ -4,6 +4,12 @@
     "required": "Le nom est requis",
     "firstLetterUppercaseOrNoSpaces": "Veuillez éviter les espaces, tirets et veillez à capitaliser la première lettre de chaque mot."
   },
+  "identifier": {
+    "min": "identifiant  doit comporter au moins 6 caractères",
+    "max": "identifiant peut comporter au plus 20 caractères",
+    "required": "identifiant est requis",
+    "invalidFormat": "inclure uniquement des lettres (majuscules et minuscules), des chiffres, des tirets (-) et des underscores (_)."
+  },
   "firstName": {
     "min": "Le prénom doit comporter au moins 3 caractères",
     "required": "Le prénom est requis"

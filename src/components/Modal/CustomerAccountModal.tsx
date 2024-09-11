@@ -76,13 +76,13 @@ const CustomerAccountModal = ({
   ) => {
     if (isCreateMode || isEditMode) {
       try {
-        const customerAccount = formValuesToCustomerAccount(values);
+        const customerAccountPayload = formValuesToCustomerAccount(values);
         switch (mode) {
           case Mode.CREATE:
-            await create(customerAccount);
+            await create(customerAccountPayload);
             break;
           case Mode.EDIT:
-            await update(customerAccount);
+            await update(customerAccountPayload);
             break;
         }
         closeModalHandler();
@@ -153,6 +153,13 @@ const CustomerAccountModal = ({
         <form>
           <Flex direction="column" p="2">
             <UIInputFormControl
+              label={t("common.customerIdentifier")}
+              name="identifier"
+              control={form.control}
+              disabled={isViewMode || isEditMode}
+              rules={{ validate: validator.identifierValidator }}
+            />
+            <UIInputFormControl
               label={t("common.name")}
               name="name"
               control={form.control}
@@ -183,14 +190,20 @@ const CustomerAccountModal = ({
               control={form.control}
               disabled={isViewMode}
             />
-            <Divider my={4} />
-
             <UIInputFormControl
               label={t("common.city")}
               name="city"
               control={form.control}
               disabled={isViewMode}
               rules={{ validate: validator.cityValidator }}
+            />
+            <Divider my={4} />
+            <UIInputFormControl
+              label={t("common.MasterUserIdentifier")}
+              name="userIdentifier"
+              control={form.control}
+              disabled={isViewMode || isEditMode}
+              rules={{ validate: validator.identifierValidator }}
             />
             <UIInputFormControl
               label={t("userInformation.userNameLabel")}

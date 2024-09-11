@@ -3,6 +3,7 @@ import { Country } from "common/model";
 export interface CustomerAccount {
   index?: number;
   id?: string;
+  identifier?: string;
   name: string;
   city: string;
   creatorAccountId: string;
@@ -35,6 +36,7 @@ export interface PaymentMethod {
 
 export interface MasterUser {
   id?: string;
+  identifier: string;
   username: string;
   email: string;
   firstName: string;
@@ -47,6 +49,7 @@ export interface MasterUser {
 export interface GeneralUser {
   index?: number;
   id?: number;
+  identifier?: string;
   actif?: boolean;
   dateStatusChange?: string;
   username: string;
@@ -102,6 +105,7 @@ export interface UserController {
 export interface GeneralStations {
   index?: number;
   id?: string;
+  identifier: string;
   name: string;
   address: string;
   city: string;
@@ -131,6 +135,7 @@ export interface GeneralStationCreteria {
 
 export interface addStations {
   name: string;
+  identifier: string;
   address: string;
   controllerPts: ControllerPts;
   countryId: number;
@@ -142,6 +147,8 @@ export interface addStations {
 
 export interface CustomerAccountFormValues {
   id?: string;
+  identifier?: string;
+  userIdentifier: string;
   name: string;
   city: string;
   savedName?: string;
@@ -167,6 +174,7 @@ export interface CustomerAccountFormValues {
 
 export interface UserFormValues {
   id?: number;
+  identifier?: string;
   username: string;
   savedUsername?: string;
   firstName: string;
@@ -186,6 +194,7 @@ export interface UserFormValues {
 
 export interface StationFormValues {
   id?: string;
+  identifier: string;
   name: string;
   address: string;
   city: string;

@@ -112,6 +112,13 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
       <form>
         <Flex direction="column" p="2">
           <UIInputFormControl
+            label={t("common.stationIdentifier")}
+            name="identifier"
+            control={form.control}
+            disabled={isViewMode || isEditMode}
+            rules={{ validate: validator.identifierValidator }}
+          />
+          <UIInputFormControl
             label={t("stationModal.name")}
             name="name"
             control={form.control}
