@@ -21,22 +21,28 @@ import "jspdf-autotable";
 import React, { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import { formatDate } from "utils/utils";
+import { decodeToken, formatDate } from "utils/utils";
 import { FaTableList } from "react-icons/fa6";
 import { IoMdExit } from "react-icons/io";
 import LogModal from "../../components/Modal/LogModal";
+import { impersonateUser } from "../../common/api/auth-api";
+import { useAuth } from "../../store/AuthContext";
+import LoggedAsSelect from "../../components/select/loggedAsSelect";
 
 const UserManagement = () => {
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
+  const { signIn } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [creteria, setCreteria] = useState<GeneralUserCreteria>({
     page: 0,
     size: 25,
   });
-  const [selectedValue, setSelectedValue] = useState<string>("administration");
+  const [selectedValues, setSelectedValues] = useState<{
+    [key: number]: string;
+  }>({});
 
   const { users, totalPages, totalElements, isLoading } = useUsers(creteria);
 
@@ -64,13 +70,76 @@ const UserManagement = () => {
     }
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(e.target.value);
+  const handleSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    userId: number | undefined,
+  ) => {
+    if (userId !== undefined) {
+      setSelectedValues((prevValues) => ({
+        ...prevValues,
+        [userId]: e.target.value,
+      }));
+    }
   };
+  const handleImpersonate = async (userId: number | undefined) => {
+    if (userId === undefined) {
+      console.error("User ID is undefined");
+      return;
+    }
+    try {
+      const {
+        access_token,
+        impersonation_mode,
+        original_user_id,
+      } = await impersonateUser(userId);
+      const user = decodeToken(access_token);
+
+      if (user) {
+        user.impersonationMode = impersonation_mode;
+        user.originalUserId = original_user_id;
+        localStorage.setItem(
+          "impersonationMode",
+          impersonation_mode.toString(),
+        );
+        localStorage.setItem(
+          "originalUserId",
+          original_user_id?.toString() || "",
+        );
+      }
+
+      signIn(user!!);
+    } catch (err) {
+      console.error("Failed :", err);
+    }
+  };
+
   const handleIconClick = async (userId: number | undefined) => {
     if (userId === undefined) {
       console.error("User ID is undefined");
       return;
+    }
+    const selectedValue = selectedValues[userId];
+    if (selectedValue === "administration") {
+      await handleImpersonate(userId);
+    } else if (selectedValue === "Dashboard") {
+      try {
+        const {
+          access_token,
+          impersonation_mode,
+          original_user_id,
+        } = await impersonateUser(userId);
+
+        const url = `http://localhost:3000/?access_token=${encodeURIComponent(
+          access_token,
+        )}&impersonation_mode=${encodeURIComponent(
+          impersonation_mode,
+        )}&original_user_id=${encodeURIComponent(
+          original_user_id?.toString() || "",
+        )}#/auth/signin`;
+        window.open(url, "_blank");
+      } catch (err) {
+        console.error("Failed to impersonate user:", err);
+      }
     }
   };
 
@@ -117,17 +186,15 @@ const UserManagement = () => {
       header: t("connecte en tant que"),
       key: "..",
       render: (item: GeneralUser) => (
-        <Flex justifyContent="center" alignItems="center">
-          <Select onChange={(e) => handleSelectChange(e)}>
-            <option value="">select </option>
-            <option value="administration">administration</option>
-            <option value="Dashboard">Dashboard</option>
-          </Select>
-          <IoMdExit
-            style={{ cursor: "pointer", width: "50px", height: "20px" }}
-            onClick={(e) => handleIconClick(item.id)}
-          />
-        </Flex>
+        <LoggedAsSelect
+          userId={item.id}
+          customerAccountId={item.customerAccountId}
+          selectedValue={
+            item.id !== undefined ? selectedValues[item.id] || "" : ""
+          }
+          handleSelectChange={handleSelectChange}
+          handleIconClick={handleIconClick}
+        />
       ),
     },
     {
