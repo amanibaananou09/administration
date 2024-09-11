@@ -36,7 +36,7 @@ export interface PaymentMethod {
 
 export interface MasterUser {
   id?: string;
-  identifier: string;
+  identifier?: string;
   username: string;
   email: string;
   firstName: string;
@@ -148,7 +148,7 @@ export interface addStations {
 export interface CustomerAccountFormValues {
   id?: string;
   identifier?: string;
-  userIdentifier: string;
+  savedIdentifier?: string;
   name: string;
   city: string;
   savedName?: string;
@@ -195,6 +195,7 @@ export interface UserFormValues {
 export interface StationFormValues {
   id?: string;
   identifier: string;
+  savedIdentifier?: string;
   name: string;
   address: string;
   city: string;

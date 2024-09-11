@@ -16,7 +16,6 @@ import moment from "moment";
 export const customerAccountInitFormValues: CustomerAccountFormValues = {
   name: "",
   identifier: "",
-  userIdentifier: "",
   city: "",
   actif: false,
   resaleRight: false,
@@ -67,7 +66,7 @@ export const customerAccountToFormValues = (
     id,
     name,
     identifier,
-    userIdentifier: masterUser.identifier,
+    savedIdentifier: identifier,
     city,
     cardManager,
     savedName: name,
@@ -95,7 +94,7 @@ export const formValuesToCustomerAccount = (
   const {
     id,
     identifier,
-    userIdentifier,
+    savedIdentifier,
     name,
     savedName,
     city,
@@ -119,7 +118,7 @@ export const formValuesToCustomerAccount = (
   return {
     id,
     name: name ?? savedName,
-    identifier,
+    identifier: identifier ?? savedIdentifier,
     city,
     cardManager: cardManager,
     creatorAccountId,
@@ -131,7 +130,7 @@ export const formValuesToCustomerAccount = (
     actif,
     masterUser: {
       username,
-      identifier: userIdentifier,
+      identifier,
       email,
       firstName,
       lastName,
@@ -299,6 +298,7 @@ export const stationToFormValues = (
   return {
     id,
     identifier,
+    savedIdentifier: identifier,
     name,
     address,
     city,
@@ -328,6 +328,7 @@ export const formValuesToStation = (
   const {
     id,
     identifier,
+    savedIdentifier,
     name,
     address,
     city,
@@ -352,7 +353,7 @@ export const formValuesToStation = (
 
   return {
     id,
-    identifier,
+    identifier: identifier ?? savedIdentifier,
     name,
     address,
     city,
