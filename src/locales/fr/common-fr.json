@@ -1,4 +1,8 @@
 {
+  "customerIdentifier": "Identifiant du compte",
+  "userIdentifier": "Identifiant utilisateur",
+  "MasterUserIdentifier": "Identifiant Master User",
+  "stationIdentifier": "Identifiant station",
   "name": "Nom du compte",
   "creator": "Compte parent",
   "creatorAccount": "Compte créateur",

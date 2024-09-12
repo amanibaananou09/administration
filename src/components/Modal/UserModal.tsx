@@ -108,6 +108,13 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
         <form>
           <Flex direction="column" p="2">
             <UIInputFormControl
+              label={t("common.userIdentifier")}
+              name="userIdentifier"
+              control={form.control}
+              disabled={isViewMode || isEditMode}
+              rules={{ validate: validator.identifierValidator }}
+            />
+            <UIInputFormControl
               label={t("userInformation.userNameLabel")}
               name="username"
               control={form.control}

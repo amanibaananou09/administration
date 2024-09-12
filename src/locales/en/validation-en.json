@@ -4,6 +4,12 @@
     "required": "Name is required",
     "firstLetterUppercaseOrNoSpaces": "Please avoid spaces, hyphens and be sure to capitalize the first letter of each word."
   },
+  "identifier": {
+    "min": "identifier must be at least 6 characters",
+    "max": "identifier must be at most 20 characters long",
+    "required": "identifier is required",
+    "invalidFormat": "include letters (upper and lower case), numbers, hyphens (-) and underscores (_)."
+  },
   "firstName": {
     "min": "First Name must be at least 3 characters",
     "required": "First Name is required"
@@ -22,7 +28,7 @@
     "max": "User controller must be at most 10 characters long",
     "required": "Username is required",
     "exist": "User controller already exists",
-    "matche": "Contains only alphabetic and numeric characters with no special characters."
+    "matches": "Contains only alphabetic and numeric characters with no special characters."
   },
   "login": {
     "min": "Login must be at least 3 characters",

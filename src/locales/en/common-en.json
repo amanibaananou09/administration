@@ -1,4 +1,8 @@
 {
+  "customerIdentifier": "Customer identifier",
+  "userIdentifier": "User identifier",
+  "MasterUserIdentifier": "Master User identifier",
+  "stationIdentifier": "Station identifier",
   "name": "Account name",
   "creator": "Parent account",
   "creatorAccount": "Creator account",

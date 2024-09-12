@@ -78,6 +78,15 @@ const useValidators = () => {
       t("validation.name.firstLetterUppercaseOrNoSpaces"),
     );
 
+  const identifier = Yup.string()
+    .required(t("validation.identifier.required"))
+    .min(6, t("validation.identifier.min"))
+    .max(20, t("validation.identifier.max"))
+    .matches(
+      /^[A-Za-z0-9-_À-ÖØ-öø-ÿ]{6,20}$/,
+      t("validation.identifier.invalidFormat"), // Adjust the translation key as needed
+    );
+
   const email = Yup.string()
     .required(t("validation.email.required"))
     .email(t("validation.email.invalid"))
@@ -165,6 +174,9 @@ const useValidators = () => {
   const nameValidator = async (value: string) => {
     return await validateWithSchema(name, value);
   };
+  const identifierValidator = async (value: string) => {
+    return await validateWithSchema(identifier, value);
+  };
   const cityValidator = async (value: string) => {
     return await validateWithSchema(city, value);
   };
@@ -249,6 +261,7 @@ const useValidators = () => {
     return await validateWithSchema(plannedExportDate, value);
   };
   return {
+    identifierValidator,
     nameValidator,
     cityValidator,
     parentValidator,

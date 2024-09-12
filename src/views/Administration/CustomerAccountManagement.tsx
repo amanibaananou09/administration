@@ -69,8 +69,8 @@ const CustomerAccountManagement = () => {
       render: (item) => <div>{item.index}</div>,
     },
     {
-      header: t("common.name"),
-      key: "name",
+      header: t("common.customerIdentifier"),
+      key: "identifier",
       render: (item: CustomerAccount) => (
         <div
           style={{
@@ -81,9 +81,13 @@ const CustomerAccountManagement = () => {
             history.push(`${path}/details/${item.id}`);
           }}
         >
-          {item.name}
+          {item.identifier}
         </div>
       ),
+    },
+    {
+      header: t("common.name"),
+      key: "name",
     },
     {
       header: t("common.creatorAccount"),

@@ -15,6 +15,7 @@ import moment from "moment";
 
 export const customerAccountInitFormValues: CustomerAccountFormValues = {
   name: "",
+  identifier: "",
   city: "",
   actif: false,
   resaleRight: false,
@@ -44,6 +45,7 @@ export const customerAccountToFormValues = (
 ): CustomerAccountFormValues => {
   const {
     id,
+    identifier,
     name,
     city,
     cardManager,
@@ -58,11 +60,20 @@ export const customerAccountToFormValues = (
     plannedExportDate,
   } = customerAccount;
 
-  const { username, firstName, lastName, email, phone } = masterUser;
+  const {
+    username,
+    firstName,
+    userIdentifier,
+    lastName,
+    email,
+    phone,
+  } = masterUser;
 
   return {
     id,
     name,
+    identifier,
+    savedIdentifier: identifier,
     city,
     cardManager,
     savedName: name,
@@ -74,6 +85,8 @@ export const customerAccountToFormValues = (
     actif,
     username,
     savedUsername: username,
+    userIdentifier,
+    savedUserIdentifier: userIdentifier,
     email,
     savedEmail: email,
     firstName,
@@ -89,8 +102,12 @@ export const formValuesToCustomerAccount = (
 ): CustomerAccount => {
   const {
     id,
+    identifier,
+    savedIdentifier,
     name,
     savedName,
+    userIdentifier,
+    savedUserIdentifier,
     city,
     cardManager,
     creatorAccountId,
@@ -112,6 +129,7 @@ export const formValuesToCustomerAccount = (
   return {
     id,
     name: name ?? savedName,
+    identifier: identifier ?? savedIdentifier,
     city,
     cardManager: cardManager,
     creatorAccountId,
@@ -123,6 +141,7 @@ export const formValuesToCustomerAccount = (
     actif,
     masterUser: {
       username,
+      userIdentifier,
       email,
       firstName,
       lastName,
@@ -135,6 +154,7 @@ export const formValuesToCustomerAccount = (
 
 export const userInitFormValues = {
   mode: Mode.CREATE,
+  identifier: "",
   username: "",
   firstName: "",
   lastName: "",
@@ -156,6 +176,7 @@ export const userInitFormValues = {
 export const userToFormValues = (user: GeneralUser): UserFormValues => {
   const {
     id,
+    userIdentifier,
     username,
     creatorAccountId,
     customerAccountId,
@@ -172,10 +193,12 @@ export const userToFormValues = (user: GeneralUser): UserFormValues => {
 
   return {
     id,
+    userIdentifier,
     creatorAccountId,
     customerAccountId,
     username,
     savedUsername: username,
+    savedUserIdentifier: userIdentifier,
     email,
     savedEmail: email,
     firstName,
@@ -192,6 +215,7 @@ export const userToFormValues = (user: GeneralUser): UserFormValues => {
 export const formValuesToUser = (values: UserFormValues): GeneralUser => {
   const {
     id,
+    userIdentifier,
     creatorAccountId,
     customerAccountId,
     username,
@@ -208,6 +232,7 @@ export const formValuesToUser = (values: UserFormValues): GeneralUser => {
 
   return {
     id,
+    userIdentifier,
     username,
     creatorAccountId,
     customerAccountId,
@@ -225,6 +250,7 @@ export const formValuesToUser = (values: UserFormValues): GeneralUser => {
 
 export const stationInitFormValues: StationFormValues = {
   name: "",
+  identifier: "",
   address: "",
   city: "",
   creatorCustomerAccountName: "",
@@ -259,6 +285,7 @@ export const stationToFormValues = (
 ): StationFormValues => {
   const {
     id,
+    identifier,
     name,
     address,
     city,
@@ -282,6 +309,8 @@ export const stationToFormValues = (
 
   return {
     id,
+    identifier,
+    savedIdentifier: identifier,
     name,
     address,
     city,
@@ -310,6 +339,8 @@ export const formValuesToStation = (
 ): GeneralStations => {
   const {
     id,
+    identifier,
+    savedIdentifier,
     name,
     address,
     city,
@@ -334,6 +365,7 @@ export const formValuesToStation = (
 
   return {
     id,
+    identifier: identifier ?? savedIdentifier,
     name,
     address,
     city,
