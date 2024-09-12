@@ -157,6 +157,7 @@ const CustomerAccountModal = ({
               name="identifier"
               control={form.control}
               disabled={isViewMode || isEditMode}
+              maxLength={20}
               rules={{ validate: validator.identifierValidator }}
             />
             <UIInputFormControl

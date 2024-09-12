@@ -112,6 +112,7 @@ const UserModal = ({ onSubmit, mode }: UserModalProps) => {
               name="userIdentifier"
               control={form.control}
               disabled={isViewMode || isEditMode}
+              maxLength={20}
               rules={{ validate: validator.identifierValidator }}
             />
             <UIInputFormControl
