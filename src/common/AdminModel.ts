@@ -158,6 +158,7 @@ export interface CustomerAccountFormValues {
   creatorAccountId: string;
   resaleRight: boolean;
   cardManager: boolean;
+  saveCardManager?: boolean;
   exported: boolean;
   status: string;
   actif?: boolean;
