@@ -233,4 +233,5 @@ export interface Log {
   action?: string;
   userName?: string;
   impersonationMode?: boolean;
+  impersonatorUserName?: string;
 }

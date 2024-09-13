@@ -84,7 +84,10 @@ const LogModal = () => {
     },
     {
       header: t("logModal.user"),
-      key: "userName",
+      render: (log) =>
+        log.impersonationMode === false
+          ? log.userName
+          : log.impersonatorUserName,
     },
     {
       header: t("logModal.action"),
