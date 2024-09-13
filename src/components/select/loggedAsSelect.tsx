@@ -46,7 +46,9 @@ const LoggedAsSelect = ({
           onChange={(e) => handleSelectChange(e, userId)}
           onClick={handleSelectClick}
         >
-          <option value="">select</option>
+          <option value="" disabled hidden>
+            Liens d'accès
+          </option>
           <option value="administration">administration</option>
           <option value="Dashboard">Dashboard</option>
         </Select>
@@ -56,7 +58,9 @@ const LoggedAsSelect = ({
           onChange={(e) => handleSelectChange(e, userId)}
           onClick={handleSelectClick}
         >
-          <option value="">select</option>
+          <option value="" disabled hidden>
+            Liens d'accès
+          </option>
           <option value="Dashboard">Dashboard</option>
         </Select>
       )}

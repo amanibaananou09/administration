@@ -34,6 +34,7 @@ const UserManagement = () => {
   const { t } = useTranslation();
   let { path } = useRouteMatch();
   const { signIn } = useAuth();
+  const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [creteria, setCreteria] = useState<GeneralUserCreteria>({
@@ -184,22 +185,23 @@ const UserManagement = () => {
     },
     {
       header: t("connecte en tant que"),
-      key: "..",
-      render: (item: GeneralUser) => (
-        <LoggedAsSelect
-          userId={item.id}
-          customerAccountId={item.customerAccountId}
-          selectedValue={
-            item.id !== undefined ? selectedValues[item.id] || "" : ""
-          }
-          handleSelectChange={handleSelectChange}
-          handleIconClick={handleIconClick}
-        />
-      ),
+      key: "loggedAs",
+      render: (item: GeneralUser) =>
+        user?.customerAccountId !== item.customerAccountId ? (
+          <LoggedAsSelect
+            userId={item.id}
+            customerAccountId={item.customerAccountId}
+            selectedValue={
+              item.id !== undefined ? selectedValues[item.id] || "" : ""
+            }
+            handleSelectChange={handleSelectChange}
+            handleIconClick={handleIconClick}
+          />
+        ) : null,
     },
     {
       header: t("log"),
-      key: "...",
+      key: "log",
       render: (item: GeneralUser) => (
         <Flex justifyContent="center">
           <FaTableList
