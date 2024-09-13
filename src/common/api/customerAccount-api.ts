@@ -5,6 +5,7 @@ import {
   MasterUser,
 } from "common/AdminModel";
 import api from "./axios";
+import { LogCreteria } from "../model";
 
 const API_URL = "/customerAccount";
 
@@ -112,9 +113,10 @@ export const addStation = async (
 export const getlog = async (
   customerAccountId: string | undefined,
   userId: string | undefined,
+  creteria: LogCreteria,
 ) => {
-  const response = await api.get<Log>(
-    `${API_URL}/${customerAccountId}/user/log/${userId}`,
+  const response = await api.get<Log[]>(
+    `${API_URL}/${customerAccountId}/user/log/${userId}?startDate=${creteria.startDate}&endDate=${creteria.endDate}`,
   );
 
   return response.data;

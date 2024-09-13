@@ -237,6 +237,9 @@
     "interval": "Intervallel",
     "display": "Afficher",
     "export": "Export vers Excel",
-    "close": "Fermer"
+    "close": "Fermer",
+    "error": "Format de la date incorrect : l'année doit être composée de 4 chiffres (aaaa). Veuillez corriger votre saisie.",
+    "errorDate": "La date de début doit être antérieure ou égale à la date de fin. Veuillez corriger les dates."
+
   }
 }

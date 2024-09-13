@@ -16,6 +16,7 @@ import {
   searchUser,
 } from "../common/api/auth-api";
 import { getlog } from "../common/api/customerAccount-api";
+import { LogCreteria } from "../common/model";
 
 export const useUserById = (userId: number) => {
   const { data: user, isLoading, error } = useQuery({
@@ -170,15 +171,25 @@ export const useExitImpersonation = () => {
 export const useLog = (
   customerAccountId: string | undefined,
   userId: string | undefined,
+  creteria: LogCreteria,
 ) => {
-  const { data: log, isLoading, error } = useQuery({
-    queryKey: ["log", customerAccountId, userId],
-    queryFn: () => getlog(customerAccountId, userId),
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["log", customerAccountId, userId, creteria],
+    queryFn: () => getlog(customerAccountId, userId, creteria),
     enabled: !!customerAccountId,
+    select: (data) => {
+      return {
+        ...data,
+        content: data.map((log, index) => ({
+          index: index + 1,
+          ...log,
+        })),
+      };
+    },
   });
 
   return {
-    log,
+    log: data?.content,
     isLoading,
     error,
   };

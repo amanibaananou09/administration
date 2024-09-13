@@ -58,5 +58,6 @@
   "report": "Éléments",
   "on": "sur",
   "exportExcel": "Excel",
-  "exportPDF": "PDF"
+  "exportPDF": "PDF",
+  "clear":"Effacer"
 }
