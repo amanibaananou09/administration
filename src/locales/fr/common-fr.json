@@ -59,5 +59,6 @@
   "on": "sur",
   "exportExcel": "Excel",
   "exportPDF": "PDF",
-  "clear":"Effacer"
+  "clear":"Effacer",
+  "accessLinks": "Liens d'accès"
 }

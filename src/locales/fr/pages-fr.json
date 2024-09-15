@@ -127,7 +127,9 @@
       "accountCreator": "Compte créateur",
       "account": "Compte client",
       "lastVisit": "Dernière visite",
-      "listEmpty": "Vous n'avez pas d'utilisateur"
+      "listEmpty": "Vous n'avez pas d'utilisateur",
+      "connectAs" : "Connecte en tant que",
+      "log":"Log"
     }
   },
   "addUserModal": {
@@ -239,7 +241,9 @@
     "export": "Export vers Excel",
     "close": "Fermer",
     "error": "Format de la date incorrect : l'année doit être composée de 4 chiffres (aaaa). Veuillez corriger votre saisie.",
-    "errorDate": "La date de début doit être antérieure ou égale à la date de fin. Veuillez corriger les dates."
-
+    "errorDate": "La date de début doit être antérieure ou égale à la date de fin. Veuillez corriger les dates.",
+    "noLogs": "Aucun log trouvé pour la période spécifiée.",
+    "resource": "Ressource",
+    "impersonation": "Impersonation"
   }
 }

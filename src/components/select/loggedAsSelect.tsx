@@ -2,6 +2,7 @@ import { Flex, Select } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { IoMdExit } from "react-icons/io";
 import { useCustomerAccountById } from "../../hooks/use-customer-account";
+import { useTranslation } from "react-i18next";
 
 interface LoggedAsSelectProps {
   userId: number | undefined;
@@ -24,6 +25,7 @@ const LoggedAsSelect = ({
   const { customerAccount, isLoading } = useCustomerAccountById(
     Number(customerAccountId),
   );
+  const { t } = useTranslation();
 
   const handleSelectClick = () => {
     if (customerAccount) {
@@ -59,7 +61,7 @@ const LoggedAsSelect = ({
           onClick={handleSelectClick}
         >
           <option value="" disabled hidden>
-            Liens d'accès
+            {t("common.accessLinks")}
           </option>
           <option value="Dashboard">Dashboard</option>
         </Select>
