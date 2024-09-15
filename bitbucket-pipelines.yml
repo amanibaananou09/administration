@@ -96,11 +96,14 @@ pipelines:
       - step: *install-dependencies
       - step: *build-and-test
       - step: *quality
+    master:
+      - step: *install-dependencies
+      - step: *build-and-test
       - step: *build-docker-image
       - step:
           <<: *deploy-container
-          name: Deploy to Dev
-          deployment: dev
+          name: Deploy to preprod
+          deployment: preprod
   tags:
     '*':
       - step: *install-dependencies
