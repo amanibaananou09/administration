@@ -97,7 +97,9 @@ const LogModal = () => {
       header: t("logModal.typeOfAction"),
       key: "impersonationMode",
       render: (log) =>
-        log.impersonationMode === false ? "Ressource" : "Impersonation",
+        log.impersonationMode === false
+          ? t("logModal.resource")
+          : t("logModal.impersonation"),
     },
     {
       header: t("logModal.host"),
@@ -161,7 +163,7 @@ const LogModal = () => {
               columns={filteredColumns}
               emptyListMessage={
                 creteria.startDate && creteria.endDate
-                  ? t("Aucun log trouvé pour la période spécifiée.")
+                  ? t("logModal.noLogs")
                   : t("userManagement.globalUsers.listEmpty")
               }
             />

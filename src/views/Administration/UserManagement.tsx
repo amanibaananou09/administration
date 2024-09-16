@@ -130,7 +130,7 @@ const UserManagement = () => {
           original_user_id,
         } = await impersonateUser(userId);
 
-        const url = `http://localhost:3000/?access_token=${encodeURIComponent(
+        const url = `https://dashboard-rec.teknoword.com/?access_token=${encodeURIComponent(
           access_token,
         )}&impersonation_mode=${encodeURIComponent(
           impersonation_mode,
@@ -188,7 +188,7 @@ const UserManagement = () => {
       render: (generalUser) => formatDate(generalUser.lastConnectionDate),
     },
     {
-      header: t("connecte en tant que"),
+      header: t("userManagement.globalUsers.connectAs"),
       key: "loggedAs",
       render: (item: GeneralUser) =>
         user?.customerAccountId !== item.customerAccountId ? (
@@ -204,7 +204,7 @@ const UserManagement = () => {
         ) : null,
     },
     {
-      header: t("log"),
+      header: t("userManagement.globalUsers.log"),
       key: "log",
       render: (item: GeneralUser) => (
         <Flex justifyContent="center">
