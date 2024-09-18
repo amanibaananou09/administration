@@ -25,26 +25,29 @@ const ColumnSelectionDropdown = ({
     if (columnKey && columnKey !== "#") {
       setVisibleColumns((prevVisibleColumns) => {
         const isColumnKeyVisible = prevVisibleColumns.includes(columnKey);
-        const updatedVisibleColumns = isColumnKeyVisible
+        let updatedVisibleColumns = isColumnKeyVisible
           ? prevVisibleColumns.filter((key) => key !== columnKey)
           : [...prevVisibleColumns, columnKey];
 
         if (!updatedVisibleColumns.includes("#")) {
-          updatedVisibleColumns.push("#");
+          updatedVisibleColumns = ["#", ...updatedVisibleColumns];
+        }
+        if (
+          updatedVisibleColumns.length === 1 &&
+          updatedVisibleColumns[0] === "#"
+        ) {
+          updatedVisibleColumns = [];
         }
         // Update displayedColumns based on updatedVisibleColumns
         const updatedDisplayedColumns = columns.filter((col) =>
           updatedVisibleColumns.includes(col.key as string),
         ) as UIColumnDefinitionType<any>[];
 
-        if (
-          updatedDisplayedColumns.length === 1 &&
-          updatedDisplayedColumns[0].key === "#"
-        ) {
-          setDisplayedColumns(columns);
-        } else {
-          setDisplayedColumns([...updatedDisplayedColumns]);
-        }
+        setDisplayedColumns(
+          updatedDisplayedColumns.length > 0
+            ? updatedDisplayedColumns
+            : columns,
+        );
         onClose();
         return updatedVisibleColumns;
       });
