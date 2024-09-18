@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Select, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralUser, GeneralUserCreteria } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -18,16 +18,16 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useUserQueries, useUsers } from "hooks/use-user";
 import "jspdf-autotable";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { decodeToken, formatDate } from "utils/utils";
 import { FaTableList } from "react-icons/fa6";
-import { IoMdExit } from "react-icons/io";
 import LogModal from "../../components/Modal/LogModal";
 import { impersonateUser } from "../../common/api/auth-api";
 import { useAuth } from "../../store/AuthContext";
 import LoggedAsSelect from "../../components/select/loggedAsSelect";
+import Scrollbars from "react-custom-scrollbars";
 
 const UserManagement = () => {
   const history = useHistory();
@@ -191,7 +191,7 @@ const UserManagement = () => {
       header: t("userManagement.globalUsers.connectAs"),
       key: "loggedAs",
       render: (item: GeneralUser) =>
-        user?.customerAccountId !== item.customerAccountId ? (
+        user?.customerAccountId != item.customerAccountId ? (
           <LoggedAsSelect
             userId={item.id}
             customerAccountId={item.customerAccountId}
@@ -289,15 +289,17 @@ const UserManagement = () => {
               >
                 <FaEllipsisV />
               </Button>
-              {!isLoading && (
-                <UITable
-                  data={users}
-                  columns={filteredColumns}
-                  emptyListMessage={t("userManagement.globalUsers.listEmpty")}
-                />
+              {!isLoading ? (
+                <Scrollbars style={{ height: "calc(80vh - 185px)" }}>
+                  <UITable
+                    data={users}
+                    columns={filteredColumns}
+                    emptyListMessage={t("userManagement.globalUsers.listEmpty")}
+                  />
+                </Scrollbars>
+              ) : (
+                <SkeletonTable />
               )}
-
-              {isLoading && <SkeletonTable />}
             </Flex>
           </CardBody>
           {!isLoading && (

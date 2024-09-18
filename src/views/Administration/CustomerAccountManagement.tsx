@@ -23,6 +23,7 @@ import {
 import { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import Scrollbars from "react-custom-scrollbars";
 
 const CustomerAccountManagement = () => {
   const { t } = useTranslation();
@@ -193,14 +194,17 @@ const CustomerAccountManagement = () => {
               >
                 <FaEllipsisV />
               </Button>
-              {!isLoading && (
-                <UITable
-                  data={customerAccounts}
-                  columns={filteredColumns}
-                  emptyListMessage={t("customerAccounts.listEmpty")}
-                />
+              {!isLoading ? (
+                <Scrollbars style={{ height: "calc(80vh - 185px)" }}>
+                  <UITable
+                    data={customerAccounts}
+                    columns={filteredColumns}
+                    emptyListMessage={t("customerAccounts.listEmpty")}
+                  />
+                </Scrollbars>
+              ) : (
+                <SkeletonTable />
               )}
-              {isLoading && <SkeletonTable />}
             </Flex>
           </CardBody>
 

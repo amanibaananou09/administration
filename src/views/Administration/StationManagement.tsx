@@ -18,9 +18,10 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useStationQueries, useStations } from "hooks/use-station";
 import "jspdf-autotable";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import Scrollbars from "react-custom-scrollbars";
 
 const StationManagement = () => {
   const history = useHistory();
@@ -200,15 +201,17 @@ const StationManagement = () => {
           />
           <CardBody>
             <Flex overflowX="auto">
-              {!isLoading && (
-                <UITable
-                  data={stations}
-                  columns={filteredColumns}
-                  emptyListMessage={t("stationManagement.isLoading")}
-                />
+              {!isLoading ? (
+                <Scrollbars style={{ height: "calc(80vh - 185px)" }}>
+                  <UITable
+                    data={stations}
+                    columns={filteredColumns}
+                    emptyListMessage={t("stationManagement.isLoading")}
+                  />
+                </Scrollbars>
+              ) : (
+                <SkeletonTable />
               )}
-
-              {isLoading && <SkeletonTable />}
               <Button
                 size="sm"
                 onClick={() => setIsOpen(!isOpen)}

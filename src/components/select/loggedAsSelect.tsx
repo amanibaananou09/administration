@@ -49,7 +49,7 @@ const LoggedAsSelect = ({
           onClick={handleSelectClick}
         >
           <option value="" disabled hidden>
-            Liens d'accès
+            {t("common.accessLinks")}
           </option>
           <option value="administration">administration</option>
           <option value="Dashboard">Dashboard</option>
