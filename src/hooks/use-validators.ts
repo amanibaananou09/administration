@@ -81,9 +81,9 @@ const useValidators = () => {
   const identifier = Yup.string()
     .required(t("validation.identifier.required"))
     .min(6, t("validation.identifier.min"))
-    .max(20, t("validation.identifier.max"))
+    .max(40, t("validation.identifier.max"))
     .matches(
-      /^[A-Za-z0-9-_À-ÖØ-öø-ÿ]{6,20}$/,
+      /^[A-Za-z0-9-_À-ÖØ-öø-ÿ]{6,40}$/,
       t("validation.identifier.invalidFormat"), // Adjust the translation key as needed
     );
 
