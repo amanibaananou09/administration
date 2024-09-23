@@ -108,13 +108,9 @@ const useValidators = () => {
 
   const pasword = Yup.string()
     .required(t("validation.password.required"))
-    .min(3, t("validation.password.miin"))
-    .max(10, t("validation.password.max"))
-    .matches(/^[a-zA-Z0-9_]+$/, t("validation.password.matche"));
-
-  const confirmPassword = Yup.string()
-    .required(t("validation.confirmPassword.required"))
-    .oneOf([Yup.ref("password")], t("validation.confirmPassword.match"));
+    .min(4, t("validation.password.miin"))
+    .max(10, t("validation.password.max")) // Ensures max length is 10
+    .matches(/^[a-zA-Z0-9_]{3,10}$/, t("validation.password.matche"));
 
   const phone = Yup.string()
     .required(t("validation.phone.required"))
