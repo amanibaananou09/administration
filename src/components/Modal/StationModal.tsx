@@ -116,7 +116,7 @@ const StationModal = ({ onSubmit, mode }: AddStationModalProps) => {
             name="identifier"
             control={form.control}
             disabled={isViewMode || isEditMode}
-            maxLength={20}
+            maxLength={40}
             rules={{ validate: validator.identifierValidator }}
           />
           <UIInputFormControl
