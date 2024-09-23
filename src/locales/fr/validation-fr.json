@@ -28,7 +28,7 @@
     "max": "L'utilisateur du contrôleur doit contenir au plus 10 caractères",
     "required": "L'utilisateur du contrôleur est requis",
     "exist": "L'utilisateur du contrôleur existe déjà",
-    "matche": "Contient uniquement des caractères alphabétiques et numériques sans caractères spéciaux."
+    "matches": "Contient uniquement des caractères alphabétiques, numériques et de soulignement _ ."
   },
   "login": {
     "min": "Login doit comporter au moins 3 caractères",
@@ -46,7 +46,7 @@
     "max": "Le mot de passe doit comporter au plus 10 caractères",
     "matches": "Le mot de passe doit contenir au moins un caractère spécial",
     "required": "Le mot de passe est requis",
-    "matche": "Contient uniquement des caractères alphabétiques et numériques sans caractères spéciaux."
+    "matche": "Contient uniquement des caractères alphabétiques, numériques et de soulignement _ ."
   },
   "confirmPassword": {
     "match": "Le mot de passe est sa confirmation ne sont pas identiques",

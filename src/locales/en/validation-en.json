@@ -28,7 +28,7 @@
     "max": "User controller must be at most 10 characters long",
     "required": "Username is required",
     "exist": "User controller already exists",
-    "matches": "Contains only alphabetic and numeric characters with no special characters."
+    "matches": "Contains only alphabetic, numeric and underscore characters _ ."
   },
   "login": {
     "min": "Login must be at least 3 characters",
@@ -46,7 +46,7 @@
     "matches": "Password must contain at least one special character",
     "max": "Password must contain at most one special character",
     "required": "Password is required",
-    "matche": "Contains only alphabetic and numeric characters without special characters."
+    "matche": "Contains only alphabetic, numeric and underscore characters _ ."
   },
   "confirmPassword": {
     "match": "Passwords must match",
