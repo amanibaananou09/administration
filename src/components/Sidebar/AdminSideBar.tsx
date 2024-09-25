@@ -4,25 +4,16 @@ import {
   Alert,
   AlertIcon,
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
   Flex,
-  Stack,
-  Text,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import { SidebarProps } from "common/react-props";
-import IconBox from "components/Icons/IconBox";
-import {
-  renderThumbLight,
-  renderTrack,
-  renderView,
-} from "components/Scrollbar/Scrollbar";
-import { HSeparator } from "components/Separator/Separator";
+import { renderThumbLight, renderTrack, renderView } from "components/Scrollbar/Scrollbar";
 import SidebarHelp from "components/Sidebar/SidebarHelp";
 import React, { useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars";

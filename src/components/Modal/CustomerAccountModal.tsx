@@ -177,7 +177,7 @@ const CustomerAccountModal = ({
               {accountSelectOptions}
             </UISelectFormControl>
             <UISelectFormControl
-              label={t("common.creator")}
+              label={t("common.creatorAccount")}
               name="creatorAccountId"
               control={form.control}
               disabled={isEditMode || isViewMode}

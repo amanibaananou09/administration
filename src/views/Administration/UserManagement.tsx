@@ -18,7 +18,7 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useUserQueries, useUsers } from "hooks/use-user";
 import "jspdf-autotable";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { decodeToken, formatDate } from "utils/utils";
@@ -185,7 +185,10 @@ const UserManagement = () => {
     {
       header: t("userManagement.globalUsers.lastVisit"),
       key: "lastVisit",
-      render: (generalUser) => formatDate(generalUser.lastConnectionDate),
+      render: (generalUser) =>
+        generalUser.lastConnectionDate
+          ? formatDate(generalUser.lastConnectionDate)
+          : "-",
     },
     {
       header: t("userManagement.globalUsers.connectAs"),
