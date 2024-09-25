@@ -41,7 +41,10 @@ export const decodeToken = (token: string | null): User | null => {
   return user;
 };
 
-export const formatDate = (dateTimeStart: string): string => {
+export const formatDate = (dateTimeStart: string | null): string => {
+  if (!dateTimeStart) {
+    return "--";
+  }
   return new Date(dateTimeStart).toLocaleString("fr-FR", {
     year: "numeric",
     month: "2-digit",
