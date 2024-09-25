@@ -130,7 +130,7 @@ const UserManagement = () => {
           original_user_id,
         } = await impersonateUser(userId);
 
-        const url = `https://dashboard-rec.teknoword.com/?access_token=${encodeURIComponent(
+        const url = `https://dashboard-formation.teknoword.com/?access_token=${encodeURIComponent(
           access_token,
         )}&impersonation_mode=${encodeURIComponent(
           impersonation_mode,
