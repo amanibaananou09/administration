@@ -128,8 +128,8 @@
       "account": "Compte client",
       "lastVisit": "Dernière visite",
       "listEmpty": "Vous n'avez pas d'utilisateur",
-      "connectAs" : "Connecte en tant que",
-      "log":"Log"
+      "connectAs": "Connecte en tant que",
+      "log": "Log"
     }
   },
   "addUserModal": {
@@ -236,7 +236,7 @@
     "host": "Hôte",
     "notes": "Notes",
     "text": "Ajoutez des remarques ici",
-    "interval": "Intervallel",
+    "interval": "Intervalle",
     "display": "Afficher",
     "export": "Export vers Excel",
     "close": "Fermer",
