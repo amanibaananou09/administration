@@ -46,16 +46,18 @@ const ExitConfigurator = (props: ExitConfiguratorProps) => {
     setSearchText(debouncedSearchValue);
   }, [debouncedSearchValue]);
 
-  const filteredAccounts = customerAccounts?.filter((account) =>
-    searchType === "account"
-      ? account.name?.toLowerCase().includes(searchText.toLowerCase()) ||
-        account.parentName?.toLowerCase().includes(searchText.toLowerCase())
-      : account.masterUser?.firstName
-          ?.toLowerCase()
-          .includes(searchText.toLowerCase()) ||
-        account.masterUser?.lastName
-          ?.toLowerCase()
-          .includes(searchText.toLowerCase()),
+  const filteredAccounts = customerAccounts?.filter(
+    (account) =>
+      account.resaleRight && // Only include accounts with resaleRight set to true
+      (searchType === "account"
+        ? account.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+          account.parentName?.toLowerCase().includes(searchText.toLowerCase())
+        : account.masterUser?.firstName
+            ?.toLowerCase()
+            .includes(searchText.toLowerCase()) ||
+          account.masterUser?.lastName
+            ?.toLowerCase()
+            .includes(searchText.toLowerCase())),
   );
 
   const handleImpersonate = async (userId: number) => {
