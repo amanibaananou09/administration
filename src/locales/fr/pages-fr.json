@@ -9,7 +9,9 @@
     "placeholderPassword": "Entrez votre mot de passe",
     "messageInvalid": "Nom d'utilisateur ou mot de passe incorrect.",
     "forgotPassword": "Mot de passe oublié ?",
-    "title": "Administration"
+    "title": "Administration",
+    "accessDenied": "Accès refusé : Vous ne disposez pas des droits de revente nécessaires pour vous connecter à la plateforme d'administration."
+
   },
   "ForgotPassword": {
     "errorVide": "Veuillez entrer votre adresse e-mail.",

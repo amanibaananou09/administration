@@ -9,7 +9,8 @@
     "placeholderPassword": "Type your password",
     "messageInvalid": "Invalid username or password.",
     "forgotPassword": "Forgot password?",
-    "title": "Administration"
+    "title": "Administration",
+    "accessDenied": "Access denied: You do not have the resale rights required to log in to the administration platform."
   },
   "ForgotPassword": {
     "errorVide": "Please enter your email.",
