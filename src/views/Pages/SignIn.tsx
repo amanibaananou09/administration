@@ -25,6 +25,7 @@ import { useAuth } from "store/AuthContext";
 import { decodeToken } from "utils/utils";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 import Logo from "../../assets/img/Stationnex.png";
+import axios from "axios";
 
 type SignInFormValues = {
   username: string;
@@ -53,8 +54,26 @@ const SignIn = () => {
       const user = decodeToken(access_token);
       signIn(user!!);
     } catch (error) {
-      console.error(error);
-      setErrorMessage(t("signIn.messageInvalid"));
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.data) {
+          const backendMessage = error.response.data;
+
+          const errorTranslations: { [key: string]: string } = {
+            "Access denied: You do not have the resale rights required to log in to the administration platform.":
+              "signIn.accessDenied",
+          };
+
+          const translatedMessage = errorTranslations[backendMessage]
+            ? t(errorTranslations[backendMessage])
+            : backendMessage;
+
+          setErrorMessage(translatedMessage);
+        } else {
+          setErrorMessage(t("signIn.messageInvalid"));
+        }
+      } else {
+        setErrorMessage(t("signIn.messageInvalid"));
+      }
     }
   };
 
