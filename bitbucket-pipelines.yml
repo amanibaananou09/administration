@@ -44,7 +44,7 @@ definitions:
         script:
           - export REACT_APP_VERSION=${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
           - export REACT_APP_BACKEND_URL=/api
-          - npm run build
+            - npm run build
         artifacts:
           - build/**
 
