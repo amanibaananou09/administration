@@ -130,13 +130,16 @@ const UserManagement = () => {
           original_user_id,
         } = await impersonateUser(userId);
 
-        const url = `https://dashboard-pprod.teknoword.com/?access_token=${encodeURIComponent(
+        const url = `${
+          process.env.REACT_APP_DASHBOARD_URL
+        }?access_token=${encodeURIComponent(
           access_token,
         )}&impersonation_mode=${encodeURIComponent(
           impersonation_mode,
         )}&original_user_id=${encodeURIComponent(
           original_user_id?.toString() || "",
         )}#/auth/signin`;
+
         window.open(url, "_blank");
       } catch (err) {
         console.error("Failed to impersonate user:", err);
