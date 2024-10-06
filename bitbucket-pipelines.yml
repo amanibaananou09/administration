@@ -44,7 +44,6 @@ definitions:
         script:
           - export REACT_APP_VERSION=${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
           - export REACT_APP_BACKEND_URL=/api
-          - export REACT_APP_DASHBOARD_URL=${DASHBOARD_URL}
           - npm run build
         artifacts:
           - build/**
@@ -86,7 +85,20 @@ pipelines:
   branches:
     develop:
       - step: *install-dependencies
-      - step: *build-and-test
+      - step: 
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - node
+          script:
+            - export REACT_APP_VERSION=${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
+            - export REACT_APP_BACKEND_URL=/api
+            - export REACT_APP_DASHBOARD_URL=${DASHBOARD_REC_URL}
+            - npm run build
+          artifacts:
+            - build/**
       - step: *quality
       - step: *build-docker-image
       - step:
@@ -97,18 +109,23 @@ pipelines:
       - step: *install-dependencies
       - step: *build-and-test
       - step: *quality
-    master:
-      - step: *install-dependencies
-      - step: *build-and-test
-      - step: *build-docker-image
-      - step:
-          <<: *deploy-container
-          name: Deploy to preprod
-          deployment: preprod
   tags:
     '*':
       - step: *install-dependencies
-      - step: *build-and-test
+      - step: 
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - node
+          script:
+            - export REACT_APP_VERSION=${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
+            - export REACT_APP_BACKEND_URL=/api
+            - export REACT_APP_DASHBOARD_URL=${DASHBOARD_PROD_URL}
+            - npm run build
+          artifacts:
+            - build/**
       - step: *build-docker-image
       - step:
           <<: *deploy-container
@@ -117,9 +134,43 @@ pipelines:
   custom:
     deploy-to-formation:
       - step: *install-dependencies
-      - step: *build-and-test
+      - step: 
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - node
+          script:
+            - export REACT_APP_VERSION=${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
+            - export REACT_APP_BACKEND_URL=/api
+            - export REACT_APP_DASHBOARD_URL=${DASHBOARD_FORMATION_URL}
+            - npm run build
+          artifacts:
+            - build/**
       - step: *build-docker-image
       - step:
           <<: *deploy-container
           name: Deploy to Formation
           deployment: formation
+    deploy-to-pprod:
+      - step: *install-dependencies
+      - step: 
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - node
+          script:
+            - export REACT_APP_VERSION=${BITBUCKET_BRANCH-${BITBUCKET_TAG}}
+            - export REACT_APP_BACKEND_URL=/api
+            - export REACT_APP_DASHBOARD_URL=${DASHBOARD_PPROD_URL}
+            - npm run build
+          artifacts:
+            - build/**
+      - step: *build-docker-image
+      - step:
+          <<: *deploy-container
+          name: Deploy to preprod
+          deployment: preprod
