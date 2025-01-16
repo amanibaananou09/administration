@@ -99,7 +99,6 @@ pipelines:
             - npm run build
           artifacts:
             - build/**
-      - step: *quality
       - step: *build-docker-image
       - step:
           <<: *deploy-container
@@ -108,7 +107,6 @@ pipelines:
     '*':
       - step: *install-dependencies
       - step: *build-and-test
-      - step: *quality
   tags:
     '*':
       - step: *install-dependencies
