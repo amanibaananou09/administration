@@ -97,7 +97,7 @@ export const customerAccountToFormValues = (
     phone,
     paymentMethods,
     plannedExportDate: plannedExportDate ?? moment().format("YYYY-MM-DDTHH:mm"),
-    scheduledDate: plannedExportDate ?? moment().format("YYYY-MM-DDTHH:mm"),
+    scheduledDate: scheduledDate ?? moment().format("YYYY-MM-DDTHH:mm:ss"),
   };
 };
 
