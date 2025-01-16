@@ -38,6 +38,7 @@ export const customerAccountInitFormValues: CustomerAccountFormValues = {
     },
   ],
   plannedExportDate: moment().format("YYYY-MM-DDTHH:mm"),
+  scheduledDate: moment().format("YYYY-MM-DDTHH:mm"),
 };
 
 export const customerAccountToFormValues = (
@@ -58,6 +59,7 @@ export const customerAccountToFormValues = (
     actif,
     masterUser,
     plannedExportDate,
+    scheduledDate,
   } = customerAccount;
 
   const {
@@ -95,6 +97,7 @@ export const customerAccountToFormValues = (
     phone,
     paymentMethods,
     plannedExportDate: plannedExportDate ?? moment().format("YYYY-MM-DDTHH:mm"),
+    scheduledDate: scheduledDate ?? moment().format("YYYY-MM-DDTHH:mm:ss"),
   };
 };
 
@@ -126,6 +129,7 @@ export const formValuesToCustomerAccount = (
     status,
     actif,
     plannedExportDate,
+    scheduledDate,
   } = values;
 
   return {
@@ -151,6 +155,7 @@ export const formValuesToCustomerAccount = (
       phone,
     },
     plannedExportDate: plannedExportDate,
+    scheduledDate: scheduledDate,
   };
 };
 

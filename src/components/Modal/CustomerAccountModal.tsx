@@ -79,9 +79,16 @@ const CustomerAccountModal = ({
         const customerAccountPayload = formValuesToCustomerAccount(values);
         switch (mode) {
           case Mode.CREATE:
+            customerAccountPayload.scheduledDate = moment().format(
+              "YYYY-MM-DDTHH:mm:ss",
+            );
             await create(customerAccountPayload);
             break;
           case Mode.EDIT:
+            customerAccountPayload.scheduledDate = moment().format(
+              "YYYY-MM-DDTHH:mm:ss",
+            );
+
             await update(customerAccountPayload);
             break;
         }
