@@ -163,3 +163,17 @@ export interface LogCreteria {
   startDate: string;
   endDate: string;
 }
+
+export interface uploadInformation {
+  index?: number;
+  pumpTransactionsUploaded: string;
+  pumpTransactionsTotal: string;
+  tankMeasurementsUploaded: string;
+  tankMeasurementsTotal: string;
+  inTankDeliveriesUploaded: string;
+  inTankDeliveriesTotal: string;
+  gpsRecordsUploaded: string;
+  gpsRecordsTotal: string;
+  alertRecordsUploaded: string;
+  alertRecordsTotal: string;
+}

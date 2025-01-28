@@ -108,12 +108,7 @@ const SignIn = () => {
       >
         <Box w="100vw" h="100vh" bg="gray.300" opacity="0.8"></Box>
       </Box>
-      <Flex
-        justifyContent="flex-end"
-        alignItems="flex"
-        marginTop="15px"
-        marginRight="10"
-      >
+      <Flex position="absolute" top="10px" right="50px" zIndex="10">
         <LanguageSelector />
       </Flex>
       <Flex

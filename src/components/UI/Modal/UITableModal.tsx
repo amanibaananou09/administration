@@ -9,10 +9,8 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import { Mode } from "common/enums";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Log } from "../../../common/AdminModel";
 import LogExporter from "../../Exporter/LogExporter";
 
 type UITableModalProps = {
@@ -20,7 +18,7 @@ type UITableModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  logData?: Log[];
+  logData?: any;
 };
 
 const UITableModal = ({

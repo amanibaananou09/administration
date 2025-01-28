@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { CustomerAccount, CustomerAccountCreteria } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
 
@@ -6,7 +6,7 @@ import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
+import ColumnSelector from "components/ColumnSelector/ColumnSelector";
 import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import CustomerAccountExporter from "components/Exporter/CustomerAccountExporter";
 import CustomerAccountModal from "components/Modal/CustomerAccountModal";
@@ -21,7 +21,7 @@ import {
   useCustomerAccounts,
 } from "hooks/use-customer-account";
 import { useState } from "react";
-import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
 
@@ -61,7 +61,6 @@ const CustomerAccountManagement = () => {
   const submitModalHandler = async () => {};
   //styles
   const textColor = "gray.700";
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
@@ -151,10 +150,11 @@ const CustomerAccountManagement = () => {
     },
   ];
 
-  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-  const [displayedColumns, setDisplayedColumns] = useState<
-    UIColumnDefinitionType<CustomerAccount>[]
-  >([]);
+  const [visibleColumns, setVisibleColumns] = useState<string[]>(
+    columns
+      .map((column) => column.key)
+      .filter((key): key is string => key !== undefined),
+  );
 
   const filteredColumns =
     visibleColumns.length > 0
@@ -175,25 +175,17 @@ const CustomerAccountManagement = () => {
               )}
             </Flex>
           </CardHeader>
-          <ColumnSelectionDropdown
-            columns={columns}
-            visibleColumns={visibleColumns}
-            setVisibleColumns={setVisibleColumns}
-            setDisplayedColumns={setDisplayedColumns}
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-          />
 
           <CardBody>
             <Flex direction="row-reverse">
-              <Button
-                size="sm"
-                onClick={() => setIsOpen(!isOpen)}
-                bg="white"
-                mr={1}
-              >
-                <FaEllipsisV />
-              </Button>
+              <ColumnSelector
+                allColumns={columns.map((column) => ({
+                  ...column,
+                  key: column.key ?? "defaultKey",
+                }))}
+                visibleColumns={visibleColumns}
+                setVisibleColumns={setVisibleColumns}
+              />
               {!isLoading ? (
                 <Scrollbars style={{ height: "calc(80vh - 185px)" }}>
                   <UITable

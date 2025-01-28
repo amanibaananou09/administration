@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralStationCreteria, GeneralStations } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,7 @@ import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
+import ColumnSelector from "components/ColumnSelector/ColumnSelector";
 import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import StationExporter from "components/Exporter/StationExporter";
 import StationModal from "components/Modal/StationModal";
@@ -18,17 +18,18 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useStationQueries, useStations } from "hooks/use-station";
 import "jspdf-autotable";
-import { useState } from "react";
-import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
+import UploadInformationModal from "../../components/Modal/UploadInformationModal";
+import { FaTableList } from "react-icons/fa6";
 
 const StationManagement = () => {
   const history = useHistory();
   const { t } = useTranslation();
   let { path } = useRouteMatch();
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [creteria, setCreteria] = useState<GeneralStationCreteria>({
     page: 0,
     size: 25,
@@ -48,6 +49,9 @@ const StationManagement = () => {
     } else if (item.id) {
       activate(item.id);
     }
+  };
+  const handleInformation = (ptsId: String) => {
+    history.push(`${path}/information/${ptsId}`);
   };
   const submitModalHandler = async () => {};
 
@@ -149,6 +153,18 @@ const StationManagement = () => {
       key: "modeAffectation",
     },
     {
+      header: t("stationManagement.uploadInformation"),
+      key: "information",
+      render: (item: GeneralStations) => (
+        <Flex justifyContent="center">
+          <FaTableList
+            style={{ cursor: "pointer" }}
+            onClick={() => handleInformation(item.controllerPts.ptsId)}
+          />
+        </Flex>
+      ),
+    },
+    {
       header: t("common.action"),
       key: "action",
       render: (item: GeneralStations) => (
@@ -170,10 +186,11 @@ const StationManagement = () => {
   //styles
   const textColor = "gray.700";
 
-  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-  const [displayedColumns, setDisplayedColumns] = useState<
-    UIColumnDefinitionType<GeneralStations>[]
-  >([]);
+  const [visibleColumns, setVisibleColumns] = useState<string[]>(
+    columns
+      .map((column) => column.key)
+      .filter((key): key is string => key !== undefined),
+  );
 
   const filteredColumns =
     visibleColumns.length > 0
@@ -191,14 +208,7 @@ const StationManagement = () => {
               {stations && <StationExporter stations={stations} />}
             </Flex>
           </CardHeader>
-          <ColumnSelectionDropdown
-            columns={columns}
-            visibleColumns={visibleColumns}
-            setVisibleColumns={setVisibleColumns}
-            setDisplayedColumns={setDisplayedColumns}
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-          />
+
           <CardBody>
             <Flex overflowX="auto">
               {!isLoading ? (
@@ -212,15 +222,14 @@ const StationManagement = () => {
               ) : (
                 <SkeletonTable />
               )}
-              <Button
-                size="sm"
-                onClick={() => setIsOpen(!isOpen)}
-                bg="white"
-                mr={50}
-                mt={3}
-              >
-                <FaEllipsisV />
-              </Button>
+              <ColumnSelector
+                allColumns={columns.map((column) => ({
+                  ...column,
+                  key: column.key ?? "defaultKey",
+                }))}
+                visibleColumns={visibleColumns}
+                setVisibleColumns={setVisibleColumns}
+              />
             </Flex>
           </CardBody>
           {!isLoading && (
@@ -248,6 +257,9 @@ const StationManagement = () => {
         </Route>
         <Route path={`${path}/details/:id`}>
           <StationModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
+        </Route>
+        <Route path={`${path}/information/:ptsId`}>
+          <UploadInformationModal />
         </Route>
       </Switch>
       <ConfirmationDialog />

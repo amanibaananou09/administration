@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 import { GeneralUser, GeneralUserCreteria } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,7 @@ import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import ColumnSelectionDropdown from "components/ColumnSelector/ColumnSelector";
+import ColumnSelector from "components/ColumnSelector/ColumnSelector";
 import { useConfirm } from "components/Dialog/ConfirmationDialog";
 import UserExporter from "components/Exporter/UserExporter";
 import UserModal from "components/Modal/UserModal";
@@ -18,8 +18,8 @@ import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
 import { useUserQueries, useUsers } from "hooks/use-user";
 import "jspdf-autotable";
-import React, { useEffect, useState } from "react";
-import { FaEllipsisV, FaPencilAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { decodeToken, formatDate } from "utils/utils";
 import { FaTableList } from "react-icons/fa6";
@@ -36,7 +36,6 @@ const UserManagement = () => {
   const { signIn } = useAuth();
   const { user } = useAuth();
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [creteria, setCreteria] = useState<GeneralUserCreteria>({
     page: 0,
     size: 25,
@@ -253,11 +252,12 @@ const UserManagement = () => {
       ),
     },
   ];
-  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-  const [displayedColumns, setDisplayedColumns] = useState<
-    UIColumnDefinitionType<GeneralUser>[]
-  >([]);
 
+  const [visibleColumns, setVisibleColumns] = useState<string[]>(
+    columns
+      .map((column) => column.key)
+      .filter((key): key is string => key !== undefined),
+  );
   const filteredColumns =
     visibleColumns.length > 0
       ? columns.filter((col) => visibleColumns.includes(col.key as string))
@@ -274,24 +274,17 @@ const UserManagement = () => {
               {users && <UserExporter users={users} />}
             </Flex>
           </CardHeader>
-          <ColumnSelectionDropdown
-            columns={columns}
-            visibleColumns={visibleColumns}
-            setVisibleColumns={setVisibleColumns}
-            setDisplayedColumns={setDisplayedColumns}
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-          />
+
           <CardBody>
             <Flex direction="row-reverse">
-              <Button
-                size="sm"
-                onClick={() => setIsOpen(!isOpen)}
-                bg="white"
-                mr={1}
-              >
-                <FaEllipsisV />
-              </Button>
+              <ColumnSelector
+                allColumns={columns.map((column) => ({
+                  ...column,
+                  key: column.key ?? "defaultKey",
+                }))}
+                visibleColumns={visibleColumns}
+                setVisibleColumns={setVisibleColumns}
+              />
               {!isLoading ? (
                 <Scrollbars style={{ height: "calc(80vh - 185px)" }}>
                   <UITable

@@ -1,13 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  GeneralStations,
   addStations,
   GeneralStationCreteria,
+  GeneralStations,
 } from "common/AdminModel";
 import { addStation } from "common/api/customerAccount-api";
 import {
   activateStation,
   deactivateStation,
+  getUploadedInformation,
   listStation,
   stationInformation,
   updateStation,
@@ -129,5 +130,22 @@ export const useStationQueries = () => {
     create,
     activate,
     desactivate,
+  };
+};
+
+export const useUploadedInformation = (
+  customerAccountId: string,
+  ptsId: string,
+) => {
+  const { data: information, isLoading, error } = useQuery({
+    queryKey: ["information", customerAccountId, ptsId],
+    queryFn: () => getUploadedInformation(customerAccountId, ptsId),
+    enabled: !!customerAccountId,
+  });
+
+  return {
+    information,
+    isLoading,
+    error,
   };
 };
