@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, useDisclosure } from "@chakra-ui/react";
+import { Flex, useDisclosure, useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import UITableModal from "../UI/Modal/UITableModal";
@@ -7,7 +7,6 @@ import UITable from "../UI/Table/UITable";
 import { UIColumnDefinitionType } from "../UI/Table/Types";
 import { useAuth } from "../../store/AuthContext";
 import { useParams } from "react-router-dom";
-import { uploadInformation } from "../../common/model";
 import Scrollbars from "react-custom-scrollbars";
 import { SkeletonTable } from "../Skeleton/Skeletons";
 import ColumnSelector from "../ColumnSelector/ColumnSelector";
@@ -19,12 +18,15 @@ const UploadInformationModal = () => {
   const history = useHistory();
   const { ptsId } = useParams<{ ptsId: string }>();
   const { user } = useAuth();
+  const toast = useToast();
+
   const customerAccountId = user?.customerAccountId;
 
   const { information, isLoading } = useUploadedInformation(
     customerAccountId!!,
     ptsId,
   );
+  console.log("infor:", information);
 
   useEffect(() => {
     onOpen();
@@ -35,31 +37,31 @@ const UploadInformationModal = () => {
     history.replace("/administration/stations");
   };
 
-  let modalTitle = t("uploadlnformation.title");
+  let modalTitle = t("UploadInformationModal.title");
 
   const dataMapping = [
     {
-      type: t("uploadInformation.pumpTransactions"),
+      type: t("UploadInformationModal.pumpTransactions"),
       totalKey: "pumpTransactionsTotal",
       uploadedKey: "pumpTransactionsUploaded",
     },
     {
-      type: t("uploadInformation.tankMeasurements"),
+      type: t("UploadInformationModal.tankMeasurements"),
       totalKey: "tankMeasurementsTotal",
       uploadedKey: "tankMeasurementsUploaded",
     },
     {
-      type: t("uploadInformation.inTankDeliveries"),
+      type: t("UploadInformationModal.inTankDeliveries"),
       totalKey: "inTankDeliveriesTotal",
       uploadedKey: "inTankDeliveriesUploaded",
     },
     {
-      type: t("uploadInformation.gpsRecords"),
+      type: t("UploadInformationModal.gpsRecords"),
       totalKey: "gpsRecordsTotal",
       uploadedKey: "gpsRecordsUploaded",
     },
     {
-      type: t("uploadInformation.alertRecords"),
+      type: t("UploadInformationModal.alertRecords"),
       totalKey: "alertRecordsTotal",
       uploadedKey: "alertRecordsUploaded",
     },
@@ -71,23 +73,24 @@ const UploadInformationModal = () => {
     totally: information?.[mapItem.totalKey] ?? 0,
     uploaded: information?.[mapItem.uploadedKey] ?? 0,
   }));
+  console.log("tableData:", tableData);
 
-  const columns: UIColumnDefinitionType<uploadInformation>[] = [
+  const columns: UIColumnDefinitionType<any>[] = [
     {
       header: "#",
       key: "#",
       render: (item) => <div>{item.index}</div>,
     },
     {
-      header: t("uploadInformation.type"),
+      header: t("UploadInformationModal.type"),
       key: "type",
     },
     {
-      header: t("uploadInformation.totally"),
+      header: t("UploadInformationModal.totally"),
       key: "totally",
     },
     {
-      header: t("uploadInformation.uploaded"),
+      header: t("UploadInformationModal.uploaded"),
       key: "uploaded",
     },
   ];
@@ -123,9 +126,9 @@ const UploadInformationModal = () => {
         {!isLoading ? (
           <Scrollbars style={{ height: "calc(70vh - 185px)" }}>
             <UITable
-              data={information}
+              data={tableData}
               columns={filteredColumns}
-              emptyListMessage={t("uploadlnformation.noLogs")}
+              emptyListMessage={t("UploadInformationModal.noinfo")}
             />
           </Scrollbars>
         ) : (

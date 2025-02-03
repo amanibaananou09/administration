@@ -15,6 +15,7 @@ import FilterLog from "../Filter/FilterLog";
 import Scrollbars from "react-custom-scrollbars";
 import { SkeletonTable } from "../Skeleton/Skeletons";
 import ColumnSelector from "../ColumnSelector/ColumnSelector";
+import LogExporter from "../Exporter/LogExporter";
 
 const LogModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -128,6 +129,7 @@ const LogModal = () => {
       isOpen={isOpen}
       onClose={closeModalHandler}
       logData={log}
+      ExporterComponent={LogExporter}
     >
       <Box my="20px">
         <FilterLog onSearch={handleSearchFilters} onClear={clearFilters} />

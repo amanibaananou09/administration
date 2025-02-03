@@ -247,5 +247,17 @@
     "noLogs": "Aucun log trouvé pour la période spécifiée.",
     "resource": "Ressource",
     "impersonation": "Impersonation"
+  },
+  "UploadInformationModal": {
+    "title": "Informations du contrôleur",
+    "pumpTransactions": "Pompe transactions",
+    "tankMeasurements": "Mesures du réservoir",
+    "inTankDeliveries": "Remplissage du réservoir",
+    "gpsRecords": "Données GPS",
+    "alertRecords": "Alertes",
+    "type": "Type",
+    "totally":"Totaux",
+    "uploaded": "Transmis",
+    "noinfo": "Aucun informations du contrôleur trouvé"
   }
 }

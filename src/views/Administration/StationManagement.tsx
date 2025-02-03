@@ -153,7 +153,7 @@ const StationManagement = () => {
       key: "modeAffectation",
     },
     {
-      header: t("stationManagement.uploadInformation"),
+      header: t("UploadInformationModal.title"),
       key: "information",
       render: (item: GeneralStations) => (
         <Flex justifyContent="center">

@@ -246,5 +246,17 @@
     "noLogs": "No logs found for the specified period.",
     "resource": "Resource",
     "impersonation": "Impersonation"
+  },
+  "UploadInformationModal": {
+     "title": "Controller information",
+    "pumpTransactions": "Pump transactions",
+    "tankMeasurements": "Tank measurements",
+    "inTankDeliveries": "Tank deliveries",
+    "gpsRecords": "GPS records",
+    "alertRecords": "Alerts",
+    "type": "Type",
+    "totally":"totals",
+    "uploaded": "Transmitted",
+    "noinfo": "No controller information found"
   }
 }

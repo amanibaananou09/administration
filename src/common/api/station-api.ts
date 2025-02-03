@@ -163,7 +163,7 @@ export const getUploadedInformation = async (
   customerAccountId: string,
   ptsId: string,
 ) => {
-  const response = await api.get(
+  const response = await api.post(
     `${API_URL}/${customerAccountId}/station/${ptsId}`,
   );
 
