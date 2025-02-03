@@ -258,6 +258,10 @@
     "type": "Type",
     "totally":"Totaux",
     "uploaded": "Transmis",
-    "noinfo": "Aucun informations du contrôleur trouvé"
+    "noinfo": "Aucun informations du contrôleur trouvé",
+    "toast": {
+      "title": "Retard de réception du contrôleur",
+      "description": "Le modal va se fermer automatiquement."
+    }
   }
 }

@@ -257,6 +257,10 @@
     "type": "Type",
     "totally":"totals",
     "uploaded": "Transmitted",
-    "noinfo": "No controller information found"
+    "noinfo": "No controller information found",
+    "toast": {
+      "title": "Controller reception delay",
+      "description": "The modal will close automatically."
+    }
   }
 }

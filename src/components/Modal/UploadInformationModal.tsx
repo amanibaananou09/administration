@@ -26,7 +26,6 @@ const UploadInformationModal = () => {
     customerAccountId!!,
     ptsId,
   );
-  console.log("infor:", information);
 
   useEffect(() => {
     onOpen();
@@ -73,7 +72,25 @@ const UploadInformationModal = () => {
     totally: information?.[mapItem.totalKey] ?? 0,
     uploaded: information?.[mapItem.uploadedKey] ?? 0,
   }));
-  console.log("tableData:", tableData);
+
+  useEffect(() => {
+    if (!information) {
+      const timer = setTimeout(() => {
+        toast({
+          title: t("UploadInformationModal.toast.title"),
+          description: t("UploadInformationModal.toast.description"),
+          status: "warning",
+          position: "top",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        closeModalHandler();
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, toast, t]);
 
   const columns: UIColumnDefinitionType<any>[] = [
     {
@@ -123,7 +140,7 @@ const UploadInformationModal = () => {
           setVisibleColumns={setVisibleColumns}
         />
 
-        {!isLoading ? (
+        {!isLoading && information ? (
           <Scrollbars style={{ height: "calc(70vh - 185px)" }}>
             <UITable
               data={tableData}
