@@ -23,7 +23,6 @@ import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
 import UploadInformationModal from "../../components/Modal/UploadInformationModal";
-import { FaTableList } from "react-icons/fa6";
 
 const StationManagement = () => {
   const history = useHistory();
@@ -50,9 +49,7 @@ const StationManagement = () => {
       activate(item.id);
     }
   };
-  const handleInformation = (ptsId: String) => {
-    history.push(`${path}/information/${ptsId}`);
-  };
+
   const submitModalHandler = async () => {};
 
   const columns: UIColumnDefinitionType<GeneralStations>[] = [
@@ -97,6 +94,19 @@ const StationManagement = () => {
     {
       header: t("stationManagement.controllerId"),
       key: "controllerPts.ptsId",
+      render: (item) => (
+        <div
+          style={{
+            cursor: "pointer",
+            textDecoration: "underline",
+          }}
+          onClick={() => {
+            history.push(`${path}/information/${item.controllerPts.ptsId}`);
+          }}
+        >
+          {item.controllerPts.ptsId}
+        </div>
+      ),
     },
     {
       header: t("stationManagement.phone"),
@@ -152,18 +162,7 @@ const StationManagement = () => {
       header: t("stationManagement.modeAffectation"),
       key: "modeAffectation",
     },
-    {
-      header: t("UploadInformationModal.title"),
-      key: "information",
-      render: (item: GeneralStations) => (
-        <Flex justifyContent="center">
-          <FaTableList
-            style={{ cursor: "pointer" }}
-            onClick={() => handleInformation(item.controllerPts.ptsId)}
-          />
-        </Flex>
-      ),
-    },
+
     {
       header: t("common.action"),
       key: "action",

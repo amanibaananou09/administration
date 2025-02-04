@@ -11,6 +11,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { SkeletonTable } from "../Skeleton/Skeletons";
 import ColumnSelector from "../ColumnSelector/ColumnSelector";
 import { useUploadedInformation } from "../../hooks/use-station";
+import { useFirmwareVersion } from "../../hooks/user-configuration";
 
 const UploadInformationModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -19,7 +20,7 @@ const UploadInformationModal = () => {
   const { ptsId } = useParams<{ ptsId: string }>();
   const { user } = useAuth();
   const toast = useToast();
-
+  const { firmwareVersion, isLoadingg } = useFirmwareVersion(ptsId);
   const customerAccountId = user?.customerAccountId;
 
   const { information, isLoading } = useUploadedInformation(
@@ -35,8 +36,27 @@ const UploadInformationModal = () => {
     onClose();
     history.replace("/administration/stations");
   };
-
-  let modalTitle = t("UploadInformationModal.title");
+  let modalTitle = t("UploadInformationModal.title", {
+    firmwareVersion:
+      firmwareVersion &&
+      !isNaN(
+        new Date(
+          firmwareVersion.replace(/^(\d{2})-(\d{2})-(\d{2})T/, "20$1-$2-$3T"),
+        ).getTime(),
+      )
+        ? new Date(
+            firmwareVersion.replace(/^(\d{2})-(\d{2})-(\d{2})T/, "20$1-$2-$3T"),
+          ).toLocaleString("fr-FR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+          })
+        : "--",
+  });
 
   const dataMapping = [
     {
