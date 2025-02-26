@@ -157,7 +157,7 @@
     "controller": "Controller",
     "controllerId": "ID du contrôleur",
     "connection": "Dernière connexion",
-    "created": "Créée le",
+    "created": "Crée le",
     "modeAffectation": "Mode d'affectation",
     "isLoading": "Vous ne possédez pas de station",
     "stationActivated": "La station {{stationName}} a été activée avec succès.",
@@ -247,5 +247,21 @@
     "noLogs": "Aucun log trouvé pour la période spécifiée.",
     "resource": "Ressource",
     "impersonation": "Impersonation"
+  },
+  "UploadInformationModal": {
+    "title": "Informations du contrôleur pour la version {{firmwareVersion}}",
+    "pumpTransactions": "Pompe transactions",
+    "tankMeasurements": "Mesures du réservoir",
+    "inTankDeliveries": "Remplissage du réservoir",
+    "gpsRecords": "Données GPS",
+    "alertRecords": "Alertes",
+    "type": "Type",
+    "totally":"Totaux",
+    "uploaded": "Transmis",
+    "noinfo": "Aucun informations du contrôleur trouvé",
+    "toast": {
+      "title": "Retard de réception du contrôleur",
+      "description": "Le modal va se fermer automatiquement."
+    }
   }
 }

@@ -1,93 +1,75 @@
-import React from "react";
-import { Checkbox, Flex, Box } from "@chakra-ui/react";
-import { UIColumnDefinitionType } from "components/UI/Table/Types";
+import React, { useState } from "react";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
+import { FaEllipsisV, FaCheckSquare, FaSquare } from "react-icons/fa";
 
-interface ColumnSelectionDropdownProps {
-  columns: UIColumnDefinitionType<any>[];
+interface ColumnSelectorProps {
+  allColumns: { key: string; header: string }[];
   visibleColumns: string[];
   setVisibleColumns: React.Dispatch<React.SetStateAction<string[]>>;
-  setDisplayedColumns: React.Dispatch<
-    React.SetStateAction<UIColumnDefinitionType<any>[]>
-  >;
-  isOpen: boolean;
-  onClose: () => void;
 }
 
-const ColumnSelectionDropdown = ({
-  columns,
+const ColumnSelector = ({
+  allColumns,
   visibleColumns,
   setVisibleColumns,
-  setDisplayedColumns,
-  isOpen,
-  onClose,
-}: ColumnSelectionDropdownProps) => {
-  const toggleColumnVisibility = (columnKey: string | undefined) => {
-    if (columnKey && columnKey !== "#") {
-      setVisibleColumns((prevVisibleColumns) => {
-        const isColumnKeyVisible = prevVisibleColumns.includes(columnKey);
-        let updatedVisibleColumns = isColumnKeyVisible
-          ? prevVisibleColumns.filter((key) => key !== columnKey)
-          : [...prevVisibleColumns, columnKey];
+}: ColumnSelectorProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-        if (!updatedVisibleColumns.includes("#")) {
-          updatedVisibleColumns = ["#", ...updatedVisibleColumns];
-        }
-        if (
-          updatedVisibleColumns.length === 1 &&
-          updatedVisibleColumns[0] === "#"
-        ) {
-          updatedVisibleColumns = [];
-        }
-        // Update displayedColumns based on updatedVisibleColumns
-        const updatedDisplayedColumns = columns.filter((col) =>
-          updatedVisibleColumns.includes(col.key as string),
-        ) as UIColumnDefinitionType<any>[];
+  const toggleColumnVisibility = (key: string) => {
+    // Assurez-vous que la colonne "#" est toujours affichée
+    if (key === "#") return;
 
-        setDisplayedColumns(
-          updatedDisplayedColumns.length > 0
-            ? updatedDisplayedColumns
-            : columns,
-        );
-        onClose();
-        return updatedVisibleColumns;
-      });
-    }
+    setVisibleColumns((prev: string[]) => {
+      const updatedColumns = prev.includes(key)
+        ? prev.filter((col: string) => col !== key)
+        : [...prev, key];
+
+      // Ajouter "#" automatiquement si elle n'est pas incluse
+      if (!updatedColumns.includes("#")) {
+        updatedColumns.unshift("#");
+      }
+
+      return updatedColumns;
+    });
   };
 
   return (
-    <Flex justifyContent="flex-end" position="relative">
-      {isOpen && (
-        <Box
-          position="absolute"
-          top="40px"
-          right="0"
-          bg="white"
-          border="1px solid"
-          borderColor="gray.300"
-          borderRadius="md"
-          p="2"
-          zIndex="100"
-          display="flex"
-          flexDirection="column"
-        >
-          {columns.map((col) => {
-            if (typeof col.key === "string") {
-              return (
-                <Checkbox
-                  key={col.key}
-                  isChecked={visibleColumns.includes(col.key)}
-                  onChange={() => toggleColumnVisibility(col.key)}
-                >
-                  {col.header}
-                </Checkbox>
-              );
-            }
-            return null;
-          })}
-        </Box>
-      )}
-    </Flex>
+    <Menu isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <MenuButton
+        as={Button}
+        onClick={() => setIsOpen(!isOpen)}
+        bg="white"
+        mr={1}
+      >
+        <FaEllipsisV />
+      </MenuButton>
+      <MenuList>
+        {allColumns.map((column) => (
+          <MenuItem
+            key={column.key}
+            onClick={() => toggleColumnVisibility(column.key)}
+          >
+            <Flex align="center">
+              {visibleColumns.includes(column.key) ? (
+                <FaCheckSquare color="blue" style={{ marginRight: "8px" }} />
+              ) : (
+                <FaSquare color="gray" style={{ marginRight: "8px" }} />
+              )}
+              <Text>{column.header}</Text>
+            </Flex>
+          </MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
   );
 };
 
-export default ColumnSelectionDropdown;
+export default ColumnSelector;

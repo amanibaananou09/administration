@@ -9,18 +9,16 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import { Mode } from "common/enums";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Log } from "../../../common/AdminModel";
-import LogExporter from "../../Exporter/LogExporter";
 
 type UITableModalProps = {
   title: string;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  logData?: Log[];
+  logData?: any;
+  ExporterComponent?: React.ComponentType<{ logs: any }>;
 };
 
 const UITableModal = ({
@@ -29,6 +27,7 @@ const UITableModal = ({
   onClose,
   children,
   logData,
+  ExporterComponent,
 }: UITableModalProps) => {
   const { t } = useTranslation();
 
@@ -51,7 +50,8 @@ const UITableModal = ({
         <ModalBody mb="24px">{children}</ModalBody>
         <ModalFooter>
           <Flex w="100%" justifyContent="space-between">
-            <LogExporter logs={logData || []} />
+            {ExporterComponent &&
+              React.createElement(ExporterComponent, { logs: logData ?? [] })}
             <Button
               fontSize="md"
               colorScheme="red"

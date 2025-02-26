@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Input,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import UITableModal from "../UI/Modal/UITableModal";
 import UITable from "../UI/Table/UITable";
 import { useLog } from "../../hooks/use-user";
 import { UIColumnDefinitionType } from "../UI/Table/Types";
-import { GeneralUser, Log } from "../../common/AdminModel";
+import { Log } from "../../common/AdminModel";
 import { formatDate } from "../../utils/utils";
 import { useAuth } from "../../store/AuthContext";
 import { useParams } from "react-router-dom";
@@ -21,8 +14,8 @@ import { LogCreteria } from "../../common/model";
 import FilterLog from "../Filter/FilterLog";
 import Scrollbars from "react-custom-scrollbars";
 import { SkeletonTable } from "../Skeleton/Skeletons";
-import ColumnSelectionDropdown from "../ColumnSelector/ColumnSelector";
-import { FaEllipsisV } from "react-icons/fa";
+import ColumnSelector from "../ColumnSelector/ColumnSelector";
+import LogExporter from "../Exporter/LogExporter";
 
 const LogModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,7 +24,6 @@ const LogModal = () => {
   const { userId } = useParams<{ userId: string }>();
   const { user } = useAuth();
   const customerAccountId = user?.customerAccountId;
-  const [isOpens, setIsOpen] = useState<boolean>(false);
 
   const [creteria, setCreteria] = useState<LogCreteria>({
     startDate: "",
@@ -120,10 +112,11 @@ const LogModal = () => {
     },
   ];
 
-  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-  const [displayedColumns, setDisplayedColumns] = useState<
-    UIColumnDefinitionType<Log>[]
-  >([]);
+  const [visibleColumns, setVisibleColumns] = useState<string[]>(
+    columns
+      .map((column) => column.key)
+      .filter((key): key is string => key !== undefined),
+  );
 
   const filteredColumns =
     visibleColumns.length > 0
@@ -136,22 +129,21 @@ const LogModal = () => {
       isOpen={isOpen}
       onClose={closeModalHandler}
       logData={log}
+      ExporterComponent={LogExporter}
     >
       <Box my="20px">
         <FilterLog onSearch={handleSearchFilters} onClear={clearFilters} />
       </Box>
-      <ColumnSelectionDropdown
-        columns={columns}
-        visibleColumns={visibleColumns}
-        setVisibleColumns={setVisibleColumns}
-        setDisplayedColumns={setDisplayedColumns}
-        isOpen={isOpens}
-        onClose={() => setIsOpen(false)}
-      />
+
       <Flex direction="row-reverse">
-        <Button size="sm" onClick={() => setIsOpen(!isOpens)} bg="white" mr={1}>
-          <FaEllipsisV />
-        </Button>
+        <ColumnSelector
+          allColumns={columns.map((column) => ({
+            ...column,
+            key: column.key ?? "defaultKey",
+          }))}
+          visibleColumns={visibleColumns}
+          setVisibleColumns={setVisibleColumns}
+        />
 
         {!isLoading ? (
           <Scrollbars style={{ height: "calc(70vh - 185px)" }}>

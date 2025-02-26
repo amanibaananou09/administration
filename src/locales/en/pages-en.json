@@ -246,5 +246,21 @@
     "noLogs": "No logs found for the specified period.",
     "resource": "Resource",
     "impersonation": "Impersonation"
+  },
+  "UploadInformationModal": {
+     "title": "Controller information for Version {{firmwareVersion}}",
+    "pumpTransactions": "Pump transactions",
+    "tankMeasurements": "Tank measurements",
+    "inTankDeliveries": "Tank deliveries",
+    "gpsRecords": "GPS records",
+    "alertRecords": "Alerts",
+    "type": "Type",
+    "totally":"totals",
+    "uploaded": "Transmitted",
+    "noinfo": "No controller information found",
+    "toast": {
+      "title": "Controller reception delay",
+      "description": "The modal will close automatically."
+    }
   }
 }
