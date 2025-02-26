@@ -259,7 +259,7 @@
     "uploaded": "Transmitted",
     "noinfo": "No controller information found",
     "toast": {
-      "title": "Controller reception delay",
+      "title": "No communication with the controller",
       "description": "The modal will close automatically."
     }
   }
