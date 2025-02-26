@@ -260,7 +260,7 @@
     "uploaded": "Transmis",
     "noinfo": "Aucun informations du contrôleur trouvé",
     "toast": {
-      "title": "Retard de réception du contrôleur",
+      "title": "Pas de communication avec le contrôleur",
       "description": "Le modal va se fermer automatiquement."
     }
   }
