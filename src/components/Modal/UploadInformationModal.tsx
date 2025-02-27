@@ -10,23 +10,31 @@ import { useParams } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
 import { SkeletonTable } from "../Skeleton/Skeletons";
 import ColumnSelector from "../ColumnSelector/ColumnSelector";
-import { useUploadedInformation } from "../../hooks/use-station";
-import { useFirmwareVersion } from "../../hooks/user-configuration";
+import {
+  useStationById,
+  useUploadedInformation,
+} from "../../hooks/use-station";
+import { useFirmwareVersion } from "../../hooks/use-configuration";
+import { useDateByController } from "../../hooks/use-controller";
+import moment from "moment";
 
 const UploadInformationModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation();
   const history = useHistory();
   const { ptsId } = useParams<{ ptsId: string }>();
+  const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const toast = useToast();
   const { firmwareVersion, isLoadingg } = useFirmwareVersion(ptsId);
   const customerAccountId = user?.customerAccountId;
 
+  const { station } = useStationById(+id);
   const { information, isLoading } = useUploadedInformation(
     customerAccountId!!,
     ptsId,
   );
+  const { DateTime, isLoadings } = useDateByController(station);
 
   useEffect(() => {
     onOpen();
@@ -36,27 +44,42 @@ const UploadInformationModal = () => {
     onClose();
     history.replace("/administration/stations");
   };
-  let modalTitle = t("UploadInformationModal.title", {
-    firmwareVersion:
-      firmwareVersion &&
-      !isNaN(
-        new Date(
-          firmwareVersion.replace(/^(\d{2})-(\d{2})-(\d{2})T/, "20$1-$2-$3T"),
-        ).getTime(),
-      )
-        ? new Date(
-            firmwareVersion.replace(/^(\d{2})-(\d{2})-(\d{2})T/, "20$1-$2-$3T"),
-          ).toLocaleString("fr-FR", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false,
-          })
-        : "--",
-  });
+  let modalTitle = (
+    <>
+      {t("UploadInformationModal.title.firstLine")}
+      <br />
+      {t("UploadInformationModal.title.secondLine", {
+        firmwareVersion:
+          firmwareVersion &&
+          !isNaN(
+            new Date(
+              firmwareVersion.replace(
+                /^(\d{2})-(\d{2})-(\d{2})T/,
+                "20$1-$2-$3T",
+              ),
+            ).getTime(),
+          )
+            ? new Date(
+                firmwareVersion.replace(
+                  /^(\d{2})-(\d{2})-(\d{2})T/,
+                  "20$1-$2-$3T",
+                ),
+              ).toLocaleString("fr-FR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
+              })
+            : "--",
+        dateTime: DateTime?.DateTime
+          ? moment(DateTime.DateTime).format("DD/MM/YYYY HH:mm:ss")
+          : "--",
+      })}
+    </>
+  );
 
   const dataMapping = [
     {
@@ -94,7 +117,7 @@ const UploadInformationModal = () => {
   }));
 
   useEffect(() => {
-    if (!information) {
+    if (!information || !DateTime?.DateTime) {
       const timer = setTimeout(() => {
         toast({
           title: t("UploadInformationModal.toast.title"),

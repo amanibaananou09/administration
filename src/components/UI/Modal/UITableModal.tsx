@@ -13,7 +13,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 type UITableModalProps = {
-  title: string;
+  title: string | React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;

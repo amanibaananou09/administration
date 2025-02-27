@@ -248,7 +248,10 @@
     "impersonation": "Impersonation"
   },
   "UploadInformationModal": {
-     "title": "Controller information for Version {{firmwareVersion}}",
+    "title":{
+      "firstLine": "Information of records downloaded from the Controller",
+      "secondLine": "(version {{firmwareVersion}}) au {{dateTime}}"
+    },
     "pumpTransactions": "Pump transactions",
     "tankMeasurements": "Tank measurements",
     "inTankDeliveries": "Tank deliveries",
