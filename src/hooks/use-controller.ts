@@ -10,7 +10,7 @@ export const useDateByController = (station: GeneralStations | undefined) => {
   const { data: DateTime, isLoading: isLoadings, error } = useQuery({
     queryKey: ["DateTime", station?.id, customerAccountId],
     queryFn: () => dateTime(customerAccountId, station?.id),
-    enabled: !!station?.id,
+    enabled: !!(station && customerAccountId),
   });
 
   return {
