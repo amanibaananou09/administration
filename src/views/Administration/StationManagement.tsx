@@ -101,7 +101,9 @@ const StationManagement = () => {
             textDecoration: "underline",
           }}
           onClick={() => {
-            history.push(`${path}/information/${item.controllerPts.ptsId}`);
+            history.push(
+              `${path}/information/${item.controllerPts.ptsId}/${item.id}`,
+            );
           }}
         >
           {item.controllerPts.ptsId}
@@ -257,7 +259,7 @@ const StationManagement = () => {
         <Route path={`${path}/details/:id`}>
           <StationModal onSubmit={submitModalHandler} mode={Mode.VIEW} />
         </Route>
-        <Route path={`${path}/information/:ptsId`}>
+        <Route path={`${path}/information/:ptsId/:id`}>
           <UploadInformationModal />
         </Route>
       </Switch>

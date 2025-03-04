@@ -237,3 +237,8 @@ export interface Log {
   impersonationMode?: boolean;
   impersonatorUserName?: string;
 }
+export interface PTSDateTime {
+  DateTime: string;
+  autoSynchronize?: boolean;
+  uTCOffset?: number;
+}

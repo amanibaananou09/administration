@@ -249,7 +249,10 @@
     "impersonation": "Impersonation"
   },
   "UploadInformationModal": {
-    "title": "Informations du contrôleur pour la version {{firmwareVersion}}",
+    "title":{
+      "firstLine": "Information des enregistrements téléchargés du Contrôleur",
+      "secondLine": "(version {{firmwareVersion}}) au {{dateTime}}"
+    },
     "pumpTransactions": "Pompe transactions",
     "tankMeasurements": "Mesures du réservoir",
     "inTankDeliveries": "Remplissage du réservoir",
