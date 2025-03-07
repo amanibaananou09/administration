@@ -15,7 +15,6 @@ export const useDateByController = (
     queryKey: ["DateTime", station?.id, customerAccountId],
     queryFn: () => dateTime(customerAccountId, station?.id),
     enabled: !!(station?.id && customerAccountId),
-    refetchInterval: 5000,
   });
 
   return {
