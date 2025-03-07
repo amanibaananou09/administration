@@ -26,19 +26,45 @@ const UploadInformationModal = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const toast = useToast();
-  const { firmwareVersion, isLoadingg } = useFirmwareVersion(ptsId);
   const customerAccountId = user?.customerAccountId;
 
+  const { firmwareVersion, isLoadingg } = useFirmwareVersion(ptsId);
   const { station } = useStationById(+id);
   const { information, isLoading } = useUploadedInformation(
     customerAccountId!!,
     ptsId,
   );
-  const { DateTime, isLoadings } = useDateByController(station);
+  const { DateTime, isLoadings, refetchDateTime, error } = useDateByController(
+    station,
+    user?.customerAccountId,
+  );
+
+  const [currentDateTime, setCurrentDateTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen && DateTime?.DateTime) {
+      refetchDateTime();
+      const initialDate = moment(DateTime.DateTime).format(
+        "YYYY-MM-DDTHH:mm:ss",
+      );
+      setCurrentDateTime(initialDate);
+
+      const interval = setInterval(() => {
+        setCurrentDateTime((prevDate) => {
+          return moment(prevDate)
+            .add(1, "second")
+            .format("YYYY-MM-DDTHH:mm:ss");
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isOpen, DateTime]);
 
   useEffect(() => {
     onOpen();
-  }, [onOpen]);
+    refetchDateTime();
+  }, [onOpen, refetchDateTime]);
 
   const closeModalHandler = () => {
     onClose();
@@ -53,14 +79,14 @@ const UploadInformationModal = () => {
           firmwareVersion &&
           !isNaN(
             new Date(
-              firmwareVersion.replace(
+              firmwareVersion.dateTime.replace(
                 /^(\d{2})-(\d{2})-(\d{2})T/,
                 "20$1-$2-$3T",
               ),
             ).getTime(),
           )
             ? new Date(
-                firmwareVersion.replace(
+                firmwareVersion.dateTime.replace(
                   /^(\d{2})-(\d{2})-(\d{2})T/,
                   "20$1-$2-$3T",
                 ),
@@ -74,8 +100,8 @@ const UploadInformationModal = () => {
                 hour12: false,
               })
             : "--",
-        dateTime: DateTime?.DateTime
-          ? moment(DateTime.DateTime).format("DD/MM/YYYY HH:mm:ss")
+        dateTime: currentDateTime
+          ? moment(currentDateTime).format("DD/MM/YYYY HH:mm:ss")
           : "--",
       })}
     </>
@@ -117,7 +143,7 @@ const UploadInformationModal = () => {
   }));
 
   useEffect(() => {
-    if (!information || !DateTime?.DateTime) {
+    if (!information || !DateTime?.DateTime || error) {
       const timer = setTimeout(() => {
         toast({
           title: t("UploadInformationModal.toast.title"),
@@ -133,7 +159,7 @@ const UploadInformationModal = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [isLoading, toast, t]);
+  }, [isLoading, toast, t, error, DateTime?.DateTime, information]);
 
   const columns: UIColumnDefinitionType<any>[] = [
     {
