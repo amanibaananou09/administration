@@ -26,22 +26,36 @@ const UploadInformationModal = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const toast = useToast();
-  const { firmwareVersion, isLoadingg } = useFirmwareVersion(ptsId);
   const customerAccountId = user?.customerAccountId;
 
+  const { firmwareVersion, isLoadingg } = useFirmwareVersion(ptsId);
   const { station } = useStationById(+id);
   const { information, isLoading } = useUploadedInformation(
     customerAccountId!!,
     ptsId,
   );
-  const { DateTime, isLoadings } = useDateByController(station);
+  const { DateTime, isLoadings, error } = useDateByController(
+    station,
+    user?.customerAccountId,
+  );
+
+  const [localControllerDateTime, setLocalControllerDateTime] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     onOpen();
-  }, [onOpen]);
+  }, [onOpen, +ptsId, +id]);
+
+  useEffect(() => {
+    if (DateTime?.DateTime) {
+      setLocalControllerDateTime(DateTime.DateTime);
+    }
+  }, [DateTime]);
 
   const closeModalHandler = () => {
     onClose();
+    setLocalControllerDateTime(null);
     history.replace("/administration/stations");
   };
   let modalTitle = (
@@ -53,14 +67,14 @@ const UploadInformationModal = () => {
           firmwareVersion &&
           !isNaN(
             new Date(
-              firmwareVersion.replace(
+              firmwareVersion.dateTime.replace(
                 /^(\d{2})-(\d{2})-(\d{2})T/,
                 "20$1-$2-$3T",
               ),
             ).getTime(),
           )
             ? new Date(
-                firmwareVersion.replace(
+                firmwareVersion.dateTime.replace(
                   /^(\d{2})-(\d{2})-(\d{2})T/,
                   "20$1-$2-$3T",
                 ),
@@ -74,8 +88,8 @@ const UploadInformationModal = () => {
                 hour12: false,
               })
             : "--",
-        dateTime: DateTime?.DateTime
-          ? moment(DateTime.DateTime).format("DD/MM/YYYY HH:mm:ss")
+        dateTime: localControllerDateTime
+          ? moment(localControllerDateTime).format("DD/MM/YYYY HH:mm:ss")
           : "--",
       })}
     </>
@@ -117,7 +131,7 @@ const UploadInformationModal = () => {
   }));
 
   useEffect(() => {
-    if (!information || !DateTime?.DateTime) {
+    if (!information || !DateTime?.DateTime || error) {
       const timer = setTimeout(() => {
         toast({
           title: t("UploadInformationModal.toast.title"),
@@ -133,7 +147,7 @@ const UploadInformationModal = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [isLoading, toast, t]);
+  }, [isLoading, toast, t, error, DateTime?.DateTime, information]);
 
   const columns: UIColumnDefinitionType<any>[] = [
     {
