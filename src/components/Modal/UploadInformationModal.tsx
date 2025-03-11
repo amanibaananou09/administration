@@ -34,40 +34,28 @@ const UploadInformationModal = () => {
     customerAccountId!!,
     ptsId,
   );
-  const { DateTime, isLoadings, refetchDateTime, error } = useDateByController(
+  const { DateTime, isLoadings, error } = useDateByController(
     station,
     user?.customerAccountId,
   );
 
-  const [currentDateTime, setCurrentDateTime] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (isOpen && DateTime?.DateTime) {
-      refetchDateTime();
-      const initialDate = moment(DateTime.DateTime).format(
-        "YYYY-MM-DDTHH:mm:ss",
-      );
-      setCurrentDateTime(initialDate);
-
-      const interval = setInterval(() => {
-        setCurrentDateTime((prevDate) => {
-          return moment(prevDate)
-            .add(1, "second")
-            .format("YYYY-MM-DDTHH:mm:ss");
-        });
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [isOpen, DateTime]);
+  const [localControllerDateTime, setLocalControllerDateTime] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     onOpen();
-    refetchDateTime();
-  }, [onOpen, refetchDateTime]);
+  }, [onOpen, +ptsId, +id]);
+
+  useEffect(() => {
+    if (DateTime?.DateTime) {
+      setLocalControllerDateTime(DateTime.DateTime);
+    }
+  }, [DateTime]);
 
   const closeModalHandler = () => {
     onClose();
+    setLocalControllerDateTime(null);
     history.replace("/administration/stations");
   };
   let modalTitle = (
@@ -100,8 +88,8 @@ const UploadInformationModal = () => {
                 hour12: false,
               })
             : "--",
-        dateTime: currentDateTime
-          ? moment(currentDateTime).format("DD/MM/YYYY HH:mm:ss")
+        dateTime: localControllerDateTime
+          ? moment(localControllerDateTime).format("DD/MM/YYYY HH:mm:ss")
           : "--",
       })}
     </>

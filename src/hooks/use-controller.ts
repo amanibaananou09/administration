@@ -6,12 +6,7 @@ export const useDateByController = (
   station: GeneralStations | undefined,
   customerAccountId: string | undefined,
 ) => {
-  const {
-    data: DateTime,
-    isLoading: isLoadings,
-    error,
-    refetch: refetchDateTime,
-  } = useQuery({
+  const { data: DateTime, isLoading: isLoadings, error } = useQuery({
     queryKey: ["DateTime", station?.id, customerAccountId],
     queryFn: () => dateTime(customerAccountId, station?.id),
     enabled: !!(station?.id && customerAccountId),
@@ -21,6 +16,5 @@ export const useDateByController = (
     DateTime,
     isLoadings,
     error,
-    refetchDateTime,
   };
 };
