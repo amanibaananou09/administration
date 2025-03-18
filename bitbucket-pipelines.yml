@@ -106,6 +106,7 @@ pipelines:
           deployment: recette
     '*':
       - step: *install-dependencies
+      - step: *quality
       - step: *build-and-test
   tags:
     '*':
