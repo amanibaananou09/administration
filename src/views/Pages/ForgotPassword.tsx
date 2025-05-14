@@ -8,6 +8,8 @@ import {
   FormControl,
   Input,
   Text,
+  FlexProps,
+  BoxProps,
 } from "@chakra-ui/react";
 import { forgotPassword } from "common/api/forgot-password-api";
 import LanguageSelector from "components/LanguageSelector";
@@ -17,28 +19,30 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import BgSignUp from "../../assets/img/BgSignUp.png";
 import Logo from "../../assets/img/Stationnex.png";
+import * as validator from "validator";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [resetSuccess, setResetSuccess] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
   const { t } = useTranslation();
   const history = useHistory();
-  const [success, setSuccess] = useState<boolean>(false);
 
   const handleMail = async (e: any) => {
     e.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email.trim()) {
       setError(t("ForgotPassword.errorVide"));
       return;
     }
-    if (!emailRegex.test(email)) {
+
+    if (!validator.isEmail(email)) {
       setError(t("ForgotPassword.errorInvalid"));
       return;
     }
+
     setIsLoading(true);
     try {
       await forgotPassword(email);
@@ -52,36 +56,58 @@ const ForgotPassword = () => {
       setIsLoading(false);
     }
   };
+
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      handleMail((event as unknown) as React.MouseEvent<HTMLButtonElement>);
+      handleMail(new MouseEvent("click"));
     }
   };
+
+  const containerStyles: FlexProps = {
+    direction: "column",
+    alignSelf: "center",
+    justifySelf: "center",
+    overflow: "hidden",
+  };
+
+  const bgBoxStyles: BoxProps = {
+    position: "absolute",
+    minH: { base: "70vh", md: "50vh" },
+    maxH: { base: "70vh", md: "50vh" },
+    w: { md: "calc(100vw - 50px)" },
+    maxW: { md: "calc(100vw - 50px)" },
+    left: "0",
+    right: "0",
+    bgRepeat: "no-repeat",
+    overflow: "hidden",
+    zIndex: "-1",
+    top: "6",
+    bgImage: BgSignUp,
+    bgSize: "cover",
+    mx: { md: "auto" },
+    mt: { md: "14px" },
+    borderRadius: { base: "0px", md: "20px" },
+  };
+
+  const logoContainerStyles: FlexProps = {
+    direction: "column",
+    textAlign: "center",
+    justifyContent: "center",
+    align: "center",
+    mt: "125px",
+    mb: "30px",
+  };
+
+  const responsiveWidth = {
+    base: "90%",
+    sm: "60%",
+    lg: "40%",
+    xl: "333px",
+  };
+
   return (
-    <Flex
-      direction="column"
-      alignSelf="center"
-      justifySelf="center"
-      overflow="hidden"
-    >
-      <Box
-        position="absolute"
-        minH={{ base: "70vh", md: "50vh" }}
-        maxH={{ base: "70vh", md: "50vh" }}
-        w={{ md: "calc(100vw - 50px)" }}
-        maxW={{ md: "calc(100vw - 50px)" }}
-        left="0"
-        right="0"
-        bgRepeat="no-repeat"
-        overflow="hidden"
-        zIndex="-1"
-        top="6"
-        bgImage={BgSignUp}
-        bgSize="cover"
-        mx={{ md: "auto" }}
-        mt={{ md: "14px" }}
-        borderRadius={{ base: "0px", md: "20px" }}
-      >
+    <Flex {...containerStyles}>
+      <Box {...bgBoxStyles}>
         <Box w="100vw" h="100vh" bg="gray.300" opacity="0.8"></Box>
       </Box>
       <Flex
@@ -92,14 +118,7 @@ const ForgotPassword = () => {
       >
         <LanguageSelector />
       </Flex>
-      <Flex
-        direction="column"
-        textAlign="center"
-        justifyContent="center"
-        align="center"
-        mt="125px"
-        mb="30px"
-      >
+      <Flex {...logoContainerStyles}>
         <img
           src={Logo}
           alt="Stationnex Logo"
@@ -110,7 +129,7 @@ const ForgotPassword = () => {
           color="black"
           fontWeight="bold"
           mt="10px"
-          w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
+          w={responsiveWidth}
         >
           {t("signIn.title")}
         </Text>
@@ -120,7 +139,7 @@ const ForgotPassword = () => {
           fontWeight="normal"
           mt="10px"
           mb="26px"
-          w={{ base: "90%", sm: "60%", lg: "40%", xl: "333px" }}
+          w={responsiveWidth}
         ></Text>
       </Flex>
       <Flex alignItems="center" justifyContent="center" mb="60px" mt="20px">
@@ -160,9 +179,7 @@ const ForgotPassword = () => {
             />
             <Flex columnGap={4}>
               <Button
-                onClick={() => {
-                  history.push("/auth/SignIn");
-                }}
+                onClick={() => history.push("/auth/SignIn")}
                 color="gray.600"
                 bgColor="gray.300"
                 size="sm"

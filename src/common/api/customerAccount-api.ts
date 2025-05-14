@@ -1,9 +1,4 @@
-import {
-  addStations,
-  CustomerAccount,
-  Log,
-  MasterUser,
-} from "common/AdminModel";
+import { addStations, CustomerAccount, Log } from "common/AdminModel";
 import api from "./axios";
 import { LogCreteria } from "../model";
 
@@ -92,14 +87,6 @@ export const createCustomerAccount = async (
   account: CustomerAccount,
 ): Promise<CustomerAccount> => {
   const response = await api.post(`${API_URL}/add`, account);
-  return response.data;
-};
-
-export const addUser = async (
-  user: MasterUser,
-  id: number | string,
-): Promise<void> => {
-  const response = await api.post(`${API_URL}/${id}/user/add`, user);
   return response.data;
 };
 
