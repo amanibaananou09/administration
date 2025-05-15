@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">31.25% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>5/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">12.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>1/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>2/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>5/15</span>
             </div>
         
             
@@ -156,27 +156,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,11 +181,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">60x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -231,14 +231,14 @@ interface ColumnSelectorProps {
   setVisibleColumns: React.Dispatch&lt;React.SetStateAction&lt;string[]&gt;&gt;;
 }
 &nbsp;
-const ColumnSelector = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const ColumnSelector = ({
   allColumns,
   visibleColumns,
   setVisibleColumns,
 }: ColumnSelectorProps) =&gt; {
-  const [isOpen, setIsOpen] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(false);</span>
+  const [isOpen, setIsOpen] = useState&lt;boolean&gt;(false);
 &nbsp;
-  const toggleColumnVisibility = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(k</span>ey: string) =&gt; {</span>
+  const toggleColumnVisibility = <span class="fstat-no" title="function not covered" >(k</span>ey: string) =&gt; {
     // Assurez-vous que la colonne "#" est toujours affichée
 <span class="cstat-no" title="statement not covered" >    if (key === "#") <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
@@ -256,7 +256,7 @@ const ColumnSelector = <span class="cstat-no" title="statement not covered" ><sp
     });
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Menu isOpen={isOpen} onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setIsOpen(false)}</span>&gt;
       &lt;MenuButton
         as={Button}
@@ -267,8 +267,8 @@ const ColumnSelector = <span class="cstat-no" title="statement not covered" ><sp
         &lt;FaEllipsisV /&gt;
       &lt;/MenuButton&gt;
       &lt;MenuList&gt;
-        {allColumns.map(<span class="fstat-no" title="function not covered" >(c</span>olumn) =&gt; (
-<span class="cstat-no" title="statement not covered" >          &lt;MenuItem</span>
+        {allColumns.map((column) =&gt; (
+          &lt;MenuItem
             key={column.key}
             onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >toggleColumnVisibility(column.key)}</span>
           &gt;
@@ -276,7 +276,7 @@ const ColumnSelector = <span class="cstat-no" title="statement not covered" ><sp
               {visibleColumns.includes(column.key) ? (
                 &lt;FaCheckSquare color="blue" style={{ marginRight: "8px" }} /&gt;
               ) : (
-                &lt;FaSquare color="gray" style={{ marginRight: "8px" }} /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                &lt;FaSquare color="gray" style={{ marginRight: "8px" }} /&gt;</span>
               )}
               &lt;Text&gt;{column.header}&lt;/Text&gt;
             &lt;/Flex&gt;
@@ -295,7 +295,7 @@ export default ColumnSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-14T16:44:01.742Z
+                at 2025-05-15T22:41:14.684Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

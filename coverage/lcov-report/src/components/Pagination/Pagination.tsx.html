@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">42.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>6/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">28.57% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>2/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -156,23 +156,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,53 +237,53 @@ interface PaginationProps {
   defaultsize: number;
 }
 &nbsp;
-const Pagination = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const Pagination = ({
   onChange,
   totalPages,
   totalElements,
   defaultPage = <span class="branch-0 cbranch-no" title="branch not covered" >0,</span>
   defaultsize = <span class="branch-0 cbranch-no" title="branch not covered" >25,</span>
 }: PaginationProps) =&gt; {
-  const { t } = <span class="cstat-no" title="statement not covered" >useTranslation();</span>
+  const { t } = useTranslation();
 &nbsp;
-  const [currentPage, setCurrentPage] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(defaultPage);</span>
-  const [pageSize, setPageSize] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(defaultsize);</span>
+  const [currentPage, setCurrentPage] = useState&lt;number&gt;(defaultPage);
+  const [pageSize, setPageSize] = useState&lt;number&gt;(defaultsize);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    onChange(currentPage, pageSize);</span>
+  useEffect(() =&gt; {
+    onChange(currentPage, pageSize);
   }, [currentPage, pageSize]);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Box display={{ base: "none", md: "flex" }} justifyContent="flex-end" p="4"&gt;
       &lt;ButtonGroup size="sm" spacing={4}&gt;
         &lt;Button
-          isDisabled={currentPage === 0 || totalPages === 0}
+          isDisabled={currentPage === 0 || <span class="branch-1 cbranch-no" title="branch not covered" >totalPages === 0}</span>
           onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setCurrentPage(0)}</span>
         &gt;
           {"&lt;&lt;"}
         &lt;/Button&gt;
         &lt;Button
-          isDisabled={currentPage === 0 || totalPages === 0}
+          isDisabled={currentPage === 0 || <span class="branch-1 cbranch-no" title="branch not covered" >totalPages === 0}</span>
           onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setCurrentPage(currentPage - 1)}</span>
         &gt;
           {"&lt;"}
         &lt;/Button&gt;
-        &lt;Button isDisabled={currentPage === 0 || totalPages === 0}&gt;
+        &lt;Button isDisabled={currentPage === 0 || <span class="branch-1 cbranch-no" title="branch not covered" >totalPages === 0}</span>&gt;
           {t("common.page")} {currentPage + 1} {t("common.of")} {totalPages}
         &lt;/Button&gt;
         &lt;Button
-          isDisabled={currentPage === totalPages - 1 || totalPages === 0}
+          isDisabled={currentPage === totalPages - 1 || <span class="branch-1 cbranch-no" title="branch not covered" >totalPages === 0}</span>
           onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setCurrentPage(currentPage + 1)}</span>
         &gt;
           {"&gt;"}
         &lt;/Button&gt;
         &lt;Button
-          isDisabled={currentPage === totalPages - 1 || totalPages === 0}
+          isDisabled={currentPage === totalPages - 1 || <span class="branch-1 cbranch-no" title="branch not covered" >totalPages === 0}</span>
           onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setCurrentPage(totalPages - 1)}</span>
         &gt;
           {"&gt;&gt;"}
         &lt;/Button&gt;
-        &lt;Button isDisabled={currentPage === 0 || totalPages === 0}&gt;
+        &lt;Button isDisabled={currentPage === 0 || <span class="branch-1 cbranch-no" title="branch not covered" >totalPages === 0}</span>&gt;
           {totalElements} {t("common.report")}
         &lt;/Button&gt;
       &lt;/ButtonGroup&gt;
@@ -313,7 +313,7 @@ export default Pagination;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-14T16:44:01.742Z
+                at 2025-05-15T22:41:14.684Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

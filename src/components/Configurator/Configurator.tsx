@@ -46,6 +46,7 @@ const Configurator = (props: ConfiguratorProps) => {
                   {t("configurator.navbarFixed")}
                 </Text>
                 <Switch
+                  role="switch"
                   colorScheme="blue"
                   isChecked={switched}
                   onChange={() => {
