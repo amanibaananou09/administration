@@ -1,7 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { CustomerAccount, CustomerAccountCreteria } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
-
 import { Mode } from "common/enums";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -15,7 +14,6 @@ import Status from "components/Sidebar/Status";
 import { SkeletonTable } from "components/Skeleton/Skeletons";
 import { UIColumnDefinitionType } from "components/UI/Table/Types";
 import UITable from "components/UI/Table/UITable";
-
 import {
   useCustomerAccountQueries,
   useCustomerAccounts,
@@ -25,10 +23,63 @@ import { FaPencilAlt } from "react-icons/fa";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
 
+const textColor = "gray.700";
+
+interface TableContainerProps {
+  children: React.ReactNode;
+}
+
+const TableContainer = ({ children }: TableContainerProps) => (
+  <Scrollbars style={{ height: "calc(80vh - 185px)" }}>{children}</Scrollbars>
+);
+
+const HeaderTitle = () => {
+  const { t } = useTranslation();
+  return (
+    <Text fontSize="xl" color={textColor} fontWeight="bold">
+      {t("customerAccounts.header")}
+    </Text>
+  );
+};
+
+interface StatusCellProps {
+  value: boolean;
+  onClick?: () => void;
+}
+
+const StatusCell = ({ value, onClick }: StatusCellProps) => (
+  <div style={{ cursor: onClick ? "pointer" : "default" }} onClick={onClick}>
+    <Status value={value} />
+  </div>
+);
+
+interface ActionCellProps {
+  item: CustomerAccount;
+  path: string;
+}
+
+const ActionCell = ({ item, path }: ActionCellProps) => {
+  const history = useHistory();
+  return (
+    <Flex justifyContent="center">
+      <Box pr={6}>
+        <Status value={false} />
+      </Box>
+      <FaPencilAlt
+        style={{ cursor: "pointer" }}
+        onClick={() => history.push(`${path}/edit/${item.id}`)}
+      />
+    </Flex>
+  );
+};
+
 const CustomerAccountManagement = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  let { path } = useRouteMatch();
+  const { path } = useRouteMatch();
+  const { confirm, ConfirmationDialog } = useConfirm({
+    title: t("customerAccounts.exportDialog.title"),
+  });
 
   const [creteria, setCreteria] = useState<CustomerAccountCreteria>({
     page: 0,
@@ -41,26 +92,16 @@ const CustomerAccountManagement = () => {
     totalElements,
     isLoading,
   } = useCustomerAccounts(creteria);
-
   const { activate, desactivate } = useCustomerAccountQueries();
 
-  const { confirm, ConfirmationDialog } = useConfirm({
-    title: t("customerAccounts.exportDialog.title"),
-  });
-
   const updateStatus = (customerAccount: CustomerAccount) => {
-    if (customerAccount.actif && customerAccount.id) {
-      // If currently active, deactivate
-      desactivate(customerAccount.id);
-    } else if (customerAccount.id) {
-      // If currently inactive, activate
-      activate(customerAccount.id);
-    }
+    if (!customerAccount.id) return;
+    customerAccount.actif
+      ? desactivate(customerAccount.id)
+      : activate(customerAccount.id);
   };
 
   const submitModalHandler = async () => {};
-  //styles
-  const textColor = "gray.700";
 
   const columns: UIColumnDefinitionType<CustomerAccount>[] = [
     {
@@ -71,89 +112,56 @@ const CustomerAccountManagement = () => {
     {
       header: t("common.customerIdentifier"),
       key: "identifier",
-      render: (item: CustomerAccount) => (
+      render: (item) => (
         <div
-          style={{
-            cursor: "pointer",
-            textDecoration: "underline",
-          }}
-          onClick={() => {
-            history.push(`${path}/details/${item.id}`);
-          }}
+          style={{ cursor: "pointer", textDecoration: "underline" }}
+          onClick={() => history.push(`${path}/details/${item.id}`)}
         >
           {item.identifier}
         </div>
       ),
     },
-    {
-      header: t("common.name"),
-      key: "name",
-    },
-    {
-      header: t("common.creatorAccount"),
-      key: "creatorCustomerAccountName",
-    },
-    {
-      header: t("common.compteParent"),
-      key: "parentName",
-    },
+    { header: t("common.name"), key: "name" },
+    { header: t("common.creatorAccount"), key: "creatorCustomerAccountName" },
+    { header: t("common.compteParent"), key: "parentName" },
     {
       header: t("common.droits"),
       key: "droits",
-      render: (item: CustomerAccount) =>
-        item.resaleRight ? t("common.reseller") : "-",
+      render: (item) => (item.resaleRight ? t("common.reseller") : "-"),
     },
     {
       header: t("common.cardManager"),
       key: "cardManager",
-      render: (item: CustomerAccount) => <Status value={item.cardManager!!} />,
+      render: (item) => <StatusCell value={item.cardManager!!} />,
     },
     {
       header: t("common.status"),
       key: "status",
-      render: (item: CustomerAccount) => (
-        <div
-          onClick={() => {
-            const message = item.actif
-              ? t("customerAccounts.updateStatusDialog.desativationMessage")
-              : t("customerAccounts.updateStatusDialog.activationMessage");
-            const title = t("customerAccounts.updateStatusDialog.title");
-            confirm({ title, message, onConfirm: () => updateStatus(item) });
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <Status value={item.actif!!} />
-        </div>
-      ),
+      render: (item) => {
+        const message = item.actif
+          ? t("customerAccounts.updateStatusDialog.desativationMessage")
+          : t("customerAccounts.updateStatusDialog.activationMessage");
+        const title = t("customerAccounts.updateStatusDialog.title");
+        return (
+          <StatusCell
+            value={item.actif!!}
+            onClick={() =>
+              confirm({ title, message, onConfirm: () => updateStatus(item) })
+            }
+          />
+        );
+      },
     },
-    {
-      header: t("common.stations"),
-      key: "stationsCount",
-    },
+    { header: t("common.stations"), key: "stationsCount" },
     {
       header: t("common.action"),
       key: "action",
-      render: (item: CustomerAccount) => (
-        <Flex justifyContent="center">
-          <Box pr={6}>
-            <Status value={false} />
-          </Box>
-
-          <FaPencilAlt
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              history.push(`${path}/edit/${item.id}`);
-            }}
-          />
-        </Flex>
-      ),
+      render: (item) => <ActionCell item={item} path={path} />,
     },
   ];
 
   const [visibleColumns, setVisibleColumns] = useState<string[]>(
-    columns
-      .map((column) => column.key)
-      .filter((key): key is string => key !== undefined),
+    columns.map((column) => column.key).filter((key): key is string => !!key),
   );
 
   const filteredColumns =
@@ -167,9 +175,7 @@ const CustomerAccountManagement = () => {
         <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
           <CardHeader p="6px 0px 22px 0px">
             <Flex align="center" justify="space-between" p="5px">
-              <Text fontSize="xl" color={textColor} fontWeight="bold">
-                {t("customerAccounts.header")}
-              </Text>
+              <HeaderTitle />
               {customerAccounts && (
                 <CustomerAccountExporter customerAccounts={customerAccounts} />
               )}
@@ -187,13 +193,13 @@ const CustomerAccountManagement = () => {
                 setVisibleColumns={setVisibleColumns}
               />
               {!isLoading ? (
-                <Scrollbars style={{ height: "calc(80vh - 185px)" }}>
+                <TableContainer>
                   <UITable
                     data={customerAccounts}
                     columns={filteredColumns}
                     emptyListMessage={t("customerAccounts.listEmpty")}
                   />
-                </Scrollbars>
+                </TableContainer>
               ) : (
                 <SkeletonTable />
               )}
@@ -206,35 +212,23 @@ const CustomerAccountManagement = () => {
               defaultsize={creteria.size}
               totalPages={totalPages}
               totalElements={totalElements}
-              onChange={(page, size) =>
-                setCreteria({
-                  page,
-                  size,
-                })
-              }
+              onChange={(page, size) => setCreteria({ page, size })}
             />
           )}
         </Card>
       </Flex>
+
       <Switch>
-        <Route path={`${path}/new`}>
-          <CustomerAccountModal
-            onSubmit={submitModalHandler}
-            mode={Mode.CREATE}
-          />
-        </Route>
-        <Route path={`${path}/edit/:id`}>
-          <CustomerAccountModal
-            onSubmit={submitModalHandler}
-            mode={Mode.EDIT}
-          />
-        </Route>
-        <Route path={`${path}/details/:id`}>
-          <CustomerAccountModal
-            onSubmit={submitModalHandler}
-            mode={Mode.VIEW}
-          />
-        </Route>
+        {[Mode.CREATE, Mode.EDIT, Mode.VIEW].map((mode) => (
+          <Route
+            key={mode}
+            path={`${path}/${mode.toLowerCase()}/${
+              mode === Mode.CREATE ? "" : ":id"
+            }`}
+          >
+            <CustomerAccountModal onSubmit={submitModalHandler} mode={mode} />
+          </Route>
+        ))}
       </Switch>
 
       <ConfirmationDialog />

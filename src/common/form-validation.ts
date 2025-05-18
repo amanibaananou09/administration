@@ -10,10 +10,9 @@ export const adduserFormValidationSchema = Yup.object().shape({
     .required("Last Name is required"),
   phone: Yup.string().required("Phone is required"),
   username: Yup.string()
+    .required("Username is required")
     .min(4, "Username must be at least 4 characters")
-    .matches(/^[a-z]+$/, "Username must contain only lowercase letters")
-    .required("Username is required"),
-
+    .matches(/^[a-z]+$/, "Username must contain only lowercase letters"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")

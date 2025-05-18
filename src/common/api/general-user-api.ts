@@ -1,4 +1,4 @@
-import { CustomerAccount, GeneralUser, userScope } from "common/AdminModel";
+import { GeneralUser } from "common/AdminModel";
 import api from "./axios";
 
 const API_URL = "/user";
@@ -64,15 +64,6 @@ export const userInformation = async (
   return response.data;
 };
 
-export const functionScope = async (
-  id: number | string,
-  functionScopes: string | undefined,
-): Promise<userScope | null> => {
-  const response = await api.get(
-    `${API_URL}/${id}/functions?functionalScope=${functionScopes}`,
-  );
-  return response.data;
-};
 export const activateUser = async (id: number) => {
   const response = await api.post(`${API_URL}/activate/${id}`);
 
