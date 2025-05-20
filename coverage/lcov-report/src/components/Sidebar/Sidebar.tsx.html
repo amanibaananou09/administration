@@ -362,17 +362,7 @@
 <a name='L297'></a><a href='#L297'>297</a>
 <a name='L298'></a><a href='#L298'>298</a>
 <a name='L299'></a><a href='#L299'>299</a>
-<a name='L300'></a><a href='#L300'>300</a>
-<a name='L301'></a><a href='#L301'>301</a>
-<a name='L302'></a><a href='#L302'>302</a>
-<a name='L303'></a><a href='#L303'>303</a>
-<a name='L304'></a><a href='#L304'>304</a>
-<a name='L305'></a><a href='#L305'>305</a>
-<a name='L306'></a><a href='#L306'>306</a>
-<a name='L307'></a><a href='#L307'>307</a>
-<a name='L308'></a><a href='#L308'>308</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L300'></a><a href='#L300'>300</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -413,9 +403,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -494,10 +482,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -551,7 +537,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -567,7 +552,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -706,10 +690,8 @@ import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "store/AuthContext";
 &nbsp;
-// Common types
 type RouteState = { [key: string]: boolean };
 &nbsp;
-// Common styles
 const commonStyles = <span class="cstat-no" title="statement not covered" >{</span>
   activeBg: "white",
   inactiveBg: "white",
@@ -720,7 +702,6 @@ const commonStyles = <span class="cstat-no" title="statement not covered" >{</sp
   variantChange: "0.2s linear",
 };
 &nbsp;
-// Common button props
 const commonButtonProps = <span class="cstat-no" title="statement not covered" >{</span>
   boxSize: "initial",
   justifyContent: "flex-start",
@@ -738,7 +719,6 @@ const commonButtonProps = <span class="cstat-no" title="statement not covered" >
   },
 };
 &nbsp;
-// Reusable SidebarItem component
 const SidebarItem: FC&lt;{
   prop: any;
   isActive: boolean;
@@ -801,7 +781,6 @@ const CategoryTitle: FC&lt;{ name: string }&gt; = <span class="cstat-no" title="
   &lt;/Text&gt;
 );
 &nbsp;
-// Reusable Brand component
 const Brand: FC&lt;{ logo: React.ReactNode }&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> logo }) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >  &lt;Box pt={"25px"} mb="12px"&gt;</span>
     {logo}
@@ -809,7 +788,6 @@ const Brand: FC&lt;{ logo: React.ReactNode }&gt; = <span class="cstat-no" title=
   &lt;/Box&gt;
 );
 &nbsp;
-// Reusable SidebarLinks component
 const SidebarLinks: FC&lt;{
   routes: any;
   activeRoute: (routeName: string) =&gt; string;
@@ -858,7 +836,6 @@ const SidebarLinks: FC&lt;{
   );
 };
 &nbsp;
-// Main Sidebar Component
 const Sidebar: FC&lt;SidebarProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
   logo,
   routes,
@@ -916,7 +893,6 @@ const Sidebar: FC&lt;SidebarProps&gt; = <span class="cstat-no" title="statement 
   );
 };
 &nbsp;
-// Responsive Sidebar Component
 export const SidebarResponsive: FC&lt;SidebarProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
   logo,
   routes,
@@ -991,7 +967,7 @@ export default Sidebar;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-18T15:30:48.154Z
+                at 2025-05-19T23:11:39.311Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
