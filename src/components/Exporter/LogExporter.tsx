@@ -1,9 +1,7 @@
 import { Button, ButtonGroup } from "@chakra-ui/react";
 
-import { GeneralUser, Log } from "common/AdminModel";
+import { Log } from "common/AdminModel";
 import { useTranslation } from "react-i18next";
-
-import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { formatDate } from "utils/utils";
 import * as XLSX from "xlsx";
@@ -17,7 +15,7 @@ const LogExporter = ({ logs }: LogExporterProps) => {
 
   const exportToExcelHandler = () => {
     if (logs) {
-      const data = logs.map((log,index) => ({
+      const data = logs.map((log, index) => ({
         [t("#")]: index + 1,
         [t("logModal.dateAndTime")]: formatDate(log.activityDate) || "",
         [t("logModal.user")]: log.userName || "",
