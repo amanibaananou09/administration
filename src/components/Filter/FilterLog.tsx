@@ -72,6 +72,7 @@ const FilterLog = ({ onSearch, onClear }: FilterLogProps) => {
         <p>{t("logModal.interval")}:</p>
         <Flex>
           <Input
+            id="startDate"
             type="datetime-local"
             value={startDate}
             onChange={(e) =>
@@ -86,6 +87,7 @@ const FilterLog = ({ onSearch, onClear }: FilterLogProps) => {
         <p>{t("-")}</p>
         <Flex>
           <Input
+            id="endDate"
             type="datetime-local"
             value={endDate}
             onChange={(e) =>
