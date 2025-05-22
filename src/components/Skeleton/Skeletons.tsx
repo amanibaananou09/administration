@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export const SkeletonTable = () => {
   return (
-    <Stack width="100%" margin="20px 0px">
+    <Stack width="100%" margin="20px 0px" data-testid="skeleton-table">
       <Skeleton height="50px" borderRadius="10px" />
       <Skeleton height="50px" borderRadius="10px" />
       <Skeleton height="50px" borderRadius="10px" />

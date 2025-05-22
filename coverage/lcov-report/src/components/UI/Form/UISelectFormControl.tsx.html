@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -146,7 +146,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,7 +157,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,12 +166,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -213,7 +213,7 @@ type UISelectFormControlProps = UseControllerProps&lt;any&gt; &amp; {
   children: React.ReactNode;
 };
 &nbsp;
-const UISelectFormControl = <span class="fstat-no" title="function not covered" >({</span>
+const UISelectFormControl = ({
   name,
   control,
   defaultValue,
@@ -224,7 +224,7 @@ const UISelectFormControl = <span class="fstat-no" title="function not covered" 
   disabled,
   children,
 }: UISelectFormControlProps) =&gt; {
-  const { field, fieldState } = <span class="cstat-no" title="statement not covered" >useController({</span>
+  const { field, fieldState } = useController({
     name,
     control,
     defaultValue,
@@ -233,12 +233,12 @@ const UISelectFormControl = <span class="fstat-no" title="function not covered" 
     disabled,
   });
 &nbsp;
-  const fieldName = <span class="cstat-no" title="statement not covered" >field.name;</span>
-  const invalid = <span class="cstat-no" title="statement not covered" >!!fieldState.error;</span>
-  const isDisabled = <span class="cstat-no" title="statement not covered" >field.disabled;</span>
-  const error = <span class="cstat-no" title="statement not covered" >fieldState.error?.message;</span>
+  const fieldName = field.name;
+  const invalid = !!fieldState.error;
+  const isDisabled = field.disabled;
+  const error = fieldState.error?.message;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;FormControl isInvalid={invalid} mb="2px"&gt;
       &lt;Flex alignItems="center"&gt;
         {label &amp;&amp; (
@@ -250,7 +250,7 @@ const UISelectFormControl = <span class="fstat-no" title="function not covered" 
           &lt;Select
             id={fieldName}
             {...field}
-            placeholder={placeholder ? placeholder : label}
+            placeholder={placeholder ? placeholder : <span class="branch-1 cbranch-no" title="branch not covered" >label}</span>
             color={isDisabled ? "gray.900" : "black"}
             bg={isDisabled ? "gray.100" : "white"}
           &gt;
@@ -271,7 +271,7 @@ export default UISelectFormControl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-21T22:42:06.129Z
+                at 2025-05-22T11:05:37.353Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

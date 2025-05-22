@@ -2,5 +2,5 @@ projectKey=administration
 serverUrl=http://localhost:9000
 serverVersion=25.3.0.104237
 dashboardUrl=http://localhost:9000/dashboard?id=administration
-ceTaskId=191b8954-7c34-4692-ba10-06f85fc1b7f7
-ceTaskUrl=http://localhost:9000/api/ce/task?id=191b8954-7c34-4692-ba10-06f85fc1b7f7
+ceTaskId=f6c213e7-a991-4194-9033-9280dbb32fc0
+ceTaskUrl=http://localhost:9000/api/ce/task?id=f6c213e7-a991-4194-9033-9280dbb32fc0
