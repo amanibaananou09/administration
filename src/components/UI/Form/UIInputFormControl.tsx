@@ -22,11 +22,11 @@ type UIInputFormControlProps = UseControllerProps<any> & {
   placeholder?: string;
   showPasswordBtn?: boolean;
   variant?: ResponsiveValue<
-    "outline" | (string & {}) | "filled" | "flushed" | "unstyled"
+    "outline" | "filled" | "flushed" | "unstyled" | string
   >;
-  size?: ResponsiveValue<(string & {}) | "sm" | "md" | "lg" | "xs">;
+  size?: ResponsiveValue<"sm" | "md" | "lg" | "xs" | string>;
   styles?: StyleProps;
-  maxLength?: number; 
+  maxLength?: number;
 };
 
 const UIInputFormControl = ({
