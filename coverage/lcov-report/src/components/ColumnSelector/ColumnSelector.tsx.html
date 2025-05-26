@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.25% </span>
+                <span class="strong">81.25% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/16</span>
+                <span class='fraction'>13/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">86.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/15</span>
+                <span class='fraction'>13/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -156,46 +156,46 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">149x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">109x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -238,26 +238,26 @@ const ColumnSelector = ({
 }: ColumnSelectorProps) =&gt; {
   const [isOpen, setIsOpen] = useState&lt;boolean&gt;(false);
 &nbsp;
-  const toggleColumnVisibility = <span class="fstat-no" title="function not covered" >(k</span>ey: string) =&gt; {
+  const toggleColumnVisibility = (key: string) =&gt; {
     // Assurez-vous que la colonne "#" est toujours affichée
-<span class="cstat-no" title="statement not covered" >    if (key === "#") <span class="cstat-no" title="statement not covered" >return;</span></span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (key === "#") <span class="cstat-no" title="statement not covered" >return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setVisibleColumns(<span class="fstat-no" title="function not covered" >(p</span>rev: string[]) =&gt; {</span>
-      const updatedColumns = <span class="cstat-no" title="statement not covered" >prev.includes(key)</span>
-        ? prev.filter(<span class="fstat-no" title="function not covered" >(c</span>ol: string) =&gt; <span class="cstat-no" title="statement not covered" >col !== key)</span>
-        : [...prev, key];
+    setVisibleColumns((prev: string[]) =&gt; {
+      const updatedColumns = prev.includes(key)
+        ? prev.filter((col: string) =&gt; col !== key)
+        : <span class="branch-1 cbranch-no" title="branch not covered" >[...prev, key];</span>
 &nbsp;
       // Ajouter "#" automatiquement si elle n'est pas incluse
-<span class="cstat-no" title="statement not covered" >      if (!updatedColumns.includes("#")) {</span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!updatedColumns.includes("#")) {
 <span class="cstat-no" title="statement not covered" >        updatedColumns.unshift("#");</span>
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return updatedColumns;</span>
+      return updatedColumns;
     });
   };
 &nbsp;
   return (
-    &lt;Menu isOpen={isOpen} onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setIsOpen(false)}</span>&gt;
+    &lt;Menu isOpen={isOpen} onClose={() =&gt; setIsOpen(false)}&gt;
       &lt;MenuButton
         as={Button}
         onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setIsOpen(!isOpen)}</span>
@@ -270,7 +270,7 @@ const ColumnSelector = ({
         {allColumns.map((column) =&gt; (
           &lt;MenuItem
             key={column.key}
-            onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >toggleColumnVisibility(column.key)}</span>
+            onClick={() =&gt; toggleColumnVisibility(column.key)}
           &gt;
             &lt;Flex align="center"&gt;
               {visibleColumns.includes(column.key) ? (
@@ -295,7 +295,7 @@ export default ColumnSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T11:05:37.353Z
+                at 2025-05-24T14:45:56.221Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

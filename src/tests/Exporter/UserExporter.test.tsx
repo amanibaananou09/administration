@@ -4,43 +4,44 @@ import { GeneralUser } from "common/AdminModel";
 import UserExporter from "../../components/Exporter/UserExporter";
 
 jest.mock("jspdf", () => {
-  return jest.fn().mockImplementation(() => ({
-    autoTable: jest.fn(),
-    save: jest.fn(),
-    text: jest.fn(),
-    internal: {
-      pageSize: { getWidth: () => 100 },
-      getFontSize: () => 12,
+  class MockPDF {
+    autoTable = jest.fn();
+    save = jest.fn();
+    internal = {
+      pageSize: { getWidth: () => 210 },
+      getFontSize: () => 16,
       scaleFactor: 1,
-    },
-  }));
+    };
+    getStringUnitWidth = jest.fn(() => 50);
+    text = jest.fn();
+  }
+  return jest.fn(() => new MockPDF());
 });
-
-const mockSheet = {};
-const mockWorkbook = {
-  SheetNames: [] as string[],
-  Sheets: {} as Record<string, any>,
-};
-
-jest.mock("xlsx", () => {
-  const mockXLSX = {
-    utils: {
-      json_to_sheet: jest.fn(() => mockSheet),
-      book_new: jest.fn(() => mockWorkbook),
-      book_append_sheet: jest.fn((workbook, sheet, name) => {
-        workbook.SheetNames.push(name);
-        workbook.Sheets[name] = sheet;
-      }),
-    },
-    writeFile: jest.fn(),
-  };
-  return mockXLSX;
-});
+jest.mock("xlsx", () => ({
+  utils: {
+    json_to_sheet: jest.fn(() => ({ A1: { v: "Test" } })),
+    book_new: jest.fn(() => ({
+      SheetNames: [],
+      Sheets: {},
+      Props: {},
+    })),
+    book_append_sheet: jest.fn((wb, ws, name) => {
+      wb.SheetNames.push(name);
+      wb.Sheets[name] = ws;
+      return wb;
+    }),
+  },
+  writeFile: jest.fn(),
+}));
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
+}));
+
+jest.mock("utils/utils", () => ({
+  formatDate: jest.fn((date) => `formatted-${date}`),
 }));
 
 const mockUsers: GeneralUser[] = [
@@ -75,8 +76,6 @@ const mockUsers: GeneralUser[] = [
 describe("UserExporter", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockWorkbook.SheetNames = [];
-    mockWorkbook.Sheets = {};
   });
 
   it("renders buttons correctly", () => {
