@@ -3,7 +3,6 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { GeneralUser } from "common/AdminModel";
 import UserExporter from "../../components/Exporter/UserExporter";
 import * as XLSX from "xlsx";
-import jsPDF from "jspdf";
 import { formatDate } from "utils/utils";
 
 jest.mock("utils/utils", () => ({
@@ -18,28 +17,26 @@ jest.mock("utils/utils", () => ({
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   }),
 }));
-
 jest.mock("jspdf", () => {
-  const mockAutoTable = jest.fn();
-  const mockSave = jest.fn();
-  const mockText = jest.fn();
-  const mockGetStringUnitWidth = jest.fn(() => 50);
-
-  const MockJsPDF = jest.fn(function () {
-    this.autoTable = mockAutoTable;
-    this.save = mockSave;
-    this.text = mockText;
-    this.getStringUnitWidth = mockGetStringUnitWidth;
-    this.internal = {
-      pageSize: { getWidth: () => 210, getHeight: () => 297 },
-      getFontSize: () => 16,
-      scaleFactor: 1,
+  const mockJsPDF = function () {
+    return {
+      autoTable: jest.fn(),
+      save: jest.fn(),
+      text: jest.fn(),
+      internal: {
+        pageSize: {
+          getWidth: jest.fn().mockReturnValue(210),
+          getHeight: jest.fn().mockReturnValue(297),
+        },
+        getFontSize: jest.fn().mockReturnValue(12),
+        scaleFactor: 1,
+        getStringUnitWidth: jest.fn().mockReturnValue(10),
+      },
     };
-  });
+  };
+  mockJsPDF.prototype.autoTable = jest.fn();
 
-  (MockJsPDF.prototype as any).autoTable = mockAutoTable;
-
-  return MockJsPDF;
+  return mockJsPDF;
 });
 
 let mockWorkbook: any;
@@ -104,8 +101,7 @@ const mockUsers: GeneralUser[] = [
 describe("UserExporter", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockWorkbook = undefined;
-    (formatDate as jest.Mock).mockClear();
+
     (formatDate as jest.Mock).mockImplementation((dateString) => {
       if (!dateString) return "";
       const date = new Date(dateString);
@@ -116,16 +112,6 @@ describe("UserExporter", () => {
       const minutes = String(date.getMinutes()).padStart(2, "0");
       return `${day}/${month}/${year} ${hours}:${minutes}`;
     });
-
-    const jsPDFMockConstructor = (jsPDF as unknown) as jest.Mock;
-    jsPDFMockConstructor.mockClear();
-    if (jsPDFMockConstructor.mock.results.length > 0) {
-      const docInstance = jsPDFMockConstructor.mock.results[0].value;
-      if (docInstance.autoTable)
-        (docInstance.autoTable as jest.Mock).mockClear();
-      if (docInstance.save) (docInstance.save as jest.Mock).mockClear();
-      if (docInstance.text) (docInstance.text as jest.Mock).mockClear();
-    }
   });
 
   it("renders buttons correctly", () => {
@@ -158,7 +144,7 @@ describe("UserExporter", () => {
     expect(XLSX.writeFile).toHaveBeenCalled();
   });
 
-  it("handles case when users array is empty", () => {
+  it("handles case when users array is empty for Excel export", () => {
     render(<UserExporter users={[]} />);
     const exportButton = screen.getByText("common.exportExcel");
     fireEvent.click(exportButton);
