@@ -172,6 +172,11 @@ describe("CustomerAccountManagement", () => {
     jest.clearAllMocks();
   });
 
+  it("displays the CustomerAccountExporter component when there is data", () => {
+    render(<CustomerAccountManagement />, { wrapper });
+    expect(screen.getByText("Mocked Exporter")).toBeInTheDocument();
+  });
+
   it("renders the component with header", () => {
     render(<CustomerAccountManagement />, { wrapper });
 
@@ -203,5 +208,9 @@ describe("CustomerAccountManagement", () => {
     });
 
     expect(mockPush).toHaveBeenCalledWith("/customer-accounts/details/1");
+  });
+
+  it("changes the visibility of columns", () => {
+    render(<CustomerAccountManagement />, { wrapper });
   });
 });

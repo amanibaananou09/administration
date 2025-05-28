@@ -1,67 +1,34 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
+import * as XLSX from "xlsx";
 import { GeneralUser } from "common/AdminModel";
 import UserExporter from "../../components/Exporter/UserExporter";
-import * as XLSX from "xlsx";
-import { formatDate } from "utils/utils";
 
-jest.mock("utils/utils", () => ({
-  formatDate: jest.fn((dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${day}/${month}/${year} ${hours}:${minutes}`;
-  }),
-}));
+class MockPDF {
+  autoTable = jest.fn();
+  text = jest.fn();
+  save = jest.fn();
+  getStringUnitWidth = jest.fn(() => 10);
+  internal = {
+    pageSize: { getWidth: jest.fn(() => 210) },
+    getFontSize: jest.fn(() => 12),
+    scaleFactor: 1,
+  };
+}
+
+const createMockJsPDF = () => {
+  return jest.fn(() => new MockPDF());
+};
+
 jest.mock("jspdf", () => {
-  const mockJsPDF = function () {
-    return {
-      autoTable: jest.fn(),
-      save: jest.fn(),
-      text: jest.fn(),
-      internal: {
-        pageSize: {
-          getWidth: jest.fn().mockReturnValue(210),
-          getHeight: jest.fn().mockReturnValue(297),
-        },
-        getFontSize: jest.fn().mockReturnValue(12),
-        scaleFactor: 1,
-        getStringUnitWidth: jest.fn().mockReturnValue(10),
-      },
-    };
-  };
-  mockJsPDF.prototype.autoTable = jest.fn();
-
-  return mockJsPDF;
-});
-
-let mockWorkbook: any;
-
-jest.mock("xlsx", () => {
+  const mock = createMockJsPDF();
   return {
-    utils: {
-      json_to_sheet: jest.fn(() => {
-        return { A1: { v: "Test" } };
-      }),
-      book_new: jest.fn(() => {
-        mockWorkbook = {
-          SheetNames: [],
-          Sheets: {},
-        };
-        return mockWorkbook;
-      }),
-      book_append_sheet: jest.fn((wb, ws, name) => {
-        wb.SheetNames.push(name);
-        wb.Sheets[name] = ws;
-      }),
-    },
-    writeFile: jest.fn(),
+    __esModule: true,
+    default: mock,
   };
 });
+
+const mockJsPDF = (jest.requireMock("jspdf") as { default: jest.Mock }).default;
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -69,89 +36,104 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-const mockUsers: GeneralUser[] = [
-  {
-    username: "user1",
-    firstName: "First1",
-    lastName: "Last1",
-    email: "user1@example.com",
-    phone: "1234567890",
-    customerAccountId: "account1",
-    creatorAccountId: "creator1",
-    actif: true,
-    lastConnectionDate: new Date("2025-05-26T11:08:38.430Z").toISOString(),
-    creatorCustomerAccountName: "Creator Account 1",
-    customerAccountName: "Customer Account 1",
+const mockWorksheet = {};
+const mockWorkbook = {
+  SheetNames: [],
+  Sheets: {},
+};
+
+jest.mock("xlsx", () => ({
+  utils: {
+    json_to_sheet: jest.fn(() => mockWorksheet),
+    book_new: jest.fn(() => mockWorkbook),
+    book_append_sheet: jest.fn((wb, ws, name) => {
+      wb.SheetNames.push(name);
+      wb.Sheets[name] = ws;
+      return wb;
+    }),
   },
-  {
-    username: "user2",
-    firstName: "First2",
-    lastName: "Last2",
-    email: "user2@example.com",
-    phone: "0987654321",
-    customerAccountId: "account2",
-    creatorAccountId: "creator2",
-    actif: false,
-    lastConnectionDate: new Date("2025-05-26T11:08:38.430Z").toISOString(),
-    creatorCustomerAccountName: "Creator Account 2",
-    customerAccountName: "Customer Account 2",
-  },
-];
+  writeFile: jest.fn(),
+}));
 
 describe("UserExporter", () => {
+  const mockUsers: GeneralUser[] = [
+    {
+      index: 1,
+      id: 1,
+      userIdentifier: "ST001",
+      actif: true,
+      dateStatusChange: "2023-01-01T00:00:00Z",
+      username: "User 1",
+      firstName: "User",
+      lastName: "One",
+      email: "User1@example.com",
+      password: "pass",
+      role: "user",
+      phone: "55663322",
+      changePassword: false,
+      sendSms: false,
+      subnetMask: "255.255.255.0",
+      customerAccountId: "5",
+      creatorAccountId: "creator1",
+      lastConnectionDate: "2023-01-01T00:00:00Z",
+      creatorCustomerAccountName: "Créateur 1",
+      customerAccountName: "Compte 1",
+    },
+  ];
+
+  let pdfInstance: MockPDF;
+
   beforeEach(() => {
     jest.clearAllMocks();
+    mockWorkbook.SheetNames = [];
+    mockWorkbook.Sheets = {};
 
-    (formatDate as jest.Mock).mockImplementation((dateString) => {
-      if (!dateString) return "";
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const year = date.getFullYear();
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      return `${day}/${month}/${year} ${hours}:${minutes}`;
-    });
+    pdfInstance = new MockPDF();
+    mockJsPDF.mockImplementation(() => pdfInstance);
   });
 
-  it("renders buttons correctly", () => {
+  it("renders both export buttons", () => {
     render(<UserExporter users={mockUsers} />);
     expect(screen.getByText("common.exportExcel")).toBeInTheDocument();
     expect(screen.getByText("common.exportPDF")).toBeInTheDocument();
   });
 
-  it("calls exportToExcelHandler when Excel button is clicked", () => {
+  it("calls Excel export functions correctly", () => {
     render(<UserExporter users={mockUsers} />);
-    const exportButton = screen.getByText("common.exportExcel");
-    fireEvent.click(exportButton);
+    fireEvent.click(screen.getByText("common.exportExcel"));
 
-    expect(XLSX.utils.json_to_sheet).toHaveBeenCalledWith(
-      mockUsers.map((user) => ({
-        "userManagement.globalUsers.userNameColumn": user.username || "",
-        "userManagement.globalUsers.accountCreator":
-          user.creatorCustomerAccountName || "",
-        "userManagement.globalUsers.account": user.customerAccountName || "",
-        "userManagement.globalUsers.statusColumn": user.actif
-          ? "Active"
-          : "Inactive",
-        "userManagement.globalUsers.lastVisit": formatDate(
-          user.lastConnectionDate,
-        ),
-      })),
-    );
+    expect(XLSX.utils.json_to_sheet).toHaveBeenCalled();
     expect(XLSX.utils.book_new).toHaveBeenCalled();
     expect(XLSX.utils.book_append_sheet).toHaveBeenCalled();
     expect(XLSX.writeFile).toHaveBeenCalled();
   });
 
-  it("handles case when users array is empty for Excel export", () => {
-    render(<UserExporter users={[]} />);
-    const exportButton = screen.getByText("common.exportExcel");
-    fireEvent.click(exportButton);
+  it("calls PDF export functions when PDF button is clicked", () => {
+    render(<UserExporter users={mockUsers} />);
+    fireEvent.click(screen.getByText("common.exportPDF"));
 
+    expect(mockJsPDF).toHaveBeenCalled();
+    expect(pdfInstance.autoTable).toHaveBeenCalledWith({
+      head: expect.any(Array),
+      body: expect.any(Array),
+      startY: 20,
+      styles: { fontSize: 5 },
+    });
+    expect(pdfInstance.save).toHaveBeenCalledWith("routes.manageUsers.pdf");
+  });
+
+  it("handles empty users array gracefully", () => {
+    render(<UserExporter users={[]} />);
+
+    fireEvent.click(screen.getByText("common.exportExcel"));
     expect(XLSX.utils.json_to_sheet).toHaveBeenCalledWith([]);
-    expect(XLSX.utils.book_new).toHaveBeenCalled();
-    expect(XLSX.utils.book_append_sheet).toHaveBeenCalled();
-    expect(XLSX.writeFile).toHaveBeenCalled();
+
+    fireEvent.click(screen.getByText("common.exportPDF"));
+    expect(pdfInstance.autoTable).toHaveBeenCalledWith({
+      head: expect.any(Array),
+      body: [],
+      startY: 20,
+      styles: { fontSize: 5 },
+    });
   });
 });

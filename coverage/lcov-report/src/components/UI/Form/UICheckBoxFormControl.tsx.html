@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">12.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>1/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">12.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>1/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -142,7 +142,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -151,7 +151,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -160,20 +160,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -206,7 +206,7 @@ type UICheckBoxFormControlProps = UseControllerProps&lt;any&gt; &amp; {
   label?: string;
 };
 &nbsp;
-const UICheckBoxFormControl = ({
+const UICheckBoxFormControl = <span class="fstat-no" title="function not covered" >({</span>
   name,
   control,
   defaultValue,
@@ -215,7 +215,7 @@ const UICheckBoxFormControl = ({
   label,
   disabled,
 }: UICheckBoxFormControlProps) =&gt; {
-  const { field, fieldState } = useController({
+  const { field, fieldState } = <span class="cstat-no" title="statement not covered" >useController({</span>
     name,
     control,
     defaultValue,
@@ -224,20 +224,20 @@ const UICheckBoxFormControl = ({
     disabled,
   });
 &nbsp;
-  const fieldName = field.name;
-  const invalid = !!fieldState.error;
-  const isDisabled = field.disabled;
-  const error = fieldState.error?.message;
+  const fieldName = <span class="cstat-no" title="statement not covered" >field.name;</span>
+  const invalid = <span class="cstat-no" title="statement not covered" >!!fieldState.error;</span>
+  const isDisabled = <span class="cstat-no" title="statement not covered" >field.disabled;</span>
+  const error = <span class="cstat-no" title="statement not covered" >fieldState.error?.message;</span>
 &nbsp;
-  const checkBoxProps: CheckboxProps = {
+  const checkBoxProps: CheckboxProps = <span class="cstat-no" title="statement not covered" >{</span>
     id: fieldName,
     ...field,
     isChecked: field.value,
-    color: isDisabled ? <span class="branch-0 cbranch-no" title="branch not covered" >"gray.900" </span>: "",
-    bg: isDisabled ? <span class="branch-0 cbranch-no" title="branch not covered" >"gray.100" </span>: "",
+    color: isDisabled ? "gray.900" : "",
+    bg: isDisabled ? "gray.100" : "",
   };
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;FormControl isInvalid={invalid} mb="2px"&gt;
       &lt;Flex alignItems="center"&gt;
         {label &amp;&amp; (
@@ -262,7 +262,7 @@ export default UICheckBoxFormControl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-27T21:57:20.050Z
+                at 2025-05-28T23:25:41.898Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

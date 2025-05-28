@@ -18,12 +18,24 @@ const SkeletonInputLabel = ({ label }: { label: string }) => (
     <Text flex={1} ms="4px" fontSize="sm" fontWeight="bold">
       {label}
     </Text>
-    <Skeleton flex={2} my="1px" height="50px" borderRadius="10px" />
+    <Skeleton
+      flex={2}
+      my="1px"
+      height="50px"
+      borderRadius="10px"
+      data-testid="skeleton-instance"
+    />
   </Flex>
 );
 
 const skeletonInput = (
-  <Skeleton w="100%" my="1px" height="50px" borderRadius="10px" />
+  <Skeleton
+    w="100%"
+    my="1px"
+    height="50px"
+    borderRadius="10px"
+    data-testid="skeleton"
+  />
 );
 
 export const CustomerAccountSkeletonForm = () => {
